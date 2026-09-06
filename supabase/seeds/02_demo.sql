@@ -1,0 +1,15 @@
+-- =============================================================================
+-- 02_demo.sql -- datos de ejemplo, desechables (es_demo = true)
+--
+-- Plan: doc 02 §14.
+--
+-- Todo lo que se inserte aqui lleva `es_demo = true`, de modo que
+--   delete from <tabla> where es_demo;
+-- limpia el contenido de relleno cuando llegue el material real del negocio.
+-- Sin esa bandera, los datos falsos se quedan mezclados para siempre.
+--
+-- Estado en la Fase 0: vacio a proposito. Las tablas que reciben datos demo
+-- (slides, testimonios, clientes, guias) llegan en la Fase 2.
+-- =============================================================================
+
+-- Sin contenido todavia.

@@ -1,0 +1,11 @@
+{
+  // Extensiones que el plan da por instaladas (doc 01 §2).
+  // VS Code las ofrece automaticamente al abrir el proyecto por primera vez.
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "ms-playwright.playwright",
+    "supabase.vscode-supabase-extension"
+  ]
+}

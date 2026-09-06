@@ -1,0 +1,31 @@
+# Evita que Supabase pause el proyecto por inactividad (límite de 7 días en el
+# plan gratuito). Si el proyecto se pausa, pg_cron deja de ejecutarse.
+name: Keep-alive de Supabase
+
+on:
+  schedule:
+    # Cada 3 días, 12:00 UTC (07:00 en Iquitos). El cron de GitHub Actions puede
+    # retrasarse cuando hay carga; cada 3 días deja margen frente al límite de 7.
+    - cron: '0 12 */3 * *'
+  workflow_dispatch:
+
+# Este workflow no necesita ningún permiso sobre el repositorio.
+permissions: {}
+
+jobs:
+  ping:
+    name: Ping a la API REST
+    runs-on: ubuntu-latest
+    steps:
+      # Se consulta la raíz de la API REST (/rest/v1/), que siempre responde 200
+      # aunque todavía no exista ninguna tabla.
+      # Cuando exista la tabla `configuracion_sitio` (migración 0005 de la Fase 2)
+      # se puede cambiar la URL por una consulta real, más representativa:
+      #   "${{ secrets.SUPABASE_URL }}/rest/v1/configuracion_sitio?select=clave&limit=1"
+      - name: Consultar la API para evitar la pausa por inactividad
+        run: |
+          curl --fail --silent --show-error \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -o /dev/null
+          echo "La API REST respondió correctamente."

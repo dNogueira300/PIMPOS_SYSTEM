@@ -1,0 +1,74 @@
+# ---------------------------------------------------------------------------
+# PIMPOS_SYSTEM — .gitignore
+# Panadería Pimpo's E.I.R.L.
+# ---------------------------------------------------------------------------
+
+# --- Dependencias ---
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+.yarn/install-state.gz
+
+# --- Compilación y salidas de Next.js ---
+/.next/
+.next
+/out/
+/build/
+next-env.d.ts
+*.tsbuildinfo
+
+# --- Cachés de herramientas ---
+.turbo
+.eslintcache
+.cache/
+
+# --- Variables de entorno ---
+# Se ignora todo .env*, salvo la plantilla versionada .env.example
+.env*
+!.env.example
+
+# --- Supabase (artefactos locales del CLI) ---
+supabase/.branches
+supabase/.temp
+supabase/.env
+
+# --- Pruebas y reportes ---
+/coverage/
+/playwright-report/
+/test-results/
+/blob-report/
+/playwright/.cache/
+
+# --- Registros ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Despliegue ---
+.vercel
+
+# --- Herramientas locales del desarrollador (Claude / Claude Code) ---
+# Nada de esto forma parte del proyecto: son configuraciones, memorias y
+# artefactos de las herramientas de IA que usa Dan en su máquina. No se versionan.
+.claude/
+.claude*/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.mcp.json
+.claude-flow/
+*.claude.*
+
+# --- Editores ---
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# --- Sistema operativo ---
+Thumbs.db
+desktop.ini
+.DS_Store

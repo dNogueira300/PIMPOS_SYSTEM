@@ -1,0 +1,58 @@
+# Copia de seguridad semanal de la base de datos remota de Supabase.
+# El plan gratuito no incluye backups automáticos, así que se generan aquí y se
+# guardan como artefacto del repositorio durante 90 días.
+name: Respaldo semanal de Supabase
+
+on:
+  schedule:
+    # Todos los domingos a las 09:00 UTC (04:00 en Iquitos).
+    - cron: '0 9 * * 0'
+  workflow_dispatch:
+
+# Permisos mínimos: solo se necesita leer el código del repositorio.
+permissions:
+  contents: read
+
+jobs:
+  respaldo:
+    name: Generar y archivar el respaldo
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar la CLI de Supabase
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Vincular el proyecto remoto
+        run: supabase link --project-ref "${{ secrets.SUPABASE_PROJECT_REF }}"
+
+      - name: Preparar la carpeta del respaldo
+        run: mkdir -p respaldo
+
+      # Se generan tres archivos separados para que la restauración pueda hacerse
+      # por partes: primero los roles, luego el esquema y al final los datos.
+      - name: Volcar los roles
+        run: supabase db dump --linked --role-only -f respaldo/roles.sql
+
+      - name: Volcar el esquema
+        run: supabase db dump --linked -f respaldo/esquema.sql
+
+      - name: Volcar los datos
+        run: supabase db dump --linked --data-only -f respaldo/datos.sql
+
+      - name: Listar los archivos generados
+        run: ls -lh respaldo
+
+      - name: Subir el respaldo como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: respaldo-supabase-${{ github.run_id }}
+          path: respaldo/
+          retention-days: 90
+          if-no-files-found: error

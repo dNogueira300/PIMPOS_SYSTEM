@@ -1,0 +1,122 @@
+# Integración continua de PIMPOS.
+# Dos trabajos independientes:
+#   - base-datos: siempre corre. Levanta Supabase en local y ejecuta las pruebas pgTAP.
+#   - aplicacion: checks de Node. Se auto-activan en cuanto exista package.json (Fase 1).
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+# Permisos mínimos: solo se necesita leer el código del repositorio.
+permissions:
+  contents: read
+
+# Si llegan commits nuevos al mismo PR o rama, se cancela la ejecución anterior.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  base-datos:
+    name: Base de datos (migraciones y pruebas pgTAP)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar la CLI de Supabase
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Levantar Supabase en local
+        run: supabase start
+
+      - name: Aplicar las migraciones desde cero
+        run: supabase db reset --local
+
+      - name: Comprobar si existen pruebas pgTAP
+        id: deteccion_pruebas
+        shell: bash
+        run: |
+          # Las pruebas viven en supabase/tests/*.test.sql. Mientras no exista
+          # ninguna, se omite el paso para que el CI no falle sin motivo.
+          if compgen -G "supabase/tests/*.test.sql" > /dev/null; then
+            echo "hay_pruebas=true" >> "$GITHUB_OUTPUT"
+            echo "Se encontraron pruebas pgTAP en supabase/tests/."
+          else
+            echo "hay_pruebas=false" >> "$GITHUB_OUTPUT"
+            echo "Todavía no hay archivos supabase/tests/*.test.sql: se omiten las pruebas pgTAP."
+          fi
+
+      - name: Ejecutar las pruebas pgTAP
+        if: steps.deteccion_pruebas.outputs.hay_pruebas == 'true'
+        run: supabase test db --local
+
+      # Comprueba que las cosas responden, no solo que existen: registro cerrado,
+      # rol dentro del JWT y bucket `clientes` realmente privado.
+      - name: Verificar el cierre de la Fase 0
+        run: bash scripts/verificar-fase0.sh
+
+      - name: Apagar Supabase
+        if: always()
+        run: supabase stop --no-backup
+
+  aplicacion:
+    name: Aplicación (tipos, lint y pruebas)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      # El proyecto Next.js llega en la Fase 1. Hasta que exista package.json en
+      # la raíz, este trabajo termina en verde sin ejecutar nada. En cuanto
+      # aparezca el archivo, los checks se activan solos sin tocar este workflow.
+      - name: Detectar si la aplicación Node ya existe
+        id: deteccion_app
+        shell: bash
+        run: |
+          if [ -f package.json ]; then
+            echo "hay_app=true" >> "$GITHUB_OUTPUT"
+            echo "Se encontró package.json: se ejecutan los checks de la aplicación."
+          else
+            echo "hay_app=false" >> "$GITHUB_OUTPUT"
+            echo "Todavía no hay package.json (llega en la Fase 1): se omiten los checks de la aplicación."
+          fi
+
+      - name: Habilitar Corepack
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: corepack enable
+
+      - name: Instalar pnpm
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+          run_install: false
+
+      - name: Instalar Node.js
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Instalar dependencias
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Comprobar tipos de TypeScript
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm typecheck
+
+      - name: Ejecutar el linter
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm lint
+
+      - name: Ejecutar las pruebas de la aplicación
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm test
