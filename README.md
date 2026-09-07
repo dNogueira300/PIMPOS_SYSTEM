@@ -145,6 +145,12 @@ saldos, formato de moneda, enlaces `wa.me`, slugs. Las pruebas viven junto al c�
 dos tamaños: móvil a 375 px (el panel se usa desde el celular en campo) y escritorio. Levanta
 `pnpm dev` por su cuenta; solo hace falta `pnpm exec playwright install chromium` la primera vez.
 
+> **Las E2E ignoran `.env.local` a propósito.** Sacan la URL y las llaves de `supabase status`, así
+> que siempre corren contra la instancia local. Estas pruebas **crean y borran usuarios**: si el
+> `.env.local` de alguien apuntara al proyecto alojado, la suite daría de alta usuarios de prueba
+> en producción. Como efecto secundario, funcionan en el CI sin preparar nada, porque `.env.local`
+> no se versiona. Lo único que necesitan es `supabase start` corriendo.
+
 ---
 
 ## Usuarios

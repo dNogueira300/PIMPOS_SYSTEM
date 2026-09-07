@@ -1,42 +1,13 @@
-import { execFileSync } from "node:child_process";
+import { supabaseLocal } from "./supabase-local";
 
 /**
  * Alta y baja de usuarios de prueba contra el Supabase LOCAL, por la Admin API.
  *
- * Las llaves salen de `supabase status`, no de `.env.local`: son fijas del
- * entorno de demo del CLI y asi las pruebas no dependen de como tenga cada uno
- * su archivo. Este modulo solo lo usan las pruebas E2E; nunca entra en el
- * bundle de la aplicacion, que es la unica razon por la que puede tocar la
- * `service_role`.
+ * Este modulo solo lo usan las pruebas E2E; nunca entra en el bundle de la
+ * aplicacion, que es la unica razon por la que puede tocar la `service_role`.
  */
-type EntornoLocal = { apiUrl: string; serviceRoleKey: string };
-
-let cache: EntornoLocal | null = null;
-
-function entornoLocal(): EntornoLocal {
-  if (cache) return cache;
-
-  const salida = execFileSync("supabase", ["status", "-o", "env"], {
-    encoding: "utf8",
-    shell: process.platform === "win32",
-  });
-
-  const leer = (clave: string): string => {
-    const encontrado = salida.match(new RegExp(`^${clave}="?([^"\\n]+)"?$`, "m"));
-    if (!encontrado) {
-      throw new Error(
-        `No se encontro ${clave} en \`supabase status\`. ¿Esta corriendo \`supabase start\`?`,
-      );
-    }
-    return encontrado[1];
-  };
-
-  cache = { apiUrl: leer("API_URL"), serviceRoleKey: leer("SERVICE_ROLE_KEY") };
-  return cache;
-}
-
 function cabeceras(): Record<string, string> {
-  const { serviceRoleKey } = entornoLocal();
+  const { serviceRoleKey } = supabaseLocal();
   return {
     apikey: serviceRoleKey,
     Authorization: `Bearer ${serviceRoleKey}`,
@@ -59,7 +30,7 @@ export type UsuarioDePrueba = { id: string; correo: string; clave: string };
  * `rol: null` simula justamente el descuido de saltarse ese segundo paso.
  */
 export async function crearUsuario(rol: string | null): Promise<UsuarioDePrueba> {
-  const { apiUrl } = entornoLocal();
+  const { apiUrl } = supabaseLocal();
   const correo = `e2e-${rol ?? "sin-rol"}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}@pimpos.test`;
 
   const alta = await fetch(`${apiUrl}/auth/v1/admin/users`, {
@@ -90,7 +61,7 @@ export async function crearUsuario(rol: string | null): Promise<UsuarioDePrueba>
 }
 
 export async function borrarUsuario(id: string): Promise<void> {
-  const { apiUrl } = entornoLocal();
+  const { apiUrl } = supabaseLocal();
   await fetch(`${apiUrl}/auth/v1/admin/users/${id}`, {
     method: "DELETE",
     headers: cabeceras(),

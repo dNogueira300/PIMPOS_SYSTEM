@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+import { supabaseLocal } from "./e2e/ayudas/supabase-local";
+
 const PUERTO = 3000;
 const URL_BASE = `http://localhost:${PUERTO}`;
 
@@ -50,5 +52,11 @@ export default defineConfig({
     url: URL_BASE,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // Estas sobreescriben lo que hubiera en .env.local: las pruebas siempre
+    // corren contra el Supabase local, nunca contra el proyecto alojado.
+    env: (() => {
+      const { apiUrl, anonKey } = supabaseLocal();
+      return { NEXT_PUBLIC_SUPABASE_URL: apiUrl, NEXT_PUBLIC_SUPABASE_ANON_KEY: anonKey };
+    })(),
   },
 });
