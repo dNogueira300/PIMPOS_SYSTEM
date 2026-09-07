@@ -2,42 +2,265 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* El tema oscuro se activa SOLO con la clase `.dark`, nunca por
+   `prefers-color-scheme`. Sin esta linea, Tailwind 4 haria que las utilidades
+   `dark:` de shadcn se dispararan con el ajuste del sistema operativo, y el
+   sitio se veria a medias en cuanto alguien tuviera el modo oscuro puesto. */
 @custom-variant dark (&:is(.dark *));
 
+/* =============================================================================
+   CAPA 1 — PRIMITIVOS
+   Los colores crudos, extraidos de los archivos reales del cliente (logo y
+   fotos de la fachada), no elegidos de un catalogo. Ver docs/marca.md §8.
+
+   Ningun componente usa estos tokens directamente. Para eso esta la capa 2.
+   ============================================================================= */
+:root {
+  /* Azules del logo y de la fachada */
+  --pimpos-azul-900: #12306e; /* Texto "PANADERIA PASTELERIA Y BODEGA" */
+  --pimpos-azul-600: #0060a8; /* Fachada del local */
+  --pimpos-azul-200: #9fc2f0; /* Derivado, para el tema oscuro */
+
+  /* Cremas: el fondo nunca es blanco puro */
+  --pimpos-crema-50: #fdf9f3; /* Superficies (tarjetas, dialogos) */
+  --pimpos-crema-100: #f7efe2; /* Fondo de pagina */
+  --pimpos-crema-200: #efe2cf; /* Superficie apagada, separadores suaves */
+
+  /* Dorado de corteza. DOS valores, y no es redundancia:
+     - dorado-500 solo vale como FONDO (con tinta encima da 5.34).
+     - dorado-700 es el unico que vale como TEXTO o icono sobre crema.
+     El dorado-500 sobre crema da 2.80, que no llega ni al 3.0 de texto grande.
+     Ver la nota de §3.4 en el plan de frontend, corregida en docs/marca.md. */
+  --pimpos-dorado-500: #c8801f;
+  --pimpos-dorado-700: #8f5a10;
+  --pimpos-dorado-300: #e8b76f; /* Derivado, para el tema oscuro */
+
+  /* Tintas: marron muy oscuro en lugar de negro puro */
+  --pimpos-tinta-900: #231a14;
+  --pimpos-tinta-700: #5c4a3d;
+  --pimpos-tinta-500: #8a6b4f;
+
+  /* Fondos del tema oscuro */
+  --pimpos-noche-900: #1c1410;
+  --pimpos-noche-700: #2b211a;
+  --pimpos-noche-500: #877160;
+  --pimpos-noche-200: #c8b9a8;
+
+  /* Estado. Elegidos por contraste sobre crema, no por convencion. */
+  --pimpos-exito-600: #1f6b3a;
+  --pimpos-alerta-600: #8a5a00;
+  --pimpos-peligro-600: #b3261e;
+  --pimpos-exito-300: #7fcb99;
+  --pimpos-peligro-300: #f2a9a2;
+
+  /* Escala de 4 px y ancho maximo de contenido (doc 03 §3.3) */
+  --radius: 0.875rem; /* 14 px: esquina generosa, acompana el tono calido */
+  --ancho-contenido: 75rem; /* 1200 px */
+
+  /* Tipografia. Provisional a proposito: Fraunces + Inter (o Bitter + Source
+     Sans 3) se cargan con next/font/local cuando el propietario valide la
+     eleccion sobre una maqueta real de la portada (doc 03 §3.2). Cambiarlas
+     es tocar estas dos lineas. */
+  --pimpos-fuente-titulo: ui-serif, Georgia, "Times New Roman", serif;
+  --pimpos-fuente-texto: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* =============================================================================
+   CAPA 2 — SEMANTICOS
+   Que significa cada color, no cual es. Estos son los nombres que ya consumen
+   los componentes de shadcn/ui, asi que mapearlos aqui tine toda la libreria
+   con la marca sin tocar un solo componente.
+   ============================================================================= */
+:root {
+  --background: var(--pimpos-crema-100);
+  --foreground: var(--pimpos-tinta-900);
+
+  --card: var(--pimpos-crema-50);
+  --card-foreground: var(--pimpos-tinta-900);
+  --popover: var(--pimpos-crema-50);
+  --popover-foreground: var(--pimpos-tinta-900);
+
+  /* Azul institucional: navegacion, titulos y acciones por defecto. */
+  --primary: var(--pimpos-azul-900);
+  --primary-foreground: var(--pimpos-crema-50);
+
+  --secondary: var(--pimpos-crema-200);
+  --secondary-foreground: var(--pimpos-tinta-900);
+
+  /* `muted` y `accent` en shadcn son superficies discretas (fondos de hover,
+     filas alternas), no colores de marca. El dorado NO va aqui: tenirlas de
+     dorado pintaria de acento cada hover del sitio. */
+  --muted: var(--pimpos-crema-200);
+  --muted-foreground: var(--pimpos-tinta-700);
+  --accent: var(--pimpos-crema-200);
+  --accent-foreground: var(--pimpos-tinta-900);
+
+  --destructive: var(--pimpos-peligro-600);
+  --destructive-foreground: var(--pimpos-crema-50);
+  --exito: var(--pimpos-exito-600);
+  --alerta: var(--pimpos-alerta-600);
+
+  --border: var(--pimpos-tinta-500);
+  --input: var(--pimpos-tinta-500);
+  --ring: var(--pimpos-azul-600); /* Foco visible: 6.18 sobre crema */
+
+  /* Graficos del panel de insumos (F5). Cinco tonos distinguibles entre si y
+     legibles sobre crema. */
+  --chart-1: var(--pimpos-azul-900);
+  --chart-2: var(--pimpos-dorado-700);
+  --chart-3: var(--pimpos-azul-600);
+  --chart-4: var(--pimpos-exito-600);
+  --chart-5: var(--pimpos-tinta-700);
+
+  --sidebar: var(--pimpos-crema-50);
+  --sidebar-foreground: var(--pimpos-tinta-900);
+  --sidebar-primary: var(--pimpos-azul-900);
+  --sidebar-primary-foreground: var(--pimpos-crema-50);
+  --sidebar-accent: var(--pimpos-crema-200);
+  --sidebar-accent-foreground: var(--pimpos-tinta-900);
+  --sidebar-border: var(--pimpos-tinta-500);
+  --sidebar-ring: var(--pimpos-azul-600);
+
+  --font-sans: var(--pimpos-fuente-texto);
+  --font-heading: var(--pimpos-fuente-titulo);
+}
+
+/* Tema oscuro. No lo pide la ficha ni el plan, y por eso solo se activa con la
+   clase `.dark`, que hoy nadie pone. Se define igualmente porque los
+   componentes de shadcn traen utilidades `dark:`: dejarlas apuntando a los
+   grises neutros de fabrica seria una incoherencia latente esperando a que
+   alguien encienda el tema. */
+.dark {
+  --background: var(--pimpos-noche-900);
+  --foreground: var(--pimpos-crema-50);
+
+  --card: var(--pimpos-noche-700);
+  --card-foreground: var(--pimpos-crema-50);
+  --popover: var(--pimpos-noche-700);
+  --popover-foreground: var(--pimpos-crema-50);
+
+  --primary: var(--pimpos-azul-200);
+  --primary-foreground: var(--pimpos-noche-900);
+
+  --secondary: var(--pimpos-noche-700);
+  --secondary-foreground: var(--pimpos-crema-50);
+
+  --muted: var(--pimpos-noche-700);
+  --muted-foreground: var(--pimpos-noche-200);
+  --accent: var(--pimpos-noche-700);
+  --accent-foreground: var(--pimpos-crema-50);
+
+  --destructive: var(--pimpos-peligro-300);
+  --destructive-foreground: var(--pimpos-noche-900);
+  --exito: var(--pimpos-exito-300);
+  --alerta: var(--pimpos-dorado-300);
+
+  --border: var(--pimpos-noche-500);
+  --input: var(--pimpos-noche-500);
+  --ring: var(--pimpos-azul-200);
+
+  --chart-1: var(--pimpos-azul-200);
+  --chart-2: var(--pimpos-dorado-300);
+  --chart-3: var(--pimpos-exito-300);
+  --chart-4: var(--pimpos-noche-200);
+  --chart-5: var(--pimpos-peligro-300);
+
+  --sidebar: var(--pimpos-noche-700);
+  --sidebar-foreground: var(--pimpos-crema-50);
+  --sidebar-primary: var(--pimpos-azul-200);
+  --sidebar-primary-foreground: var(--pimpos-noche-900);
+  --sidebar-accent: var(--pimpos-noche-900);
+  --sidebar-accent-foreground: var(--pimpos-crema-50);
+  --sidebar-border: var(--pimpos-noche-500);
+  --sidebar-ring: var(--pimpos-azul-200);
+}
+
+/* =============================================================================
+   CAPA 3 — COMPONENTE
+   Lo que un componente concreto necesita y no se deduce de la capa 2.
+   Existen para poder ajustar una pieza sin mover el resto del sistema.
+   ============================================================================= */
+:root {
+  /* Llamada a la accion principal: pedir por WhatsApp, ver el catalogo.
+     Es el unico sitio donde el dorado aparece a pantalla completa, y lleva
+     tinta encima (5.34), nunca blanco (3.20, no pasa AA). */
+  --cta-fondo: var(--pimpos-dorado-500);
+  --cta-texto: var(--pimpos-tinta-900);
+  --cta-fondo-hover: var(--pimpos-dorado-700);
+  --cta-texto-hover: var(--pimpos-crema-50);
+
+  /* El dorado cuando hace de texto, icono o enlace destacado. */
+  --acento-texto: var(--pimpos-dorado-700);
+
+  /* Tarjeta de producto: la foto manda, el borde apenas se insinua. */
+  --tarjeta-producto-fondo: var(--pimpos-crema-50);
+  --tarjeta-producto-borde: var(--pimpos-crema-200);
+  --tarjeta-producto-precio: var(--pimpos-dorado-700);
+
+  /* Precio: se muestra con orgullo (ficha 5.2), no se disimula. */
+  --precio-texto: var(--pimpos-dorado-700);
+
+  /* Franja de confianza de la portada (doc 03 §4.2, bloque 3). */
+  --franja-fondo: var(--pimpos-azul-900);
+  --franja-texto: var(--pimpos-crema-50);
+
+  /* Area tactil minima: 44 px. El panel se usa desde el celular en la calle
+     (R15), y esto no es una recomendacion, es el minimo de la definicion de
+     "hecho". */
+  --area-tactil-min: 2.75rem;
+}
+
+/* =============================================================================
+   Puente con Tailwind 4
+   Expone los tokens semanticos como utilidades (`bg-background`, `text-primary`,
+   `rounded-lg`...). Tailwind 4 se configura por CSS, no por tailwind.config.
+   ============================================================================= */
 @theme inline {
-  --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
+  --font-heading: var(--font-heading);
+
   --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-exito: var(--exito);
+  --color-alerta: var(--alerta);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-cta: var(--cta-fondo);
+  --color-cta-foreground: var(--cta-texto);
+  --color-acento: var(--acento-texto);
+  --color-precio: var(--precio-texto);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -45,90 +268,44 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-}
 
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --spacing-tactil: var(--area-tactil-min);
+  --container-contenido: var(--ancho-contenido);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    /* Mejora la lectura de textos largos en pantallas densas. */
+    -webkit-font-smoothing: antialiased;
   }
+
   html {
     @apply font-sans;
   }
-}
-/* Provisional, hasta que entre el sistema de diseno (doc 03 §3): pila del
-   sistema, sin fuentes externas. Fraunces e Inter llegan con next/font/local. */
-:root {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+    /* Los titulos grandes respiran mal con el interletrado por defecto. */
+    letter-spacing: -0.015em;
+  }
+
+  /* El carrusel de portada deja de avanzar solo y las transiciones se acortan
+     casi a cero para quien lo pide (doc 03 §3.4). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
