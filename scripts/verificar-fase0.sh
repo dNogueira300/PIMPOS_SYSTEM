@@ -9,6 +9,7 @@
 #   bash scripts/verificar-fase0.sh
 #
 # Requiere `supabase start` corriendo. No toca el proyecto remoto.
+# Crea y borra sus propios usuarios de prueba.
 # =============================================================================
 set -u
 
@@ -35,6 +36,44 @@ fallos=0
 ok()   { echo "  [OK]    $1"; }
 fail() { echo "  [FALLA] $1"; fallos=$((fallos + 1)); }
 titulo() { echo; echo "== $1 =="; }
+
+# Crea un usuario por la Admin API. $1 = correo, $2 = json de user_metadata
+# ("null" para no mandar ninguno). Imprime el uuid, o vacio si fallo.
+crear_usuario() {
+  local cuerpo
+  if [ "$2" = "null" ]; then
+    cuerpo=$(printf '{"email":"%s","password":"ClaveDePrueba123","email_confirm":true}' "$1")
+  else
+    cuerpo=$(printf '{"email":"%s","password":"ClaveDePrueba123","email_confirm":true,"user_metadata":%s}' "$1" "$2")
+  fi
+  curl -s -X POST "$API_URL/auth/v1/admin/users" \
+    -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+    -H "Content-Type: application/json" -d "$cuerpo" |
+    python -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null
+}
+
+borrar_usuario() {
+  curl -s -X DELETE "$API_URL/auth/v1/admin/users/$1" \
+    -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" >/dev/null
+}
+
+# Inicia sesion y devuelve el claim `rol` del token, o un marcador.
+rol_de() {
+  local token
+  token=$(curl -s -X POST "$API_URL/auth/v1/token?grant_type=password" \
+    -H "apikey: $ANON_KEY" -H "Content-Type: application/json" \
+    -d "$(printf '{"email":"%s","password":"ClaveDePrueba123"}' "$1")" |
+    python -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null)
+  python - "$token" <<'PY'
+import sys, json, base64
+t = sys.argv[1]
+if not t:
+    print('<<SIN TOKEN>>'); raise SystemExit
+p = t.split('.')[1]; p += '=' * (-len(p) % 4)
+v = json.loads(base64.urlsafe_b64decode(p)).get('rol', '<<AUSENTE>>')
+print('null' if v is None else v)
+PY
+}
 
 # --- 1. La API REST responde -------------------------------------------------
 titulo "1. El proyecto responde"
@@ -73,52 +112,58 @@ else
   ok "el proveedor de correo sigue activo"
 fi
 
-# --- 4. El rol viaja en el JWT -----------------------------------------------
-titulo "4. El rol viaja dentro del JWT"
-correo="verificacion-$(date +%s)@pimpos.test"
-crear=$(curl -s -X POST "$API_URL/auth/v1/admin/users" \
-  -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{\"email\":\"$correo\",\"password\":\"ClaveDePrueba123\",\"email_confirm\":true}")
-uid=$(echo "$crear" | python -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null)
+# --- 4. Alta de usuario y rol en el JWT --------------------------------------
+titulo "4. El alta de usuario y el rol dentro del JWT"
 
-rol_del_token() {
-  python - "$1" <<'PY'
-import sys, json, base64
-t = sys.argv[1]
-if not t:
-    print('<<SIN TOKEN>>'); raise SystemExit
-p = t.split('.')[1]; p += '=' * (-len(p) % 4)
-v = json.loads(base64.urlsafe_b64decode(p)).get('rol', '<<AUSENTE>>')
-print('null' if v is None else v)
-PY
-}
-token_de() {
-  curl -s -X POST "$API_URL/auth/v1/token?grant_type=password" \
-    -H "apikey: $ANON_KEY" -H "Content-Type: application/json" \
-    -d "{\"email\":\"$correo\",\"password\":\"ClaveDePrueba123\"}" |
-    python -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null
-}
+# Se crea igual que en el panel de produccion: con el rol en los metadatos.
+# Desde la migracion 0005 el perfil lo crea un trigger, asi que aqui no se
+# inserta ninguna fila a mano; se ejercita el camino real.
+correo="verificacion-$(date +%s)@pimpos.test"
+uid=$(crear_usuario "$correo" '{"rol":"superadmin","nombre_completo":"Usuario de verificacion"}')
 
 if [ -z "$uid" ]; then
-  fail "no se pudo crear el usuario de prueba: $(echo "$crear" | head -c 200)"
+  fail "no se pudo crear el usuario de prueba"
 else
-  sql "insert into public.perfiles (id, rol, nombre_completo)
-       values ('$uid', 'superadmin', 'Usuario de verificacion');" >/dev/null
+  # Ojo con el formato del booleano: `select activo` imprime t/f, pero
+  # concatenado con || imprime true/false. Se fuerza ::text en ambos sitios
+  # para que las comparaciones no dependan de ese detalle.
+  perfil=$(sql "select rol || '|' || activo::text from public.perfiles where id = '$uid';")
+  [ "$perfil" = "superadmin|true" ] \
+    && ok "el trigger creo el perfil, activo y con su rol" \
+    || fail "el trigger dejo el perfil como '$perfil' (esperaba superadmin|t)"
 
-  rol=$(rol_del_token "$(token_de)")
+  rol=$(rol_de "$correo")
   [ "$rol" = "superadmin" ] && ok "el JWT contiene rol=superadmin" \
                             || fail "el JWT trae rol=$rol (esperaba superadmin)"
 
   # Dar de baja a alguien tiene que quitarle los permisos en el siguiente token.
   sql "update public.perfiles set activo = false where id = '$uid';" >/dev/null
-  rol=$(rol_del_token "$(token_de)")
+  rol=$(rol_de "$correo")
   [ "$rol" = "null" ] && ok "un usuario inactivo recibe rol=null" \
                       || fail "usuario inactivo trae rol=$rol (esperaba null)"
 
-  # Limpieza: el usuario de prueba no se queda en la base.
-  curl -s -X DELETE "$API_URL/auth/v1/admin/users/$uid" \
-    -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" >/dev/null
+  borrar_usuario "$uid"
+fi
+
+# Un alta SIN metadatos debe nacer inerte. Es una regla de seguridad (R19), no
+# un detalle: el rol por defecto seria `repartidor`, que lee la tabla `clientes`
+# con direcciones y fotos de domicilios. Nadie debe alcanzar datos personales
+# porque quien creo la cuenta se distrajo.
+correo_sin="descuido-$(date +%s)@pimpos.test"
+uid_sin=$(crear_usuario "$correo_sin" null)
+if [ -z "$uid_sin" ]; then
+  fail "no se pudo crear el usuario sin metadatos"
+else
+  estado=$(sql "select activo::text from public.perfiles where id = '$uid_sin';")
+  [ "$estado" = "false" ] \
+    && ok "un alta sin rol en los metadatos nace inactiva" \
+    || fail "un alta sin metadatos quedo activa: datos personales por descuido"
+
+  rol=$(rol_de "$correo_sin")
+  [ "$rol" = "null" ] && ok "y su JWT sale sin rol" \
+                      || fail "su JWT trae rol=$rol (esperaba null)"
+
+  borrar_usuario "$uid_sin"
 fi
 
 # --- 5. El bucket clientes es privado ----------------------------------------
