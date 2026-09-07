@@ -40,15 +40,12 @@ titulo() { echo; echo "== $1 =="; }
 # Crea un usuario por la Admin API. $1 = correo, $2 = json de user_metadata
 # ("null" para no mandar ninguno). Imprime el uuid, o vacio si fallo.
 crear_usuario() {
-  local cuerpo
-  if [ "$2" = "null" ]; then
-    cuerpo=$(printf '{"email":"%s","password":"ClaveDePrueba123","email_confirm":true}' "$1")
-  else
-    cuerpo=$(printf '{"email":"%s","password":"ClaveDePrueba123","email_confirm":true,"user_metadata":%s}' "$1" "$2")
-  fi
+  # Alta simple. Ningun metadato concede el rol (migracion 0006): el trigger
+  # crea el perfil INACTIVO y la activacion es un paso explicito y aparte.
   curl -s -X POST "$API_URL/auth/v1/admin/users" \
     -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
-    -H "Content-Type: application/json" -d "$cuerpo" |
+    -H "Content-Type: application/json" \
+    -d "$(printf '{"email":"%s","password":"ClaveDePrueba123","email_confirm":true}' "$1")" |
     python -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null
 }
 
@@ -115,55 +112,45 @@ fi
 # --- 4. Alta de usuario y rol en el JWT --------------------------------------
 titulo "4. El alta de usuario y el rol dentro del JWT"
 
-# Se crea igual que en el panel de produccion: con el rol en los metadatos.
-# Desde la migracion 0005 el perfil lo crea un trigger, asi que aqui no se
-# inserta ninguna fila a mano; se ejercita el camino real.
+# Se reproduce el flujo real de dos pasos: el alta crea la cuenta y el trigger
+# su perfil inactivo; despues un administrador asigna el rol. Ningun metadato
+# concede permisos, asi que el segundo paso no se puede saltar.
 correo="verificacion-$(date +%s)@pimpos.test"
-uid=$(crear_usuario "$correo" '{"rol":"superadmin","nombre_completo":"Usuario de verificacion"}')
+uid=$(crear_usuario "$correo")
 
 if [ -z "$uid" ]; then
   fail "no se pudo crear el usuario de prueba"
 else
+  # --- Paso 1: la cuenta nace inerte -----------------------------------------
+  # Es una regla de seguridad (R19), no un detalle: sin esto, un rol por
+  # defecto como `repartidor` daria acceso a la tabla `clientes`, con
+  # direcciones y fotos de domicilios, a quien creo la cuenta y se distrajo.
+  #
   # Ojo con el formato del booleano: `select activo` imprime t/f, pero
-  # concatenado con || imprime true/false. Se fuerza ::text en ambos sitios
-  # para que las comparaciones no dependan de ese detalle.
-  perfil=$(sql "select rol || '|' || activo::text from public.perfiles where id = '$uid';")
-  [ "$perfil" = "superadmin|true" ] \
-    && ok "el trigger creo el perfil, activo y con su rol" \
-    || fail "el trigger dejo el perfil como '$perfil' (esperaba superadmin|t)"
+  # concatenado con || imprime true/false. Se fuerza ::text siempre.
+  estado=$(sql "select activo::text from public.perfiles where id = '$uid';")
+  [ "$estado" = "false" ] \
+    && ok "el trigger creo el perfil, inactivo" \
+    || fail "el perfil nacio con activo=$estado (esperaba false)"
 
   rol=$(rol_de "$correo")
-  [ "$rol" = "superadmin" ] && ok "el JWT contiene rol=superadmin" \
+  [ "$rol" = "null" ] && ok "sin rol asignado, el JWT sale sin permisos" \
+                      || fail "una cuenta recien creada trae rol=$rol (esperaba null)"
+
+  # --- Paso 2: el administrador asigna el rol --------------------------------
+  sql "update public.perfiles set rol = 'superadmin', activo = true where id = '$uid';" >/dev/null
+
+  rol=$(rol_de "$correo")
+  [ "$rol" = "superadmin" ] && ok "tras asignarlo, el JWT contiene rol=superadmin" \
                             || fail "el JWT trae rol=$rol (esperaba superadmin)"
 
-  # Dar de baja a alguien tiene que quitarle los permisos en el siguiente token.
+  # --- Y dar de baja se lo quita ---------------------------------------------
   sql "update public.perfiles set activo = false where id = '$uid';" >/dev/null
   rol=$(rol_de "$correo")
-  [ "$rol" = "null" ] && ok "un usuario inactivo recibe rol=null" \
+  [ "$rol" = "null" ] && ok "un usuario inactivo vuelve a recibir rol=null" \
                       || fail "usuario inactivo trae rol=$rol (esperaba null)"
 
   borrar_usuario "$uid"
-fi
-
-# Un alta SIN metadatos debe nacer inerte. Es una regla de seguridad (R19), no
-# un detalle: el rol por defecto seria `repartidor`, que lee la tabla `clientes`
-# con direcciones y fotos de domicilios. Nadie debe alcanzar datos personales
-# porque quien creo la cuenta se distrajo.
-correo_sin="descuido-$(date +%s)@pimpos.test"
-uid_sin=$(crear_usuario "$correo_sin" null)
-if [ -z "$uid_sin" ]; then
-  fail "no se pudo crear el usuario sin metadatos"
-else
-  estado=$(sql "select activo::text from public.perfiles where id = '$uid_sin';")
-  [ "$estado" = "false" ] \
-    && ok "un alta sin rol en los metadatos nace inactiva" \
-    || fail "un alta sin metadatos quedo activa: datos personales por descuido"
-
-  rol=$(rol_de "$correo_sin")
-  [ "$rol" = "null" ] && ok "y su JWT sale sin rol" \
-                      || fail "su JWT trae rol=$rol (esperaba null)"
-
-  borrar_usuario "$uid_sin"
 fi
 
 # --- 5. El bucket clientes es privado ----------------------------------------

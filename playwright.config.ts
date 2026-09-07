@@ -1,5 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
+import { supabaseLocal } from "./e2e/ayudas/supabase-local";
+
 const PUERTO = 3000;
 const URL_BASE = `http://localhost:${PUERTO}`;
 
@@ -12,6 +14,12 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
+
+  // `next dev` compila cada ruta la primera vez que se pide, y varias pruebas
+  // en paralelo comparten ese servidor: un ingreso puede tardar bastante mas de
+  // los 5 s que espera Playwright por defecto. Se sube el margen en vez de
+  // esperas fijas, que serian mas lentas y mas fragiles.
+  expect: { timeout: 20_000 },
 
   use: {
     baseURL: URL_BASE,
@@ -44,5 +52,11 @@ export default defineConfig({
     url: URL_BASE,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // Estas sobreescriben lo que hubiera en .env.local: las pruebas siempre
+    // corren contra el Supabase local, nunca contra el proyecto alojado.
+    env: (() => {
+      const { apiUrl, anonKey } = supabaseLocal();
+      return { NEXT_PUBLIC_SUPABASE_URL: apiUrl, NEXT_PUBLIC_SUPABASE_ANON_KEY: anonKey };
+    })(),
   },
 });

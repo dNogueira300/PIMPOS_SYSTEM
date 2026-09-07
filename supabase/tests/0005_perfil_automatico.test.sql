@@ -1,6 +1,9 @@
--- Verifica el catalogo de roles (0004) y el perfil automatico (0005).
+-- Verifica el catalogo de roles (0004) y el perfil automatico (0005 + 0006).
+--
+-- La regla que sostiene todo este archivo: un alta NUNCA concede permisos por
+-- si sola. El rol lo asigna una persona, con una escritura explicita.
 begin;
-select plan(16);
+select plan(17);
 
 -- =============================================================================
 -- 0004 -- el catalogo vive en una migracion, no en una semilla
@@ -24,7 +27,7 @@ select is(
 );
 
 -- =============================================================================
--- 0005 -- el trigger existe
+-- El trigger existe y esta enganchado
 -- =============================================================================
 select has_function('app', 'crear_perfil_de_usuario', 'existe la funcion del trigger');
 select ok(
@@ -35,7 +38,7 @@ select ok(
 );
 
 -- =============================================================================
--- Alta SIN metadatos: se crea, pero inerte
+-- Alta simple: se crea sola, pero inerte
 -- =============================================================================
 insert into auth.users (id, email, created_at, updated_at)
 values ('aaaaaaaa-0000-0000-0000-000000000001', 'sinmeta@pimpos.test', now(), now());
@@ -50,7 +53,7 @@ select is(
   (select activo from public.perfiles
     where id = 'aaaaaaaa-0000-0000-0000-000000000001'),
   false,
-  'un alta sin rol explicito entra INACTIVA'
+  'y nace INACTIVA'
 );
 select is(
   (select nombre_completo from public.perfiles
@@ -58,8 +61,6 @@ select is(
   'sinmeta',
   'a falta de nombre, se usa la parte local del correo'
 );
-
--- Y lo que de verdad importa: inactivo significa cero permisos.
 select is(
   app.custom_access_token(
     '{"user_id": "aaaaaaaa-0000-0000-0000-000000000001", "claims": {}}'::jsonb
@@ -69,78 +70,99 @@ select is(
 );
 
 -- =============================================================================
--- Alta CON metadatos validos: lista para usar
+-- Ningun metadato concede el rol (0006)
+--
+-- `raw_user_meta_data` lo escribe el propio usuario (updateUser, o
+-- options.data al registrarse). `raw_app_meta_data` solo la Admin API, pero
+-- GoTrue lo rellena en un UPDATE posterior al INSERT, asi que este trigger
+-- tampoco llegaria a verlo. Ni uno ni otro decide permisos.
 -- =============================================================================
 insert into auth.users (id, email, created_at, updated_at, raw_user_meta_data)
-values ('aaaaaaaa-0000-0000-0000-000000000002', 'marcos@pimpos.test', now(), now(),
-        '{"rol": "ingeniero", "nombre_completo": "Marcos"}'::jsonb);
+values ('aaaaaaaa-0000-0000-0000-000000000002', 'colado@pimpos.test', now(), now(),
+        '{"rol": "superadmin", "nombre_completo": "Colado"}'::jsonb);
 
-select is(
-  (select rol from public.perfiles
-    where id = 'aaaaaaaa-0000-0000-0000-000000000002'),
-  'ingeniero'::app.rol_usuario,
-  'el rol de los metadatos se aplica'
-);
 select is(
   (select activo from public.perfiles
     where id = 'aaaaaaaa-0000-0000-0000-000000000002'),
-  true,
-  'con rol explicito, la cuenta nace activa'
-);
-select is(
-  (select nombre_completo from public.perfiles
-    where id = 'aaaaaaaa-0000-0000-0000-000000000002'),
-  'Marcos',
-  'el nombre de los metadatos se aplica'
+  false,
+  'un rol pedido en user_metadata no activa la cuenta'
 );
 select is(
   app.custom_access_token(
     '{"user_id": "aaaaaaaa-0000-0000-0000-000000000002", "claims": {}}'::jsonb
   ) -> 'claims' ->> 'rol',
-  'ingeniero',
-  'y el hook ya emite su rol: alta de un clic'
+  null,
+  'y su JWT sale sin rol: cero permisos'
+);
+select is(
+  (select nombre_completo from public.perfiles
+    where id = 'aaaaaaaa-0000-0000-0000-000000000002'),
+  'Colado',
+  'el nombre si se acepta de los metadatos: es presentacion, no autorizacion'
 );
 
--- =============================================================================
--- Alta con un rol inventado: no revienta, pero no otorga nada
--- =============================================================================
-insert into auth.users (id, email, created_at, updated_at, raw_user_meta_data)
-values ('aaaaaaaa-0000-0000-0000-000000000003', 'raro@pimpos.test', now(), now(),
-        '{"rol": "gerente_supremo"}'::jsonb);
+insert into auth.users (id, email, created_at, updated_at, raw_app_meta_data)
+values ('aaaaaaaa-0000-0000-0000-000000000003', 'apimeta@pimpos.test', now(), now(),
+        '{"rol": "superadmin"}'::jsonb);
 
 select is(
   (select activo from public.perfiles
     where id = 'aaaaaaaa-0000-0000-0000-000000000003'),
   false,
-  'un rol que no existe en el enum no activa la cuenta'
-);
-select is(
-  (select rol from public.perfiles
-    where id = 'aaaaaaaa-0000-0000-0000-000000000003'),
-  'repartidor'::app.rol_usuario,
-  'cae al rol menos privilegiado, pero inactivo'
+  'un rol pedido en app_metadata tampoco activa la cuenta'
 );
 
--- Un intento de colarse como superadmin tampoco funciona por accidente:
--- si el valor es valido, es porque un administrador lo escribio a proposito.
+-- =============================================================================
+-- La activacion explicita: como lo hace un administrador de verdad
+-- =============================================================================
+update public.perfiles p
+   set rol = 'ingeniero', nombre_completo = 'Marcos', activo = true
+  from auth.users u
+ where u.id = p.id
+   and u.email = 'sinmeta@pimpos.test';
+
+select is(
+  (select rol from public.perfiles
+    where id = 'aaaaaaaa-0000-0000-0000-000000000001'),
+  'ingeniero'::app.rol_usuario,
+  'un administrador asigna el rol por correo, sin copiar UUID'
+);
 select is(
   app.custom_access_token(
-    '{"user_id": "aaaaaaaa-0000-0000-0000-000000000003", "claims": {}}'::jsonb
+    '{"user_id": "aaaaaaaa-0000-0000-0000-000000000001", "claims": {}}'::jsonb
+  ) -> 'claims' ->> 'rol',
+  'ingeniero',
+  'y desde ese momento el hook si emite su rol'
+);
+
+-- Y al darla de baja vuelve a quedarse sin nada, sin borrar la fila.
+update public.perfiles set activo = false
+ where id = 'aaaaaaaa-0000-0000-0000-000000000001';
+
+select is(
+  app.custom_access_token(
+    '{"user_id": "aaaaaaaa-0000-0000-0000-000000000001", "claims": {}}'::jsonb
   ) -> 'claims' ->> 'rol',
   null,
-  'y sigue sin permisos'
+  'dar de baja a alguien le quita los permisos en el siguiente token'
 );
 
 -- =============================================================================
 -- El trigger no pisa un perfil que ya exista
 -- =============================================================================
-update public.perfiles set rol = 'superadmin', activo = true
+update public.perfiles set activo = true
  where id = 'aaaaaaaa-0000-0000-0000-000000000001';
 
 select lives_ok(
   $$ insert into auth.users (id, email, created_at, updated_at)
      values ('aaaaaaaa-0000-0000-0000-000000000004', 'otro@pimpos.test', now(), now()) $$,
   'altas posteriores no interfieren con perfiles ya existentes'
+);
+select is(
+  (select rol from public.perfiles
+    where id = 'aaaaaaaa-0000-0000-0000-000000000001'),
+  'ingeniero'::app.rol_usuario,
+  'y el perfil ya asignado conserva su rol'
 );
 
 select * from finish();

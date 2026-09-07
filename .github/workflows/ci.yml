@@ -121,25 +121,84 @@ jobs:
         if: steps.deteccion_app.outputs.hay_app == 'true'
         run: pnpm format:check
 
-      - name: Ejecutar las pruebas de la aplicación
+      - name: Ejecutar las pruebas unitarias
         if: steps.deteccion_app.outputs.hay_app == 'true'
         run: pnpm test
 
-      # Playwright levanta `pnpm dev` por su cuenta (webServer en
-      # playwright.config.ts). Solo Chromium: la configuración corre el mismo
-      # navegador a 375 px y a escritorio.
+  # Las pruebas de punta a punta necesitan las dos cosas a la vez: Node para
+  # levantar la aplicación y Supabase para que haya con qué autenticarse. Van en
+  # su propio trabajo porque antes vivían junto a los checks de Node, que no
+  # levantan la base, y fallaban por falta de variables de entorno.
+  #
+  # No hace falta preparar `.env.local`: playwright.config.ts saca la URL y la
+  # llave de `supabase status`, a propósito, para que la suite no pueda apuntar
+  # nunca al proyecto de producción.
+  e2e:
+    name: Flujos de punta a punta (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Comprobar si la aplicación Node ya existe
+        id: deteccion_app
+        shell: bash
+        run: |
+          if [ -f package.json ] && [ -d e2e ]; then
+            echo "hay_e2e=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "hay_e2e=false" >> "$GITHUB_OUTPUT"
+            echo "Todavía no hay aplicación ni pruebas E2E: se omite este trabajo."
+          fi
+
+      - name: Instalar la CLI de Supabase
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Levantar Supabase en local
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        run: supabase start
+
+      - name: Habilitar Corepack
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        run: corepack enable
+
+      - name: Instalar pnpm
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+          run_install: false
+
+      - name: Instalar Node.js
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Instalar dependencias
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        run: pnpm install --frozen-lockfile
+
       - name: Instalar Chromium para Playwright
-        if: steps.deteccion_app.outputs.hay_app == 'true'
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Ejecutar las pruebas de punta a punta
-        if: steps.deteccion_app.outputs.hay_app == 'true'
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
         run: pnpm test:e2e
 
       - name: Guardar el informe de Playwright si algo falló
-        if: steps.deteccion_app.outputs.hay_app == 'true' && failure()
+        if: steps.deteccion_app.outputs.hay_e2e == 'true' && failure()
         uses: actions/upload-artifact@v4
         with:
           name: informe-playwright
           path: playwright-report/
           retention-days: 7
+
+      - name: Apagar Supabase
+        if: always()
+        run: supabase stop --no-backup || true
