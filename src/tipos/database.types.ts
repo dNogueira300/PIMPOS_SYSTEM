@@ -34,6 +34,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      categorias_producto: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          descripcion: string | null
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          imagen_url: string | null
+          nombre: string
+          orden: number
+          slug: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          nombre: string
+          orden?: number
+          slug: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          nombre?: string
+          orden?: number
+          slug?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       configuracion_sitio: {
         Row: {
           clave: string
@@ -111,6 +156,225 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "roles"
             referencedColumns: ["codigo"]
+          },
+        ]
+      }
+      precio_historial: {
+        Row: {
+          id: number
+          moneda: string
+          precio: number
+          registrado_por: string | null
+          variante_id: string
+          vigente_desde: string
+        }
+        Insert: {
+          id?: never
+          moneda?: string
+          precio: number
+          registrado_por?: string | null
+          variante_id: string
+          vigente_desde?: string
+        }
+        Update: {
+          id?: never
+          moneda?: string
+          precio?: number
+          registrado_por?: string | null
+          variante_id?: string
+          vigente_desde?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "precio_historial_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
+            referencedRelation: "producto_variantes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      producto_imagenes: {
+        Row: {
+          alt: string | null
+          created_at: string
+          created_by: string | null
+          es_principal: boolean
+          id: string
+          orden: number
+          producto_id: string
+          ruta: string
+          updated_at: string
+          updated_by: string | null
+          variante_id: string | null
+        }
+        Insert: {
+          alt?: string | null
+          created_at?: string
+          created_by?: string | null
+          es_principal?: boolean
+          id?: string
+          orden?: number
+          producto_id: string
+          ruta: string
+          updated_at?: string
+          updated_by?: string | null
+          variante_id?: string | null
+        }
+        Update: {
+          alt?: string | null
+          created_at?: string
+          created_by?: string | null
+          es_principal?: boolean
+          id?: string
+          orden?: number
+          producto_id?: string
+          ruta?: string
+          updated_at?: string
+          updated_by?: string | null
+          variante_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "producto_imagenes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_imagenes_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
+            referencedRelation: "producto_variantes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      producto_variantes: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_predeterminada: boolean
+          id: string
+          moneda: string
+          nombre: string
+          orden: number
+          peso_gramos: number | null
+          precio: number
+          producto_id: string
+          sku: string | null
+          stock_disponible: number | null
+          unidad_venta: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_predeterminada?: boolean
+          id?: string
+          moneda?: string
+          nombre: string
+          orden?: number
+          peso_gramos?: number | null
+          precio: number
+          producto_id: string
+          sku?: string | null
+          stock_disponible?: number | null
+          unidad_venta?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_predeterminada?: boolean
+          id?: string
+          moneda?: string
+          nombre?: string
+          orden?: number
+          peso_gramos?: number | null
+          precio?: number
+          producto_id?: string
+          sku?: string | null
+          stock_disponible?: number | null
+          unidad_venta?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "producto_variantes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      productos: {
+        Row: {
+          categoria_id: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          descripcion: string | null
+          destacado: boolean
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          nombre: string
+          orden: number
+          slug: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          categoria_id: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          destacado?: boolean
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          nombre: string
+          orden?: number
+          slug: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          categoria_id?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          destacado?: boolean
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          nombre?: string
+          orden?: number
+          slug?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "productos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias_producto"
+            referencedColumns: ["id"]
           },
         ]
       }
