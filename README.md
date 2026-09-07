@@ -184,6 +184,49 @@ pierde los permisos en cuanto renueve el token.
 
 ---
 
+## Sistema de diseño
+
+Tokens en tres capas, todos en `src/estilos/globals.css` (Tailwind 4 se configura por CSS, no por
+`tailwind.config`):
+
+| Capa       | Prefijo                      | Para qué                                                           |
+| ---------- | ---------------------------- | ------------------------------------------------------------------ |
+| Primitivos | `--pimpos-*`                 | Los colores crudos, sacados del logo y las fotos del local         |
+| Semánticos | `--background`, `--primary`… | Qué significa cada color. Son los nombres que ya consume shadcn/ui |
+| Componente | `--cta-*`, `--precio-texto`… | Lo que una pieza concreta necesita y no se deduce de la capa 2     |
+
+**Ningún componente usa un primitivo directamente.** Reutilizar los nombres semánticos de shadcn en
+vez de inventar otros propios hace que toda la librería quede tintada con la marca sin editar un
+solo componente.
+
+### El dorado tiene dos valores, y no es redundancia
+
+- `--pimpos-dorado-500` (`#C8801F`) **solo como fondo**, con tinta encima (5.34). Con blanco da
+  3.20 y no pasa AA.
+- `--pimpos-dorado-700` (`#8F5A10`) para texto, precio, icono o enlace (5.06 sobre crema).
+
+El plan original decía que bastaba con reservar `#C8801F` para texto de 18 px o más. Medido, da
+**2.80**: tampoco llega al umbral de texto grande. Por eso existe el segundo valor.
+
+### Los contrastes no se afirman, se miden
+
+`src/estilos/paleta.test.ts` lee `globals.css`, extrae los primitivos y comprueba cada par
+documentado contra su umbral AA, en tema claro y oscuro. Si alguien ajusta un color y rompe un
+contraste, falla el commit — no se descubre meses después con un lector de pantalla.
+
+```bash
+pnpm test src/estilos/paleta.test.ts
+```
+
+La voz, el tono y las reglas de uso de marca están en [`docs/marca.md`](docs/marca.md).
+
+**Tipografía provisional.** Se usa la pila del sistema hasta que el propietario valide Fraunces +
+Inter o Bitter + Source Sans 3 sobre una maqueta real (doc 03 §3.2). Cambiarla son las dos líneas
+`--pimpos-fuente-titulo` y `--pimpos-fuente-texto`. Cuando se decida, las fuentes se cargan con
+`next/font/local` — nunca desde Google, para no enviar la IP de cada visitante a un tercero.
+
+---
+
 ## Autenticación
 
 Sesión en cookies con `@supabase/ssr`, y el rol viajando dentro del JWT gracias al hook de la
