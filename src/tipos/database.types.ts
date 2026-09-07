@@ -34,6 +34,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      configuracion_sitio: {
+        Row: {
+          clave: string
+          descripcion: string
+          es_publico: boolean
+          grupo: string
+          orden: number
+          updated_at: string
+          updated_by: string | null
+          valor: Json
+        }
+        Insert: {
+          clave: string
+          descripcion: string
+          es_publico?: boolean
+          grupo: string
+          orden?: number
+          updated_at?: string
+          updated_by?: string | null
+          valor: Json
+        }
+        Update: {
+          clave?: string
+          descripcion?: string
+          es_publico?: boolean
+          grupo?: string
+          orden?: number
+          updated_at?: string
+          updated_by?: string | null
+          valor?: Json
+        }
+        Relationships: []
+      }
       perfiles: {
         Row: {
           activo: boolean
@@ -110,7 +143,22 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      auditoria: {
+        Row: {
+          datos_antes: Json | null
+          datos_despues: Json | null
+          id: number | null
+          ocurrido_en: string | null
+          operacion: string | null
+          registro_id: string | null
+          rol: string | null
+          tabla: string | null
+          usuario_correo: string | null
+          usuario_id: string | null
+          usuario_nombre: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
