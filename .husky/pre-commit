@@ -1,0 +1,5 @@
+# Bloquea commits que no compilan o no pasan el linter (doc de stack §4.5).
+# El typecheck es de todo el proyecto: un archivo puede compilar solo y romper
+# a quien lo importa. lint-staged solo mira lo que va en el commit.
+pnpm typecheck
+pnpm exec lint-staged

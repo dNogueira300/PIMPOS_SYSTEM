@@ -46,9 +46,14 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+.pnpm-debug.log*
 
 # --- Despliegue ---
 .vercel
+*.pem
+
+# --- Husky (los hooks instalados, no la configuracion) ---
+.husky/_/
 
 # --- Herramientas locales del desarrollador (Claude / Claude Code) ---
 # Nada de esto forma parte del proyecto: son configuraciones, memorias y
