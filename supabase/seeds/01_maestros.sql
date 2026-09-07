@@ -25,15 +25,12 @@
 --    figuran bajo el bloque de 0.10 con precio 0.30 y 0.40. Manda el del item.
 --
 -- 2. "Hamburguesa grande" aparece a S/ 0.30 y a S/ 0.40, y lo mismo la version
---    con ajonjoli. El documento no dice que las diferencia. Se cargan como dos
---    variantes de la misma familia -- que es exactamente el caso que justifica
---    el modelo de variantes -- pero HAY QUE CONFIRMARLO con el negocio: si son
---    dos tamanos, las variantes deberian llamarse por su tamano y no por su
---    precio.
+--    con ajonjoli. CONFIRMADO con el negocio el 07/09: se quedan asi, como dos
+--    variantes de la misma familia distinguidas por su precio. Es exactamente
+--    el caso que justifica el modelo de variantes.
 --
--- 3. "Arvejas" figura sin precio. Se carga en BORRADOR y sin variante: sin
---    precio no se puede publicar, e inventarselo seria peor que dejarlo
---    pendiente. El negocio lo completa desde el panel.
+-- 3. "Arvejas" figuraba sin precio en el documento. CONFIRMADO el 07/09:
+--    S/ 2.00. Ya entra publicado como el resto.
 -- =============================================================================
 
 -- Idempotencia: se borra lo que esta misma semilla carga, identificado por sus
@@ -96,8 +93,7 @@ from (values
   ('bodega',           'Harina de plátano',   'harina-de-platano',  'publicado', false, 3),
   ('bodega',           'Upe',                 'upe',                'publicado', false, 4),
   ('bodega',           'Cereales',            'cereales',           'publicado', false, 5),
-  -- Sin precio en el documento: en borrador y sin variante (ver nota 3).
-  ('bodega',           'Arvejas',             'arvejas',            'borrador',  false, 6)
+  ('bodega',           'Arvejas',             'arvejas',            'publicado', false, 6)
 ) as p(categoria, nombre, slug, estado, destacado, orden)
 join public.categorias_producto c on c.slug = p.categoria;
 
@@ -127,6 +123,7 @@ from (values
   ('tostada-integral',          'Unidad', 2.00, 'unidad'),
   ('tostada-blanca',            'Unidad', 2.00, 'unidad'),
   ('lentejas',                  'Unidad', 2.00, 'unidad'),
+  ('arvejas',                   'Unidad', 2.00, 'unidad'),
   ('roscas-blancas-de-almidon', 'Unidad', 2.50, 'unidad'),
   ('bolitas-integral',          'Bolsa',  3.00, 'bolsa'),
   ('harina-de-platano',         'Unidad', 4.00, 'unidad'),

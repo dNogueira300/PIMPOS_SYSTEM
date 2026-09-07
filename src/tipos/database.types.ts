@@ -112,6 +112,215 @@ export type Database = {
         }
         Relationships: []
       }
+      faqs: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          orden: number
+          pregunta: string
+          respuesta: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          orden?: number
+          pregunta: string
+          respuesta: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          orden?: number
+          pregunta?: string
+          respuesta?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      galeria: {
+        Row: {
+          alt: string
+          categoria: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          orden: number
+          ruta: string
+          titulo: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          alt: string
+          categoria: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          orden?: number
+          ruta: string
+          titulo?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          alt?: string
+          categoria?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          orden?: number
+          ruta?: string
+          titulo?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      guias: {
+        Row: {
+          contenido: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          imagen_url: string | null
+          orden: number
+          resumen: string | null
+          slug: string
+          titulo: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          contenido: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          orden?: number
+          resumen?: string | null
+          slug: string
+          titulo: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          contenido?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          orden?: number
+          resumen?: string | null
+          slug?: string
+          titulo?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      novedades: {
+        Row: {
+          aprobada_en: string | null
+          aprobada_por: string | null
+          contenido: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          imagen_url: string | null
+          resumen: string | null
+          slug: string
+          tipo: "promocion" | "nuevo_producto" | "campania" | "evento" | "aviso"
+          titulo: string
+          updated_at: string
+          updated_by: string | null
+          vigencia_fin: string | null
+          vigencia_inicio: string | null
+        }
+        Insert: {
+          aprobada_en?: string | null
+          aprobada_por?: string | null
+          contenido: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          resumen?: string | null
+          slug: string
+          tipo: "promocion" | "nuevo_producto" | "campania" | "evento" | "aviso"
+          titulo: string
+          updated_at?: string
+          updated_by?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Update: {
+          aprobada_en?: string | null
+          aprobada_por?: string | null
+          contenido?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_url?: string | null
+          resumen?: string | null
+          slug?: string
+          tipo?:
+            | "promocion"
+            | "nuevo_producto"
+            | "campania"
+            | "evento"
+            | "aviso"
+          titulo?: string
+          updated_at?: string
+          updated_by?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Relationships: []
+      }
       perfiles: {
         Row: {
           activo: boolean
@@ -402,6 +611,114 @@ export type Database = {
           nombre?: string
           orden?: number
           updated_at?: string
+        }
+        Relationships: []
+      }
+      slides: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          enlace_url: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          imagen_alt: string | null
+          imagen_movil_url: string | null
+          imagen_url: string
+          orden: number
+          subtitulo: string | null
+          texto_boton: string | null
+          titulo: string
+          updated_at: string
+          updated_by: string | null
+          vigencia_fin: string | null
+          vigencia_inicio: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          enlace_url?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_alt?: string | null
+          imagen_movil_url?: string | null
+          imagen_url: string
+          orden?: number
+          subtitulo?: string | null
+          texto_boton?: string | null
+          titulo: string
+          updated_at?: string
+          updated_by?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          enlace_url?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          imagen_alt?: string | null
+          imagen_movil_url?: string | null
+          imagen_url?: string
+          orden?: number
+          subtitulo?: string | null
+          texto_boton?: string | null
+          titulo?: string
+          updated_at?: string
+          updated_by?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Relationships: []
+      }
+      testimonios: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          es_demo: boolean
+          estado: "borrador" | "en_revision" | "publicado" | "archivado"
+          id: string
+          nombre: string
+          orden: number
+          procedencia: string | null
+          texto: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          nombre: string
+          orden?: number
+          procedencia?: string | null
+          texto: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          es_demo?: boolean
+          estado?: "borrador" | "en_revision" | "publicado" | "archivado"
+          id?: string
+          nombre?: string
+          orden?: number
+          procedencia?: string | null
+          texto?: string
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }
