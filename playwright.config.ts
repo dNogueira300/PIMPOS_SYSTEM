@@ -13,6 +13,12 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
 
+  // `next dev` compila cada ruta la primera vez que se pide, y varias pruebas
+  // en paralelo comparten ese servidor: un ingreso puede tardar bastante mas de
+  // los 5 s que espera Playwright por defecto. Se sube el margen en vez de
+  // esperas fijas, que serian mas lentas y mas fragiles.
+  expect: { timeout: 20_000 },
+
   use: {
     baseURL: URL_BASE,
     trace: "on-first-retry",

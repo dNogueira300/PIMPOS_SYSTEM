@@ -166,8 +166,43 @@ versiones, y las contraseñas iniciales quedarían en el historial de Git para s
     where u.id = p.id and u.email = 'correo@ejemplo.com';
    ```
 
-Roles válidos: `superadmin`, `administrador`, `ingeniero`, `repartidor`. El modal del panel no
-tiene campo de metadatos; cuando exista el panel de usuarios (Fase 4) hará esto en un solo paso.
+Roles válidos: `superadmin`, `administrador`, `ingeniero`, `repartidor`.
+
+**El segundo paso no se puede saltar, y es a propósito.** Ningún metadato concede el rol: una
+cuenta recién creada entra pero su JWT sale sin `rol`, así que la RLS le niega todo. Si el trigger
+asignase un rol por defecto sería `repartidor`, que lee la tabla `clientes` con direcciones y fotos
+de domicilios (R19) — nadie debe alcanzar datos personales porque quien creó la cuenta se distrajo.
+
+Para dar de baja a alguien basta `activo = false`: conserva la fila y su rastro en auditoría, y
+pierde los permisos en cuanto renueve el token.
+
+---
+
+## Autenticación
+
+Sesión en cookies con `@supabase/ssr`, y el rol viajando dentro del JWT gracias al hook de la
+migración `0003`. Tres capas, de menos a más fiable:
+
+| Capa          | Archivo                  | Qué hace                                                       |
+| ------------- | ------------------------ | -------------------------------------------------------------- |
+| Navegación    | `src/proxy.ts`           | Refresca la sesión y redirige a quien no debe estar donde está |
+| Servidor      | `src/lib/auth/sesion.ts` | `exigirAcceso(ruta)` al principio de cada página y acción      |
+| Base de datos | Políticas RLS            | La que de verdad decide, vaya la petición por donde vaya       |
+
+Las dos primeras son comodidad y defensa en profundidad. La documentación de Next avisa de que las
+Server Functions se resuelven como POST a la ruta donde viven, así que un cambio de `matcher` puede
+sacarlas de la guardia del proxy sin que nadie lo note; por eso cada acción vuelve a comprobar, y
+por eso la autorización real vive en Postgres.
+
+Dos detalles que conviene no deshacer:
+
+- **Se usa `getClaims()`, nunca `getSession()`** en código de servidor. `getClaims()` verifica la
+  firma del JWT; `getSession()` solo lee la cookie, que el cliente controla.
+- **La `service_role` no aparece en ningún módulo de la aplicación.** Cada consulta viaja con el
+  JWT del usuario y la RLS resuelve. Solo las ayudas de las pruebas E2E la usan, y nunca entran en
+  el bundle.
+
+`src/proxy.ts` se llamaba `middleware.ts` hasta Next 15; en la 16 cambió de nombre y de runtime.
 
 ---
 
