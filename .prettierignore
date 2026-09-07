@@ -1,0 +1,16 @@
+# Generado o de terceros: no se formatea.
+node_modules
+.next
+out
+build
+coverage
+playwright-report
+test-results
+pnpm-lock.yaml
+next-env.d.ts
+
+# Los tipos de la base los genera la CLI de Supabase; se regeneran, no se editan.
+src/tipos/database.types.ts
+
+# SQL y configuracion de Supabase tienen su propio estilo.
+supabase/

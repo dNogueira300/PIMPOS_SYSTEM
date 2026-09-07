@@ -13,13 +13,13 @@ Construido con Next.js y Supabase (Postgres + Auth + Storage + RLS).
 
 ## Requisitos
 
-| Herramienta    | Versión         | Comprobación                             |
-| -------------- | --------------- | ---------------------------------------- |
-| Node.js        | 24 LTS (22 LTS también sirve) | `node -v`                  |
-| pnpm           | 12.3.4          | `pnpm -v`                                |
-| Supabase CLI   | 2.116.0         | `pnpm dlx supabase@latest --version`     |
-| Docker Desktop | reciente        | `docker --version`                       |
-| Git            | cualquiera reciente | `git --version`                      |
+| Herramienta    | Versión                       | Comprobación                         |
+| -------------- | ----------------------------- | ------------------------------------ |
+| Node.js        | 24 LTS (22 LTS también sirve) | `node -v`                            |
+| pnpm           | 12.3.4                        | `pnpm -v`                            |
+| Supabase CLI   | 2.116.0                       | `pnpm dlx supabase@latest --version` |
+| Docker Desktop | reciente                      | `docker --version`                   |
+| Git            | cualquiera reciente           | `git --version`                      |
 
 pnpm se activa con **corepack**, nunca con `npm -g`:
 
@@ -45,6 +45,9 @@ cp .env.example .env.local     # en PowerShell: Copy-Item .env.example .env.loca
 supabase start                 # levanta Postgres, Auth y Storage en Docker
 supabase status                # imprime la API URL y las llaves locales
 supabase db reset              # reconstruye la base desde migraciones + semillas
+
+pnpm install                   # dependencias (activa los hooks de git via husky)
+pnpm dev                       # http://localhost:3000
 ```
 
 `supabase start` no toca el proyecto remoto: monta el entorno completo en contenedores, así que se
@@ -54,8 +57,31 @@ y que Docker Desktop esté corriendo.
 Los valores que imprime `supabase status` (API URL, `anon key`, `service_role key`) son los que van
 en `.env.local` para desarrollo local. Las llaves del proyecto de producción no se copian aquí.
 
-El proyecto Next.js (`pnpm install`, `pnpm dev`) llega en la **Fase 1**; hoy el repositorio solo
-contiene configuración y la base de datos.
+### Scripts
+
+| Script                | Qué hace                                                       |
+| --------------------- | -------------------------------------------------------------- |
+| `pnpm dev`            | Servidor de desarrollo                                         |
+| `pnpm build`          | Build de producción                                            |
+| `pnpm typecheck`      | `next typegen` + `tsc --noEmit`                                |
+| `pnpm lint`           | ESLint (`lint:fix` corrige lo que puede)                       |
+| `pnpm format`         | Prettier sobre todo el repo (`format:check` solo comprueba)    |
+| `pnpm test`           | Vitest: lógica de negocio pura (`test:watch` en modo continuo) |
+| `pnpm test:e2e`       | Playwright: flujos completos, a 375 px y escritorio            |
+| `pnpm supabase:tipos` | Regenera `src/tipos/database.types.ts` desde la base local     |
+
+El hook `pre-commit` (husky) corre `typecheck` y `lint-staged` antes de cada commit: un commit que
+no compila no entra.
+
+### Dos versiones que no son las del plan, y por qué
+
+- **TypeScript 5.9.3, no 7.** `typescript-eslint` (lo que usa `eslint-config-next/typescript`)
+  declara `typescript <6.1`. Es exactamente el caso previsto en el documento de stack: se fija la
+  5.9 en `devDependencies` hasta que el ecosistema alcance a la 7. No afecta al código.
+- **ESLint 9.39.5, no 10.** `eslint-plugin-react` llega hasta `^9.7`; con la 10 revienta al
+  cargar reglas (`context.getFilename` ya no existe). `create-next-app` fija `^9` por lo mismo.
+
+Cuando alguna de las dos se destrabe, se sube en un PR propio y se borra esta nota.
 
 ---
 
@@ -111,9 +137,37 @@ además que el hook del JWT está registrado en el panel.
 
 Las pruebas de RLS son parte de la definición de "hecho" para todo lo que toque la base.
 
-**Vitest** (lógica de negocio: unidades, stock, precios) y **Playwright** (flujos críticos de
-usuario) se incorporan en la **Fase 1**, junto con el proyecto Next.js. A partir de esa fase estarán
-disponibles los scripts `pnpm typecheck`, `pnpm lint` y `pnpm test`; hoy todavía no existen.
+**Vitest** (`pnpm test`) cubre la lógica de negocio pura: conversión de unidades, cálculo de
+saldos, formato de moneda, enlaces `wa.me`, slugs. Las pruebas viven junto al código, como
+`src/lib/utilidades/slug.test.ts`.
+
+**Playwright** (`pnpm test:e2e`) cubre los flujos críticos de usuario, en `e2e/`. Corre Chromium en
+dos tamaños: móvil a 375 px (el panel se usa desde el celular en campo) y escritorio. Levanta
+`pnpm dev` por su cuenta; solo hace falta `pnpm exec playwright install chromium` la primera vez.
+
+---
+
+## Usuarios
+
+Los usuarios **no se crean por migración**: `auth.users` es de GoTrue, su esquema cambia entre
+versiones, y las contraseñas iniciales quedarían en el historial de Git para siempre.
+
+1. En el panel de Supabase, _Authentication → Users → Add user_: correo y contraseña. Marcar
+   **Auto Confirm User**, o la cuenta no podrá iniciar sesión hasta confirmar por correo.
+2. El trigger de la migración `0005` crea la fila en `perfiles` automáticamente, **inactiva**. Es
+   deliberado: el rol por defecto sería `repartidor`, que lee la tabla `clientes` con direcciones y
+   fotos de domicilios; nadie accede a datos personales porque quien creó la cuenta se distrajo.
+3. Asignar el rol y activar desde el **SQL Editor**, por correo, sin copiar UUID:
+
+   ```sql
+   update public.perfiles p
+      set rol = 'ingeniero', nombre_completo = 'Marcos', activo = true
+     from auth.users u
+    where u.id = p.id and u.email = 'correo@ejemplo.com';
+   ```
+
+Roles válidos: `superadmin`, `administrador`, `ingeniero`, `repartidor`. El modal del panel no
+tiene campo de metadatos; cuando exista el panel de usuarios (Fase 4) hará esto en un solo paso.
 
 ---
 
@@ -122,7 +176,7 @@ disponibles los scripts `pnpm typecheck`, `pnpm lint` y `pnpm test`; hoy todaví
 - **Vercel** conectado al repositorio `dNogueira300/PIMPOS_SYSTEM`. El framework se detecta como
   Next.js y el gestor de paquetes es pnpm.
 - **Vistas previas automáticas por PR**: cada pull request genera su propia URL. Esa URL tiene que
-  estar en las *Redirect URLs* de Supabase Auth para que el inicio de sesión funcione en la vista previa.
+  estar en las _Redirect URLs_ de Supabase Auth para que el inicio de sesión funcione en la vista previa.
 - Las **variables de entorno** se cargan en los tres entornos de Vercel: Production, Preview y
   Development. Son las mismas que están en `.env.example`.
 - `main` está protegida: exige PR y que el CI pase antes de fusionar.
@@ -141,7 +195,7 @@ resultado como **artefacto retenido 90 días**.
 Para restaurar:
 
 1. En GitHub → pestaña **Actions** → workflow `backup-supabase` → abrir la ejecución deseada y
-   descargar el artefacto desde la sección *Artifacts*. Descomprimirlo para obtener el `.sql`.
+   descargar el artefacto desde la sección _Artifacts_. Descomprimirlo para obtener el `.sql`.
 2. Levantar la instancia local y averiguar la cadena de conexión:
 
    ```bash
@@ -165,10 +219,10 @@ Para restaurar:
 
 ## Estado del proyecto
 
-| Fase | Nombre                      | Estado      |
-| ---- | --------------------------- | ----------- |
-| F0   | Preparación de servicios    | ✅ Cerrada  |
-| F1   | Fundación técnica           | 🔄 En curso |
+| Fase | Nombre                      | Estado       |
+| ---- | --------------------------- | ------------ |
+| F0   | Preparación de servicios    | ✅ Cerrada   |
+| F1   | Fundación técnica           | 🔄 En curso  |
 | F2   | Backend de datos            | ⬜ Pendiente |
 | F3   | Sitio público (Módulo 1)    | ⬜ Pendiente |
 | F4   | Panel: contenido (Módulo 2) | ⬜ Pendiente |
@@ -186,13 +240,13 @@ Para restaurar:
 Los planes de desarrollo **no viven en este repositorio**: están en la carpeta `DOC/` del proyecto,
 fuera del control de versiones del código.
 
-| Documento                                          | Cuándo se lee                                          |
-| -------------------------------------------------- | ------------------------------------------------------ |
-| `Plan de Desarrollo 00 - General y Fases`          | Al planificar la semana: orden de fases y convenciones |
-| `Plan de Desarrollo 01 - Preparacion y Servicios`  | Fase 0: Supabase, GitHub, entorno, dominio             |
-| `Plan de Desarrollo 02 - Backend y Base de Datos`  | Esquema, RLS, migraciones y semillas                   |
-| `Plan de Desarrollo 03 - Frontend`                 | Diseño, sitio público y panel                          |
-| `Stack Tecnologico - PIMPOS`                       | Versiones exactas de librerías y por qué cada una      |
+| Documento                                         | Cuándo se lee                                          |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| `Plan de Desarrollo 00 - General y Fases`         | Al planificar la semana: orden de fases y convenciones |
+| `Plan de Desarrollo 01 - Preparacion y Servicios` | Fase 0: Supabase, GitHub, entorno, dominio             |
+| `Plan de Desarrollo 02 - Backend y Base de Datos` | Esquema, RLS, migraciones y semillas                   |
+| `Plan de Desarrollo 03 - Frontend`                | Diseño, sitio público y panel                          |
+| `Stack Tecnologico - PIMPOS`                      | Versiones exactas de librerías y por qué cada una      |
 
 Dentro del repositorio, `docs/` queda reservado para decisiones de arquitectura (ADR) y el manual de
 usuario.

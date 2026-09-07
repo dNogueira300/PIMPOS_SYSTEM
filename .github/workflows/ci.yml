@@ -117,6 +117,29 @@ jobs:
         if: steps.deteccion_app.outputs.hay_app == 'true'
         run: pnpm lint
 
+      - name: Comprobar el formato
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm format:check
+
       - name: Ejecutar las pruebas de la aplicación
         if: steps.deteccion_app.outputs.hay_app == 'true'
         run: pnpm test
+
+      # Playwright levanta `pnpm dev` por su cuenta (webServer en
+      # playwright.config.ts). Solo Chromium: la configuración corre el mismo
+      # navegador a 375 px y a escritorio.
+      - name: Instalar Chromium para Playwright
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Ejecutar las pruebas de punta a punta
+        if: steps.deteccion_app.outputs.hay_app == 'true'
+        run: pnpm test:e2e
+
+      - name: Guardar el informe de Playwright si algo falló
+        if: steps.deteccion_app.outputs.hay_app == 'true' && failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-playwright
+          path: playwright-report/
+          retention-days: 7
