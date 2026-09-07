@@ -57,12 +57,14 @@
   --radius: 0.875rem; /* 14 px: esquina generosa, acompana el tono calido */
   --ancho-contenido: 75rem; /* 1200 px */
 
-  /* Tipografia. Provisional a proposito: Fraunces + Inter (o Bitter + Source
-     Sans 3) se cargan con next/font/local cuando el propietario valide la
-     eleccion sobre una maqueta real de la portada (doc 03 §3.2). Cambiarlas
-     es tocar estas dos lineas. */
-  --pimpos-fuente-titulo: ui-serif, Georgia, "Times New Roman", serif;
-  --pimpos-fuente-texto: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Tipografia: Fraunces para titulos e Inter para texto, elegidas por el
+     propietario sobre una maqueta real de la portada (doc 03 §3.2).
+     `--fuente-titulo` y `--fuente-texto` las publica next/font desde
+     src/estilos/fuentes.ts, con su propia familia de reserva ya incluida.
+     El segundo valor de cada var() cubre el caso de que esas clases no esten
+     puestas -- por ejemplo en un fragmento renderizado fuera del layout. */
+  --pimpos-fuente-titulo: var(--fuente-titulo, Georgia, "Times New Roman", serif);
+  --pimpos-fuente-texto: var(--fuente-texto, system-ui, "Segoe UI", Roboto, sans-serif);
 }
 
 /* =============================================================================

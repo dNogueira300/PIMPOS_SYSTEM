@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 
+import { clasesDeFuentes } from "@/estilos/fuentes";
+
 import "@/estilos/globals.css";
 
-// Sin tipografia todavia, a proposito. shadcn intento cargar Geist desde
-// Google Fonts y el plan lo prohibe (doc 03 §3.2): las fuentes van con
-// next/font/local, sin mandar la IP de cada visitante a un tercero. Fraunces e
-// Inter entran con el sistema de diseno, en su propio PR.
 export const metadata: Metadata = {
   title: {
     default: "Panadería Pimpo's",
@@ -16,8 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Las clases de `next/font` publican `--fuente-titulo` y `--fuente-texto`,
+  // que es lo que consume la capa de primitivos de globals.css.
   return (
-    <html lang="es-PE">
+    <html lang="es-PE" className={clasesDeFuentes}>
       <body>{children}</body>
     </html>
   );
