@@ -18,13 +18,22 @@ jobs:
     name: Ping a la API REST
     runs-on: ubuntu-latest
     steps:
-      # Se consulta la raíz de la API REST, que responde 200 aunque todavía no
-      # exista ninguna tabla y, a diferencia de /auth/v1/health, sí toca la base
-      # de datos — que es lo que cuenta como actividad frente a la pausa.
+      # Se consulta `roles` con la llave anon. Tres motivos:
       #
-      # Cuando exista la tabla `configuracion_sitio` (migración 0005 de la Fase 2)
-      # se puede cambiar por una consulta real, más representativa:
-      #   "${URL%/}/rest/v1/configuracion_sitio?select=clave&limit=1"
+      #  - NO se usa la raíz /rest/v1/: en el proyecto alojado devuelve el
+      #    esquema OpenAPI completo y está restringida a la service_role
+      #    ("Only the `service_role` API key can be used for this endpoint").
+      #    Meter esa llave aquí seria poner un pase que salta toda la RLS
+      #    dentro de un ping.
+      #  - NO se usa /auth/v1/health: no toca la base, y lo que cuenta como
+      #    actividad frente a la pausa por inactividad es consultar Postgres.
+      #  - `roles` existe desde la migración 0003 y es un catálogo estable.
+      #    anon no tiene política de lectura sobre ella, así que la respuesta
+      #    es `[]` con 200 — pero PostgREST igual consulta la base para
+      #    aplicar la RLS, que es justo lo que necesitamos.
+      #
+      # Cuando exista `configuracion_sitio` (migración 0005) se puede cambiar
+      # por su grupo público, que además devolvería filas de verdad.
       - name: Consultar la API para evitar la pausa por inactividad
         env:
           URL: ${{ secrets.SUPABASE_URL }}
@@ -37,7 +46,7 @@ jobs:
           # no contiene secretos, y GitHub enmascara igual los valores.
           respuesta=$(curl --silent --show-error \
             --write-out '\n%{http_code}' \
-            "${URL%/}/rest/v1/" \
+            "${URL%/}/rest/v1/roles?select=codigo&limit=1" \
             -H "apikey: ${LLAVE}")
 
           codigo=$(printf '%s' "$respuesta" | tail -n1)
@@ -45,7 +54,8 @@ jobs:
 
           echo "Codigo HTTP: $codigo"
 
-          if [ "$codigo" = "200" ]; then
+          case "$codigo" in 2*) exito=1 ;; *) exito=0 ;; esac
+          if [ "$exito" = "1" ]; then
             echo "La API REST respondio correctamente. El proyecto sigue activo."
             exit 0
           fi
@@ -64,8 +74,11 @@ jobs:
               echo "     va la publishable (sb_publishable_...)."
               ;;
             404)
-              echo "URL no encontrada. SUPABASE_URL debe ser https://<ref>.supabase.co,"
-              echo "sin barra final y sin /rest/v1 (el workflow ya lo anade)."
+              echo "No encontrado. Puede ser la URL o la tabla:"
+              echo "  - SUPABASE_URL debe ser https://<ref>.supabase.co, sin barra"
+              echo "    final y sin /rest/v1 (el workflow ya lo anade)."
+              echo "  - La tabla public.roles debe existir en el proyecto remoto."
+              echo "    Si aun no aplicaste las migraciones: supabase db push."
               ;;
             000)
               echo "No hubo respuesta. Revisa que SUPABASE_URL incluya https://."
