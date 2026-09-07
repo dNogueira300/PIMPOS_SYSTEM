@@ -81,12 +81,30 @@ if [ -z "${PIMPOS_CORREO:-}" ] || [ -z "${PIMPOS_CLAVE:-}" ]; then
   aviso "omitido: exporta PIMPOS_CORREO y PIMPOS_CLAVE de un usuario real"
   aviso "para comprobar que el hook del panel inyecta el claim de verdad"
 else
-  tok=$(curl -s -X POST "$URL/auth/v1/token?grant_type=password" \
+  # Se guarda la respuesta entera, no solo el token: si el login falla, el unico
+  # dato util es el mensaje del servidor. Decir "no se pudo iniciar sesion" y
+  # tirar el cuerpo obliga a repetir la peticion a mano para averiguar por que.
+  respuesta=$(curl -s -X POST "$URL/auth/v1/token?grant_type=password" \
     -H "apikey: $SUPABASE_ANON_KEY" -H "Content-Type: application/json" \
-    -d "{\"email\":\"$PIMPOS_CORREO\",\"password\":\"$PIMPOS_CLAVE\"}" |
+    -d "{\"email\":\"$PIMPOS_CORREO\",\"password\":\"$PIMPOS_CLAVE\"}")
+  tok=$(printf '%s' "$respuesta" |
     python -c "import sys,json; print(json.load(sys.stdin).get('access_token',''))" 2>/dev/null)
+
   if [ -z "$tok" ]; then
-    fail "no se pudo iniciar sesion con ese usuario"
+    codigo=$(printf '%s' "$respuesta" |
+      python -c "import sys,json; print(json.load(sys.stdin).get('error_code',''))" 2>/dev/null)
+    fail "no se pudo iniciar sesion: $(printf '%s' "$respuesta" | head -c 200)"
+    case "$codigo" in
+      email_not_confirmed)
+        echo "          El usuario existe pero no ha confirmado su correo. En el panel:"
+        echo "          Authentication -> Users -> menu del usuario -> Confirm email."
+        echo "          (Al crearlo, marcar 'Auto Confirm User' lo evita.)" ;;
+      invalid_credentials)
+        echo "          Correo o contrasena incorrectos. Ojo con PIMPOS_CLAVE si"
+        echo "          lleva caracteres que la shell interpreta: usa comillas simples." ;;
+      email_provider_disabled)
+        echo "          El proveedor Email esta apagado en el panel." ;;
+    esac
   else
     rol=$(python - "$tok" <<'PY'
 import sys, json, base64
