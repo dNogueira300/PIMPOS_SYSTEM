@@ -93,7 +93,8 @@ supabase gen types typescript --local > src/tipos/database.types.ts
 
 ```bash
 supabase test db                  # pruebas pgTAP sobre las políticas RLS
-bash scripts/verificar-fase0.sh   # verificación funcional de la Fase 0
+bash scripts/verificar-fase0.sh   # verificación funcional contra el Docker local
+bash scripts/verificar-produccion.sh   # verificación de solo lectura contra el proyecto alojado
 ```
 
 `scripts/verificar-fase0.sh` cubre las comprobaciones de cierre que se pueden probar en local
@@ -101,6 +102,12 @@ bash scripts/verificar-fase0.sh   # verificación funcional de la Fase 0
 cerrado **sin haber apagado el proveedor de correo**, que el rol viaja dentro del JWT y que el
 bucket `clientes` es realmente privado. Crea y borra sus propios datos de prueba. Las otras cuatro
 comprobaciones (keep-alive, CI, backup remoto y dominio) se verifican en GitHub.
+
+`scripts/verificar-produccion.sh` repite las que solo significan algo contra el proyecto alojado, y
+no escribe nada. Hace falta porque **el entorno local miente en un punto concreto**: no valida la
+apikey en `/rest/v1/`, así que devuelve 200 con cualquier llave. Necesita `SUPABASE_URL` y
+`SUPABASE_ANON_KEY` exportadas; con `PIMPOS_CORREO` y `PIMPOS_CLAVE` de un usuario real comprueba
+además que el hook del JWT está registrado en el panel.
 
 Las pruebas de RLS son parte de la definición de "hecho" para todo lo que toque la base.
 
@@ -160,8 +167,8 @@ Para restaurar:
 
 | Fase | Nombre                      | Estado      |
 | ---- | --------------------------- | ----------- |
-| F0   | Preparación de servicios    | 🔄 En curso |
-| F1   | Fundación técnica           | ⬜ Pendiente |
+| F0   | Preparación de servicios    | ✅ Cerrada  |
+| F1   | Fundación técnica           | 🔄 En curso |
 | F2   | Backend de datos            | ⬜ Pendiente |
 | F3   | Sitio público (Módulo 1)    | ⬜ Pendiente |
 | F4   | Panel: contenido (Módulo 2) | ⬜ Pendiente |
@@ -169,8 +176,8 @@ Para restaurar:
 | F6   | Panel: clientes (Módulo 4)  | ⬜ Pendiente |
 | F7   | Cierre                      | ⬜ Pendiente |
 
-> Mientras la Fase 0 no esté cerrada, el repositorio se queda con documentación y configuración:
-> **no se escribe código de aplicación**. El esquema, la RLS y los buckets condicionan la forma del código.
+> La Fase 0 se cerró el 06/09/2026: Supabase local y de producción operativos, esquema base migrado,
+> hook del JWT registrado, CI en verde y keep-alive respondiendo contra producción.
 
 ---
 
