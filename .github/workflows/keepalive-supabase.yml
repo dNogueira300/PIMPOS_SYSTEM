@@ -1,5 +1,6 @@
 # Evita que Supabase pause el proyecto por inactividad (límite de 7 días en el
-# plan gratuito). Si el proyecto se pausa, pg_cron deja de ejecutarse.
+# plan gratuito). Si el proyecto se pausa, pg_cron deja de ejecutarse y con él
+# las alertas de stock (R12) y el despublicado de novedades vencidas (R7).
 name: Keep-alive de Supabase
 
 on:
@@ -17,15 +18,57 @@ jobs:
     name: Ping a la API REST
     runs-on: ubuntu-latest
     steps:
-      # Se consulta la raíz de la API REST (/rest/v1/), que siempre responde 200
-      # aunque todavía no exista ninguna tabla.
+      # Se consulta la raíz de la API REST, que responde 200 aunque todavía no
+      # exista ninguna tabla y, a diferencia de /auth/v1/health, sí toca la base
+      # de datos — que es lo que cuenta como actividad frente a la pausa.
+      #
       # Cuando exista la tabla `configuracion_sitio` (migración 0005 de la Fase 2)
-      # se puede cambiar la URL por una consulta real, más representativa:
-      #   "${{ secrets.SUPABASE_URL }}/rest/v1/configuracion_sitio?select=clave&limit=1"
+      # se puede cambiar por una consulta real, más representativa:
+      #   "${URL%/}/rest/v1/configuracion_sitio?select=clave&limit=1"
       - name: Consultar la API para evitar la pausa por inactividad
+        env:
+          URL: ${{ secrets.SUPABASE_URL }}
+          LLAVE: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl --fail --silent --show-error \
-            "${{ secrets.SUPABASE_URL }}/rest/v1/" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -o /dev/null
-          echo "La API REST respondió correctamente."
+          # Deliberadamente SIN --fail: hace falta el cuerpo de la respuesta.
+          # Cuando Supabase rechaza una llave contesta 401 con un mensaje que
+          # explica por qué, y ese mensaje es lo único que distingue "llave
+          # equivocada" de "llave legacy desactivada en el proyecto". El cuerpo
+          # no contiene secretos, y GitHub enmascara igual los valores.
+          respuesta=$(curl --silent --show-error \
+            --write-out '\n%{http_code}' \
+            "${URL%/}/rest/v1/" \
+            -H "apikey: ${LLAVE}")
+
+          codigo=$(printf '%s' "$respuesta" | tail -n1)
+          cuerpo=$(printf '%s' "$respuesta" | sed '$d')
+
+          echo "Codigo HTTP: $codigo"
+
+          if [ "$codigo" = "200" ]; then
+            echo "La API REST respondio correctamente. El proyecto sigue activo."
+            exit 0
+          fi
+
+          echo "Respuesta de Supabase:"
+          echo "$cuerpo"
+          echo
+
+          case "$codigo" in
+            401)
+              echo "La llave fue rechazada. Comprueba, en este orden:"
+              echo "  1. Que SUPABASE_ANON_KEY sea la del proyecto correcto."
+              echo "  2. Que no arrastre comillas, espacios ni un salto de linea final."
+              echo "  3. Si el proyecto es reciente: que no sea una llave legacy"
+              echo "     (eyJ...) con el sistema legacy desactivado. En ese caso"
+              echo "     va la publishable (sb_publishable_...)."
+              ;;
+            404)
+              echo "URL no encontrada. SUPABASE_URL debe ser https://<ref>.supabase.co,"
+              echo "sin barra final y sin /rest/v1 (el workflow ya lo anade)."
+              ;;
+            000)
+              echo "No hubo respuesta. Revisa que SUPABASE_URL incluya https://."
+              ;;
+          esac
+          exit 1
