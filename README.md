@@ -220,10 +220,20 @@ pnpm test src/estilos/paleta.test.ts
 
 La voz, el tono y las reglas de uso de marca están en [`docs/marca.md`](docs/marca.md).
 
-**Tipografía provisional.** Se usa la pila del sistema hasta que el propietario valide Fraunces +
-Inter o Bitter + Source Sans 3 sobre una maqueta real (doc 03 §3.2). Cambiarla son las dos líneas
-`--pimpos-fuente-titulo` y `--pimpos-fuente-texto`. Cuando se decida, las fuentes se cargan con
-`next/font/local` — nunca desde Google, para no enviar la IP de cada visitante a un tercero.
+### Tipografía
+
+**Fraunces** para títulos e **Inter** para texto, elegidas por el propietario sobre una maqueta real
+de la portada (doc 03 §3.2). Se definen en `src/estilos/fuentes.ts` y se sirven con
+`next/font/local` desde `src/estilos/fuentes/` — nunca desde Google: así no se envía la IP de cada
+visitante a un tercero y se ahorra la conexión a `fonts.gstatic.com`, que retrasa el primer render.
+
+Ambas son variables y solo del subconjunto **latin**, que cubre todo el español. Un archivo por
+familia sirve todo el rango 300–700; entre las dos suman unos 115 KB. Licencias y procedimiento de
+actualización en [`src/estilos/fuentes/LICENCIA.md`](src/estilos/fuentes/LICENCIA.md).
+
+Los `export` se llaman `fraunces` e `inter`, en inglés y saltándose la convención del proyecto,
+porque `next/font` usa el nombre de la variable como nombre de la familia CSS: con `fuenteTitulo`,
+las devtools mostraban `font-family: fuenteTitulo`, que no dice qué letra es.
 
 ---
 
