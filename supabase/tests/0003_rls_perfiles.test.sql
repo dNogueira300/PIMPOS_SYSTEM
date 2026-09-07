@@ -17,12 +17,19 @@ insert into auth.users (id, email, created_at, updated_at) values
   ('44444444-4444-4444-4444-444444444444', 'reparto@pimpos.test',now(), now()),
   ('55555555-5555-5555-5555-555555555555', 'baja@pimpos.test',   now(), now());
 
+-- Desde la migracion 0005, el alta en auth.users ya crea el perfil por trigger
+-- (inactivo, porque estos usuarios se insertan sin metadatos). Aqui se ajusta
+-- al rol y al estado que necesita cada caso de prueba.
 insert into public.perfiles (id, rol, nombre_completo, activo) values
   ('11111111-1111-1111-1111-111111111111', 'superadmin',    'Organda Sifuentes', true),
   ('22222222-2222-2222-2222-222222222222', 'administrador', 'Administradora',    true),
   ('33333333-3333-3333-3333-333333333333', 'ingeniero',     'Marcos',            true),
   ('44444444-4444-4444-4444-444444444444', 'repartidor',    'Repartidor 1',      true),
-  ('55555555-5555-5555-5555-555555555555', 'ingeniero',     'Debra (de baja)',   false);
+  ('55555555-5555-5555-5555-555555555555', 'ingeniero',     'Debra (de baja)',   false)
+on conflict (id) do update
+  set rol             = excluded.rol,
+      nombre_completo = excluded.nombre_completo,
+      activo          = excluded.activo;
 
 -- Las aserciones de visibilidad se acotan a estos ids. Contar la tabla entera
 -- haria que la prueba dependiera de que la base este vacia, y entonces fallaria
