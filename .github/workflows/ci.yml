@@ -61,6 +61,11 @@ jobs:
       - name: Verificar el cierre de la Fase 0
         run: bash scripts/verificar-fase0.sh
 
+      # Las politicas de Storage no se pueden probar con pgTAP: quien decide si
+      # un archivo sale es la API de Storage, no una consulta SQL.
+      - name: Verificar las políticas de Storage
+        run: bash scripts/verificar-storage.sh
+
       - name: Apagar Supabase
         if: always()
         run: supabase stop --no-backup
