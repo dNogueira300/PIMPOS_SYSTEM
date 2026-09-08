@@ -19,6 +19,12 @@ function hostDeSupabase(): URL | null {
 
 const supabase = hostDeSupabase();
 
+/** Si el proyecto de Supabase corre en esta maquina (Docker de desarrollo). */
+function esLocal(url: URL | null): boolean {
+  if (!url) return false;
+  return ["127.0.0.1", "localhost", "::1", "0.0.0.0"].includes(url.hostname);
+}
+
 const nextConfig: NextConfig = {
   /**
    * Cache Components (Next 16). Es lo que hace posible el modelo que pide el
@@ -39,6 +45,18 @@ const nextConfig: NextConfig = {
   images: {
     // AVIF primero: pesa menos que WebP y el movil es prioritario (R6).
     formats: ["image/avif", "image/webp"],
+
+    /**
+     * Next 16 bloquea optimizar imagenes alojadas en una IP privada, y hace
+     * bien: es una defensa contra SSRF. Pero el Supabase de desarrollo vive en
+     * 127.0.0.1, asi que en un build local las fotos del catalogo y de la
+     * galeria no se ven -- solo salia el aviso en el registro del servidor.
+     *
+     * Se levanta la restriccion SOLO cuando el destino es local. En produccion
+     * el host es publico, la condicion no se cumple y la proteccion sigue en
+     * pie: no hay forma de que este `true` viaje al despliegue por descuido.
+     */
+    dangerouslyAllowLocalIP: esLocal(supabase),
     remotePatterns: supabase
       ? [
           {

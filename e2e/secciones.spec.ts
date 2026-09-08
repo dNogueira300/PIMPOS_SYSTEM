@@ -72,6 +72,18 @@ test("la galeria muestra las fotos reales del local", async ({ page }) => {
   for (const foto of await fotos.all()) {
     expect(await foto.getAttribute("alt")).toBeTruthy();
   }
+
+  // Y se cargan de verdad. Que el `<img>` este en el DOM no prueba nada: Next
+  // 16 bloquea por seguridad las imagenes alojadas en una IP privada, y en un
+  // build local eso dejaba la galeria entera en blanco sin que ninguna prueba
+  // se enterara. `naturalWidth` solo es mayor que cero si el navegador
+  // decodifico el archivo.
+  const primera = fotos.first();
+  await expect(primera).toBeVisible();
+  await primera.evaluate(async (img: HTMLImageElement) => {
+    if (!img.complete) await img.decode();
+  });
+  expect(await primera.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
 });
 
 test("las preguntas frecuentes se abren y se cierran", async ({ page }) => {
