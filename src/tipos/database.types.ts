@@ -118,6 +118,122 @@ export type Database = {
         }
         Relationships: []
       }
+      cliente_fotos: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          created_by: string | null
+          descripcion: string | null
+          id: string
+          orden: number
+          ruta: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          id?: string
+          orden: number
+          ruta: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          created_by?: string | null
+          descripcion?: string | null
+          id?: string
+          orden?: number
+          ruta?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cliente_fotos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cliente_fotos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_con_consentimiento"
+            referencedColumns: ["cliente_id"]
+          },
+        ]
+      }
+      clientes: {
+        Row: {
+          activo: boolean
+          celular: string
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          direccion: string
+          es_demo: boolean
+          id: string
+          latitud: number | null
+          longitud: number | null
+          nombre_completo: string
+          observacion: string | null
+          referencia: string | null
+          updated_at: string
+          updated_by: string | null
+          zona_id: string | null
+        }
+        Insert: {
+          activo?: boolean
+          celular: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          direccion: string
+          es_demo?: boolean
+          id?: string
+          latitud?: number | null
+          longitud?: number | null
+          nombre_completo: string
+          observacion?: string | null
+          referencia?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          zona_id?: string | null
+        }
+        Update: {
+          activo?: boolean
+          celular?: string
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          direccion?: string
+          es_demo?: boolean
+          id?: string
+          latitud?: number | null
+          longitud?: number | null
+          nombre_completo?: string
+          observacion?: string | null
+          referencia?: string | null
+          updated_at?: string
+          updated_by?: string | null
+          zona_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clientes_zona_id_fkey"
+            columns: ["zona_id"]
+            isOneToOne: false
+            referencedRelation: "zonas_reparto"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       configuracion_sitio: {
         Row: {
           clave: string
@@ -150,6 +266,60 @@ export type Database = {
           valor?: Json
         }
         Relationships: []
+      }
+      consentimientos: {
+        Row: {
+          cliente_id: string
+          created_at: string
+          id: string
+          modo: string
+          observacion: string | null
+          otorgado_en: string
+          registrado_por: string
+          revocado_en: string | null
+          revocado_por: string | null
+          texto_version: string
+        }
+        Insert: {
+          cliente_id: string
+          created_at?: string
+          id?: string
+          modo?: string
+          observacion?: string | null
+          otorgado_en?: string
+          registrado_por: string
+          revocado_en?: string | null
+          revocado_por?: string | null
+          texto_version: string
+        }
+        Update: {
+          cliente_id?: string
+          created_at?: string
+          id?: string
+          modo?: string
+          observacion?: string | null
+          otorgado_en?: string
+          registrado_por?: string
+          revocado_en?: string | null
+          revocado_por?: string | null
+          texto_version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consentimientos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "consentimientos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_con_consentimiento"
+            referencedColumns: ["cliente_id"]
+          },
+        ]
       }
       equivalencias: {
         Row: {
@@ -1184,6 +1354,45 @@ export type Database = {
         }
         Relationships: []
       }
+      zonas_reparto: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          descripcion: string | null
+          id: string
+          nombre: string
+          orden: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          id?: string
+          nombre: string
+          orden?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          id?: string
+          nombre?: string
+          orden?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       auditoria: {
@@ -1199,6 +1408,27 @@ export type Database = {
           usuario_correo: string | null
           usuario_id: string | null
           usuario_nombre: string | null
+        }
+        Relationships: []
+      }
+      clientes_con_consentimiento: {
+        Row: {
+          cliente_id: string | null
+          nombre_completo: string | null
+          otorgado_en: string | null
+          tiene_consentimiento: boolean | null
+        }
+        Insert: {
+          cliente_id?: string | null
+          nombre_completo?: string | null
+          otorgado_en?: never
+          tiene_consentimiento?: never
+        }
+        Update: {
+          cliente_id?: string | null
+          nombre_completo?: string | null
+          otorgado_en?: never
+          tiene_consentimiento?: never
         }
         Relationships: []
       }
