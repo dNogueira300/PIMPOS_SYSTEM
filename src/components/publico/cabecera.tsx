@@ -73,7 +73,7 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-cta text-cta-foreground hover:bg-cta-foreground hover:text-cta focus-visible:outline-primary-foreground min-h-tactil ml-auto hidden items-center rounded-md px-4 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 sm:flex lg:ml-4"
+            className="boton-cta boton-cta--sobre-azul ml-auto hidden px-4 text-sm sm:inline-flex lg:ml-4"
           >
             Pedir por WhatsApp
           </a>
@@ -131,7 +131,7 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-cta text-cta-foreground min-h-tactil mt-4 flex items-center justify-center rounded-md px-4 font-semibold sm:hidden"
+              className="boton-cta mt-4 flex px-4 sm:hidden"
             >
               Pedir por WhatsApp
             </a>

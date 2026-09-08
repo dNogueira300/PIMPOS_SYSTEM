@@ -3,12 +3,8 @@ import dynamic from "next/dynamic";
 import { ExternalLink } from "lucide-react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
-import {
-  DIAS,
-  describirTramos,
-  direccionCompleta,
-  obtenerConfiguracion,
-} from "@/lib/datos/configuracion";
+import { Horario } from "@/components/publico/horario";
+import { direccionCompleta, obtenerConfiguracion } from "@/lib/datos/configuracion";
 
 export const metadata: Metadata = {
   title: "Ubicación",
@@ -76,25 +72,9 @@ export default async function Ubicacion() {
 
           <section>
             <h2 className="font-heading text-2xl">Horario</h2>
-            <dl className="mt-3">
-              {DIAS.map((dia) => {
-                const tramos = config.horario_semanal[dia] ?? [];
-                return (
-                  <div
-                    key={dia}
-                    className="border-border/20 flex flex-col gap-0.5 border-b py-2 last:border-b-0 sm:flex-row sm:justify-between sm:gap-4"
-                  >
-                    <dt className="font-medium capitalize">{dia}</dt>
-                    <dd className={tramos.length === 0 ? "text-muted-foreground" : ""}>
-                      {describirTramos(tramos)}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-            {config.nota_horarios ? (
-              <p className="text-muted-foreground mt-4 text-sm">{config.nota_horarios}</p>
-            ) : null}
+            <div className="mt-3">
+              <Horario config={config} />
+            </div>
           </section>
         </div>
       </div>

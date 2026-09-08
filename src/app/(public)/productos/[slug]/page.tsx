@@ -68,7 +68,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
       </Link>
 
       <div className="mt-4 grid gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="bg-secondary relative aspect-[4/3] overflow-hidden rounded-xl">
+        <div className="acercarse bg-secondary relative aspect-[4/3] overflow-hidden rounded-xl">
           {producto.imagen ? (
             <Image
               src={producto.imagen}
@@ -86,7 +86,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
           )}
         </div>
 
-        <div className="flex flex-col">
+        <div className="aparece-lateral flex flex-col">
           <h1 className="font-heading text-4xl text-balance sm:text-5xl">{producto.nombre}</h1>
 
           {precio ? (
@@ -109,7 +109,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-cta text-cta-foreground focus-visible:outline-ring min-h-tactil mt-8 inline-flex w-fit items-center rounded-md px-6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="boton-cta mt-8 w-fit"
             >
               Pedir por WhatsApp
             </a>

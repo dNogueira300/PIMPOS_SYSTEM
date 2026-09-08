@@ -3,13 +3,8 @@ import Link from "next/link";
 import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
-import {
-  DIAS,
-  describirTramos,
-  direccionCompleta,
-  enlaceWhatsApp,
-  obtenerConfiguracion,
-} from "@/lib/datos/configuracion";
+import { Horario } from "@/components/publico/horario";
+import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -39,14 +34,14 @@ export default async function Contacto() {
       />
 
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div className="aparece-grupo grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div>
             {whatsapp ? (
               <a
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-cta text-cta-foreground focus-visible:outline-ring min-h-tactil flex w-fit items-center gap-2 rounded-md px-6 text-lg font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="boton-cta w-fit text-lg"
               >
                 <MessageCircle aria-hidden className="size-5" />
                 Escribir por WhatsApp
@@ -114,25 +109,9 @@ export default async function Contacto() {
               <Clock aria-hidden className="text-acento size-5" />
               Horario
             </h2>
-            <dl className="mt-4">
-              {DIAS.map((dia) => {
-                const tramos = config.horario_semanal[dia] ?? [];
-                return (
-                  <div
-                    key={dia}
-                    className="border-border/20 flex flex-col gap-0.5 border-b py-2 last:border-b-0 sm:flex-row sm:justify-between sm:gap-4"
-                  >
-                    <dt className="font-medium capitalize">{dia}</dt>
-                    <dd className={tramos.length === 0 ? "text-muted-foreground" : ""}>
-                      {describirTramos(tramos)}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-            {config.nota_horarios ? (
-              <p className="text-muted-foreground mt-4 text-sm">{config.nota_horarios}</p>
-            ) : null}
+            <div className="mt-4">
+              <Horario config={config} />
+            </div>
           </section>
         </div>
       </div>

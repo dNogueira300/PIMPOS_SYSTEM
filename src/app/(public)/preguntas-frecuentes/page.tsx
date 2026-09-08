@@ -34,7 +34,7 @@ export default async function PreguntasFrecuentes() {
         {faqs.length === 0 ? (
           <p className="text-muted-foreground">Todavía no hay preguntas publicadas.</p>
         ) : (
-          <ul className="border-border/30 border-t">
+          <ul className="aparece-grupo border-border/30 border-t">
             {faqs.map((faq) => (
               <li key={faq.id} className="border-border/30 border-b">
                 <details className="group">
@@ -57,7 +57,7 @@ export default async function PreguntasFrecuentes() {
         {guias.length > 0 ? (
           <section className="mt-16">
             <h2 className="font-heading text-3xl">Cómo hacerlo</h2>
-            <div className="mt-8 flex flex-col gap-10">
+            <div className="aparece-grupo mt-8 flex flex-col gap-10">
               {guias.map((guia) => (
                 <article key={guia.id}>
                   <h3 className="font-heading text-acento text-xl">{guia.titulo}</h3>

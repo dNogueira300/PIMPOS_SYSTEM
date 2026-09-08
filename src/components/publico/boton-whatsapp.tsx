@@ -15,7 +15,7 @@ export function BotonWhatsApp({ enlace }: { enlace: string | null }) {
       href={enlace}
       target="_blank"
       rel="noopener noreferrer"
-      className="bg-cta text-cta-foreground focus-visible:outline-ring min-h-tactil fixed right-4 bottom-4 z-30 flex items-center gap-2 rounded-full px-5 shadow-lg shadow-black/20 focus-visible:outline-2 focus-visible:outline-offset-2 sm:hidden"
+      className="boton-cta fixed right-4 bottom-4 z-30 rounded-full shadow-lg shadow-black/20 sm:hidden"
     >
       <MessageCircle aria-hidden className="size-5" />
       <span className="font-semibold">Pedir</span>

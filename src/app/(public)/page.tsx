@@ -1,17 +1,13 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin, Truck } from "lucide-react";
 
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
+import { Horario } from "@/components/publico/horario";
 import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
 import { listarDestacados } from "@/lib/datos/catalogo";
-import {
-  DIAS,
-  describirTramos,
-  direccionCompleta,
-  enlaceWhatsApp,
-  obtenerConfiguracion,
-} from "@/lib/datos/configuracion";
+import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import {
   listarGaleria,
   listarNovedades,
@@ -99,9 +95,9 @@ export default async function Inicio() {
       {/* 2. Franja de confianza. Tres datos verificables de la ficha, no
           promesas de marketing. */}
       <section aria-label="Por qué comprar aquí" className="bg-franja text-franja-foreground">
-        <ul className="mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
-          {HECHOS.map(({ icono: Icono, titulo, detalle }) => (
-            <li key={titulo} className="flex gap-3">
+        <ul className="aparece-grupo mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
+          {HECHOS.map(({ icono: Icono, titulo, detalle }, indice) => (
+            <li key={titulo} className="flex gap-3" style={{ "--i": indice } as CSSProperties}>
               <Icono aria-hidden className="mt-1 size-5 shrink-0" />
               <div>
                 <p className="font-heading text-lg">{titulo}</p>
@@ -114,7 +110,7 @@ export default async function Inicio() {
 
       {/* 3. Lo que vende, con su precio. */}
       <section className="mx-auto max-w-(--container-contenido) px-4 pt-16 sm:px-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="aparece flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2 className="font-heading text-3xl sm:text-4xl">Lo que horneamos hoy</h2>
             <p className="text-muted-foreground mt-2 max-w-prose text-pretty">
@@ -130,9 +126,11 @@ export default async function Inicio() {
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {destacados.map((producto) => (
-            <TarjetaProducto key={producto.id} producto={producto} />
+        <div className="aparece-grupo mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {destacados.map((producto, indice) => (
+            <div key={producto.id} style={{ "--i": indice % 4 } as CSSProperties}>
+              <TarjetaProducto producto={producto} />
+            </div>
           ))}
         </div>
       </section>
@@ -140,7 +138,7 @@ export default async function Inicio() {
       {/* 4. El delivery, que es el diferencial real del negocio (ficha 2.5) y
           por eso va con su propio bloque, no como nota al pie. */}
       <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
-        <div className="bg-primary text-primary-foreground rounded-xl px-6 py-12 sm:px-12">
+        <div className="aparece bg-primary text-primary-foreground rounded-xl px-6 py-12 sm:px-12">
           <div className="max-w-2xl">
             <h2 className="font-heading text-3xl text-balance sm:text-4xl">
               Te lo llevamos a tu casa
@@ -154,7 +152,7 @@ export default async function Inicio() {
                 href={whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-cta text-cta-foreground focus-visible:outline-primary-foreground min-h-tactil mt-8 inline-flex items-center rounded-md px-6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="boton-cta boton-cta--sobre-azul mt-8"
               >
                 Pedir por WhatsApp
               </a>
@@ -168,7 +166,7 @@ export default async function Inicio() {
       {config.historia ? (
         <section className="mx-auto mt-20 grid max-w-(--container-contenido) gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           {fachada?.imagen ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+            <div className="acercarse relative aspect-[4/3] overflow-hidden rounded-xl">
               <Image
                 src={fachada.imagen}
                 alt={fachada.alt}
@@ -179,7 +177,7 @@ export default async function Inicio() {
             </div>
           ) : null}
 
-          <div>
+          <div className="aparece-lateral">
             <h2 className="font-heading text-3xl sm:text-4xl">Veintidós años en el barrio</h2>
             <p className="text-muted-foreground mt-4 max-w-prose text-pretty">
               {config.historia.split("\n\n")[0]}
@@ -200,9 +198,9 @@ export default async function Inicio() {
       {novedades.length > 0 ? (
         <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
           <h2 className="font-heading text-3xl sm:text-4xl">Novedades</h2>
-          <ul className="divide-border/30 border-border/30 mt-8 divide-y border-y">
-            {novedades.map((novedad) => (
-              <li key={novedad.id}>
+          <ul className="aparece-grupo divide-border/30 border-border/30 mt-8 divide-y border-y">
+            {novedades.map((novedad, indice) => (
+              <li key={novedad.id} style={{ "--i": indice } as CSSProperties}>
                 <Link
                   href={`/novedades/${novedad.slug}`}
                   className="group focus-visible:outline-ring flex flex-col gap-1 py-5 focus-visible:outline-2 focus-visible:outline-offset-2 sm:flex-row sm:items-baseline sm:gap-8"
@@ -224,10 +222,11 @@ export default async function Inicio() {
       {testimonios.length > 0 ? (
         <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
           <h2 className="font-heading text-3xl sm:text-4xl">Lo que dicen los vecinos</h2>
-          <ul className="mt-8 grid gap-6 md:grid-cols-3">
-            {testimonios.slice(0, 3).map((testimonio) => (
+          <ul className="aparece-grupo mt-8 grid gap-6 md:grid-cols-3">
+            {testimonios.slice(0, 3).map((testimonio, indice) => (
               <li
                 key={testimonio.id}
+                style={{ "--i": indice } as CSSProperties}
                 className="border-border/30 flex flex-col gap-4 border-t pt-5"
               >
                 <blockquote className="text-pretty">“{testimonio.texto}”</blockquote>
@@ -243,7 +242,7 @@ export default async function Inicio() {
 
       {/* 8. Dónde y cuándo. */}
       <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 pb-4 sm:px-6">
-        <div className="bg-card border-border/30 grid gap-8 rounded-xl border p-6 sm:p-10 lg:grid-cols-2">
+        <div className="aparece bg-card border-border/30 grid gap-8 rounded-xl border p-6 sm:p-10 lg:grid-cols-2">
           <div>
             <h2 className="font-heading text-3xl">Dónde estamos</h2>
             {direccion ? <p className="mt-3 text-lg text-pretty">{direccion}</p> : null}
@@ -261,22 +260,9 @@ export default async function Inicio() {
 
           <div>
             <h2 className="font-heading text-3xl">Horario</h2>
-            <dl className="mt-3 text-sm">
-              {DIAS.map((dia) => {
-                const tramos = config.horario_semanal[dia] ?? [];
-                return (
-                  <div key={dia} className="flex justify-between gap-4 py-1">
-                    <dt className="capitalize">{dia}</dt>
-                    <dd className={tramos.length === 0 ? "text-muted-foreground" : ""}>
-                      {describirTramos(tramos)}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-            {config.nota_horarios ? (
-              <p className="text-muted-foreground mt-3 text-sm">{config.nota_horarios}</p>
-            ) : null}
+            <div className="mt-3">
+              <Horario config={config} />
+            </div>
           </div>
         </div>
       </section>

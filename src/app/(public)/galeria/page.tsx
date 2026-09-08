@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
@@ -50,10 +51,14 @@ export default async function Galeria() {
               {/* Rejilla irregular: la primera foto de cada grupo ocupa el
                   doble. Una cuadricula perfecta de diez fotos iguales se lee
                   como catalogo de stock, no como el album de un negocio. */}
-              <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              <ul className="aparece-grupo mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {delGrupo.map((foto, indice) => (
-                  <li key={foto.id} className={indice === 0 ? "col-span-2 row-span-2" : undefined}>
-                    <figure className="relative aspect-square h-full w-full overflow-hidden rounded-lg">
+                  <li
+                    key={foto.id}
+                    style={{ "--i": indice % 4 } as CSSProperties}
+                    className={indice === 0 ? "col-span-2 row-span-2" : undefined}
+                  >
+                    <figure className="group relative aspect-square h-full w-full overflow-hidden rounded-lg">
                       {foto.imagen ? (
                         <Image
                           src={foto.imagen}
@@ -64,7 +69,7 @@ export default async function Galeria() {
                               ? "(max-width: 640px) 100vw, 50vw"
                               : "(max-width: 640px) 50vw, 25vw"
                           }
-                          className="object-cover"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       ) : null}
                     </figure>

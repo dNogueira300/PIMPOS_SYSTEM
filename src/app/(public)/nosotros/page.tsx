@@ -25,7 +25,7 @@ export default async function Nosotros() {
 
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
-          <div className="flex flex-col gap-4">
+          <div className="aparece-grupo flex flex-col gap-4">
             {parrafos.map((parrafo) => (
               <p key={parrafo.slice(0, 40)} className="max-w-prose text-lg text-pretty">
                 {parrafo}
@@ -34,7 +34,7 @@ export default async function Nosotros() {
           </div>
 
           {interior?.imagen ? (
-            <div className="relative aspect-[4/5] overflow-hidden rounded-xl lg:sticky lg:top-24 lg:self-start">
+            <div className="acercarse relative aspect-[4/5] overflow-hidden rounded-xl lg:sticky lg:top-24 lg:self-start">
               <Image
                 src={interior.imagen}
                 alt={interior.alt}
@@ -47,7 +47,7 @@ export default async function Nosotros() {
         </div>
 
         {config.mision || config.vision ? (
-          <div className="mt-20 grid gap-8 md:grid-cols-2">
+          <div className="aparece-grupo mt-20 grid gap-8 md:grid-cols-2">
             {config.mision ? (
               <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
                 <h2 className="font-heading text-2xl">Misión</h2>
@@ -66,7 +66,7 @@ export default async function Nosotros() {
         {config.valores.length > 0 ? (
           <section className="mt-20">
             <h2 className="font-heading text-3xl">Cómo trabajamos</h2>
-            <dl className="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            <dl className="aparece-grupo mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
               {config.valores.map((valor) => (
                 <div key={valor.nombre} className="border-border/30 border-t pt-4">
                   <dt className="font-heading text-acento text-xl">{valor.nombre}</dt>

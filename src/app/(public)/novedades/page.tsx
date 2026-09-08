@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -43,10 +44,10 @@ export default async function Novedades() {
             </p>
           </div>
         ) : (
-          <ul className="grid gap-8 md:grid-cols-2">
-            {novedades.map((novedad) => (
-              <li key={novedad.id}>
-                <article className="bg-card border-border/30 focus-within:outline-ring h-full overflow-hidden rounded-xl border focus-within:outline-2 focus-within:outline-offset-2">
+          <ul className="aparece-grupo grid gap-8 md:grid-cols-2">
+            {novedades.map((novedad, indice) => (
+              <li key={novedad.id} style={{ "--i": indice % 2 } as CSSProperties}>
+                <article className="group bg-card border-border/30 focus-within:outline-ring h-full overflow-hidden rounded-xl border transition-shadow duration-300 focus-within:outline-2 focus-within:outline-offset-2 hover:shadow-lg hover:shadow-black/5">
                   <Link
                     href={`/novedades/${novedad.slug}`}
                     className="flex h-full flex-col outline-hidden"
@@ -58,7 +59,7 @@ export default async function Novedades() {
                           alt=""
                           fill
                           sizes="(max-width: 768px) 100vw, 50vw"
-                          className="object-cover"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>
                     ) : null}

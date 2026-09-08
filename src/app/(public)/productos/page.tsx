@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import { Suspense, type CSSProperties } from "react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
 import { FiltroCategorias } from "@/components/publico/filtro-categorias";
@@ -84,9 +84,11 @@ async function Catalogo({ searchParams }: Pick<PageProps<"/productos">, "searchP
           </p>
         </div>
       ) : (
-        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {visibles.map((producto) => (
-            <TarjetaProducto key={producto.id} producto={producto} />
+        <div className="aparece-grupo mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {visibles.map((producto, indice) => (
+            <div key={producto.id} style={{ "--i": indice % 4 } as CSSProperties}>
+              <TarjetaProducto producto={producto} />
+            </div>
           ))}
         </div>
       )}
