@@ -118,7 +118,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                         <Link
                           href={slide.enlace}
                           tabIndex={indice === actual ? undefined : -1}
-                          className="bg-cta text-cta-foreground focus-visible:outline-ring min-h-tactil mt-6 inline-flex items-center rounded-md px-6 font-semibold focus-visible:outline-2 focus-visible:outline-offset-2"
+                          className="boton-cta mt-6"
                         >
                           {slide.textoBoton ?? "Ver más"}
                         </Link>

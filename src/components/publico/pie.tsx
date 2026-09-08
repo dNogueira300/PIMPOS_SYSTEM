@@ -1,25 +1,10 @@
 import Link from "next/link";
 import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 
-import {
-  DIAS,
-  anioActual,
-  describirTramos,
-  direccionCompleta,
-  type Configuracion,
-} from "@/lib/datos/configuracion";
+import { anioActual, direccionCompleta, type Configuracion } from "@/lib/datos/configuracion";
 
+import { Horario } from "./horario";
 import { SECCIONES } from "./navegacion";
-
-const NOMBRE_DEL_DIA: Record<(typeof DIAS)[number], string> = {
-  lunes: "Lunes",
-  martes: "Martes",
-  miercoles: "Miércoles",
-  jueves: "Jueves",
-  viernes: "Viernes",
-  sabado: "Sábado",
-  domingo: "Domingo",
-};
 
 export async function Pie({ config }: { config: Configuracion }) {
   const direccion = direccionCompleta(config);
@@ -113,28 +98,7 @@ export async function Pie({ config }: { config: Configuracion }) {
 
         <div>
           <h2 className="font-heading mb-4 text-lg">Horario de atención</h2>
-          <dl className="text-sm">
-            {DIAS.map((dia) => {
-              const tramos = config.horario_semanal[dia] ?? [];
-              const cerrado = tramos.length === 0;
-              return (
-                <div
-                  key={dia}
-                  className="border-primary-foreground/10 flex justify-between gap-4 border-b py-1.5 last:border-b-0"
-                >
-                  <dt className={cerrado ? "text-primary-foreground/60" : ""}>
-                    {NOMBRE_DEL_DIA[dia]}
-                  </dt>
-                  <dd className={`text-right ${cerrado ? "text-primary-foreground/60" : ""}`}>
-                    {describirTramos(tramos)}
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
-          {config.nota_horarios ? (
-            <p className="text-primary-foreground/80 mt-3 text-sm">{config.nota_horarios}</p>
-          ) : null}
+          <Horario config={config} variante="oscuro" />
         </div>
       </div>
 

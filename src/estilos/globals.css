@@ -279,6 +279,158 @@
   --container-contenido: var(--ancho-contenido);
 }
 
+/* =============================================================================
+   MOVIMIENTO
+
+   El sitio aparece por bloques al bajar: cada foto y cada caja de texto entra
+   con una subida corta y un fundido. La intencion es que se sienta vivo, no que
+   llame la atencion sobre si mismo.
+
+   Se hace con **animaciones guiadas por el scroll de CSS nativo**, sin una sola
+   linea de JavaScript. No es purismo: la portada ya esta justo en el suelo de
+   React 19 mas Next 16 (150 KB comprimidos, medido), y una libreria de
+   animacion costaria mas que todo el codigo de la aplicacion junto. Iquitos
+   tiene 4G irregular y el movil es prioritario (R6): pagar 40 KB por unos
+   fundidos seria cobrarselo al visitante.
+
+   Tres salvaguardas, y las tres importan:
+
+   1. Todo va dentro de `@supports`. Un navegador que no conozca
+      `animation-timeline` no ejecuta nada de esto y **muestra el contenido tal
+      cual**. El estado por defecto es "visible": si algo falla, se ve.
+   2. Dentro de `prefers-reduced-motion: no-preference`. Quien pide menos
+      movimiento no recibe ninguno, y lo recibe visible.
+   3. La animacion termina siempre en `opacity: 1`. Ningun texto puede quedarse
+      invisible por un fallo a mitad de camino.
+   ============================================================================= */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes aparecer-lateral {
+  from {
+    opacity: 0;
+    transform: translateX(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes acercarse {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer components {
+  /* La llamada a la accion principal: pedir por WhatsApp, ver el catalogo.
+     Estaba repetida como una tira de utilidades en seis sitios, y con ella la
+     posibilidad de que una copia se quedara sin el area tactil o sin el foco
+     visible. Aqui vive una sola vez.
+
+     `active:translate-y-px` es la respuesta al pulsar: en un telefono, sin ese
+     hundimiento de un pixel, no se sabe si el toque entro. */
+  .boton-cta {
+    background-color: var(--cta-fondo);
+    color: var(--cta-texto);
+    min-height: var(--area-tactil-min);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-md);
+    padding-inline: 1.5rem;
+    font-weight: 600;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .boton-cta:hover {
+    background-color: var(--cta-fondo-hover);
+    color: var(--cta-texto-hover);
+  }
+
+  .boton-cta:active {
+    transform: translateY(1px);
+  }
+
+  .boton-cta:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Sobre el azul institucional el anillo de foco azul no se ve. */
+  .boton-cta--sobre-azul:focus-visible {
+    outline-color: var(--primary-foreground);
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .aparece,
+      .aparece-lateral,
+      .acercarse {
+        animation: aparecer linear both;
+        animation-timeline: view();
+        /* Termina cuando el bloque lleva un cuarto de pantalla dentro: para
+           cuando el ojo llega, ya esta quieto. Una animacion que sigue en
+           marcha mientras se lee es la que marea. */
+        animation-range: entry 5% cover 25%;
+      }
+
+      .aparece-lateral {
+        animation-name: aparecer-lateral;
+      }
+
+      /* Para fotos: en vez de subir, se posan. Una imagen que se desplaza
+         dentro de su marco recortado se ve mal; escalar no. */
+      .acercarse {
+        animation-name: acercarse;
+      }
+
+      /* Rejillas: cada tarjeta entra un pelin despues que la anterior. Sin
+         esto, las cuatro columnas de una fila aparecen de golpe y el efecto se
+         pierde. El indice lo pone el componente con `style={{ "--i": n }}`. */
+      .aparece-grupo > * {
+        animation: aparecer linear both;
+        animation-timeline: view();
+        animation-range-start: entry calc(5% + var(--i, 0) * 4%);
+        animation-range-end: cover 30%;
+      }
+
+      /* Al imprimir no hay scroll, asi que una animacion guiada por el scroll
+         se queda congelada en su primer fotograma y el bloque saldria en blanco
+         sobre el papel. Va al final a proposito: a igualdad de especificidad
+         manda la ultima regla, y colocada antes no apagaba las rejillas. */
+      @media print {
+        .aparece,
+        .aparece-lateral,
+        .acercarse,
+        .aparece-grupo > * {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+    }
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
