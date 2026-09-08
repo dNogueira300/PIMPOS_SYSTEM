@@ -142,6 +142,11 @@ cerrado **sin haber apagado el proveedor de correo**, que el rol viaja dentro de
 bucket `clientes` es realmente privado. Crea y borra sus propios datos de prueba. Las otras cuatro
 comprobaciones (keep-alive, CI, backup remoto y dominio) se verifican en GitHub.
 
+**Un hueco declarado, no cubierto.** Las imágenes semilla no viven en este repositorio: están en la
+carpeta del cliente y se suben con `supabase/seeds/imagenes/subir-imagenes.sh`. En el CI los buckets
+están vacíos, así que las comprobaciones que miran si una foto **se ve** se saltan diciendo por qué,
+en vez de fallar o de darse por buenas. Localmente, con las imágenes subidas, sí se ejecutan.
+
 `scripts/verificar-produccion.sh` repite las que solo significan algo contra el proyecto alojado, y
 no escribe nada. Hace falta porque **el entorno local miente en un punto concreto**: no valida la
 apikey en `/rest/v1/`, así que devuelve 200 con cualquier llave. Necesita `SUPABASE_URL` y
@@ -331,7 +336,7 @@ políticas —inalcanzable para el panel— y sin alertas de stock. Por eso el p
 | F0   | Preparación de servicios    | ✅ Cerrada   |
 | F1   | Fundación técnica           | ✅ Cerrada   |
 | F2   | Backend de datos            | ✅ Cerrada   |
-| F3   | Sitio público (Módulo 1)    | ⬜ Siguiente |
+| F3   | Sitio público (Módulo 1)    | 🔄 En curso  |
 | F4   | Panel: contenido (Módulo 2) | ⬜ Pendiente |
 | F5   | Panel: insumos (Módulo 3)   | ⬜ Pendiente |
 | F6   | Panel: clientes (Módulo 4)  | ⬜ Pendiente |
@@ -339,7 +344,11 @@ políticas —inalcanzable para el panel— y sin alertas de stock. Por eso el p
 
 > La Fase 2 se cerró el 08/09/2026: 16 migraciones, 27 tablas todas con RLS, 11 vistas todas con
 > `security_invoker`, 78 políticas, 2 trabajos de `pg_cron` y 326 pruebas pgTAP. El catálogo real
-> cargado por semillas y 62 imágenes en sus buckets. Detalle en `DOC/Avance del proyecto.md`.
+> cargado por semillas y 62 imágenes en sus buckets.
+>
+> La Fase 3 tiene sus **ocho secciones construidas y probadas**, leyendo de las vistas: 49 páginas
+> estáticas y 80 pruebas de navegador a 375 px y en escritorio. Falta el SEO y el pulido de detalle.
+> Detalle en `DOC/Avance del proyecto.md`.
 
 ---
 
