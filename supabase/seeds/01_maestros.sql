@@ -148,3 +148,122 @@ from (values
   ('hamburguesa-grande-ajonjoli', 'De S/ 0.40', 0.40, false, 2)
 ) as v(slug, nombre, precio, predeterminada, orden)
 join public.productos p on p.slug = v.slug;
+
+-- =============================================================================
+-- Insumos, proveedores y equivalencias (ficha 7.2 y 7.9)
+--
+-- Aqui esta la parte con mas riesgo de error silencioso de todo el sistema, y
+-- los datos de la ficha lo demuestran solos:
+--
+--     saco de harina  = 50 kg        saco de sal            = 25 kg
+--     caja de manteca = 10 kg        caja de huevos         = 100 unidades
+--                                    caja de fruta confit.  =  5 kg
+--
+-- "Saco" y "caja" no significan nada por si solos. Por eso la equivalencia
+-- cuelga del insumo y no de una tabla global de conversiones.
+-- =============================================================================
+
+delete from public.proveedores where nombre in (
+  'Comercial FOX', 'Maíz Center', 'Charapita',
+  'Comercializadora San Juan', 'La Casa Plast', 'La Región'
+);
+
+-- Los contactos figuran como "Por definir" en la ficha 7.9. Se dejan vacios a
+-- proposito en lugar de inventarlos; el negocio los completa desde el panel.
+insert into public.proveedores (nombre, observacion) values
+  ('Comercial FOX',             'Harina, azúcar, manteca, huevo, levadura, mejorador, vainilla, colorante, mantequilla y aceite.'),
+  ('Maíz Center',               'Huevo y sal.'),
+  ('Charapita',                 'Ajonjolí.'),
+  ('Comercializadora San Juan', 'Bolsas en rollo 10x15, 12x17 y 14x20.'),
+  ('La Casa Plast',             'Bolsa panadera 18x26 y 20x30.'),
+  ('La Región',                 'Leche en polvo.');
+
+delete from public.insumos where nombre in (
+  'Harina', 'Azúcar', 'Manteca', 'Levadura', 'Mejorador', 'Vainilla', 'Aceite',
+  'Sal', 'Huevo', 'Mantequilla', 'Leche en polvo', 'Ajonjolí', 'Colorante',
+  'Frutas confitadas', 'Bolsa panadera 18x26', 'Bolsa panadera 20x30',
+  'Bolsa en rollo 8x12', 'Bolsa en rollo 10x15', 'Bolsa en rollo 12x17',
+  'Bolsa en rollo 14x20', 'Bolsa blancosito 12x17', 'Bolsa blancosito 14x20'
+);
+
+-- El stock minimo va EN LA UNIDAD BASE. La ficha lo expresa en presentaciones
+-- ("30 sacos" de harina), asi que se convierte al cargarlo: 30 x 50 = 1500 kg.
+insert into public.insumos (nombre, unidad_base_id, presentacion, stock_minimo, es_perecible, proveedor_habitual_id)
+select i.nombre, u.id, i.presentacion, i.stock_minimo, i.perecible, p.id
+from (values
+  ('Harina',                 'kg',     'Saco de 50 kg',           1500.0, false, 'Comercial FOX'),
+  ('Azúcar',                 'kg',     'Saco de 50 kg',            100.0, false, 'Comercial FOX'),
+  ('Manteca',                'kg',     'Caja de 10 kg',             60.0, true,  'Comercial FOX'),
+  ('Levadura',               'kg',     'Caja de 10 kg',             10.0, true,  'Comercial FOX'),
+  ('Mejorador',              'kg',     'Paquete de 5 kg',            5.0, false, 'Comercial FOX'),
+  ('Vainilla',               'l',      'Botella de 4 litros',        4.0, false, 'Comercial FOX'),
+  ('Aceite',                 'unidad', 'Paquete de 12 botellas',     3.0, false, 'Comercial FOX'),
+  ('Sal',                    'kg',     'Saco de 25 kg',             25.0, false, 'Maíz Center'),
+  ('Huevo',                  'unidad', 'Caja con 100 unidades',     20.0, true,  'Maíz Center'),
+  ('Mantequilla',            'kg',     'Caja de 10 kg',              1.0, true,  'Comercial FOX'),
+  ('Leche en polvo',         'kg',     'Saco de 25 kg',              3.0, false, 'La Región'),
+  ('Ajonjolí',               'kg',     'Bolsa de 10 kg',             1.0, false, 'Charapita'),
+  ('Colorante',              'unidad', 'Paquete de 6 unidades',      1.0, false, 'Comercial FOX'),
+  ('Frutas confitadas',      'kg',     'Caja de 5 kg',               5.0, true,  'Comercial FOX'),
+  ('Bolsa panadera 18x26',   'unidad', 'Paquete de 20 unidades',     4.0, false, 'La Casa Plast'),
+  ('Bolsa panadera 20x30',   'unidad', 'Paquete de 15 unidades',     3.0, false, 'La Casa Plast'),
+  ('Bolsa en rollo 8x12',    'rollo',  'Paquete de 5 rollos',        1.0, false, 'Comercializadora San Juan'),
+  ('Bolsa en rollo 10x15',   'rollo',  'Paquete de 5 rollos',        1.0, false, 'Comercializadora San Juan'),
+  ('Bolsa en rollo 12x17',   'rollo',  'Paquete de 5 rollos',        1.0, false, 'Comercializadora San Juan'),
+  ('Bolsa en rollo 14x20',   'rollo',  'Paquete de 5 rollos',        1.0, false, 'Comercializadora San Juan'),
+  ('Bolsa blancosito 12x17', 'unidad', 'Paquete de 50 unidades',     3.0, false, 'La Casa Plast'),
+  ('Bolsa blancosito 14x20', 'unidad', 'Paquete de 50 unidades',     3.0, false, 'La Casa Plast')
+) as i(nombre, unidad, presentacion, stock_minimo, perecible, proveedor)
+join public.unidades_medida u on u.codigo = i.unidad
+left join public.proveedores p on p.nombre = i.proveedor;
+
+-- --- Las equivalencias -------------------------------------------------------
+-- Cada fila responde a "cuanto es UNA unidad de compra de ESTE insumo".
+-- Comparar harina con sal, o manteca con frutas confitadas, deja clara la razon
+-- de que esto no pueda ser una tabla global.
+insert into public.equivalencias (insumo_id, unidad_desde, unidad_hacia, factor)
+select ins.id, ud.id, uh.id, e.factor
+from (values
+  ('Harina',                 'saco',    'kg',      50.0),
+  ('Azúcar',                 'saco',    'kg',      50.0),
+  ('Sal',                    'saco',    'kg',      25.0),
+  ('Leche en polvo',         'saco',    'kg',      25.0),
+  ('Manteca',                'caja',    'kg',      10.0),
+  ('Levadura',               'caja',    'kg',      10.0),
+  ('Mantequilla',            'caja',    'kg',      10.0),
+  ('Frutas confitadas',      'caja',    'kg',       5.0),
+  ('Huevo',                  'caja',    'unidad', 100.0),
+  ('Mejorador',              'paquete', 'kg',       5.0),
+  ('Ajonjolí',               'bolsa',   'kg',      10.0),
+  ('Vainilla',               'botella', 'l',        4.0),
+  ('Aceite',                 'paquete', 'unidad',  12.0),
+  ('Colorante',              'paquete', 'unidad',   6.0),
+  ('Bolsa panadera 18x26',   'paquete', 'unidad',  20.0),
+  ('Bolsa panadera 20x30',   'paquete', 'unidad',  15.0),
+  ('Bolsa blancosito 12x17', 'paquete', 'unidad',  50.0),
+  ('Bolsa blancosito 14x20', 'paquete', 'unidad',  50.0),
+  ('Bolsa en rollo 8x12',    'paquete', 'rollo',    5.0),
+  ('Bolsa en rollo 10x15',   'paquete', 'rollo',    5.0),
+  ('Bolsa en rollo 12x17',   'paquete', 'rollo',    5.0),
+  ('Bolsa en rollo 14x20',   'paquete', 'rollo',    5.0)
+) as e(insumo, desde, hacia, factor)
+join public.insumos ins        on ins.nombre = e.insumo
+join public.unidades_medida ud on ud.codigo  = e.desde
+join public.unidades_medida uh on uh.codigo  = e.hacia;
+
+-- Conversiones dentro del mismo sistema metrico. La ficha dice que levadura,
+-- mejorador y sal se manejan en "Kg/gr": conviene poder registrar 500 g sin
+-- tener que escribir 0.5.
+insert into public.equivalencias (insumo_id, unidad_desde, unidad_hacia, factor)
+select i.id, ug.id, uk.id, 0.001
+from public.insumos i
+cross join (select id from public.unidades_medida where codigo = 'g')  ug
+cross join (select id from public.unidades_medida where codigo = 'kg') uk
+where i.unidad_base_id = uk.id;
+
+insert into public.equivalencias (insumo_id, unidad_desde, unidad_hacia, factor)
+select i.id, um.id, ul.id, 0.001
+from public.insumos i
+cross join (select id from public.unidades_medida where codigo = 'ml') um
+cross join (select id from public.unidades_medida where codigo = 'l')  ul
+where i.unidad_base_id = ul.id;

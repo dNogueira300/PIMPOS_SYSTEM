@@ -34,6 +34,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      almacenes: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          descripcion: string | null
+          es_principal: boolean
+          id: string
+          nombre: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          es_principal?: boolean
+          id?: string
+          nombre: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          es_principal?: boolean
+          id?: string
+          nombre?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       categorias_producto: {
         Row: {
           created_at: string
@@ -111,6 +150,64 @@ export type Database = {
           valor?: Json
         }
         Relationships: []
+      }
+      equivalencias: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          factor: number
+          id: string
+          insumo_id: string
+          unidad_desde: string
+          unidad_hacia: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          factor: number
+          id?: string
+          insumo_id: string
+          unidad_desde: string
+          unidad_hacia: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          factor?: number
+          id?: string
+          insumo_id?: string
+          unidad_desde?: string
+          unidad_hacia?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equivalencias_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equivalencias_unidad_desde_fkey"
+            columns: ["unidad_desde"]
+            isOneToOne: false
+            referencedRelation: "unidades_medida"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equivalencias_unidad_hacia_fkey"
+            columns: ["unidad_hacia"]
+            isOneToOne: false
+            referencedRelation: "unidades_medida"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       faqs: {
         Row: {
@@ -252,6 +349,257 @@ export type Database = {
           updated_by?: string | null
         }
         Relationships: []
+      }
+      insumos: {
+        Row: {
+          activo: boolean
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          descripcion: string | null
+          es_demo: boolean
+          es_perecible: boolean
+          id: string
+          imagen_url: string | null
+          nombre: string
+          presentacion: string | null
+          proveedor_habitual_id: string | null
+          stock_minimo: number
+          unidad_base_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          es_demo?: boolean
+          es_perecible?: boolean
+          id?: string
+          imagen_url?: string | null
+          nombre: string
+          presentacion?: string | null
+          proveedor_habitual_id?: string | null
+          stock_minimo?: number
+          unidad_base_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          descripcion?: string | null
+          es_demo?: boolean
+          es_perecible?: boolean
+          id?: string
+          imagen_url?: string | null
+          nombre?: string
+          presentacion?: string | null
+          proveedor_habitual_id?: string | null
+          stock_minimo?: number
+          unidad_base_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insumos_proveedor_habitual_id_fkey"
+            columns: ["proveedor_habitual_id"]
+            isOneToOne: false
+            referencedRelation: "proveedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insumos_unidad_base_id_fkey"
+            columns: ["unidad_base_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_medida"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lotes_insumo: {
+        Row: {
+          codigo: string | null
+          created_at: string
+          created_by: string | null
+          fecha_vencimiento: string | null
+          id: string
+          insumo_id: string
+          observacion: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          codigo?: string | null
+          created_at?: string
+          created_by?: string | null
+          fecha_vencimiento?: string | null
+          id?: string
+          insumo_id: string
+          observacion?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          codigo?: string | null
+          created_at?: string
+          created_by?: string | null
+          fecha_vencimiento?: string | null
+          id?: string
+          insumo_id?: string
+          observacion?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lotes_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movimientos_insumo: {
+        Row: {
+          almacen_id: string
+          area_turno: string | null
+          autorizado_por: string | null
+          cantidad: number
+          cantidad_base: number
+          costo_total: number | null
+          created_at: string
+          created_by: string | null
+          destino_lote: string | null
+          documento_numero: string | null
+          documento_tipo: string | null
+          id: string
+          insumo_id: string
+          lote_id: string | null
+          motivo_baja:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+            | null
+          observacion: string | null
+          ocurrido_en: string
+          origen_consumo: "produccion" | "retiro_directo" | null
+          precio_unitario: number | null
+          proveedor_id: string | null
+          responsable_id: string
+          secuencia: number
+          tipo: "ingreso" | "consumo" | "baja"
+          unidad_id: string
+        }
+        Insert: {
+          almacen_id: string
+          area_turno?: string | null
+          autorizado_por?: string | null
+          cantidad: number
+          cantidad_base: number
+          costo_total?: number | null
+          created_at?: string
+          created_by?: string | null
+          destino_lote?: string | null
+          documento_numero?: string | null
+          documento_tipo?: string | null
+          id?: string
+          insumo_id: string
+          lote_id?: string | null
+          motivo_baja?:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+            | null
+          observacion?: string | null
+          ocurrido_en?: string
+          origen_consumo?: "produccion" | "retiro_directo" | null
+          precio_unitario?: number | null
+          proveedor_id?: string | null
+          responsable_id: string
+          secuencia?: never
+          tipo: "ingreso" | "consumo" | "baja"
+          unidad_id: string
+        }
+        Update: {
+          almacen_id?: string
+          area_turno?: string | null
+          autorizado_por?: string | null
+          cantidad?: number
+          cantidad_base?: number
+          costo_total?: number | null
+          created_at?: string
+          created_by?: string | null
+          destino_lote?: string | null
+          documento_numero?: string | null
+          documento_tipo?: string | null
+          id?: string
+          insumo_id?: string
+          lote_id?: string | null
+          motivo_baja?:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+            | null
+          observacion?: string | null
+          ocurrido_en?: string
+          origen_consumo?: "produccion" | "retiro_directo" | null
+          precio_unitario?: number | null
+          proveedor_id?: string | null
+          responsable_id?: string
+          secuencia?: never
+          tipo?: "ingreso" | "consumo" | "baja"
+          unidad_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimientos_insumo_almacen_id_fkey"
+            columns: ["almacen_id"]
+            isOneToOne: false
+            referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_lote_id_fkey"
+            columns: ["lote_id"]
+            isOneToOne: false
+            referencedRelation: "lotes_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_proveedor_id_fkey"
+            columns: ["proveedor_id"]
+            isOneToOne: false
+            referencedRelation: "proveedores"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_unidad_id_fkey"
+            columns: ["unidad_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_medida"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       novedades: {
         Row: {
@@ -587,6 +935,54 @@ export type Database = {
           },
         ]
       }
+      proveedores: {
+        Row: {
+          activo: boolean
+          contacto: string | null
+          correo: string | null
+          created_at: string
+          created_by: string | null
+          deleted_at: string | null
+          direccion: string | null
+          id: string
+          nombre: string
+          observacion: string | null
+          telefono: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          activo?: boolean
+          contacto?: string | null
+          correo?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          direccion?: string | null
+          id?: string
+          nombre: string
+          observacion?: string | null
+          telefono?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          activo?: boolean
+          contacto?: string | null
+          correo?: string | null
+          created_at?: string
+          created_by?: string | null
+          deleted_at?: string | null
+          direccion?: string | null
+          id?: string
+          nombre?: string
+          observacion?: string | null
+          telefono?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       roles: {
         Row: {
           codigo: "superadmin" | "administrador" | "ingeniero" | "repartidor"
@@ -613,6 +1009,42 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      saldos_insumo: {
+        Row: {
+          actualizado_en: string
+          almacen_id: string
+          cantidad_base: number
+          insumo_id: string
+        }
+        Insert: {
+          actualizado_en?: string
+          almacen_id: string
+          cantidad_base?: number
+          insumo_id: string
+        }
+        Update: {
+          actualizado_en?: string
+          almacen_id?: string
+          cantidad_base?: number
+          insumo_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saldos_insumo_almacen_id_fkey"
+            columns: ["almacen_id"]
+            isOneToOne: false
+            referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saldos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       slides: {
         Row: {
@@ -719,6 +1151,36 @@ export type Database = {
           texto?: string
           updated_at?: string
           updated_by?: string | null
+        }
+        Relationships: []
+      }
+      unidades_medida: {
+        Row: {
+          codigo: string
+          created_at: string
+          es_base: boolean
+          id: string
+          nombre: string
+          tipo: string
+          updated_at: string
+        }
+        Insert: {
+          codigo: string
+          created_at?: string
+          es_base?: boolean
+          id?: string
+          nombre: string
+          tipo: string
+          updated_at?: string
+        }
+        Update: {
+          codigo?: string
+          created_at?: string
+          es_base?: boolean
+          id?: string
+          nombre?: string
+          tipo?: string
+          updated_at?: string
         }
         Relationships: []
       }
