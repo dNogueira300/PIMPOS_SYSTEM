@@ -267,3 +267,77 @@ from public.insumos i
 cross join (select id from public.unidades_medida where codigo = 'ml') um
 cross join (select id from public.unidades_medida where codigo = 'l')  ul
 where i.unidad_base_id = ul.id;
+
+-- =============================================================================
+-- Imagenes del local y del catalogo (doc 02 §14.1)
+--
+-- Los archivos los sube `supabase/seeds/imagenes/subir-imagenes.sh`. Aqui solo
+-- van las filas que los referencian.
+--
+-- CONVENCION: cada columna de imagen guarda la RUTA DENTRO DE SU BUCKET, no una
+-- URL. El bucket lo determina la tabla (`galeria` -> bucket galeria, y asi), y
+-- la URL publica la compone el frontend. Guardar la URL entera ataria las filas
+-- al dominio del proyecto, y basta cambiar de proyecto o de dominio para que
+-- todas las imagenes se rompan a la vez.
+-- =============================================================================
+
+delete from public.galeria where ruta in (
+  'fachada1.webp', 'fachada2.webp', 'fachada3.webp',
+  'interior1.webp', 'interior2.webp',
+  'horno1.webp', 'horno2.webp', 'horno3.webp',
+  'atencion1.webp', 'atencion2.webp'
+);
+
+-- Fotos reales del local, tomadas en la visita. No son demo: no llevan
+-- `es_demo`, asi que un `delete from galeria where es_demo` no se las lleva.
+insert into public.galeria (titulo, alt, ruta, categoria, orden, estado) values
+  ('La fachada',            'Fachada de Panadería Pimpo''s con su toldo azul',        'fachada1.webp',  'fachada',  1, 'publicado'),
+  ('La esquina',            'La panadería vista desde la esquina de la calle',        'fachada2.webp',  'fachada',  2, 'publicado'),
+  ('La entrada',            'Entrada principal de la panadería',                      'fachada3.webp',  'fachada',  3, 'publicado'),
+  ('El mostrador',          'Mostrador con el pan del día recién salido',             'interior1.webp', 'interior', 4, 'publicado'),
+  ('La tienda por dentro',  'Interior de la tienda con los estantes de productos',    'interior2.webp', 'interior', 5, 'publicado'),
+  ('El horno',              'Horno de la panadería durante la producción',            'horno1.webp',    'hornos',   6, 'publicado'),
+  ('Pan al salir del horno','Bandejas de pan recién horneado',                        'horno2.webp',    'hornos',   7, 'publicado'),
+  ('La masa',               'Preparación de la masa en el área de producción',        'horno3.webp',    'hornos',   8, 'publicado'),
+  ('Atención al cliente',   'Atención a un cliente en el mostrador',                  'atencion1.webp', 'atencion', 9, 'publicado'),
+  ('El despacho',           'Despacho de un pedido en el mostrador',                  'atencion2.webp', 'atencion',10, 'publicado');
+
+-- -----------------------------------------------------------------------------
+-- Fotos de producto
+--
+-- El cliente entrego cinco, y solo dos corresponden sin ambiguedad a un item de
+-- LISTAPRODUCTOS.docx. Las otras tres quedan subidas al bucket pero SIN fila:
+--
+--   producto-2-pan-hamburguesa-mediana -- el catalogo tiene chica, suave y
+--     grande; ninguna se llama mediana y adivinar la talla en una foto de
+--     producto es rotular mal el catalogo publico.
+--   producto-4-kekito y producto-5-palitos-salados -- no figuran en el catalogo.
+--
+-- Se asignan desde el panel en la Fase 4, que es donde se ven las dos cosas a
+-- la vez. Estan en el bucket, no hay que volver a subirlas.
+-- -----------------------------------------------------------------------------
+delete from public.producto_imagenes where ruta in (
+  'producto-1-pan-frances-chico.webp', 'producto-3-arroz-milli.webp'
+);
+
+insert into public.producto_imagenes (producto_id, ruta, alt, orden, es_principal)
+select p.id, v.ruta, v.alt, 1, true
+from (values
+  ('frances-chico', 'producto-1-pan-frances-chico.webp', 'Pan francés chico de Panadería Pimpo''s'),
+  ('arroz-1kg',     'producto-3-arroz-milli.webp',       'Bolsa de arroz de 1 kg')
+) as v(slug, ruta, alt)
+join public.productos p on p.slug = v.slug;
+
+-- -----------------------------------------------------------------------------
+-- Fotos de insumo (las cinco coinciden exactamente con la ficha 7.2)
+-- -----------------------------------------------------------------------------
+update public.insumos i
+   set imagen_url = v.ruta
+  from (values
+    ('Levadura',       'insumo-1-levadura.webp'),
+    ('Mejorador',      'insumo-2-mejorador.webp'),
+    ('Leche en polvo', 'insumo-3-leche-en-polvo.webp'),
+    ('Mantequilla',    'insumo-4-mantequilla.webp'),
+    ('Vainilla',       'insumo-5-vainilla.webp')
+  ) as v(nombre, ruta)
+ where i.nombre = v.nombre;

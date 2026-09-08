@@ -77,3 +77,11 @@ AGENTS.md
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Respaldos de la base. NUNCA se commitean: un volcado de datos lleva los
+# usuarios de auth.users con su correo y su contrasena cifrada, y los nombres,
+# celulares y direcciones de los clientes (Ley N.o 29733).
+respaldos/
+*.dump
+datos-*.sql
+esquema-*.sql
