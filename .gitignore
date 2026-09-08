@@ -85,3 +85,12 @@ respaldos/
 *.dump
 datos-*.sql
 esquema-*.sql
+
+# --- Documentación del proyecto ---
+# Los planes SÍ se versionan (DOC/*.md). Lo que queda fuera son las fotos que
+# entregó el cliente: 8 MB entre originales y optimizadas, que no cambian y que
+# no aportan nada a un diff. Siguen en disco y `subir-imagenes.sh` las busca
+# ahí; en el CI no están, y por eso las comprobaciones que miran si una foto se
+# ve se saltan diciendo por qué.
+DOC/Fotos y documentos Adjuntados Pimpos/
+DOC/descarga.png

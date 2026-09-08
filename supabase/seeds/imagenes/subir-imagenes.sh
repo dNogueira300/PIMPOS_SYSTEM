@@ -3,7 +3,7 @@
 # Sube las imagenes semilla a sus buckets (doc 02 §14.1).
 #
 # Los archivos NO viven en este repositorio: estan en la carpeta del cliente,
-#   DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/
+#   DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/   (fuera de git)
 # ya optimizados. Duplicar 4 MB de binarios aqui solo crearia dos copias que se
 # desincronizan; este guion es el puente, y es lo que se versiona.
 #
@@ -24,7 +24,7 @@
 set -u
 
 RAIZ="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-ORIGEN="${IMAGENES:-$RAIZ/../DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO}"
+ORIGEN="${IMAGENES:-$RAIZ/DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO}"
 
 if [ "${1:-}" = "--produccion" ]; then
   : "${SUPABASE_URL:?Falta SUPABASE_URL}"
