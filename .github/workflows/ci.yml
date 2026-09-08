@@ -66,6 +66,13 @@ jobs:
       - name: Verificar las políticas de Storage
         run: bash scripts/verificar-storage.sh
 
+      # El camino entero que hará el navegador: PostgREST, los permisos de la
+      # vista y el bucket público. Las pruebas pgTAP consultan las vistas con
+      # `set role anon` dentro de una transacción y no ejercen ninguna de esas
+      # tres piezas.
+      - name: Verificar el sitio público
+        run: bash scripts/verificar-sitio-publico.sh
+
       - name: Apagar Supabase
         if: always()
         run: supabase stop --no-backup

@@ -118,10 +118,23 @@ supabase gen types typescript --local > src/tipos/database.types.ts
 ## Pruebas
 
 ```bash
-supabase test db                  # pruebas pgTAP sobre las políticas RLS
-bash scripts/verificar-fase0.sh   # verificación funcional contra el Docker local
-bash scripts/verificar-produccion.sh   # verificación de solo lectura contra el proyecto alojado
+supabase test db                         # 326 pruebas pgTAP
+bash scripts/verificar-fase0.sh          # verificación funcional contra el Docker local
+bash scripts/verificar-storage.sh        # las políticas de Storage, con JWT de usuario real
+bash scripts/verificar-sitio-publico.sh  # el camino del navegador: PostgREST + vistas + bucket
+bash scripts/verificar-produccion.sh     # solo lectura, contra el proyecto alojado
 ```
+
+Los tres guiones intermedios corren también en el CI, y existen porque hay cosas que una consulta
+SQL no prueba. **Que un archivo del bucket `clientes` no se descargue lo decide la API de Storage**,
+no una fila: una comprobación en SQL diría que la fila es visible, no que el archivo salga. Y entre
+una vista consultada con `set role anon` dentro de una transacción y lo que ve un visitante hay tres
+piezas más —PostgREST, los permisos de la vista y el bucket público— que ninguna prueba en SQL
+ejerce.
+
+Un aviso sobre las comprobaciones negativas, que costó descubrir: tienen que exigir el **fallo
+concreto**. Cuatro pruebas de Storage daban OK comparando "distinto de 200", y una petición que ni
+llega a salir también es distinta de 200.
 
 `scripts/verificar-fase0.sh` cubre las comprobaciones de cierre que se pueden probar en local
 (doc 01 §10): que la API responde, que las extensiones están activas, que el registro público está
@@ -280,34 +293,34 @@ Dos detalles que conviene no deshacer:
 
 ---
 
-## Restaurar un backup
+## Respaldo y restauración
 
-El plan gratuito de Supabase **no incluye backups automáticos**. En su lugar, el workflow
-`.github/workflows/backup-supabase.yml` ejecuta `supabase db dump` una vez por semana y guarda el
-resultado como **artefacto retenido 90 días**.
+El plan gratuito de Supabase **no incluye copias automáticas**. En su lugar,
+`.github/workflows/backup-supabase.yml` vuelca roles, esquema y datos una vez por semana y los
+guarda como **artefacto retenido 90 días**.
 
-Para restaurar:
+**El procedimiento completo está en [`docs/respaldo-y-restauracion.md`](docs/respaldo-y-restauracion.md)**,
+y está ensayado de principio a fin (08/09/2026). En resumen:
 
-1. En GitHub → pestaña **Actions** → workflow `backup-supabase` → abrir la ejecución deseada y
-   descargar el artefacto desde la sección _Artifacts_. Descomprimirlo para obtener el `.sql`.
-2. Levantar la instancia local y averiguar la cadena de conexión:
+```bash
+supabase db push                                        # 1. esquema, RLS, Storage y cron
+bash scripts/restaurar-respaldo.sh respaldos/datos.sql  # 2. datos, incluidos los usuarios
+bash supabase/seeds/imagenes/subir-imagenes.sh          # 3. imágenes semilla
+```
 
-   ```bash
-   supabase start
-   supabase status          # muestra la DB URL local
-   ```
+**`psql -f backup.sql` no funciona**, aunque sea lo que uno intenta primero. Las migraciones no
+dejan la base vacía —cargan roles, configuración, categorías, faqs y unidades, y el trigger de
+auditoría registra cada inserción—, así que el volcado choca con esas mismas filas y muere en la
+primera tabla con `duplicate key ... auditoria_pkey`. Hay que vaciar antes, que es lo que hace el
+guion.
 
-3. Restaurar el volcado sobre la base local:
+Y dos cosas que un volcado **no lleva**: las políticas de Storage y los trabajos de `pg_cron`, que
+viven en los esquemas `storage` y `cron`. Restaurar solo el volcado deja el bucket `clientes` sin
+políticas —inalcanzable para el panel— y sin alertas de stock. Por eso el paso 1 es `db push`.
 
-   ```bash
-   psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -f ruta/al/backup.sql
-   ```
-
-4. Verificar que las tablas, los datos y las políticas quedaron completos antes de dar la
-   restauración por buena.
-
-> **Un backup que nunca se restauró no es un backup.** La restauración se prueba al menos una vez
-> antes de que haya datos reales de clientes, y se repite cada tanto — nunca el día que hace falta.
+> **Un respaldo de esta base es material sensible.** Lleva los usuarios con su contraseña cifrada y
+> los nombres, celulares y direcciones de los clientes (Ley N.° 29733). `respaldos/` está en
+> `.gitignore`, y conviene saber quién puede descargar el artefacto de GitHub.
 
 ---
 
@@ -316,16 +329,17 @@ Para restaurar:
 | Fase | Nombre                      | Estado       |
 | ---- | --------------------------- | ------------ |
 | F0   | Preparación de servicios    | ✅ Cerrada   |
-| F1   | Fundación técnica           | 🔄 En curso  |
-| F2   | Backend de datos            | ⬜ Pendiente |
-| F3   | Sitio público (Módulo 1)    | ⬜ Pendiente |
+| F1   | Fundación técnica           | ✅ Cerrada   |
+| F2   | Backend de datos            | ✅ Cerrada   |
+| F3   | Sitio público (Módulo 1)    | ⬜ Siguiente |
 | F4   | Panel: contenido (Módulo 2) | ⬜ Pendiente |
 | F5   | Panel: insumos (Módulo 3)   | ⬜ Pendiente |
 | F6   | Panel: clientes (Módulo 4)  | ⬜ Pendiente |
 | F7   | Cierre                      | ⬜ Pendiente |
 
-> La Fase 0 se cerró el 06/09/2026: Supabase local y de producción operativos, esquema base migrado,
-> hook del JWT registrado, CI en verde y keep-alive respondiendo contra producción.
+> La Fase 2 se cerró el 08/09/2026: 16 migraciones, 27 tablas todas con RLS, 11 vistas todas con
+> `security_invoker`, 78 políticas, 2 trabajos de `pg_cron` y 326 pruebas pgTAP. El catálogo real
+> cargado por semillas y 62 imágenes en sus buckets. Detalle en `DOC/Avance del proyecto.md`.
 
 ---
 
