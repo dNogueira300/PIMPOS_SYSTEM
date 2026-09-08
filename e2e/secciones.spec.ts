@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 
 // Las ocho secciones del sitio publico (doc 03 §4.1). Lo que se comprueba aqui
 // no es el diseno sino que cada pagina responde, tiene un solo encabezado y
@@ -78,13 +78,46 @@ test("la galeria muestra las fotos reales del local", async ({ page }) => {
   // build local eso dejaba la galeria entera en blanco sin que ninguna prueba
   // se enterara. `naturalWidth` solo es mayor que cero si el navegador
   // decodifico el archivo.
+  //
+  // Pero antes hay que saber si en ESTE entorno hay archivo que cargar. Las
+  // imagenes semilla no viven en el repositorio -- estan en la carpeta del
+  // cliente, `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/` -- asi que
+  // en el CI las filas de `galeria` existen y los archivos no. Es el mismo
+  // hueco que ya declara `scripts/verificar-sitio-publico.sh`, y se trata
+  // igual: se dice que no se comprobo, en vez de dar por buena una imagen que
+  // nadie miro o hacer fallar el CI por algo que no esta roto.
   const primera = fotos.first();
   await expect(primera).toBeVisible();
+
+  const enBucket = await urlOriginal(primera);
+  const respuesta = enBucket ? await page.request.get(enBucket) : null;
+  test.skip(
+    !respuesta?.ok(),
+    "Las imágenes semilla no están subidas en este entorno. " +
+      "Se cargan con: bash supabase/seeds/imagenes/subir-imagenes.sh",
+  );
+
   await primera.evaluate(async (img: HTMLImageElement) => {
     if (!img.complete) await img.decode();
   });
   expect(await primera.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
 });
+
+/**
+ * La URL del archivo en Storage, sacada del `src` que escribe `next/image`.
+ *
+ * Ese `src` es el del optimizador (`/_next/image?url=...`), que devuelve 200
+ * incluso cuando la imagen de origen no existe. Para saber si el archivo esta
+ * de verdad en el bucket hay que preguntar por el original.
+ */
+async function urlOriginal(imagen: Locator): Promise<string | null> {
+  const src = await imagen.getAttribute("src");
+  if (!src) return null;
+
+  const parametros = new URLSearchParams(src.split("?")[1] ?? "");
+  const original = parametros.get("url");
+  return original ? decodeURIComponent(original) : null;
+}
 
 test("las preguntas frecuentes se abren y se cierran", async ({ page }) => {
   await page.goto("/preguntas-frecuentes");
