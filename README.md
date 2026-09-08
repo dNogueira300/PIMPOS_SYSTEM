@@ -354,8 +354,13 @@ políticas —inalcanzable para el panel— y sin alertas de stock. Por eso el p
 
 ## Documentación
 
-Los planes de desarrollo **no viven en este repositorio**: están en la carpeta `DOC/` del proyecto,
-fuera del control de versiones del código.
+Los planes de desarrollo viven en **`DOC/`, dentro de este repositorio**. Hasta el 08/09/2026
+estaban en la carpeta padre, fuera del control de versiones: la «fuente de verdad del proyecto» no
+tenía historial ni copia remota, que para un mantenedor solo es frágil. Ahora el código y la
+documentación comparten historial y se revisan en el mismo PR.
+
+Lo único de `DOC/` que **no** entra en git son las fotos del cliente (8 MB entre originales y
+optimizadas). Siguen en disco, y `supabase/seeds/imagenes/subir-imagenes.sh` las busca ahí.
 
 | Documento                                         | Cuándo se lee                                          |
 | ------------------------------------------------- | ------------------------------------------------------ |

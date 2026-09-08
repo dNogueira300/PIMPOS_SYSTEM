@@ -1,0 +1,273 @@
+# Avance del proyecto — Panadería Pimpo's
+
+**Corte:** 08/09/2026
+**Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
+**Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
+
+Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
+hay que leer para ponerse al día sin recorrer el historial de commits.
+
+---
+
+## 1. Dónde estamos
+
+| Fase   | Nombre                   | Estado                                        |
+| ------ | ------------------------ | --------------------------------------------- |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                           |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                           |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                           |
+| **F3** | Sitio público            | 🔄 Las 8 secciones en pie. Falta SEO y pulido |
+| F4     | Panel: contenido         | ⬜                                            |
+| F5     | Panel: insumos           | ⬜                                            |
+| F6     | Panel: clientes          | ⬜                                            |
+| F7     | Cierre                   | ⬜                                            |
+
+**Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
+F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
+de la base. El margen ganado importa porque el cronograma no tenía semana de reserva.
+
+---
+
+## 2. Lo que ya funciona
+
+### Infraestructura
+
+Supabase en producción y en local (Docker), con las mismas migraciones en los dos. Autenticación por
+correo con **registro público cerrado**: los usuarios los crea el administrador, nadie se da de alta
+solo. El rol viaja dentro del JWT, así que las políticas de seguridad lo leen sin consultar ninguna
+tabla en cada petición.
+
+Tres automatizaciones en GitHub Actions:
+
+- **CI** en cada PR: migraciones desde cero, pruebas de base de datos, tipos, linter, formato,
+  pruebas unitarias y pruebas de navegador.
+- **Respaldo semanal** de la base, retenido 90 días.
+- **Keep-alive cada 3 días**, que evita que Supabase pause el proyecto por inactividad. No es
+  opcional: si se pausa, las tareas programadas dejan de correr.
+
+### Aplicación
+
+Next.js 16 con React 19 y Tailwind 4. Sitio público y panel en un mismo proyecto, separados por
+zonas. Autenticación funcionando con los 4 roles, con guardia de navegación y comprobación en cada
+página.
+
+Sistema de diseño aplicado: colores sacados del logo y de las fotos reales del local, tipografía
+Fraunces + Inter servida desde el propio proyecto, y contraste AA **verificado por pruebas**, no
+afirmado en un comentario.
+
+### Sitio público
+
+**Las ocho secciones están en pie y leen de la base**, no del código: portada, catálogo con filtro
+por categoría, ficha de cada producto, novedades, nosotros, galería, ubicación con mapa, preguntas
+frecuentes y contacto.
+
+| Sección   | Qué trae                                                                                                             |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| Portada   | Carrusel, tres datos de confianza, destacados con precio, delivery, historia, novedades, testimonios, dónde y cuándo |
+| Productos | Los 34 del catálogo, filtrables por categoría, con el precio a la vista                                              |
+| Producto  | Ficha con foto, precio, presentación y pedido por WhatsApp ya escrito                                                |
+| Novedades | Solo lo vigente hoy. Lo caducado desaparece solo                                                                     |
+| Nosotros  | Historia, misión, visión y los cuatro valores, literales de la ficha                                                 |
+| Galería   | Las 10 fotos reales del local, agrupadas por zona                                                                    |
+| Ubicación | Mapa de OpenStreetMap, cargado en diferido                                                                           |
+| Preguntas | Las 5 de la ficha más las 2 guías, en acordeón nativo                                                                |
+| Contacto  | WhatsApp, teléfono, correo, dirección y horario                                                                      |
+
+El build genera **49 páginas estáticas**, los 34 productos entre ellas. El contenido cambia sin
+tocar código: cuando el panel publique (F4), se invalidará por etiqueta y el sitio se refresca solo.
+
+**El movimiento** (aparición de bloques al bajar, escalonado de las rejillas, acercamiento de las
+fotos, hundimiento del botón al pulsarlo) está hecho con **CSS nativo guiado por el scroll**, sin
+una sola línea de JavaScript. El motivo está medido y se explica en §3.
+
+### Base de datos
+
+**27 tablas, todas con seguridad a nivel de fila activada.** Ninguna sin proteger. Y **11 vistas,
+todas con `security_invoker`**, que es lo que impide que una vista salte esa seguridad.
+
+| Bloque           | Qué contiene                                                                      |
+| ---------------- | --------------------------------------------------------------------------------- |
+| Roles y perfiles | Los 4 roles y el perfil de cada usuario                                           |
+| Auditoría        | Quién cambió qué y cuándo. No se puede editar ni borrar                           |
+| Configuración    | Logo, favicon, coordenadas, horarios, contacto y textos, todo administrable       |
+| Catálogo         | Categorías, productos, variantes, imágenes e historial de precios                 |
+| Contenido        | Novedades, carrusel, guías, galería, preguntas frecuentes y testimonios           |
+| Insumos          | Unidades, equivalencias por insumo, proveedores, almacenes e insumos              |
+| Kárdex           | Lotes, movimientos y saldos. El saldo lo mantiene la base, nunca se edita a mano  |
+| Clientes         | Zonas de reparto, clientes, fotos de fachada y **consentimiento** (Ley N.° 29733) |
+| Alertas          | Notificaciones de stock bajo y de vencimiento, generadas por tarea programada     |
+| Vistas públicas  | Una por página del sitio, con las columnas listas y sin metadatos internos        |
+
+### Contenido cargado
+
+- Los **34 productos** del catálogo con sus **36 variantes** y precios confirmados
+- Las **6 categorías** de la ficha
+- Las **5 preguntas frecuentes** y las **2 guías**
+- Misión, visión, valores, historia, horarios y coordenadas, literales de la ficha
+- Los **22 insumos** con su presentación, stock mínimo y equivalencias, y los **6 proveedores**
+- **10 fotos del local** en la galería, y **62 imágenes** subidas a sus buckets
+- 3 slides de portada, 3 testimonios y 3 clientes de ejemplo, marcados como desechables
+
+---
+
+## 3. Cómo se está trabajando
+
+**Nada se da por hecho sin ejecutarlo.** Cada bloque se verifica antes de cerrarlo:
+
+| Capa                    | Qué cubre                                                               | Cuántas |
+| ----------------------- | ----------------------------------------------------------------------- | ------- |
+| pgTAP                   | Seguridad y reglas de negocio en la base                                | 326     |
+| Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 68      |
+| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 80      |
+| Guiones de verificación | Lo que SQL no puede probar: la API de Storage y el camino del navegador | 3       |
+
+Los tres guiones existen porque hay cosas que una consulta no prueba. Que un archivo del bucket
+`clientes` no se descargue lo decide la API de Storage, no una fila; y entre una vista consultada
+con `set role anon` dentro de una transacción y lo que ve un visitante hay tres piezas más
+—PostgREST, los permisos de la vista y el bucket público— que ninguna prueba en SQL ejerce.
+
+**Las pruebas de navegador corren contra el build, no contra el servidor de desarrollo.** Con quince
+rutas y cuatro procesos en paralelo, el servidor de desarrollo compila cada ruta a demanda y las
+pruebas fallaban por tiempo agotado sin que hubiera nada roto. Contra el build, además, cada
+petición mide lo que va a medir el visitante.
+
+Todo pasa por pull request con el CI en verde antes de entrar a `main`, que está protegida.
+
+**Esa disciplina ya evitó once problemas** que habrían aparecido más tarde y más caros:
+
+1. **La tabla de roles estaba vacía en producción.** `supabase db push` no aplica las semillas.
+   Habría fallado al crear el primer usuario, con un error de clave foránea ilegible. De ahí salió
+   una regla: si un dato tiene que existir en todos los entornos, va en una migración.
+2. **Elevación de privilegios en el alta de usuarios.** El trigger tomaba el rol de un campo que el
+   propio usuario puede editar. No era explotable con el registro cerrado, pero dependía de una
+   sola casilla del panel.
+3. **El panel de auditoría no habría funcionado**, y arreglarlo mal habría expuesto los datos de
+   todos los usuarios.
+4. **El dorado de la marca no cumple accesibilidad** ni siquiera como icono. El plan decía que sí.
+5. **El panel no podía subir ni una foto.** `storage.objects` no tenía ninguna política, así que lo
+   único que funcionaba era la llave de servicio —la que salta toda la seguridad y no debe salir del
+   servidor.
+6. **Cuatro pruebas de seguridad de Storage daban OK sin haberse ejecutado.** Comparaban «distinto
+   de 200», y una petición que no llega a salir también es distinta de 200.
+7. **El respaldo no se podía restaurar tal cual.** El ensayo completo encontró que el volcado choca
+   con las filas que insertan las propias migraciones, y que no lleva ni las políticas de Storage ni
+   las tareas programadas. Ahora hay procedimiento probado.
+8. **La galería salía en blanco en un build local**, y nada avisaba. Next 16 bloquea por seguridad
+   las imágenes alojadas en una IP privada, y el Supabase de desarrollo vive en una. Lo único que lo
+   delataba era una línea en el registro del servidor: la prueba comprobaba que la etiqueta de
+   imagen estuviera en la página, no que la imagen se viera.
+9. **La primera medición del peso de la página daba 2 KB y pasaba sin medir nada.** Sumaba una
+   cabecera que no viene en respuestas troceadas. La segunda medía bien pero comparaba bytes sin
+   comprimir contra un presupuesto de bytes comprimidos, que son cosas distintas.
+10. **Cerrar el menú móvil al pulsar impedía la navegación.** El enlace se ocultaba en el mismo
+    evento en que se pulsaba. Lo cazó la prueba de móvil.
+11. **Una animación al aparecer habría dejado los bloques en blanco al imprimir.** Sin scroll no hay
+    línea de tiempo, así que se congelaban en su primer fotograma. Lo encontró la prueba, no el
+    papel.
+
+---
+
+## 4. Decisiones que se apartan del plan
+
+Todas medidas o verificadas, ninguna por preferencia.
+
+| Decisión                                                                      | Motivo                                                                                                                                                                                                                                                                                                                    |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Sin sesión no se hereda ningún rol                                            | El plan caía a `repartidor`, que lee la tabla de clientes con direcciones y fotos de domicilios                                                                                                                                                                                                                           |
+| Un usuario nuevo nace **inactivo**                                            | Ningún metadato concede permisos. El rol lo asigna una persona, siempre                                                                                                                                                                                                                                                   |
+| Dos tonos de dorado                                                           | El de marca da 2.80 de contraste: no vale como texto ni como icono, solo como fondo                                                                                                                                                                                                                                       |
+| TypeScript 5.9 y ESLint 9                                                     | El ecosistema aún no alcanza a las versiones 7 y 10 del plan. Documentado para revertir                                                                                                                                                                                                                                   |
+| Sistema de diseño al final de F1                                              | La tipografía se valida sobre una maqueta real, y para eso hacía falta la aplicación en pie                                                                                                                                                                                                                               |
+| La numeración de migraciones corre 3                                          | Se añadieron tres no previstas al implementar                                                                                                                                                                                                                                                                             |
+| El sitio público lee **vistas, nunca tablas**                                 | Las columnas llegan listas y sin metadatos internos, y el frontend hace una consulta donde haría cuatro                                                                                                                                                                                                                   |
+| Los índices van en la migración de su tabla                                   | El plan les daba archivo propio; se entienden donde está la tabla                                                                                                                                                                                                                                                         |
+| Los testimonios de ejemplo no llevan nombre de persona                        | Un testimonio inventado con nombre y apellido es una reseña falsa en cuanto alguien lo publica sin mirar                                                                                                                                                                                                                  |
+| **El presupuesto de peso del plan estaba por debajo del suelo del framework** | El plan pedía menos de 150 KB de JavaScript en la portada. Medido: una página sin carrusel ni filtros pesa los mismos 150 KB. Eso es React 19 más Next 16; nuestro código añade 0 KB. Ahora se vigila un techo con margen **y** cuánto añade la portada sobre una página sin interacción, que es lo único que controlamos |
+| **El movimiento se hace con CSS, no con una librería**                        | Por lo anterior: `motion` habría costado más que todo el código de la aplicación junto, y con 4G irregular en Iquitos eso se le cobra al visitante. Se quitó de las dependencias                                                                                                                                          |
+| **El mapa no está en la portada**, aunque el plan lo pusiera ahí              | Leaflet pesa más que el presupuesto entero de la portada, que es la página que más se abre desde un celular. Vive en `/ubicacion`, cargado en diferido                                                                                                                                                                    |
+| **Contacto no lleva formulario**                                              | Obliga a vigilar un buzón que hoy nadie vigila, y el cliente pide por WhatsApp. Un formulario que nadie lee promete una respuesta que no llega. Se reconsidera cuando el panel tenga bandeja                                                                                                                              |
+| El `h1` de la portada no se ve                                                | El hero es una foto con el titular del slide, que cambia cada seis segundos. Un `h1` que cambia solo no le sirve a nadie, y sin `h1` quien navega con lector de pantalla no sabe dónde está                                                                                                                               |
+| Cada turno del horario en su propia línea                                     | Dos horarios distintos no son una frase, son dos datos. En un teléfono la línea se partía por la hora de cierre y se leía como un error                                                                                                                                                                                   |
+
+---
+
+## 5. Lo que falta
+
+### Fase 3 — lo que queda
+
+Las ocho secciones están construidas y probadas. Falta:
+
+| Tarea                   | Por qué importa                                                                                                                                                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SEO**                 | Es su primera presencia digital. Datos estructurados de tipo `Bakery` con dirección, horarios y coordenadas; `sitemap` y `robots` generados desde la base; imagen para cuando alguien comparta el enlace por WhatsApp |
+| Pulido de detalle       | Las skills `impeccable` y `emil-design-eng`, que es el orden que fija el doc 03 §2                                                                                                                                    |
+| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                                       |
+
+**Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
+carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si
+una foto se ve **se saltan diciendo por qué**. Para cubrirlo de verdad habría que meter unos 4 MB de
+imágenes en el repositorio o subirlas desde el flujo de trabajo. Declarado no es lo mismo que
+cubierto, y conviene decidirlo antes de F4.
+
+### Pendiente del negocio
+
+| Tema                  | Qué hace falta                                                                                                                                                         |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin                                                                                                |
+| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                               |
+| **Dominio**           | `panaderiapimpos.com`. Se necesita antes de publicar el sitio                                                                                                          |
+| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo               |
+| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px     |
+| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; se asignan desde el panel en F4 |
+| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                              |
+
+### Datos por confirmar
+
+Se van a publicar y hoy no cuadran entre sí:
+
+- **WhatsApp:** el plan fija un número y el entorno de desarrollo tiene otro
+- **Dirección:** «Calle Elías Aguirre 1321» según el plan, «Av. Elías Aguirre» según la historia de
+  la ficha
+- **Teléfono fijo:** el valor cargado es provisional
+
+Ninguno bloquea: los tres son administrables y se corrigen desde el panel en la Fase 4.
+
+---
+
+## 6. Riesgos vivos
+
+| Riesgo                                     | Estado                                                                                               |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                   |
+| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                    |
+| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                               |
+| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                       |
+| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6            |
+| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                     |
+| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                             |
+| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                        |
+| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                |
+| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte |
+
+---
+
+## 7. Dónde está cada cosa
+
+| Documento                                         | Para qué                                            |
+| ------------------------------------------------- | --------------------------------------------------- |
+| `Plan de Desarrollo 00 - General y Fases`         | Orden de fases, convenciones y cronograma           |
+| `Plan de Desarrollo 01 - Preparacion y Servicios` | Fase 0, cerrada, con lo que resultó distinto        |
+| `Plan de Desarrollo 02 - Backend y Base de Datos` | Esquema, seguridad y migraciones                    |
+| `Plan de Desarrollo 03 - Frontend`                | Diseño, sitio público y panel                       |
+| `Stack Tecnologico - PIMPOS`                      | Versiones y por qué cada una                        |
+| `Maquetas/`                                       | Las opciones de tipografía y las capturas           |
+| **Este documento**                                | Resumen de avance. Se actualiza al cerrar cada fase |
+
+Dentro del repositorio:
+
+- `README.md` — cómo levantar, probar, desplegar y restaurar
+- `docs/marca.md` — voz, tono y uso de marca
+- `src/lib/datos/` — las lecturas del sitio público, con sus etiquetas de refresco
+- `docs/respaldo-y-restauracion.md` — qué lleva un respaldo, qué no, y cómo se restaura
+- `src/estilos/globals.css` — los tokens de diseño
+- `supabase/migrations/` — el esquema completo, versionado
