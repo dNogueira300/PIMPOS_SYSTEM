@@ -180,7 +180,11 @@ reset role;
 set local role authenticated;
 
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
-select is((select count(*)::int from public.clientes), 1,
+-- Se cuenta la fila de la fixture, no la tabla entera: las semillas y los
+-- guiones de verificacion dejan clientes propios, y una prueba que dependa del
+-- total falla el dia que alguien anade uno legitimo.
+select is((select count(*)::int from public.clientes
+            where id = 'ffff0000-0000-0000-0000-000000000001'), 1,
   'un repartidor SI lee clientes: es su modulo');
 select lives_ok(
   $$ insert into public.clientes (nombre_completo, celular, direccion)

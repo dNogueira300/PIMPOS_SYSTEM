@@ -114,6 +114,13 @@ denegado "$cod" && ok "un ingeniero NO sube documentos -> $cod" \
                 || fail "el ingeniero subio un documento -> $cod"
 
 rm -f "$tmp"
+
+# Se limpia lo que este guion creo. Dejarlo puesto contamina la base local: una
+# prueba pgTAP que contara clientes empezaria a fallar por un dato que no es
+# suyo, y el fallo no diria por que.
+sql "delete from public.clientes where id = '$CLIENTE';" >/dev/null
+sql "delete from auth.users where email like 'storage-%@pimpos.test';" >/dev/null
+
 echo
 [ "$fallos" -eq 0 ] && echo "RESULTADO: las politicas de Storage se comportan como deben." \
                     || echo "RESULTADO: $fallos comprobacion(es) fallaron."

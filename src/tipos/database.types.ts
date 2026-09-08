@@ -976,6 +976,13 @@ export type Database = {
             referencedRelation: "producto_variantes"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "precio_historial_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["variante_id"]
+          },
         ]
       }
       producto_imagenes: {
@@ -1027,11 +1034,25 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "producto_imagenes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "producto_imagenes_variante_id_fkey"
             columns: ["variante_id"]
             isOneToOne: false
             referencedRelation: "producto_variantes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_imagenes_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["variante_id"]
           },
         ]
       }
@@ -1101,6 +1122,13 @@ export type Database = {
             referencedRelation: "productos"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "producto_variantes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["id"]
+          },
         ]
       }
       productos: {
@@ -1159,6 +1187,20 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "categorias_producto"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "productos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias_publicas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "productos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["categoria_id"]
           },
         ]
       }
@@ -1468,6 +1510,33 @@ export type Database = {
         }
         Relationships: []
       }
+      categorias_publicas: {
+        Row: {
+          descripcion: string | null
+          id: string | null
+          imagen_url: string | null
+          nombre: string | null
+          orden: number | null
+          slug: string | null
+        }
+        Insert: {
+          descripcion?: string | null
+          id?: string | null
+          imagen_url?: string | null
+          nombre?: string | null
+          orden?: number | null
+          slug?: string | null
+        }
+        Update: {
+          descripcion?: string | null
+          id?: string | null
+          imagen_url?: string | null
+          nombre?: string | null
+          orden?: number | null
+          slug?: string | null
+        }
+        Relationships: []
+      }
       clientes_con_consentimiento: {
         Row: {
           cliente_id: string | null
@@ -1486,6 +1555,251 @@ export type Database = {
           nombre_completo?: string | null
           otorgado_en?: never
           tiene_consentimiento?: never
+        }
+        Relationships: []
+      }
+      configuracion_publica: {
+        Row: {
+          valores: Json | null
+        }
+        Relationships: []
+      }
+      faqs_publicas: {
+        Row: {
+          es_demo: boolean | null
+          id: string | null
+          orden: number | null
+          pregunta: string | null
+          respuesta: string | null
+        }
+        Insert: {
+          es_demo?: boolean | null
+          id?: string | null
+          orden?: number | null
+          pregunta?: string | null
+          respuesta?: string | null
+        }
+        Update: {
+          es_demo?: boolean | null
+          id?: string | null
+          orden?: number | null
+          pregunta?: string | null
+          respuesta?: string | null
+        }
+        Relationships: []
+      }
+      galeria_publica: {
+        Row: {
+          alt: string | null
+          categoria: string | null
+          es_demo: boolean | null
+          id: string | null
+          orden: number | null
+          ruta: string | null
+          titulo: string | null
+        }
+        Insert: {
+          alt?: string | null
+          categoria?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          orden?: number | null
+          ruta?: string | null
+          titulo?: string | null
+        }
+        Update: {
+          alt?: string | null
+          categoria?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          orden?: number | null
+          ruta?: string | null
+          titulo?: string | null
+        }
+        Relationships: []
+      }
+      guias_publicas: {
+        Row: {
+          contenido: string | null
+          es_demo: boolean | null
+          id: string | null
+          imagen_url: string | null
+          orden: number | null
+          resumen: string | null
+          slug: string | null
+          titulo: string | null
+        }
+        Insert: {
+          contenido?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_url?: string | null
+          orden?: number | null
+          resumen?: string | null
+          slug?: string | null
+          titulo?: string | null
+        }
+        Update: {
+          contenido?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_url?: string | null
+          orden?: number | null
+          resumen?: string | null
+          slug?: string | null
+          titulo?: string | null
+        }
+        Relationships: []
+      }
+      novedades_publicas: {
+        Row: {
+          contenido: string | null
+          es_demo: boolean | null
+          id: string | null
+          imagen_url: string | null
+          publicada_en: string | null
+          resumen: string | null
+          slug: string | null
+          tipo:
+            | "promocion"
+            | "nuevo_producto"
+            | "campania"
+            | "evento"
+            | "aviso"
+            | null
+          titulo: string | null
+          vigencia_fin: string | null
+          vigencia_inicio: string | null
+        }
+        Insert: {
+          contenido?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_url?: string | null
+          publicada_en?: string | null
+          resumen?: string | null
+          slug?: string | null
+          tipo?:
+            | "promocion"
+            | "nuevo_producto"
+            | "campania"
+            | "evento"
+            | "aviso"
+            | null
+          titulo?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Update: {
+          contenido?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_url?: string | null
+          publicada_en?: string | null
+          resumen?: string | null
+          slug?: string | null
+          tipo?:
+            | "promocion"
+            | "nuevo_producto"
+            | "campania"
+            | "evento"
+            | "aviso"
+            | null
+          titulo?: string | null
+          vigencia_fin?: string | null
+          vigencia_inicio?: string | null
+        }
+        Relationships: []
+      }
+      productos_publicos: {
+        Row: {
+          categoria_id: string | null
+          categoria_nombre: string | null
+          categoria_orden: number | null
+          categoria_slug: string | null
+          descripcion: string | null
+          destacado: boolean | null
+          es_demo: boolean | null
+          id: string | null
+          imagen_alt: string | null
+          imagen_ruta: string | null
+          nombre: string | null
+          orden: number | null
+          precio_desde: number | null
+          precio_hasta: number | null
+          slug: string | null
+          variante_id: string | null
+          variante_moneda: string | null
+          variante_nombre: string | null
+          variante_precio: number | null
+          variante_unidad: string | null
+          variantes: number | null
+        }
+        Relationships: []
+      }
+      slides_publicos: {
+        Row: {
+          enlace_url: string | null
+          es_demo: boolean | null
+          id: string | null
+          imagen_alt: string | null
+          imagen_movil_url: string | null
+          imagen_url: string | null
+          orden: number | null
+          subtitulo: string | null
+          texto_boton: string | null
+          titulo: string | null
+        }
+        Insert: {
+          enlace_url?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_alt?: string | null
+          imagen_movil_url?: string | null
+          imagen_url?: string | null
+          orden?: number | null
+          subtitulo?: string | null
+          texto_boton?: string | null
+          titulo?: string | null
+        }
+        Update: {
+          enlace_url?: string | null
+          es_demo?: boolean | null
+          id?: string | null
+          imagen_alt?: string | null
+          imagen_movil_url?: string | null
+          imagen_url?: string | null
+          orden?: number | null
+          subtitulo?: string | null
+          texto_boton?: string | null
+          titulo?: string | null
+        }
+        Relationships: []
+      }
+      testimonios_publicos: {
+        Row: {
+          es_demo: boolean | null
+          id: string | null
+          nombre: string | null
+          orden: number | null
+          procedencia: string | null
+          texto: string | null
+        }
+        Insert: {
+          es_demo?: boolean | null
+          id?: string | null
+          nombre?: string | null
+          orden?: number | null
+          procedencia?: string | null
+          texto?: string | null
+        }
+        Update: {
+          es_demo?: boolean | null
+          id?: string | null
+          nombre?: string | null
+          orden?: number | null
+          procedencia?: string | null
+          texto?: string | null
         }
         Relationships: []
       }
