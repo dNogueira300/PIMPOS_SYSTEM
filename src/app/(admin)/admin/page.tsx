@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { cerrarSesion } from "@/lib/acciones/autenticacion";
 import { exigirAcceso } from "@/lib/auth/sesion";
@@ -21,7 +22,29 @@ const SECCIONES = [
   { ruta: "/admin/configuracion", nombre: "Configuración" },
 ] as const;
 
-export default async function Panel() {
+/**
+ * Con Cache Components, leer la sesion (que sale de una cookie) ata el
+ * renderizado a la peticion. Metiendolo en su propio componente dentro de un
+ * `<Suspense>`, la cascara de la pagina se prerenderiza igual y solo esta parte
+ * llega en streaming.
+ */
+export default function Panel() {
+  return (
+    <Suspense fallback={<CargandoPanel />}>
+      <PanelAutenticado />
+    </Suspense>
+  );
+}
+
+function CargandoPanel() {
+  return (
+    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-8 px-6 py-12">
+      <p className="text-muted-foreground text-sm">Cargando el panel...</p>
+    </main>
+  );
+}
+
+async function PanelAutenticado() {
   // Se vuelve a comprobar aunque el proxy ya lo hizo: una Server Function se
   // resuelve como POST a esta misma ruta y podria quedar fuera del `matcher`.
   const sesion = await exigirAcceso("/admin");

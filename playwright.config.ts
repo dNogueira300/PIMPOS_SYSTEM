@@ -15,10 +15,10 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? "github" : "list",
 
-  // `next dev` compila cada ruta la primera vez que se pide, y varias pruebas
-  // en paralelo comparten ese servidor: un ingreso puede tardar bastante mas de
-  // los 5 s que espera Playwright por defecto. Se sube el margen en vez de
-  // esperas fijas, que serian mas lentas y mas fragiles.
+  // Margen amplio a proposito: el ingreso pasa por Supabase local en Docker, y
+  // los 5 s que espera Playwright por defecto se quedan cortos en un arranque
+  // frio. Es preferible a meter esperas fijas, que serian mas lentas y mas
+  // fragiles.
   expect: { timeout: 20_000 },
 
   use: {
@@ -47,11 +47,19 @@ export default defineConfig({
     },
   ],
 
+  // Se prueba contra el BUILD, no contra `next dev`.
+  //
+  // `next dev` compila cada ruta la primera vez que se pide. Con quince rutas y
+  // cuatro procesos en paralelo, varias pruebas se quedaban esperando a que
+  // compilara una pagina y fallaban por tiempo agotado, sin que hubiera nada
+  // roto. Contra el build no hay compilacion: cada peticion mide lo que de
+  // verdad va a medir el visitante, incluido el prerenderizado.
   webServer: {
-    command: "pnpm dev",
+    command: "pnpm build && pnpm start",
     url: URL_BASE,
     reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
+    // El build entero cabe en este margen; en CI arranca desde cero.
+    timeout: 300_000,
     // Estas sobreescriben lo que hubiera en .env.local: las pruebas siempre
     // corren contra el Supabase local, nunca contra el proyecto alojado.
     env: (() => {
