@@ -771,6 +771,63 @@ export type Database = {
           },
         ]
       }
+      notificaciones: {
+        Row: {
+          clave_unica: string
+          created_at: string
+          id: string
+          insumo_id: string | null
+          leida_en: string | null
+          leida_por: string | null
+          lote_id: string | null
+          mensaje: string
+          resuelta_en: string | null
+          tipo: string
+          titulo: string
+        }
+        Insert: {
+          clave_unica: string
+          created_at?: string
+          id?: string
+          insumo_id?: string | null
+          leida_en?: string | null
+          leida_por?: string | null
+          lote_id?: string | null
+          mensaje: string
+          resuelta_en?: string | null
+          tipo: string
+          titulo: string
+        }
+        Update: {
+          clave_unica?: string
+          created_at?: string
+          id?: string
+          insumo_id?: string | null
+          leida_en?: string | null
+          leida_por?: string | null
+          lote_id?: string | null
+          mensaje?: string
+          resuelta_en?: string | null
+          tipo?: string
+          titulo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notificaciones_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notificaciones_lote_id_fkey"
+            columns: ["lote_id"]
+            isOneToOne: false
+            referencedRelation: "lotes_insumo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       novedades: {
         Row: {
           aprobada_en: string | null
