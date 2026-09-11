@@ -28,7 +28,7 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 | 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                |
 | Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla |
 | 1.3 Diseño de base de datos                       | 🔄 En curso: 10 de 16 migraciones aplicadas                                       |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con sus 8 secciones en pie, falta SEO y pulido        |
+| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos, falta pulido              |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -90,8 +90,9 @@ Las **ocho secciones del sitio público** están construidas y leen de la base: 
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
 genera 49 páginas estáticas y las cubren 80 pruebas de navegador a 375 px y en escritorio.
 
-Falta el SEO (datos estructurados, `sitemap`, `robots`, imagen para compartir), el pulido de detalle
-y que el panel de F4 dispare el refresco por etiqueta, que ya tiene sus etiquetas puestas.
+**El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
+`robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que
+el panel de F4 dispare el refresco por etiqueta, que ya tiene sus etiquetas puestas.
 
 Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 
@@ -111,7 +112,7 @@ Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 | **F0** | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                       | —          |
 | **F1** | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles     | F0         |
 | **F2** | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas | F1         |
-| **F3** | Sitio público (Módulo 1)    | 🔄 Las 8 secciones construidas y probadas; falta SEO, pulido y dominio                       | F2         |
+| **F3** | Sitio público (Módulo 1)    | 🔄 Secciones y SEO hechos; falta pulido y dominio                                            | F2         |
 | **F4** | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración       | F2, F3     |
 | **F5** | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                             | F2         |
 | **F6** | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                  | F2         |
