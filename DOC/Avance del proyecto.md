@@ -16,7 +16,7 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 | **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                     |
 | **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                     |
 | **F2** | Backend de datos         | ✅ Cerrada el 08/09                                     |
-| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: 2 de 4 P1 corregidos |
+| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: 3 de 4 P1 corregidos |
 | F4     | Panel: contenido         | ⬜                                                      |
 | F5     | Panel: insumos           | ⬜                                                      |
 | F6     | Panel: clientes          | ⬜                                                      |
@@ -64,8 +64,8 @@ frecuentes y contacto.
 | Sección   | Qué trae                                                                                                             |
 | --------- | -------------------------------------------------------------------------------------------------------------------- |
 | Portada   | Carrusel, tres datos de confianza, destacados con precio, delivery, historia, novedades, testimonios, dónde y cuándo |
-| Productos | Los 34 del catálogo, filtrables por categoría, con el precio a la vista                                              |
-| Producto  | Ficha con foto, precio, presentación y pedido por WhatsApp, con las condiciones del delivery al lado                 |
+| Productos | Los 34 del catálogo en una pizarra de precios por categoría, filtrable                                               |
+| Producto  | Precio y pedido por WhatsApp junto a las condiciones del delivery; sin foto, el precio va de titular                 |
 | Novedades | Solo lo vigente hoy. Lo caducado desaparece solo                                                                     |
 | Nosotros  | Historia, misión, visión y los cuatro valores, literales de la ficha                                                 |
 | Galería   | Las 10 fotos reales del local, agrupadas por zona                                                                    |
@@ -93,6 +93,14 @@ tiempo, formas de pago y zonas), que salen de la configuración y no del código
 inventadas a propósito, ver §5. El mensaje llega con el hueco para la cantidad y la dirección, cada
 «escríbenos por WhatsApp» del sitio se puede pulsar y la base rechaza un valor con la forma
 equivocada antes de que llegue a la página.
+
+**La pizarra de precios, 11/09.** 32 de los 34 productos no tienen foto, y la rejilla de tarjetas los
+mostraba como 32 croissants de relleno idénticos, con «Unidad» debajo de casi todos. El catálogo, los
+destacados de la portada y los «También en…» de la ficha son ahora una lista de mostrador: nombre,
+puntos guía y precio grande, agrupada por categoría. Los productos con foto la conservan en su fila,
+y cada producto la ganará solo cuando el negocio las suba. La ficha sin foto ya no reserva una caja
+vacía: el precio ocupa ese sitio a tamaño de titular. La presentación solo se dice cuando informa
+(«Por kilo», «2 presentaciones»), y el mensaje de WhatsApp dejó de decir «(Unidad)».
 
 **El SEO está hecho.** Es la primera presencia digital del negocio (ficha 3.4), así que no se trata
 como un añadido:
@@ -228,14 +236,14 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ### Fase 3 — lo que queda
 
-La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. Los dos primeros ya
-están corregidos: la animación en reposo y el momento de pedir por WhatsApp.
+La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. Los tres primeros ya
+están corregidos: la animación en reposo, el momento de pedir por WhatsApp y el catálogo sin fotos,
+que ahora es una pizarra de precios.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
 | Tarea                   | Por qué importa                                                                                                                                                                                |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Catálogo sin fotos      | 32 de 34 productos no tienen foto: pasa a pizarra de precios. El aviso «sin foto» hoy no llega a AA                                                                                            |
 | 404 y errores propios   | Hoy son los de Next, en inglés                                                                                                                                                                 |
 | Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
 | Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
@@ -278,9 +286,9 @@ Van en la configuración con la palabra PENDIENTE en su descripción, nunca escr
 | Tiempo de entrega  | 30 a 45 minutos       |
 | Formas de pago     | Efectivo, Yape y Plin |
 
-Las **zonas de reparto** (Iquitos, Belén, Punchana y San Juan Bautista) no son inventadas, pero
-tampoco aparecen en la ficha: estaban escritas en el código desde el inicio de F3. Conviene
-confirmarlas junto con las otras. Todo lo pendiente se lista desde la base con
+Las **zonas de reparto** (Iquitos, Belén, Punchana y San Juan Bautista) no son inventadas: no
+aparecen en la ficha, pero Dan las confirmó el 11/09/2026. Todo lo pendiente se lista desde la base
+con
 `select clave, valor from configuracion_sitio where descripcion like '%PENDIENTE%'`.
 
 Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fase 4.
