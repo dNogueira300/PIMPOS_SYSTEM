@@ -78,8 +78,8 @@ completo, marcado ejecutando cada línea.
 seguridad obligatorias (doc 02 §11.3) pasan las 9.
 
 Después del cierre, F3 sumó `0017_pedidos` (las condiciones del delivery que el sitio muestra antes
-de pedir, con la forma de cada valor comprobada en la base): hoy son **17 migraciones y 343 pruebas
-pgTAP**.
+de pedir, con la forma de cada valor comprobada en la base) y `0018_faq_horario` (la respuesta del
+horario en 12 h): hoy son **18 migraciones y 347 pruebas pgTAP**.
 
 Los índices se quedaron dentro de la migración de cada tabla —se entienden donde está la tabla— y el
 kárdex acabó necesitando archivo propio, de ahí que la lista no cuadre con la del borrador.
@@ -92,7 +92,7 @@ porque no había semana de reserva.
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
-genera 52 páginas estáticas y las cubren 121 pruebas de navegador a 375 px y en escritorio.
+genera 52 páginas estáticas y las cubren 123 pruebas de navegador a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que
