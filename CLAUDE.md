@@ -14,19 +14,19 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 **F0, F1 y F2 cerradas. F3 con secciones y SEO hechos** (11/09/2026). Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                    |
-| ---------------- | ------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                          |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía              |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo            |
-| F3 Sitio público | 🔄 Secciones y SEO hechos. Pulido en curso: crítica de diseño 24/40, 4 P1 |
-| F4–F7            | ⬜                                                                        |
+| Fase             | Estado                                                                 |
+| ---------------- | ---------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                       |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía           |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo         |
+| F3 Sitio público | 🔄 Secciones y SEO hechos. Pulido: crítica 24/40, 2 de 4 P1 corregidos |
+| F4–F7            | ⬜                                                                     |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 326 pruebas pgTAP. Las 9 pruebas
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 343 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 326 pgTAP + 89 unitarias + 90 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 343 pgTAP + 102 unitarias + 101 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -123,7 +123,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 326 pruebas pgTAP
+supabase test db                  # 343 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -272,7 +272,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 16 migraciones** (`supabase/migrations/`), en orden:
+**Las 17 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                  |
 | ------------------------------ | -------------------------------------------------------------------------- |
@@ -292,6 +292,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0014_storage_politicas`       | Las 12 políticas de los 7 buckets                                          |
 | `0015_cron_alertas`            | `notificaciones`, `app.evaluar_alertas()` y los 2 trabajos de cron         |
 | `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                  |
+| `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
@@ -329,7 +330,12 @@ mismo aplica al panel web: desactivar "Allow new users to sign up", nunca el pro
   uno de sal 25 kg). Es la lógica con más riesgo de error silencioso; va cubierta con Vitest
   **antes** de escribir su interfaz.
 - _`configuracion_sitio`_ (clave/valor jsonb): hace administrables logo, favicon, coordenadas,
-  horarios y textos. `app/icon.tsx` y `app/apple-icon.tsx` leen de ahí (requisito R21).
+  horarios y textos, y desde 0017 las condiciones del delivery (grupo `pedidos`). `app/icon.tsx` y
+  `app/apple-icon.tsx` leen de ahí (requisito R21). **Zod la valida entera**: un valor con la forma
+  equivocada no se pierde solo, tira el objeto completo a los valores de reserva y el sitio se queda
+  sin teléfono, dirección ni horario. Por eso las claves de `pedidos` llevan además un `check` por
+  clave en la base, que rechaza el valor al guardarlo. Lo inventado para maquetar lleva `PENDIENTE`
+  en la descripción; `where descripcion like '%PENDIENTE%'` lo lista.
 - _`pg_cron`_: despublica novedades vencidas y evalúa alertas de stock/vencimiento. **Si el proyecto
   Supabase se pausa, el cron no corre** — por eso el keep-alive cada 3 días no es opcional.
 - _Storage_: 7 buckets. `clientes` y `documentos` son **privados**; `clientes` guarda fotos de

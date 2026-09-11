@@ -35,9 +35,16 @@ insert into public.slides
    'fachada1.webp', 'Fachada de Panadería Pimpo''s', '/productos', 'Ver el catálogo',
    1, 'publicado', true),
 
+  -- El slide que invita a pedir lleva directo a WhatsApp. Antes llevaba a
+  -- /contacto, donde esperaba otro boton: un paso de mas justo en el momento
+  -- de pedir. El numero y el mensaje van escritos porque es un dato de ejemplo
+  -- (`es_demo`, nunca llega a produccion); los slides reales los carga el
+  -- negocio desde el panel con el enlace que quiera.
   ('Llevamos tu pedido a tu casa',
    'Delivery propio en Iquitos, Belén, Punchana y San Juan Bautista',
-   'atencion1.webp', 'Atención a un cliente en el mostrador', '/contacto', 'Hacer un pedido',
+   'atencion1.webp', 'Atención a un cliente en el mostrador',
+   'https://wa.me/51947874820?text=Hola%2C%20quisiera%20hacer%20un%20pedido.%0APedido%3A%20%0ADirecci%C3%B3n%20de%20entrega%3A%20',
+   'Pedir por WhatsApp',
    2, 'publicado', true),
 
   ('22 años horneando en el mismo barrio',

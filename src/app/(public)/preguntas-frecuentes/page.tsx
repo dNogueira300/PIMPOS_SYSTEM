@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
+import { MessageCircle } from "lucide-react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { EnlaceWhatsApp } from "@/components/publico/enlace-whatsapp";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
+import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarFaqs, listarGuias } from "@/lib/datos/contenido";
+import { GUIA_DEL_PEDIDO, mensajeDePedido } from "@/lib/datos/pedido";
 import { preguntasSchema } from "@/lib/seo/datos-estructurados";
 
 export const metadata: Metadata = {
@@ -23,7 +27,13 @@ export const metadata: Metadata = {
  * estado que sincronizar.
  */
 export default async function PreguntasFrecuentes() {
-  const [faqs, guias] = await Promise.all([listarFaqs(), listarGuias()]);
+  const [faqs, guias, config] = await Promise.all([
+    listarFaqs(),
+    listarGuias(),
+    obtenerConfiguracion(),
+  ]);
+  const consulta = enlaceWhatsApp(config, "Hola, quisiera hacer una consulta.");
+  const pedido = enlaceWhatsApp(config, mensajeDePedido());
 
   return (
     <>
@@ -34,7 +44,15 @@ export default async function PreguntasFrecuentes() {
 
       <EncabezadoSeccion
         titulo="Preguntas frecuentes"
-        entradilla="Lo que más nos preguntan. Si tu duda no está aquí, escríbenos por WhatsApp."
+        entradilla={
+          <>
+            Lo que más nos preguntan. Si tu duda no está aquí,{" "}
+            <EnlaceWhatsApp enlace={consulta} variante="sobre-azul">
+              escríbenos por WhatsApp
+            </EnlaceWhatsApp>
+            .
+          </>
+        }
       />
 
       <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
@@ -66,7 +84,10 @@ export default async function PreguntasFrecuentes() {
             <h2 className="font-heading text-3xl">Cómo hacerlo</h2>
             <div className="aparece-grupo mt-8 flex flex-col gap-10">
               {guias.map((guia) => (
-                <article key={guia.id}>
+                // El `id` es el `slug`: el detalle de producto enlaza aqui
+                // directo. `scroll-mt` deja el titulo por debajo de la cabecera
+                // fija, que si no lo taparia al llegar.
+                <article key={guia.id} id={guia.slug} className="scroll-mt-24">
                   <h3 className="font-heading text-acento text-xl">{guia.titulo}</h3>
                   {guia.resumen ? (
                     <p className="text-muted-foreground mt-1 text-pretty">{guia.resumen}</p>
@@ -81,6 +102,20 @@ export default async function PreguntasFrecuentes() {
                         </p>
                       ))}
                   </div>
+
+                  {/* Quien acaba de leer los pasos para pedir no tiene que ir a
+                      buscar el boton a otra pagina. */}
+                  {guia.slug === GUIA_DEL_PEDIDO && pedido ? (
+                    <a
+                      href={pedido}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="boton-cta mt-5 w-fit"
+                    >
+                      <MessageCircle aria-hidden className="size-5" />
+                      Pedir por WhatsApp
+                    </a>
+                  ) : null}
                 </article>
               ))}
             </div>

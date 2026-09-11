@@ -38,6 +38,11 @@ function config(parcial: Partial<Configuracion>): Configuracion {
     mision: "",
     vision: "",
     valores: [],
+    delivery_zonas: [],
+    delivery_costo: null,
+    pedido_minimo: null,
+    delivery_tiempo: "",
+    formas_pago: [],
     ...parcial,
   };
 }

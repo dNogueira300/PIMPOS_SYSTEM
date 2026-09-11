@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { Suspense, type CSSProperties } from "react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { EnlaceWhatsApp } from "@/components/publico/enlace-whatsapp";
 import { FiltroCategorias } from "@/components/publico/filtro-categorias";
 import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
 import { listarCategorias, listarProductos } from "@/lib/datos/catalogo";
+import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 
 export const metadata: Metadata = {
   title: "Productos",
@@ -17,19 +19,31 @@ export const metadata: Metadata = {
  *
  * La cascara de la pagina se prerenderiza y solo la parte que depende del
  * filtro llega en streaming: `searchParams` es dato de la peticion y con Cache
- * Components tiene que leerse dentro de un `<Suspense>`.
+ * Components tiene que leerse dentro de un `<Suspense>`. La configuracion no lo
+ * es —esta cacheada—, asi que se lee fuera y no retrasa la cascara.
  */
-export default function Productos(props: PageProps<"/productos">) {
+export default async function Productos(props: PageProps<"/productos">) {
+  const config = await obtenerConfiguracion();
+  const consulta = enlaceWhatsApp(config, "Hola, quisiera saber si tienen un producto.");
+
   return (
     <>
       <EncabezadoSeccion
         titulo="Nuestros productos"
-        entradilla="Todo lo que horneamos, con su precio. Si no encuentras algo, escríbenos por WhatsApp y te decimos si lo tenemos."
+        entradilla={
+          <>
+            Todo lo que horneamos, con su precio. Si no encuentras algo,{" "}
+            <EnlaceWhatsApp enlace={consulta} variante="sobre-azul">
+              escríbenos por WhatsApp
+            </EnlaceWhatsApp>{" "}
+            y te decimos si lo tenemos.
+          </>
+        }
       />
 
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6">
         <Suspense fallback={<EsqueletoCatalogo />}>
-          <Catalogo searchParams={props.searchParams} />
+          <Catalogo searchParams={props.searchParams} consulta={consulta} />
         </Suspense>
       </div>
     </>
@@ -54,7 +68,10 @@ function EsqueletoCatalogo() {
   );
 }
 
-async function Catalogo({ searchParams }: Pick<PageProps<"/productos">, "searchParams">) {
+async function Catalogo({
+  searchParams,
+  consulta,
+}: Pick<PageProps<"/productos">, "searchParams"> & { consulta: string | null }) {
   const [{ categoria }, productos, categorias] = await Promise.all([
     searchParams,
     listarProductos(),
@@ -80,7 +97,8 @@ async function Catalogo({ searchParams }: Pick<PageProps<"/productos">, "searchP
         <div className="border-border/40 mt-8 rounded-lg border border-dashed px-6 py-16 text-center">
           <p className="font-heading text-xl">Todavía no hay productos en esta categoría</p>
           <p className="text-muted-foreground mt-2">
-            Escríbenos por WhatsApp y te contamos qué tenemos hoy.
+            <EnlaceWhatsApp enlace={consulta}>Escríbenos por WhatsApp</EnlaceWhatsApp> y te contamos
+            qué tenemos hoy.
           </p>
         </div>
       ) : (

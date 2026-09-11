@@ -11,16 +11,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                     |
-| ------ | ------------------------ | ------------------------------------------ |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                        |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                        |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                        |
-| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Falta el pulido |
-| F4     | Panel: contenido         | ⬜                                         |
-| F5     | Panel: insumos           | ⬜                                         |
-| F6     | Panel: clientes          | ⬜                                         |
-| F7     | Cierre                   | ⬜                                         |
+| Fase   | Nombre                   | Estado                                                  |
+| ------ | ------------------------ | ------------------------------------------------------- |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                     |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                     |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                     |
+| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: 2 de 4 P1 corregidos |
+| F4     | Panel: contenido         | ⬜                                                      |
+| F5     | Panel: insumos           | ⬜                                                      |
+| F6     | Panel: clientes          | ⬜                                                      |
+| F7     | Cierre                   | ⬜                                                      |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -65,13 +65,13 @@ frecuentes y contacto.
 | --------- | -------------------------------------------------------------------------------------------------------------------- |
 | Portada   | Carrusel, tres datos de confianza, destacados con precio, delivery, historia, novedades, testimonios, dónde y cuándo |
 | Productos | Los 34 del catálogo, filtrables por categoría, con el precio a la vista                                              |
-| Producto  | Ficha con foto, precio, presentación y pedido por WhatsApp ya escrito                                                |
+| Producto  | Ficha con foto, precio, presentación y pedido por WhatsApp, con las condiciones del delivery al lado                 |
 | Novedades | Solo lo vigente hoy. Lo caducado desaparece solo                                                                     |
 | Nosotros  | Historia, misión, visión y los cuatro valores, literales de la ficha                                                 |
 | Galería   | Las 10 fotos reales del local, agrupadas por zona                                                                    |
 | Ubicación | Mapa de OpenStreetMap, cargado en diferido                                                                           |
 | Preguntas | Las 5 de la ficha más las 2 guías, en acordeón nativo                                                                |
-| Contacto  | WhatsApp, teléfono, correo, dirección y horario                                                                      |
+| Contacto  | WhatsApp con el número escrito, teléfono, correo, dirección, horario y condiciones del delivery                      |
 
 El build genera **52 páginas estáticas**, los 34 productos entre ellas. El contenido cambia sin
 tocar código: cuando el panel publique (F4), se invalidará por etiqueta y el sitio se refresca solo.
@@ -85,6 +85,14 @@ que ya se veía entero: en el celular, «Desde 2004» a opacidad 0.1 y los preci
 0.7. La prueba que decía cubrirlo centraba cada bloque antes de medir, así que siempre medía el
 mejor caso. Lo encontró la crítica de diseño. Ahora hay una prueba de reposo, que se vio **fallar**
 contra el código anterior antes de arreglarlo, y otra que comprueba que el movimiento sigue ahí.
+
+**El momento de pedir, corregido el 11/09.** Pulsar «Pedir por WhatsApp» era un salto a ciegas: nada
+decía cuánto costaba el envío ni qué había que escribir. Ahora, junto a cada botón de pedir van qué
+pasa al pulsarlo, el número escrito como se dicta y las condiciones del delivery (costo, mínimo,
+tiempo, formas de pago y zonas), que salen de la configuración y no del código; varias están
+inventadas a propósito, ver §5. El mensaje llega con el hueco para la cantidad y la dirección, cada
+«escríbenos por WhatsApp» del sitio se puede pulsar y la base rechaza un valor con la forma
+equivocada antes de que llegue a la página.
 
 **El SEO está hecho.** Es la primera presencia digital del negocio (ficha 3.4), así que no se trata
 como un añadido:
@@ -212,6 +220,7 @@ Todas medidas o verificadas, ninguna por preferencia.
 | **Contacto no lleva formulario**                                              | Obliga a vigilar un buzón que hoy nadie vigila, y el cliente pide por WhatsApp. Un formulario que nadie lee promete una respuesta que no llega. Se reconsidera cuando el panel tenga bandeja                                                                                                                              |
 | El `h1` de la portada no se ve                                                | El hero es una foto con el titular del slide, que cambia cada seis segundos. Un `h1` que cambia solo no le sirve a nadie, y sin `h1` quien navega con lector de pantalla no sabe dónde está                                                                                                                               |
 | Cada turno del horario en su propia línea                                     | Dos horarios distintos no son una frase, son dos datos. En un teléfono la línea se partía por la hora de cierre y se leía como un error                                                                                                                                                                                   |
+| **La base comprueba la forma de los datos del delivery**                      | El sitio valida la configuración entera: un «3 soles» escrito donde va un número no se perdería solo, dejaría la página sin teléfono, sin dirección y sin horario. La base lo rechaza al guardarlo, que es cuando quien lo escribió puede corregirlo                                                                      |
 
 ---
 
@@ -219,18 +228,17 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ### Fase 3 — lo que queda
 
-La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. El primero, la
-animación en reposo, ya está corregido.
+La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. Los dos primeros ya
+están corregidos: la animación en reposo y el momento de pedir por WhatsApp.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
-| Tarea                         | Por qué importa                                                                                                                                                                                            |
-| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Momento de pedir por WhatsApp | La única conversión del sitio: mensaje con cantidad y dirección, número visible y enlaces reales. Los datos de delivery que faltan entran como provisionales en la configuración, marcados como pendientes |
-| Catálogo sin fotos            | 32 de 34 productos no tienen foto: pasa a pizarra de precios. El aviso «sin foto» hoy no llega a AA                                                                                                        |
-| 404 y errores propios         | Hoy son los de Next, en inglés                                                                                                                                                                             |
-| Validar con Google            | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue             |
-| Refresco desde el panel       | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                            |
+| Tarea                   | Por qué importa                                                                                                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Catálogo sin fotos      | 32 de 34 productos no tienen foto: pasa a pizarra de precios. El aviso «sin foto» hoy no llega a AA                                                                                            |
+| 404 y errores propios   | Hoy son los de Next, en inglés                                                                                                                                                                 |
+| Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
+| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
 
 **Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
 carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si
@@ -259,7 +267,23 @@ Se van a publicar y hoy no cuadran entre sí:
   la ficha
 - **Teléfono fijo:** el valor cargado es provisional
 
-Ninguno bloquea: los tres son administrables y se corrigen desde el panel en la Fase 4.
+**Inventados a propósito para maquetar** (decisión del 11/09/2026). El detalle de producto, la
+portada y contacto muestran ya las condiciones del delivery, y el negocio todavía no las ha dado.
+Van en la configuración con la palabra PENDIENTE en su descripción, nunca escritos en el código:
+
+| Dato               | Valor provisional     |
+| ------------------ | --------------------- |
+| Costo del delivery | S/ 3.00               |
+| Pedido mínimo      | S/ 10.00              |
+| Tiempo de entrega  | 30 a 45 minutos       |
+| Formas de pago     | Efectivo, Yape y Plin |
+
+Las **zonas de reparto** (Iquitos, Belén, Punchana y San Juan Bautista) no son inventadas, pero
+tampoco aparecen en la ficha: estaban escritas en el código desde el inicio de F3. Conviene
+confirmarlas junto con las otras. Todo lo pendiente se lista desde la base con
+`select clave, valor from configuracion_sitio where descripcion like '%PENDIENTE%'`.
+
+Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fase 4.
 
 ---
 

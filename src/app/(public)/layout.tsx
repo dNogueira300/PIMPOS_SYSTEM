@@ -2,6 +2,7 @@ import { BotonWhatsApp } from "@/components/publico/boton-whatsapp";
 import { Cabecera } from "@/components/publico/cabecera";
 import { Pie } from "@/components/publico/pie";
 import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { mensajeDePedido } from "@/lib/datos/pedido";
 import { urlDeImagen } from "@/lib/supabase/publico";
 
 /**
@@ -14,6 +15,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
  */
 export default async function LayoutPublico({ children }: LayoutProps<"/">) {
   const config = await obtenerConfiguracion();
+  const pedido = enlaceWhatsApp(config, mensajeDePedido());
 
   return (
     <>
@@ -29,12 +31,12 @@ export default async function LayoutPublico({ children }: LayoutProps<"/">) {
       <Cabecera
         logo={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
         logoAlt={config.logo_alt}
-        whatsapp={enlaceWhatsApp(config, "Hola, quisiera hacer un pedido.")}
+        whatsapp={pedido}
       />
 
       <main id="contenido">{children}</main>
 
-      <BotonWhatsApp enlace={enlaceWhatsApp(config, "Hola, quisiera hacer un pedido.")} />
+      <BotonWhatsApp enlace={pedido} />
       <Pie config={config} />
     </>
   );

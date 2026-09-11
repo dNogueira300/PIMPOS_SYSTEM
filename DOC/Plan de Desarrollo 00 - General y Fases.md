@@ -27,8 +27,8 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 | 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                |
 | 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                |
 | Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla |
-| 1.3 Diseño de base de datos                       | 🔄 En curso: 10 de 16 migraciones aplicadas                                       |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos, falta pulido              |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                          |
+| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; pulido: 2 de 4 P1         |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -77,6 +77,10 @@ completo, marcado ejecutando cada línea.
 `security_invoker`**. 78 políticas, 2 trabajos de cron, **326 pruebas pgTAP**. Las 9 pruebas de
 seguridad obligatorias (doc 02 §11.3) pasan las 9.
 
+Después del cierre, F3 sumó `0017_pedidos` (las condiciones del delivery que el sitio muestra antes
+de pedir, con la forma de cada valor comprobada en la base): hoy son **17 migraciones y 343 pruebas
+pgTAP**.
+
 Los índices se quedaron dentro de la migración de cada tabla —se entienden donde está la tabla— y el
 kárdex acabó necesitando archivo propio, de ahí que la lista no cuadre con la del borrador.
 
@@ -88,7 +92,7 @@ porque no había semana de reserva.
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
-genera 49 páginas estáticas y las cubren 80 pruebas de navegador a 375 px y en escritorio.
+genera 52 páginas estáticas y las cubren 101 pruebas de navegador a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que

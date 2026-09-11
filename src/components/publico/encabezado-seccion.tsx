@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 /**
  * Encabezado de las paginas de seccion.
  *
@@ -5,8 +7,17 @@
  * siete archivos. Va sobre el azul institucional: es lo que separa una seccion
  * del sitio del crema del contenido, y ademas hace de ancla visual al llegar
  * desde la navegacion.
+ *
+ * La entradilla admite marcado y no solo texto: cuando dice "escríbenos por
+ * WhatsApp", eso tiene que poder pulsarse.
  */
-export function EncabezadoSeccion({ titulo, entradilla }: { titulo: string; entradilla?: string }) {
+export function EncabezadoSeccion({
+  titulo,
+  entradilla,
+}: {
+  titulo: string;
+  entradilla?: ReactNode;
+}) {
   return (
     <div className="bg-primary text-primary-foreground">
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
