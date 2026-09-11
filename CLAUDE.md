@@ -52,12 +52,13 @@ Todo vive en **un solo repositorio**, `github.com/dNogueira300/PIMPOS_SYSTEM`. L
 fuera del control de versiones hasta el 08/09/2026; se movieron dentro para que el código y la
 documentación compartan historial y se revisen en el mismo PR.
 
-| Ruta                                                    | Qué es                                                                                               |
-| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `DOC/`                                                  | Los cuatro planes de desarrollo + `Stack Tecnologico - PIMPOS.md`. **Fuente de verdad del proyecto** |
-| `DOC/Maquetas/`                                         | Capturas de la portada y las opciones de tipografía, para enseñar al propietario                     |
-| `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/` | Imágenes semilla. **Fuera de git** (8 MB de fotos del cliente): están en disco, no en el repositorio |
-| `src/`, `supabase/`, `e2e/`, `scripts/`                 | El código, el esquema, las pruebas y los guiones de verificación                                     |
+| Ruta                                                    | Qué es                                                                                                                                                                             |
+| ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DOC/`                                                  | Los cuatro planes de desarrollo + `Stack Tecnologico - PIMPOS.md`. **Fuente de verdad del proyecto**                                                                               |
+| `PRODUCT.md`                                            | Resumen de producto que exige la skill de diseño `impeccable` (registro, usuarios, principios, accesibilidad). No manda: la fuente de verdad sigue siendo `DOC/` y `docs/marca.md` |
+| `DOC/Maquetas/`                                         | Capturas de la portada y las opciones de tipografía, para enseñar al propietario                                                                                                   |
+| `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/` | Imágenes semilla. **Fuera de git** (8 MB de fotos del cliente): están en disco, no en el repositorio                                                                               |
+| `src/`, `supabase/`, `e2e/`, `scripts/`                 | El código, el esquema, las pruebas y los guiones de verificación                                                                                                                   |
 
 **Qué documento leer antes de trabajar:**
 
@@ -210,6 +211,12 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
 - **`NodeJS.ProcessEnv` exige `NODE_ENV`** porque Next la añade como obligatoria. Una función que lee
   dos variables y se prueba con entornos inventados recibe un `Record<string, string | undefined>`,
   no el tipo entero.
+- **Mover un archivo dentro del repositorio no lo versiona.** `CLAUDE.md` pasó días dentro de
+  `PIMPOS_SYSTEM/` sin entrar en git: lo excluía la regla de F0 del `.gitignore`, y ni `git status`
+  ni Prettier avisan de lo ignorado (Prettier respeta el `.gitignore` y simplemente no lo miraba).
+  El commit que decía haberlo versionado lo daba por hecho sin comprobarlo. Después de mover algo
+  que tiene que estar en git: `git ls-files --error-unmatch <archivo>`; si falla,
+  `git check-ignore -v <archivo>` dice qué regla lo excluye.
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
