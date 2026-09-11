@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock, MapPin, Truck } from "lucide-react";
+import { ArrowRight, Clock, MapPin, MessageCircle, Truck } from "lucide-react";
 
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
@@ -15,6 +15,7 @@ import {
   listarSlides,
   listarTestimonios,
 } from "@/lib/datos/contenido";
+import { condicionesDelPedido, mensajeDePedido, unirConY } from "@/lib/datos/pedido";
 import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
 import { urlDeImagen } from "@/lib/supabase/publico";
@@ -35,23 +36,30 @@ import { urlDeImagen } from "@/lib/supabase/publico";
  * diferido.
  */
 
-const HECHOS = [
-  {
-    icono: Clock,
-    titulo: "Del día",
-    detalle: "Se hornea y se vende el mismo día. Nada de un día para otro.",
-  },
-  {
-    icono: Truck,
-    titulo: "A toda Iquitos",
-    detalle: "Reparto con movilidad propia a Iquitos, Belén, Punchana y San Juan.",
-  },
-  {
-    icono: MapPin,
-    titulo: "Desde 2004",
-    detalle: "22 años en el mismo barrio, atendiendo a los mismos vecinos.",
-  },
-] as const;
+/**
+ * Los tres datos de la franja de confianza. Es una funcion y no una constante
+ * porque las zonas de reparto vienen de la base: estaban escritas aqui a mano,
+ * y al cambiar el reparto la franja habria seguido anunciando lo de antes.
+ */
+function hechos(zonas: string) {
+  return [
+    {
+      icono: Clock,
+      titulo: "Del día",
+      detalle: "Se hornea y se vende el mismo día. Nada de un día para otro.",
+    },
+    {
+      icono: Truck,
+      titulo: "A toda Iquitos",
+      detalle: zonas ? `Reparto con movilidad propia a ${zonas}.` : "Reparto con movilidad propia.",
+    },
+    {
+      icono: MapPin,
+      titulo: "Desde 2004",
+      detalle: "22 años en el mismo barrio, atendiendo a los mismos vecinos.",
+    },
+  ] as const;
+}
 
 export default async function Inicio() {
   const [config, slides, destacados, novedades, testimonios, galeria] = await Promise.all([
@@ -66,9 +74,13 @@ export default async function Inicio() {
   // Cacheada con la misma etiqueta que el resto del catálogo: no es una
   // consulta más, es la misma lectura que ya hace listarDestacados.
   const productos = await listarProductos();
-  const whatsapp = enlaceWhatsApp(config, "Hola, quisiera hacer un pedido para delivery.");
+  const whatsapp = enlaceWhatsApp(config, mensajeDePedido());
   const fachada = galeria.find((foto) => foto.categoria === "fachada") ?? galeria[0];
   const direccion = direccionCompleta(config);
+  const zonas = unirConY(config.delivery_zonas);
+  // Las zonas ya van dichas en la frase del bloque; repetirlas debajo como un
+  // dato mas seria leer lo mismo dos veces.
+  const condiciones = condicionesDelPedido(config).filter(({ clave }) => clave !== "zonas");
 
   return (
     <>
@@ -121,7 +133,7 @@ export default async function Inicio() {
           casi invisible para quien entra y no toca nada. */}
       <section aria-label="Por qué comprar aquí" className="bg-franja text-franja-foreground">
         <ul className="mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
-          {HECHOS.map(({ icono: Icono, titulo, detalle }) => (
+          {hechos(zonas).map(({ icono: Icono, titulo, detalle }) => (
             <li key={titulo} className="flex gap-3">
               <Icono aria-hidden className="mt-1 size-5 shrink-0" />
               <div>
@@ -161,28 +173,56 @@ export default async function Inicio() {
       </section>
 
       {/* 4. El delivery, que es el diferencial real del negocio (ficha 2.5) y
-          por eso va con su propio bloque, no como nota al pie. */}
-      <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
+          por eso va con su propio bloque, no como nota al pie.
+
+          Con sus condiciones a la vista y en grande: "te lo llevamos a tu casa"
+          sin decir cuanto cuesta obligaba a escribir para preguntarlo, y el
+          precio del envio es tan argumento de venta como el del pan. */}
+      <section
+        aria-labelledby="titulo-delivery"
+        className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6"
+      >
         <div className="aparece bg-primary text-primary-foreground rounded-xl px-6 py-12 sm:px-12">
           <div className="max-w-2xl">
-            <h2 className="font-heading text-3xl text-balance sm:text-4xl">
+            <h2 id="titulo-delivery" className="font-heading text-3xl text-balance sm:text-4xl">
               Te lo llevamos a tu casa
             </h2>
             <p className="text-primary-foreground/85 mt-3 text-lg text-pretty">
-              Tenemos movilidad propia y repartimos en Iquitos, Belén, Punchana y San Juan Bautista.
-              Escríbenos por WhatsApp y coordinamos la entrega.
+              Tenemos movilidad propia{zonas ? ` y repartimos en ${zonas}` : ""}. Nos dices qué
+              quieres y a dónde, y te confirmamos el total.
             </p>
-            {whatsapp ? (
-              <a
-                href={whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="boton-cta boton-cta--sobre-azul mt-8"
-              >
-                Pedir por WhatsApp
-              </a>
-            ) : null}
           </div>
+
+          {/* En el celular, una fila por dato: el concepto a la izquierda y la
+              cifra a la derecha. En dos columnas de 135 px, "30 a 45 minutos"
+              se partia en "30 a" y "45 minutos". Desde `sm` caben columnas. */}
+          {condiciones.length > 0 ? (
+            <dl className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2 sm:gap-y-6 lg:grid-cols-4">
+              {condiciones.map(({ clave, etiqueta, valor }) => (
+                <div
+                  key={clave}
+                  className="border-primary-foreground/25 flex items-baseline justify-between gap-4 border-t pt-3 sm:block"
+                >
+                  <dt className="text-primary-foreground/80 shrink-0 text-sm">{etiqueta}</dt>
+                  <dd className="font-heading text-right text-xl sm:mt-1 sm:text-left sm:text-2xl">
+                    {valor}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+
+          {whatsapp ? (
+            <a
+              href={whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="boton-cta boton-cta--sobre-azul mt-8"
+            >
+              <MessageCircle aria-hidden className="size-5" />
+              Pedir por WhatsApp
+            </a>
+          ) : null}
         </div>
       </section>
 

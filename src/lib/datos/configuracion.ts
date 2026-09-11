@@ -70,6 +70,14 @@ const ESQUEMA = z.object({
   mision: z.string().default(""),
   vision: z.string().default(""),
   valores: z.array(VALOR).default([]),
+
+  // Lo que el cliente necesita saber antes de pedir (0017). Los montos van en
+  // soles; `null` es "el negocio no lo cargo", y entonces no se muestra.
+  delivery_zonas: z.array(z.string()).default([]),
+  delivery_costo: z.number().nonnegative().nullable().default(null),
+  pedido_minimo: z.number().nonnegative().nullable().default(null),
+  delivery_tiempo: z.string().default(""),
+  formas_pago: z.array(z.string()).default([]),
 });
 
 export type Configuracion = z.infer<typeof ESQUEMA>;
@@ -112,7 +120,10 @@ export function direccionCompleta(config: Configuracion): string {
  * puesto es la diferencia entre que pregunte y que no (R4). El numero va en
  * formato internacional sin signos, que es lo que exige wa.me.
  */
-export function enlaceWhatsApp(config: Configuracion, mensaje: string): string | null {
+export function enlaceWhatsApp(
+  config: Pick<Configuracion, "whatsapp">,
+  mensaje: string,
+): string | null {
   const numero = config.whatsapp.replace(/\D/g, "");
   if (numero.length === 0) return null;
   return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;

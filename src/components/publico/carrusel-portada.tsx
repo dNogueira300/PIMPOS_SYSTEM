@@ -11,6 +11,15 @@ import type { Slide } from "@/lib/datos/contenido";
 const INTERVALO_MS = 6000;
 
 /**
+ * Un enlace a otra web —WhatsApp, sobre todo— se abre aparte y con `<a>`:
+ * `Link` es para navegar dentro del sitio, y el slide del delivery lleva
+ * directo al chat.
+ */
+function esExterno(enlace: string): boolean {
+  return /^https?:\/\//.test(enlace);
+}
+
+/**
  * Carrusel de portada (R2).
  *
  * Tres reglas que no son decorativas y que el plan (doc 03 §4.3) exige:
@@ -114,7 +123,17 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                           {slide.subtitulo}
                         </p>
                       ) : null}
-                      {slide.enlace ? (
+                      {slide.enlace && esExterno(slide.enlace) ? (
+                        <a
+                          href={slide.enlace}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          tabIndex={indice === actual ? undefined : -1}
+                          className="boton-cta mt-6"
+                        >
+                          {slide.textoBoton ?? "Ver más"}
+                        </a>
+                      ) : slide.enlace ? (
                         <Link
                           href={slide.enlace}
                           tabIndex={indice === actual ? undefined : -1}

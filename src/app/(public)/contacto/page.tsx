@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone, Truck } from "lucide-react";
 
+import { CondicionesPedido } from "@/components/publico/condiciones-pedido";
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
 import { Horario } from "@/components/publico/horario";
 import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { condicionesDelPedido, numeroParaLeer, unirConY } from "@/lib/datos/pedido";
 
-export const metadata: Metadata = {
-  title: "Contacto",
-  description:
-    "Teléfono, WhatsApp, correo y dirección de Panadería Pimpo's en Iquitos. Delivery propio a Iquitos, Belén, Punchana y San Juan Bautista.",
-};
+// Las zonas salen de la configuracion, no de una frase escrita aqui: el mismo
+// dato estaba copiado a mano en cuatro sitios, y al cambiar uno los otros tres
+// habrian seguido anunciando lo de antes.
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await obtenerConfiguracion();
+  const zonas = unirConY(config.delivery_zonas);
+
+  return {
+    title: "Contacto",
+    description: `Teléfono, WhatsApp, correo y dirección de Panadería Pimpo's en Iquitos.${
+      zonas ? ` Delivery propio a ${zonas}.` : ""
+    }`,
+  };
+}
 
 /**
  * Contacto.
@@ -24,7 +35,9 @@ export const metadata: Metadata = {
 export default async function Contacto() {
   const config = await obtenerConfiguracion();
   const whatsapp = enlaceWhatsApp(config, "Hola, quisiera hacer una consulta.");
+  const numero = numeroParaLeer(config.whatsapp);
   const direccion = direccionCompleta(config);
+  const condiciones = condicionesDelPedido(config);
 
   return (
     <>
@@ -49,6 +62,27 @@ export default async function Contacto() {
             ) : null}
 
             <dl className="mt-10 flex flex-col gap-6">
+              {/* El numero escrito, ademas del boton: hay quien quiere guardarlo
+                  en sus contactos, o escribir desde otro telefono. */}
+              {whatsapp && numero ? (
+                <div className="flex gap-3">
+                  <MessageCircle aria-hidden className="text-acento mt-1 size-5 shrink-0" />
+                  <div>
+                    <dt className="font-medium">WhatsApp</dt>
+                    <dd>
+                      <a
+                        href={whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        {numero}
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+              ) : null}
+
               {config.telefono ? (
                 <div className="flex gap-3">
                   <Phone aria-hidden className="text-acento mt-1 size-5 shrink-0" />
@@ -104,15 +138,27 @@ export default async function Contacto() {
             </dl>
           </div>
 
-          <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
-            <h2 className="font-heading flex items-center gap-2 text-2xl">
-              <Clock aria-hidden className="text-acento size-5" />
-              Horario
-            </h2>
-            <div className="mt-4">
-              <Horario config={config} />
-            </div>
-          </section>
+          <div className="flex flex-col gap-6">
+            <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
+              <h2 className="font-heading flex items-center gap-2 text-2xl">
+                <Clock aria-hidden className="text-acento size-5" />
+                Horario
+              </h2>
+              <div className="mt-4">
+                <Horario config={config} />
+              </div>
+            </section>
+
+            {condiciones.length > 0 ? (
+              <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
+                <h2 className="font-heading flex items-center gap-2 text-2xl">
+                  <Truck aria-hidden className="text-acento size-5" />
+                  Delivery
+                </h2>
+                <CondicionesPedido condiciones={condiciones} className="mt-4" />
+              </section>
+            ) : null}
+          </div>
         </div>
       </div>
     </>
