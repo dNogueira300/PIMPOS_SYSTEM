@@ -14,19 +14,19 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 **F0, F1 y F2 cerradas. F3 con secciones y SEO hechos** (11/09/2026). Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                 |
-| ---------------- | ---------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                       |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía           |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo         |
-| F3 Sitio público | 🔄 Secciones y SEO hechos. Pulido: crítica 24/40, 3 de 4 P1 corregidos |
-| F4–F7            | ⬜                                                                     |
+| Fase             | Estado                                                                |
+| ---------------- | --------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                      |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía          |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo        |
+| F3 Sitio público | 🔄 Secciones y SEO hechos. Pulido: crítica 24/40, los 4 P1 corregidos |
+| F4–F7            | ⬜                                                                    |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 343 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 343 pgTAP + 111 unitarias + 113 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 343 pgTAP + 111 unitarias + 117 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -225,6 +225,14 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   Ahora hay dos pruebas que miran los dos lados sin ayudar a la animación: nada entero en pantalla
   por debajo de 0.95 con la página quieta, y algún bloque a medio camino mientras entra (si no, el
   movimiento se ha roto sin que nada falle).
+- **El 404 de la raíz no pasa por el layout de `(public)`.** `app/not-found.tsx` atiende toda
+  dirección que no existe y Next lo pinta dentro del layout raíz, que solo pone `<html>` y `<body>`:
+  `/esto-no-existe` salía sin cabecera ni pie. La cáscara del sitio vive en `CascaraPublica` para que
+  el layout y ese 404 la compartan. `app/(public)/not-found.tsx` solo atiende los `notFound()` de
+  dentro de las secciones.
+- **`error.tsx` recibe `retry`, no `reset`** (estable desde Next 16.3). `retry` vuelve a pedir los
+  datos y a pintar; `reset` solo limpia el estado y, con un fallo de un Server Component, vuelve a
+  fallar igual. Los ejemplos de versiones anteriores usan `reset`.
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI

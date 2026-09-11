@@ -22,13 +22,13 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
 
-| Actividad del plan de trabajo                     | Estado                                                                            |
-| ------------------------------------------------- | --------------------------------------------------------------------------------- |
-| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                |
-| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                |
-| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla |
-| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                          |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; pulido: 3 de 4 P1         |
+| Actividad del plan de trabajo                     | Estado                                                                              |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                  |
+| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                  |
+| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla   |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                            |
+| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; pulido: los 4 P1 corregidos |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -92,7 +92,7 @@ porque no había semana de reserva.
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
-genera 52 páginas estáticas y las cubren 113 pruebas de navegador a 375 px y en escritorio.
+genera 52 páginas estáticas y las cubren 117 pruebas de navegador a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que
