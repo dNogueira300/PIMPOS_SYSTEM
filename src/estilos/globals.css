@@ -302,6 +302,13 @@
       movimiento no recibe ninguno, y lo recibe visible.
    3. La animacion termina siempre en `opacity: 1`. Ningun texto puede quedarse
       invisible por un fallo a mitad de camino.
+   4. Termina MIENTRAS el bloque entra en pantalla, no despues. La primera
+      version acababa al llevar un cuarto de pantalla recorrido (`cover 25%`), y
+      con la pagina quieta dejaba a medias lo que ya se veia entero: en el primer
+      pliegue del celular, "Desde 2004" a opacidad 0.1 y los precios de las
+      tarjetas a 0.7. Quien no hace scroll no veia dos de los tres argumentos de
+      venta. Con `entry`, todo bloque que esta entero en pantalla esta opaco, y lo
+      vigila una prueba que mide con la pagina quieta.
    ============================================================================= */
 @keyframes aparecer {
   from {
@@ -387,10 +394,9 @@
       .acercarse {
         animation: aparecer linear both;
         animation-timeline: view();
-        /* Termina cuando el bloque lleva un cuarto de pantalla dentro: para
-           cuando el ojo llega, ya esta quieto. Una animacion que sigue en
-           marcha mientras se lee es la que marea. */
-        animation-range: entry 5% cover 25%;
+        /* Empieza cuando el bloque asoma y termina cuando lleva el 70 % dentro:
+           para cuando se ve entero, ya esta quieto y opaco. Ver la salvaguarda 4. */
+        animation-range: entry 0% entry 70%;
       }
 
       .aparece-lateral {
@@ -409,8 +415,10 @@
       .aparece-grupo > * {
         animation: aparecer linear both;
         animation-timeline: view();
-        animation-range-start: entry calc(5% + var(--i, 0) * 4%);
-        animation-range-end: cover 30%;
+        animation-range-start: entry calc(var(--i, 0) * 6%);
+        /* Aun con el escalonado, la ultima tarjeta de la fila acaba antes de
+           estar entera en pantalla. */
+        animation-range-end: entry 80%;
       }
 
       /* Al imprimir no hay scroll, asi que una animacion guiada por el scroll

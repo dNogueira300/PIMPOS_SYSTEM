@@ -14,19 +14,19 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 **F0, F1 y F2 cerradas. F3 con secciones y SEO hechos** (11/09/2026). Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                         |
-| ---------------- | -------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción               |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía   |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo |
-| F3 Sitio público | 🔄 Secciones y SEO hechos. Falta el pulido de detalle          |
-| F4–F7            | ⬜                                                             |
+| Fase             | Estado                                                                    |
+| ---------------- | ------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                          |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía              |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo            |
+| F3 Sitio público | 🔄 Secciones y SEO hechos. Pulido en curso: crítica de diseño 24/40, 4 P1 |
+| F4–F7            | ⬜                                                                        |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 326 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 326 pgTAP + 89 unitarias + 86 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 326 pgTAP + 89 unitarias + 90 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -217,6 +217,14 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   El commit que decía haberlo versionado lo daba por hecho sin comprobarlo. Después de mover algo
   que tiene que estar en git: `git ls-files --error-unmatch <archivo>`; si falla,
   `git check-ignore -v <archivo>` dice qué regla lo excluye.
+- **Una prueba de animación que centra el bloque antes de medirlo no ve el reposo.** La aparición
+  por scroll terminaba en `cover 25%`, y con la página quieta dejaba a medias lo que ya se veía
+  entero: en el primer pliegue del celular, «Desde 2004» a opacidad 0.1 y los precios a 0.7. La
+  prueba que decía cubrirlo hacía `scrollIntoView({ block: "center" })` en cada bloque, así que
+  siempre medía el mejor caso y seguía en verde. Lo encontró la crítica de diseño, ya en `main`.
+  Ahora hay dos pruebas que miran los dos lados sin ayudar a la animación: nada entero en pantalla
+  por debajo de 0.95 con la página quieta, y algún bloque a medio camino mientras entra (si no, el
+  movimiento se ha roto sin que nada falle).
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
@@ -391,10 +399,10 @@ Tokens en tres capas (primitivo → semántico → componente) como variables CS
 
 **El movimiento se hace con CSS nativo guiado por el scroll** (`animation-timeline: view()`), no con
 una librería. La portada está justo en el suelo de React 19 + Next 16 —150 KB comprimidos, medido—
-y `motion` costaría más que todo el código de la aplicación junto. Tres salvaguardas obligatorias,
+y `motion` costaría más que todo el código de la aplicación junto. Cuatro salvaguardas obligatorias,
 y hay prueba de cada una: va dentro de `@supports` (un navegador que no lo soporte muestra el
 contenido tal cual), dentro de `prefers-reduced-motion: no-preference`, y **apagado al imprimir**
-—sin scroll la animación se congela en su primer fotograma y el bloque saldría en blanco—.
+—sin scroll la animación se congela en su primer fotograma y el bloque saldría en blanco—. Y **termina mientras el bloque entra** (`entry 0% entry 70%`), no después: con la página quieta, todo lo que se ve entero está opaco.
 
 Tipografías por `next/font` **locales**, sin llamar a Google. Fraunces + Inter (alternativa:
 Bitter + Source Sans 3).

@@ -157,12 +157,26 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **86 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **90 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
 detalle con `impeccable` y `emil-design-eng`, y que el panel de F4 dispare el `revalidateTag` cuyas
 etiquetas ya están puestas.
+
+**Crítica de diseño (11/09/2026): 24/40, aceptable.** Con la skill `impeccable`, dos evaluaciones
+aisladas —revisión de diseño y detector automático con evidencia de navegador— más una medición de
+contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
+
+1. La animación dejaba contenido a medias con la página quieta. **Corregido**, ver §4.6.
+2. El momento de pedir por WhatsApp no da seguridad y el mensaje no dice cuántos.
+3. El catálogo sin fotos (32 de 34 productos) pasa a **pizarra de precios**; el aviso «sin foto» hoy
+   no llega a AA.
+4. Páginas propias de 404 y de error: hoy son las de Next, en inglés.
+
+Quedan para un pase posterior, ya medidos: el contraste de la diapositiva 2 del carrusel (subtítulo
+en 4.46; con el degradado 85/55/10 pasa a 5.66 oscureciendo la foto solo un 10 %), el salto de `h1` a
+`h3` en `/productos` y las áreas táctiles de 32 y 36 px.
 
 **Cinco decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
@@ -304,14 +318,30 @@ cobra al visitante. La librería se quitó de las dependencias para que nadie la
 
 Tres salvaguardas, con prueba cada una:
 
-| Salvaguarda                                       | Qué evita                                                                                                                                             |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Todo dentro de `@supports`                        | Un navegador que no conozca la técnica muestra el contenido tal cual. El estado por defecto es «visible»: si algo falla, se ve                        |
-| Dentro de `prefers-reduced-motion: no-preference` | Quien pide menos movimiento no recibe ninguno, y lo recibe visible                                                                                    |
-| **Apagado al imprimir**                           | Sin scroll no hay línea de tiempo: la animación se congela en su primer fotograma y el bloque saldría en blanco sobre el papel. Lo encontró la prueba |
+| Salvaguarda                                                 | Qué evita                                                                                                                                             |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Todo dentro de `@supports`                                  | Un navegador que no conozca la técnica muestra el contenido tal cual. El estado por defecto es «visible»: si algo falla, se ve                        |
+| Dentro de `prefers-reduced-motion: no-preference`           | Quien pide menos movimiento no recibe ninguno, y lo recibe visible                                                                                    |
+| **Apagado al imprimir**                                     | Sin scroll no hay línea de tiempo: la animación se congela en su primer fotograma y el bloque saldría en blanco sobre el papel. Lo encontró la prueba |
+| **Termina mientras el bloque entra** (`entry 0% entry 70%`) | Con la página quieta, que lo que ya se ve entero siga a medio aparecer. Ver abajo                                                                     |
 
 Detalle que costó ver: la regla de impresión tiene que ir **al final** del bloque. A igualdad de
 especificidad manda la última, y colocada antes no apagaba las rejillas.
+
+**La cuarta salvaguarda llegó tarde, y conviene contar por qué.** La primera versión terminaba la
+aparición en `cover 25%`, cuando el bloque ya llevaba un cuarto de pantalla recorrido. Con la página
+quieta, lo que se veía entero seguía a medias: en el primer pliegue del celular «Del día» a opacidad
+0.40 y «Desde 2004» a 0.1, y las tarjetas con su precio a 0.7. Quien entraba y no tocaba nada no veía
+dos de los tres argumentos de venta.
+
+Había una prueba que decía cubrir que nada se quedara invisible, pero centraba cada bloque en
+pantalla antes de medirlo: siempre medía el mejor caso. Lo encontró la crítica de diseño con la
+página quieta, ya en `main`. La corrección tiene tres partes: el rango termina mientras el bloque
+entra; la franja de confianza, que está en el primer pliegue del celular, ya no se anima; y dos
+pruebas nuevas que no ayudan a la animación. Una comprueba que con la página quieta nada entero en
+pantalla baje de 0.95 —se escribió primero y **falló contra el código anterior**, que es lo que
+demuestra que caza el fallo—. La otra comprueba que al bajar algún bloque se vea a medio camino,
+porque el arreglo más fácil de lo primero es romper el movimiento entero sin que nada falle.
 
 ---
 
