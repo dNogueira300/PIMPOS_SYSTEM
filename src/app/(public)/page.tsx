@@ -114,11 +114,15 @@ export default async function Inicio() {
       )}
 
       {/* 2. Franja de confianza. Tres datos verificables de la ficha, no
-          promesas de marketing. */}
+          promesas de marketing.
+
+          Sin animacion de aparicion, a proposito: en el celular esta en el
+          primer pliegue, justo bajo el carrusel. Animarla dejaba "Desde 2004"
+          casi invisible para quien entra y no toca nada. */}
       <section aria-label="Por qué comprar aquí" className="bg-franja text-franja-foreground">
-        <ul className="aparece-grupo mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
-          {HECHOS.map(({ icono: Icono, titulo, detalle }, indice) => (
-            <li key={titulo} className="flex gap-3" style={{ "--i": indice } as CSSProperties}>
+        <ul className="mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
+          {HECHOS.map(({ icono: Icono, titulo, detalle }) => (
+            <li key={titulo} className="flex gap-3">
               <Icono aria-hidden className="mt-1 size-5 shrink-0" />
               <div>
                 <p className="font-heading text-lg">{titulo}</p>

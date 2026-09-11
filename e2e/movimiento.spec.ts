@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 /**
  * El movimiento del sitio y el horario.
@@ -7,6 +7,8 @@ import { expect, test } from "@playwright/test";
  * romperse de verdad: que una animacion deje un texto invisible, y que el
  * horario se lea de un vistazo en un telefono.
  */
+
+const ANIMADOS = ".aparece, .aparece-lateral, .acercarse, .aparece-grupo > *";
 
 test("el horario pone cada turno en su propia linea", async ({ page }) => {
   await page.goto("/contacto");
@@ -50,7 +52,13 @@ test("todo lo animado acaba visible al llegar a el", async ({ page }) => {
   // medias y su contenido no llegue a verse nunca. Un bloque que todavia no ha
   // entrado en pantalla SI empieza en opacidad cero: eso es la animacion, no un
   // fallo. Lo que hay que comprobar es que al llegar a el, se ve.
-  const animados = page.locator(".aparece, .aparece-lateral, .acercarse, .aparece-grupo > *");
+  //
+  // OJO con lo que esta prueba NO cubre: centra cada bloque en pantalla antes de
+  // medirlo, asi que nunca ve lo que ve una persona que deja de hacer scroll. Por
+  // eso durante un tiempo el sitio tuvo precios y argumentos de venta a opacidad
+  // 0.1-0.7 con la pagina quieta, y esta prueba seguia en verde. Lo cubre la
+  // prueba de reposo de mas abajo.
+  const animados = page.locator(ANIMADOS);
   const cuantos = await animados.count();
   expect(cuantos).toBeGreaterThan(5);
 
@@ -75,6 +83,128 @@ test("todo lo animado acaba visible al llegar a el", async ({ page }) => {
   expect(flojos, "Bloques que no llegan a verse: " + flojos.join(" · ")).toEqual([]);
 });
 
+/**
+ * Deja la pagina quieta a una altura y devuelve los bloques animados que estan
+ * enteros dentro de la pantalla pero todavia no son opacos.
+ *
+ * Es la medicion que faltaba: sin centrar nada, sin ayudar a la animacion. Lo
+ * que ve alguien que baja un poco y se para a leer un precio.
+ */
+async function flojosEnReposo(page: Page, y: number): Promise<string[]> {
+  await page.evaluate((destino) => window.scrollTo({ top: destino, behavior: "instant" }), y);
+  // Dos fotogramas: la linea de tiempo del scroll se recalcula en el siguiente.
+  await page.evaluate(
+    () =>
+      new Promise((listo) => requestAnimationFrame(() => requestAnimationFrame(() => listo(null)))),
+  );
+
+  return page.evaluate((selector) => {
+    const alto = window.innerHeight;
+    const real = Math.round(window.scrollY);
+    const flojos: string[] = [];
+    for (const el of document.querySelectorAll<HTMLElement>(selector)) {
+      const caja = el.getBoundingClientRect();
+      const enteroDentro = caja.height > 0 && caja.top >= 0 && caja.bottom <= alto;
+      if (!enteroDentro) continue;
+      const opacidad = Number(getComputedStyle(el).opacity);
+      if (opacidad < 0.95) {
+        const texto = (el.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 40);
+        flojos.push(`y=${real} ${opacidad.toFixed(2)} «${texto || el.className}»`);
+      }
+    }
+    return flojos;
+  }, ANIMADOS);
+}
+
+test("con la pagina quieta, nada de lo que se ve entero queda a medio aparecer", async ({
+  page,
+}) => {
+  const flojos: string[] = [];
+
+  for (const ruta of ["/", "/productos", "/nosotros", "/galeria"]) {
+    await page.goto(ruta);
+    const maximo = await page.evaluate(
+      () => document.documentElement.scrollHeight - window.innerHeight,
+    );
+    // Arriba del todo (lo que ve quien entra y no toca nada), varias alturas
+    // intermedias y el final de la pagina.
+    const alturas = [
+      ...new Set([0, 700, 1400, 2100, 2800, maximo].map((y) => Math.min(y, maximo))),
+    ];
+
+    for (const y of alturas) {
+      for (const flojo of await flojosEnReposo(page, y)) flojos.push(`${ruta} ${flojo}`);
+    }
+  }
+
+  expect(
+    flojos,
+    "Bloques enteros en pantalla pero semitransparentes:\n" + flojos.join("\n"),
+  ).toEqual([]);
+});
+
+test("la aparicion sigue ahi: un bloque que esta entrando se ve a medio camino", async ({
+  page,
+}) => {
+  // La otra cara de la prueba de reposo. Arreglar que nada se quede a medias es
+  // facil si se rompe el movimiento entero: basta con que la animacion termine
+  // al instante, y todas las demas pruebas seguirian en verde porque solo
+  // miran que el contenido se vea. Esta mira que siga habiendo movimiento, que
+  // es lo que se pidio: el sitio estaba demasiado estatico.
+  await page.goto("/");
+  const maximo = await page.evaluate(
+    () => document.documentElement.scrollHeight - window.innerHeight,
+  );
+  const dosFotogramas = () =>
+    page.evaluate(
+      () =>
+        new Promise((listo) =>
+          requestAnimationFrame(() => requestAnimationFrame(() => listo(null))),
+        ),
+    );
+
+  let hallado: { indice: number; opacidad: number; texto: string } | null = null;
+
+  for (let y = 0; y <= maximo && hallado === null; y += 150) {
+    await page.evaluate((destino) => window.scrollTo({ top: destino, behavior: "instant" }), y);
+    await dosFotogramas();
+
+    hallado = await page.evaluate((selector) => {
+      const alto = window.innerHeight;
+      const todos = [...document.querySelectorAll<HTMLElement>(selector)];
+      for (const [indice, el] of todos.entries()) {
+        const caja = el.getBoundingClientRect();
+        // Asomando por abajo: una parte dentro, otra todavia fuera.
+        const entrando = caja.height > 0 && caja.top < alto && caja.bottom > alto;
+        const opacidad = Number(getComputedStyle(el).opacity);
+        if (entrando && opacidad > 0.02 && opacidad < 0.98) {
+          return { indice, opacidad, texto: (el.textContent ?? "").trim().slice(0, 30) };
+        }
+      }
+      return null;
+    }, ANIMADOS);
+  }
+
+  expect(
+    hallado,
+    "Ningun bloque se vio a medio aparecer al bajar: el movimiento ya no existe",
+  ).not.toBeNull();
+
+  // Y que esa transparencia sea de verdad la animacion de aparicion y no otra
+  // cosa (una transicion, un color con alfa). Se apagan las animaciones sin
+  // mover la pagina: el mismo bloque tiene que pasar a opaco. Si no, esta prueba
+  // estaria dando por bueno un movimiento que no existe, que es exactamente el
+  // tipo de prueba que ya nos engano una vez.
+  await page.addStyleTag({ content: `${ANIMADOS} { animation: none !important; }` });
+  await dosFotogramas();
+  const sinAnimacion = await page.evaluate(
+    ({ selector, indice }) =>
+      Number(getComputedStyle(document.querySelectorAll<HTMLElement>(selector)[indice]).opacity),
+    { selector: ANIMADOS, indice: hallado!.indice },
+  );
+  expect(sinAnimacion, `«${hallado!.texto}» estaba a ${hallado!.opacidad.toFixed(2)}`).toBe(1);
+});
+
 test("al imprimir no queda ningun bloque en blanco", async ({ page }) => {
   await page.goto("/");
   // Sin scroll no hay linea de tiempo, asi que sin una regla para `print` los
@@ -83,7 +213,7 @@ test("al imprimir no queda ningun bloque en blanco", async ({ page }) => {
   // hacer desaparecer contenido de verdad.
   await page.emulateMedia({ media: "print" });
 
-  const animados = page.locator(".aparece, .aparece-lateral, .acercarse, .aparece-grupo > *");
+  const animados = page.locator(ANIMADOS);
   expect(await animados.count()).toBeGreaterThan(5);
 
   for (const elemento of await animados.all()) {

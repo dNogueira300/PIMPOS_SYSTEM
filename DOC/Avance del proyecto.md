@@ -80,6 +80,12 @@ tocar código: cuando el panel publique (F4), se invalidará por etiqueta y el s
 fotos, hundimiento del botón al pulsarlo) está hecho con **CSS nativo guiado por el scroll**, sin
 una sola línea de JavaScript. El motivo está medido y se explica en §3.
 
+**Corregido el 11/09.** La aparición terminaba tarde y, con la página quieta, dejaba a medias lo
+que ya se veía entero: en el celular, «Desde 2004» a opacidad 0.1 y los precios de las tarjetas a
+0.7. La prueba que decía cubrirlo centraba cada bloque antes de medir, así que siempre medía el
+mejor caso. Lo encontró la crítica de diseño. Ahora hay una prueba de reposo, que se vio **fallar**
+contra el código anterior antes de arreglarlo, y otra que comprueba que el movimiento sigue ahí.
+
 **El SEO está hecho.** Es la primera presencia digital del negocio (ficha 3.4), así que no se trata
 como un añadido:
 
@@ -133,7 +139,7 @@ todas con `security_invoker`**, que es lo que impide que una vista salte esa seg
 | ----------------------- | ----------------------------------------------------------------------- | ------- |
 | pgTAP                   | Seguridad y reglas de negocio en la base                                | 326     |
 | Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 89      |
-| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 86      |
+| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 90      |
 | Guiones de verificación | Lo que SQL no puede probar: la API de Storage y el camino del navegador | 3       |
 
 Los tres guiones existen porque hay cosas que una consulta no prueba. Que un archivo del bucket
@@ -213,13 +219,18 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ### Fase 3 — lo que queda
 
+La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. El primero, la
+animación en reposo, ya está corregido.
+
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
-| Tarea                   | Por qué importa                                                                                                                                                                                |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pulido de detalle       | Las skills `impeccable` y `emil-design-eng`, que es el orden que fija el doc 03 §2                                                                                                             |
-| Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
-| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
+| Tarea                         | Por qué importa                                                                                                                                                                                            |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Momento de pedir por WhatsApp | La única conversión del sitio: mensaje con cantidad y dirección, número visible y enlaces reales. Los datos de delivery que faltan entran como provisionales en la configuración, marcados como pendientes |
+| Catálogo sin fotos            | 32 de 34 productos no tienen foto: pasa a pizarra de precios. El aviso «sin foto» hoy no llega a AA                                                                                                        |
+| 404 y errores propios         | Hoy son los de Next, en inglés                                                                                                                                                                             |
+| Validar con Google            | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue             |
+| Refresco desde el panel       | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                            |
 
 **Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
 carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si
