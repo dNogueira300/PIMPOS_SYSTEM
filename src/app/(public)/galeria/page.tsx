@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarGaleria } from "@/lib/datos/contenido";
 
 export const metadata: Metadata = {
@@ -22,7 +23,14 @@ const NOMBRE_CATEGORIA: Record<string, string> = {
 };
 
 export default async function Galeria() {
-  const fotos = await listarGaleria();
+  const [fotos, config] = await Promise.all([listarGaleria(), obtenerConfiguracion()]);
+
+  // La direccion sale de la configuracion, como en el resto del sitio. Estaba
+  // escrita aqui a mano ("Calle Elías Aguirre, en Belén"): si el negocio la
+  // corrige desde el panel, esta pagina habria seguido diciendo la de antes.
+  const donde = config.direccion
+    ? ` Estamos en ${config.direccion}${config.distrito ? `, en ${config.distrito}` : ""}.`
+    : "";
 
   // Se agrupa por categoria conservando el orden en que llegan, que ya viene
   // ordenado desde la vista.
@@ -37,7 +45,7 @@ export default async function Galeria() {
     <>
       <EncabezadoSeccion
         titulo="Así es la panadería"
-        entradilla="Fotos del local, del horno y del día a día. Estamos en la Calle Elías Aguirre, en Belén."
+        entradilla={`Fotos del local, del horno y del día a día.${donde}`}
       />
 
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">

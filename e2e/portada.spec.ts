@@ -18,9 +18,13 @@ test("la portada carga en espanol y con su encabezado", async ({ page }) => {
   await expect(titulo).toHaveCount(1);
   await expect(titulo).toContainText("Panadería Pimpo's");
 
-  // `exact` importa: el `alt` de varias fotos contiene el nombre del negocio
-  // ("Fachada de Panadería Pimpo's"), y sin el se seleccionarian cinco.
-  await expect(page.getByAltText("Panadería Pimpo's", { exact: true })).toBeVisible();
+  // La marca en la cabecera, sea el logo (escritorio) o el isotipo con el
+  // nombre escrito (celular, donde el logo completo no se lee). El enlace es lo
+  // que hay en los dos casos; que cada uno enseñe lo suyo lo cubre
+  // `cabecera.spec.ts`.
+  await expect(
+    page.getByRole("banner").getByRole("link", { name: "Panadería Pimpo's, ir al inicio" }),
+  ).toBeVisible();
 });
 
 test("la portada muestra los tres datos verificables", async ({ page }) => {
@@ -79,8 +83,13 @@ test("los horarios dicen que el domingo esta cerrado", async ({ page }) => {
 
   // Los dos turnos y el cierre dominical salen de `configuracion_sitio`
   // (ficha 1.9). Es un dato que el cliente comprueba antes de salir de casa.
-  await expect(page.getByText("Cerrado").first()).toBeVisible();
-  await expect(page.getByText(/4:00 a\. m\./).first()).toBeVisible();
+  //
+  // Dentro del contenido, no en cualquier sitio: el menu del celular tambien
+  // trae el horario y existe en el DOM aunque este cerrado, asi que el primer
+  // "Cerrado" de la pagina es uno que no se ve.
+  const principal = page.getByRole("main");
+  await expect(principal.getByText("Cerrado").first()).toBeVisible();
+  await expect(principal.getByText(/4:00 a\. m\./).first()).toBeVisible();
 });
 
 test("se puede llegar al catalogo solo con el teclado", async ({ page, isMobile }) => {

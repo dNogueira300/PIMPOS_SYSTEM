@@ -23,10 +23,10 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 | F4–F7            | ⬜                                                                    |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 347 pruebas pgTAP. Las 9 pruebas
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 359 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 347 pgTAP + 117 unitarias + 123 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 359 pgTAP + 117 unitarias + 132 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -123,7 +123,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 347 pruebas pgTAP
+supabase test db                  # 359 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -242,6 +242,14 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   carrusel, enlaces del pie, datos de contacto, zoom y marcador del mapa). `e2e/tactil.spec.ts`
   recorre ahora cada control de cada página; los enlaces dentro de una frase y el crédito de licencia
   del mapa quedan exentos, como en WCAG 2.5.8.
+- **Ampliar una vista es `create or replace`, y solo admite columnas nuevas al final.** Cambiar el
+  orden o el tipo de una columna existente obliga a `drop view` y a recrear permisos. Al reemplazar
+  hay que repetir `with (security_invoker = true)` y el `where` de publicado: si se olvidan, la
+  vista deja de respetar la RLS sin que nada falle. La prueba de 0020 los comprueba.
+- **Un texto de fábrica se corrige solo si nadie lo cambió.** Las migraciones 0018, 0019 y 0020
+  reescriben contenido que el negocio puede editar desde el panel. El `update` lleva en su `where` el
+  texto anterior (o un trozo reconocible): si ya lo editaron, no se pisa. Y va sin auditar, como las
+  cargas iniciales, porque no es un cambio que hiciera una persona.
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
@@ -289,7 +297,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 18 migraciones** (`supabase/migrations/`), en orden:
+**Las 20 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -311,6 +319,8 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                                                      |
 | `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada                                     |
 | `0018_faq_horario`             | La respuesta del horario en 12 h. Repite las horas como texto libre: si cambia el horario, cambia también ella |
+| `0019_historia`                | La historia del negocio, reescrita en la voz de `docs/marca.md`                                                |
+| `0020_slides_enfoque`          | `slides.enfoque`: por qué altura se recorta cada foto del carrusel. La vista `slides_publicos` lo expone       |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y

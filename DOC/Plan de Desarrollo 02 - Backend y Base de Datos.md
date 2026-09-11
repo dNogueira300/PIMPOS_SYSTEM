@@ -61,6 +61,8 @@ quedaron en la migración de cada tabla, que es donde se entienden:
 | 0016 | `vistas.sql`            | Las 9 vistas de lectura del sitio público                                                            |
 | 0017 | `pedidos.sql`           | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
 | 0018 | `faq_horario.sql`       | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito   |
+| 0019 | `historia.sql`          | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito           |
+| 0020 | `slides_enfoque.sql`    | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva  |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -76,8 +78,13 @@ desarrollo, por el motivo de §3.2.
 **Después del cierre** (11/09/2026, F3): `0017_pedidos` añade a `configuracion_sitio` un grupo
 `pedidos` con cinco claves —zonas, costo, mínimo, tiempo y formas de pago— y una restricción que
 comprueba la forma de cada valor. `0018_faq_horario` pasa a 12 h la respuesta del horario en
-preguntas frecuentes, sin pisarla si el negocio ya la había cambiado. Hoy son **18 migraciones y 347
-pruebas pgTAP**.
+preguntas frecuentes, sin pisarla si el negocio ya la había cambiado. `0019_historia` hace lo mismo
+con la historia del negocio, y `0020_slides_enfoque` añade a cada diapositiva por qué altura se
+recorta su foto. Hoy son **20 migraciones y 359 pruebas pgTAP**.
+
+Las tres últimas comparten una regla: **un texto que el negocio puede haber editado solo se corrige
+si sigue siendo el de fábrica**, reconocido por su contenido, y la corrección no se audita, porque
+no es un cambio que hiciera una persona.
 
 Las 9 pruebas obligatorias de §11.3 pasan las 9:
 

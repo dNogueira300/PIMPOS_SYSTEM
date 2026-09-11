@@ -11,8 +11,17 @@ import { SECCIONES, esSeccionActiva } from "./navegacion";
 type Props = {
   logo: string;
   logoAlt: string;
+  isotipo: string;
+  nombre: string;
+  /** El horario ya agrupado y con las horas escritas, listo para pintar. */
+  horario: { dias: string; turnos: string[] }[];
   whatsapp: string | null;
 };
+
+// En el menu del celular va tambien "Inicio": en escritorio el logo ya lleva a
+// la portada y todo el mundo lo sabe, pero en un menu desplegable la primera
+// opcion que se busca para volver es esa (critica del 11/09).
+const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as const;
 
 /**
  * Cabecera del sitio publico.
@@ -23,7 +32,7 @@ type Props = {
  * La navegacion cabe en una linea en escritorio con las siete secciones; por
  * debajo de `lg` pasa a menu desplegable en lugar de partirse en dos filas.
  */
-export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
+export function Cabecera({ logo, logoAlt, isotipo, nombre, horario, whatsapp }: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
 
@@ -35,19 +44,34 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
           className="focus-visible:outline-primary-foreground shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label={`${logoAlt}, ir al inicio`}
         >
+          {/* En el celular, el isotipo y el nombre escrito. El logo completo a
+              44 px de alto no se lee: el arco "PANADERÍA PASTELERÍA Y BODEGA"
+              queda en letras de dos pixeles (critica del 11/09). Desde `sm` hay
+              sitio y va el logo de siempre. */}
+          <span className="flex items-center gap-2 sm:hidden">
+            <Image
+              src={isotipo}
+              alt=""
+              width={40}
+              height={44}
+              unoptimized
+              className="h-11 w-auto"
+            />
+            <span className="font-heading text-xl leading-none">{nombre}</span>
+          </span>
           <Image
             src={logo}
             alt={logoAlt}
             width={320}
             height={107}
             priority
-            className="h-11 w-auto"
+            className="hidden h-11 w-auto sm:block"
           />
         </Link>
 
         <nav aria-label="Secciones del sitio" className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-1">
-            {SECCIONES.map(({ ruta: destino, nombre }) => {
+            {SECCIONES.map(({ ruta: destino, nombre: seccion }) => {
               const activa = esSeccionActiva(ruta, destino);
               return (
                 <li key={destino}>
@@ -60,7 +84,7 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
                         : "hover:bg-primary-foreground/10"
                     }`}
                   >
-                    {nombre}
+                    {seccion}
                   </Link>
                 </li>
               );
@@ -103,7 +127,7 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
           className="mx-auto max-w-(--container-contenido) px-4 pb-4 sm:px-6"
         >
           <ul className="flex flex-col">
-            {SECCIONES.map(({ ruta: destino, nombre }) => (
+            {SECCIONES_DEL_MENU.map(({ ruta: destino, nombre: seccion }) => (
               <li key={destino}>
                 <Link
                   href={destino}
@@ -120,11 +144,36 @@ export function Cabecera({ logo, logoAlt, whatsapp }: Props) {
                   onNavigate={() => setAbierto(false)}
                   className="border-primary-foreground/10 min-h-tactil flex items-center border-b text-base"
                 >
-                  {nombre}
+                  {seccion}
                 </Link>
               </li>
             ))}
           </ul>
+
+          {/* El horario a mano en el menu: es lo que mas se busca antes de salir
+              de casa, y en el celular estaba a mas de 4000 px de scroll, en el
+              pie (critica del 11/09). */}
+          {horario.length > 0 ? (
+            <section aria-label="Horario de atención" className="mt-4 text-sm">
+              <p className="font-heading text-base">Horario</p>
+              <dl className="text-primary-foreground/80 mt-1">
+                {horario.map(({ dias, turnos }) => (
+                  <div key={dias} className="flex justify-between gap-4 py-1">
+                    <dt>{dias}</dt>
+                    <dd className="text-right tabular-nums">
+                      {turnos.length > 0
+                        ? turnos.map((turno) => (
+                            <span key={turno} className="block whitespace-nowrap">
+                              {turno}
+                            </span>
+                          ))
+                        : "Cerrado"}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+          ) : null}
 
           {whatsapp ? (
             <a

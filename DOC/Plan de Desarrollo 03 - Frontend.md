@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **123 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **132 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -212,9 +212,25 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
   migración 0018, solo si el negocio no la había reescrito. Esa respuesta repite las horas como texto
   libre: cuando el panel permita cambiar el horario (F4), hay que avisar de que también se edita.
 
-**Quedan**, de la crítica, detalles menores: el logo ilegible a 375 px, la dirección escrita en el
-código de `/galeria`, el letrero cortado en el hero de escritorio, el menú móvil sin «Inicio» y el
-arranque de la historia en el tono que `docs/marca.md` desaconseja.
+**Detalles menores, también corregidos (11/09/2026):**
+
+- **El logo no se leía a 375 px**: el arco «PANADERÍA PASTELERÍA Y BODEGA» quedaba en letras de dos
+  píxeles. En el celular la cabecera lleva el isotipo y el nombre escrito en Fraunces; desde `sm`,
+  el logo completo de siempre.
+- **El menú del celular** empieza por «Inicio» y termina con el horario agrupado: era lo más buscado
+  y estaba a más de 4000 px de scroll, en el pie.
+- **La dirección de `/galeria`** estaba escrita en el código; ahora sale de la configuración, como en
+  el resto del sitio.
+- **El rótulo cortado en el hero.** En escritorio el carrusel es panorámico y las fotos del negocio
+  son verticales. Cada diapositiva guarda ahora su propio encuadre (`slides.enfoque`, migración
+  0020, editable desde el panel en F4): la fachada al 30 %, que es donde está el rótulo, y las otras
+  centradas. Una sola posición para todas no servía: al horno le sacaba una franja del techo.
+- **La historia** empezaba por «Bienvenidos… profundamente arraigado», que es el ejemplo de «no suena
+  así» de `docs/marca.md`. Reescrita con los mismos hechos de la ficha (migración 0019), y sigue
+  siendo administrable: vive en `configuracion_sitio`.
+
+Con esto, la crítica del 11/09 queda cerrada: los 4 P1, el P2 y los detalles menores. El siguiente
+paso es **repetirla** para comparar con el 24/40 de partida.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
