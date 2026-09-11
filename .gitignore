@@ -56,16 +56,23 @@ pnpm-debug.log*
 .husky/_/
 
 # --- Herramientas locales del desarrollador (Claude / Claude Code) ---
-# Nada de esto forma parte del proyecto: son configuraciones, memorias y
-# artefactos de las herramientas de IA que usa Dan en su máquina. No se versionan.
+# Configuraciones y artefactos de las herramientas de IA que usa Dan en su
+# máquina. No se versionan.
+#
+# CLAUDE.md es la excepción, decidida por Dan el 11/09/2026: es la memoria del
+# proyecto —estado, decisiones y trampas ya pagadas— y no puede depender de un
+# solo disco. Se versiona igual que DOC/. CLAUDE.local.md sigue fuera: es la
+# variante personal, no la del proyecto.
 .claude/
 .claude*/
-CLAUDE.md
 CLAUDE.local.md
 AGENTS.md
 .mcp.json
 .claude-flow/
 *.claude.*
+# Estado local de la skill de diseño `impeccable`: sesiones del modo en vivo y
+# snapshots de las críticas. Es de la herramienta, no del proyecto.
+.impeccable/
 
 # --- Editores ---
 .idea/
