@@ -245,7 +245,13 @@ la cabecera del sitio y siempre dejan por dónde seguir.
 hoy ninguno, con una prueba que recorre todas las páginas), el **contraste del carrusel** (el peor
 subtítulo pasa de 4.46 a 5.67), el **botón flotante**, que ya no tapa el botón de pedir de la
 página, y el **horario**, que pasa de siete filas a dos («Lunes a sábado» y «Domingo») y ya no
-cambia de formato en preguntas frecuentes. Quedan detalles menores; ver el doc 03 §4.0.
+cambia de formato en preguntas frecuentes.
+
+**Y los detalles menores**: el nombre del negocio se lee en la cabecera del celular (el logo completo
+no se leía), el menú empieza por «Inicio» y trae el horario, la dirección de la galería sale de la
+configuración, cada diapositiva del carrusel guarda su propio encuadre —la fachada ya no pierde su
+rótulo— y la historia está reescrita en la voz de la marca. La crítica del 11/09 queda cerrada
+entera; el siguiente paso es repetirla y comparar con el 24/40. Ver el doc 03 §4.0.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

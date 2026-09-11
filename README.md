@@ -118,7 +118,7 @@ supabase gen types typescript --local > src/tipos/database.types.ts
 ## Pruebas
 
 ```bash
-supabase test db                         # 347 pruebas pgTAP
+supabase test db                         # 359 pruebas pgTAP
 bash scripts/verificar-fase0.sh          # verificación funcional contra el Docker local
 bash scripts/verificar-storage.sh        # las políticas de Storage, con JWT de usuario real
 bash scripts/verificar-sitio-publico.sh  # el camino del navegador: PostgREST + vistas + bucket

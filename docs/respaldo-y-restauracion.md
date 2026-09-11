@@ -96,7 +96,7 @@ Pide confirmación escribiendo `RESTAURAR`. Borra datos: esa es la idea.
 ## 4. Después de restaurar
 
 ```bash
-supabase test db                          # 347 pruebas
+supabase test db                          # 359 pruebas
 bash scripts/verificar-sitio-publico.sh   # el camino que hace el navegador
 bash scripts/verificar-storage.sh         # que el bucket clientes siga privado
 ```
