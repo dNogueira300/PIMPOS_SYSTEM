@@ -106,15 +106,40 @@ describe("mensajeDePedido", () => {
     // Son los dos datos sin los que no se despacha un pedido. Antes el mensaje
     // decia solo "quisiera pedir X", y la primera respuesta del negocio era
     // siempre la misma pregunta.
-    expect(mensajeDePedido({ nombre: "Pan francés chico", varianteNombre: "Bolsa x 10" })).toBe(
-      "Hola, quisiera pedir Pan francés chico (Bolsa x 10).\nCantidad: \nDirección de entrega: ",
-    );
+    expect(
+      mensajeDePedido({
+        nombre: "Arroz",
+        variantes: 1,
+        varianteNombre: "Kilo",
+        varianteUnidad: "kilo",
+      }),
+    ).toBe("Hola, quisiera pedir Arroz (por kilo).\nCantidad: \nDirección de entrega: ");
   });
 
-  it("sin variante no deja parentesis vacios", () => {
-    expect(mensajeDePedido({ nombre: "Keke", varianteNombre: null })).toMatch(
-      /^Hola, quisiera pedir Keke\.\n/,
-    );
+  it("no mete «(Unidad)», que se lee como si pidiera un solo pan", () => {
+    // Lo marco la critica del 11/09: "quisiera pedir Arvejas (Unidad)" seguido
+    // de "Cantidad:" se contradice.
+    expect(
+      mensajeDePedido({
+        nombre: "Arvejas",
+        variantes: 1,
+        varianteNombre: "Unidad",
+        varianteUnidad: "unidad",
+      }),
+    ).toMatch(/^Hola, quisiera pedir Arvejas\.\n/);
+  });
+
+  it("con varias presentaciones no elige una por el cliente", () => {
+    // La predeterminada no tiene por que ser la que quiere, y "(2
+    // presentaciones)" no es algo que se pida.
+    expect(
+      mensajeDePedido({
+        nombre: "Hamburguesa grande",
+        variantes: 2,
+        varianteNombre: "De S/ 0.30",
+        varianteUnidad: "unidad",
+      }),
+    ).toMatch(/^Hola, quisiera pedir Hamburguesa grande\.\n/);
   });
 
   it("sin producto pregunta que se quiere", () => {
