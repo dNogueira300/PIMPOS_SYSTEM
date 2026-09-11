@@ -30,7 +30,11 @@ for (const { ruta, titulo } of SECCIONES) {
 test("el catalogo filtra por categoria y el filtro vive en la URL", async ({ page }) => {
   await page.goto("/productos");
 
-  const total = await page.locator("article").count();
+  // Cada producto es una fila-enlace de la pizarra. `/productos/` con barra:
+  // los filtros de categoria son `/productos?categoria=`.
+  const filas = page.getByRole("main").locator('a[href^="/productos/"]');
+  await expect(filas.first()).toBeVisible();
+  const total = await filas.count();
   expect(total).toBeGreaterThan(10);
 
   await page.getByRole("link", { name: "Panes clásicos", exact: true }).click();
@@ -38,8 +42,11 @@ test("el catalogo filtra por categoria y el filtro vive en la URL", async ({ pag
   // El estado va en la URL a proposito: asi el cliente puede mandar el enlace
   // de "los integrales" por WhatsApp y el buscador puede indexar la categoria.
   await expect(page).toHaveURL(/categoria=panes-clasicos/);
+  // Se espera al recuento y no se cuenta a ciegas: la lista filtrada llega en
+  // streaming, y contar antes mediria la de antes.
+  await expect(page.getByRole("status")).toContainText("en Panes clásicos");
 
-  const filtrados = await page.locator("article").count();
+  const filtrados = await filas.count();
   expect(filtrados).toBeGreaterThan(0);
   expect(filtrados).toBeLessThan(total);
 });

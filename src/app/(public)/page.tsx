@@ -5,7 +5,7 @@ import { ArrowRight, Clock, MapPin, MessageCircle, Truck } from "lucide-react";
 
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
-import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
+import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
 import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
@@ -145,11 +145,16 @@ export default async function Inicio() {
         </ul>
       </section>
 
-      {/* 3. Lo que vende, con su precio. */}
-      <section className="mx-auto max-w-(--container-contenido) px-4 pt-16 sm:px-6">
+      {/* 3. Lo que vende, con su precio: la misma pizarra que el catalogo. */}
+      <section
+        aria-labelledby="titulo-horneamos"
+        className="mx-auto max-w-(--container-contenido) px-4 pt-16 sm:px-6"
+      >
         <div className="aparece flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-heading text-3xl sm:text-4xl">Lo que horneamos hoy</h2>
+            <h2 id="titulo-horneamos" className="font-heading text-3xl sm:text-4xl">
+              Lo que horneamos hoy
+            </h2>
             <p className="text-muted-foreground mt-2 max-w-prose text-pretty">
               Todos los precios están a la vista. El pan del día empieza en S/ 0.10.
             </p>
@@ -163,13 +168,7 @@ export default async function Inicio() {
           </Link>
         </div>
 
-        <div className="aparece-grupo mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {destacados.map((producto, indice) => (
-            <div key={producto.id} style={{ "--i": indice % 4 } as CSSProperties}>
-              <TarjetaProducto producto={producto} />
-            </div>
-          ))}
-        </div>
+        <PizarraPrecios productos={destacados} className="mt-8" />
       </section>
 
       {/* 4. El delivery, que es el diferencial real del negocio (ficha 2.5) y

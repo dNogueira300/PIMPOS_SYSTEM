@@ -39,9 +39,9 @@ test("el catalogo llega desde la base con su precio a la vista", async ({ page }
   // Los productos NO estan escritos en el codigo: salen de `productos_publicos`
   // por PostgREST. Si esta prueba falla, o se rompio la vista o se rompio la
   // capa de datos, y en los dos casos hay que enterarse.
-  const tarjetas = page.locator("article").filter({ has: page.locator("h3") });
-  await expect(tarjetas.first()).toBeVisible();
-  expect(await tarjetas.count()).toBeGreaterThan(3);
+  const filas = page.getByRole("main").locator('a[href^="/productos/"]');
+  await expect(filas.first()).toBeVisible();
+  expect(await filas.count()).toBeGreaterThan(3);
 
   // El precio se muestra con orgullo (ficha 5.2). Hay pan a S/ 0.10 y esconderlo
   // seria contradecir la decision de diseno.

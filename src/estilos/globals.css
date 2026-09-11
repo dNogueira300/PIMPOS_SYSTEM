@@ -194,11 +194,6 @@
   /* El dorado cuando hace de texto, icono o enlace destacado. */
   --acento-texto: var(--pimpos-dorado-700);
 
-  /* Tarjeta de producto: la foto manda, el borde apenas se insinua. */
-  --tarjeta-producto-fondo: var(--pimpos-crema-50);
-  --tarjeta-producto-borde: var(--pimpos-crema-200);
-  --tarjeta-producto-precio: var(--pimpos-dorado-700);
-
   /* Precio: se muestra con orgullo (ficha 5.2), no se disimula. */
   --precio-texto: var(--pimpos-dorado-700);
 
@@ -262,8 +257,6 @@
   --color-cta-foreground: var(--cta-texto);
   --color-acento: var(--acento-texto);
   --color-precio: var(--precio-texto);
-  --color-tarjeta: var(--tarjeta-producto-fondo);
-  --color-tarjeta-borde: var(--tarjeta-producto-borde);
   --color-franja: var(--franja-fondo);
   --color-franja-foreground: var(--franja-texto);
 

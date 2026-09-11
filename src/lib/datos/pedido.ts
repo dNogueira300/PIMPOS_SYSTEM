@@ -1,4 +1,4 @@
-import { formatearPrecio } from "./catalogo";
+import { describirPresentacion, formatearPrecio, type ProductoPublico } from "./catalogo";
 import type { Configuracion } from "./configuracion";
 
 /**
@@ -121,17 +121,20 @@ export function numeroParaLeer(whatsapp: string): string | null {
  * cuanto y a donde. Antes decia solo "quisiera pedir X", y la primera
  * respuesta del negocio era siempre la misma pregunta.
  */
-export function mensajeDePedido(producto?: {
-  nombre: string;
-  varianteNombre: string | null;
-}): string {
+export function mensajeDePedido(
+  producto?: Pick<ProductoPublico, "nombre" | "variantes" | "varianteNombre" | "varianteUnidad">,
+): string {
   if (!producto) {
     return ["Hola, quisiera hacer un pedido.", "Pedido: ", "Dirección de entrega: "].join("\n");
   }
 
-  const variante = producto.varianteNombre ? ` (${producto.varianteNombre})` : "";
+  // La presentacion solo si hay una y dice algo. "(Unidad)" seguido de
+  // "Cantidad:" se contradice, y con varias la predeterminada no tiene por que
+  // ser la que quiere el cliente.
+  const presentacion = producto.variantes === 1 ? describirPresentacion(producto) : null;
+  const detalle = presentacion ? ` (${presentacion.toLowerCase()})` : "";
   return [
-    `Hola, quisiera pedir ${producto.nombre}${variante}.`,
+    `Hola, quisiera pedir ${producto.nombre}${detalle}.`,
     "Cantidad: ",
     "Dirección de entrega: ",
   ].join("\n");

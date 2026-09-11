@@ -159,3 +159,54 @@ export function describirPrecio(producto: ProductoPublico): string | null {
   if (precioHasta === null || precioHasta === precioDesde) return formatearPrecio(precioDesde);
   return `Desde ${formatearPrecio(precioDesde)}`;
 }
+
+/**
+ * La presentacion, solo cuando dice algo.
+ *
+ * "Unidad" aparecia bajo 32 de los 34 productos (critica del 11/09): un pan se
+ * vende por unidad, y repetirlo tapaba las pocas veces en que la presentacion
+ * si informa. "Por kilo" o "Por bolsa" se dicen; con varias presentaciones se
+ * cuentan, porque nombrar solo la predeterminada haria creer que no hay otra.
+ */
+export function describirPresentacion(
+  producto: Pick<ProductoPublico, "variantes" | "varianteNombre" | "varianteUnidad">,
+): string | null {
+  if (producto.variantes > 1) return `${producto.variantes} presentaciones`;
+
+  const nombre = producto.varianteNombre?.trim() ?? "";
+  if (nombre.length === 0 || nombre.toLowerCase() === "unidad") return null;
+
+  // El "Por" solo cuando el nombre ES la unidad de venta: "Por kilo" si,
+  // "Por grande" no significa nada.
+  const esLaUnidad = nombre.toLowerCase() === producto.varianteUnidad?.trim().toLowerCase();
+  return esLaUnidad ? `Por ${nombre.toLowerCase()}` : nombre;
+}
+
+export type GrupoDeCategoria = {
+  nombre: string;
+  slug: string | null;
+  productos: ProductoPublico[];
+};
+
+/**
+ * El catalogo por categorias, para la pizarra.
+ *
+ * Respeta el orden en que llegan, que ya es el de la base: la vista ordena por
+ * categoria y deja al final los productos sin categoria publicada. Esos van
+ * juntos bajo un nombre que se entiende, en vez de bajo un encabezado vacio.
+ */
+export function agruparPorCategoria(productos: readonly ProductoPublico[]): GrupoDeCategoria[] {
+  const grupos = new Map<string | null, GrupoDeCategoria>();
+
+  for (const producto of productos) {
+    const grupo = grupos.get(producto.categoriaSlug) ?? {
+      nombre: producto.categoriaNombre ?? "Otros productos",
+      slug: producto.categoriaSlug,
+      productos: [],
+    };
+    grupo.productos.push(producto);
+    grupos.set(producto.categoriaSlug, grupo);
+  }
+
+  return [...grupos.values()];
+}

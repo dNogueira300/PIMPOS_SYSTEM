@@ -27,16 +27,16 @@ El propietario señaló tres sitios como referencia (ficha 5.7). Se revisaron lo
 
 ### 1.1 Lo que comparten
 
-| Patrón                                                        | Presente en                   | Se adopta                                              |
-| ------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------ |
-| Fondo **crema / hueso**, nunca blanco puro                    | Los tres                      | ✅ Ya está en la paleta (`#F7EFE2`)                    |
-| Tonos tierra cálidos, sin colores saturados                   | Los tres                      | ✅ El arcoíris del logo queda como detalle mínimo      |
-| **La fotografía manda**: imágenes grandes, poco texto encima  | Los tres                      | ✅ Condiciona el diseño de tarjetas y del hero         |
-| Carrusel o imagen grande en portada                           | El Pan de la Chola, Kalatanta | ✅ Es el requisito R2                                  |
-| **Sección de relato de marca** ("nuestra esencia", "10 años") | Los tres                      | ✅ La historia de la ficha 1.8 va en portada, resumida |
-| Productos en **grilla de tarjetas** con foto, nombre y precio | El Pan de la Chola, Kalatanta | ✅                                                     |
-| **WhatsApp visible y permanente**                             | Los tres                      | ✅ Requisito R4                                        |
-| Pie de página con ubicación, horarios, contacto y redes       | Los tres                      | ✅                                                     |
+| Patrón                                                        | Presente en                   | Se adopta                                                            |
+| ------------------------------------------------------------- | ----------------------------- | -------------------------------------------------------------------- |
+| Fondo **crema / hueso**, nunca blanco puro                    | Los tres                      | ✅ Ya está en la paleta (`#F7EFE2`)                                  |
+| Tonos tierra cálidos, sin colores saturados                   | Los tres                      | ✅ El arcoíris del logo queda como detalle mínimo                    |
+| **La fotografía manda**: imágenes grandes, poco texto encima  | Los tres                      | ✅ Condiciona el diseño de tarjetas y del hero                       |
+| Carrusel o imagen grande en portada                           | El Pan de la Chola, Kalatanta | ✅ Es el requisito R2                                                |
+| **Sección de relato de marca** ("nuestra esencia", "10 años") | Los tres                      | ✅ La historia de la ficha 1.8 va en portada, resumida               |
+| Productos en **grilla de tarjetas** con foto, nombre y precio | El Pan de la Chola, Kalatanta | ↩️ Sustituida por la pizarra de precios mientras falten fotos (§4.0) |
+| **WhatsApp visible y permanente**                             | Los tres                      | ✅ Requisito R4                                                      |
+| Pie de página con ubicación, horarios, contacto y redes       | Los tres                      | ✅                                                                   |
 
 ### 1.2 Lo que se toma de cada uno
 
@@ -106,7 +106,8 @@ superficies discretas —fondos de hover, filas alternas—, así que teñirlas 
 acento cada hover del sitio. El dorado vive en la capa 3.
 
 **Capa 3 — de componente**: `--cta-fondo`, `--cta-texto`, `--acento-texto`, `--precio-texto`,
-`--tarjeta-producto-borde`, `--franja-fondo`, `--area-tactil-min`.
+`--franja-fondo`, `--area-tactil-min`. (Los de la tarjeta de producto se retiraron con ella, al pasar
+el catálogo a pizarra de precios.)
 
 Las tres capas son variables CSS nativas, que es como Tailwind 4 espera la configuración; el puente
 con las utilidades se hace con `@theme inline`. Ningún componente usa un color de la capa 1
@@ -157,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **101 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **113 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -174,15 +175,20 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
    condiciones del delivery (costo, mínimo, tiempo, pago y zonas), que salen de la configuración
    —migración 0017— y no del código. El mensaje llega con el hueco para la cantidad y la dirección,
    cada «escríbenos por WhatsApp» se puede pulsar y el slide del delivery lleva directo al chat.
-3. El catálogo sin fotos (32 de 34 productos) pasa a **pizarra de precios**; el aviso «sin foto» hoy
-   no llega a AA.
+3. El catálogo sin fotos (32 de 34 productos) mostraba 32 croissants de relleno y un aviso «sin foto»
+   a 1.9:1. **Corregido**: pasa a **pizarra de precios** (`PizarraPrecios`), una fila por producto
+   con puntos guía y el precio grande, agrupada por categoría; los productos con foto la conservan
+   en su fila. La ficha sin foto quita la caja vacía y pone el precio de titular. «Unidad» deja de
+   repetirse: la presentación solo se dice cuando informa. De paso se corrige el salto de `h1` a
+   `h3` en `/productos`: ahora las categorías son `h2`.
 4. Páginas propias de 404 y de error: hoy son las de Next, en inglés.
 
 Quedan para un pase posterior, ya medidos: el contraste de la diapositiva 2 del carrusel (subtítulo
-en 4.46; con el degradado 85/55/10 pasa a 5.66 oscureciendo la foto solo un 10 %), el salto de `h1` a
-`h3` en `/productos` y las áreas táctiles de 32 y 36 px.
+en 4.46; con el degradado 85/55/10 pasa a 5.66 oscureciendo la foto solo un 10 %), las áreas
+táctiles de 32 y 36 px y el botón flotante «Pedir», que en el celular tapa el precio y el botón de
+pedir de la ficha.
 
-**Cinco decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
+**Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
 
 | Decisión                                                             | Dónde se explica                                               |
@@ -191,6 +197,7 @@ corresponde:
 | Contacto **no** lleva formulario                                     | §4.1: obliga a vigilar un buzón que hoy nadie vigila           |
 | El `h1` de la portada no se ve                                       | §4.3: el titular del hero cambia cada seis segundos            |
 | El presupuesto de 150 KB estaba por debajo del suelo del framework   | §4.5                                                           |
+| El catálogo es una pizarra de precios, no una grilla de tarjetas     | §4.0: 32 de 34 productos no tienen foto                        |
 | El movimiento se hace con CSS, no con `motion`                       | §4.6                                                           |
 
 ### 4.1 Rutas
@@ -233,7 +240,7 @@ panel tenga bandeja de entrada (F4).
 | Componente         | Notas                                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `CarruselPortada`  | Embla + autoplay. **Se detiene al enfocar o al pasar el mouse**, y respeta `prefers-reduced-motion`. El `h1` de la página va **oculto a la vista**: el titular del hero es el del slide y cambia cada seis segundos, así que un `h1` que cambia solo no le sirve a nadie, y sin `h1` quien navega con lector de pantalla no sabe dónde está. Los titulares de los slides son `h2` |
-| `TarjetaProducto`  | Foto 4:3, nombre, precio, unidad de venta. Placeholder por categoría si no hay foto                                                                                                                                                                                                                                                                                               |
+| `PizarraPrecios`   | Una fila por producto: nombre, puntos guía y precio grande; la presentación solo si informa. **Sin placeholder**: con 32 de 34 productos sin foto, un relleno repetido enfriaba el catálogo. Un producto con foto la muestra en su fila. En escritorio, dos columnas que se leen de arriba abajo                                                                                  |
 | `BotonWhatsApp`    | Flotante en móvil, en línea en escritorio. Mensaje prellenado según el contexto                                                                                                                                                                                                                                                                                                   |
 | `Mapa`             | Leaflet, carga diferida (no bloquea la portada), coordenadas desde `configuracion_sitio`                                                                                                                                                                                                                                                                                          |
 | `Horario`          | Los dos turnos por día, **cada uno en su propia línea y en todos los tamaños**. Unirlos con un «y» en medio partía la línea justo por la hora de cierre en un teléfono, y se leía como un error de la página. Dos horarios distintos no son una frase, son dos datos. Marca que **domingos y feriados no hay atención**                                                           |

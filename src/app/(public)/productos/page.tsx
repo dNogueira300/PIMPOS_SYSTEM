@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Suspense, type CSSProperties } from "react";
+import { Suspense } from "react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
 import { EnlaceWhatsApp } from "@/components/publico/enlace-whatsapp";
 import { FiltroCategorias } from "@/components/publico/filtro-categorias";
-import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
-import { listarCategorias, listarProductos } from "@/lib/datos/catalogo";
+import { PizarraPrecios } from "@/components/publico/pizarra-precios";
+import { agruparPorCategoria, listarCategorias, listarProductos } from "@/lib/datos/catalogo";
 import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 
 export const metadata: Metadata = {
@@ -101,12 +101,17 @@ async function Catalogo({
             qué tenemos hoy.
           </p>
         </div>
+      ) : filtro ? (
+        // Una sola categoria: su nombre ya lo dice el recuento de arriba.
+        <PizarraPrecios productos={visibles} className="mt-6" />
       ) : (
-        <div className="aparece-grupo mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {visibles.map((producto, indice) => (
-            <div key={producto.id} style={{ "--i": indice % 4 } as CSSProperties}>
-              <TarjetaProducto producto={producto} />
-            </div>
+        // Todo el catalogo, por categorias, como en la pizarra de un mostrador.
+        <div className="mt-10 flex flex-col gap-14">
+          {agruparPorCategoria(visibles).map((grupo) => (
+            <section key={grupo.slug ?? "otros"} aria-label={grupo.nombre}>
+              <h2 className="font-heading text-2xl sm:text-3xl">{grupo.nombre}</h2>
+              <PizarraPrecios productos={grupo.productos} className="mt-4" />
+            </section>
           ))}
         </div>
       )}
