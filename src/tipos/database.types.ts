@@ -1320,6 +1320,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           deleted_at: string | null
+          enfoque: number
           enlace_url: string | null
           es_demo: boolean
           estado: "borrador" | "en_revision" | "publicado" | "archivado"
@@ -1340,6 +1341,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           deleted_at?: string | null
+          enfoque?: number
           enlace_url?: string | null
           es_demo?: boolean
           estado?: "borrador" | "en_revision" | "publicado" | "archivado"
@@ -1360,6 +1362,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           deleted_at?: string | null
+          enfoque?: number
           enlace_url?: string | null
           es_demo?: boolean
           estado?: "borrador" | "en_revision" | "publicado" | "archivado"
@@ -1739,6 +1742,7 @@ export type Database = {
       }
       slides_publicos: {
         Row: {
+          enfoque: number | null
           enlace_url: string | null
           es_demo: boolean | null
           id: string | null
@@ -1751,6 +1755,7 @@ export type Database = {
           titulo: string | null
         }
         Insert: {
+          enfoque?: number | null
           enlace_url?: string | null
           es_demo?: boolean | null
           id?: string | null
@@ -1763,6 +1768,7 @@ export type Database = {
           titulo?: string | null
         }
         Update: {
+          enfoque?: number | null
           enlace_url?: string | null
           es_demo?: boolean | null
           id?: string | null

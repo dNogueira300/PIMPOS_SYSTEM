@@ -85,6 +85,11 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
               aria-label={`${indice + 1} de ${slides.length}`}
               aria-hidden={indice !== actual}
             >
+              {/* `enfoque` (0020) dice por que altura se recorta cada foto. En
+                  escritorio el carrusel es panoramico y las fotos del negocio
+                  son verticales: centrada, la de la fachada perdia el rotulo.
+                  Es un dato de la diapositiva y no un valor fijo porque cada
+                  foto lo necesita distinto. */}
               <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
                 {slide.imagen ? (
                   <Image
@@ -94,6 +99,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                     priority={indice === 0}
                     sizes="(max-width: 640px) 100vw, 100vw"
                     className="object-cover sm:hidden"
+                    style={{ objectPosition: `50% ${slide.enfoque}%` }}
                   />
                 ) : null}
                 {slide.imagen ? (
@@ -104,6 +110,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                     priority={indice === 0}
                     sizes="100vw"
                     className="hidden object-cover sm:block"
+                    style={{ objectPosition: `50% ${slide.enfoque}%` }}
                   />
                 ) : null}
 

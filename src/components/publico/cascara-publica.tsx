@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import { BotonWhatsApp } from "@/components/publico/boton-whatsapp";
 import { Cabecera } from "@/components/publico/cabecera";
 import { Pie } from "@/components/publico/pie";
-import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { enlaceWhatsApp, formatearHora, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { agruparHorario } from "@/lib/datos/horario";
 import { mensajeDePedido } from "@/lib/datos/pedido";
 import { urlDeImagen } from "@/lib/supabase/publico";
 
@@ -24,6 +25,12 @@ import { urlDeImagen } from "@/lib/supabase/publico";
 export async function CascaraPublica({ children }: { children: ReactNode }) {
   const config = await obtenerConfiguracion();
   const pedido = enlaceWhatsApp(config, mensajeDePedido());
+  // La cabecera es de cliente: recibe el horario ya agrupado y con las horas
+  // escritas, en vez de la configuracion entera y la logica para leerla.
+  const horario = agruparHorario(config.horario_semanal).map(({ dias, tramos }) => ({
+    dias,
+    turnos: tramos.map(({ desde, hasta }) => `${formatearHora(desde)} a ${formatearHora(hasta)}`),
+  }));
 
   return (
     <>
@@ -39,6 +46,9 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
       <Cabecera
         logo={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
         logoAlt={config.logo_alt}
+        isotipo={urlDeImagen("marca", config.isotipo_url) ?? "/marca/isotipo.svg"}
+        nombre={config.nombre_comercial}
+        horario={horario}
         whatsapp={pedido}
       />
 

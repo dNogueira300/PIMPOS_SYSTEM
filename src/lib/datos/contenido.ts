@@ -18,6 +18,8 @@ export type Slide = {
   alt: string;
   enlace: string | null;
   textoBoton: string | null;
+  /** Por que altura se encuadra la foto al recortarla: 0 arriba, 100 abajo. */
+  enfoque: number;
 };
 
 export type Novedad = {
@@ -65,7 +67,7 @@ export async function listarSlides(): Promise<Slide[]> {
   const { data, error } = await supabase
     .from("slides_publicos")
     .select(
-      "id, titulo, subtitulo, imagen_url, imagen_movil_url, imagen_alt, enlace_url, texto_boton, orden",
+      "id, titulo, subtitulo, imagen_url, imagen_movil_url, imagen_alt, enlace_url, texto_boton, orden, enfoque",
     )
     .order("orden", { ascending: true });
 
@@ -81,6 +83,8 @@ export async function listarSlides(): Promise<Slide[]> {
     alt: fila.imagen_alt ?? "",
     enlace: fila.enlace_url,
     textoBoton: fila.texto_boton,
+    // Centrado si la fila no lo trae: es como se encuadraba antes de 0020.
+    enfoque: fila.enfoque ?? 50,
   }));
 }
 
