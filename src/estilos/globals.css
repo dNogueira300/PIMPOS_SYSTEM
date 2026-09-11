@@ -468,3 +468,18 @@
     }
   }
 }
+
+/* =============================================================================
+   MAPA (Leaflet)
+
+   Los botones de zoom miden 30 px de fabrica, y el area tactil minima del sitio
+   es 44 (R15). La regla va fuera de toda capa a proposito: la hoja de Leaflet no
+   esta en ninguna, y una regla dentro de `@layer` pierde contra cualquier regla
+   sin capa, tenga la especificidad que tenga.
+   ============================================================================= */
+.leaflet-container .leaflet-control-zoom.leaflet-bar a {
+  width: var(--area-tactil-min);
+  height: var(--area-tactil-min);
+  line-height: var(--area-tactil-min);
+  font-size: 1.375rem;
+}

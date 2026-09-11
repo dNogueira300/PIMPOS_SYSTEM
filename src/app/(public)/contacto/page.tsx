@@ -74,7 +74,7 @@ export default async function Contacto() {
                         href={whatsapp}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
                       >
                         {numero}
                       </a>
@@ -91,7 +91,7 @@ export default async function Contacto() {
                     <dd>
                       <a
                         href={`tel:${config.telefono.replace(/\s/g, "")}`}
-                        className="text-muted-foreground hover:text-foreground"
+                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
                       >
                         {config.telefono}
                       </a>
@@ -108,7 +108,7 @@ export default async function Contacto() {
                     <dd>
                       <a
                         href={`mailto:${config.correo}`}
-                        className="text-muted-foreground hover:text-foreground break-all"
+                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center break-all"
                       >
                         {config.correo}
                       </a>
@@ -127,8 +127,11 @@ export default async function Contacto() {
                       {config.referencia ? <br /> : null}
                       {config.referencia}
                     </dd>
-                    <dd className="mt-1">
-                      <Link href="/ubicacion" className="text-acento text-sm underline">
+                    <dd>
+                      <Link
+                        href="/ubicacion"
+                        className="text-acento min-h-tactil inline-flex items-center text-sm underline"
+                      >
                         Ver el mapa
                       </Link>
                     </dd>

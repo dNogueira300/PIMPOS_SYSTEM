@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **117 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **121 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -191,10 +191,24 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
    servidor en el build exigiría dejar en producción una ruta que falle a demanda. Se verificó a
    mano, con una ruta temporal que fallaba al hidratar, y se retiró antes del commit.
 
-Quedan para un pase posterior, ya medidos: el contraste de la diapositiva 2 del carrusel (subtítulo
-en 4.46; con el degradado 85/55/10 pasa a 5.66 oscureciendo la foto solo un 10 %), las áreas
-táctiles de 32 y 36 px y el botón flotante «Pedir», que en el celular tapa el precio y el botón de
-pedir de la ficha.
+**P2 corregidos (11/09/2026), con medida:**
+
+- **Área táctil.** Medir cada control de las 10 páginas a 375 px encontró 22 por debajo de 44 px,
+  más de los que citaba la crítica: los puntos del carrusel (32), los enlaces del pie (36 y 20), los
+  datos de contacto (17 a 20), el zoom (30) y el marcador (20) del mapa. Ahora no queda ninguno fuera
+  de lo que WCAG 2.5.8 exime (enlaces dentro de una frase y el crédito de licencia del mapa), y
+  `e2e/tactil.spec.ts` recorre todos los controles de todas las páginas.
+- **Contraste del carrusel.** Degradado 85/55/10. Medido por píxeles sobre la foto real, el peor 5 %
+  del subtítulo de la diapositiva 2 queda en 5.67 en escritorio y 6.47 en el celular (antes 4.46), y
+  ni su píxel más desfavorable baja de 4.5. Los titulares, texto grande, no bajan de 3.45 en ningún
+  píxel.
+- **El botón flotante «Pedir»** se aparta mientras el botón de pedir de la propia página está a la
+  vista: ahí sobraba y tapaba el precio y las condiciones.
+
+**Quedan**, de la crítica: el horario denso y repetido (sección y pie) y en dos formatos (P2); y
+detalles menores —el logo ilegible a 375 px, la dirección escrita en el código de `/galeria`, el
+letrero cortado en el hero de escritorio, el menú móvil sin «Inicio» y el arranque de la historia en
+el tono que `docs/marca.md` desaconseja—.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:

@@ -26,7 +26,7 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 343 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 343 pgTAP + 111 unitarias + 117 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 343 pgTAP + 111 unitarias + 121 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -233,6 +233,15 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
 - **`error.tsx` recibe `retry`, no `reset`** (estable desde Next 16.3). `retry` vuelve a pedir los
   datos y a pintar; `reset` solo limpia el estado y, con un fallo de un Server Component, vuelve a
   fallar igual. Los ejemplos de versiones anteriores usan `reset`.
+- **Una regla dentro de `@layer` pierde contra una hoja sin capa, sea cual sea su especificidad.**
+  Pasó con Leaflet: sus botones de zoom miden 30 px y la hoja `leaflet.css` no está en ninguna capa,
+  así que agrandarlos desde `@layer components` no hacía nada. La regla va al final de `globals.css`,
+  fuera de toda capa. Lo mismo valdrá para cualquier librería que traiga su propio CSS.
+- **El área táctil se mide en todo el sitio, no se promete.** Hasta el 11/09 solo dos botones tenían
+  prueba, y medir todas las páginas a 375 px encontró 22 controles por debajo de 44 px (puntos del
+  carrusel, enlaces del pie, datos de contacto, zoom y marcador del mapa). `e2e/tactil.spec.ts`
+  recorre ahora cada control de cada página; los enlaces dentro de una frase y el crédito de licencia
+  del mapa quedan exentos, como en WCAG 2.5.8.
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI

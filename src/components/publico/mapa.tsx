@@ -56,11 +56,15 @@ export function Mapa({ lat, lng, titulo, direccion }: Props) {
       // El icono por defecto de Leaflet apunta a archivos que el empaquetador
       // no resuelve y sale roto. Un circulo con el azul de la marca se ve mejor
       // y no depende de ninguna imagen.
+      //
+      // El circulo mide 20 px, pero el marcador se pulsa (abre la direccion) y
+      // su area tactil tiene que ser de 44 (R15): el circulo va centrado dentro
+      // de una caja de 44 transparente.
       const marca = L.divIcon({
         className: "",
-        html: '<span style="display:block;width:20px;height:20px;border-radius:9999px;background:#12306e;border:3px solid #fdf9f3;box-shadow:0 2px 6px rgba(35,26,20,.4)"></span>',
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
+        html: '<span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px"><span style="display:block;width:20px;height:20px;border-radius:9999px;background:#12306e;border:3px solid #fdf9f3;box-shadow:0 2px 6px rgba(35,26,20,.4)"></span></span>',
+        iconSize: [44, 44],
+        iconAnchor: [22, 22],
       });
 
       L.marker([lat, lng], { icon: marca, title: titulo, alt: titulo })

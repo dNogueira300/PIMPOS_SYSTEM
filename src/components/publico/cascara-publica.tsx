@@ -31,7 +31,7 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
           tiene que recorrer las siete secciones en cada pagina. */}
       <a
         href="#contenido"
-        className="bg-cta text-cta-foreground focus:ring-ring sr-only rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:ring-2"
+        className="bg-cta text-cta-foreground focus:ring-ring focus:min-h-tactil sr-only rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:inline-flex focus:items-center focus:ring-2"
       >
         Saltar al contenido
       </a>
