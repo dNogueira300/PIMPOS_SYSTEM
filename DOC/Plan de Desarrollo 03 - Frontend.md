@@ -239,8 +239,8 @@ de Next antes de escribir código:
   woff, y tampoco maneja bien las fuentes variables. Las de `src/recursos/compartir/` son las mismas
   Fraunces e Inter convertidas a TTF estáticas; ninguna declara _Reserved Font Name_, así que la OFL
   permite conservar el nombre. El procedimiento y el aviso de licencia están junto a los archivos.
-- El logo en PNG solo existía en `DOC/Fotos...`, que está fuera de git. Se copió al repositorio.
-- El paquete de la imagen tiene un límite de **500 KB** con fuentes y logos. Hoy son unos 220 KB.
+- El isotipo en PNG solo existía en `DOC/Fotos...`, que está fuera de git. Se copió al repositorio.
+- El paquete de la imagen tiene un límite de **500 KB** con fuentes y logos. Hoy son unos 125 KB.
 
 **La URL del sitio** sale de `src/lib/sitio.ts`, en este orden: `NEXT_PUBLIC_SITE_URL` (la del
 dominio, cuando llegue), `VERCEL_PROJECT_PRODUCTION_URL` (para desplegar antes del dominio sin

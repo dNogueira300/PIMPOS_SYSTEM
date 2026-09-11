@@ -21,10 +21,10 @@ import { obtenerConfiguracion } from "@/lib/datos/configuracion";
  *   las mismas Fraunces e Inter del sitio (misma licencia OFL, mismo archivo de
  *   origen), convertidas a estáticas: el motor tampoco maneja bien las fuentes
  *   variables, así que se fijaron grosor y tamaño óptico.
- * - El logo va en PNG y dentro del repositorio. El de `DOC/Fotos...` está fuera
+ * - El isotipo va en PNG y dentro del repositorio. El de `DOC/Fotos...` está fuera
  *   de git, y en el CI o en un despliegue no existiría.
  * - El paquete de esta imagen tiene un límite de 500 KB con fuentes y logos
- *   incluidos. Hoy son unos 220 KB.
+ *   incluidos. Hoy son unos 125 KB.
  *
  * El nombre y el precio salen de la base, no de este archivo: si el pan más
  * barato sube de precio, la imagen deja de anunciar uno que ya no existe.

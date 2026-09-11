@@ -49,9 +49,8 @@ f.save("src/recursos/compartir/inter-500.ttf")
 | Archivo       | Origen                                                                       |
 | ------------- | ---------------------------------------------------------------------------- |
 | `isotipo.png` | `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/marca/isotipo-256.png` |
-| `logo.png`    | `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/marca/logo-256.png`    |
 
 Son la marca del propio cliente, Panadería Pimpo's E.I.R.L.
 
 **Límite de peso:** el paquete de la imagen no puede pasar de 500 KB con fuentes y logos incluidos.
-Hoy son unos 220 KB. Antes de cambiar un archivo por uno más grande, sumar.
+Hoy son unos 125 KB. Antes de cambiar un archivo por uno más grande, sumar.
