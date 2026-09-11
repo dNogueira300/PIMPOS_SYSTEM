@@ -1,43 +1,11 @@
-import { BotonWhatsApp } from "@/components/publico/boton-whatsapp";
-import { Cabecera } from "@/components/publico/cabecera";
-import { Pie } from "@/components/publico/pie";
-import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
-import { mensajeDePedido } from "@/lib/datos/pedido";
-import { urlDeImagen } from "@/lib/supabase/publico";
+import { CascaraPublica } from "@/components/publico/cascara-publica";
 
 /**
  * Layout del sitio publico.
  *
- * Lee la configuracion una vez y la reparte. Esa lectura esta cacheada con la
- * etiqueta `marca`, asi que no cuesta una consulta por pagina: cuando el
- * negocio cambia el logo o los horarios desde el panel, se invalida la etiqueta
- * y se refrescan las ocho secciones a la vez (R21).
+ * Todo lo que pone —cabecera, pie, boton de WhatsApp— esta en `CascaraPublica`,
+ * para que el 404 de la raiz pueda ponerse la misma ropa. Ver ese componente.
  */
-export default async function LayoutPublico({ children }: LayoutProps<"/">) {
-  const config = await obtenerConfiguracion();
-  const pedido = enlaceWhatsApp(config, mensajeDePedido());
-
-  return (
-    <>
-      {/* Primer elemento enfocable de la pagina: quien navega con teclado no
-          tiene que recorrer las siete secciones en cada pagina. */}
-      <a
-        href="#contenido"
-        className="bg-cta text-cta-foreground focus:ring-ring sr-only rounded-md px-4 py-2 focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:ring-2"
-      >
-        Saltar al contenido
-      </a>
-
-      <Cabecera
-        logo={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
-        logoAlt={config.logo_alt}
-        whatsapp={pedido}
-      />
-
-      <main id="contenido">{children}</main>
-
-      <BotonWhatsApp enlace={pedido} />
-      <Pie config={config} />
-    </>
-  );
+export default function LayoutPublico({ children }: LayoutProps<"/">) {
+  return <CascaraPublica>{children}</CascaraPublica>;
 }
