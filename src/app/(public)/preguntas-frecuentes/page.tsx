@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { listarFaqs, listarGuias } from "@/lib/datos/contenido";
+import { preguntasSchema } from "@/lib/seo/datos-estructurados";
 
 export const metadata: Metadata = {
   title: "Preguntas frecuentes",
@@ -25,6 +27,11 @@ export default async function PreguntasFrecuentes() {
 
   return (
     <>
+      {/* Para que el buscador pueda mostrar las preguntas desplegables en el
+          propio resultado. Solo si hay alguna: un FAQPage vacío lo marca
+          como error. */}
+      {faqs.length > 0 ? <DatosEstructurados datos={preguntasSchema(faqs)} /> : null}
+
       <EncabezadoSeccion
         titulo="Preguntas frecuentes"
         entradilla="Lo que más nos preguntan. Si tu duda no está aquí, escríbenos por WhatsApp."

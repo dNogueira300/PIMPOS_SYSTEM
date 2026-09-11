@@ -64,7 +64,14 @@ export default defineConfig({
     // corren contra el Supabase local, nunca contra el proyecto alojado.
     env: (() => {
       const { apiUrl, anonKey } = supabaseLocal();
-      return { NEXT_PUBLIC_SUPABASE_URL: apiUrl, NEXT_PUBLIC_SUPABASE_ANON_KEY: anonKey };
+      return {
+        NEXT_PUBLIC_SUPABASE_URL: apiUrl,
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: anonKey,
+        // El sitemap, la imagen para compartir y los datos estructurados llevan
+        // URLs absolutas. Tienen que apuntar al servidor de las pruebas para
+        // que la prueba pueda pedirlas de verdad.
+        NEXT_PUBLIC_SITE_URL: URL_BASE,
+      };
     })(),
   },
 });

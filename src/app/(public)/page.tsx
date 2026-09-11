@@ -6,7 +6,8 @@ import { ArrowRight, Clock, MapPin, Truck } from "lucide-react";
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
 import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
-import { listarDestacados } from "@/lib/datos/catalogo";
+import { DatosEstructurados } from "@/components/seo/datos-estructurados";
+import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
 import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import {
   listarGaleria,
@@ -14,6 +15,9 @@ import {
   listarSlides,
   listarTestimonios,
 } from "@/lib/datos/contenido";
+import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
+import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
+import { urlDeImagen } from "@/lib/supabase/publico";
 
 /**
  * Portada (doc 03 §4.2).
@@ -59,12 +63,29 @@ export default async function Inicio() {
     listarGaleria(),
   ]);
 
+  // Cacheada con la misma etiqueta que el resto del catálogo: no es una
+  // consulta más, es la misma lectura que ya hace listarDestacados.
+  const productos = await listarProductos();
   const whatsapp = enlaceWhatsApp(config, "Hola, quisiera hacer un pedido para delivery.");
   const fachada = galeria.find((foto) => foto.categoria === "fachada") ?? galeria[0];
   const direccion = direccionCompleta(config);
 
   return (
     <>
+      {/* Datos estructurados: nombre, dirección, horario de dos turnos,
+          teléfono y rango de precios, para que el buscador los muestre junto
+          al nombre sin que haya que entrar. Van en la portada y no en el
+          layout: es lo que recomienda Google para un negocio local, y en cada
+          página repetirían lo mismo. */}
+      <DatosEstructurados
+        datos={panaderiaSchema({
+          config,
+          urlSitio: urlDelSitio(),
+          urlLogo: urlAbsoluta(urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"),
+          precios: productos.map((producto) => producto.precioDesde),
+        })}
+      />
+
       {/* 1. Carrusel.
 
           El h1 va oculto a la vista y no es un truco de SEO: el hero es una

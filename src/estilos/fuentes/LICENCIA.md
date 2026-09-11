@@ -6,7 +6,7 @@ usarlas, empaquetarlas y redistribuirlas con el proyecto. La licencia exige cons
 | Archivo                | Familia  | Autoría                                                                         |
 | ---------------------- | -------- | ------------------------------------------------------------------------------- |
 | `fraunces-latin.woff2` | Fraunces | Copyright 2020 The Fraunces Project Authors — github.com/undercasetype/Fraunces |
-| `inter-latin.woff2`    | Inter    | Copyright 2020 The Inter Project Authors — github.com/rsms/inter                |
+| `inter-latin.woff2`    | Inter    | Copyright 2016 The Inter Project Authors — github.com/rsms/inter                |
 
 Texto completo de la licencia: <https://openfontlicense.org>
 

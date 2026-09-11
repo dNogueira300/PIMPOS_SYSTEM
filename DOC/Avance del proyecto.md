@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 08/09/2026
+**Corte:** 11/09/2026
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 
@@ -11,16 +11,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                        |
-| ------ | ------------------------ | --------------------------------------------- |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                           |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                           |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                           |
-| **F3** | Sitio público            | 🔄 Las 8 secciones en pie. Falta SEO y pulido |
-| F4     | Panel: contenido         | ⬜                                            |
-| F5     | Panel: insumos           | ⬜                                            |
-| F6     | Panel: clientes          | ⬜                                            |
-| F7     | Cierre                   | ⬜                                            |
+| Fase   | Nombre                   | Estado                                     |
+| ------ | ------------------------ | ------------------------------------------ |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                        |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                        |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                        |
+| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Falta el pulido |
+| F4     | Panel: contenido         | ⬜                                         |
+| F5     | Panel: insumos           | ⬜                                         |
+| F6     | Panel: clientes          | ⬜                                         |
+| F7     | Cierre                   | ⬜                                         |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -73,12 +73,27 @@ frecuentes y contacto.
 | Preguntas | Las 5 de la ficha más las 2 guías, en acordeón nativo                                                                |
 | Contacto  | WhatsApp, teléfono, correo, dirección y horario                                                                      |
 
-El build genera **49 páginas estáticas**, los 34 productos entre ellas. El contenido cambia sin
+El build genera **52 páginas estáticas**, los 34 productos entre ellas. El contenido cambia sin
 tocar código: cuando el panel publique (F4), se invalidará por etiqueta y el sitio se refresca solo.
 
 **El movimiento** (aparición de bloques al bajar, escalonado de las rejillas, acercamiento de las
 fotos, hundimiento del botón al pulsarlo) está hecho con **CSS nativo guiado por el scroll**, sin
 una sola línea de JavaScript. El motivo está medido y se explica en §3.
+
+**El SEO está hecho.** Es la primera presencia digital del negocio (ficha 3.4), así que no se trata
+como un añadido:
+
+| Pieza                         | Qué consigue                                                                                                             |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Datos estructurados `Bakery`  | Que Google muestre dirección, horario de dos turnos, teléfono y rango de precios junto al nombre, sin entrar a la página |
+| Datos estructurados `FAQPage` | Que las preguntas frecuentes puedan salir desplegables en el propio resultado                                            |
+| `sitemap.xml`                 | Las 42 URLs públicas, generadas desde la base: un pan nuevo aparece solo                                                 |
+| `robots.txt`                  | El panel y la pantalla de ingreso fuera del índice                                                                       |
+| Imagen para compartir         | Lo que ve quien recibe el enlace por WhatsApp: el isotipo, el nombre y «Desde S/ 0.10», leído del catálogo               |
+
+Nada de esto se ve en la pantalla de nadie, y por eso tiene **6 pruebas** que piden cada archivo y
+comprueban lo que vuelve: que la imagen sea un PNG real y no un error, que el sitemap no filtre el
+panel, que el horario salga con el domingo cerrado.
 
 ### Base de datos
 
@@ -117,8 +132,8 @@ todas con `security_invoker`**, que es lo que impide que una vista salte esa seg
 | Capa                    | Qué cubre                                                               | Cuántas |
 | ----------------------- | ----------------------------------------------------------------------- | ------- |
 | pgTAP                   | Seguridad y reglas de negocio en la base                                | 326     |
-| Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 68      |
-| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 80      |
+| Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 89      |
+| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 86      |
 | Guiones de verificación | Lo que SQL no puede probar: la API de Storage y el camino del navegador | 3       |
 
 Los tres guiones existen porque hay cosas que una consulta no prueba. Que un archivo del bucket
@@ -133,7 +148,7 @@ petición mide lo que va a medir el visitante.
 
 Todo pasa por pull request con el CI en verde antes de entrar a `main`, que está protegida.
 
-**Esa disciplina ya evitó once problemas** que habrían aparecido más tarde y más caros:
+**Esa disciplina ya evitó doce problemas** que habrían aparecido más tarde y más caros:
 
 1. **La tabla de roles estaba vacía en producción.** `supabase db push` no aplica las semillas.
    Habría fallado al crear el primer usuario, con un error de clave foránea ilegible. De ahí salió
@@ -164,6 +179,9 @@ Todo pasa por pull request con el CI en verde antes de entrar a `main`, que est�
 11. **Una animación al aparecer habría dejado los bloques en blanco al imprimir.** Sin scroll no hay
     línea de tiempo, así que se congelaban en su primer fotograma. Lo encontró la prueba, no el
     papel.
+12. **La imagen para compartir no habría funcionado con las fuentes del sitio.** El motor que la
+    genera no acepta woff2, que es el formato que usa todo el sitio. Salió al leer la documentación
+    de Next antes de escribir código, no con la imagen ya rota.
 
 ---
 
@@ -195,13 +213,13 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ### Fase 3 — lo que queda
 
-Las ocho secciones están construidas y probadas. Falta:
+Las ocho secciones y el SEO están construidos y probados. Falta:
 
-| Tarea                   | Por qué importa                                                                                                                                                                                                       |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **SEO**                 | Es su primera presencia digital. Datos estructurados de tipo `Bakery` con dirección, horarios y coordenadas; `sitemap` y `robots` generados desde la base; imagen para cuando alguien comparta el enlace por WhatsApp |
-| Pulido de detalle       | Las skills `impeccable` y `emil-design-eng`, que es el orden que fija el doc 03 §2                                                                                                                                    |
-| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                                       |
+| Tarea                   | Por qué importa                                                                                                                                                                                |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pulido de detalle       | Las skills `impeccable` y `emil-design-eng`, que es el orden que fija el doc 03 §2                                                                                                             |
+| Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
+| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
 
 **Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
 carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si

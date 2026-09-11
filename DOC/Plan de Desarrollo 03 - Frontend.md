@@ -156,11 +156,13 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 ### 4.0 Estado
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
-0016, no de tablas ni del código. El build genera **49 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **80 pruebas de navegador** a 375 px y en escritorio.
+0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
+ellas, y las cubren **86 pruebas de navegador** a 375 px y en escritorio.
 
-Falta el SEO (§4.4), el pulido de detalle con `impeccable` y `emil-design-eng`, y que el panel de F4
-dispare el `revalidateTag` cuyas etiquetas ya están puestas.
+**El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
+con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
+detalle con `impeccable` y `emil-design-eng`, y que el panel de F4 dispare el `revalidateTag` cuyas
+etiquetas ya están puestas.
 
 **Cinco decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
@@ -221,14 +223,29 @@ panel tenga bandeja de entrada (F4).
 
 ### 4.4 SEO — es su primera presencia digital
 
-- [ ] `metadata` por página: título, descripción, Open Graph, Twitter Card
-- [ ] **JSON-LD tipo `Bakery`**: nombre, dirección (Calle Elías Aguirre 1321, Belén, Iquitos), teléfono, coordenadas, horarios de los dos turnos, rango de precios
-- [ ] JSON-LD `FAQPage` en preguntas frecuentes
-- [ ] `sitemap.ts` y `robots.ts` generados desde la base
-- [ ] URLs en español y con slug legible
-- [ ] Imagen Open Graph 1200 × 630 generada desde la marca
+- [x] `metadata` por página: título, descripción, Open Graph, Twitter Card. Verificado por prueba que Next rellena `og:title` y `og:description` desde el `title` y la `description` de cada página
+- [x] **JSON-LD tipo `Bakery`**: nombre, dirección, teléfono, coordenadas, horarios de los dos turnos (el domingo no figura: en schema.org un día que no aparece es un día cerrado) y rango de precios sacado del catálogo
+- [x] JSON-LD `FAQPage` en preguntas frecuentes, solo si hay alguna publicada (vacío lo marca como error)
+- [x] `sitemap.ts` y `robots.ts` generados desde la base. El sitemap **sin `lastModified`**: las vistas no exponen la fecha, y `new Date()` rompería el build con Cache Components y además le diría a Google que todo cambió hoy
+- [x] URLs en español y con slug legible
+- [x] Imagen Open Graph 1200 × 630 generada desde la marca, con el nombre y el precio más bajo leídos de la base
 - [ ] Verificación en Google Search Console tras el despliegue
 - [ ] **Crear el perfil de Google Business** — la ficha (3.4) dice que no lo tienen. Para una panadería local, pesa tanto como el sitio
+
+**Tres cosas que costó averiguar para la imagen para compartir**, las tres leyendo la documentación
+de Next antes de escribir código:
+
+- `ImageResponse` **no acepta woff2**, que es el formato de las fuentes del sitio. Solo ttf, otf y
+  woff, y tampoco maneja bien las fuentes variables. Las de `src/recursos/compartir/` son las mismas
+  Fraunces e Inter convertidas a TTF estáticas; ninguna declara _Reserved Font Name_, así que la OFL
+  permite conservar el nombre. El procedimiento y el aviso de licencia están junto a los archivos.
+- El isotipo en PNG solo existía en `DOC/Fotos...`, que está fuera de git. Se copió al repositorio.
+- El paquete de la imagen tiene un límite de **500 KB** con fuentes y logos. Hoy son unos 125 KB.
+
+**La URL del sitio** sale de `src/lib/sitio.ts`, en este orden: `NEXT_PUBLIC_SITE_URL` (la del
+dominio, cuando llegue), `VERCEL_PROJECT_PRODUCTION_URL` (para desplegar antes del dominio sin
+publicar URLs de `localhost`) y `http://localhost:3000`. Si sale mal no se ve en ninguna pantalla:
+el sitemap le diría a Google que el catálogo vive en `localhost`.
 
 ### 4.5 Rendimiento
 
@@ -397,12 +414,13 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 - [x] Un solo `h1` por página, y ninguna sin él
 - [x] Todo funciona a 375 px
 - [x] Presupuesto de JavaScript vigilado por prueba automática
+- [x] `sitemap.xml` y `robots.txt` accesibles, con URLs absolutas y sin rastro del panel
+- [x] Imagen para compartir el enlace (1200 × 630), descargada y comprobada como PNG real
+- [x] Datos estructurados `Bakery` y `FAQPage` presentes y con la forma correcta, verificado por prueba
 
 **Pendiente**
 
-- [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google
-- [ ] `sitemap.xml` y `robots.txt` accesibles
-- [ ] Imagen para compartir el enlace (Open Graph 1200 × 630)
+- [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google. La forma ya la comprueba una prueba; la herramienta necesita una URL pública, así que va tras el despliegue
 - [ ] Lighthouse: rendimiento ≥ 90, accesibilidad ≥ 95, SEO 100 en móvil
 - [ ] Sin errores de axe en ninguna página
 - [ ] Verificado en Chrome y Safari móvil **reales**, no solo en el emulador
