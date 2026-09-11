@@ -239,7 +239,12 @@ Todas medidas o verificadas, ninguna por preferencia.
 La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. **Los cuatro están
 corregidos**: la animación en reposo, el momento de pedir por WhatsApp, el catálogo sin fotos (ahora
 una pizarra de precios) y las páginas de «no encontrado» y de error, que ya hablan en español, llevan
-la cabecera del sitio y siempre dejan por dónde seguir. Quedan los P2 medidos, ver el doc 03 §4.0.
+la cabecera del sitio y siempre dejan por dónde seguir.
+
+De los P2, ya están corregidos y medidos el **área táctil** (22 controles por debajo de 44 px, hoy
+ninguno, con una prueba que recorre todas las páginas), el **contraste del carrusel** (el peor
+subtítulo pasa de 4.46 a 5.67) y el **botón flotante**, que ya no tapa el botón de pedir de la
+página. Queda el horario y los detalles menores; ver el doc 03 §4.0.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
