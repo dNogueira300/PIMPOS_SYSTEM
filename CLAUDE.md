@@ -23,10 +23,10 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 | F4–F7            | ⬜                                                                    |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 343 pruebas pgTAP. Las 9 pruebas
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 347 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 343 pgTAP + 111 unitarias + 121 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 347 pgTAP + 117 unitarias + 123 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -123,7 +123,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 343 pruebas pgTAP
+supabase test db                  # 347 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -289,27 +289,28 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 17 migraciones** (`supabase/migrations/`), en orden:
+**Las 18 migraciones** (`supabase/migrations/`), en orden:
 
-| Archivo                        | Contenido                                                                  |
-| ------------------------------ | -------------------------------------------------------------------------- |
-| `0001_extensiones`             | Esquema `app` + las 5 extensiones. `pg_cron` va en `pg_catalog`            |
-| `0002_comunes`                 | Los 6 enums, `app.set_updated_at()`, `app.rol_actual()`, `app.es_rol()`    |
-| `0003_roles_perfiles`          | `roles`, `perfiles`, el hook `app.custom_access_token()` y sus políticas   |
-| `0004_catalogo_roles`          | Las 4 filas de `roles` — migración, no semilla, ver la trampa de abajo     |
-| `0005_perfil_automatico`       | Trigger sobre `auth.users` que crea el perfil                              |
-| `0006_perfil_siempre_inactivo` | El trigger deja de leer el rol de los metadatos                            |
-| `0007_auditoria`               | `app.auditoria`, trigger genérico y la vista `public.auditoria`            |
-| `0008_configuracion`           | `configuracion_sitio` y sus ~24 valores de la ficha                        |
-| `0009_catalogo`                | Categorías, productos, variantes, imágenes e historial de precios          |
-| `0010_contenido`               | Novedades con aprobación, slides, guías, galería, faqs, testimonios        |
-| `0011_insumos`                 | Unidades, equivalencias, proveedores, almacenes y `app.convertir_a_base()` |
-| `0012_kardex`                  | Lotes, movimientos, saldos por trigger y `app.recalcular_saldos()`         |
-| `0013_clientes`                | Zonas, clientes, fotos, consentimientos y `app.sin_tildes()`               |
-| `0014_storage_politicas`       | Las 12 políticas de los 7 buckets                                          |
-| `0015_cron_alertas`            | `notificaciones`, `app.evaluar_alertas()` y los 2 trabajos de cron         |
-| `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                  |
-| `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada |
+| Archivo                        | Contenido                                                                                                      |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `0001_extensiones`             | Esquema `app` + las 5 extensiones. `pg_cron` va en `pg_catalog`                                                |
+| `0002_comunes`                 | Los 6 enums, `app.set_updated_at()`, `app.rol_actual()`, `app.es_rol()`                                        |
+| `0003_roles_perfiles`          | `roles`, `perfiles`, el hook `app.custom_access_token()` y sus políticas                                       |
+| `0004_catalogo_roles`          | Las 4 filas de `roles` — migración, no semilla, ver la trampa de abajo                                         |
+| `0005_perfil_automatico`       | Trigger sobre `auth.users` que crea el perfil                                                                  |
+| `0006_perfil_siempre_inactivo` | El trigger deja de leer el rol de los metadatos                                                                |
+| `0007_auditoria`               | `app.auditoria`, trigger genérico y la vista `public.auditoria`                                                |
+| `0008_configuracion`           | `configuracion_sitio` y sus ~24 valores de la ficha                                                            |
+| `0009_catalogo`                | Categorías, productos, variantes, imágenes e historial de precios                                              |
+| `0010_contenido`               | Novedades con aprobación, slides, guías, galería, faqs, testimonios                                            |
+| `0011_insumos`                 | Unidades, equivalencias, proveedores, almacenes y `app.convertir_a_base()`                                     |
+| `0012_kardex`                  | Lotes, movimientos, saldos por trigger y `app.recalcular_saldos()`                                             |
+| `0013_clientes`                | Zonas, clientes, fotos, consentimientos y `app.sin_tildes()`                                                   |
+| `0014_storage_politicas`       | Las 12 políticas de los 7 buckets                                                                              |
+| `0015_cron_alertas`            | `notificaciones`, `app.evaluar_alertas()` y los 2 trabajos de cron                                             |
+| `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                                                      |
+| `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada                                     |
+| `0018_faq_horario`             | La respuesta del horario en 12 h. Repite las horas como texto libre: si cambia el horario, cambia también ella |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y

@@ -10,13 +10,18 @@ import { expect, test, type Page } from "@playwright/test";
 
 const ANIMADOS = ".aparece, .aparece-lateral, .acercarse, .aparece-grupo > *";
 
-test("el horario pone cada turno en su propia linea", async ({ page }) => {
+test("el horario junta los dias iguales y pone cada turno en su propia linea", async ({ page }) => {
   await page.goto("/contacto");
+  const principal = page.getByRole("main");
+
+  // Siete filas casi identicas eran el horario (critica del 11/09): de lunes a
+  // sabado se abre igual. Se lee "Lunes a sábado" una vez, no seis dias sueltos.
+  await expect(principal.getByText("Martes", { exact: true })).toHaveCount(0);
 
   // La primera version unia los dos turnos con un "y" en medio. En un telefono
   // la linea se partia justo por la hora de cierre y quedaba "4:00 p. m. a"
   // arriba y "9:00 p. m." abajo, que se lee como un error.
-  const lunes = page.getByRole("main").locator("dl div").filter({ hasText: "Lunes" }).first();
+  const lunes = principal.locator("dl div").filter({ hasText: "Lunes a sábado" }).first();
 
   const lineas = lunes.locator("dd span span");
   await expect(lineas).toHaveCount(2);
@@ -43,6 +48,17 @@ test("el domingo sigue diciendo Cerrado", async ({ page }) => {
 
   const domingo = page.getByRole("main").locator("dl div").filter({ hasText: "Domingo" }).first();
   await expect(domingo).toContainText("Cerrado");
+});
+
+test("las preguntas frecuentes dan el horario como el resto del sitio", async ({ page }) => {
+  await page.goto("/preguntas-frecuentes");
+
+  // Antes decian "de 4:00 a 13:00": el mismo dato en otro formato, en el mismo
+  // sitio, hace dudar de cual es el bueno. Lo corrigio la migracion 0018.
+  const pregunta = page.locator("details").filter({ hasText: "horarios de atención" });
+  await pregunta.locator("summary").click();
+  await expect(pregunta).toContainText("4:00 a. m. a 1:00 p. m.");
+  await expect(pregunta).not.toContainText("13:00");
 });
 
 test("todo lo animado acaba visible al llegar a el", async ({ page }) => {

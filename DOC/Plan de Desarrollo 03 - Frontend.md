@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **121 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **123 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -204,11 +204,17 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
   píxel.
 - **El botón flotante «Pedir»** se aparta mientras el botón de pedir de la propia página está a la
   vista: ahí sobraba y tapaba el precio y las condiciones.
+- **Horario.** Eran siete filas casi idénticas, repetidas en la sección y en el pie. Ahora los días
+  seguidos que abren igual van juntos («Lunes a sábado», «Domingo»), con cada turno en su propia
+  línea como antes, y el horario ocupa dos filas donde ocupaba siete. `agruparHorario` solo junta
+  días seguidos (si el miércoles cerrara, «Lunes a sábado» mentiría) y, sin ningún día cargado, no
+  anuncia «cerrado toda la semana». La respuesta de preguntas frecuentes pasó de 24 h a 12 h con la
+  migración 0018, solo si el negocio no la había reescrito. Esa respuesta repite las horas como texto
+  libre: cuando el panel permita cambiar el horario (F4), hay que avisar de que también se edita.
 
-**Quedan**, de la crítica: el horario denso y repetido (sección y pie) y en dos formatos (P2); y
-detalles menores —el logo ilegible a 375 px, la dirección escrita en el código de `/galeria`, el
-letrero cortado en el hero de escritorio, el menú móvil sin «Inicio» y el arranque de la historia en
-el tono que `docs/marca.md` desaconseja—.
+**Quedan**, de la crítica, detalles menores: el logo ilegible a 375 px, la dirección escrita en el
+código de `/galeria`, el letrero cortado en el hero de escritorio, el menú móvil sin «Inicio» y el
+arranque de la historia en el tono que `docs/marca.md` desaconseja.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:

@@ -60,6 +60,7 @@ quedaron en la migración de cada tabla, que es donde se entienden:
 | 0015 | `cron_alertas.sql`      | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                            |
 | 0016 | `vistas.sql`            | Las 9 vistas de lectura del sitio público                                                            |
 | 0017 | `pedidos.sql`           | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
+| 0018 | `faq_horario.sql`       | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito   |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -74,7 +75,9 @@ desarrollo, por el motivo de §3.2.
 
 **Después del cierre** (11/09/2026, F3): `0017_pedidos` añade a `configuracion_sitio` un grupo
 `pedidos` con cinco claves —zonas, costo, mínimo, tiempo y formas de pago— y una restricción que
-comprueba la forma de cada valor. Hoy son **17 migraciones y 343 pruebas pgTAP**.
+comprueba la forma de cada valor. `0018_faq_horario` pasa a 12 h la respuesta del horario en
+preguntas frecuentes, sin pisarla si el negocio ya la había cambiado. Hoy son **18 migraciones y 347
+pruebas pgTAP**.
 
 Las 9 pruebas obligatorias de §11.3 pasan las 9:
 
