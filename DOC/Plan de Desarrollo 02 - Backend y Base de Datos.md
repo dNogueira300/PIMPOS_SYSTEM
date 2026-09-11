@@ -59,6 +59,7 @@ quedaron en la migración de cada tabla, que es donde se entienden:
 | 0014 | `storage_politicas.sql` | Las 12 políticas de los 7 buckets                                                                    |
 | 0015 | `cron_alertas.sql`      | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                            |
 | 0016 | `vistas.sql`            | Las 9 vistas de lectura del sitio público                                                            |
+| 0017 | `pedidos.sql`           | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -70,6 +71,10 @@ desarrollo, por el motivo de §3.2.
 **27 tablas, todas con RLS activada** — cero sin proteger. 11 vistas, **todas con
 `security_invoker`**. 78 políticas (66 en `public`/`app` y 12 en `storage`), 2 trabajos de
 `pg_cron`. **326 pruebas pgTAP** en verde, que corren en cada PR.
+
+**Después del cierre** (11/09/2026, F3): `0017_pedidos` añade a `configuracion_sitio` un grupo
+`pedidos` con cinco claves —zonas, costo, mínimo, tiempo y formas de pago— y una restricción que
+comprueba la forma de cada valor. Hoy son **17 migraciones y 343 pruebas pgTAP**.
 
 Las 9 pruebas obligatorias de §11.3 pasan las 9:
 

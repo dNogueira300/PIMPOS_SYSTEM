@@ -157,7 +157,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **90 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **101 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -169,7 +169,11 @@ aisladas —revisión de diseño y detector automático con evidencia de navegad
 contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
 
 1. La animación dejaba contenido a medias con la página quieta. **Corregido**, ver §4.6.
-2. El momento de pedir por WhatsApp no da seguridad y el mensaje no dice cuántos.
+2. El momento de pedir por WhatsApp no daba seguridad y el mensaje no decía cuántos. **Corregido**:
+   junto a cada botón de pedir van qué pasa al pulsarlo, el número escrito como se dicta y las
+   condiciones del delivery (costo, mínimo, tiempo, pago y zonas), que salen de la configuración
+   —migración 0017— y no del código. El mensaje llega con el hueco para la cantidad y la dirección,
+   cada «escríbenos por WhatsApp» se puede pulsar y el slide del delivery lleva directo al chat.
 3. El catálogo sin fotos (32 de 34 productos) pasa a **pizarra de precios**; el aviso «sin foto» hoy
    no llega a AA.
 4. Páginas propias de 404 y de error: hoy son las de Next, en inglés.
