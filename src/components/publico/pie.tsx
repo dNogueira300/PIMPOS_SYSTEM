@@ -29,7 +29,10 @@ export async function Pie({ config }: { config: Configuracion }) {
             {config.telefono ? (
               <li className="flex items-center gap-2">
                 <Phone aria-hidden className="size-4 shrink-0" />
-                <a href={`tel:${config.telefono.replace(/\s/g, "")}`} className="hover:underline">
+                <a
+                  href={`tel:${config.telefono.replace(/\s/g, "")}`}
+                  className="min-h-tactil flex items-center hover:underline"
+                >
                   {config.telefono}
                 </a>
               </li>
@@ -37,7 +40,10 @@ export async function Pie({ config }: { config: Configuracion }) {
             {config.correo ? (
               <li className="flex items-center gap-2">
                 <Mail aria-hidden className="size-4 shrink-0" />
-                <a href={`mailto:${config.correo}`} className="hover:underline">
+                <a
+                  href={`mailto:${config.correo}`}
+                  className="min-h-tactil flex items-center break-all hover:underline"
+                >
                   {config.correo}
                 </a>
               </li>
@@ -59,7 +65,7 @@ export async function Pie({ config }: { config: Configuracion }) {
                     href={config.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex min-h-9 items-center gap-2 hover:underline"
+                    className="min-h-tactil flex items-center gap-2 hover:underline"
                   >
                     <ExternalLink aria-hidden className="size-4 shrink-0" />
                     Facebook
@@ -72,7 +78,7 @@ export async function Pie({ config }: { config: Configuracion }) {
                     href={config.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex min-h-9 items-center gap-2 hover:underline"
+                    className="min-h-tactil flex items-center gap-2 hover:underline"
                   >
                     <ExternalLink aria-hidden className="size-4 shrink-0" />
                     Instagram
@@ -88,7 +94,7 @@ export async function Pie({ config }: { config: Configuracion }) {
           <ul className="flex flex-col gap-1 text-sm">
             {SECCIONES.map(({ ruta, nombre }) => (
               <li key={ruta}>
-                <Link href={ruta} className="flex min-h-9 items-center hover:underline">
+                <Link href={ruta} className="min-h-tactil flex items-center hover:underline">
                   {nombre}
                 </Link>
               </li>

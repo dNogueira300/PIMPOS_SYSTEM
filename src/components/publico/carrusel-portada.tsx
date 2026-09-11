@@ -109,11 +109,19 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
 
                 {/* Degradado desde la tinta de marca, no negro puro: el texto
                     tiene que leerse sobre cualquier foto sin que la foto se
-                    apague del todo. */}
-                <div className="absolute inset-0 bg-linear-to-t from-[#231a14]/85 via-[#231a14]/40 to-transparent" />
+                    apague del todo.
+
+                    85/55/10 y no 85/40/0: con el anterior, el subtitulo de la
+                    diapositiva 2 quedaba en 4.46 de contraste a 1280 px, por
+                    debajo de 4.5 (medido por pixeles en la critica del 11/09).
+                    Asi el peor titular queda en 5.52 y el peor subtitulo en
+                    5.66, oscureciendo la zona sin texto solo un 10 %. */}
+                <div className="absolute inset-0 bg-linear-to-t from-[#231a14]/85 via-[#231a14]/55 to-[#231a14]/10" />
 
                 <div className="absolute inset-0 flex items-end">
-                  <div className="mx-auto w-full max-w-(--container-contenido) px-4 pb-10 sm:px-6 sm:pb-16">
+                  {/* `pb-14` en el celular deja sitio a los puntos, que miden
+                      44 px: con menos, el boton del slide quedaba debajo. */}
+                  <div className="mx-auto w-full max-w-(--container-contenido) px-4 pb-14 sm:px-6 sm:pb-16">
                     <div className="max-w-xl">
                       <h2 className="font-heading text-3xl leading-tight text-balance text-[#fdf9f3] sm:text-5xl">
                         {slide.titulo}
@@ -170,14 +178,16 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
             <span className="sr-only">Siguiente</span>
           </button>
 
-          <div className="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+          {/* Cada punto es un boton de 44 px aunque la raya que se ve mida 12:
+              el area tactil minima (R15) es la del dedo, no la del dibujo. */}
+          <div className="absolute inset-x-0 bottom-1 flex justify-center gap-1">
             {slides.map((slide, indice) => (
               <button
                 key={slide.id}
                 type="button"
                 onClick={() => irA(indice)}
                 aria-current={indice === actual}
-                className="focus-visible:outline-ring flex h-8 w-8 items-center justify-center focus-visible:outline-2"
+                className="focus-visible:outline-ring size-tactil flex items-center justify-center focus-visible:outline-2"
               >
                 <span
                   className={`block h-1.5 rounded-full transition-all ${
