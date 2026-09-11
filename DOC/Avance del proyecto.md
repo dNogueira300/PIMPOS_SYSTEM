@@ -11,16 +11,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                  |
-| ------ | ------------------------ | ------------------------------------------------------- |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                     |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                     |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                     |
-| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: 3 de 4 P1 corregidos |
-| F4     | Panel: contenido         | ⬜                                                      |
-| F5     | Panel: insumos           | ⬜                                                      |
-| F6     | Panel: clientes          | ⬜                                                      |
-| F7     | Cierre                   | ⬜                                                      |
+| Fase   | Nombre                   | Estado                                                 |
+| ------ | ------------------------ | ------------------------------------------------------ |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                    |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                    |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                    |
+| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: los 4 P1 corregidos |
+| F4     | Panel: contenido         | ⬜                                                     |
+| F5     | Panel: insumos           | ⬜                                                     |
+| F6     | Panel: clientes          | ⬜                                                     |
+| F7     | Cierre                   | ⬜                                                     |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -236,15 +236,15 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ### Fase 3 — lo que queda
 
-La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. Los tres primeros ya
-están corregidos: la animación en reposo, el momento de pedir por WhatsApp y el catálogo sin fotos,
-que ahora es una pizarra de precios.
+La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. **Los cuatro están
+corregidos**: la animación en reposo, el momento de pedir por WhatsApp, el catálogo sin fotos (ahora
+una pizarra de precios) y las páginas de «no encontrado» y de error, que ya hablan en español, llevan
+la cabecera del sitio y siempre dejan por dónde seguir. Quedan los P2 medidos, ver el doc 03 §4.0.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
 | Tarea                   | Por qué importa                                                                                                                                                                                |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 404 y errores propios   | Hoy son los de Next, en inglés                                                                                                                                                                 |
 | Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
 | Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
 

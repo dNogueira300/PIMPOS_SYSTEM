@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **113 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **117 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -181,7 +181,15 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
    en su fila. La ficha sin foto quita la caja vacía y pone el precio de titular. «Unidad» deja de
    repetirse: la presentación solo se dice cuando informa. De paso se corrige el salto de `h1` a
    `h3` en `/productos`: ahora las categorías son `h2`.
-4. Páginas propias de 404 y de error: hoy son las de Next, en inglés.
+4. Las páginas de 404 y de error eran las de Next, en inglés, y `/esto-no-existe` salía sin cabecera.
+   **Corregido**: `PaginaNoEncontrada` sirve a los dos 404 —el de la raíz (`app/not-found.tsx`) y el
+   de dentro de las secciones (`app/(public)/not-found.tsx`)—, con la cabecera y el pie del sitio,
+   tres salidas (catálogo, inicio, WhatsApp) y los destacados en la pizarra. `app/(public)/error.tsx`
+   ofrece «Intentar de nuevo» con `retry` y «Volver al inicio». Sin códigos a la vista, como pide
+   `docs/marca.md`. Los dos 404 tienen prueba de punta a punta (estado 404, `noindex`, título en
+   español, salidas). **La página de error no tiene prueba automática**: provocar un fallo del
+   servidor en el build exigiría dejar en producción una ruta que falle a demanda. Se verificó a
+   mano, con una ruta temporal que fallaba al hidratar, y se retiró antes del commit.
 
 Quedan para un pase posterior, ya medidos: el contraste de la diapositiva 2 del carrusel (subtítulo
 en 4.46; con el degradado 85/55/10 pasa a 5.66 oscureciendo la foto solo un 10 %), las áreas
