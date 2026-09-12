@@ -638,6 +638,8 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 - [x] `sitemap.xml` y `robots.txt` accesibles, con URLs absolutas y sin rastro del panel
 - [x] Imagen para compartir el enlace (1200 × 630), descargada y comprobada como PNG real
 - [x] Datos estructurados `Bakery` y `FAQPage` presentes y con la forma correcta, verificado por prueba
+- [x] **Desplegado en Vercel** (12/09/2026), con la base de producción cargada: 34 productos, 10
+      fotos de galería, los 3 slides de la migración 0023 y las 62 imágenes en sus buckets
 
 **Pendiente**
 
