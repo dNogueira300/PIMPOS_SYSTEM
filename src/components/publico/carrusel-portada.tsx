@@ -31,7 +31,9 @@ function esExterno(enlace: string): boolean {
  *    quedan fuera del arbol de accesibilidad, para que el lector de pantalla no
  *    lea cuatro titulares seguidos.
  *
- * La primera imagen lleva `priority`: es el LCP de la portada.
+ * La primera imagen lleva `fetchPriority="high"` y NO `preload`: en el celular
+ * este carrusel no se ve, y un preload se descarga igual. El detalle, donde se
+ * escribe la imagen.
  */
 export function CarruselPortada({ slides }: { slides: Slide[] }) {
   const [emblaRef, embla] = useEmblaCarousel({ loop: true, align: "start" });
@@ -99,18 +101,25 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                   no se ve en el celular —ahi va `PortadaMovil`—, asi que la
                   variante movil sobraba y encima se descargaba.
 
-                  `sizes` con `1px` por debajo de 640: `priority` inyecta un
-                  `<link rel=preload>` que NO respeta el `display:none` del
-                  contenedor, asi que sin esto el celular se bajaba la foto
-                  panoramica entera para no ensenarla nunca. */}
+                  Sin `preload` (ni el `priority` que Next 16 deprecó), y con la
+                  carga diferida por defecto. El truco anterior —`sizes` con
+                  `1px` por debajo de 640— no llegaba a funcionar: el preload
+                  ignora el `display:none`, y con `1px` el navegador no dejaba
+                  de pedir la foto, solo elegia la candidata mas pequena del
+                  `srcset`, que son 640w y 32 KB. En produccion el celular se
+                  bajaba esta foto ademas de la suya, la misma dos veces.
+
+                  Diferida, el navegador no pide lo que no se ve; en escritorio,
+                  que es donde este carrusel existe, `fetchPriority` le da la
+                  prioridad de LCP que antes daba el preload. */}
               <div className="relative aspect-[21/9] w-full">
                 {slide.imagen ? (
                   <Image
                     src={slide.imagen}
                     alt={slide.alt}
                     fill
-                    priority={indice === 0}
-                    sizes="(max-width: 639px) 1px, 100vw"
+                    fetchPriority={indice === 0 ? "high" : undefined}
+                    sizes="100vw"
                     className="object-cover"
                     style={{ objectPosition: `50% ${slide.enfoque}%` }}
                   />

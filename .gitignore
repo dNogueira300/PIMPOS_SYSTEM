@@ -37,6 +37,8 @@ supabase/.env
 /coverage/
 /playwright-report/
 /test-results/
+# Informes de `node scripts/medir-lighthouse.mjs`
+/.lighthouse/
 /blob-report/
 /playwright/.cache/
 
