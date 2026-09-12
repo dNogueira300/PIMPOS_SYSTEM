@@ -122,19 +122,31 @@ export function numeroParaLeer(whatsapp: string): string | null {
  * respuesta del negocio era siempre la misma pregunta.
  */
 export function mensajeDePedido(
-  producto?: Pick<ProductoPublico, "nombre" | "variantes" | "varianteNombre" | "varianteUnidad">,
+  producto?: Pick<
+    ProductoPublico,
+    "nombre" | "variantes" | "varianteNombre" | "varianteUnidad" | "presentaciones"
+  >,
 ): string {
   if (!producto) {
     return ["Hola, quisiera hacer un pedido.", "Pedido: ", "Dirección de entrega: "].join("\n");
   }
 
   // La presentacion solo si hay una y dice algo. "(Unidad)" seguido de
-  // "Cantidad:" se contradice, y con varias la predeterminada no tiene por que
-  // ser la que quiere el cliente.
+  // "Cantidad:" se contradice.
   const presentacion = producto.variantes === 1 ? describirPresentacion(producto) : null;
   const detalle = presentacion ? ` (${presentacion.toLowerCase()})` : "";
+
+  // Con varias, el mensaje lleva su propia linea con las opciones escritas.
+  // Antes se callaba —nombrar la predeterminada haria creer que no hay otra— y
+  // el pedido salia sin decir cual: la panaderia tenia que preguntarlo, que es
+  // la pregunta que quitamos de en medio al rehacer el bloque de pedido
+  // (P2 de la critica del 12/09).
+  const opciones =
+    producto.variantes > 1 ? unirConO(producto.presentaciones.map(({ nombre }) => nombre)) : "";
+
   return [
     `Hola, quisiera pedir ${producto.nombre}${detalle}.`,
+    ...(opciones.length > 0 ? [`Presentación (${opciones}): `] : []),
     "Cantidad: ",
     "Dirección de entrega: ",
   ].join("\n");

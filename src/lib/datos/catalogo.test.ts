@@ -22,6 +22,7 @@ function producto(parcial: Partial<ProductoPublico>): ProductoPublico {
     variantes: 0,
     varianteNombre: null,
     varianteUnidad: null,
+    presentaciones: [],
     imagen: null,
     imagenAlt: null,
     ...parcial,

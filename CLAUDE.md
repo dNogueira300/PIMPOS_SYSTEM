@@ -23,16 +23,33 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 | F4–F7            | ⬜                                                                                     |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 364 pruebas pgTAP. Las 9 pruebas
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 371 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 364 pgTAP + 125 unitarias + 147 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 371 pgTAP + 125 unitarias + 153 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
 **Los E2E corren contra el build, no contra `next dev`.** Con quince rutas y cuatro procesos en
 paralelo, `next dev` compila cada ruta a demanda y las pruebas fallaban por tiempo agotado sin que
 hubiera nada roto.
+
+**Antes de levantar el servidor de pruebas, liberar el puerto 3000.** Matar la tarea de `pnpm start`
+deja vivo el `next start` que cuelga de ella: el arranque siguiente muere con `EADDRINUSE` —en
+segundo plano, sin que se vea— y las pruebas corren contra el build **anterior**, así que fallan o
+pasan por razones que no son. Pasó dos veces. `netstat -ano | grep ":3000 " | grep LISTENING` da el
+PID; se cierra ese y solo ese.
+
+**Una prueba que mide algo que se deshace solo hay que medirla dentro del navegador.** El botón
+flotante vuelve a los 500 ms y la prueba miraba la opacidad _después_ del gesto: unas veces llegaba
+a tiempo y otras no. **`page.clock` no lo arregla** —se intentó—: el evento de scroll llega después
+de adelantar el reloj, así que el `requestAnimationFrame` del manejador se queda pendiente y el
+estado no cambia nunca. Lo que funciona es un `page.evaluate` que mueve la página, espera dos
+fotogramas y lee el estado en el mismo turno. Y se mira el **atributo** (`aria-hidden`), que cambia
+en el mismo instante, no la opacidad, que pasa por una transición de 200 ms.
+
+`page.clock` sí es la herramienta correcta cuando lo que se congela es **el paso del tiempo como
+dato** —«Abierto ahora» depende de qué hora es—, no cuando se persigue un efecto de un gesto.
 
 **Pendiente del negocio:** crear al resto de usuarios (solo existe el superadmin), Vercel (aplazado
 por decisión de Dan), el dominio, las fotos de producto y las redes sociales (Facebook e Instagram
@@ -123,7 +140,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 364 pruebas pgTAP
+supabase test db                  # 371 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -318,7 +335,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 21 migraciones** (`supabase/migrations/`), en orden:
+**Las 22 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -343,6 +360,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0019_historia`                | La historia del negocio, reescrita en la voz de `docs/marca.md`                                                |
 | `0020_slides_enfoque`          | `slides.enfoque`: por qué altura se recorta cada foto del carrusel. La vista `slides_publicos` lo expone       |
 | `0021_testimonios_sin_demo`    | `testimonios_publicos` deja fuera los `es_demo`: un testimonio inventado es una reseña falsa                   |
+| `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                         |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y

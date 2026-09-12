@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **147 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **153 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -247,7 +247,7 @@ Lo que salió, por prioridad:
 | P0        | Los testimonios de ejemplo se publicaban                                  | ✅ Migración 0021 |
 | P1        | El botón flotante tapa contenido en portada, catálogo, FAQ, 404 y galería | ✅                |
 | P1        | El logo de escritorio sigue ilegible (el arreglo solo llegó a móvil)      | ✅                |
-| P2        | Los productos con dos presentaciones se piden a ciegas                    | ⬜                |
+| P2        | Los productos con dos presentaciones se piden a ciegas                    | ✅                |
 | P2        | Nadie dice si la panadería está abierta ahora                             | ✅                |
 
 **Los dos P1, corregidos (12/09/2026):**
@@ -288,6 +288,29 @@ La lógica es una función pura (`estadoDelHorario`) con ocho pruebas, incluidos
 deciden si el cliente sale de casa para nada —a las 4:00 en punto ya se atiende, a la 1:00 en punto
 ya no— y el salto del domingo. En el navegador, `page.clock` congela la hora: hay prueba de que a
 las 12:59 dice «Abierto» y de que **cambia solo** al llegar la 1:00, sin recargar.
+
+**El segundo P2, cerrado (12/09/2026): las presentaciones.** Dos productos de los treinta y cuatro
+tienen dos precios —la hamburguesa grande y la de ajonjolí, a S/ 0.30 y S/ 0.40— y se pedían a
+ciegas. Se rompía en tres sitios seguidos, no en uno:
+
+1. **El catálogo** decía «2 presentaciones» y «Desde S/ 0.30». Cuántas hay, no cuáles.
+2. **La ficha** tampoco las listaba, y no era un olvido de maquetación: `productos_publicos` solo
+   mandaba el rango de precios, el conteo y la variante predeterminada. El dato no llegaba.
+3. **El pedido** omitía la presentación a propósito cuando había más de una —nombrar la
+   predeterminada haría creer que no hay otra—, así que el mensaje salía «quisiera pedir Hamburguesa
+   grande» y el negocio tenía que preguntar cuál: justo la pregunta que se quitó de en medio al
+   rehacer el bloque de pedido.
+
+Decisión de Dan: **listarlas con su precio y que elija el cliente.** La migración 0022 amplía la
+vista con todas las presentaciones en un `jsonb` —columna nueva al final, con `security_invoker` y el
+`where` repetidos—, la ficha las enseña **debajo del precio** con el patrón de la pizarra, y el
+mensaje lleva su propia línea: `Presentación (De S/ 0.30 o De S/ 0.40):`.
+
+**Lo que no se hizo: inventar qué las diferencia.** Se llaman por su propio precio y la semilla lo
+marca PENDIENTE; nadie lo ha confirmado. La interfaz funciona igual con los nombres de hoy y mejora
+sola en cuanto el propietario los corrija desde el panel. Es distinto del delivery, donde lo
+inventado era una condición comercial: aquí sería un dato del producto, y si está mal el cliente se
+entera al recibirlo.
 
 **Dos decisiones de fondo que la crítica cuestiona.** La primera está cerrada por Dan (12/09/2026):
 **el catálogo no se convierte en carrusel ni pasa a ser la portada**. La portada sigue siendo

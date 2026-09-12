@@ -1730,6 +1730,7 @@ export type Database = {
           orden: number | null
           precio_desde: number | null
           precio_hasta: number | null
+          presentaciones: Json | null
           slug: string | null
           variante_id: string | null
           variante_moneda: string | null

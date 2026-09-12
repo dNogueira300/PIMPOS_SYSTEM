@@ -9,8 +9,10 @@ import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import {
   describirPrecio,
   describirPresentacion,
+  formatearPrecio,
   listarProductos,
   obtenerProducto,
+  type ProductoPublico,
 } from "@/lib/datos/catalogo";
 import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarGuias, type Guia } from "@/lib/datos/contenido";
@@ -60,7 +62,10 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
   if (!producto) notFound();
 
   const precio = describirPrecio(producto);
-  const presentacion = describirPresentacion(producto);
+  // Con varias, se listan abajo con su precio: repetir "2 presentaciones"
+  // encima de la lista que las enseña no añade nada.
+  const varias = producto.presentaciones.length > 1;
+  const presentacion = varias ? null : describirPresentacion(producto);
   const pedido = (
     <BloquePedido
       whatsapp={enlaceWhatsApp(config, mensajeDePedido(producto))}
@@ -106,6 +111,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               <p className="text-precio font-heading mt-4 text-3xl font-semibold">{precio}</p>
             ) : null}
             {presentacion ? <p className="text-muted-foreground mt-1">{presentacion}</p> : null}
+            {varias ? <Presentaciones producto={producto} className="mt-4" /> : null}
             {producto.descripcion ? (
               <p className="mt-6 max-w-prose text-lg text-pretty">{producto.descripcion}</p>
             ) : null}
@@ -128,6 +134,10 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
                 {precio}
               </p>
             ) : null}
+            {/* Debajo del precio y no encima: el titular es el gancho («Desde
+                S/ 0.30») y la lista lo desglosa. Al reves se leian los dos
+                precios y justo despues el titular repitiendolos. */}
+            {varias ? <Presentaciones producto={producto} className="mt-6" /> : null}
             {producto.descripcion ? (
               <p className="mt-8 max-w-prose text-lg text-pretty">{producto.descripcion}</p>
             ) : null}
@@ -146,6 +156,59 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
         </section>
       ) : null}
     </div>
+  );
+}
+
+/**
+ * Las presentaciones, con su precio (P2 de la critica del 12/09).
+ *
+ * Dos productos tienen dos: la hamburguesa grande y la de ajonjoli, a S/ 0.30 y
+ * S/ 0.40. El catalogo decia "2 presentaciones" y el precio "Desde S/ 0.30", asi
+ * que el cliente pedia a ciegas y la panaderia tenia que preguntarle cual.
+ *
+ * Mismo patron que la pizarra de precios: el nombre, la linea de puntos y el
+ * precio. Los nombres son los que tenga la base —hoy son el propio precio,
+ * porque nadie ha confirmado que las diferencia—, asi que esto mejora solo
+ * cuando el negocio los corrija desde el panel.
+ */
+function Presentaciones({
+  producto,
+  className = "",
+}: {
+  producto: ProductoPublico;
+  className?: string;
+}) {
+  return (
+    <section aria-labelledby="presentaciones" className={className} data-presentaciones>
+      <h2 id="presentaciones" className="font-heading text-lg">
+        Presentaciones
+      </h2>
+
+      <ul className="mt-2 flex flex-col">
+        {producto.presentaciones.map(({ id, nombre, precio }) => (
+          <li
+            key={id}
+            data-nombre={nombre}
+            data-precio={precio ?? undefined}
+            className="border-border/20 flex items-baseline gap-3 border-b py-2 last:border-b-0"
+          >
+            <span>{nombre}</span>
+            {/* La linea de puntos lleva el ojo del nombre al precio sin pintar
+                una tabla: es como se lee una carta de toda la vida. */}
+            <span aria-hidden className="border-border/40 min-w-6 flex-1 border-b border-dotted" />
+            {precio !== null ? (
+              <span className="text-precio font-heading font-semibold tabular-nums">
+                {formatearPrecio(precio)}
+              </span>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+
+      <p className="text-muted-foreground mt-2 text-sm text-pretty">
+        Dinos cuál quieres al escribirnos: el mensaje ya lleva las opciones escritas.
+      </p>
+    </section>
   );
 }
 
