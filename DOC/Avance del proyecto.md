@@ -154,9 +154,9 @@ todas con `security_invoker`**, que es lo que impide que una vista salte esa seg
 
 | Capa                    | Qué cubre                                                               | Cuántas |
 | ----------------------- | ----------------------------------------------------------------------- | ------- |
-| pgTAP                   | Seguridad y reglas de negocio en la base                                | 326     |
-| Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 89      |
-| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 186     |
+| pgTAP                   | Seguridad y reglas de negocio en la base                                | 384     |
+| Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 134     |
+| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 192     |
 | axe                     | Accesibilidad estructural, 12 rutas × 2 tamaños, en cada PR             | 25      |
 | Guiones de verificación | Lo que SQL no puede probar: la API de Storage y el camino del navegador | 3       |
 
@@ -419,6 +419,37 @@ de 4.28 en un enlace de la ficha de producto. El color real del token da 5.06 �
 mismo color **a 0.913 de opacidad**, o sea la aparición por scroll congelada a medio camino, porque
 Lighthouse mide la página sin bajar nunca. Un visitante lee ese texto después de bajar, y entonces
 está opaco. Por eso la prueba de axe apaga las animaciones antes de medir.
+
+### El informe de mejora de interfaz, respondido (12/09/2026)
+
+Dan trajo un informe externo de análisis y propuesta de rediseño, y una **ilustración**: un
+linograbado del horno con el sol saliendo y palmeras al fondo, en los colores de la marca. El informe
+vive en `DOC/`, con el veredicto punto por punto escrito al principio.
+
+**El diagnóstico de fondo acierta**: el sitio informa bien y transmite poco. Lo que se hizo:
+
+| Qué                                        | Detalle                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **La ilustración, colocada**               | Fondo de papel retirado y optimizada de **2.4 MB a 130 KB**. Va en un bloque nuevo de la portada y en el estado vacío de novedades. El recorte es repetible: `scripts/preparar-ilustracion.py`                                                                                                                           |
+| **«Aquí el día empieza a las 4:00 a. m.»** | El bloque que el informe pedía, y el dato es real: el horario cargado abre a las 04:00. **La hora se lee de la configuración**, no se escribe, para que no contradiga a la tabla de horarios si el negocio cambia el turno desde el panel                                                                                |
+| **Dos puertas en el hero del celular**     | Solo ofrecía «Pedir por WhatsApp». Quien entra a mirar precios —que es una de las tres cosas que viene a resolver— no tenía por dónde. Ahora hay «Ver los precios» junto al botón dorado, de línea para que la jerarquía no cambie. El borde va al 45 % del crema: medido, 3.63 sobre el azul, y un control necesita 3:1 |
+| **El estado vacío de novedades**           | Tenía salida, pero era un recuadro de borde punteado: el gesto universal de «aquí falta algo», cuando no falta nada. Ahora es una página con el dibujo, un texto que explica y un botón de verdad                                                                                                                        |
+
+**Y un fallo que salió al tirar del hilo, que no estaba en el informe.** Al ir a tocar la sección de
+los «22 años» apareció que el número estaba **escrito a mano en cuatro sitios**: la franja de la
+portada, el titular de la historia y la descripción de nosotros para Google. No falla nunca —por eso
+no lo había cazado nada—: el 1 de enero de 2027 los cuatro pasan a mentir a la vez, en silencio, y el
+de Google es el que más tarda en notarse. Ahora el año de apertura vive en la base (migración 0024,
+con su `check` para que no entre un texto) y la cuenta se calcula. Hay prueba unitaria de la cuenta y
+prueba E2E de que la página no lleva un número congelado; la E2E se vio fallar antes de darla por
+buena.
+
+**Lo que se rechaza, con motivo.** Varias propuestas desharían decisiones ya medidas, y eso queda
+escrito en el propio informe: las tarjetas de producto con foto (32 de 34 productos no la tienen: es
+justo lo que originó la pizarra de precios), la barra fija inferior en móvil (el botón flotante ya se
+comía la línea que se estaba leyendo), simplificar el menú (se amplió a propósito tras la crítica del
+11/09), la paleta nueva (el dorado propuesto no llega a AA) y la tipografía (ya es serif + sans, y a
+Dan le gusta la actual).
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

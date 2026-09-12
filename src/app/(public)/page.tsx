@@ -9,13 +9,21 @@ import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
-import { direccionCompleta, enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import {
+  anioActual,
+  anosDeOficio,
+  direccionCompleta,
+  enLetra,
+  enlaceWhatsApp,
+  obtenerConfiguracion,
+} from "@/lib/datos/configuracion";
 import {
   listarGaleria,
   listarNovedades,
   listarSlides,
   listarTestimonios,
 } from "@/lib/datos/contenido";
+import { primeraAperturaEscrita } from "@/lib/datos/horario";
 import { condicionesDelPedido, mensajeDePedido, unirConY } from "@/lib/datos/pedido";
 import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
@@ -39,10 +47,12 @@ import { urlDeImagen } from "@/lib/supabase/publico";
 
 /**
  * Los tres datos de la franja de confianza. Es una funcion y no una constante
- * porque las zonas de reparto vienen de la base: estaban escritas aqui a mano,
- * y al cambiar el reparto la franja habria seguido anunciando lo de antes.
+ * porque sus datos vienen de la base: las zonas de reparto y el anio de
+ * apertura estaban escritos aqui a mano, y los dos envejecen igual de mal —el
+ * reparto, en cuanto cambie; los anios, el 1 de enero siguiente, sin que nada
+ * falle ni avise.
  */
-function hechos(zonas: string) {
+function hechos(zonas: string, fundacion: number, anos: number | null) {
   return [
     {
       icono: Clock,
@@ -56,8 +66,12 @@ function hechos(zonas: string) {
     },
     {
       icono: MapPin,
-      titulo: "Desde 2004",
-      detalle: "22 años en el mismo barrio, atendiendo a los mismos vecinos.",
+      titulo: fundacion > 0 ? `Desde ${fundacion}` : "En el barrio",
+      // Sin la cuenta de anios, la frase se escribe sin ella: "en el mismo
+      // barrio" se lee bien, y "0 anios en el mismo barrio" no.
+      detalle: anos
+        ? `${anos} años en el mismo barrio, atendiendo a los mismos vecinos.`
+        : "Siempre en el mismo barrio, atendiendo a los mismos vecinos.",
     },
   ] as const;
 }
@@ -82,6 +96,9 @@ export default async function Inicio() {
   // Las zonas ya van dichas en la frase del bloque; repetirlas debajo como un
   // dato mas seria leer lo mismo dos veces.
   const condiciones = condicionesDelPedido(config).filter(({ clave }) => clave !== "zonas");
+  // La cuenta de años se calcula, no se escribe: ver `anosDeOficio`.
+  const anos = anosDeOficio(await anioActual(), config.anio_fundacion);
+  const abreALas = primeraAperturaEscrita(config.horario_semanal);
 
   return (
     <>
@@ -151,7 +168,7 @@ export default async function Inicio() {
           casi invisible para quien entra y no toca nada. */}
       <section aria-label="Por qué comprar aquí" className="bg-franja text-franja-foreground">
         <ul className="mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
-          {hechos(zonas).map(({ icono: Icono, titulo, detalle }) => (
+          {hechos(zonas, config.anio_fundacion, anos).map(({ icono: Icono, titulo, detalle }) => (
             <li key={titulo} className="flex gap-3">
               <Icono aria-hidden className="mt-1 size-5 shrink-0" />
               <div>
@@ -187,6 +204,63 @@ export default async function Inicio() {
         </div>
 
         <PizarraPrecios productos={destacados} className="mt-8" />
+      </section>
+
+      {/* 3 bis. La madrugada, ilustrada.
+          
+          Es el unico bloque de la portada que no da un dato nuevo: lo que hace
+          es ponerle cara a uno que ya estaba enterrado en la tabla de horarios
+          del final. Que la panaderia abra a las 4 de la manana es lo mas
+          concreto que puede decir sobre el pan fresco, y en texto plano al pie
+          de la pagina no lo lee nadie.
+          
+          La ilustracion es un linograbado del horno con el sol saliendo y
+          palmeras al fondo — el dibujo, no una foto, porque aqui no se esta
+          ensenando el local sino contando una hora del dia, y porque las fotos
+          reales del local ya mandan en la galeria y en la historia (principio 5
+          de PRODUCT.md). Las palmeras son las de Iquitos, no un adorno.
+          
+          Va DESPUES de la pizarra de precios y no antes: en el celular, cada
+          bloque que se mete por encima retrasa lo que el vecino vino a ver
+          —que hay y a cuanto—, y esto es calidez, no informacion de compra.
+          
+          La hora sale del horario cargado (`primeraAperturaEscrita`), no
+          escrita aqui: si el negocio cambia el turno desde el panel, este
+          titular no puede quedarse contradiciendo a la tabla de horarios. */}
+      <section
+        aria-labelledby="titulo-madrugada"
+        className="mx-auto mt-20 grid max-w-(--container-contenido) items-center gap-8 px-4 sm:px-6 lg:grid-cols-[26rem_1fr] lg:gap-16"
+      >
+        {/* El dibujo va acotado a 26 rem tambien en escritorio. Sin tope ocupaba
+            578 px de alto y el texto, que son 180, quedaba flotando con 192 px
+            de vacio arriba y otros tantos abajo: la seccion se leia sin
+            terminar. Acotado, el titular puede crecer y los dos pesan igual. */}
+        <div className="acercarse relative mx-auto aspect-[900/879] w-full max-w-md lg:max-w-none">
+          <Image
+            src="/marca/horno-amanecer.webp"
+            // Decorativa: lo que dice ya esta escrito al lado, y repetirlo
+            // obligaria a un lector de pantalla a oirlo dos veces.
+            alt=""
+            fill
+            sizes="(max-width: 1024px) min(100vw, 28rem), 26rem"
+            className="object-contain"
+          />
+        </div>
+
+        <div className="aparece-lateral">
+          <h2
+            id="titulo-madrugada"
+            className="font-heading text-3xl text-balance sm:text-4xl lg:text-5xl"
+          >
+            {abreALas
+              ? `Aquí el día empieza a las ${abreALas}`
+              : "Aquí el día empieza de madrugada"}
+          </h2>
+          <p className="text-muted-foreground mt-5 max-w-prose text-lg text-pretty">
+            A esa hora abrimos, con el horno todavía caliente y el pan del día recién salido. Lo que
+            horneamos hoy se vende hoy: por eso a media mañana ya huele distinto.
+          </p>
+        </div>
       </section>
 
       {/* 4. El delivery, que es el diferencial real del negocio (ficha 2.5) y
@@ -260,7 +334,12 @@ export default async function Inicio() {
           ) : null}
 
           <div className="aparece-lateral">
-            <h2 className="font-heading text-3xl sm:text-4xl">Veintidós años en el barrio</h2>
+            {/* El numero va en letra porque es un titular, pero no escrito a
+                mano: se genera desde el anio de apertura. Sin cuenta creible,
+                el titular se queda sin cifra en vez de decir una falsa. */}
+            <h2 className="font-heading text-3xl sm:text-4xl">
+              {anos ? `${enLetra(anos)} años en el barrio` : "Toda una vida en el barrio"}
+            </h2>
             <p className="text-muted-foreground mt-4 max-w-prose text-pretty">
               {config.historia.split("\n\n")[0]}
             </p>

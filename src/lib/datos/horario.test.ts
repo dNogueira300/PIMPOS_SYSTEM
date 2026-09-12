@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { agruparHorario, estadoDelHorario } from "./horario";
+import {
+  agruparHorario,
+  estadoDelHorario,
+  primeraApertura,
+  primeraAperturaEscrita,
+} from "./horario";
 
 // El horario lo mira el cliente antes de salir de casa. Un fallo aqui no rompe
 // la pagina: le dice que abre un dia que cierra, o al reves.
@@ -144,5 +149,31 @@ describe("estadoDelHorario", () => {
     // siempre: es una configuracion a medio cargar.
     const cerrado = Object.fromEntries(Object.keys(SEMANA_DE_PIMPOS).map((dia) => [dia, []]));
     expect(estadoDelHorario(cerrado, new Date("2026-09-15T15:00:00Z"))).toBeNull();
+  });
+});
+
+describe("primeraApertura", () => {
+  it("encuentra la hora mas temprana de toda la semana", () => {
+    expect(primeraApertura(SEMANA_DE_PIMPOS)).toBe("04:00");
+    expect(primeraAperturaEscrita(SEMANA_DE_PIMPOS)).toBe("4:00 a. m.");
+  });
+
+  it("no se queda con el primer turno del lunes si otro dia abre antes", () => {
+    expect(
+      primeraApertura({ lunes: [{ desde: "07:00", hasta: "13:00" }], sabado: [MANANA, TARDE] }),
+    ).toBe("04:00");
+  });
+
+  // Sin horario la frase se escribe sin la hora, en vez de anunciar una falsa.
+  it("devuelve null cuando no hay horario que leer", () => {
+    expect(primeraApertura({})).toBeNull();
+    expect(primeraApertura({ domingo: [] })).toBeNull();
+    expect(primeraAperturaEscrita({})).toBeNull();
+  });
+
+  it("ignora una hora con la forma equivocada en vez de publicarla", () => {
+    expect(primeraApertura({ lunes: [{ desde: "temprano", hasta: "13:00" }, MANANA] })).toBe(
+      "04:00",
+    );
   });
 });

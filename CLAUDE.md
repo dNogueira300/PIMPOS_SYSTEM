@@ -27,7 +27,7 @@ https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen comp
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 377 pgTAP + 125 unitarias + 184 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 384 pgTAP + 134 unitarias + 192 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -120,7 +120,7 @@ Las otras cuatro del `.env.example` (`SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_W
 `RESEND_API_KEY`, `CORREO_ALERTAS`) **no las lee ningún archivo todavía**: el número de WhatsApp sale
 de `configuracion_sitio` y Resend es de F5. Ponerlas hoy sería guardar secretos sin uso.
 
-Producción tiene las 23 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
+Producción tiene las 24 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
 SQL del panel, **nunca con `--include-seed`**) y las 62 imágenes en sus buckets.
 
 **Un hueco declarado, no cubierto:** las imágenes semilla no van en el repositorio, así que en el CI
@@ -399,6 +399,32 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
 - **En Git Bash, `pnpm lighthouse <url> /` no funciona:** MSYS convierte el `/` en una ruta de
   Windows y Lighthouse responde `INVALID_URL`. Es la misma trampa del `docker exec ... /tmp/x.sql`;
   se sale igual, con `MSYS_NO_PATHCONV=1`.
+- **Un número que cuenta años no se escribe, se calcula.** «22 años» y «Veintidós años» estaban a
+  mano en la franja de la portada, en el titular de la historia y en la descripción de nosotros para
+  Google. No fallan nunca: el 1 de enero siguiente pasan a mentir los cuatro a la vez, en silencio, y
+  el de Google es el que más tarda en notarse. El año de apertura vive en `configuracion_sitio`
+  (0024) y la cuenta sale de `anosDeOficio()`. Vale para cualquier dato derivado del reloj.
+- **Un dato que se dice en dos sitios se lee del mismo origen.** «Aquí el día empieza a las 4:00 a.
+  m.» y la tabla de horarios del pie dicen lo mismo; si el titular llevara la hora escrita, el día
+  que el negocio cambie el turno desde el panel la página se contradiría sola. Sale de
+  `primeraAperturaEscrita()`, y hay prueba E2E de que las dos coinciden.
+- **Una migración que carga datos va con el trigger de auditoría apagado.** Lo hacen 0019 y 0023, y
+  0024 se olvidó: la fila nueva entró auditada y sin autor, y tiró una prueba de 0007 que no menciona
+  la configuración por ningún lado. No es un cambio que hiciera una persona, es el estado de partida.
+- **Una restricción `check` solo admite funciones inmutables.** `extract(year from now())` como
+  límite superior no compila. Un rango fijo y ancho cumple igual su papel, que es cazar un valor con
+  la forma equivocada, no auditar la fecha.
+- **Añadir un campo al esquema Zod de la configuración rompe los fixtures de prueba**, no el código
+  de la aplicación: `Configuracion` es el tipo inferido, y los dos archivos que construyen una
+  configuración completa a mano (`configuracion.test.ts`, `datos-estructurados.test.ts`) dejan de
+  compilar hasta que se les añade el campo. Es justo lo que se quiere.
+- **Quitarle el fondo a una ilustración es un problema de topología, no de color.** El crema del
+  papel y el crema de la argamasa entre los ladrillos del horno son el MISMO color: ninguna clave de
+  color los separa. Lo que los distingue es que uno toca el borde y el otro está encerrado, así que
+  se rellena por inundación desde un marco de 1 px. Las motas de grano que el relleno no alcanza se
+  quitan por **densidad local** y no con morfología: una línea fina del grabado tiene vecinas y una
+  mota no, y una apertura obligaría a elegir entre dejar motas o adelgazar el trazo. Todo en
+  `scripts/preparar-ilustracion.py`, que además deja el asset en 130 KB desde los 2.4 MB del original.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
   completo. Con la `anon` responde 401 `"Only the service_role API key can be used for this
 endpoint"`. Para un ping se consulta una tabla real; meter la `service_role` en un workflow
@@ -444,7 +470,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 23 migraciones** (`supabase/migrations/`), en orden:
+**Las 24 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -471,6 +497,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0021_testimonios_sin_demo`    | `testimonios_publicos` deja fuera los `es_demo`: un testimonio inventado es una reseña falsa                   |
 | `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                         |
 | `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                |
+| `0024_anio_fundacion`          | El año de apertura (2004) en la configuración: la cuenta de años deja de estar escrita a mano                  |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
