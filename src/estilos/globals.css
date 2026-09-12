@@ -380,6 +380,44 @@
     outline-color: var(--primary-foreground);
   }
 
+  /* La accion secundaria sobre el azul: "ver los precios" junto a "pedir".
+     De linea y no rellena, para que se lea como la segunda opcion y el dorado
+     del CTA siga siendo lo unico que pesa.
+
+     El borde va al 45 % del crema y no menos: medido, da 3.63 sobre el azul
+     institucional, y el borde de un control necesita 3:1 (WCAG 1.4.11). Al
+     35 % se queda en 2.76 y el boton se desdibuja para quien no ve bien. */
+  .boton-linea--sobre-azul {
+    color: var(--primary-foreground);
+    min-height: var(--area-tactil-min);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1.5px solid color-mix(in srgb, var(--primary-foreground) 45%, transparent);
+    border-radius: var(--radius-md);
+    padding-inline: 1.5rem;
+    font-weight: 600;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .boton-linea--sobre-azul:hover {
+    background-color: color-mix(in srgb, var(--primary-foreground) 12%, transparent);
+    border-color: var(--primary-foreground);
+  }
+
+  .boton-linea--sobre-azul:active {
+    transform: translateY(1px);
+  }
+
+  .boton-linea--sobre-azul:focus-visible {
+    outline: 2px solid var(--primary-foreground);
+    outline-offset: 2px;
+  }
+
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .aparece,

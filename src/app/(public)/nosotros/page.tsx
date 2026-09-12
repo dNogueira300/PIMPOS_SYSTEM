@@ -2,14 +2,25 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
-import { obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { anioActual, anosDeOficio, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarGaleria } from "@/lib/datos/contenido";
 
-export const metadata: Metadata = {
-  title: "Nosotros",
-  description:
-    "La historia de Panadería Pimpo's: 22 años horneando en Iquitos, con misión, visión y valores del negocio.",
-};
+// `generateMetadata` y no un objeto fijo: la descripcion decia "22 años
+// horneando en Iquitos" escrito a mano, y eso es lo que ve quien encuentra la
+// pagina en Google. El 1 de enero siguiente habria pasado a mentir en el sitio
+// donde menos se mira y mas tarda en corregirse. La cuenta sale del año de
+// apertura cargado (0024), como en la portada.
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await obtenerConfiguracion();
+  const anos = anosDeOficio(await anioActual(), config.anio_fundacion);
+
+  return {
+    title: "Nosotros",
+    description: anos
+      ? `La historia de Panadería Pimpo's: ${anos} años horneando en Iquitos, con misión, visión y valores del negocio.`
+      : "La historia de Panadería Pimpo's, horneando en Iquitos: misión, visión y valores del negocio.",
+  };
+}
 
 export default async function Nosotros() {
   const [config, galeria] = await Promise.all([obtenerConfiguracion(), listarGaleria()]);

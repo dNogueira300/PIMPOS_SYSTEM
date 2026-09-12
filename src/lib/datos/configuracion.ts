@@ -38,7 +38,7 @@ const VALOR = z.object({
 // este archivo trae Zod, Supabase y `use cache`, y el boton de "Abierto ahora"
 // es de cliente. Se reexportan para que quien ya los importaba de aqui siga
 // igual.
-export { DIAS, describirTramos, formatearHora } from "./reloj";
+export { DIAS, anosDeOficio, describirTramos, enLetra, formatearHora } from "./reloj";
 export type { Dia, Tramo } from "./reloj";
 
 const ESQUEMA = z.object({
@@ -49,6 +49,9 @@ const ESQUEMA = z.object({
   logo_alt: z.string().default("Panadería Pimpo's"),
   isotipo_url: z.string().default("/marca/isotipo.svg"),
   favicon_url: z.string().default("/marca/favicon.svg"),
+  // El anio de apertura (0024). Lo que se publica NO es este numero sino la
+  // cuenta de anios que sale de el, para que no envejezca escrita a mano.
+  anio_fundacion: z.number().int().default(0),
 
   telefono: z.string().default(""),
   whatsapp: z.string().default(""),
