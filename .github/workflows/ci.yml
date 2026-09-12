@@ -27,13 +27,38 @@ jobs:
       - name: Descargar el código
         uses: actions/checkout@v4
 
+      - name: Reservar los puertos de Supabase
+        run: |
+          # Los puertos locales de Supabase (54320-54329) caen DENTRO del rango
+          # de puertos efímeros de Linux, que por defecto es 32768-60999. Eso
+          # significa que cualquier conexión saliente del runner —descargar la
+          # CLI, `pnpm install`, bajar Chromium— puede llevarse el 54322 como
+          # puerto de origen durante unos segundos, y entonces Docker no puede
+          # enlazarlo y `supabase start` muere con «address already in use».
+          #
+          # No es un fallo del proyecto ni de una rama: es una carrera, y por eso
+          # aparece de vez en cuando y en un trabajo distinto cada vez.
+          # `ip_local_reserved_ports` le dice al kernel que no reparta esos
+          # puertos automáticamente; enlazarlos a propósito sigue estando
+          # permitido, que es justo lo que hace Docker.
+          sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+          sysctl net.ipv4.ip_local_reserved_ports
+
       - name: Instalar la CLI de Supabase
         uses: supabase/setup-cli@v1
         with:
           version: 2.116.0
 
       - name: Levantar Supabase en local
-        run: supabase start
+        run: |
+          # Si aun asi falla, que diga QUIEN tiene el puerto: sin esto el
+          # mensaje de Docker deja tirado a quien lo lee.
+          supabase start || {
+            echo "::error::supabase start falló. Estado de los puertos 54320-54329:"
+            sudo ss -lptnH 'sport >= :54320 and sport <= :54329' || true
+            docker ps -a
+            exit 1
+          }
 
       - name: Aplicar las migraciones desde cero
         run: supabase db reset --local
@@ -163,6 +188,14 @@ jobs:
             echo "Todavía no hay aplicación ni pruebas E2E: se omite este trabajo."
           fi
 
+      - name: Reservar los puertos de Supabase
+        if: steps.deteccion_app.outputs.hay_e2e == 'true'
+        run: |
+          # Ver el mismo paso en el trabajo de base de datos: los puertos de
+          # Supabase caen dentro del rango efímero de Linux y una conexión
+          # saliente puede quedárselos justo antes de que arranque Docker.
+          sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+
       - name: Instalar la CLI de Supabase
         if: steps.deteccion_app.outputs.hay_e2e == 'true'
         uses: supabase/setup-cli@v1
@@ -171,7 +204,13 @@ jobs:
 
       - name: Levantar Supabase en local
         if: steps.deteccion_app.outputs.hay_e2e == 'true'
-        run: supabase start
+        run: |
+          supabase start || {
+            echo "::error::supabase start falló. Estado de los puertos 54320-54329:"
+            sudo ss -lptnH 'sport >= :54320 and sport <= :54329' || true
+            docker ps -a
+            exit 1
+          }
 
       - name: Habilitar Corepack
         if: steps.deteccion_app.outputs.hay_e2e == 'true'
