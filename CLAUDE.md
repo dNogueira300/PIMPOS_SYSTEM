@@ -246,6 +246,13 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   orden o el tipo de una columna existente obliga a `drop view` y a recrear permisos. Al reemplazar
   hay que repetir `with (security_invoker = true)` y el `where` de publicado: si se olvidan, la
   vista deja de respetar la RLS sin que nada falle. La prueba de 0020 los comprueba.
+- **«Esta vista trae filas» envejece mal como comprobación.** `verificar-sitio-publico.sh` exigía
+  filas a todas las vistas públicas; cuando 0021 hizo que `testimonios_publicos` dejara fuera los
+  de ejemplo, el CI falló por el comportamiento correcto —en una base con solo datos de ejemplo,
+  cero filas es lo que se busca—. Una comprobación así tiene que decir qué espera y por qué: ahora
+  se exige que la vista **responda** y que **no deje escapar ningún `es_demo`**, que es la regla de
+  verdad. Antes de dar por buena una comprobación nueva, verla fallar: con la vista sin filtrar,
+  esta dice «3 testimonio(s) de ejemplo se están publicando».
 - **Un texto de fábrica se corrige solo si nadie lo cambió.** Las migraciones 0018, 0019 y 0020
   reescriben contenido que el negocio puede editar desde el panel. El `update` lleva en su `where` el
   texto anterior (o un trozo reconocible): si ya lo editaron, no se pisa. Y va sin auditar, como las
