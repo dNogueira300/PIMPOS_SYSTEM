@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **157 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **160 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -339,6 +339,30 @@ pequeña, porque el componente se monta igual aunque esté oculto.
 
 Lo que sigue siendo para el propietario es enseñarle las dos portadas y que diga si le convence,
 sabiendo que sus fotos siguen estando: enteras en escritorio, y la primera, fija, en el celular.
+
+**Hero desde el primer día (12/09/2026).** Hasta la migración 0023 las únicas diapositivas eran las
+de `02_demo.sql`, que **nunca llega a producción**: allí la tabla estaba vacía y la portada caía en
+su variante sin foto. Funcionaba, pero el negocio perdía justo lo que mejor tiene. Ahora las tres son
+**reales y van como migración**, no como semilla, porque producción no carga semillas.
+
+Tres decisiones dentro de esa migración:
+
+- **Los enlaces son rutas internas** (`/productos`, `/contacto`, `/nosotros`), no un `wa.me` escrito
+  a mano como en el slide de ejemplo. El teléfono vive en `configuracion_sitio` y el sitio arma el
+  enlace con el mensaje ya redactado; copiarlo dentro de una fila lo dejaría viejo el día que cambie,
+  sin que nadie sepa que hay que corregirlo en dos sitios. Hay prueba de que ningún slide lo lleva.
+- **No pisa el trabajo del negocio**: el `insert` va con un `where not exists` sobre los slides
+  propios, así que en cuanto el panel (F4) cargue los suyos, esta migración deja de significar nada.
+- **La ruta de la imagen es relativa al bucket**, nunca la URL entera: guardar el dominio ataría cada
+  fila a este proyecto de Supabase y bastaría cambiar de proyecto para romper las tres fotos.
+
+**El mapa ya no se monta encima de la cabecera.** En `/ubicacion`, al bajar, el mapa pasaba **por
+encima** del menú y lo dejaba inservible. No era un despiste de maquetación: Leaflet reparte
+`z-index` de 400 a 1000 entre sus paneles y la cabecera del sitio es `z-40`, así que el mapa ganaba
+siempre. Se arregla dándole al contenedor su propio contexto de apilamiento (`isolation: isolate`),
+**no subiendo el `z-index` de la cabecera**: esa carrera no se gana, porque el mapa siempre puede
+pedir más. La prueba no mira el `z-index` calculado —que puede ser cualquiera si cada uno vive en su
+contexto—, sino **quién recibe el clic** en el centro de la cabecera con el mapa debajo.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:

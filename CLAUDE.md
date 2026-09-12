@@ -23,10 +23,10 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 | F4–F7            | ⬜                                                                                     |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 371 pruebas pgTAP. Las 9 pruebas
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 371 pgTAP + 125 unitarias + 157 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 371 pgTAP + 125 unitarias + 160 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -57,6 +57,19 @@ PID; se cierra ese y solo ese.
   el único que dice si falta una columna, si la RLS niega la lectura o si no hay datos. Ahora pasan
   por `avisarDeConsulta()`, que lo deja en el registro del servidor o del build. Es la misma lección
   que ya estaba escrita para los guiones de verificación.
+- **`supabase db reset` puede morir por un servicio que no es la base, y dejarla vacía.** El 12/09
+  falló con `LegacyDbSetupError: error running container` en «Initialising schema», antes de aplicar
+  ninguna migración: la base quedó con **cero tablas** y sin `supabase_migrations.schema_migrations`.
+  El culpable era `vector`, el recolector de logs, en bucle de reinicio porque no alcanzaba el socket
+  de Docker (`Network unreachable`). Se sale con `supabase stop --no-backup` y
+  `supabase start -x vector,edge-runtime,imgproxy,pooler` —los cuatro que este proyecto ya tenía
+  parados—. Antes de culpar al SQL, `docker ps -a`: si el contenedor de la base está sano y la base
+  vacía, el fallo es del arranque, no de la migración.
+- **Las migraciones corren ANTES que las semillas en `db reset`.** Una migración no puede corregir ni
+  retirar filas que inserte una semilla: cuando se ejecuta, esas filas todavía no existen. Lo pagó
+  0023, que retiraba los slides de ejemplo y en un reset no encontraba ninguno —la prueba pgTAP lo
+  cazó, porque la vista devolvía seis diapositivas en vez de tres—. Si el contenido pasa de semilla a
+  migración, hay que **quitarlo de la semilla**, no taparlo desde la migración.
 
 **Una prueba que mide algo que se deshace solo hay que medirla dentro del navegador.** El botón
 flotante vuelve a los 500 ms y la prueba miraba la opacidad _después_ del gesto: unas veces llegaba
@@ -158,7 +171,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 371 pruebas pgTAP
+supabase test db                  # 377 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -353,7 +366,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 22 migraciones** (`supabase/migrations/`), en orden:
+**Las 23 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -379,6 +392,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0020_slides_enfoque`          | `slides.enfoque`: por qué altura se recorta cada foto del carrusel. La vista `slides_publicos` lo expone       |
 | `0021_testimonios_sin_demo`    | `testimonios_publicos` deja fuera los `es_demo`: un testimonio inventado es una reseña falsa                   |
 | `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                         |
+| `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
