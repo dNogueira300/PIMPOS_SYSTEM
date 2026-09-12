@@ -5,6 +5,7 @@ import { ArrowRight, Clock, MapPin, MessageCircle, Truck } from "lucide-react";
 
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
+import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
@@ -113,7 +114,24 @@ export default async function Inicio() {
           <h1 className="sr-only">
             {config.nombre_comercial}: {config.eslogan || "pan fresco todos los días"} en Iquitos
           </h1>
-          <CarruselPortada slides={slides} />
+
+          {/* Dos presentaciones de la misma portada, no una que se encoge: en
+              el celular, foto quieta y lo que se vino a saber; desde `sm`, el
+              carrusel como estaba (decision de Dan, 12/09).
+
+              El `h1` sigue siendo uno solo y va aqui arriba, fuera de los dos:
+              dentro de cualquiera de ellos quedaria en un bloque oculto para la
+              otra pantalla, y esa se quedaria sin encabezado. */}
+          <PortadaMovil
+            slide={slides[0]}
+            nombre={config.nombre_comercial}
+            eslogan={config.eslogan}
+            horario={config.horario_semanal}
+            whatsapp={whatsapp}
+          />
+          <div className="hidden sm:block">
+            <CarruselPortada slides={slides} />
+          </div>
         </>
       ) : (
         <section className="bg-primary text-primary-foreground">

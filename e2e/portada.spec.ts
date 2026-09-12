@@ -49,7 +49,17 @@ test("el catalogo llega desde la base con su precio a la vista", async ({ page }
 
   // El precio se muestra con orgullo (ficha 5.2). Hay pan a S/ 0.10 y esconderlo
   // seria contradecir la decision de diseno.
-  await expect(page.getByText(/S\/\s?\d/).first()).toBeVisible();
+  //
+  // `visible: true`: en el celular el carrusel sigue en el DOM pero oculto, y el
+  // subtitulo de una diapositiva menciona un precio. Sin esto, `.first()` se
+  // quedaba con un texto que nadie ve y la prueba fallaba sin que faltara ningun
+  // precio en pantalla.
+  await expect(
+    page
+      .getByText(/S\/\s?\d/)
+      .filter({ visible: true })
+      .first(),
+  ).toBeVisible();
 });
 
 test("un borrador nunca llega a la portada", async ({ page }) => {
@@ -92,9 +102,21 @@ test("los horarios dicen que el domingo esta cerrado", async ({ page }) => {
   // ciertas horas el primer "Cerrado" del contenido es el "Cerrado ahora" del
   // estado. Sin `exact` esta prueba seguiria en verde sin mirar nunca la fila
   // del domingo, que es lo que dice comprobar.
+  //
+  // Y `visible: true`, desde que la portada tiene dos versiones: la del celular
+  // vive en el DOM tambien en escritorio (oculta por CSS), asi que su "Abre hoy
+  // a las 4:00 a. m." era el primero que encontraba `.first()` — un elemento
+  // que nadie ve. Lo que esta prueba mira es lo que el cliente lee.
   const principal = page.getByRole("main");
-  await expect(principal.getByText("Cerrado", { exact: true }).first()).toBeVisible();
-  await expect(principal.getByText(/4:00 a\. m\./).first()).toBeVisible();
+  await expect(
+    principal.getByText("Cerrado", { exact: true }).filter({ visible: true }).first(),
+  ).toBeVisible();
+  await expect(
+    principal
+      .getByText(/4:00 a\. m\./)
+      .filter({ visible: true })
+      .first(),
+  ).toBeVisible();
 });
 
 test("se puede llegar al catalogo solo con el teclado", async ({ page, isMobile }) => {

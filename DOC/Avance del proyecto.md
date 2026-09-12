@@ -293,6 +293,14 @@ PENDIENTE. Cuando el propietario ponga los nombres de verdad desde el panel, est
 
 **Con esto, la crítica del 12/09 queda cerrada entera**: el P0, los dos P1 y los dos P2.
 
+**Y una decisión de Dan que va más allá de la crítica** (12/09/2026): **en el celular la portada ya
+no lleva carrusel.** En escritorio se queda igual. El carrusel solo se pausaba al pasar el mouse y al
+enfocar con teclado —ninguna de las dos ocurre en un teléfono—, así que rotaba cada seis segundos
+mientras el cliente leía, en la pantalla que el proyecto declara prioritaria. Ahora el celular abre
+con la foto de la primera diapositiva quieta y, debajo, el nombre del negocio, si está abierto ahora
+y el botón de pedir. De paso dejó de descargar en el celular una foto panorámica que no se veía, y de
+mover un temporizador para nadie.
+
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
 | Tarea                   | Por qué importa                                                                                                                                                                                |

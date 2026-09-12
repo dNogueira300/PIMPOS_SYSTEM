@@ -26,7 +26,7 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 371 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 371 pgTAP + 125 unitarias + 153 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 371 pgTAP + 125 unitarias + 157 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
