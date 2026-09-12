@@ -1,8 +1,9 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 11/09/2026
+**Corte:** 12/09/2026
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
+**Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
 
 Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
 hay que leer para ponerse al día sin recorrer el historial de commits.
@@ -11,16 +12,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                        |
-| ------ | ------------------------ | ------------------------------------------------------------- |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                           |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                           |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                           |
-| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Crítica: 24/40 → 29/40, P0 cerrado |
-| F4     | Panel: contenido         | ⬜                                                            |
-| F5     | Panel: insumos           | ⬜                                                            |
-| F6     | Panel: clientes          | ⬜                                                            |
-| F7     | Cierre                   | ⬜                                                            |
+| Fase   | Nombre                   | Estado                                                                       |
+| ------ | ------------------------ | ---------------------------------------------------------------------------- |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                          |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                          |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                          |
+| **F3** | Sitio público            | 🔄 Desplegado. Crítica 24/40 → 29/40, cerrada entera. Falta dominio y pulido |
+| F4     | Panel: contenido         | ⬜                                                                           |
+| F5     | Panel: insumos           | ⬜                                                                           |
+| F6     | Panel: clientes          | ⬜                                                                           |
+| F7     | Cierre                   | ⬜                                                                           |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -345,10 +346,17 @@ prueba. El estado quedó así: configuración 1, categorías 6, productos 34, ga
 está también `02_demo.sql`, que metería slides de ejemplo —se publican, porque `slides_publicos` no
 filtra `es_demo`— y clientes inventados en una tabla con datos personales.
 
-**Consecuencia visible, y prevista**: en producción `slides` está en 0, así que la portada no pinta
-hero con foto —ni carrusel en escritorio ni la portada nueva del celular—, sino la variante con el
-titular sobre el azul de marca. Está contemplado en el código desde el principio; para tener hero
-desde el primer día hay que sembrar slides **reales**, que no es lo mismo que cargar los de ejemplo.
+**El hero llegó por migración.** Con la semilla cargada, `slides` seguía en 0 —las diapositivas
+vivían en `02_demo.sql`, que no va a producción—, así que la portada pintaba su variante sin foto.
+La migración **0023** siembra las tres reales, y ahí quedó resuelto: producción las tiene y la vista
+pública las devuelve.
+
+**Y enseñó una tercera cosa, la más fácil de confundir con un fallo.** Aplicada la migración, el
+sitio **seguía** sin hero. No era la base: `slides_publicos` devolvía las tres filas. Era el HTML,
+que con Cache Components se prerenderiza **en el build** y se había generado antes. Mientras el panel
+de F4 no dispare `revalidateTag`, **cada cambio de contenido en producción exige un redespliegue**.
+Conviene saber distinguirlo en un minuto: preguntar a la vista si tiene las filas y al HTML servido
+si las pinta son dos preguntas distintas, y aquí daban respuestas distintas.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

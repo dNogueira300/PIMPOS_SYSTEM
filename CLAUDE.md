@@ -11,22 +11,23 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 
 ## Estado
 
-**F0, F1 y F2 cerradas. F3 con secciones y SEO hechos** (11/09/2026). Resumen completo en
+**F0, F1 y F2 cerradas. F3 desplegada** (12/09/2026) en
+https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                 |
-| ---------------- | -------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                       |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                           |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                         |
-| F3 Sitio público | 🔄 Secciones y SEO hechos. Crítica: 24/40 → **29/40**; P0, los dos P1 y un P2 cerrados |
-| F4–F7            | ⬜                                                                                     |
+| Fase             | Estado                                                                                         |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                               |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                   |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                 |
+| F3 Sitio público | 🔄 **Desplegado en Vercel.** Crítica 24/40 → **29/40**, cerrada entera. Falta dominio y pulido |
+| F4–F7            | ⬜                                                                                             |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 371 pgTAP + 125 unitarias + 160 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 377 pgTAP + 125 unitarias + 160 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -65,6 +66,13 @@ PID; se cierra ese y solo ese.
   `supabase start -x vector,edge-runtime,imgproxy,pooler` —los cuatro que este proyecto ya tenía
   parados—. Antes de culpar al SQL, `docker ps -a`: si el contenedor de la base está sano y la base
   vacía, el fallo es del arranque, no de la migración.
+- **El sitio no refleja un cambio de la base hasta que algo lo revalide.** Con Cache Components la
+  portada se prerenderiza **en el build**. El 12/09 se aplicó la migración 0023 en producción —los
+  tres slides— y el sitio siguió enseñando la variante sin hero: la base tenía las tres filas
+  (comprobado pidiéndoselas a `slides_publicos`) y el HTML servido era el del build anterior.
+  **Mientras el panel de F4 no llame a `revalidateTag`, cada cambio de contenido en producción exige
+  un redespliegue.** El síntoma engaña: parece que la migración no entró. Se distingue en un minuto
+  —preguntar a la vista si tiene las filas y al HTML si las pinta—, y son dos respuestas distintas.
 - **Las migraciones corren ANTES que las semillas en `db reset`.** Una migración no puede corregir ni
   retirar filas que inserte una semilla: cuando se ejecuta, esas filas todavía no existen. Lo pagó
   0023, que retiraba los slides de ejemplo y en un reset no encontraba ninguno —la prueba pgTAP lo
@@ -82,9 +90,30 @@ en el mismo instante, no la opacidad, que pasa por una transición de 200 ms.
 `page.clock` sí es la herramienta correcta cuando lo que se congela es **el paso del tiempo como
 dato** —«Abierto ahora» depende de qué hora es—, no cuando se persigue un efecto de un gesto.
 
-**Pendiente del negocio:** crear al resto de usuarios (solo existe el superadmin), Vercel (aplazado
-por decisión de Dan), el dominio, las fotos de producto y las redes sociales (Facebook e Instagram
-están vacíos y el pie solo los muestra si se cargan). Ninguno bloquea el trabajo técnico.
+**Pendiente del negocio:** crear al resto de usuarios (solo existe el superadmin), el dominio, las
+fotos de producto y las redes sociales (Facebook e Instagram están vacíos y el pie solo los muestra
+si se cargan). Ninguno bloquea el trabajo técnico.
+
+**El despliegue, en corto** (12/09/2026). El sitio vive en
+https://pimpos-system-iota.vercel.app, sin dominio todavía. En Vercel hay **dos variables y solo
+dos**:
+
+| Variable                        | De dónde sale                                                  |
+| ------------------------------- | -------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase → Project Settings → Data API                         |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API Keys (la `anon`/publishable) |
+
+**`NEXT_PUBLIC_SITE_URL` se deja sin poner a propósito** hasta que haya dominio: sin ella,
+`urlDelSitio()` usa `VERCEL_PROJECT_PRODUCTION_URL`, que Vercel inyecta sola, y así el `sitemap`, las
+canónicas y la imagen para compartir no publican una dirección provisional. Cuando llegue
+`panaderiapimpos.com`, se añade y manda ella.
+
+Las otras cuatro del `.env.example` (`SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_WHATSAPP`,
+`RESEND_API_KEY`, `CORREO_ALERTAS`) **no las lee ningún archivo todavía**: el número de WhatsApp sale
+de `configuracion_sitio` y Resend es de F5. Ponerlas hoy sería guardar secretos sin uso.
+
+Producción tiene las 23 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
+SQL del panel, **nunca con `--include-seed`**) y las 62 imágenes en sus buckets.
 
 **Un hueco declarado, no cubierto:** las imágenes semilla no van en el repositorio, así que en el CI
 los buckets están vacíos y las comprobaciones que miran si una foto **se ve** se saltan diciendo por

@@ -64,6 +64,8 @@ quedaron en la migración de cada tabla, que es donde se entienden:
 | 0019 | `historia.sql`             | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito           |
 | 0020 | `slides_enfoque.sql`       | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva  |
 | 0021 | `testimonios_sin_demo.sql` | `testimonios_publicos` deja fuera los de ejemplo (`es_demo`): uno inventado es una reseña falsa      |
+| 0022 | `presentaciones.sql`       | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay               |
+| 0023 | `slides_reales.sql`        | Las tres diapositivas de portada. Producción no carga semillas: el hero tenía que ir en migración    |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -82,12 +84,21 @@ comprueba la forma de cada valor. `0018_faq_horario` pasa a 12 h la respuesta de
 preguntas frecuentes, sin pisarla si el negocio ya la había cambiado. `0019_historia` hace lo mismo
 con la historia del negocio, y `0020_slides_enfoque` añade a cada diapositiva por qué altura se
 recorta su foto. `0021_testimonios_sin_demo` deja fuera de la vista pública los testimonios de
-ejemplo, que se estaban publicando. Hoy son **21 migraciones y 364 pruebas pgTAP**.
+ejemplo, que se estaban publicando. Después (12/09/2026), `0022_presentaciones` amplía `productos_publicos` con **todas** las
+presentaciones de cada producto y no solo cuántas hay —los dos productos de dos precios se pedían a
+ciegas—, y `0023_slides_reales` carga las tres diapositivas de portada: en producción no podían venir
+de una semilla, porque allí las semillas no se cargan. Hoy son **23 migraciones y 377 pruebas
+pgTAP**.
 
 Nota sobre `es_demo`: se filtra en `testimonios_publicos` y **no** en `slides_publicos`, y no es
 incoherencia. Un testimonio inventado con nombre de persona es una reseña falsa en cuanto alguien lo
 publica sin mirar; un slide de ejemplo usa las fotos reales del local y solo da el largo correcto a
 la maqueta.
+
+**Desde 0023 la distinción ya no se ejerce**: no queda ningún slide de ejemplo. Los tres de la
+portada son reales y los carga esa migración, y `02_demo.sql` dejó de insertarlos. La vista sigue sin
+filtrar `es_demo` —la razón de arriba no ha cambiado—, pero conviene saber que hoy no hay nada que
+filtrar.
 
 Las tres últimas comparten una regla: **un texto que el negocio puede haber editado solo se corrige
 si sigue siendo el de fábrica**, reconocido por su contenido, y la corrección no se audita, porque

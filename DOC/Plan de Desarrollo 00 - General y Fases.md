@@ -17,18 +17,18 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 
 ---
 
-## 1. Estado a la fecha (07/09/2026)
+## 1. Estado a la fecha (12/09/2026)
 
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
 
-| Actividad del plan de trabajo                     | Estado                                                                                  |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                      |
-| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                      |
-| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla       |
-| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                                |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; crítica de diseño 24/40 → 29/40 |
+| Actividad del plan de trabajo                     | Estado                                                                                              |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                                  |
+| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                  |
+| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                   |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **23** hoy                                             |
+| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; **F3 desplegada**, con la crítica de diseño (24/40 → 29/40) cerrada entera |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -36,10 +36,10 @@ Las 8 comprobaciones de cierre (`01 - Preparacion y Servicios`, §10) pasaron, y
 del proyecto alojado se verificaron ahí, no solo en local. Producción tiene las migraciones
 aplicadas, el hook del JWT registrado y el superadmin operativo.
 
-Lo que **no** se cerró y sigue pendiente por decisión propia: Vercel. No bloquea nada mientras no
-haya despliegue.
+Lo que **no** se cerró entonces, por decisión propia, fue Vercel: no bloqueaba nada mientras no
+hubiera despliegue. **Se cerró el 12/09/2026**, ya dentro de F3, con el sitio en línea (§1.4).
 
-### 1.2 Fase 1 — en curso
+### 1.2 Fase 1 — cerrada el 07/09/2026
 
 | Entregable                 | Estado                                                                   |
 | -------------------------- | ------------------------------------------------------------------------ |
@@ -81,7 +81,9 @@ Después del cierre, F3 sumó `0017_pedidos` (las condiciones del delivery que e
 de pedir, con la forma de cada valor comprobada en la base) y `0018_faq_horario` (la respuesta del
 horario en 12 h), `0019_historia` (la historia en la voz de la marca) y `0020_slides_enfoque` (el
 encuadre de cada diapositiva) y `0021_testimonios_sin_demo` (los testimonios de ejemplo dejan de
-publicarse): hoy son **21 migraciones y 364 pruebas pgTAP**.
+publicarse), más `0022_presentaciones` (la vista manda todas las presentaciones de un producto, no
+solo cuántas hay) y `0023_slides_reales` (las tres diapositivas de portada, que en producción no
+podían venir de una semilla): hoy son **23 migraciones y 377 pruebas pgTAP**.
 
 Los índices se quedaron dentro de la migración de cada tabla —se entienden donde está la tabla— y el
 kárdex acabó necesitando archivo propio, de ahí que la lista no cuadre con la del borrador.
@@ -99,6 +101,19 @@ genera 52 páginas estáticas y las cubren 160 pruebas de navegador a 375 px y e
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que
 el panel de F4 dispare el refresco por etiqueta, que ya tiene sus etiquetas puestas.
+
+**El sitio está desplegado** (12/09/2026) en `https://pimpos-system-iota.vercel.app`, todavía sin
+dominio propio. Con Vercel bastaron **dos variables de entorno** (`NEXT_PUBLIC_SUPABASE_URL` y
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`); `NEXT_PUBLIC_SITE_URL` se deja sin poner a propósito hasta que haya
+dominio, porque sin ella el sitio usa la URL que Vercel inyecta y no publica una dirección
+provisional en el `sitemap` ni en las canónicas.
+
+El camino hasta ahí dejó tres lecciones que están explicadas en `DOC/Avance del proyecto.md`: las
+migraciones crean el esquema pero no el contenido, a producción va **solo** `01_maestros.sql`, y un
+cambio en la base **no se ve en el sitio** hasta que algo lo revalide —hoy, un redespliegue—.
+
+Lo que queda de F3 es el pulido medible (Lighthouse, axe), el dominio con HTTPS, Search Console y
+enseñárselo al propietario.
 
 Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 
@@ -118,7 +133,7 @@ Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 | **F0** | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                       | —          |
 | **F1** | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles     | F0         |
 | **F2** | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas | F1         |
-| **F3** | Sitio público (Módulo 1)    | 🔄 Secciones y SEO hechos; falta pulido y dominio                                            | F2         |
+| **F3** | Sitio público (Módulo 1)    | 🔄 **Desplegado**; falta dominio, pulido medible y revisión con el propietario               | F2         |
 | **F4** | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración       | F2, F3     |
 | **F5** | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                             | F2         |
 | **F6** | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                  | F2         |
