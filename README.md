@@ -68,6 +68,7 @@ en `.env.local` para desarrollo local. Las llaves del proyecto de producción no
 | `pnpm format`         | Prettier sobre todo el repo (`format:check` solo comprueba)    |
 | `pnpm test`           | Vitest: lógica de negocio pura (`test:watch` en modo continuo) |
 | `pnpm test:e2e`       | Playwright: flujos completos, a 375 px y escritorio            |
+| `pnpm lighthouse`     | Lighthouse en móvil sobre el build local o una URL desplegada  |
 | `pnpm supabase:tipos` | Regenera `src/tipos/database.types.ts` desde la base local     |
 
 El hook `pre-commit` (husky) corre `typecheck` y `lint-staged` antes de cada commit: un commit que
@@ -162,6 +163,38 @@ saldos, formato de moneda, enlaces `wa.me`, slugs. Las pruebas viven junto al c�
 **Playwright** (`pnpm test:e2e`) cubre los flujos críticos de usuario, en `e2e/`. Corre Chromium en
 dos tamaños: móvil a 375 px (el panel se usa desde el celular en campo) y escritorio. Levanta
 `pnpm dev` por su cuenta; solo hace falta `pnpm exec playwright install chromium` la primera vez.
+
+### Accesibilidad y Lighthouse
+
+El plan (doc 03 §7) pide **cero errores de axe en todas las páginas** y, en móvil, **Lighthouse con
+rendimiento ≥ 90, accesibilidad ≥ 95 y SEO 100**. Las dos cosas se miden, pero no en el mismo sitio,
+y la razón importa:
+
+| Herramienta    | Dónde corre                             | Por qué ahí                                                                                                                                                       |
+| -------------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **axe**        | `e2e/accesibilidad.spec.ts`, en cada PR | Es determinista: mira la estructura del documento, no el reloj. Recorre las 12 rutas públicas en los dos tamaños, más el menú del celular abierto                 |
+| **Lighthouse** | `pnpm lighthouse`, a mano               | Mide tiempos, y un tiempo depende de la máquina. En un runner compartido el mismo sitio puntúa 96 una vez y 78 la siguiente: en el CI pondría en rojo ramas sanas |
+
+```bash
+pnpm lighthouse                                          # contra el build local
+pnpm lighthouse https://pimpos-system-iota.vercel.app    # contra lo desplegado
+pnpm lighthouse http://localhost:3000 /productos         # solo unas rutas
+```
+
+Deja el informe completo de cada página en `.lighthouse/` (fuera de git) y, cuando algo queda por
+debajo del mínimo, imprime **qué auditorías fallaron**, no solo el número: un «SEO 92» a secas
+obliga a abrir el informe y buscar cuál de las veinte fue.
+
+En Git Bash hay que anteponer `MSYS_NO_PATHCONV=1` si se pasan rutas: MSYS convierte el argumento
+`/` en una ruta de Windows y Lighthouse responde `INVALID_URL`.
+
+**La prueba de axe no desactiva ninguna regla.** Si una salta, o es un fallo real o hay que escribir
+en el propio archivo por qué no lo es. Sí desactiva las animaciones antes de medir, y eso no es
+cosmético: la aparición por scroll pasa por opacidades intermedias, y Lighthouse llegó a marcar un
+contraste de 4.28 sobre un enlace cuyo color real da 5.06 — era el token de siempre pillado a 0.913
+de opacidad, a mitad de la animación.
+
+---
 
 > **Las E2E ignoran `.env.local` a propósito.** Sacan la URL y las llaves de `supabase status`, así
 > que siempre corren contra la instancia local. Estas pruebas **crean y borran usuarios**: si el

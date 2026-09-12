@@ -63,7 +63,10 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
               alt=""
               width={40}
               height={44}
-              priority
+              // `preload`, el sustituto de `priority` desde Next 16. Aqui si
+              // vale: es una sola imagen, esta en la cabecera de todas las
+              // paginas y no compite con ninguna otra candidata a LCP.
+              preload
               unoptimized
               className="h-11 w-auto sm:h-12"
             />

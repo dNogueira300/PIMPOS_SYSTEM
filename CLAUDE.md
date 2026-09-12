@@ -15,21 +15,29 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                         |
-| ---------------- | ---------------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                               |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                   |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                 |
-| F3 Sitio público | 🔄 **Desplegado en Vercel.** Crítica 24/40 → **29/40**, cerrada entera. Falta dominio y pulido |
-| F4–F7            | ⬜                                                                                             |
+| Fase             | Estado                                                                                                                                                     |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                           |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                               |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                             |
+| F3 Sitio público | 🔄 **Desplegado en Vercel.** Crítica **29/40** cerrada. **axe en cero y en el CI**; Lighthouse: accesibilidad y SEO cumplen, rendimiento no. Falta dominio |
+| F4–F7            | ⬜                                                                                                                                                         |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 377 pgTAP + 125 unitarias + 160 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 377 pgTAP + 125 unitarias + 184 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
+
+**axe corre en el CI; Lighthouse no, y es a propósito.** `e2e/accesibilidad.spec.ts` pasa axe por las
+12 rutas públicas en los dos tamaños y con el menú del celular abierto, sin desactivar ni una regla:
+es determinista, mira la estructura del documento. Lighthouse mide **tiempos**, y un tiempo depende
+de la máquina —en un runner compartido el mismo sitio da 96 y luego 78—, así que va en
+`pnpm lighthouse` y se ejecuta a mano antes de cerrar una fase y después de cada despliegue. Los
+umbrales del plan (doc 03 §7) están escritos en el guion y este imprime **qué auditorías** fallaron,
+no solo el número.
 
 **Los E2E corren contra el build, no contra `next dev`.** Con quince rutas y cuatro procesos en
 paralelo, `next dev` compila cada ruta a demanda y las pruebas fallaban por tiempo agotado sin que
@@ -188,6 +196,8 @@ pnpm test                          # Vitest: src/**/*.test.ts
 pnpm test -- src/lib/utilidades/slug.test.ts   # un solo archivo
 pnpm test:e2e                      # Playwright; levanta pnpm dev solo
 pnpm exec playwright test e2e/portada.spec.ts --project=movil   # un solo E2E
+pnpm lighthouse                    # Lighthouse movil contra el build local
+pnpm lighthouse https://pimpos-system-iota.vercel.app   # contra lo desplegado
 pnpm supabase:tipos                # regenera src/tipos/database.types.ts
 ```
 
@@ -350,6 +360,45 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   cargas iniciales, porque no es un cambio que hiciera una persona.
 - **lucide 1.x retiró los iconos de marca** (Facebook, Instagram). No se dibujan a mano: las redes
   van con su nombre escrito y un icono genérico de enlace externo.
+- **`priority` de `next/image` quedó deprecado en Next 16**, y su sustituto `preload` **no se usa
+  cuando hay dos candidatas a LCP según el ancho de pantalla** — lo dice el propio doc de Next. Es
+  justo el caso de la portada: `PortadaMovil` y la primera diapositiva del carrusel. `preload`
+  inyecta un `<link rel=preload>` en el `<head>` que **no mira el `display:none`**, así que el
+  celular se bajaba las dos: 41 KB de la suya y 32 KB de la del carrusel, que no se ve nunca,
+  compitiendo por el ancho de banda mientras se mide el LCP. Ya se había intentado tapar con
+  `sizes="(max-width: 639px) 1px, 100vw"` y **eso no impide la descarga**: solo hace que el navegador
+  elija la candidata más pequeña del `srcset`, que son 640w. Lo correcto: `fetchPriority="high"` en
+  las dos, `sizes` **idéntico** en las dos (así resuelven a la misma candidata y se descarga una sola
+  vez), y `loading="eager"` solo en la del celular, que es el LCP de la pantalla prioritaria —con
+  `lazy` el propio Lighthouse avisa, y el descubrimiento pasaba de 21 ms a 301 ms.
+- **Una prueba de imágenes con densidad de pantalla 1 no ve el derroche.** El proyecto `movil` de
+  Playwright mide 375 px con `deviceScaleFactor` 1, y con esa densidad las dos candidatas del punto
+  anterior elegían la misma imagen del `srcset`: la prueba **pasaba contra el código roto**. No hay
+  teléfono con densidad 1. El `test.describe` lleva `test.use({ deviceScaleFactor: 2 })`, y se vio
+  fallar antes de arreglar nada.
+- **Un elemento fijo fuera de `header`, `main` y `footer` no está en ninguna región.** El botón
+  flotante de WhatsApp era el único contenido del sitio fuera de todo landmark, y axe lo marcaba
+  (regla `region`) en las cuatro páginas sin botón de pedir propio —en las demás se salvaba solo
+  porque estaba `aria-hidden`—. Quien navega por landmarks se lo saltaba entero, que es lo contrario
+  de lo que pide R4. Va envuelto en un `<aside aria-label="Pedido rápido">`.
+- **Dos `<nav>` con la misma etiqueta son un laberinto para un lector de pantalla.** La cabecera y el
+  pie llevaban los dos `aria-label="Secciones del sitio"`: en la lista de landmarks salía dos veces
+  lo mismo, sin forma de saber cuál era cuál (axe, `landmark-unique`). El del pie dice ahora
+  «Secciones del sitio, en el pie»; el título visible no cambió.
+- **Un `<div>` dentro de un `<dl>` solo vale si contiene directamente el `dt` y el `dd`.** En contacto
+  cada dato era `dl > div.flex > (icono + div > dt + dd)`, dos niveles de más, y axe lo marcaba dos
+  veces (`definition-list` y `dlitem`). El icono va dentro del `<dt>`.
+- **Un contraste medido en el navegador puede estar pillando una animación a medias.** Lighthouse
+  marcó 4.28 en un enlace de la ficha de producto; el color computado era `#986722` y el token es
+  `#8f5a10`, que da 5.06. `#986722` es exactamente `#8f5a10` a **0.913 de opacidad** sobre el crema:
+  la aparición por scroll, a mitad de camino. Por eso `e2e/accesibilidad.spec.ts` desactiva las
+  animaciones antes de medir. Antes de tocar un token, comprobar si el color que se reporta es el
+  del token o una mezcla.
+- **`test-results/` no sirve para guardar informes:** Playwright la vacía al empezar, así que los
+  informes de Lighthouse desaparecían en cuanto se corría cualquier prueba. Van a `.lighthouse/`.
+- **En Git Bash, `pnpm lighthouse <url> /` no funciona:** MSYS convierte el `/` en una ruta de
+  Windows y Lighthouse responde `INVALID_URL`. Es la misma trampa del `docker exec ... /tmp/x.sql`;
+  se sale igual, con `MSYS_NO_PATHCONV=1`.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
   completo. Con la `anon` responde 401 `"Only the service_role API key can be used for this
 endpoint"`. Para un ping se consulta una tabla real; meter la `service_role` en un workflow

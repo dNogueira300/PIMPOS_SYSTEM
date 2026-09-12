@@ -94,7 +94,12 @@ export async function Pie({ config }: { config: Configuracion }) {
           ) : null}
         </div>
 
-        <nav aria-label="Secciones del sitio">
+        {/* Etiqueta distinta a la de la cabecera a proposito. Las dos listas
+            llevan las mismas secciones, pero quien navega por landmarks con un
+            lector de pantalla veia "Secciones del sitio" dos veces y no podia
+            saber cual era el menu y cual el pie (axe, regla `landmark-unique`).
+            El nombre visible sigue siendo "Secciones". */}
+        <nav aria-label="Secciones del sitio, en el pie">
           <h2 className="font-heading mb-4 text-lg">Secciones</h2>
           <ul className="flex flex-col gap-1 text-sm">
             {SECCIONES.map(({ ruta, nombre }) => (

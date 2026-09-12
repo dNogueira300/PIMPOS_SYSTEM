@@ -116,7 +116,10 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               src={producto.imagen}
               alt={producto.imagenAlt ?? producto.nombre}
               fill
-              priority
+              // `preload` sustituye al `priority` que Next 16 deprecó. Aqui es
+              // correcto: la foto del producto es el LCP de la ficha y no tiene
+              // otra candidata segun el ancho.
+              preload
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />

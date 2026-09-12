@@ -61,81 +61,86 @@ export default async function Contacto() {
               </a>
             ) : null}
 
+            {/* Cada dato es un grupo `div > dt + dd`, que es la unica forma que
+                admite un `<dl>`: el icono va dentro del `<dt>`, no al lado del
+                grupo. Antes colgaba de un `div` intermedio junto al icono, y
+                axe lo marcaba dos veces (`definition-list` y `dlitem`) porque
+                ni el `dt` ni el `dd` eran hijos directos de su grupo. */}
             <dl className="mt-10 flex flex-col gap-6">
               {/* El numero escrito, ademas del boton: hay quien quiere guardarlo
                   en sus contactos, o escribir desde otro telefono. */}
               {whatsapp && numero ? (
-                <div className="flex gap-3">
-                  <MessageCircle aria-hidden className="text-acento mt-1 size-5 shrink-0" />
-                  <div>
-                    <dt className="font-medium">WhatsApp</dt>
-                    <dd>
-                      <a
-                        href={whatsapp}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
-                      >
-                        {numero}
-                      </a>
-                    </dd>
-                  </div>
+                <div>
+                  <dt className="flex items-center gap-3 font-medium">
+                    <MessageCircle aria-hidden className="text-acento size-5 shrink-0" />
+                    WhatsApp
+                  </dt>
+                  <dd className="pl-8">
+                    <a
+                      href={whatsapp}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
+                    >
+                      {numero}
+                    </a>
+                  </dd>
                 </div>
               ) : null}
 
               {config.telefono ? (
-                <div className="flex gap-3">
-                  <Phone aria-hidden className="text-acento mt-1 size-5 shrink-0" />
-                  <div>
-                    <dt className="font-medium">Teléfono</dt>
-                    <dd>
-                      <a
-                        href={`tel:${config.telefono.replace(/\s/g, "")}`}
-                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
-                      >
-                        {config.telefono}
-                      </a>
-                    </dd>
-                  </div>
+                <div>
+                  <dt className="flex items-center gap-3 font-medium">
+                    <Phone aria-hidden className="text-acento size-5 shrink-0" />
+                    Teléfono
+                  </dt>
+                  <dd className="pl-8">
+                    <a
+                      href={`tel:${config.telefono.replace(/\s/g, "")}`}
+                      className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center"
+                    >
+                      {config.telefono}
+                    </a>
+                  </dd>
                 </div>
               ) : null}
 
               {config.correo ? (
-                <div className="flex gap-3">
-                  <Mail aria-hidden className="text-acento mt-1 size-5 shrink-0" />
-                  <div>
-                    <dt className="font-medium">Correo</dt>
-                    <dd>
-                      <a
-                        href={`mailto:${config.correo}`}
-                        className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center break-all"
-                      >
-                        {config.correo}
-                      </a>
-                    </dd>
-                  </div>
+                <div>
+                  <dt className="flex items-center gap-3 font-medium">
+                    <Mail aria-hidden className="text-acento size-5 shrink-0" />
+                    Correo
+                  </dt>
+                  <dd className="pl-8">
+                    <a
+                      href={`mailto:${config.correo}`}
+                      className="text-muted-foreground hover:text-foreground min-h-tactil inline-flex items-center break-all"
+                    >
+                      {config.correo}
+                    </a>
+                  </dd>
                 </div>
               ) : null}
 
               {direccion ? (
-                <div className="flex gap-3">
-                  <MapPin aria-hidden className="text-acento mt-1 size-5 shrink-0" />
-                  <div>
-                    <dt className="font-medium">Dirección</dt>
-                    <dd className="text-muted-foreground">
-                      {direccion}
-                      {config.referencia ? <br /> : null}
-                      {config.referencia}
-                    </dd>
-                    <dd>
-                      <Link
-                        href="/ubicacion"
-                        className="text-acento min-h-tactil inline-flex items-center text-sm underline"
-                      >
-                        Ver el mapa
-                      </Link>
-                    </dd>
-                  </div>
+                <div>
+                  <dt className="flex items-center gap-3 font-medium">
+                    <MapPin aria-hidden className="text-acento size-5 shrink-0" />
+                    Dirección
+                  </dt>
+                  <dd className="text-muted-foreground pl-8">
+                    {direccion}
+                    {config.referencia ? <br /> : null}
+                    {config.referencia}
+                  </dd>
+                  <dd className="pl-8">
+                    <Link
+                      href="/ubicacion"
+                      className="text-acento min-h-tactil inline-flex items-center text-sm underline"
+                    >
+                      Ver el mapa
+                    </Link>
+                  </dd>
                 </div>
               ) : null}
             </dl>

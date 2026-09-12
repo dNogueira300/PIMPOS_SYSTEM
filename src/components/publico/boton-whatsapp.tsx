@@ -97,20 +97,28 @@ export function BotonWhatsApp({ enlace }: { enlace: string | null }) {
   const apartado = estado.ruta === ruta && (estado.otroALaVista || estado.bajando);
 
   return (
-    <a
-      href={enlace}
-      target="_blank"
-      rel="noopener noreferrer"
-      data-flotante
-      aria-hidden={apartado || undefined}
-      tabIndex={apartado ? -1 : undefined}
-      className={`boton-cta fixed right-4 bottom-4 z-30 rounded-full shadow-lg shadow-black/20 motion-safe:transition-[opacity,translate,background-color,color] motion-safe:duration-200 sm:hidden ${
-        apartado ? "pointer-events-none translate-y-4 opacity-0" : ""
-      }`}
-    >
-      <MessageCircle aria-hidden className="size-5" />
-      <span className="font-semibold">Pedir</span>
-      <span className="sr-only">por WhatsApp</span>
-    </a>
+    // El `aside` no es decoracion: sin el, el boton es el unico contenido de la
+    // pagina que no cuelga de ninguna region (`header`, `main`, `footer`), y
+    // axe lo marca —regla `region`— en las cuatro paginas que no tienen boton
+    // de pedir propio. Quien navega por landmarks se lo saltaba entero, que es
+    // justo lo contrario de lo que pide R4. `sm:hidden` va aqui para que en
+    // escritorio no quede una region vacia.
+    <aside aria-label="Pedido rápido" className="sm:hidden">
+      <a
+        href={enlace}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-flotante
+        aria-hidden={apartado || undefined}
+        tabIndex={apartado ? -1 : undefined}
+        className={`boton-cta fixed right-4 bottom-4 z-30 rounded-full shadow-lg shadow-black/20 motion-safe:transition-[opacity,translate,background-color,color] motion-safe:duration-200 ${
+          apartado ? "pointer-events-none translate-y-4 opacity-0" : ""
+        }`}
+      >
+        <MessageCircle aria-hidden className="size-5" />
+        <span className="font-semibold">Pedir</span>
+        <span className="sr-only">por WhatsApp</span>
+      </a>
+    </aside>
   );
 }
