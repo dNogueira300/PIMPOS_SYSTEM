@@ -22,13 +22,13 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
 
-| Actividad del plan de trabajo                     | Estado                                                                              |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                  |
-| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                  |
-| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla   |
-| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                            |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; pulido: los 4 P1 corregidos |
+| Actividad del plan de trabajo                     | Estado                                                                                  |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                      |
+| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                      |
+| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla       |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, 17 desde F3                                |
+| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; F3 con secciones y SEO hechos; crítica de diseño 24/40 → 29/40 |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -80,7 +80,8 @@ seguridad obligatorias (doc 02 §11.3) pasan las 9.
 Después del cierre, F3 sumó `0017_pedidos` (las condiciones del delivery que el sitio muestra antes
 de pedir, con la forma de cada valor comprobada en la base) y `0018_faq_horario` (la respuesta del
 horario en 12 h), `0019_historia` (la historia en la voz de la marca) y `0020_slides_enfoque` (el
-encuadre de cada diapositiva): hoy son **20 migraciones y 359 pruebas pgTAP**.
+encuadre de cada diapositiva) y `0021_testimonios_sin_demo` (los testimonios de ejemplo dejan de
+publicarse): hoy son **21 migraciones y 364 pruebas pgTAP**.
 
 Los índices se quedaron dentro de la migración de cada tabla —se entienden donde está la tabla— y el
 kárdex acabó necesitando archivo propio, de ahí que la lista no cuadre con la del borrador.
@@ -93,7 +94,7 @@ porque no había semana de reserva.
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
-genera 52 páginas estáticas y las cubren 132 pruebas de navegador a 375 px y en escritorio.
+genera 52 páginas estáticas y las cubren 136 pruebas de navegador a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que
