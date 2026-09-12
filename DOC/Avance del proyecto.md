@@ -293,6 +293,14 @@ PENDIENTE. Cuando el propietario ponga los nombres de verdad desde el panel, est
 
 **Con esto, la crítica del 12/09 queda cerrada entera**: el P0, los dos P1 y los dos P2.
 
+**Y una decisión de Dan que va más allá de la crítica** (12/09/2026): **en el celular la portada ya
+no lleva carrusel.** En escritorio se queda igual. El carrusel solo se pausaba al pasar el mouse y al
+enfocar con teclado —ninguna de las dos ocurre en un teléfono—, así que rotaba cada seis segundos
+mientras el cliente leía, en la pantalla que el proyecto declara prioritaria. Ahora el celular abre
+con la foto de la primera diapositiva quieta y, debajo, el nombre del negocio, si está abierto ahora
+y el botón de pedir. De paso dejó de descargar en el celular una foto panorámica que no se veía, y de
+mover un temporizador para nadie.
+
 ### El primer despliegue, y lo que enseñó (12/09/2026)
 
 El primer intento de desplegar en Vercel **falló en el build**, con un mensaje que no llevaba a
@@ -315,10 +323,20 @@ Dos cosas salieron de ahí:
   dos variables de entorno, la semilla que falta y dónde mirar el error de la consulta. Se comprobó
   **viéndolo fallar**: un build apuntando a producción muere con ese texto y no con el de Next.
 
-**Lo que queda para que el despliegue salga**: cargar `supabase/seeds/01_maestros.sql` en el proyecto
-alojado. **Nunca con `supabase db push --include-seed`**: ese comando aplica todas las semillas del
-`config.toml`, y ahí está también `02_demo.sql`, que metería slides de ejemplo —se publican, porque
-`slides_publicos` no filtra `es_demo`— y clientes inventados en una tabla con datos personales.
+**Producción quedó cargada ese mismo día.** Dan ejecutó `01_maestros.sql` desde el editor SQL del
+panel y las 62 imágenes semilla se subieron a sus buckets, comprobando después que **se sirven**
+—galería, slides y una foto de producto responden 200—, que es lo que la subida por sí sola no
+prueba. El estado quedó así: configuración 1, categorías 6, productos 34, galería 10, preguntas 5.
+
+**La regla que no se salta**: a producción va **solo** `01_maestros.sql`, nunca
+`supabase db push --include-seed`. Ese comando aplica todas las semillas del `config.toml`, y ahí
+está también `02_demo.sql`, que metería slides de ejemplo —se publican, porque `slides_publicos` no
+filtra `es_demo`— y clientes inventados en una tabla con datos personales.
+
+**Consecuencia visible, y prevista**: en producción `slides` está en 0, así que la portada no pinta
+hero con foto —ni carrusel en escritorio ni la portada nueva del celular—, sino la variante con el
+titular sobre el azul de marca. Está contemplado en el código desde el principio; para tener hero
+desde el primer día hay que sembrar slides **reales**, que no es lo mismo que cargar los de ejemplo.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
