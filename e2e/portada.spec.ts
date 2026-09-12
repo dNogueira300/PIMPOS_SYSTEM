@@ -87,8 +87,13 @@ test("los horarios dicen que el domingo esta cerrado", async ({ page }) => {
   // Dentro del contenido, no en cualquier sitio: el menu del celular tambien
   // trae el horario y existe en el DOM aunque este cerrado, asi que el primer
   // "Cerrado" de la pagina es uno que no se ve.
+  //
+  // Y `exact`, ademas: el horario dice tambien si esta abierto ahora, asi que a
+  // ciertas horas el primer "Cerrado" del contenido es el "Cerrado ahora" del
+  // estado. Sin `exact` esta prueba seguiria en verde sin mirar nunca la fila
+  // del domingo, que es lo que dice comprobar.
   const principal = page.getByRole("main");
-  await expect(principal.getByText("Cerrado").first()).toBeVisible();
+  await expect(principal.getByText("Cerrado", { exact: true }).first()).toBeVisible();
   await expect(principal.getByText(/4:00 a\. m\./).first()).toBeVisible();
 });
 

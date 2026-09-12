@@ -274,8 +274,14 @@ el pie le reserva sitio al final de la página, se aparta con cualquier botón d
 vista y se retira mientras se baja, volviendo al parar. Sigue estando siempre a mano, que es lo que
 pide la ficha; lo que ya no hace es comerse la línea que se está leyendo.
 
-Quedan los dos P2: los productos con dos presentaciones se piden a ciegas y en ningún sitio se dice
-si la panadería está abierta ahora.
+**El segundo P2 también está cerrado**: el horario dice ahora si la panadería está **abierta en este
+momento** («Abierto ahora · Hasta la 1:00 p. m.») y, si no, cuándo vuelve a abrir. Sale del horario
+cargado, no de un interruptor que alguien tenga que acordarse de apagar, y se calcula con el reloj de
+Iquitos, no con el del visitante. Aparece en la portada, en contacto, en ubicación y en el pie.
+
+Queda un P2: los productos con dos presentaciones se piden a ciegas. Dan decidió (12/09/2026)
+listarlas con su precio y dejar que el cliente elija en el mensaje de WhatsApp; necesita dato nuevo
+—la vista solo expone el rango de precios y cuántas hay—, así que va con su propia migración.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

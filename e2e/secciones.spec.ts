@@ -161,5 +161,8 @@ test("el pie repite contacto y horario en todas las secciones", async ({ page })
 
   const pie = page.getByRole("contentinfo");
   await expect(pie.getByText("Calle Elías Aguirre 1321")).toBeVisible();
-  await expect(pie.getByText("Cerrado")).toBeVisible();
+  // `exact`: desde que el horario dice tambien si esta abierto ahora, en el pie
+  // hay dos "Cerrado" —el del domingo y el "Cerrado ahora"— y lo que esta
+  // prueba mira es la fila del domingo.
+  await expect(pie.getByText("Cerrado", { exact: true })).toBeVisible();
 });

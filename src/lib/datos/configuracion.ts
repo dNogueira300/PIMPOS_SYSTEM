@@ -4,6 +4,9 @@ import { z } from "zod";
 import { crearClientePublico } from "@/lib/supabase/publico";
 
 import { ETIQUETAS } from "./etiquetas";
+// Ademas de reexportarse mas abajo: un `export ... from` no trae el nombre al
+// ambito de este archivo, y el `satisfies` de TRAMO lo necesita aqui.
+import type { Tramo } from "./reloj";
 
 /**
  * La configuracion del sitio, administrable desde el panel (R21, R5).
@@ -17,29 +20,25 @@ import { ETIQUETAS } from "./etiquetas";
  * vez de caerse entera: es la portada de un negocio, no un formulario interno.
  */
 
+// `satisfies`: el esquema y el tipo de `reloj` tienen que seguir diciendo lo
+// mismo. Si alguien le añade un campo a uno y no al otro, falla el typecheck en
+// vez de llegar a la pagina como un turno a medias.
 const TRAMO = z.object({
   desde: z.string(),
   hasta: z.string(),
-});
+}) satisfies z.ZodType<Tramo>;
 
 const VALOR = z.object({
   nombre: z.string(),
   descripcion: z.string(),
 });
 
-/** Los siete dias, en el orden en que se leen. `domingo: []` significa cerrado. */
-export const DIAS = [
-  "lunes",
-  "martes",
-  "miercoles",
-  "jueves",
-  "viernes",
-  "sabado",
-  "domingo",
-] as const;
-
-export type Dia = (typeof DIAS)[number];
-export type Tramo = z.infer<typeof TRAMO>;
+// Los dias y el formato de la hora viven en `reloj.ts`, que no depende de nada:
+// este archivo trae Zod, Supabase y `use cache`, y el boton de "Abierto ahora"
+// es de cliente. Se reexportan para que quien ya los importaba de aqui siga
+// igual.
+export { DIAS, describirTramos, formatearHora } from "./reloj";
+export type { Dia, Tramo } from "./reloj";
 
 const ESQUEMA = z.object({
   nombre_comercial: z.string().default("Panadería Pimpo's"),
@@ -127,29 +126,6 @@ export function enlaceWhatsApp(
   const numero = config.whatsapp.replace(/\D/g, "");
   if (numero.length === 0) return null;
   return `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-}
-
-/** `04:00` a `4:00 a. m.`, como lo lee alguien que no programa. */
-export function formatearHora(hora: string): string {
-  const [h, m] = hora.split(":").map(Number);
-
-  // `Number.isFinite`, no `Number.isNaN`: con la cadena vacia, `split` devuelve
-  // un solo elemento, `m` llega `undefined`, y `Number.isNaN(undefined)` es
-  // false. La version anterior daba por buena esa entrada y escribia
-  // "12:undefined a. m." en el pie de todas las paginas.
-  if (!Number.isFinite(h) || !Number.isFinite(m)) return hora;
-
-  const sufijo = h < 12 ? "a. m." : "p. m.";
-  const doce = h % 12 === 0 ? 12 : h % 12;
-  return m === 0 ? `${doce}:00 ${sufijo}` : `${doce}:${String(m).padStart(2, "0")} ${sufijo}`;
-}
-
-/** "4:00 a. m. a 1:00 p. m. y 4:00 p. m. a 9:00 p. m." o "Cerrado". */
-export function describirTramos(tramos: readonly Tramo[]): string {
-  if (tramos.length === 0) return "Cerrado";
-  return tramos
-    .map(({ desde, hasta }) => `${formatearHora(desde)} a ${formatearHora(hasta)}`)
-    .join(" y ");
 }
 
 /**

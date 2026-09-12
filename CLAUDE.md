@@ -14,19 +14,19 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 **F0, F1 y F2 cerradas. F3 con secciones y SEO hechos** (11/09/2026). Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                     |
-| ---------------- | ------------------------------------------------------------------------------------------ |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                           |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                               |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                             |
-| F3 Sitio público | 🔄 Secciones y SEO hechos. Crítica de diseño: 24/40 → **29/40**; P0 cerrado, 2 P1 en curso |
-| F4–F7            | ⬜                                                                                         |
+| Fase             | Estado                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                       |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                           |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                         |
+| F3 Sitio público | 🔄 Secciones y SEO hechos. Crítica: 24/40 → **29/40**; P0, los dos P1 y un P2 cerrados |
+| F4–F7            | ⬜                                                                                     |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 364 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 364 pgTAP + 117 unitarias + 139 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 364 pgTAP + 125 unitarias + 147 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -248,6 +248,14 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   contenido. Va en el `<footer>`. Mirarlo en pantalla no lo habría cazado —hay que bajar del todo—;
   lo cazó la prueba que pregunta qué hay debajo del centro del botón con `elementFromPoint`, en cada
   ruta y con la página al fondo.
+- **Un componente de cliente no puede tirar del hilo de `configuracion.ts`.** «Abierto ahora» tiene
+  que saber qué hora es, así que es de cliente; importaba `lib/datos/horario.ts`, que importaba
+  `configuracion.ts`, que trae Zod, el cliente de Supabase y funciones `use cache`. El build se cayó
+  con _«It is not allowed to define inline "use cache" annotated functions in Client Components»_, y
+  la traza de importación señalaba la cadena entera. Lo puro —los días, `formatearHora`,
+  `describirTramos` y el tipo `Tramo`— vive ahora en `src/lib/datos/reloj.ts`, **sin dependencias**;
+  `configuracion.ts` lo reexporta, así que ningún consumidor cambió una línea. Antes de importar algo
+  desde un `"use client"`, seguir la cadena hasta el final: el error no aparece hasta el build.
 - **Ampliar una vista es `create or replace`, y solo admite columnas nuevas al final.** Cambiar el
   orden o el tipo de una columna existente obliga a `drop view` y a recrear permisos. Al reemplazar
   hay que repetir `with (security_invoker = true)` y el `where` de publicado: si se olvidan, la
