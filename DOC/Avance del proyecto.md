@@ -265,9 +265,17 @@ fondo crema en vez de contra la foto, y llegó a detectarse a sí mismo).
 Salió un **P0 ya corregido**: los tres testimonios de ejemplo se estaban publicando en la portada
 («Cliente de ejemplo 1, Iquitos»). En producción no se veían porque la semilla de demostración no se
 carga allí, pero eso era suerte y no una defensa: la vista no filtraba. La migración 0021 los deja
-fuera. Quedan dos P1 —el botón flotante tapando texto y el logo de escritorio, que sigue ilegible
-porque el arreglo solo llegó al celular— y dos P2: los productos con dos presentaciones se piden a
-ciegas y en ningún sitio se dice si la panadería está abierta ahora.
+fuera.
+
+**Los dos P1 también están corregidos.** El nombre del negocio se lee ahora en la cabecera de
+cualquier pantalla, no solo en el celular: va escrito junto al isotipo, en vez de dibujado en un logo
+que a ese tamaño era una mancha. Y el botón flotante de WhatsApp dejó de taparle el texto al cliente:
+el pie le reserva sitio al final de la página, se aparta con cualquier botón de pedir a la
+vista y se retira mientras se baja, volviendo al parar. Sigue estando siempre a mano, que es lo que
+pide la ficha; lo que ya no hace es comerse la línea que se está leyendo.
+
+Quedan los dos P2: los productos con dos presentaciones se piden a ciegas y en ningún sitio se dice
+si la panadería está abierta ahora.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

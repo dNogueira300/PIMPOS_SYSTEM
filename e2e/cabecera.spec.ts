@@ -8,7 +8,7 @@ import { expect, test } from "@playwright/test";
  * nota cuidado y uno que no.
  */
 
-test("en el celular el nombre del negocio se lee en la cabecera", async ({ page, isMobile }) => {
+test("el nombre del negocio se lee en la cabecera, en cualquier pantalla", async ({ page }) => {
   await page.goto("/");
   const cabecera = page.getByRole("banner");
 
@@ -17,13 +17,15 @@ test("en el celular el nombre del negocio se lee en la cabecera", async ({ page,
     cabecera.getByRole("link", { name: "Panadería Pimpo's, ir al inicio" }),
   ).toBeVisible();
 
-  if (isMobile) {
-    // A 375 px el logo completo no se lee: va el nombre escrito.
-    await expect(cabecera.getByText("Panadería Pimpo's", { exact: true })).toBeVisible();
-    await expect(cabecera.getByAltText("Panadería Pimpo's", { exact: true })).toBeHidden();
-  } else {
-    await expect(cabecera.getByAltText("Panadería Pimpo's", { exact: true })).toBeVisible();
-  }
+  // El nombre va escrito, no dibujado. El logo raster a 44 px de alto dejaba
+  // «PANADERÍA PASTELERÍA Y BODEGA» en letras de dos píxeles: se arregló primero
+  // en el celular y el escritorio se quedó con el raster (crítica del 12/09).
+  await expect(cabecera.getByText("Panadería Pimpo's", { exact: true })).toBeVisible();
+  await expect(cabecera.getByAltText("Panadería Pimpo's", { exact: true })).toHaveCount(0);
+
+  // El isotipo es vectorial: escala sin romperse en ningún tamaño.
+  const marca = cabecera.locator("img").first();
+  await expect(marca).toHaveAttribute("src", /\.svg($|\?)/);
 });
 
 test("el menu del celular empieza por Inicio y trae el horario", async ({ page, isMobile }) => {

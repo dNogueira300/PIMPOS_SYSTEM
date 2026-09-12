@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **136 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **139 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -245,10 +245,27 @@ Lo que salió, por prioridad:
 | Prioridad | Problema                                                                  | Estado            |
 | --------- | ------------------------------------------------------------------------- | ----------------- |
 | P0        | Los testimonios de ejemplo se publicaban                                  | ✅ Migración 0021 |
-| P1        | El botón flotante tapa contenido en portada, catálogo, FAQ, 404 y galería | 🔄                |
-| P1        | El logo de escritorio sigue ilegible (el arreglo solo llegó a móvil)      | 🔄                |
+| P1        | El botón flotante tapa contenido en portada, catálogo, FAQ, 404 y galería | ✅                |
+| P1        | El logo de escritorio sigue ilegible (el arreglo solo llegó a móvil)      | ✅                |
 | P2        | Los productos con dos presentaciones se piden a ciegas                    | ⬜                |
 | P2        | Nadie dice si la panadería está abierta ahora                             | ⬜                |
+
+**Los dos P1, corregidos (12/09/2026):**
+
+- **El logo.** La cabecera usa el isotipo vectorial con el nombre en Fraunces **en todas las
+  pantallas**, algo mayor desde `sm`. El raster a 44 px de alto dejaba el arco «PANADERÍA PASTELERÍA
+  Y BODEGA» en letras de dos píxeles; se arregló primero solo en el celular y el escritorio se quedó
+  con él, que es donde peor sienta: primer elemento del primer pliegue y lo único que dice de quién
+  es la página. El logo completo se queda donde se ve grande: datos estructurados e imagen para
+  compartir, que siguen leyendo `logo_url` de la configuración.
+- **El botón flotante**, con tres medidas y no una: (1) **el pie** reserva abajo la altura del botón,
+  porque al final del documento no hay más scroll con el que apartar lo de debajo y el tapado sería
+  permanente —el hueco se puso primero en `<main>`, que no es lo último que se ve, y la prueba lo
+  cazó: el botón seguía encima de «Iquitos, Perú» en portada y galería—; (2) se aparta con
+  **cualquier** enlace a WhatsApp a la vista, no solo los del
+  contenido —al abrir el menú quedaban dos botones de pedir en la misma pantalla—; y (3) se retira
+  mientras el cliente baja y vuelve al parar o al subir, que es cuando se comía la línea que se
+  estaba leyendo. **Sigue siendo permanente (R4)**: no se quita, se aparta y vuelve solo.
 
 **Dos decisiones de fondo que la crítica cuestiona y que NO se tocan** (decisión de Dan, 12/09/2026):
 el carrusel —cuesta una librería, rota el mensaje bajo el dedo del cliente, no se pausa en móvil y

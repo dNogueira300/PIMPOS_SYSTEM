@@ -9,7 +9,7 @@ import { Menu, X } from "lucide-react";
 import { SECCIONES, esSeccionActiva } from "./navegacion";
 
 type Props = {
-  logo: string;
+  /** Solo para el nombre accesible del enlace: el logo raster ya no se pinta. */
   logoAlt: string;
   isotipo: string;
   nombre: string;
@@ -32,7 +32,7 @@ const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as co
  * La navegacion cabe en una linea en escritorio con las siete secciones; por
  * debajo de `lg` pasa a menu desplegable en lugar de partirse en dos filas.
  */
-export function Cabecera({ logo, logoAlt, isotipo, nombre, horario, whatsapp }: Props) {
+export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
 
@@ -44,29 +44,31 @@ export function Cabecera({ logo, logoAlt, isotipo, nombre, horario, whatsapp }: 
           className="focus-visible:outline-primary-foreground shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label={`${logoAlt}, ir al inicio`}
         >
-          {/* En el celular, el isotipo y el nombre escrito. El logo completo a
-              44 px de alto no se lee: el arco "PANADERÍA PASTELERÍA Y BODEGA"
-              queda en letras de dos pixeles (critica del 11/09). Desde `sm` hay
-              sitio y va el logo de siempre. */}
-          <span className="flex items-center gap-2 sm:hidden">
+          {/* El isotipo y el nombre escrito, en todas las pantallas.
+
+              El logo raster a 44 px de alto no se lee: el arco "PANADERÍA
+              PASTELERÍA Y BODEGA" queda en letras de dos pixeles. Se arreglo
+              primero solo en el celular, y la segunda critica (12/09) encontro
+              que en escritorio seguia igual, que es donde peor sienta: es el
+              primer elemento del primer pliegue y el unico que dice de quien es
+              la pagina.
+
+              El isotipo es SVG: `unoptimized` porque el optimizador de Next no
+              toca los vectores, y asi escala sin limite. El logo completo se
+              queda para donde se ve grande: los datos estructurados y la imagen
+              para compartir el enlace. */}
+          <span className="flex items-center gap-2 sm:gap-3">
             <Image
               src={isotipo}
               alt=""
               width={40}
               height={44}
+              priority
               unoptimized
-              className="h-11 w-auto"
+              className="h-11 w-auto sm:h-12"
             />
-            <span className="font-heading text-xl leading-none">{nombre}</span>
+            <span className="font-heading text-xl leading-none sm:text-2xl">{nombre}</span>
           </span>
-          <Image
-            src={logo}
-            alt={logoAlt}
-            width={320}
-            height={107}
-            priority
-            className="hidden h-11 w-auto sm:block"
-          />
         </Link>
 
         <nav aria-label="Secciones del sitio" className="ml-auto hidden lg:block">
