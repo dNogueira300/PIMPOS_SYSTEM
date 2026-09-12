@@ -301,6 +301,43 @@ con la foto de la primera diapositiva quieta y, debajo, el nombre del negocio, s
 y el botón de pedir. De paso dejó de descargar en el celular una foto panorámica que no se veía, y de
 mover un temporizador para nadie.
 
+### El primer despliegue, y lo que enseñó (12/09/2026)
+
+El primer intento de desplegar en Vercel **falló en el build**, con un mensaje que no llevaba a
+ninguna parte: _«all `generateStaticParams` functions must return at least one result»_. Ni una
+palabra sobre la base de datos.
+
+La causa, comprobada y no supuesta: el proyecto alojado tenía **las 22 migraciones aplicadas y
+ninguna semilla**. Pidiendo el conteo a cada vista pública salía configuración 1, categorías 6 y
+preguntas 5 —eso lo insertan las migraciones— frente a **productos 0, slides 0 y galería 0**, que
+viven en `01_maestros.sql`. Sin productos no hay ficha que generar, y con Cache Components eso es un
+build roto.
+
+Dos cosas salieron de ahí:
+
+- **Las lecturas ya no se tragan el error.** Las nueve funciones de `src/lib/datos/` devolvían `[]`
+  cuando la consulta fallaba, que está bien para la página —mejor una sección vacía que una página
+  caída— pero tiraban el mensaje de PostgREST, que es el único que dice si falta una columna, si la
+  RLS niega la lectura o si sencillamente no hay datos. Ahora lo dejan en el registro.
+- **El build dice qué pasa.** Si el catálogo llega vacío, se detiene con un mensaje que nombra las
+  dos variables de entorno, la semilla que falta y dónde mirar el error de la consulta. Se comprobó
+  **viéndolo fallar**: un build apuntando a producción muere con ese texto y no con el de Next.
+
+**Producción quedó cargada ese mismo día.** Dan ejecutó `01_maestros.sql` desde el editor SQL del
+panel y las 62 imágenes semilla se subieron a sus buckets, comprobando después que **se sirven**
+—galería, slides y una foto de producto responden 200—, que es lo que la subida por sí sola no
+prueba. El estado quedó así: configuración 1, categorías 6, productos 34, galería 10, preguntas 5.
+
+**La regla que no se salta**: a producción va **solo** `01_maestros.sql`, nunca
+`supabase db push --include-seed`. Ese comando aplica todas las semillas del `config.toml`, y ahí
+está también `02_demo.sql`, que metería slides de ejemplo —se publican, porque `slides_publicos` no
+filtra `es_demo`— y clientes inventados en una tabla con datos personales.
+
+**Consecuencia visible, y prevista**: en producción `slides` está en 0, así que la portada no pinta
+hero con foto —ni carrusel en escritorio ni la portada nueva del celular—, sino la variante con el
+titular sobre el azul de marca. Está contemplado en el código desde el principio; para tener hero
+desde el primer día hay que sembrar slides **reales**, que no es lo mismo que cargar los de ejemplo.
+
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
 | Tarea                   | Por qué importa                                                                                                                                                                                |

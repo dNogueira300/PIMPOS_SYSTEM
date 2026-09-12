@@ -40,6 +40,24 @@ segundo plano, sin que se vea— y las pruebas corren contra el build **anterior
 pasan por razones que no son. Pasó dos veces. `netstat -ano | grep ":3000 " | grep LISTENING` da el
 PID; se cierra ese y solo ese.
 
+- **Las migraciones crean el esquema, no el contenido.** El primer despliegue a Vercel se cayó con
+  _«all `generateStaticParams` functions must return at least one result»_, que no menciona la base.
+  La causa: el proyecto alojado tenía **las 22 migraciones aplicadas y ninguna semilla**, así que
+  `productos_publicos` devolvía cero filas y no había ficha que generar. Se ve en un vistazo pidiendo
+  el conteo a cada vista pública con `Prefer: count=exact`; allí salía configuración 1, categorías 6
+  y preguntas 5 —todo eso lo insertan migraciones— frente a productos 0, slides 0 y galería 0, que
+  son de `01_maestros.sql`. **Comprobar el contenido de producción, no solo `migration list`.**
+- **`supabase db push --include-seed` carga TODAS las semillas del `config.toml`**, y ahí están
+  `01_maestros.sql` y `02_demo.sql`. En producción eso mete slides de ejemplo —que **sí se
+  publican**: `slides_publicos` no filtra `es_demo`, a diferencia de los testimonios— y clientes
+  inventados en una tabla con datos personales. A producción va **solo** `01_maestros.sql`.
+- **Una lectura que devuelve `[]` cuando falla esconde la causa justo cuando más se necesita.** Las
+  nueve funciones de `src/lib/datos/` hacían `if (error || !data) return []`, que está bien para la
+  página —mejor una sección vacía que una página caída— pero tiraba el mensaje de PostgREST, que es
+  el único que dice si falta una columna, si la RLS niega la lectura o si no hay datos. Ahora pasan
+  por `avisarDeConsulta()`, que lo deja en el registro del servidor o del build. Es la misma lección
+  que ya estaba escrita para los guiones de verificación.
+
 **Una prueba que mide algo que se deshace solo hay que medirla dentro del navegador.** El botón
 flotante vuelve a los 500 ms y la prueba miraba la opacidad _después_ del gesto: unas veces llegaba
 a tiempo y otras no. **`page.clock` no lo arregla** —se intentó—: el evento de scroll llega después

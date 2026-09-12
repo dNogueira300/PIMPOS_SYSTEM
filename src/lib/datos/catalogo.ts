@@ -2,6 +2,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 import { crearClientePublico, urlDeImagen } from "@/lib/supabase/publico";
 
+import { avisarDeConsulta } from "./aviso";
 import { ETIQUETAS } from "./etiquetas";
 
 /**
@@ -144,7 +145,10 @@ export async function listarProductos(): Promise<ProductoPublico[]> {
     .order("orden", { ascending: true })
     .order("nombre", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("productos_publicos", error);
+    return [];
+  }
   return data.map(aProducto);
 }
 
@@ -178,7 +182,10 @@ export async function listarCategorias(): Promise<CategoriaPublica[]> {
     .select("id, nombre, slug, descripcion, orden")
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("categorias_publicas", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     nombre: fila.nombre ?? "",

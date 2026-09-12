@@ -2,6 +2,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 import { crearClientePublico, urlDeImagen } from "@/lib/supabase/publico";
 
+import { avisarDeConsulta } from "./aviso";
 import { ETIQUETAS } from "./etiquetas";
 
 /**
@@ -71,7 +72,10 @@ export async function listarSlides(): Promise<Slide[]> {
     )
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("slides_publicos", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     titulo: fila.titulo ?? "",
@@ -99,7 +103,10 @@ export async function listarNovedades(cuantas?: number): Promise<Novedad[]> {
     .select("id, tipo, titulo, slug, resumen, contenido, imagen_url, vigencia_fin, publicada_en")
     .order("publicada_en", { ascending: false });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("novedades_publicas", error);
+    return [];
+  }
   const novedades = data.map((fila) => ({
     id: fila.id ?? "",
     tipo: fila.tipo ?? "aviso",
@@ -129,7 +136,10 @@ export async function listarGaleria(): Promise<FotoGaleria[]> {
     .select("id, titulo, alt, ruta, categoria, orden")
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("galeria_publica", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     titulo: fila.titulo,
@@ -150,7 +160,10 @@ export async function listarFaqs(): Promise<Faq[]> {
     .select("id, pregunta, respuesta, orden")
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("faqs_publicas", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     pregunta: fila.pregunta ?? "",
@@ -169,7 +182,10 @@ export async function listarTestimonios(): Promise<Testimonio[]> {
     .select("id, nombre, texto, procedencia, orden")
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("testimonios_publicos", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     nombre: fila.nombre ?? "",
@@ -189,7 +205,10 @@ export async function listarGuias(): Promise<Guia[]> {
     .select("id, titulo, slug, resumen, contenido, orden")
     .order("orden", { ascending: true });
 
-  if (error || !data) return [];
+  if (error || !data) {
+    avisarDeConsulta("guias_publicas", error);
+    return [];
+  }
   return data.map((fila) => ({
     id: fila.id ?? "",
     titulo: fila.titulo ?? "",
