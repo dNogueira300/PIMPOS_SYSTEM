@@ -81,12 +81,24 @@ export function Mapa({ lat, lng, titulo, direccion }: Props) {
     };
   }, [lat, lng, titulo, direccion]);
 
+  // `isolate` (isolation: isolate) no es decoracion: Leaflet reparte
+  // `z-index` de 400 a 1000 entre sus paneles y controles, y la cabecera del
+  // sitio es `z-40`. Sin un contexto de apilamiento propio, el mapa gana
+  // siempre y al bajar la pagina se monta ENCIMA de la cabecera, tapando el
+  // menu entero. Con esto, esos 400 solo compiten entre ellos dentro de la
+  // caja del mapa.
+  //
+  // Se arregla aqui y no subiendo el `z-index` de la cabecera porque esa
+  // carrera no se gana: el mapa siempre puede pedir mas.
+  //
+  // `overflow-hidden` va con el redondeo: los mosaicos son cuadrados y sin
+  // recorte asoman por las esquinas.
   return (
     <div
       ref={contenedor}
       role="application"
       aria-label={`Mapa con la ubicación de ${titulo}`}
-      className="h-[60vh] min-h-80 w-full rounded-xl"
+      className="isolate h-[60vh] min-h-80 w-full overflow-hidden rounded-xl"
     />
   );
 }

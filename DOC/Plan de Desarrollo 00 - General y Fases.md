@@ -94,7 +94,7 @@ porque no había semana de reserva.
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
-genera 52 páginas estáticas y las cubren 157 pruebas de navegador a 375 px y en escritorio.
+genera 52 páginas estáticas y las cubren 160 pruebas de navegador a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados de tipo `Bakery` y `FAQPage`, `sitemap` y
 `robots` generados desde la base, e imagen para compartir el enlace. Falta el pulido de detalle y que

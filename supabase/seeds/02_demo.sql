@@ -19,42 +19,18 @@ delete from public.testimonios  where es_demo;
 delete from public.clientes     where es_demo;
 
 -- =============================================================================
--- Carrusel de portada (R2)
+-- Carrusel de portada (R2) — ya no se carga aquí
 --
--- Las imagenes son las fotos reales del local, ya subidas al bucket `slides`
--- por supabase/seeds/imagenes/subir-imagenes.sh. Los textos si son de relleno:
--- los escribe el negocio desde el panel en la Fase 4.
+-- Los tres slides de ejemplo vivieron en este archivo mientras la portada no
+-- tenía diapositivas propias. Desde la **migración 0023** son reales y van
+-- versionados como migración, no como semilla: producción no carga semillas, y
+-- el hero tenía que existir allí desde el primer día.
 --
--- El delivery va de titular y no de nota al pie, y el precio se dice con
--- orgullo (doc 03): son los dos argumentos de venta del negocio.
+-- Mantenerlos aquí además duplicaba la portada en local —las mismas tres fotos
+-- dos veces, una con `es_demo` y otra sin él—, y la migración no puede
+-- retirarlos por su cuenta: `db reset` aplica las migraciones **antes** que las
+-- semillas, así que cuando 0023 corre, estas filas todavía no existirían.
 -- =============================================================================
--- `enfoque` (0020): la fachada se encuadra al 30 % para que se vea el rótulo
--- «PANADERÍA PIMPO'S», que en el recorte panorámico de escritorio quedaba
--- fuera; las otras dos, centradas, que es como mejor salen (comprobado con
--- capturas a 1280 px).
-insert into public.slides
-  (titulo, subtitulo, imagen_url, imagen_alt, enlace_url, texto_boton, orden, estado, es_demo, enfoque) values
-  ('Pan fresco todos los días',
-   'Horneado desde las 4 de la mañana en Iquitos, desde S/ 0.10',
-   'fachada1.webp', 'Fachada de Panadería Pimpo''s', '/productos', 'Ver el catálogo',
-   1, 'publicado', true, 30),
-
-  -- El slide que invita a pedir lleva directo a WhatsApp. Antes llevaba a
-  -- /contacto, donde esperaba otro boton: un paso de mas justo en el momento
-  -- de pedir. El numero y el mensaje van escritos porque es un dato de ejemplo
-  -- (`es_demo`, nunca llega a produccion); los slides reales los carga el
-  -- negocio desde el panel con el enlace que quiera.
-  ('Llevamos tu pedido a tu casa',
-   'Delivery propio en Iquitos, Belén, Punchana y San Juan Bautista',
-   'atencion1.webp', 'Atención a un cliente en el mostrador',
-   'https://wa.me/51947874820?text=Hola%2C%20quisiera%20hacer%20un%20pedido.%0APedido%3A%20%0ADirecci%C3%B3n%20de%20entrega%3A%20',
-   'Pedir por WhatsApp',
-   2, 'publicado', true, 50),
-
-  ('22 años horneando en el mismo barrio',
-   'Del horno al mostrador, todos los días',
-   'horno1.webp', 'Horno de la panadería durante la producción', '/nosotros', 'Conocer la panadería',
-   3, 'publicado', true, 50);
 
 -- =============================================================================
 -- Testimonios

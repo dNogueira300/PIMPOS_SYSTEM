@@ -17,7 +17,12 @@ export const metadata: Metadata = {
 // presupuesto de JS (doc 03 §4.5) sin renunciar al mapa.
 const Mapa = dynamic(() => import("@/components/publico/mapa").then((m) => m.Mapa), {
   loading: () => (
-    <div className="bg-secondary h-[60vh] min-h-80 w-full animate-pulse rounded-xl" aria-hidden />
+    // Las mismas medidas que el mapa para que la pagina no de un salto al
+    // cargarlo, `isolate` incluido: asi el hueco y el mapa se apilan igual.
+    <div
+      className="bg-secondary isolate h-[60vh] min-h-80 w-full animate-pulse rounded-xl"
+      aria-hidden
+    />
   ),
 });
 

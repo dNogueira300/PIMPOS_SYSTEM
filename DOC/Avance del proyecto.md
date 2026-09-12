@@ -293,6 +293,18 @@ PENDIENTE. Cuando el propietario ponga los nombres de verdad desde el panel, est
 
 **Con esto, la crítica del 12/09 queda cerrada entera**: el P0, los dos P1 y los dos P2.
 
+**Hero en producción y el mapa en su sitio (12/09/2026).** Dos cosas más del mismo día:
+
+- **La portada ya tiene sus tres diapositivas en producción.** Eran de `02_demo.sql`, que nunca llega
+  allí, así que el sitio desplegado habría salido sin foto de cabecera. Ahora son reales y van como
+  migración (0023), con enlaces a secciones del propio sitio en vez de un WhatsApp escrito a mano, y
+  sin pisar lo que el negocio cargue desde el panel más adelante.
+- **El mapa se montaba encima de la cabecera.** Al bajar en Ubicación tapaba el menú entero. Leaflet
+  usa `z-index` de 400 a 1000 y la cabecera es 40: el mapa ganaba siempre. Se resolvió encerrándolo
+  en su propio contexto de apilamiento, no subiendo la cabecera —esa carrera no se gana—. Hay prueba
+  de que el clic en la cabecera le llega a la cabecera, y de que el menú del celular se abre y
+  funciona con el mapa a la vista.
+
 **Y una decisión de Dan que va más allá de la crítica** (12/09/2026): **en el celular la portada ya
 no lleva carrusel.** En escritorio se queda igual. El carrusel solo se pausaba al pasar el mouse y al
 enfocar con teclado —ninguna de las dos ocurre en un teléfono—, así que rotaba cada seis segundos
