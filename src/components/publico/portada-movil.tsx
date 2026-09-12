@@ -40,7 +40,27 @@ export function PortadaMovil({
   return (
     <section data-portada-movil aria-label="Presentación" className="sm:hidden">
       {slide.imagen ? (
-        // `priority`: es el LCP del celular, que es la pantalla prioritaria.
+        // `fetchPriority="high"` y NO `preload`.
+        //
+        // Esta foto y la primera del carrusel son dos candidatas a LCP segun el
+        // ancho de pantalla, y la documentacion de Next 16 dice justo para ese
+        // caso que no se use `preload`: inyecta un `<link rel=preload>` en el
+        // `<head>` que no respeta el `display:none`, asi que el celular se
+        // bajaba LAS DOS. Medido en produccion el 12/09: 41 KB de la foto del
+        // celular y 32 KB de la misma foto para el carrusel que no se ve,
+        // compitiendo por el ancho de banda justo mientras se mide el LCP.
+        //
+        // La combinacion, medida y no supuesta: `loading="eager"` porque esta
+        // foto es el LCP del celular y diferirla le costaba 301 ms solo en
+        // descubrirla (con `lazy` el propio Lighthouse avisa: "LCP resources
+        // should not use loading=lazy"); con `eager` ese retraso baja a 21 ms.
+        // Y `fetchPriority="high"` para darle la prioridad que antes daba el
+        // preload. (`priority` ademas quedo deprecado en Next 16.)
+        //
+        // El carrusel usa el mismo `sizes="100vw"` a proposito: asi en cada
+        // ancho las dos resuelven a la MISMA candidata del `srcset`, el
+        // navegador la descarga una sola vez y la reaprovecha la que se vea.
+        //
         // `enfoque` (migracion 0020) dice por que altura se recorta cada foto;
         // centrarlas todas le cortaba el rotulo a la de la fachada.
         <div className="relative aspect-[4/3] w-full">
@@ -48,7 +68,8 @@ export function PortadaMovil({
             src={slide.imagenMovil ?? slide.imagen}
             alt={slide.alt}
             fill
-            priority
+            fetchPriority="high"
+            loading="eager"
             sizes="100vw"
             className="object-cover"
             style={{ objectPosition: `50% ${slide.enfoque}%` }}

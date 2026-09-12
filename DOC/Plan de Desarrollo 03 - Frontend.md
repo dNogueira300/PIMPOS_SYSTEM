@@ -607,12 +607,13 @@ Todos los gráficos con **texto alternativo y tabla de datos accesible** — un 
 
 ## 6. Pruebas
 
-| Tipo              | Qué cubre                                                                                                                                                                  |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Vitest**        | Conversión de unidades, cálculo de saldos, formato de moneda, armado de enlaces `wa.me`, generación de slugs                                                               |
-| **Playwright**    | Ingreso por rol · publicar producto · **ingeniero intenta publicar promoción y es rechazado** · registrar movimiento de insumo · crear cliente con foto · exportar a Excel |
-| **Manual**        | Cada pantalla a 375 px, 768 px y 1440 px                                                                                                                                   |
-| **Accesibilidad** | axe DevTools en las 8 páginas públicas; navegación completa solo con teclado                                                                                               |
+| Tipo              | Qué cubre                                                                                                                                                                                        |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Vitest**        | Conversión de unidades, cálculo de saldos, formato de moneda, armado de enlaces `wa.me`, generación de slugs                                                                                     |
+| **Playwright**    | Ingreso por rol · publicar producto · **ingeniero intenta publicar promoción y es rechazado** · registrar movimiento de insumo · crear cliente con foto · exportar a Excel                       |
+| **Manual**        | Cada pantalla a 375 px, 768 px y 1440 px                                                                                                                                                         |
+| **Accesibilidad** | **axe automatizado** en `e2e/accesibilidad.spec.ts`, en cada PR: 12 rutas públicas × 2 tamaños + el menú del celular abierto, sin desactivar ninguna regla; navegación completa solo con teclado |
+| **Lighthouse**    | `pnpm lighthouse`, a mano. **No va en el CI**: mide tiempos, y un tiempo depende de la máquina — en un runner compartido el mismo sitio da 96 y luego 78, y pondría en rojo ramas sanas          |
 
 ---
 
@@ -644,12 +645,69 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 **Pendiente**
 
 - [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google. La forma ya la comprueba una prueba; la herramienta necesita una URL pública, así que va tras el despliegue
-- [ ] Lighthouse: rendimiento ≥ 90, accesibilidad ≥ 95, SEO 100 en móvil
-- [ ] Sin errores de axe en ninguna página
+- [x] **Sin errores de axe en ninguna página** (12/09/2026). `e2e/accesibilidad.spec.ts` pasa axe por
+      las 12 rutas públicas en los dos tamaños y con el menú del celular abierto, con las reglas
+      WCAG 2.1 AA más las buenas prácticas y **sin desactivar ninguna**. Encontró cuatro problemas
+      reales, los cuatro corregidos: el botón flotante de WhatsApp vivía fuera de todo _landmark_,
+      la cabecera y el pie llevaban dos `nav` con el mismo nombre, y el `<dl>` de contacto anidaba
+      los `dt`/`dd` dos niveles por debajo de su grupo. Corre en cada PR
+- [x] **Lighthouse en móvil: accesibilidad ≥ 95 ✅ y SEO 100 ✅. Rendimiento ≥ 90, NO** (12/09/2026).
+      Medido con `pnpm lighthouse` contra producción antes de tocar nada: SEO 100 en las seis rutas
+      medidas, accesibilidad 93–100 (hoy 96–100, tras arreglar el `<dl>`), buenas prácticas 96–100 y
+      **rendimiento 65–89**. Ver «El rendimiento, medido» más abajo
+- [ ] **Rendimiento ≥ 90 en móvil.** Lo que falta del punto anterior. Diagnosticado, no supuesto
 - [ ] Verificado en Chrome y Safari móvil **reales**, no solo en el emulador
 - [ ] Dominio conectado con HTTPS
 - [ ] Google Search Console verificado
 - [ ] Revisado con el propietario y con Marcos y Debra
+
+### El rendimiento, medido (12/09/2026)
+
+Lighthouse móvil contra producción, antes de tocar nada:
+
+| Ruta                       | Rendimiento | Accesibilidad | Buenas prácticas | SEO |
+| -------------------------- | ----------- | ------------- | ---------------- | --- |
+| `/`                        | **71**      | 100           | 100              | 100 |
+| `/productos`               | **87**      | 100           | 100              | 100 |
+| `/productos/leche`         | **84**      | 100           | 100              | 100 |
+| `/productos/frances-chico` | **89**      | 96            | 100              | 100 |
+| `/ubicacion`               | **65**      | 100           | 96               | 100 |
+| `/contacto`                | **88**      | 93            | 100              | 100 |
+
+**Un derroche real, encontrado y corregido.** En el celular la portada se bajaba **la misma foto de
+la fachada dos veces**: 41 KB para `PortadaMovil`, que es la que se ve, y 32 KB más para la primera
+diapositiva del carrusel, que en el celular está en `display:none` y no se ve nunca. Las dos llevaban
+`priority`, que inyecta un `<link rel=preload>` en el `<head>` — y un preload no mira si el elemento
+está oculto. Ya se había intentado evitar con `sizes="(max-width: 639px) 1px, 100vw"`, y eso **no
+impide la descarga**: solo hace que el navegador elija la candidata más pequeña del `srcset`, que son
+640w. Costaba justo donde más duele: 32 KB compitiendo por el ancho de banda mientras se descarga el
+LCP, en la pantalla prioritaria y con la conectividad de Iquitos. Hay prueba (`presupuesto.spec.ts`),
+y se vio fallar contra el código anterior.
+
+**Lo que queda, y por qué no es un olvido.** Lo que hunde la puntuación son dos cosas medidas:
+
+- **Tiempo de bloqueo (peso 30 de 100): 320–750 ms.** Es la hidratación de React sobre una CPU
+  ralentizada 4×. Los 158 KB de JavaScript son el suelo de React 19 + Next 16 que este mismo
+  documento ya midió: nuestro código añade 0 KB. Bajarlo de verdad significa servir menos JavaScript
+  de cliente, no afinar un parámetro.
+- **LCP (peso 25): 2.0–4.5 s.** En `/ubicacion` el elemento más grande es **una tesela de
+  OpenStreetMap**, que no empieza a pedirse hasta que Leaflet termina de cargarse: 3.9 s de retraso
+  medidos. Se le añadió `preconnect` a los tres subdominios de teselas, que le quita el _handshake_
+  del camino crítico, pero el mapa sigue siendo un tercero cargado en diferido a propósito (cargarlo
+  antes rompería el presupuesto de JavaScript de la sección).
+
+Subir de ~85 a 90 en las fichas es alcanzable; subir la portada de 71 y `/ubicacion` de 65 es un
+trabajo de optimización con su propia decisión de producto detrás —cuánto JavaScript de cliente
+lleva la portada, y si el mapa debe ser el LCP de su página—. **Se deja decidido por Dan, no
+escondido.**
+
+**Un falso positivo que conviene reconocer**, porque volverá a salir: Lighthouse marca
+`color-contrast` 4.28 en un enlace de la ficha de producto. El color computado es `#986722` y el
+token es `#8f5a10`, que da 5.06. `#986722` es exactamente `#8f5a10` **a 0.913 de opacidad** sobre el
+crema: es la aparición por scroll, congelada a medio camino porque Lighthouse mide la página sin
+bajar nunca. Un visitante lee ese texto después de bajar, y entonces está opaco —hay prueba de eso
+desde el 11/09—. Por eso `e2e/accesibilidad.spec.ts` apaga las animaciones antes de medir, y es axe
+quien manda sobre el contraste, no la captura de Lighthouse.
 
 **Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
 carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si una

@@ -12,16 +12,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                                       |
-| ------ | ------------------------ | ---------------------------------------------------------------------------- |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                          |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                          |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                          |
-| **F3** | Sitio público            | 🔄 Desplegado. Crítica 24/40 → 29/40, cerrada entera. Falta dominio y pulido |
-| F4     | Panel: contenido         | ⬜                                                                           |
-| F5     | Panel: insumos           | ⬜                                                                           |
-| F6     | Panel: clientes          | ⬜                                                                           |
-| F7     | Cierre                   | ⬜                                                                           |
+| Fase   | Nombre                   | Estado                                                                                                                             |
+| ------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                |
+| **F3** | Sitio público            | 🔄 Desplegado. Crítica 29/40 cerrada. **axe en cero y en el CI**; Lighthouse: accesibilidad y SEO ✅, rendimiento ✗. Falta dominio |
+| F4     | Panel: contenido         | ⬜                                                                                                                                 |
+| F5     | Panel: insumos           | ⬜                                                                                                                                 |
+| F6     | Panel: clientes          | ⬜                                                                                                                                 |
+| F7     | Cierre                   | ⬜                                                                                                                                 |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -156,7 +156,8 @@ todas con `security_invoker`**, que es lo que impide que una vista salte esa seg
 | ----------------------- | ----------------------------------------------------------------------- | ------- |
 | pgTAP                   | Seguridad y reglas de negocio en la base                                | 326     |
 | Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 89      |
-| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 90      |
+| Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 186     |
+| axe                     | Accesibilidad estructural, 12 rutas × 2 tamaños, en cada PR             | 25      |
 | Guiones de verificación | Lo que SQL no puede probar: la API de Storage y el camino del navegador | 3       |
 
 Los tres guiones existen porque hay cosas que una consulta no prueba. Que un archivo del bucket
@@ -358,6 +359,67 @@ de F4 no dispare `revalidateTag`, **cada cambio de contenido en producción exig
 Conviene saber distinguirlo en un minuto: preguntar a la vista si tiene las filas y al HTML servido
 si las pinta son dos preguntas distintas, y aquí daban respuestas distintas.
 
+### Lighthouse y axe (12/09/2026)
+
+Los dos puntos del cierre de F3 que faltaban por medir. **Ninguno se dio por bueno leyendo código.**
+
+**axe: cero errores, y ahora corre en cada PR.** `e2e/accesibilidad.spec.ts` pasa axe por las 12
+rutas públicas en los dos tamaños y con el menú del celular abierto, con las reglas WCAG 2.1 AA más
+las buenas prácticas y **sin desactivar ninguna**. Encontró cuatro problemas reales, los cuatro
+corregidos:
+
+| Problema                                                              | Por qué importaba                                                                                                                  |
+| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| El botón flotante de WhatsApp vivía fuera de todo _landmark_          | Quien navega por regiones con lector de pantalla se lo saltaba entero — justo el botón que la ficha pide tener siempre a mano (R4) |
+| Cabecera y pie llevaban dos `nav` con el mismo nombre                 | En la lista de regiones salía «Secciones del sitio» dos veces, sin forma de saber cuál era el menú y cuál el pie                   |
+| El `<dl>` de contacto anidaba los `dt`/`dd` dos niveles bajo su grupo | Un `<dl>` mal formado deja de leerse como pares dato/valor. Subió `/contacto` de 93 a **100** de accesibilidad en Lighthouse       |
+| `priority` de `next/image`, deprecado en Next 16                      | Sustituido por `preload` donde toca, y por `fetchPriority` donde había dos candidatas a LCP                                        |
+
+**Lighthouse: accesibilidad y SEO cumplen; rendimiento no.** Medido con `pnpm lighthouse` contra
+producción, en móvil:
+
+| Ruta                       | Rendimiento | Accesibilidad | Buenas prácticas | SEO |
+| -------------------------- | ----------- | ------------- | ---------------- | --- |
+| `/`                        | **71**      | 100           | 100              | 100 |
+| `/productos`               | **87**      | 100           | 100              | 100 |
+| `/productos/leche`         | **84**      | 100           | 100              | 100 |
+| `/productos/frances-chico` | **89**      | 96            | 100              | 100 |
+| `/ubicacion`               | **65**      | 100           | 96               | 100 |
+| `/contacto`                | **88**      | 93 → 100      | 100              | 100 |
+
+El plan pedía rendimiento ≥ 90, accesibilidad ≥ 95 y SEO 100. **Los dos últimos se cumplen.**
+
+**Un derroche real, encontrado y corregido.** En el celular la portada se bajaba **la misma foto de
+la fachada dos veces**: 41 KB para la que se ve y 32 KB más para la primera diapositiva del carrusel,
+que en el celular está oculta y no se ve nunca. Las dos llevaban `priority`, que inyecta un
+`<link rel=preload>` en el `<head>` — y un preload no mira si el elemento está oculto. Ya se había
+intentado evitar poniendo el tamaño en `1px` por debajo de 640, y **eso no impide la descarga**:
+solo hace que el navegador elija la copia más pequeña disponible, que son 32 KB. Se veía pidiendo la
+lista de peticiones, no leyendo el código. Costaba justo donde más duele: compitiendo por el ancho
+de banda mientras se descarga la imagen principal, en la pantalla prioritaria y con la conectividad
+de Iquitos. Hay prueba, y **se vio fallar contra el código anterior** — la primera versión de esa
+prueba pasaba, porque Playwright mide el celular con densidad de pantalla 1 y con esa densidad las
+dos imágenes coinciden. No hay teléfono con densidad 1.
+
+**Lo que queda, y por qué no es un olvido.** Lo que hunde la puntuación son dos cosas medidas: el
+**tiempo de bloqueo** (peso 30 de 100), que es la hidratación de React sobre una CPU ralentizada 4×
+—los 158 KB de JavaScript son el suelo del framework que este mismo documento ya midió, nuestro
+código añade 0 KB—, y el **LCP** (peso 25), que en `/ubicacion` es **una tesela de OpenStreetMap**
+que no empieza a pedirse hasta que Leaflet termina de cargar: 3.9 s de retraso medidos. Se le añadió
+`preconnect` a los servidores de teselas, pero el mapa sigue siendo un tercero cargado en diferido a
+propósito.
+
+Subir las fichas de ~85 a 90 es alcanzable. Subir la portada de 71 y `/ubicacion` de 65 es un trabajo
+de optimización con una decisión de producto detrás: cuánto JavaScript de cliente lleva la portada, y
+si el mapa debe ser el elemento principal de su página. **Queda declarado para que lo decida Dan, no
+escondido en un número.**
+
+**Un falso positivo que conviene reconocer**, porque volverá a salir: Lighthouse marca un contraste
+de 4.28 en un enlace de la ficha de producto. El color real del token da 5.06 — lo que mide es ese
+mismo color **a 0.913 de opacidad**, o sea la aparición por scroll congelada a medio camino, porque
+Lighthouse mide la página sin bajar nunca. Un visitante lee ese texto después de bajar, y entonces
+está opaco. Por eso la prueba de axe apaga las animaciones antes de medir.
+
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
 | Tarea                   | Por qué importa                                                                                                                                                                                |
@@ -373,15 +435,15 @@ cubierto, y conviene decidirlo antes de F4.
 
 ### Pendiente del negocio
 
-| Tema                  | Qué hace falta                                                                                                                                                         |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin                                                                                                |
-| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                               |
-| **Dominio**           | `panaderiapimpos.com`. Se necesita antes de publicar el sitio                                                                                                          |
-| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo               |
-| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px     |
-| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; se asignan desde el panel en F4 |
-| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                              |
+| Tema                  | Qué hace falta                                                                                                                                                                                                                     |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin                                                                                                                                                            |
+| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                                                                                           |
+| **Dominio**           | `panaderiapimpos.com`. **No bloquea el trabajo técnico** (decisión de Dan, 12/09/2026): el sitio vive en la dirección de Vercel y `urlDelSitio()` la toma sola. Hace falta antes de enseñárselo al propietario y de Search Console |
+| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo                                                                           |
+| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px                                                                 |
+| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; se asignan desde el panel en F4                                                             |
+| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                          |
 
 ### Datos por confirmar
 
@@ -414,18 +476,19 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 
 ## 6. Riesgos vivos
 
-| Riesgo                                     | Estado                                                                                               |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                   |
-| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                    |
-| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                               |
-| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                       |
-| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6            |
-| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                     |
-| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                             |
-| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                        |
-| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                |
-| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte |
+| Riesgo                                     | Estado                                                                                                                                                      |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                          |
+| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                           |
+| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                      |
+| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                              |
+| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                   |
+| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                            |
+| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                                                                                    |
+| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                               |
+| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                                                                       |
+| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                        |
+| Lighthouse: rendimiento por debajo de 90   | 🟡 Declarado, no cerrado. Accesibilidad y SEO cumplen; el rendimiento lo hunden la hidratación de React y el LCP. Diagnosticado con cifras, decisión de Dan |
 
 ---
 

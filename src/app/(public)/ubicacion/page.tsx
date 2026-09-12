@@ -33,6 +33,24 @@ export default async function Ubicacion() {
 
   return (
     <>
+      {/* Las teselas del mapa vienen de tres subdominios de OpenStreetMap, y
+          hasta que Leaflet no termina de cargarse el navegador ni sabe que
+          existen: medido en produccion el 12/09, la primera tesela —que es el
+          elemento mas grande de la pagina, o sea el LCP— empezaba a pedirse
+          3.9 s despues del primer byte. Abrir la conexion (DNS + TLS) mientras
+          tanto no la adelanta del todo, pero le quita el handshake del camino
+          critico. Los tres subdominios porque Leaflet reparte entre ellos. */}
+      {coords
+        ? ["a", "b", "c"].map((sub) => (
+            <link
+              key={sub}
+              rel="preconnect"
+              href={`https://${sub}.tile.openstreetmap.org`}
+              crossOrigin=""
+            />
+          ))
+        : null}
+
       <EncabezadoSeccion titulo="Dónde estamos" entradilla={direccion || "Iquitos, Loreto"} />
 
       <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
