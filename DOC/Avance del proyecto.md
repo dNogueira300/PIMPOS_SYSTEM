@@ -279,9 +279,19 @@ momento** («Abierto ahora · Hasta la 1:00 p. m.») y, si no, cuándo vuelve a 
 cargado, no de un interruptor que alguien tenga que acordarse de apagar, y se calcula con el reloj de
 Iquitos, no con el del visitante. Aparece en la portada, en contacto, en ubicación y en el pie.
 
-Queda un P2: los productos con dos presentaciones se piden a ciegas. Dan decidió (12/09/2026)
-listarlas con su precio y dejar que el cliente elija en el mensaje de WhatsApp; necesita dato nuevo
-—la vista solo expone el rango de precios y cuántas hay—, así que va con su propia migración.
+**Y el primero también**: los productos con dos presentaciones ya no se piden a ciegas. Son dos de
+los treinta y cuatro —la hamburguesa grande y la de ajonjolí, a S/ 0.30 y S/ 0.40—, y se rompía en
+tres sitios seguidos: el catálogo decía «2 presentaciones» sin decir cuáles, la ficha tampoco las
+listaba porque **la vista no las mandaba**, y el mensaje de WhatsApp las omitía a propósito, así que
+el pedido salía sin decir cuál y la panadería tenía que preguntarlo. Dan decidió (12/09/2026)
+listarlas con su precio y dejar que elija el cliente. La migración 0022 amplía `productos_publicos`
+con todas las presentaciones; la ficha las enseña debajo del precio y el mensaje va con las opciones
+escritas y su hueco.
+
+No se inventó qué las diferencia: hoy se llaman por su propio precio y la semilla lo marca
+PENDIENTE. Cuando el propietario ponga los nombres de verdad desde el panel, esto mejora solo.
+
+**Con esto, la crítica del 12/09 queda cerrada entera**: el P0, los dos P1 y los dos P2.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 

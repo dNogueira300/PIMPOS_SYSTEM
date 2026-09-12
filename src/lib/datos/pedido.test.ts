@@ -112,6 +112,7 @@ describe("mensajeDePedido", () => {
         variantes: 1,
         varianteNombre: "Kilo",
         varianteUnidad: "kilo",
+        presentaciones: [{ id: "a", nombre: "Kilo", precio: 4.5, unidad: "kilo" }],
       }),
     ).toBe("Hola, quisiera pedir Arroz (por kilo).\nCantidad: \nDirección de entrega: ");
   });
@@ -125,21 +126,29 @@ describe("mensajeDePedido", () => {
         variantes: 1,
         varianteNombre: "Unidad",
         varianteUnidad: "unidad",
+        presentaciones: [{ id: "a", nombre: "Unidad", precio: 2, unidad: "unidad" }],
       }),
     ).toMatch(/^Hola, quisiera pedir Arvejas\.\n/);
   });
 
-  it("con varias presentaciones no elige una por el cliente", () => {
-    // La predeterminada no tiene por que ser la que quiere, y "(2
-    // presentaciones)" no es algo que se pida.
+  it("con varias presentaciones no elige una por el cliente: las escribe todas", () => {
+    // La predeterminada no tiene por que ser la que quiere. Antes el mensaje se
+    // callaba y el pedido salia sin decir cual, asi que la panaderia tenia que
+    // preguntarlo: la pregunta que quitamos de en medio (P2 del 12/09).
     expect(
       mensajeDePedido({
         nombre: "Hamburguesa grande",
         variantes: 2,
         varianteNombre: "De S/ 0.30",
         varianteUnidad: "unidad",
+        presentaciones: [
+          { id: "a", nombre: "De S/ 0.30", precio: 0.3, unidad: "unidad" },
+          { id: "b", nombre: "De S/ 0.40", precio: 0.4, unidad: "unidad" },
+        ],
       }),
-    ).toMatch(/^Hola, quisiera pedir Hamburguesa grande\.\n/);
+    ).toBe(
+      "Hola, quisiera pedir Hamburguesa grande.\nPresentación (De S/ 0.30 o De S/ 0.40): \nCantidad: \nDirección de entrega: ",
+    );
   });
 
   it("sin producto pregunta que se quiere", () => {

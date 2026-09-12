@@ -13,6 +13,20 @@ import { ETIQUETAS } from "./etiquetas";
  * el fallo estaria en la base, no en esta capa.
  */
 
+/**
+ * Una forma de comprar el producto: "Unidad", "Bolsa", "De S/ 0.40".
+ *
+ * Los nombres son los que tenga la base. Hoy las dos hamburguesas grandes se
+ * llaman por su precio porque nadie ha confirmado que las diferencia (la
+ * semilla lo marca PENDIENTE); cuando el panel lo corrija, esto mejora solo.
+ */
+export type Presentacion = {
+  id: string;
+  nombre: string;
+  precio: number | null;
+  unidad: string | null;
+};
+
 export type ProductoPublico = {
   id: string;
   nombre: string;
@@ -28,6 +42,8 @@ export type ProductoPublico = {
   varianteUnidad: string | null;
   imagen: string | null;
   imagenAlt: string | null;
+  /** Todas, en el orden del catalogo. Vacio si el producto no tiene ninguna. */
+  presentaciones: Presentacion[];
 };
 
 export type CategoriaPublica = {
@@ -60,7 +76,34 @@ type FilaProducto = {
   variante_unidad: string | null;
   imagen_ruta: string | null;
   imagen_alt: string | null;
+  presentaciones: unknown;
 };
+
+/**
+ * El jsonb de la vista, estrechado a mano.
+ *
+ * `unknown` y no `any` (prohibido en el proyecto): lo que llega es JSON de la
+ * base, y una fila con la forma equivocada no puede tumbar el catalogo entero.
+ * Lo que no cuadra se descarta en silencio; lo que cuadra, pasa.
+ */
+function aPresentaciones(valor: unknown): Presentacion[] {
+  if (!Array.isArray(valor)) return [];
+
+  const presentaciones: Presentacion[] = [];
+  for (const fila of valor) {
+    if (typeof fila !== "object" || fila === null) continue;
+    const { id, nombre, precio, unidad } = fila as Record<string, unknown>;
+    if (typeof id !== "string" || typeof nombre !== "string") continue;
+
+    presentaciones.push({
+      id,
+      nombre,
+      precio: aNumero(typeof precio === "string" || typeof precio === "number" ? precio : null),
+      unidad: typeof unidad === "string" ? unidad : null,
+    });
+  }
+  return presentaciones;
+}
 
 function aProducto(fila: FilaProducto): ProductoPublico {
   return {
@@ -78,6 +121,7 @@ function aProducto(fila: FilaProducto): ProductoPublico {
     varianteUnidad: fila.variante_unidad,
     imagen: urlDeImagen("productos", fila.imagen_ruta),
     imagenAlt: fila.imagen_alt,
+    presentaciones: aPresentaciones(fila.presentaciones),
   };
 }
 
@@ -85,7 +129,7 @@ function aProducto(fila: FilaProducto): ProductoPublico {
 // fila a partir del texto del `select`, y un `"a" + "b"` le llega como `string`
 // generico, que rompe la inferencia y deja el resultado sin tipar.
 const COLUMNAS =
-  "id, nombre, slug, descripcion, destacado, categoria_nombre, categoria_slug, precio_desde, precio_hasta, variantes, variante_nombre, variante_unidad, imagen_ruta, imagen_alt, orden, categoria_orden" as const;
+  "id, nombre, slug, descripcion, destacado, categoria_nombre, categoria_slug, precio_desde, precio_hasta, variantes, variante_nombre, variante_unidad, imagen_ruta, imagen_alt, presentaciones, orden, categoria_orden" as const;
 
 export async function listarProductos(): Promise<ProductoPublico[]> {
   "use cache";
