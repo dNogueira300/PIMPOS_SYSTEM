@@ -106,3 +106,65 @@ test("la ubicacion carga el mapa, y solo ahi", async ({ page }) => {
   // es que no se dispare.
   expect(kb).toBeLessThan(250);
 });
+
+/**
+ * Densidad de pantalla 2, no 1.
+ *
+ * El proyecto `movil` de `playwright.config.ts` mide 375 px con densidad 1, y
+ * con esa densidad esta prueba PASABA contra el codigo roto: a 375 px logicos
+ * las dos imagenes elegian la misma candidata del `srcset` (640w) y el
+ * navegador hacia una sola peticion. El derroche solo aparece con densidad
+ * mayor que 1 —375 x 2 = 750 px reales, que piden la candidata de 750w
+ * mientras la otra sigue pidiendo la de 640w—, y no hay telefono con densidad
+ * 1: los de gama baja van a 2 y los demas a 3.
+ *
+ * Se vio pasar contra el codigo anterior antes de corregirla. Una prueba que no
+ * falla cuando el fallo esta presente no prueba nada.
+ */
+test.describe("con la densidad de pantalla de un telefono real", () => {
+  test.use({ deviceScaleFactor: 2 });
+
+  test("la portada no se baja la misma foto dos veces", async ({ page, isMobile }) => {
+    test.skip(!isMobile, "El derroche era del celular: dos heros, y solo uno se ve.");
+
+    /**
+     * Hasta el 12/09 el celular descargaba la foto de la fachada DOS veces:
+     * 41 KB para `PortadaMovil`, que es la que se ve, y 32 KB mas para la
+     * primera diapositiva del carrusel, que en el celular esta en
+     * `display:none` y no se ve nunca. Las dos llevaban `priority`, que inyecta
+     * un `<link rel=preload>` en el `<head>` — y un preload no mira si el
+     * elemento esta oculto.
+     *
+     * Ya se habia intentado evitar con `sizes="(max-width: 639px) 1px, 100vw"`,
+     * pero eso no impide la descarga: solo hace que el navegador elija la
+     * candidata mas pequena del `srcset`, que son 640w. Se vio pidiendo la
+     * lista de peticiones, no leyendo el codigo.
+     *
+     * Costaba justo donde mas duele: 32 KB compitiendo por el ancho de banda
+     * mientras se descarga el LCP, en la pantalla prioritaria y con la
+     * conectividad de Iquitos.
+     */
+    const fuentes: string[] = [];
+    page.on("request", (peticion) => {
+      const url = new URL(peticion.url());
+      if (!url.pathname.startsWith("/_next/image")) return;
+      // El parametro `url` es el archivo original; el resto de la direccion
+      // (`w`, `q`) cambia con el ancho elegido. Dos anchos del MISMO archivo
+      // son dos descargas de la misma foto.
+      const original = url.searchParams.get("url");
+      if (original) fuentes.push(original);
+    });
+
+    await page.goto("/", { waitUntil: "networkidle" });
+
+    expect(fuentes.length, "No se midio ninguna imagen: la prueba no prueba nada").toBeGreaterThan(
+      0,
+    );
+
+    const repetidas = fuentes.filter((fuente, i) => fuentes.indexOf(fuente) !== i);
+    expect(
+      repetidas,
+      `Estas fotos se descargan mas de una vez en la portada movil:\n  ${[...new Set(repetidas)].join("\n  ")}`,
+    ).toEqual([]);
+  });
+});
