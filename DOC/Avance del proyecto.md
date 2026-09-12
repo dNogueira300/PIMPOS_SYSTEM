@@ -154,7 +154,7 @@ todas con `security_invoker`**, que es lo que impide que una vista salte esa seg
 
 | Capa                    | Qué cubre                                                               | Cuántas |
 | ----------------------- | ----------------------------------------------------------------------- | ------- |
-| pgTAP                   | Seguridad y reglas de negocio en la base                                | 384     |
+| pgTAP                   | Seguridad y reglas de negocio en la base                                | 388     |
 | Vitest                  | Lógica pura: unidades, precios, horarios, roles, contraste              | 134     |
 | Playwright              | Flujos completos en navegador, a 375 px y en escritorio                 | 192     |
 | axe                     | Accesibilidad estructural, 12 rutas × 2 tamaños, en cada PR             | 25      |
@@ -443,6 +443,14 @@ de Google es el que más tarda en notarse. Ahora el año de apertura vive en la 
 con su `check` para que no entre un texto) y la cuenta se calcula. Hay prueba unitaria de la cuenta y
 prueba E2E de que la página no lleva un número congelado; la E2E se vio fallar antes de darla por
 buena.
+
+**Y un segundo año escrito a mano, encontrado en producción.** Con lo anterior desplegado, la portada
+**seguía diciendo «22 años»**: el titular del tercer slide lo llevaba dentro, sembrado por la
+migración 0023. Quitarlo del código no lo había quitado de la base, y solo se vio mirando el HTML
+servido. En un contenido que el negocio edita desde el panel no se puede calcular la cuenta, así que
+ahora dice **el año en vez de los años** — «Horneando en el mismo barrio desde 2004» — que informa
+igual y no caduca (migración 0025). La prueba comprueba la **regla**, no el titular: ningún texto
+publicable puede llevar una cuenta de años escrita.
 
 **Lo que se rechaza, con motivo.** Varias propuestas desharían decisiones ya medidas, y eso queda
 escrito en el propio informe: las tarjetas de producto con foto (32 de 34 productos no la tienen: es

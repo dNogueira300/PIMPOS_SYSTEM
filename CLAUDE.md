@@ -27,7 +27,7 @@ https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen comp
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 384 pgTAP + 134 unitarias + 192 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 388 pgTAP + 134 unitarias + 192 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -120,7 +120,7 @@ Las otras cuatro del `.env.example` (`SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_W
 `RESEND_API_KEY`, `CORREO_ALERTAS`) **no las lee ningún archivo todavía**: el número de WhatsApp sale
 de `configuracion_sitio` y Resend es de F5. Ponerlas hoy sería guardar secretos sin uso.
 
-Producción tiene las 24 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
+Producción tiene las 25 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
 SQL del panel, **nunca con `--include-seed`**) y las 62 imágenes en sus buckets.
 
 **Un hueco declarado, no cubierto:** las imágenes semilla no van en el repositorio, así que en el CI
@@ -399,6 +399,12 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
 - **En Git Bash, `pnpm lighthouse <url> /` no funciona:** MSYS convierte el `/` en una ruta de
   Windows y Lighthouse responde `INVALID_URL`. Es la misma trampa del `docker exec ... /tmp/x.sql`;
   se sale igual, con `MSYS_NO_PATHCONV=1`.
+- **Quitar un dato del código no lo quita de la base.** 0024 sacó «22 años» de las cuatro frases
+  escritas a mano, y al día siguiente producción seguía diciendo 22: el titular del tercer slide lo
+  llevaba dentro, sembrado por 0023. Se vio mirando el HTML desplegado, no leyendo el SQL. En un
+  contenido que el negocio edita no se puede calcular la cuenta, así que se dice **el año** y no los
+  años: «desde 2004» dice lo mismo y no caduca (0025). La prueba comprueba la regla —ningún texto
+  publicable lleva `NN años`— y no el titular concreto.
 - **Un número que cuenta años no se escribe, se calcula.** «22 años» y «Veintidós años» estaban a
   mano en la franja de la portada, en el titular de la historia y en la descripción de nosotros para
   Google. No fallan nunca: el 1 de enero siguiente pasan a mentir los cuatro a la vez, en silencio, y
@@ -470,7 +476,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 24 migraciones** (`supabase/migrations/`), en orden:
+**Las 25 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -498,6 +504,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                         |
 | `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                |
 | `0024_anio_fundacion`          | El año de apertura (2004) en la configuración: la cuenta de años deja de estar escrita a mano                  |
+| `0025_slide_sin_cuenta`        | El tercer slide decía «22 años»: pasa a decir el año de apertura, que no caduca                                |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
