@@ -227,6 +227,15 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
 
 **Trampas ya pagadas, no repetirlas:**
 
+- **Los puertos de Supabase caen dentro del rango efímero de Linux, y en el CI eso es una carrera.**
+  El proyecto usa 54320–54329 y el rango efímero por defecto es 32768–60999: cualquier conexión
+  saliente del runner —bajar la CLI, `pnpm install`, bajar Chromium— puede quedarse el 54322 como
+  puerto de origen unos segundos, y entonces Docker no lo puede enlazar y `supabase start` muere con
+  `address already in use`. No es culpa de la rama ni del SQL, y por eso salía de vez en cuando y en
+  un trabajo distinto cada vez. El CI reserva esos puertos antes de instalar nada
+  (`sysctl net.ipv4.ip_local_reserved_ports=54320-54329`): impide el reparto automático sin impedir
+  que Docker los enlace a propósito. Si vuelve a fallar, el paso imprime **quién** tiene el puerto
+  (`ss` y `docker ps -a`) en vez de dejar el mensaje de Docker a secas.
 - No lanzar `supabase db reset` mientras `supabase start` sigue corriendo: aborta y se lleva por
   delante el contenedor de la base. Hay que esperar a que el arranque termine.
 - En Git Bash, `docker exec ... psql -f /tmp/x.sql` falla porque MSYS convierte `/tmp/...` a una
