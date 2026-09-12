@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { crearClientePublico } from "@/lib/supabase/publico";
 
+import { avisarDeConsulta } from "./aviso";
 import { ETIQUETAS } from "./etiquetas";
 // Ademas de reexportarse mas abajo: un `export ... from` no trae el nombre al
 // ambito de este archivo, y el `satisfies` de TRAMO lo necesita aqui.
@@ -94,7 +95,12 @@ export async function obtenerConfiguracion(): Promise<Configuracion> {
   const supabase = crearClientePublico();
   const { data, error } = await supabase.from("configuracion_publica").select("valores").single();
 
-  if (error || !data) return RESERVA;
+  if (error || !data) {
+    // Sin esto, el sitio entero se sirve con los valores de reserva —sin
+    // telefono, sin direccion, sin horario— y nada lo dice.
+    avisarDeConsulta("configuracion_publica", error);
+    return RESERVA;
+  }
 
   const resultado = ESQUEMA.safeParse(data.valores);
   return resultado.success ? resultado.data : RESERVA;

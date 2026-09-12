@@ -33,6 +33,23 @@ import {
  */
 export async function generateStaticParams() {
   const productos = await listarProductos();
+
+  // Next dice «all `generateStaticParams` functions must return at least one
+  // result» y no menciona la base por ningun lado. Eso tiro el primer despliegue
+  // en Vercel (12/09/2026): el proyecto alojado tenia las migraciones aplicadas
+  // pero no la semilla, asi que el catalogo llegaba vacio y el build moria con
+  // un mensaje que no llevaba a ninguna parte.
+  if (productos.length === 0) {
+    throw new Error(
+      "El catálogo llegó vacío desde la base, así que no hay ninguna ficha que generar.\n" +
+        "Con Cache Components el build no puede continuar. Comprueba, en este orden:\n" +
+        "1. Que NEXT_PUBLIC_SUPABASE_URL y NEXT_PUBLIC_SUPABASE_ANON_KEY apunten al proyecto correcto.\n" +
+        "2. Que ese proyecto tenga cargada la semilla supabase/seeds/01_maestros.sql: las migraciones " +
+        "crean el esquema, no los productos.\n" +
+        "3. El registro de arriba, donde la consulta deja el mensaje de PostgREST si fue ella la que falló.",
+    );
+  }
+
   return productos.map((producto) => ({ slug: producto.slug }));
 }
 
