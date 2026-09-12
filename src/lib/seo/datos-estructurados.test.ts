@@ -28,6 +28,7 @@ function config(parcial: Partial<Configuracion> = {}): Configuracion {
     logo_alt: "Panadería Pimpo's",
     isotipo_url: "/marca/isotipo.svg",
     favicon_url: "/marca/favicon.svg",
+    anio_fundacion: 2004,
     telefono: "065 987654",
     whatsapp: "51947874820",
     correo: "contactopimpos@gmail.com",
