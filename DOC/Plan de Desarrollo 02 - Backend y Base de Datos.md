@@ -51,18 +51,19 @@ Separar `app` reduce la superficie que PostgREST publica. Todo lo que no necesit
 **Fase 2, ya aplicadas.** El kárdex acabó necesitando migración propia y los índices se
 quedaron en la migración de cada tabla, que es donde se entienden:
 
-| #    | Archivo                 | Contenido                                                                                            |
-| ---- | ----------------------- | ---------------------------------------------------------------------------------------------------- |
-| 0011 | `insumos.sql`           | `unidades_medida`, `equivalencias`, `proveedores`, `almacenes`, `insumos` y `app.convertir_a_base()` |
-| 0012 | `kardex.sql`            | `lotes_insumo`, `movimientos_insumo`, `saldos_insumo` y `app.recalcular_saldos()`                    |
-| 0013 | `clientes.sql`          | `zonas_reparto`, `clientes`, `cliente_fotos`, `consentimientos`, `app.sin_tildes()`                  |
-| 0014 | `storage_politicas.sql` | Las 12 políticas de los 7 buckets                                                                    |
-| 0015 | `cron_alertas.sql`      | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                            |
-| 0016 | `vistas.sql`            | Las 9 vistas de lectura del sitio público                                                            |
-| 0017 | `pedidos.sql`           | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
-| 0018 | `faq_horario.sql`       | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito   |
-| 0019 | `historia.sql`          | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito           |
-| 0020 | `slides_enfoque.sql`    | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva  |
+| #    | Archivo                    | Contenido                                                                                            |
+| ---- | -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 0011 | `insumos.sql`              | `unidades_medida`, `equivalencias`, `proveedores`, `almacenes`, `insumos` y `app.convertir_a_base()` |
+| 0012 | `kardex.sql`               | `lotes_insumo`, `movimientos_insumo`, `saldos_insumo` y `app.recalcular_saldos()`                    |
+| 0013 | `clientes.sql`             | `zonas_reparto`, `clientes`, `cliente_fotos`, `consentimientos`, `app.sin_tildes()`                  |
+| 0014 | `storage_politicas.sql`    | Las 12 políticas de los 7 buckets                                                                    |
+| 0015 | `cron_alertas.sql`         | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                            |
+| 0016 | `vistas.sql`               | Las 9 vistas de lectura del sitio público                                                            |
+| 0017 | `pedidos.sql`              | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
+| 0018 | `faq_horario.sql`          | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito   |
+| 0019 | `historia.sql`             | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito           |
+| 0020 | `slides_enfoque.sql`       | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva  |
+| 0021 | `testimonios_sin_demo.sql` | `testimonios_publicos` deja fuera los de ejemplo (`es_demo`): uno inventado es una reseña falsa      |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -80,7 +81,13 @@ desarrollo, por el motivo de §3.2.
 comprueba la forma de cada valor. `0018_faq_horario` pasa a 12 h la respuesta del horario en
 preguntas frecuentes, sin pisarla si el negocio ya la había cambiado. `0019_historia` hace lo mismo
 con la historia del negocio, y `0020_slides_enfoque` añade a cada diapositiva por qué altura se
-recorta su foto. Hoy son **20 migraciones y 359 pruebas pgTAP**.
+recorta su foto. `0021_testimonios_sin_demo` deja fuera de la vista pública los testimonios de
+ejemplo, que se estaban publicando. Hoy son **21 migraciones y 364 pruebas pgTAP**.
+
+Nota sobre `es_demo`: se filtra en `testimonios_publicos` y **no** en `slides_publicos`, y no es
+incoherencia. Un testimonio inventado con nombre de persona es una reseña falsa en cuanto alguien lo
+publica sin mirar; un slide de ejemplo usa las fotos reales del local y solo da el largo correcto a
+la maqueta.
 
 Las tres últimas comparten una regla: **un texto que el negocio puede haber editado solo se corrige
 si sigue siendo el de fábrica**, reconocido por su contenido, y la corrección no se audita, porque

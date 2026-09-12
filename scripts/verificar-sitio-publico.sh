@@ -39,7 +39,7 @@ print(len(datos) if isinstance(datos, list) else 'NO-ARRAY: ' + cuerpo[:200])
 
 echo "== Las vistas responden a un anonimo =="
 for vista in productos_publicos categorias_publicas galeria_publica slides_publicos \
-             faqs_publicas guias_publicas testimonios_publicos; do
+             faqs_publicas guias_publicas; do
   n=$(anon "$vista?select=*" | filas)
   case "$n" in
     0)   fail "$vista responde pero no trae ninguna fila" ;;
@@ -54,6 +54,27 @@ n=$(anon "novedades_publicas?select=*" | filas)
 case "$n" in
   ''|*[!0-9]*) fail "novedades_publicas -> $n" ;;
   *)   ok "novedades_publicas responde -> $n filas (aun no hay ninguna publicada)" ;;
+esac
+
+# Los testimonios son la otra excepcion, desde 0021: los de ejemplo no salen
+# --uno inventado con nombre de persona es una resena falsa-- y hoy en la base
+# solo hay de esos. Cero filas es el estado correcto, no un fallo; exigir filas
+# aqui era pedirle al sitio que publicara relleno.
+#
+# Lo que si se comprueba, y antes no: que la vista no deje escapar ninguno
+# marcado como ejemplo. Las pruebas pgTAP lo miran por dentro; esto lo mira por
+# el mismo camino que hace el navegador, con PostgREST de por medio.
+n=$(anon "testimonios_publicos?select=*" | filas)
+case "$n" in
+  ''|*[!0-9]*) fail "testimonios_publicos -> $n" ;;
+  *)   ok "testimonios_publicos responde -> $n filas" ;;
+esac
+
+demo=$(anon "testimonios_publicos?select=id&es_demo=is.true" | filas)
+case "$demo" in
+  0)   ok "y ningun testimonio de ejemplo llega al sitio" ;;
+  ''|*[!0-9]*) fail "testimonios_publicos (ejemplo) -> $demo" ;;
+  *)   fail "$demo testimonio(s) de ejemplo se estan publicando" ;;
 esac
 
 echo

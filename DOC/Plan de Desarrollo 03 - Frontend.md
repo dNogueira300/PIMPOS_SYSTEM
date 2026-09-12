@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **132 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **136 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -229,8 +229,33 @@ contraste por píxeles. Cuatro problemas P1, un PR cada uno y en este orden:
   así» de `docs/marca.md`. Reescrita con los mismos hechos de la ficha (migración 0019), y sigue
   siendo administrable: vive en `configuracion_sitio`.
 
-Con esto, la crítica del 11/09 queda cerrada: los 4 P1, el P2 y los detalles menores. El siguiente
-paso es **repetirla** para comparar con el 24/40 de partida.
+Con esto, la crítica del 11/09 quedó cerrada: los 4 P1, el P2 y los detalles menores.
+
+**Segunda crítica (12/09/2026): 29/40**, con el mismo método (dos evaluaciones aisladas, revisión de
+diseño y detector con evidencia de navegador). Sube cinco puntos, y sube donde se trabajó:
+recuperación de errores 1 → 4, prevención 2 → 3, flexibilidad 2 → 3 y ayuda 2 → 3. **Baja una**:
+control y libertad 3 → 2, por omisión y no por regresión —el carrusel nunca se pudo pausar con el
+dedo, pero ahora que el resto está resuelto ese fallo pesa más—. El escaneo determinista da **cero
+hallazgos** en el sitio público; de las reglas que disparó el detector en el navegador, solo tres
+eran reales (el resto, falsos positivos verificados uno a uno: medía el contraste del carrusel contra
+el fondo crema en vez de contra la foto, y se detectaba a sí mismo en dos reglas).
+
+Lo que salió, por prioridad:
+
+| Prioridad | Problema                                                                  | Estado            |
+| --------- | ------------------------------------------------------------------------- | ----------------- |
+| P0        | Los testimonios de ejemplo se publicaban                                  | ✅ Migración 0021 |
+| P1        | El botón flotante tapa contenido en portada, catálogo, FAQ, 404 y galería | 🔄                |
+| P1        | El logo de escritorio sigue ilegible (el arreglo solo llegó a móvil)      | 🔄                |
+| P2        | Los productos con dos presentaciones se piden a ciegas                    | ⬜                |
+| P2        | Nadie dice si la panadería está abierta ahora                             | ⬜                |
+
+**Dos decisiones de fondo que la crítica cuestiona y que NO se tocan** (decisión de Dan, 12/09/2026):
+el carrusel —cuesta una librería, rota el mensaje bajo el dedo del cliente, no se pausa en móvil y
+obliga a esconder el `h1`— y que la portada no sea directamente el catálogo. El carrusel es el
+requisito R2 de la ficha, así que **son preguntas para el propietario**, no decisiones técnicas: hay
+que planteárselas cuando se le enseñe el sitio, con el dato de que hoy el visitante cruza un carrusel
+y una franja de iconos antes de ver siete de los treinta y cuatro productos.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:

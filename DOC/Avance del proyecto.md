@@ -11,16 +11,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                 |
-| ------ | ------------------------ | ------------------------------------------------------ |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                    |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                    |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                    |
-| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Pulido: los 4 P1 corregidos |
-| F4     | Panel: contenido         | ⬜                                                     |
-| F5     | Panel: insumos           | ⬜                                                     |
-| F6     | Panel: clientes          | ⬜                                                     |
-| F7     | Cierre                   | ⬜                                                     |
+| Fase   | Nombre                   | Estado                                                        |
+| ------ | ------------------------ | ------------------------------------------------------------- |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                           |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                           |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                           |
+| **F3** | Sitio público            | 🔄 Secciones y SEO hechos. Crítica: 24/40 → 29/40, P0 cerrado |
+| F4     | Panel: contenido         | ⬜                                                            |
+| F5     | Panel: insumos           | ⬜                                                            |
+| F6     | Panel: clientes          | ⬜                                                            |
+| F7     | Cierre                   | ⬜                                                            |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -250,8 +250,24 @@ cambia de formato en preguntas frecuentes.
 **Y los detalles menores**: el nombre del negocio se lee en la cabecera del celular (el logo completo
 no se leía), el menú empieza por «Inicio» y trae el horario, la dirección de la galería sale de la
 configuración, cada diapositiva del carrusel guarda su propio encuadre —la fachada ya no pierde su
-rótulo— y la historia está reescrita en la voz de la marca. La crítica del 11/09 queda cerrada
-entera; el siguiente paso es repetirla y comparar con el 24/40. Ver el doc 03 §4.0.
+rótulo— y la historia está reescrita en la voz de la marca. La crítica del 11/09 quedó cerrada
+entera. Ver el doc 03 §4.0.
+
+**Segunda crítica (12/09/2026): 29/40.** Repetida con el mismo método —dos evaluaciones aisladas,
+revisión de diseño y detector con evidencia de navegador— para poder comparar. Sube cinco puntos, y
+sube justo donde se trabajó: recuperación de errores de 1 a 4, prevención de 2 a 3, flexibilidad de 2
+a 3 y ayuda de 2 a 3. Baja una, control y libertad de 3 a 2, por omisión: el carrusel nunca se pudo
+pausar con el dedo, y ahora que lo demás está resuelto ese fallo pesa más. El escaneo automático da
+**cero hallazgos** en el sitio público; de las reglas que saltaron en el navegador, solo tres eran
+reales y el resto falsos positivos comprobados uno a uno (medía el contraste del carrusel contra el
+fondo crema en vez de contra la foto, y llegó a detectarse a sí mismo).
+
+Salió un **P0 ya corregido**: los tres testimonios de ejemplo se estaban publicando en la portada
+(«Cliente de ejemplo 1, Iquitos»). En producción no se veían porque la semilla de demostración no se
+carga allí, pero eso era suerte y no una defensa: la vista no filtraba. La migración 0021 los deja
+fuera. Quedan dos P1 —el botón flotante tapando texto y el logo de escritorio, que sigue ilegible
+porque el arreglo solo llegó al celular— y dos P2: los productos con dos presentaciones se piden a
+ciegas y en ningún sitio se dice si la panadería está abierta ahora.
 
 Las ocho secciones y el SEO están construidos y probados. Falta:
 
