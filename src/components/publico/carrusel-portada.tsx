@@ -56,6 +56,11 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
     const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (sinMovimiento.matches) return;
 
+    // En el celular el carrusel esta oculto, pero el componente se monta igual:
+    // sin esto, un temporizador avanzaria diapositivas cada seis segundos para
+    // nadie. El umbral es el mismo `sm` de Tailwind con el que se oculta.
+    if (!window.matchMedia("(min-width: 640px)").matches) return;
+
     const temporizador = window.setInterval(() => embla.scrollNext(), INTERVALO_MS);
     return () => window.clearInterval(temporizador);
   }, [embla, enPausa, slides.length]);
@@ -90,26 +95,23 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                   son verticales: centrada, la de la fachada perdia el rotulo.
                   Es un dato de la diapositiva y no un valor fijo porque cada
                   foto lo necesita distinto. */}
-              <div className="relative aspect-[4/5] w-full sm:aspect-[21/9]">
-                {slide.imagen ? (
-                  <Image
-                    src={slide.imagenMovil ?? slide.imagen}
-                    alt={slide.alt}
-                    fill
-                    priority={indice === 0}
-                    sizes="(max-width: 640px) 100vw, 100vw"
-                    className="object-cover sm:hidden"
-                    style={{ objectPosition: `50% ${slide.enfoque}%` }}
-                  />
-                ) : null}
+              {/* Una sola imagen, la de escritorio: desde el 12/09 el carrusel
+                  no se ve en el celular —ahi va `PortadaMovil`—, asi que la
+                  variante movil sobraba y encima se descargaba.
+
+                  `sizes` con `1px` por debajo de 640: `priority` inyecta un
+                  `<link rel=preload>` que NO respeta el `display:none` del
+                  contenedor, asi que sin esto el celular se bajaba la foto
+                  panoramica entera para no ensenarla nunca. */}
+              <div className="relative aspect-[21/9] w-full">
                 {slide.imagen ? (
                   <Image
                     src={slide.imagen}
                     alt={slide.alt}
                     fill
                     priority={indice === 0}
-                    sizes="100vw"
-                    className="hidden object-cover sm:block"
+                    sizes="(max-width: 639px) 1px, 100vw"
+                    className="object-cover"
                     style={{ objectPosition: `50% ${slide.enfoque}%` }}
                   />
                 ) : null}

@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **153 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **157 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -317,11 +317,28 @@ entera al recibirlo.
 portada y el catálogo su propia sección; la propuesta de la crítica —que el visitante caiga
 directamente sobre los treinta y cuatro productos— queda descartada.
 
-La segunda sigue abierta y **no es una decisión técnica**: el carrusel de la portada —cuesta una
-librería, rota el mensaje bajo el dedo del cliente, no se pausa en móvil y obliga a esconder el
-`h1`— es el requisito R2 de la ficha, así que **es una pregunta para el propietario**. Hay que
-planteársela cuando se le enseñe el sitio, con el dato de que hoy el visitante cruza un carrusel y
-una franja de iconos antes de ver siete de los treinta y cuatro productos.
+La segunda **también está decidida** (Dan, 12/09/2026), y parte la portada en dos: **en escritorio el
+carrusel se queda como está; en el celular no hay carrusel.**
+
+El motivo no es de gusto. El carrusel se pausaba al pasar el mouse y al enfocar con teclado —las dos
+cosas de escritorio—, así que en un teléfono **nada lo detenía**: el mensaje cambiaba cada seis
+segundos bajo el dedo de quien lo estaba leyendo, justo en la pantalla que el proyecto declara
+prioritaria (R6). Y obligaba a esconder el `h1`, porque el titular visible era el del slide y un `h1`
+que cambia solo no le sirve a nadie.
+
+En su lugar, el celular abre con la foto de la primera diapositiva **quieta** y, debajo, sobre el
+azul de marca, lo que el vecino vino a saber: de quién es esto, si está abierto **ahora** y el botón
+de pedir. El texto va debajo de la foto y no encima, para que el contraste no dependa de qué foto
+suba el negocio desde el panel. R2 se sigue cumpliendo —los slides siguen siendo datos editables, y
+en escritorio se ven todos—; lo que se retira es la rotación donde no se podía parar.
+
+Dos costes que estaban ocultos y se corrigieron con el cambio: el carrusel **ya no descarga su foto
+en el celular** (`priority` inyecta un `<link rel=preload>` que ignora el `display:none` del
+contenedor, así que se le pide `1px` por debajo de 640) y **su temporizador no arranca** en pantalla
+pequeña, porque el componente se monta igual aunque esté oculto.
+
+Lo que sigue siendo para el propietario es enseñarle las dos portadas y que diga si le convence,
+sabiendo que sus fotos siguen estando: enteras en escritorio, y la primera, fija, en el celular.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
@@ -582,7 +599,11 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 **Construcción**
 
 - [x] Las 8 secciones construidas y navegables
-- [x] Carrusel funcionando con los slides semilla, con pausa al enfocar y al pasar el mouse
+- [x] Carrusel **solo en escritorio**, con los slides semilla y pausa al enfocar y al pasar el mouse.
+      En el celular no hay carrusel (decisión de Dan, 12/09/2026): foto quieta, el nombre a la vista,
+      si está abierto ahora y el botón de pedir. El aviso que lo destapó: la pausa era por _hover_ y
+      por foco, y en un teléfono no ocurre ninguna de las dos, así que el mensaje cambiaba cada seis
+      segundos bajo el dedo de quien lo estaba leyendo — justo donde el móvil es prioritario (R6)
 - [x] Catálogo mostrando los 34 productos con precio confirmado, filtrable por categoría
 - [x] WhatsApp operativo desde portada, catálogo, ficha de producto y contacto, con el mensaje escrito
 - [x] Mapa cargando con las coordenadas reales, en diferido
