@@ -1,6 +1,8 @@
 import { formatearHora, type Configuracion } from "@/lib/datos/configuracion";
 import { agruparHorario } from "@/lib/datos/horario";
 
+import { EstadoAhora } from "./estado-ahora";
+
 /**
  * El horario de la semana: los dias que abren igual van juntos, y cada turno en
  * su propia linea.
@@ -30,6 +32,14 @@ export function Horario({
 
   return (
     <>
+      {/* Lo primero, antes de la tabla: es la pregunta que trae al cliente.
+          Va aqui y no en cada pagina porque este componente es el unico sitio
+          que pinta el horario —portada, contacto, ubicacion y pie—, asi que
+          aparece en los cuatro de una vez y no se olvida en ninguno. */}
+      <div className="mb-3">
+        <EstadoAhora horario={config.horario_semanal} variante={variante} />
+      </div>
+
       {grupos.length > 0 ? (
         <dl className="text-sm">
           {grupos.map(({ dias, tramos }) => {

@@ -158,7 +158,7 @@ Escala de 4 px. Ancho máximo de contenido 1200 px. Radio de esquina generoso (1
 
 **Las ocho secciones están construidas y probadas** (08/09/2026). Leen de las vistas de la migración
 0016, no de tablas ni del código. El build genera **52 páginas estáticas**, los 34 productos entre
-ellas, y las cubren **139 pruebas de navegador** a 375 px y en escritorio.
+ellas, y las cubren **147 pruebas de navegador** a 375 px y en escritorio.
 
 **El SEO está hecho** (11/09/2026): datos estructurados, `sitemap`, `robots` e imagen para compartir,
 con 6 pruebas de navegador que piden cada archivo y comprueban lo que vuelve. Falta el pulido de
@@ -248,7 +248,7 @@ Lo que salió, por prioridad:
 | P1        | El botón flotante tapa contenido en portada, catálogo, FAQ, 404 y galería | ✅                |
 | P1        | El logo de escritorio sigue ilegible (el arreglo solo llegó a móvil)      | ✅                |
 | P2        | Los productos con dos presentaciones se piden a ciegas                    | ⬜                |
-| P2        | Nadie dice si la panadería está abierta ahora                             | ⬜                |
+| P2        | Nadie dice si la panadería está abierta ahora                             | ✅                |
 
 **Los dos P1, corregidos (12/09/2026):**
 
@@ -267,12 +267,38 @@ Lo que salió, por prioridad:
   mientras el cliente baja y vuelve al parar o al subir, que es cuando se comía la línea que se
   estaba leyendo. **Sigue siendo permanente (R4)**: no se quita, se aparta y vuelve solo.
 
-**Dos decisiones de fondo que la crítica cuestiona y que NO se tocan** (decisión de Dan, 12/09/2026):
-el carrusel —cuesta una librería, rota el mensaje bajo el dedo del cliente, no se pausa en móvil y
-obliga a esconder el `h1`— y que la portada no sea directamente el catálogo. El carrusel es el
-requisito R2 de la ficha, así que **son preguntas para el propietario**, no decisiones técnicas: hay
-que planteárselas cuando se le enseñe el sitio, con el dato de que hoy el visitante cruza un carrusel
-y una franja de iconos antes de ver siete de los treinta y cuatro productos.
+**El primer P2, cerrado (12/09/2026): «Abierto ahora».** El horario decía cuándo se abre, pero la
+pregunta del cliente es otra: si puede ir ya. Con apertura a las 4 de la madrugada y cierre al
+mediodía, esa cuenta la hace mal cualquiera. Ahora el horario va encabezado por **«Abierto ahora ·
+Hasta la 1:00 p. m.»** o **«Cerrado ahora · Abre mañana a las 4:00 a. m.»**. Cuatro decisiones que
+lo sostienen:
+
+- **Sale del horario cargado** (decisión de Dan), no de un interruptor aparte: un interruptor se
+  queda encendido un feriado y miente. Se edita el horario y el estado se corrige solo.
+- **Va dentro del componente `Horario`**, que es el único sitio que lo pinta, así que aparece de una
+  vez en portada, contacto, ubicación y pie, y no puede olvidarse en ninguno.
+- **Es de cliente por fuerza**: depende de qué hora es. Calcularlo en el servidor lo congelaría en el
+  momento del build —«Abierto ahora» a las tres de la madrugada— y un `new Date()` suelto rompe el
+  prerenderizado con Cache Components. Usa `useSyncExternalStore`, cuya versión de servidor devuelve
+  `null`: el HTML prerenderizado no lleva nada y no hay desajuste al hidratar.
+- **El reloj es el de Iquitos** (`America/Lima`), no el del visitante: si alguien mira la página
+  desde Lima o con el reloj del teléfono mal puesto, la panadería abre igual.
+
+La lógica es una función pura (`estadoDelHorario`) con ocho pruebas, incluidos los dos minutos que
+deciden si el cliente sale de casa para nada —a las 4:00 en punto ya se atiende, a la 1:00 en punto
+ya no— y el salto del domingo. En el navegador, `page.clock` congela la hora: hay prueba de que a
+las 12:59 dice «Abierto» y de que **cambia solo** al llegar la 1:00, sin recargar.
+
+**Dos decisiones de fondo que la crítica cuestiona.** La primera está cerrada por Dan (12/09/2026):
+**el catálogo no se convierte en carrusel ni pasa a ser la portada**. La portada sigue siendo
+portada y el catálogo su propia sección; la propuesta de la crítica —que el visitante caiga
+directamente sobre los treinta y cuatro productos— queda descartada.
+
+La segunda sigue abierta y **no es una decisión técnica**: el carrusel de la portada —cuesta una
+librería, rota el mensaje bajo el dedo del cliente, no se pausa en móvil y obliga a esconder el
+`h1`— es el requisito R2 de la ficha, así que **es una pregunta para el propietario**. Hay que
+planteársela cuando se le enseñe el sitio, con el dato de que hoy el visitante cruza un carrusel y
+una franja de iconos antes de ver siete de los treinta y cuatro productos.
 
 **Seis decisiones que se apartan de lo escrito más abajo**, todas con su motivo en el apartado que
 corresponde:
