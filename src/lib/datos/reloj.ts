@@ -51,3 +51,82 @@ export function describirTramos(tramos: readonly Tramo[]): string {
     .map(({ desde, hasta }) => `${formatearHora(desde)} a ${formatearHora(hasta)}`)
     .join(" y ");
 }
+
+/**
+ * Cuantos anios lleva abierto el negocio.
+ *
+ * Existe porque "22 anios" y "Veintidos anios" estaban escritos a mano en la
+ * portada y en la pagina de nosotros. Un numero asi no falla: el 1 de enero
+ * siguiente pasa a mentir, en las cuatro frases a la vez, sin que ninguna
+ * prueba salte ni nadie lo note. La cuenta se calcula; lo unico que se guarda
+ * es el anio de apertura, que ese si es fijo (0024).
+ *
+ * Devuelve `null` si los datos no permiten una cuenta creible —anio de
+ * apertura ausente, en el futuro, o absurdo—, para que quien llama escriba la
+ * frase sin el numero en vez de publicar "0 anios" o "-3 anios".
+ */
+export function anosDeOficio(anioActual: number, anioFundacion: number): number | null {
+  if (!Number.isFinite(anioActual) || !Number.isFinite(anioFundacion)) return null;
+  if (anioFundacion < 1900 || anioFundacion > anioActual) return null;
+
+  const anos = anioActual - anioFundacion;
+  return anos > 0 ? anos : null;
+}
+
+/**
+ * Del 21 al 29 la palabra va contraida y con sus tildes propias —veintidos NO,
+ * veintidós SI; veinticuatro sin tilde—, asi que se escriben una a una. De 30
+ * en adelante son tres palabras ("treinta y dos") y ahi la tilde desaparece,
+ * asi que se arman.
+ */
+const VEINTI = [
+  "veinte",
+  "veintiún",
+  "veintidós",
+  "veintitrés",
+  "veinticuatro",
+  "veinticinco",
+  "veintiséis",
+  "veintisiete",
+  "veintiocho",
+  "veintinueve",
+] as const;
+
+const DECENAS = ["", "", "veinte", "treinta", "cuarenta", "cincuenta"] as const;
+const UNIDADES = [
+  "",
+  "un",
+  "dos",
+  "tres",
+  "cuatro",
+  "cinco",
+  "seis",
+  "siete",
+  "ocho",
+  "nueve",
+] as const;
+
+/**
+ * El numero en letra para un titular: 22 -> "Veintidós".
+ *
+ * El titular de la portada dice "Veintidós años en el barrio", con la palabra
+ * escrita. Poner "22" ahi seria un titular peor, asi que la palabra se genera
+ * en vez de escribirla a mano, que es lo que la dejaba envejecer.
+ *
+ * Cubre de 21 a 59, que es donde va a estar este negocio durante la vida util
+ * de este codigo. Fuera de ahi devuelve la cifra: feo, pero nunca falso.
+ */
+export function enLetra(n: number): string {
+  if (!Number.isInteger(n) || n < 21 || n > 59) return String(n);
+
+  const decena = Math.floor(n / 10);
+  const unidad = n % 10;
+  const palabra =
+    decena === 2
+      ? VEINTI[unidad]
+      : unidad === 0
+        ? DECENAS[decena]
+        : `${DECENAS[decena]} y ${UNIDADES[unidad]}`;
+
+  return palabra.charAt(0).toUpperCase() + palabra.slice(1);
+}

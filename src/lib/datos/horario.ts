@@ -207,3 +207,36 @@ export function estadoDelHorario(
 
   return null;
 }
+
+/**
+ * La hora mas temprana a la que abre el negocio en toda la semana.
+ *
+ * Pimpo's abre a las 4 de la manana, y esa es una de las cosas mas dichas por
+ * un negocio asi: significa pan recien hecho. Estaba solo en la tabla de
+ * horarios, al final de la pagina. Ahora tambien se dice arriba — pero leida
+ * del horario cargado y no escrita a mano, para que no contradiga a la tabla si
+ * el negocio cambia el turno desde el panel.
+ *
+ * Devuelve `null` si no hay horario cargado, y entonces la frase se escribe sin
+ * la hora.
+ */
+export function primeraApertura(
+  horario: Readonly<Record<string, readonly Tramo[]>>,
+): string | null {
+  const aperturas = DIAS.flatMap((dia) => horario[dia] ?? [])
+    .map(({ desde }) => desde)
+    // "04:00" y "16:00" se ordenan bien como texto porque las horas van con
+    // dos cifras, que es como las guarda la base.
+    .filter((desde) => /^\d{2}:\d{2}$/.test(desde))
+    .sort();
+
+  return aperturas[0] ?? null;
+}
+
+/** La primera apertura ya escrita: "4:00 a. m.". */
+export function primeraAperturaEscrita(
+  horario: Readonly<Record<string, readonly Tramo[]>>,
+): string | null {
+  const hora = primeraApertura(horario);
+  return hora === null ? null : formatearHora(hora);
+}

@@ -33,15 +33,33 @@ export default async function Novedades() {
         {novedades.length === 0 ? (
           // Vacio con salida: es el estado normal muchos dias del anio, no un
           // fallo, y tiene que decir a donde ir.
-          <div className="border-border/40 rounded-lg border border-dashed px-6 py-16 text-center">
-            <p className="font-heading text-xl">Ahora mismo no hay promociones vigentes</p>
-            <p className="text-muted-foreground mt-2">
-              El pan del día sigue en su sitio.{" "}
-              <Link href="/productos" className="text-acento underline">
-                Ver el catálogo
-              </Link>
-              .
+          //
+          // Sin la caja de borde punteado que tenia antes. Un recuadro vacio y
+          // discontinuo es el gesto universal de "aqui falta algo", y aqui no
+          // falta nada: la panaderia simplemente no tiene promocion hoy. Lo que
+          // queda es una pagina que dice lo que si hay, con el mismo dibujo del
+          // horno de la portada y un boton de verdad en vez de un enlace
+          // subrayado dentro de una frase.
+          <div className="mx-auto flex max-w-lg flex-col items-center py-8 text-center">
+            <div className="acercarse relative aspect-[900/879] w-full max-w-56">
+              <Image
+                src="/marca/horno-amanecer.webp"
+                alt=""
+                fill
+                sizes="14rem"
+                className="object-contain"
+              />
+            </div>
+            <p className="font-heading mt-6 text-2xl text-balance">
+              Hoy no tenemos promociones, pero sí pan recién horneado
             </p>
+            <p className="text-muted-foreground mt-3 text-pretty">
+              Cuando haya una campaña o un producto nuevo, aparece aquí. Mientras tanto, el pan del
+              día sigue en su sitio y con su precio a la vista.
+            </p>
+            <Link href="/productos" className="boton-cta mt-8">
+              Ver los precios
+            </Link>
           </div>
         ) : (
           <ul className="aparece-grupo grid gap-8 md:grid-cols-2">

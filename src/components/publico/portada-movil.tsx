@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 
 import { EstadoAhora } from "@/components/publico/estado-ahora";
@@ -88,17 +89,32 @@ export function PortadaMovil({
           <EstadoAhora horario={horario} variante="oscuro" />
         </div>
 
-        {whatsapp ? (
-          <a
-            href={whatsapp}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="boton-cta mt-6 flex w-full justify-center"
-          >
-            <MessageCircle aria-hidden className="size-5" />
-            Pedir por WhatsApp
-          </a>
-        ) : null}
+        {/* Dos puertas, no una.
+        
+            Hasta aqui el celular solo ofrecia "Pedir por WhatsApp", y quien
+            entra a esta panaderia viene a resolver tres cosas: que hay, a
+            cuanto esta y como pedirlo (PRODUCT.md). El hero contestaba solo la
+            tercera, y para ver los precios habia que bajar o abrir el menu.
+        
+            El dorado se queda para pedir, que es la accion que el negocio
+            quiere; ver los precios va de linea, como segunda opcion. */}
+        <div className="mt-6 flex flex-col gap-3">
+          {whatsapp ? (
+            <a
+              href={whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="boton-cta flex w-full justify-center"
+            >
+              <MessageCircle aria-hidden className="size-5" />
+              Pedir por WhatsApp
+            </a>
+          ) : null}
+
+          <Link href="/productos" className="boton-linea--sobre-azul flex w-full justify-center">
+            Ver los precios
+          </Link>
+        </div>
       </div>
     </section>
   );
