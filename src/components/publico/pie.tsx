@@ -10,8 +10,13 @@ export async function Pie({ config }: { config: Configuracion }) {
   const direccion = direccionCompleta(config);
   const anio = await anioActual();
 
+  // `pb-20` en el celular: la altura del boton flotante mas su margen. El pie es
+  // el final del documento, asi que aqui no queda scroll con el que apartar lo
+  // de debajo: sin este hueco el boton se queda encima de «Iquitos, Perú» para
+  // siempre (critica del 12/09). El hueco estuvo primero en `<main>`, que no es
+  // lo ultimo que se ve, y la prueba lo cazo. Desde `sm` no hay flotante.
   return (
-    <footer className="bg-primary text-primary-foreground mt-24">
+    <footer className="bg-primary text-primary-foreground mt-24 pb-20 sm:pb-0">
       <div className="mx-auto grid max-w-(--container-contenido) gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_1fr_1.3fr]">
         <div className="flex flex-col gap-4">
           <p className="font-heading text-2xl">{config.nombre_comercial}</p>

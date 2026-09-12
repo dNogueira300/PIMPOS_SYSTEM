@@ -26,7 +26,7 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 364 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 364 pgTAP + 117 unitarias + 136 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 364 pgTAP + 117 unitarias + 139 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -242,6 +242,12 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   carrusel, enlaces del pie, datos de contacto, zoom y marcador del mapa). `e2e/tactil.spec.ts`
   recorre ahora cada control de cada página; los enlaces dentro de una frase y el crédito de licencia
   del mapa quedan exentos, como en WCAG 2.5.8.
+- **El hueco que reserva un elemento fijo va en lo último del documento, no en `<main>`.** El botón
+  flotante de WhatsApp tapaba texto al final de la página; el `padding-bottom` se puso en `<main>` y
+  no cambió nada, porque debajo sigue el pie: el último texto que se ve es «Iquitos, Perú», no el
+  contenido. Va en el `<footer>`. Mirarlo en pantalla no lo habría cazado —hay que bajar del todo—;
+  lo cazó la prueba que pregunta qué hay debajo del centro del botón con `elementFromPoint`, en cada
+  ruta y con la página al fondo.
 - **Ampliar una vista es `create or replace`, y solo admite columnas nuevas al final.** Cambiar el
   orden o el tipo de una columna existente obliga a `drop view` y a recrear permisos. Al reemplazar
   hay que repetir `with (security_invoker = true)` y el `where` de publicado: si se olvidan, la
