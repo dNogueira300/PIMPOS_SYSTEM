@@ -22,13 +22,13 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
 
-| Actividad del plan de trabajo                     | Estado                                                                                              |
-| ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                                  |
-| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                  |
-| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                   |
-| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **23** hoy                                             |
-| 2–5 Desarrollo                                    | 🔄 F0, F1 y F2 cerradas; **F3 desplegada**, con la crítica de diseño (24/40 → 29/40) cerrada entera |
+| Actividad del plan de trabajo                     | Estado                                                                                                                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                                                                                      |
+| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                                                                      |
+| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                                                                       |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **23** hoy                                                                                                 |
+| 2–5 Desarrollo                                    | 🔄 F0, F1, F2 y **F3 cerradas**. F3 quedó desplegada, con la crítica de diseño (24/40 → 29/40) cerrada entera, axe en cero y el rendimiento investigado |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -112,8 +112,10 @@ El camino hasta ahí dejó tres lecciones que están explicadas en `DOC/Avance d
 migraciones crean el esquema pero no el contenido, a producción va **solo** `01_maestros.sql`, y un
 cambio en la base **no se ve en el sitio** hasta que algo lo revalide —hoy, un redespliegue—.
 
-Lo que queda de F3 es el pulido medible (Lighthouse, axe), el dominio con HTTPS, Search Console y
-enseñárselo al propietario.
+**F3 se cerró el 12/09/2026.** El pulido medible está hecho: axe da cero errores en las 12 rutas
+públicas y corre en cada PR, y Lighthouse cumple accesibilidad (96–100) y SEO (100) en móvil. Lo que
+pasa a F4 son el dominio con HTTPS, Search Console, la validación del JSON-LD con Google, la prueba
+en teléfonos reales, enseñárselo al propietario y **una decisión sobre el umbral de rendimiento**.
 
 Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 
@@ -123,6 +125,15 @@ Dos hallazgos que corrigen el plan y están explicados en el doc 03:
   portada sobre una página sin interacción.
 - **El movimiento se hace con CSS nativo, no con una librería**, por lo anterior. `motion` se quitó
   de las dependencias.
+- **El umbral de «rendimiento ≥ 90 en móvil» es el mismo caso que el presupuesto de peso**, y por la
+  misma razón de fondo. Medido: en la portada móvil la imagen principal está lista en 144 ms y los
+  2207 ms siguientes son el navegador sin poder pintarla porque el hilo principal está hidratando
+  React. Con el carrusel retirado **entero** —que no es opción— la nota se queda en 83. Los 742 ms de
+  ejecución que sobreviven son React 19 + Next 16. Se probaron tres caminos y los tres se
+  descartaron con medición, uno de ellos ya implementado y revertido por medir peor. Llegar a 90
+  exigiría quitar el menú del celular, «Abierto ahora», el botón flotante y el carrusel: cuatro cosas
+  que entraron a propósito, tres de ellas para corregir una crítica de diseño. **La decisión de qué
+  hacer con el número es de Dan y va en F4**; el detalle está en el doc 03.
 
 ---
 

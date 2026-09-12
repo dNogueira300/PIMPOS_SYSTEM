@@ -17,6 +17,7 @@
  *   node scripts/medir-lighthouse.mjs                          # el build local
  *   node scripts/medir-lighthouse.mjs https://pimpos-system-iota.vercel.app
  *   node scripts/medir-lighthouse.mjs <url> /productos /contacto
+ *   PASADAS=5 node scripts/medir-lighthouse.mjs <url> /            # mediana de 5
  */
 
 import { mkdir, writeFile } from "node:fs/promises";
@@ -48,11 +49,30 @@ const RUTAS_POR_DEFECTO = [
   "/contacto",
 ];
 
+/**
+ * Cuantas veces se mide cada ruta.
+ *
+ * Una sola pasada no basta, y costo descubrirlo: midiendo la portada cinco
+ * veces seguidas, sin tocar nada entre medias, la puntuacion salio 71, 91, 81,
+ * 80 y 82. Con una sola medicion se puede "demostrar" casi cualquier cosa — y
+ * se puede dar por bueno un cambio que en realidad empeora. Lo que se informa
+ * es la MEDIANA, y al lado todas las pasadas, para que se vea la dispersion y
+ * no solo el numero que conviene.
+ *
+ * Una por defecto para un vistazo; cinco para decidir algo.
+ */
+const PASADAS = Math.max(1, Number(process.env.PASADAS) || 1);
+
 const [urlBase = "http://localhost:3000", ...rutasPedidas] = process.argv.slice(2);
 const rutas = rutasPedidas.length > 0 ? rutasPedidas : RUTAS_POR_DEFECTO;
 // Fuera de `test-results/`: Playwright vacia esa carpeta al empezar, y los
 // informes desaparecian en cuanto se corria cualquier prueba. Va al `.gitignore`.
 const carpeta = ".lighthouse";
+
+/** El valor central, que es el que no se lleva por delante una pasada rara. */
+function mediana(numeros) {
+  return [...numeros].sort((a, b) => a - b)[Math.floor(numeros.length / 2)];
+}
 
 /** Las auditorias que fallaron dentro de una categoria, con su nombre legible. */
 function auditoriasFallidas(lhr, categoria) {
@@ -96,11 +116,21 @@ console.log(`Lighthouse (móvil) sobre ${urlBase}\n`);
 const medidas = [];
 try {
   for (const ruta of rutas) {
-    process.stdout.write(`  midiendo ${ruta} ... `);
-    const medida = await medir(chrome, ruta);
-    const puntos = CATEGORIAS.map((c) => Math.round(medida.lhr.categories[c].score * 100));
-    console.log(puntos.join("  "));
-    medidas.push(medida);
+    process.stdout.write(`  midiendo ${ruta}${PASADAS > 1 ? ` (x${PASADAS})` : ""} ... `);
+
+    const pasadas = [];
+    let ultima;
+    for (let i = 0; i < PASADAS; i++) {
+      ultima = await medir(chrome, ruta);
+      pasadas.push(CATEGORIAS.map((c) => Math.round(ultima.lhr.categories[c].score * 100)));
+    }
+
+    // La mediana de cada categoria. El informe que queda en disco es el de la
+    // ultima pasada, que es de donde salen las auditorias concretas.
+    const puntos = CATEGORIAS.map((_, col) => mediana(pasadas.map((p) => p[col])));
+    const dispersion = PASADAS > 1 ? `   (rendimiento: ${pasadas.map((p) => p[0]).join("/")})` : "";
+    console.log(puntos.join("  ") + dispersion);
+    medidas.push({ ...ultima, puntos });
   }
 } finally {
   // En Windows, Chrome deja abierto algun archivo de su perfil temporal y el
@@ -118,9 +148,9 @@ console.log(`\n${"Ruta".padEnd(26)}${CATEGORIAS.map((c) => NOMBRES[c].padStart(1
 console.log("-".repeat(26 + 16 * CATEGORIAS.length));
 
 const fallos = [];
-for (const { ruta, lhr, archivo } of medidas) {
-  const celdas = CATEGORIAS.map((categoria) => {
-    const puntos = Math.round(lhr.categories[categoria].score * 100);
+for (const { ruta, lhr, archivo, puntos: medianas } of medidas) {
+  const celdas = CATEGORIAS.map((categoria, columna) => {
+    const puntos = medianas[columna];
     const minimo = UMBRALES[categoria];
     const cumple = minimo === undefined || puntos >= minimo;
     if (!cumple) {

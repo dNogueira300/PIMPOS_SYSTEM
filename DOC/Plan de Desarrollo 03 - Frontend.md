@@ -642,20 +642,28 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 - [x] **Desplegado en Vercel** (12/09/2026), con la base de producción cargada: 34 productos, 10
       fotos de galería, los 3 slides de la migración 0023 y las 62 imágenes en sus buckets
 
-**Pendiente**
+**Cerrado en el último tramo** (12/09/2026)
 
-- [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google. La forma ya la comprueba una prueba; la herramienta necesita una URL pública, así que va tras el despliegue
-- [x] **Sin errores de axe en ninguna página** (12/09/2026). `e2e/accesibilidad.spec.ts` pasa axe por
-      las 12 rutas públicas en los dos tamaños y con el menú del celular abierto, con las reglas
-      WCAG 2.1 AA más las buenas prácticas y **sin desactivar ninguna**. Encontró cuatro problemas
-      reales, los cuatro corregidos: el botón flotante de WhatsApp vivía fuera de todo _landmark_,
-      la cabecera y el pie llevaban dos `nav` con el mismo nombre, y el `<dl>` de contacto anidaba
-      los `dt`/`dd` dos niveles por debajo de su grupo. Corre en cada PR
-- [x] **Lighthouse en móvil: accesibilidad ≥ 95 ✅ y SEO 100 ✅. Rendimiento ≥ 90, NO** (12/09/2026).
-      Medido con `pnpm lighthouse` contra producción antes de tocar nada: SEO 100 en las seis rutas
-      medidas, accesibilidad 93–100 (hoy 96–100, tras arreglar el `<dl>`), buenas prácticas 96–100 y
-      **rendimiento 65–89**. Ver «El rendimiento, medido» más abajo
-- [ ] **Rendimiento ≥ 90 en móvil.** Lo que falta del punto anterior. Diagnosticado, no supuesto
+- [x] **Sin errores de axe en ninguna página.** `e2e/accesibilidad.spec.ts` pasa axe por las 12 rutas
+      públicas en los dos tamaños y con el menú del celular abierto, con las reglas WCAG 2.1 AA más
+      las buenas prácticas y **sin desactivar ninguna**. Encontró cuatro problemas reales, los cuatro
+      corregidos: el botón flotante de WhatsApp vivía fuera de todo _landmark_, la cabecera y el pie
+      llevaban dos `nav` con el mismo nombre, y el `<dl>` de contacto anidaba los `dt`/`dd` dos
+      niveles por debajo de su grupo. Corre en cada PR
+- [x] **Lighthouse en móvil: accesibilidad ≥ 95 ✅ y SEO 100 ✅.** Medido con `pnpm lighthouse` contra
+      producción: SEO 100 en las seis rutas medidas, accesibilidad 96–100 y buenas prácticas 96–100
+- [x] **Rendimiento ≥ 90 en móvil: investigado a fondo y NO alcanzable con este stack.** Tres
+      hipótesis medidas y las tres descartadas, incluida una que llegó a implementarse y se revirtió
+      porque medía peor. Ver «El rendimiento, medido» aquí debajo
+
+**Pasa a la Fase 4.** Nada de esto bloquea el cierre de F3: depende del negocio, de una URL con
+dominio propio, o de una decisión sobre el umbral.
+
+- [ ] **Decidir qué se hace con el umbral de rendimiento.** La recomendación, con la evidencia de
+      abajo: revisarlo como ya se revisó el presupuesto de JavaScript, que también estaba por debajo
+      del suelo del framework
+- [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google. La forma ya la
+      comprueba una prueba; la herramienta necesita una URL pública
 - [ ] Verificado en Chrome y Safari móvil **reales**, no solo en el emulador
 - [ ] Dominio conectado con HTTPS
 - [ ] Google Search Console verificado
@@ -684,22 +692,56 @@ impide la descarga**: solo hace que el navegador elija la candidata más pequeñ
 LCP, en la pantalla prioritaria y con la conectividad de Iquitos. Hay prueba (`presupuesto.spec.ts`),
 y se vio fallar contra el código anterior.
 
-**Lo que queda, y por qué no es un olvido.** Lo que hunde la puntuación son dos cosas medidas:
+### Por qué el rendimiento no llega a 90, medido y no supuesto
 
-- **Tiempo de bloqueo (peso 30 de 100): 320–750 ms.** Es la hidratación de React sobre una CPU
-  ralentizada 4×. Los 158 KB de JavaScript son el suelo de React 19 + Next 16 que este mismo
-  documento ya midió: nuestro código añade 0 KB. Bajarlo de verdad significa servir menos JavaScript
-  de cliente, no afinar un parámetro.
-- **LCP (peso 25): 2.0–4.5 s.** En `/ubicacion` el elemento más grande es **una tesela de
-  OpenStreetMap**, que no empieza a pedirse hasta que Leaflet termina de cargarse: 3.9 s de retraso
-  medidos. Se le añadió `preconnect` a los tres subdominios de teselas, que le quita el _handshake_
-  del camino crítico, pero el mapa sigue siendo un tercero cargado en diferido a propósito (cargarlo
-  antes rompería el presupuesto de JavaScript de la sección).
+**Primero, dónde está el problema de verdad.** El desglose del LCP de la portada en móvil:
 
-Subir de ~85 a 90 en las fichas es alcanzable; subir la portada de 71 y `/ubicacion` de 65 es un
-trabajo de optimización con su propia decisión de producto detrás —cuánto JavaScript de cliente
-lleva la portada, y si el mapa debe ser el LCP de su página—. **Se deja decidido por Dan, no
-escondido.**
+| Fase del LCP         | Tiempo      |
+| -------------------- | ----------- |
+| Hasta el primer byte | 36 ms       |
+| Descubrir la imagen  | 31 ms       |
+| Descargar la imagen  | 77 ms       |
+| **Pintarla**         | **2207 ms** |
+
+La imagen está lista en 144 ms. Los 2.2 s siguientes son el navegador **sin poder pintar** porque el
+hilo principal está ocupado. O sea: el LCP (peso 25 sobre 100) y el tiempo de bloqueo (peso 30) no
+son dos problemas, son **el mismo**: la hidratación de React. Un solo archivo —el runtime de React 19
+más Next 16, 70 KB comprimidos— se lleva ~945 ms de ejecución.
+
+Eso descarta de entrada todo el repertorio habitual: comprimir más las fotos, otro formato, un CDN,
+`preconnect`. La imagen no es el cuello de botella.
+
+**Tres hipótesis, las tres medidas, las tres descartadas.**
+
+| Hipótesis                                                                               | Cómo se probó                                                      | Resultado                                                                                                                                                                                                                                                                                            |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Las animaciones de scroll** cuestan estilo y maquetación (`styleLayout` salía 708 ms) | El mismo build con `--force-prefers-reduced-motion`, que las apaga | ❌ No mejora: `styleLayout` 473 → 404 ms y la puntuación igual o peor. **No se tocan**                                                                                                                                                                                                               |
+| **Embla se inicializa en el celular** aunque el carrusel esté oculto                    | `active: false` con `breakpoints` en las opciones de embla         | ❌ El módulo se descarga igual y el bloqueo se quedó en 325 ms, o sea en la línea de partida                                                                                                                                                                                                         |
+| **No mandar el carrusel al celular**, con `next/dynamic` y el hero estático en el HTML  | Implementado entero: se midió y **se revirtió**                    | ❌ Consiguió el objetivo (embla fuera, 150 → 144 KB, carrusel fuera del DOM) y aun así midió **peor, dos veces**: bloqueo 548 y 734 ms frente a 280 y 371 de las líneas base que lo rodeaban. Pasar contenido del servidor a través de una frontera de cliente cuesta más de lo que ahorran los 8 KB |
+
+**El techo, medido.** Quitando el carrusel **entero** —que no es una opción, porque escritorio lo
+necesita— el bloqueo baja a 199 ms y la ejecución a 742 ms. Y aun así la mediana local se queda en
+**83**, no en 90. Producción mide 71.
+
+Esos 742 ms que quedan **sin carrusel ninguno** son React 19 + Next 16 hidratando la página. Es el
+mismo suelo de framework que este plan ya midió para el peso —los 150 KB que obligaron a revisar el
+presupuesto— visto ahora desde el tiempo de CPU.
+
+**Qué haría falta para llegar a 90:** quitar interactividad de cliente. En esta portada eso significa
+el menú desplegable, «Abierto ahora», el botón flotante de WhatsApp y el carrusel — y las cuatro
+entraron **a propósito**, tres de ellas como respuesta a una crítica de diseño. Cambiar accesibilidad
+y utilidad reales por una cifra de laboratorio sería el peor negocio posible para este proyecto.
+
+**La recomendación**, para que la decida Dan y no un guion: tratar el umbral como ya se trató el
+presupuesto de JavaScript —revisarlo con la evidencia— y vigilar en su lugar lo que sí está en
+nuestra mano: que la portada no añada trabajo de cliente sobre una página sin interacción. Ese es el
+número que mide nuestro trabajo; 90 mide el de React.
+
+**Y una lección de método.** La primera versión de esta investigación se hizo con **una** medición
+por escenario, y con eso se llegó a dar por bueno un cambio que en realidad empeoraba. Midiendo la
+misma portada cinco veces seguidas, sin tocar nada, la puntuación salió 71, 91, 81, 80 y 82. Desde
+entonces `pnpm lighthouse` acepta `PASADAS=5` e informa la **mediana** con todas las pasadas al lado,
+para que la dispersión se vea.
 
 **Un falso positivo que conviene reconocer**, porque volverá a salir: Lighthouse marca
 `color-contrast` 4.28 en un enlace de la ficha de producto. El color computado es `#986722` y el

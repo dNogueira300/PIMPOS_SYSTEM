@@ -11,17 +11,17 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 
 ## Estado
 
-**F0, F1 y F2 cerradas. F3 desplegada** (12/09/2026) en
+**F0, F1, F2 y F3 cerradas.** El sitio está desplegado (12/09/2026) en
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                                                                                     |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                           |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                               |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                             |
-| F3 Sitio público | 🔄 **Desplegado en Vercel.** Crítica **29/40** cerrada. **axe en cero y en el CI**; Lighthouse: accesibilidad y SEO cumplen, rendimiento no. Falta dominio |
-| F4–F7            | ⬜                                                                                                                                                         |
+| Fase             | Estado                                                                                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                      |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                          |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                        |
+| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4 |
+| F4–F7            | ⬜                                                                                                                                                                    |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
@@ -197,6 +197,7 @@ pnpm test -- src/lib/utilidades/slug.test.ts   # un solo archivo
 pnpm test:e2e                      # Playwright; levanta pnpm dev solo
 pnpm exec playwright test e2e/portada.spec.ts --project=movil   # un solo E2E
 pnpm lighthouse                    # Lighthouse movil contra el build local
+PASADAS=5 pnpm lighthouse          # mediana de 5 pasadas: una sola no decide nada
 pnpm lighthouse https://pimpos-system-iota.vercel.app   # contra lo desplegado
 pnpm supabase:tipos                # regenera src/tipos/database.types.ts
 ```
@@ -405,6 +406,21 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   contenido que el negocio edita no se puede calcular la cuenta, así que se dice **el año** y no los
   años: «desde 2004» dice lo mismo y no caduca (0025). La prueba comprueba la regla —ningún texto
   publicable lleva `NN años`— y no el titular concreto.
+- **El LCP de la portada móvil no es la imagen: es el hilo principal.** Medido: 36 ms de servidor,
+  31 de descubrir la foto y 77 de descargarla — lista en 144 ms. Los **2207 ms** siguientes son
+  «element render delay», el navegador sin poder pintar porque está hidratando React. LCP (peso 25) y
+  tiempo de bloqueo (peso 30) son **el mismo problema**, así que comprimir fotos, cambiar de formato
+  o poner un CDN no mueven nada. Antes de optimizar una imagen, mirar el desglose del LCP.
+- **Tres hipótesis de rendimiento medidas y descartadas** (no volver a intentarlas sin leer el doc 03):
+  las animaciones de scroll (apagarlas con `--force-prefers-reduced-motion` no mejora); `active:
+false` con `breakpoints` en embla (el módulo se descarga igual, el bloqueo se queda igual); y no
+  mandar el carrusel al celular con `next/dynamic` — **esta se implementó entera y se revirtió**:
+  consiguió el objetivo (embla fuera, 150 → 144 KB) y midió **peor, dos veces**, porque pasar
+  contenido del servidor por una frontera de cliente cuesta más que los 8 KB que ahorra.
+- **Una sola medición de Lighthouse no decide nada.** La misma portada, cinco veces seguidas y sin
+  tocar nada: 71, 91, 81, 80 y 82. Con una pasada se puede «demostrar» casi cualquier cosa, y así se
+  llegó a dar por bueno un cambio que empeoraba. `PASADAS=5 pnpm lighthouse` informa la mediana con
+  todas las pasadas al lado.
 - **Un número que cuenta años no se escribe, se calcula.** «22 años» y «Veintidós años» estaban a
   mano en la franja de la portada, en el titular de la historia y en la descripción de nosotros para
   Google. No fallan nunca: el 1 de enero siguiente pasan a mentir los cuatro a la vez, en silencio, y

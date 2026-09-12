@@ -12,16 +12,16 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                                                                                             |
-| ------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                |
-| **F3** | Sitio público            | 🔄 Desplegado. Crítica 29/40 cerrada. **axe en cero y en el CI**; Lighthouse: accesibilidad y SEO ✅, rendimiento ✗. Falta dominio |
-| F4     | Panel: contenido         | ⬜                                                                                                                                 |
-| F5     | Panel: insumos           | ⬜                                                                                                                                 |
-| F6     | Panel: clientes          | ⬜                                                                                                                                 |
-| F7     | Cierre                   | ⬜                                                                                                                                 |
+| Fase   | Nombre                   | Estado                                                                                                                                     |
+| ------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                        |
+| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                        |
+| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                        |
+| **F3** | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4 |
+| F4     | Panel: contenido         | ⬜                                                                                                                                         |
+| F5     | Panel: insumos           | ⬜                                                                                                                                         |
+| F6     | Panel: clientes          | ⬜                                                                                                                                         |
+| F7     | Cierre                   | ⬜                                                                                                                                         |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -236,7 +236,7 @@ Todas medidas o verificadas, ninguna por preferencia.
 
 ## 5. Lo que falta
 
-### Fase 3 — lo que queda
+### Fase 3 — cerrada el 12/09/2026
 
 La crítica de diseño del 11/09 dio **24/40** (aceptable) y cuatro problemas P1. **Los cuatro están
 corregidos**: la animación en reposo, el momento de pedir por WhatsApp, el catálogo sin fotos (ahora
@@ -359,6 +359,42 @@ de F4 no dispare `revalidateTag`, **cada cambio de contenido en producción exig
 Conviene saber distinguirlo en un minuto: preguntar a la vista si tiene las filas y al HTML servido
 si las pinta son dos preguntas distintas, y aquí daban respuestas distintas.
 
+### El rendimiento, y por qué F3 se cierra sin él (12/09/2026)
+
+El último punto técnico que quedaba. Se investigó a fondo y la respuesta es que **no se alcanza con
+este stack**, con la medición delante.
+
+**El problema no era el que parecía.** En la portada móvil la imagen principal está lista en 144 ms
+—36 de servidor, 31 de descubrirla, 77 de descargarla—. Los **2207 ms** siguientes son el navegador
+sin poder pintarla porque el hilo principal está ocupado. Es decir: el LCP y el tiempo de bloqueo,
+que entre los dos son el 55 % de la nota, **son el mismo problema**, y ese problema es la hidratación
+de React. Eso descarta de golpe comprimir fotos, cambiar de formato o poner un CDN.
+
+**Tres hipótesis, las tres medidas, las tres descartadas:**
+
+| Hipótesis                                       | Resultado                                                                                                                                                              |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Las animaciones de scroll cuestan caro          | ❌ Apagándolas no mejora nada. **No se tocan**                                                                                                                         |
+| Basta con desactivar embla en el celular        | ❌ El módulo se descarga igual; el bloqueo se queda donde estaba                                                                                                       |
+| No mandar el carrusel al celular (implementado) | ❌ Consiguió el objetivo y aun así midió **peor, dos veces**. Se revirtió: pasar contenido del servidor por una frontera de cliente cuesta más que los 8 KB que ahorra |
+
+**El techo, medido:** quitando el carrusel entero —que no es opción, escritorio lo necesita— el
+bloqueo baja a 199 ms y aun así la nota se queda en 83. Los 742 ms de ejecución que sobreviven son
+React 19 + Next 16 hidratando: el **mismo suelo de framework** que este proyecto ya midió para el
+peso (los 150 KB que obligaron a revisar el presupuesto del plan), visto ahora en tiempo de CPU.
+
+**Llegar a 90 exigiría quitar interactividad**: el menú del celular, «Abierto ahora», el botón
+flotante y el carrusel. Las cuatro entraron a propósito, tres de ellas para corregir una crítica de
+diseño. Cambiar eso por una cifra de laboratorio sería el peor negocio del proyecto.
+
+**Queda declarado y pasa a F4**, con la recomendación de revisar el umbral igual que se revisó el
+presupuesto de JavaScript: con la evidencia, no por cansancio.
+
+**Y una lección de método que costó una implementación entera.** La investigación se hizo primero con
+**una** medición por escenario, y con eso se llegó a dar por bueno un cambio que empeoraba. Midiendo
+la misma portada cinco veces seguidas, sin tocar nada, salió 71, 91, 81, 80 y 82. Ahora
+`pnpm lighthouse` acepta `PASADAS=5` e informa la mediana con todas las pasadas al lado.
+
 ### Lighthouse y axe (12/09/2026)
 
 Los dos puntos del cierre de F3 que faltaban por medir. **Ninguno se dio por bueno leyendo código.**
@@ -459,12 +495,19 @@ comía la línea que se estaba leyendo), simplificar el menú (se amplió a prop
 11/09), la paleta nueva (el dorado propuesto no llega a AA) y la tipografía (ya es serif + sans, y a
 Dan le gusta la actual).
 
-Las ocho secciones y el SEO están construidos y probados. Falta:
+**F3 queda cerrada.** Las ocho secciones, el SEO, la accesibilidad y el despliegue están construidos,
+probados y en producción. Lo que sigue abierto **no bloquea**: o depende del negocio, o de una URL con
+dominio propio, o de una decisión sobre un umbral. Todo ello **pasa a la Fase 4**:
 
-| Tarea                   | Por qué importa                                                                                                                                                                                |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Validar con Google      | La forma de los datos estructurados ya la comprueba una prueba; la herramienta de resultados enriquecidos de Google y Search Console necesitan una URL pública, así que van tras el despliegue |
-| Refresco desde el panel | El `revalidateTag` ya tiene sus etiquetas puestas, pero necesita el panel de F4 para dispararse                                                                                                |
+| Lo que pasa a F4                 | Por qué no cierra aquí                                                                                                                          |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **El umbral de rendimiento**     | Investigado hasta el fondo (§ de arriba). No es una tarea pendiente sino una decisión: revisar el número con la evidencia, o convivir con 71–89 |
+| Validar el JSON-LD con Google    | La forma ya la comprueba una prueba; la herramienta de resultados enriquecidos necesita abrirse a mano sobre una URL pública                    |
+| Search Console                   | Necesita el dominio propio                                                                                                                      |
+| Chrome y Safari móvil **reales** | Hace falta un teléfono de verdad, no el emulador                                                                                                |
+| Dominio con HTTPS                | Del negocio                                                                                                                                     |
+| Revisión con el propietario      | Del negocio: enseñárselo a Marcos, a Debra y al propietario                                                                                     |
+| Refresco desde el panel          | El `revalidateTag` ya tiene sus etiquetas puestas; necesita el panel de F4 para dispararse                                                      |
 
 **Un hueco declarado, no cubierto.** Las imágenes semilla no viven en el repositorio (están en la
 carpeta del cliente), así que en el CI los buckets están vacíos y las comprobaciones que miran si
@@ -515,19 +558,19 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 
 ## 6. Riesgos vivos
 
-| Riesgo                                     | Estado                                                                                                                                                      |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                          |
-| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                           |
-| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                      |
-| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                              |
-| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                   |
-| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                            |
-| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                                                                                    |
-| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                               |
-| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                                                                       |
-| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                        |
-| Lighthouse: rendimiento por debajo de 90   | 🟡 Declarado, no cerrado. Accesibilidad y SEO cumplen; el rendimiento lo hunden la hidratación de React y el LCP. Diagnosticado con cifras, decisión de Dan |
+| Riesgo                                     | Estado                                                                                                                                                                                                   |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                       |
+| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                        |
+| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                                   |
+| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                           |
+| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                                |
+| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                         |
+| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                                                                                                                                 |
+| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                            |
+| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                                                                                                                    |
+| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                                     |
+| Lighthouse: rendimiento por debajo de 90   | 🟡 **Investigado y declarado.** Tres hipótesis medidas y descartadas; el techo con el carrusel fuera sigue en 83. Es la hidratación de React, no nuestro código. Pasa a F4 como decisión sobre el umbral |
 
 ---
 
