@@ -81,3 +81,53 @@ test("la historia de la portada ya no empieza por «Bienvenidos»", async ({ pag
   await expect(bloque).toContainText("emprendimiento familiar");
   await expect(bloque).not.toContainText("Bienvenidos");
 });
+
+test("la barra de aviso dice la hora y las zonas que hay en la base", async ({ page }) => {
+  await page.goto("/");
+  const aviso = page.locator("[data-aviso]");
+  await expect(aviso).toBeVisible();
+
+  // La apertura del horario cargado y una de las cuatro zonas confirmadas el
+  // 11/09: sale de la base, no escrito a mano.
+  await expect(aviso).toContainText("Abrimos a las 4:00 a. m.");
+  await expect(aviso).toContainText("Belén");
+
+  // Lo que decía el prototipo de Stitch es inventado y no puede aparecer.
+  await expect(page.getByText(/Putumayo/)).toHaveCount(0);
+  await expect(page.getByText(/Lunes a Domingo/i)).toHaveCount(0);
+});
+
+test("la cabecera es clara y la sección activa va en píldora azul", async ({ page, isMobile }) => {
+  test.skip(isMobile, "La navegación en línea es de escritorio.");
+  await page.goto("/productos");
+
+  const cabecera = page.getByRole("banner");
+  // Crema, no el azul de antes (plan 03.1, tarea 4).
+  await expect(cabecera).toHaveCSS("background-color", "rgb(255, 249, 238)");
+
+  const activa = cabecera.getByRole("link", { name: "Productos" });
+  await expect(activa).toHaveAttribute("aria-current", "page");
+  await expect(activa).toHaveCSS("background-color", "rgb(18, 48, 110)");
+});
+
+test("la cabecera cabe sin desbordar en los anchos intermedios", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Los anchos se fijan dentro de la prueba.");
+
+  // En la tarea 4 del plan 03.1 la cabecera pasó a 1197 px de contenido: a 1024
+  // y 1100 px la página entera se desplazaba en horizontal. Ninguna otra prueba
+  // lo veía, porque el proyecto de escritorio mide solo a 1280 y el de celular
+  // a 375. Se miden aquí los anchos de tableta y portátil pequeño, donde es más
+  // fácil que la navegación en línea no quepa.
+  const fallos: string[] = [];
+  for (const ancho of [768, 1024, 1100, 1280, 1366]) {
+    await page.setViewportSize({ width: ancho, height: 800 });
+    for (const ruta of ["/", "/productos"]) {
+      await page.goto(ruta);
+      const desborde = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      if (desborde > 0) fallos.push(`${ruta} a ${ancho} px: ${desborde} px de más`);
+    }
+  }
+  expect(fallos, `Desborde horizontal:\n${fallos.join("\n")}`).toEqual([]);
+});

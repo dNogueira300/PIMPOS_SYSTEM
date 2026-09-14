@@ -1048,6 +1048,22 @@ git add -A && git commit -m "feat(diseño): botones en píldora, sellos y tarjet
 
 ## Tarea 4 — Cáscara: barra de aviso, cabecera, pie y botón flotante
 
+> **Correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. **`src/lib/datos/aviso.ts` ya existe** y es otra cosa: `avisarDeConsulta`, el registro de
+>    errores de las consultas, que importan catálogo, configuración y contenido. Escribir encima,
+>    como decía el paso 3, habría roto el build. La función va en **`texto-aviso.ts`**.
+> 2. **La barra es un `<aside>` fuera de la cabecera**, no un `<div>`. Dentro de la cabecera fija se
+>    quedaría pegada y comería ~40 px del celular siempre; fuera y como `<div>`, axe la marca por
+>    estar fuera de toda región (lo mismo que pasó con el botón flotante en F3).
+> 3. **La navegación en línea va desde `xl` (1280 px)**, como en el prototipo, no desde `lg`. Con la
+>    cabecera nueva el contenido mide ~1200 px y a 1024 la página se desplazaba 173 px en horizontal.
+>    Hay prueba nueva en 768, 1024, 1100, 1280 y 1366 px.
+> 4. **El isotipo va en un círculo azul.** Es blanco con trazo fino, dibujado para el fondo azul, y
+>    sobre crema desaparecía.
+> 5. **Cabecera de fondo sólido**, sin el `backdrop-blur` del prototipo: un desenfoque en un elemento
+>    fijo se recalcula en cada paso del scroll y la portada ya va justa de rendimiento.
+
 Rama `feat/f3.1-t4-cascara`.
 
 **Consume:** `.boton-cta`, `.boton-whatsapp`, `.sello`, tokens `aviso`, `primeraAperturaEscrita()`

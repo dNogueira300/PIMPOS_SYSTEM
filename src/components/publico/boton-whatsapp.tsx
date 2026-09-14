@@ -111,7 +111,7 @@ export function BotonWhatsApp({ enlace }: { enlace: string | null }) {
         data-flotante
         aria-hidden={apartado || undefined}
         tabIndex={apartado ? -1 : undefined}
-        className={`boton-cta fixed right-4 bottom-4 z-30 rounded-full shadow-lg shadow-black/20 motion-safe:transition-[opacity,translate,background-color,color] motion-safe:duration-200 ${
+        className={`boton-whatsapp shadow-flotante fixed right-4 bottom-4 z-30 motion-safe:transition-[opacity,translate,background-color,color] motion-safe:duration-200 ${
           apartado ? "pointer-events-none translate-y-4 opacity-0" : ""
         }`}
       >

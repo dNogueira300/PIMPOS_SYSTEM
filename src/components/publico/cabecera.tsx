@@ -29,19 +29,27 @@ const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as co
  * Es cliente porque necesita saber la ruta actual y abrir el menu en movil. El
  * resto del sitio sigue siendo servidor: esto es una hoja aislada.
  *
- * La navegacion cabe en una linea en escritorio con las siete secciones; por
- * debajo de `lg` pasa a menu desplegable en lugar de partirse en dos filas.
+ * La navegacion va en una linea desde `xl` (1280 px) y por debajo pasa a menu
+ * desplegable, como en el prototipo de Stitch. Estuvo en `lg` (1024 px) hasta
+ * la fase 3.1: con la cabecera nueva —isotipo en circulo, nombre con su linea
+ * de oficio, enlaces en pildora y el boton de pedir sin partirse— el contenido
+ * mide unos 1200 px, y a 1024 la pagina entera se desplazaba 173 px en
+ * horizontal. Lo vigila e2e/cabecera.spec.ts en 768, 1024, 1100, 1280 y 1366.
  */
 export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
 
   return (
-    <header className="bg-primary text-primary-foreground sticky top-0 z-40">
-      <div className="mx-auto flex max-w-(--container-contenido) items-center gap-4 px-4 py-3 sm:px-6">
+    // Crema y no azul desde la fase 3.1 (prototipo de Stitch). Fondo SÓLIDO: el
+    // prototipo lo hace translúcido con `backdrop-blur`, y un desenfoque en una
+    // cabecera fija se recalcula en cada paso del scroll, que en un celular
+    // modesto se nota. La portada ya está justa de rendimiento (plan 03.1).
+    <header className="bg-background text-foreground border-border sticky top-0 z-40 border-b">
+      <div className="mx-auto flex max-w-(--container-contenido) items-center gap-4 px-4 py-2.5 sm:px-6 sm:py-3.5">
         <Link
           href="/"
-          className="focus-visible:outline-primary-foreground shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
+          className="focus-visible:outline-ring shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label={`${logoAlt}, ir al inicio`}
         >
           {/* El isotipo y el nombre escrito, en todas las pantallas.
@@ -58,23 +66,38 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
               queda para donde se ve grande: los datos estructurados y la imagen
               para compartir el enlace. */}
           <span className="flex items-center gap-2 sm:gap-3">
-            <Image
-              src={isotipo}
-              alt=""
-              width={40}
-              height={44}
-              // `preload`, el sustituto de `priority` desde Next 16. Aqui si
-              // vale: es una sola imagen, esta en la cabecera de todas las
-              // paginas y no compite con ninguna otra candidata a LCP.
-              preload
-              unoptimized
-              className="h-11 w-auto sm:h-12"
-            />
-            <span className="font-heading text-xl leading-none sm:text-2xl">{nombre}</span>
+            {/* El isotipo va dentro de un círculo azul. Está dibujado en blanco con
+                trazo fino para ir sobre el azul institucional —así sale en la
+                imagen para compartir—, y desde que la cabecera es crema (3.1)
+                el chef desaparecía contra el fondo. */}
+            <span className="bg-primary flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full sm:size-12">
+              <Image
+                src={isotipo}
+                alt=""
+                width={40}
+                height={44}
+                // `preload`, el sustituto de `priority` desde Next 16. Aqui si
+                // vale: es una sola imagen, esta en la cabecera de todas las
+                // paginas y no compite con ninguna otra candidata a LCP.
+                preload
+                unoptimized
+                className="h-9 w-auto sm:h-10"
+              />
+            </span>
+            <span className="flex flex-col">
+              <span className="font-heading text-primary text-xl leading-none font-semibold sm:text-2xl">
+                {nombre}
+              </span>
+              {/* Lo que es, en letra pequeña, como en el prototipo. Sale de la
+                  razón social («Panadería Pastelería y Bodega»), no inventado. */}
+              <span className="text-acento mt-1 hidden text-[0.6875rem] leading-none font-semibold tracking-[0.08em] uppercase sm:block">
+                Panadería y pastelería · Iquitos
+              </span>
+            </span>
           </span>
         </Link>
 
-        <nav aria-label="Secciones del sitio" className="ml-auto hidden lg:block">
+        <nav aria-label="Secciones del sitio" className="ml-auto hidden xl:block">
           <ul className="flex items-center gap-1">
             {SECCIONES.map(({ ruta: destino, nombre: seccion }) => {
               const activa = esSeccionActiva(ruta, destino);
@@ -83,10 +106,10 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
                   <Link
                     href={destino}
                     aria-current={activa ? "page" : undefined}
-                    className={`focus-visible:outline-primary-foreground min-h-tactil flex items-center rounded-md px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    className={`focus-visible:outline-ring min-h-tactil flex items-center rounded-full px-3.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
                       activa
-                        ? "bg-primary-foreground/15 font-medium"
-                        : "hover:bg-primary-foreground/10"
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-primary"
                     }`}
                   >
                     {seccion}
@@ -102,7 +125,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="boton-whatsapp ml-auto hidden px-4 text-sm sm:inline-flex lg:ml-4"
+            className="boton-whatsapp ml-auto hidden shrink-0 px-4 text-sm whitespace-nowrap sm:inline-flex xl:ml-4"
           >
             Pedir por WhatsApp
           </a>
@@ -113,7 +136,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
           onClick={() => setAbierto((estaba) => !estaba)}
           aria-expanded={abierto}
           aria-controls="menu-movil"
-          className="focus-visible:outline-primary-foreground size-tactil ml-auto flex items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-offset-2 sm:ml-0 lg:hidden"
+          className="text-primary focus-visible:outline-ring size-tactil ml-auto flex items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 sm:ml-0 xl:hidden"
         >
           {abierto ? <X aria-hidden className="size-6" /> : <Menu aria-hidden className="size-6" />}
           <span className="sr-only">{abierto ? "Cerrar el menú" : "Abrir el menú"}</span>
@@ -125,7 +148,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
       <div
         id="menu-movil"
         hidden={!abierto}
-        className="border-primary-foreground/20 border-t lg:hidden"
+        className="border-border bg-background border-t xl:hidden"
       >
         <nav
           aria-label="Secciones del sitio"
@@ -147,7 +170,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
                   // `react-hooks/set-state-in-effect`. `onNavigate` se dispara
                   // cuando la navegacion ya empezo, que es justo el momento.
                   onNavigate={() => setAbierto(false)}
-                  className="border-primary-foreground/10 min-h-tactil flex items-center border-b text-base"
+                  className="border-border text-foreground aria-[current=page]:text-primary min-h-tactil flex items-center border-b text-base aria-[current=page]:font-semibold"
                 >
                   {seccion}
                 </Link>
@@ -159,9 +182,9 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
               de casa, y en el celular estaba a mas de 4000 px de scroll, en el
               pie (critica del 11/09). */}
           {horario.length > 0 ? (
-            <section aria-label="Horario de atención" className="mt-4 text-sm">
-              <p className="font-heading text-base">Horario</p>
-              <dl className="text-primary-foreground/80 mt-1">
+            <section aria-label="Horario de atención" className="tarjeta bg-muted mt-4 p-4 text-sm">
+              <p className="font-heading text-primary text-base font-semibold">Horario</p>
+              <dl className="text-muted-foreground mt-1">
                 {horario.map(({ dias, turnos }) => (
                   <div key={dias} className="flex justify-between gap-4 py-1">
                     <dt>{dias}</dt>
