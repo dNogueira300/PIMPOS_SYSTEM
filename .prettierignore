@@ -14,3 +14,7 @@ src/tipos/database.types.ts
 
 # SQL y configuracion de Supabase tienen su propio estilo.
 supabase/
+
+# El prototipo exportado de Stitch se guarda tal cual lo generó: es una
+# referencia visual de terceros, no código del proyecto (ver su LEEME.md).
+DOC/Maquetas/Stitch/*.html

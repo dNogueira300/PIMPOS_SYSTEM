@@ -15,13 +15,14 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                                                                                                |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                      |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                          |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                        |
-| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4 |
-| F4–F7            | ⬜                                                                                                                                                                    |
+| Fase             | Estado                                                                                                                                                                                                                          |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                    |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                  |
+| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                           |
+| F3.1 Rediseño    | ⬜ **Planificada el 13/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Plan y referencia en `DOC/Plan de Desarrollo 03.1` y `DOC/Maquetas/Stitch/` |
+| F4–F7            | ⬜                                                                                                                                                                                                                              |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
@@ -152,6 +153,9 @@ documentación compartan historial y se revisen en el mismo PR.
 - Cualquier tarea de Fase 0 (Supabase, GitHub, entorno, dominio) → `01 - Preparacion y Servicios.md`
 - Tocar el esquema, RLS, migraciones, semillas → `02 - Backend y Base de Datos.md`
 - Diseño, sitio público, panel → `03 - Frontend.md` (mapea qué skill de diseño usar en qué fase)
+- **Rediseño visual (fase 3.1)** → `03.1 - Rediseño visual.md`, tarea a tarea, con el prototipo en
+  `DOC/Maquetas/Stitch/`. Del prototipo se toma la forma, **nunca los datos**: está lleno de
+  dirección, horario, productos y testimonios inventados (ver su `LEEME.md`)
 - Versiones exactas de librerías y por qué se eligió cada una → `Stack Tecnologico - PIMPOS.md`
 
 ---

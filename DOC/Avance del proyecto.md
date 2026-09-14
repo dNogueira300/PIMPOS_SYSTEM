@@ -18,6 +18,7 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 | **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                        |
 | **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                        |
 | **F3** | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4 |
+| F3.1   | Rediseño visual          | ⬜ Planificada el 13/09: el prototipo de Stitch, con el azul institucional. Ver `Plan de Desarrollo 03.1`                                  |
 | F4     | Panel: contenido         | ⬜                                                                                                                                         |
 | F5     | Panel: insumos           | ⬜                                                                                                                                         |
 | F6     | Panel: clientes          | ⬜                                                                                                                                         |

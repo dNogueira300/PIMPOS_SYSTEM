@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary": "#835413",
+          "on-primary": "#ffffff",
+          "secondary-fixed-dim": "#faba71",
+          "on-secondary": "#ffffff",
+          "surface": "#fff9ee",
+          "surface-dim": "#e0d9cd",
+          "on-tertiary": "#ffffff",
+          "primary": "#00334d",
+          "on-tertiary-fixed-variant": "#862214",
+          "outline": "#72787e",
+          "tertiary-container": "#842113",
+          "tertiary-fixed-dim": "#ffb4a7",
+          "surface-tint": "#356382",
+          "on-error-container": "#93000a",
+          "surface-container-lowest": "#ffffff",
+          "secondary-container": "#fdbd73",
+          "secondary-fixed": "#ffddba",
+          "primary-fixed-dim": "#9fccef",
+          "on-primary-fixed-variant": "#184b69",
+          "tertiary": "#640701",
+          "on-surface-variant": "#41474d",
+          "surface-bright": "#fff9ee",
+          "background": "#fff9ee",
+          "inverse-on-surface": "#f7f0e3",
+          "on-surface": "#1e1b14",
+          "surface-container-highest": "#e8e2d5",
+          "surface-container": "#f4ede0",
+          "on-secondary-container": "#774a08",
+          "surface-container-high": "#eee7db",
+          "inverse-surface": "#333028",
+          "surface-variant": "#e8e2d5",
+          "primary-container": "#174a68",
+          "on-error": "#ffffff",
+          "on-background": "#1e1b14",
+          "surface-container-low": "#faf3e6",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed": "#400200",
+          "on-primary-fixed": "#001e2f",
+          "on-secondary-fixed": "#2b1700",
+          "on-tertiary-container": "#ff9885",
+          "inverse-primary": "#9fccef",
+          "tertiary-fixed": "#ffdad4",
+          "on-primary-container": "#8cb9dc",
+          "error": "#ba1a1a",
+          "outline-variant": "#c1c7ce",
+          "on-secondary-fixed-variant": "#663d00",
+          "primary-fixed": "#c9e6ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-2xl": "4rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-lg": "1.5rem",
+          "margin": "2.5rem",
+          "gutter-mobile": "1rem",
+          "space-xl": "2.5rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1.25rem"
+        },
+        "fontFamily": {
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg-mobile": [
+            "Playfair Display"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ],
+          "label-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "label-stamp": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg-mobile": [
+            "Playfair Display"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-md": [
+            "Playfair Display"
+          ],
+          "display-lg": [
+            "Playfair Display"
+          ],
+          "headline-lg": [
+            "Playfair Display"
+          ],
+          "headline-sm": [
+            "Playfair Display"
+          ]
+        },
+        "fontSize": {
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-stamp": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "700"
+            }
+          ],
+          "display-lg-mobile": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg": [
+            "52px",
+            {
+              "lineHeight": "60px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col justify-between py-space-lg shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col px-space-md"><div class="flex items-center gap-space-sm px-space-sm mb-space-xl"><img alt="Logo Panadería Pimpo's Iquitos" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VrYzpDUgGR0EmkK6TqKsO_g8YexXnufHJVk3JPt-otEoEtCYKIAndg3Pv3oRPkM66EllbSChNtFPix7cMVI2FIIWAsW6jiIkeijaNVNZYuwS2RTLmGYuSXRyNoBCjtYOJwT5D2vykYpy2mp7OILO5IjqKqybXZH-rJk-NlXvrgZMjsQXQMAOXkgpVqQPzM3W-vIs_tg42hrVDizTIlyS6w2y_bAswXChxX_UPuS5KjSLc2P5mHYA1OCweZ"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none">Pimpo's</span><span class="font-label-stamp text-label-stamp text-secondary uppercase">Gestión Interna</span></div></div><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-xl"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-label-md rounded-xl" data-path="panel-de-control" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Resumen Operativo</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-md text-label-md" data-path="kardex-inventario" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span>Kárdex Insumos</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-md text-label-md" data-path="pedidos-despacho" href="#"><span class="material-symbols-outlined text-[20px]">orders</span><span>Pedidos &amp; Despacho</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-xl transition-colors font-label-md text-label-md" data-path="catalogo-gestion" href="#"><span class="material-symbols-outlined text-[20px]">bakery_dining</span><span>Catálogo Panadería</span></a></nav></div><div class="px-space-md flex flex-col gap-space-xs"><a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:text-primary rounded-xl font-label-stamp text-label-stamp" data-path="inicio" href="#"><span class="material-symbols-outlined text-[18px]">storefront</span><span>Ver Sitio Público</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm text-error hover:bg-error-container hover:text-on-error-container rounded-xl font-label-stamp text-label-stamp transition-colors" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Cerrar Sesión</span></a></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm font-label-stamp text-label-stamp text-secondary bg-surface-container px-space-md py-space-xs rounded-full"><span>Horno Activo #1 · Producción 4:00 AM</span></div><div class="flex items-center gap-space-md"><img alt="Logo Panadería Pimpo's Iquitos" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VrYzpDUgGR0EmkK6TqKsO_g8YexXnufHJVk3JPt-otEoEtCYKIAndg3Pv3oRPkM66EllbSChNtFPix7cMVI2FIIWAsW6jiIkeijaNVNZYuwS2RTLmGYuSXRyNoBCjtYOJwT5D2vykYpy2mp7OILO5IjqKqybXZH-rJk-NlXvrgZMjsQXQMAOXkgpVqQPzM3W-vIs_tg42hrVDizTIlyS6w2y_bAswXChxX_UPuS5KjSLc2P5mHYA1OCweZ"/><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 bg-surface px-space-lg pb-space-2xl"><div class="flex flex-col w-full gap-space-xl">
+<!-- Top Operational Banner & Live Shift Status -->
+<section class="flex flex-col md:flex-row items-start md:items-center justify-between bg-surface-container-low p-space-lg rounded-xl shadow-sm gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-full bg-primary-container text-on-primary flex items-center justify-center shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[28px]">outdoor_grill</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-wider">Turno Mañana Activo · 4:00 AM – 1:30 PM</span>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary">Panadería Pimpo's E.I.R.L.</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Sede Matriz Iquitos · Maestro Panadero: Don Carlos Ahuanari · Clima: 29°C 84% Humedad</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm w-full md:w-auto justify-end">
+<div class="bg-surface-container px-space-md py-space-xs rounded-xl flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">timer</span>
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant">Próxima Tanda</span>
+<span class="font-label-md text-label-md text-on-surface">Pan Francés Amazónico · 11:15 AM</span>
+</div>
+</div>
+<button class="flex items-center gap-space-xs bg-primary text-on-primary px-space-md py-space-sm rounded-full font-label-md text-label-md shadow-sm hover:bg-primary-container transition-all" onclick="openModal('modal-consumo')">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+<span>+ Registrar Consumo</span>
+</button>
+<button class="flex items-center gap-space-xs bg-secondary text-on-secondary px-space-md py-space-sm rounded-full font-label-md text-label-md shadow-sm hover:opacity-90 transition-all" onclick="openModal('modal-ingreso')">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+<span>+ Ingreso Factura</span>
+</button>
+</div>
+</section>
+<!-- KPI Metricas Principales -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Horneadas Hoy</span>
+<span class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-[18px]">bakery_dining</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary">1,420</span>
+<span class="font-label-md text-label-md text-secondary font-semibold">uds</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>4 tandas completas</span>
+<span class="text-secondary font-semibold">Meta: 1,800 uds</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-space-xs overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 78.8%;"></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Kárdex Insumos</span>
+<span class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-[18px]">warehouse</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary">82%</span>
+<span class="font-label-md text-label-md text-primary font-semibold">óptimo</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>2 insumos en reorden</span>
+<span class="text-tertiary font-semibold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">warning</span> Revisar
+        </span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-space-xs overflow-hidden">
+<div class="bg-primary-container h-full rounded-full" style="width: 82%;"></div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Pedidos WhatsApp</span>
+<span class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">local_shipping</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary">38</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">despachos</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>32 entregados · 6 ruta</span>
+<span class="text-secondary font-semibold">S/ 1,480.50</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-space-xs overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Vecinos Frecuentes</span>
+<span class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[18px]">groups</span>
+</span>
+</div>
+<div class="flex items-baseline gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary">412</span>
+<span class="font-label-md text-label-md text-secondary font-semibold">fidelizados</span>
+</div>
+<div class="mt-space-sm flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
+<span>+14 esta semana</span>
+<span class="text-primary font-semibold">Iquitos Urbano</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 mt-space-xs overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 95%;"></div>
+</div>
+</div>
+</section>
+<!-- Interactive Tabs Section -->
+<div class="flex flex-col gap-space-md">
+<!-- Tab Controls -->
+<div class="flex items-center gap-space-xs overflow-x-auto bg-surface-container-low p-1.5 rounded-xl shadow-sm">
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-all" id="tab-btn-kardex" onclick="switchTab('kardex')">
+<span class="material-symbols-outlined text-[18px]">inventory_2</span>
+<span>1. Kárdex de Insumos</span>
+<span class="ml-1 px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary font-label-stamp text-[10px]">8 ítems</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" id="tab-btn-clientes" onclick="switchTab('clientes')">
+<span class="material-symbols-outlined text-[18px]">contact_phone</span>
+<span>2. Fichas Delivery &amp; WhatsApp</span>
+<span class="ml-1 px-1.5 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-stamp text-[10px]">412</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" id="tab-btn-publico" onclick="switchTab('publico')">
+<span class="material-symbols-outlined text-[18px]">store</span>
+<span>3. Novedades y Sitio Público</span>
+<span class="ml-1 w-2 h-2 rounded-full bg-secondary"></span>
+</button>
+</div>
+<!-- TAB 1 CONTENT: KARDEX DE INSUMOS -->
+<div class="flex flex-col gap-space-lg" id="tab-content-kardex">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Almacén Central &amp; Materias Primas</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Control de Existencias &amp; Reorden de Insumos</h2>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="relative">
+<input class="bg-surface border-none pl-9 pr-space-md py-space-xs rounded-full font-body-sm text-body-sm text-on-surface w-64 focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="kardex-search" onkeyup="filterKardex()" placeholder="Buscar harina, levadura, yuca..." type="text"/>
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[18px] text-on-surface-variant">search</span>
+</div>
+<select class="bg-surface text-on-surface font-label-md text-label-md px-space-md py-space-xs rounded-full focus:outline-none shadow-sm border-none">
+<option value="todos">Todos los Estados</option>
+<option value="alerta">En Alerta / Reorden</option>
+<option value="amazonia">Insumos Regionales</option>
+</select>
+</div>
+</div>
+<!-- Kardex Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm" id="kardex-table">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-stamp text-label-stamp uppercase tracking-wider">
+<th class="py-space-sm px-space-md rounded-l-lg">Insumo / Descripción</th>
+<th class="py-space-sm px-space-md">Cantidad Actual</th>
+<th class="py-space-sm px-space-md">Unidad</th>
+<th class="py-space-sm px-space-md">Punto Reorden</th>
+<th class="py-space-sm px-space-md">Estado Stock</th>
+<th class="py-space-sm px-space-md">Último Ingreso</th>
+<th class="py-space-sm px-space-md">Proveedor Local</th>
+<th class="py-space-sm px-space-md rounded-r-lg text-right">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Item 1 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">HF</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Harina Especial Flor</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Trigo seleccionado para pan francés</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">48.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Sacos (50 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">15 sacos</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Stock (85%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">22 May · Lote #441</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Molinos del Oriente S.A.</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Harina Especial Flor', 48)">Ajustar</button>
+</td>
+</tr>
+<!-- Item 2 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary font-bold">LF</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Levadura Fresca Prensada</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Refrigerada a 4°C</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-tertiary font-bold">4.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Cajas (25 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">6 cajas</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-error-container text-on-error-container font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span> Alerta Pedido
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">18 May · Lote #098</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Distribuidora Loreto Foods</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-tertiary hover:text-on-tertiary hover:bg-tertiary font-label-md text-label-md px-2 py-1 rounded bg-tertiary-fixed transition-colors" onclick="solicitarPedidoProveedor('Levadura Fresca Prensada')">Comprar</button>
+</td>
+</tr>
+<!-- Item 3 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">SM</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Sal Marina Yodada Fina</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Saco sellado antihumedad</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">18.5</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Sacos (25 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">5 sacos</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Stock (92%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">10 May · Lote #810</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Comercial Maynas EIRL</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Sal Marina Yodada Fina', 18.5)">Ajustar</button>
+</td>
+</tr>
+<!-- Item 4 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-secondary font-bold">MV</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Manteca Vegetal Emulsionable</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Especial para hojaldres y panes dulces</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-secondary font-bold">7.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Cajas (15 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">6 cajas</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Por Agotar (38%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">15 May · Lote #330</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Alicorp Sucursal Oriente</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-secondary hover:underline font-label-md text-label-md px-2 py-1 rounded bg-surface-container" onclick="solicitarPedidoProveedor('Manteca Vegetal')">Reorden</button>
+</td>
+</tr>
+<!-- Item 5 - Amazonian Local -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-surface-container-low/30">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary font-bold">YR</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Yuca Rallada Amazónica</span>
+<span class="font-body-sm text-[11px] text-secondary font-medium">Insumo regional Iquitos (Pan de Yuca)</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">65.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Kilogramos (Kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">25 kg</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Fresco del Día
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Hoy 5:00 AM</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Comunidad Belén San Juan</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Yuca Rallada Amazónica', 65)">Ajustar</button>
+</td>
+</tr>
+<!-- Item 6 - Amazonian Local -->
+<tr class="hover:bg-surface-container-low/60 transition-colors bg-surface-container-low/30">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-secondary-fixed flex items-center justify-center text-secondary font-bold">CF</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Chonta Fresca Prensada</span>
+<span class="font-body-sm text-[11px] text-secondary font-medium">Especial para Empanadas Amazónicas</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">14.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Kilogramos (Kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">8 kg</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Stock (70%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Ayer 3:00 PM</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Mercado de Productores Nauta</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Chonta Fresca Prensada', 14)">Ajustar</button>
+</td>
+</tr>
+<!-- Item 7 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">AR</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Azúcar Rubia Doméstica</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Sacos grado A cristalizado</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">22.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Sacos (50 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">10 sacos</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Stock (90%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">20 May · Lote #722</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Agroindustrial Pucallpa</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Azúcar Rubia', 22)">Ajustar</button>
+</td>
+</tr>
+<!-- Item 8 -->
+<tr class="hover:bg-surface-container-low/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary font-bold">MQ</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Mantequilla Pura Pasteurizada</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Bloques de repostería fina</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md font-label-lg text-label-lg text-on-surface font-bold">11.0</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Cajas (20 kg)</td>
+<td class="py-space-md px-space-md text-on-surface-variant font-semibold">5 cajas</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> En Stock (75%)
+                  </span>
+</td>
+<td class="py-space-md px-space-md text-on-surface-variant">12 May · Lote #514</td>
+<td class="py-space-md px-space-md text-on-surface-variant">Lácteos Cajamarca Iquitos</td>
+<td class="py-space-md px-space-md text-right">
+<button class="text-primary hover:text-secondary font-label-md text-label-md px-2 py-1 rounded bg-surface-container hover:bg-surface-container-high" onclick="ajustarStock('Mantequilla Pura', 11)">Ajustar</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between text-on-surface-variant font-body-sm text-body-sm pt-space-sm">
+<span>Mostrando 8 insumos esenciales de amasandería</span>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-1 rounded bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high">Descargar Kárdex PDF</button>
+<button class="px-space-md py-1 rounded bg-primary text-on-primary font-label-md text-label-md">Exportar Excel Sunat</button>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB 2 CONTENT: CLIENTES DELIVERY & WHATSAPP -->
+<div class="hidden flex flex-col gap-space-lg" id="tab-content-clientes">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Base Vecinal Frecuente</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Directorio de Entregas Matutinas &amp; WhatsApp</h2>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<input class="bg-surface border-none pl-9 pr-space-md py-space-xs rounded-full font-body-sm text-body-sm text-on-surface w-64 focus:outline-none focus:ring-2 focus:ring-primary shadow-inner" id="client-search" onkeyup="filterClients()" placeholder="Buscar vecino, calle o teléfono..." type="text"/>
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[18px] text-on-surface-variant">search</span>
+</div>
+<button class="bg-primary text-on-primary px-space-md py-space-xs rounded-full font-label-md text-label-md flex items-center gap-1 shadow-sm" onclick="nuevoClienteModal()">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+<span>+ Nuevo Vecino</span>
+</button>
+</div>
+</div>
+<!-- Directory Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md" id="client-cards-container">
+<!-- Client Card 1 -->
+<div class="client-card bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-[10px]">Cliente Diario</span>
+<span class="text-secondary font-label-stamp text-[11px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">alarm</span> 6:30 AM
+                </span>
+</div>
+<h3 class="font-headline-sm text-[18px] text-primary mt-1">Sra. Marina Vargas</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+                Calle Próspero 420 (alt. Plaza 28)
+              </p>
+<div class="bg-surface-container p-space-xs rounded-lg mt-space-xs">
+<span class="font-label-stamp text-[10px] text-secondary uppercase block">Pedido Habitual:</span>
+<p class="font-body-sm text-[12px] text-on-surface font-medium">10 Panes Franceses + 2 Empanadas de Chonta (Martes y Viernes)</p>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant italic">Nota: "Tocar timbre en portón blanco reja alta"</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between border-t border-surface-container">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant">965 234 110</span>
+<a class="flex items-center gap-1 bg-primary text-on-primary px-3 py-1 rounded-full font-label-stamp text-label-stamp hover:bg-primary-container transition-colors" href="https://wa.me/51965234110" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> Chat WhatsApp
+              </a>
+</div>
+</div>
+<!-- Client Card 2 -->
+<div class="client-card bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-[10px]">Negocio Aliado</span>
+<span class="text-secondary font-label-stamp text-[11px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">alarm</span> 7:00 AM
+                </span>
+</div>
+<h3 class="font-headline-sm text-[18px] text-primary mt-1">Cafetería El Caucho</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+                Calle Nauta cuadra 3 (Malecón Tarapacá)
+              </p>
+<div class="bg-surface-container p-space-xs rounded-lg mt-space-xs">
+<span class="font-label-stamp text-[10px] text-secondary uppercase block">Pedido Habitual:</span>
+<p class="font-body-sm text-[12px] text-on-surface font-medium">35 Panes Ciabatta + 15 Croissants Manteca</p>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant italic">Nota: "Entregar por la puerta lateral de proveedores"</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between border-t border-surface-container">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant">965 889 004</span>
+<a class="flex items-center gap-1 bg-primary text-on-primary px-3 py-1 rounded-full font-label-stamp text-label-stamp hover:bg-primary-container transition-colors" href="https://wa.me/51965889004" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> Chat WhatsApp
+              </a>
+</div>
+</div>
+<!-- Client Card 3 -->
+<div class="client-card bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-[10px]">Cliente Frecuente</span>
+<span class="text-secondary font-label-stamp text-[11px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">alarm</span> 7:15 AM
+                </span>
+</div>
+<h3 class="font-headline-sm text-[18px] text-primary mt-1">Dr. Edwin Lozano</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+                Av. Andrés Avelino Cáceres 540
+              </p>
+<div class="bg-surface-container p-space-xs rounded-lg mt-space-xs">
+<span class="font-label-stamp text-[10px] text-secondary uppercase block">Pedido Habitual:</span>
+<p class="font-body-sm text-[12px] text-on-surface font-medium">8 Panes Integrales + 1 Molde de Avena y Granos</p>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant italic">Nota: "Pago exacto con Yape o efectivo contraentrega"</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between border-t border-surface-container">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant">942 102 993</span>
+<a class="flex items-center gap-1 bg-primary text-on-primary px-3 py-1 rounded-full font-label-stamp text-label-stamp hover:bg-primary-container transition-colors" href="https://wa.me/51942102993" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> Chat WhatsApp
+              </a>
+</div>
+</div>
+<!-- Client Card 4 -->
+<div class="client-card bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-stamp text-[10px]">Vecinos Sábados</span>
+<span class="text-secondary font-label-stamp text-[11px] flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">alarm</span> 6:45 AM
+                </span>
+</div>
+<h3 class="font-headline-sm text-[18px] text-primary mt-1">Familia Reátegui</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary">pin_drop</span>
+                Calle Putumayo 812 (Frente al colegio)
+              </p>
+<div class="bg-surface-container p-space-xs rounded-lg mt-space-xs">
+<span class="font-label-stamp text-[10px] text-secondary uppercase block">Pedido Habitual:</span>
+<p class="font-body-sm text-[12px] text-on-surface font-medium">12 Pan de Yuca Caliente + 4 Rosquillas Pimpo's</p>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant italic">Nota: "Dejar con la encargada Sra. Delia"</p>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between border-t border-surface-container">
+<span class="font-label-stamp text-label-stamp text-on-surface-variant">965 443 218</span>
+<a class="flex items-center gap-1 bg-primary text-on-primary px-3 py-1 rounded-full font-label-stamp text-label-stamp hover:bg-primary-container transition-colors" href="https://wa.me/51965443218" target="_blank">
+<span class="material-symbols-outlined text-[14px]">chat</span> Chat WhatsApp
+              </a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB 3 CONTENT: GESTOR DE SITIO PÚBLICO Y NOVEDADES -->
+<div class="hidden flex flex-col gap-space-lg" id="tab-content-publico">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+<!-- Control Toggles Column -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg">
+<div class="flex items-center justify-between border-b border-surface-container pb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Sincronización Web en Vivo</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Alertas y Ofertas para Clientes Web</h2>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-stamp text-label-stamp">Sitio Web Conectado</span>
+</div>
+<!-- Toggles List -->
+<div class="flex flex-col gap-space-md">
+<!-- Toggle 1 -->
+<div class="flex items-center justify-between bg-surface-container-low p-space-md rounded-xl">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[24px] mt-0.5">local_fire_department</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Aviso de Pan Caliente "Horno Activo 5:00 PM"</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Muestra una barra roja/dorada con cuenta regresiva en el sitio web de los clientes</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggle-pancaliente" onchange="toggleSiteAlert('pancaliente')" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+<!-- Toggle 2 -->
+<div class="flex items-center justify-between bg-surface-container-low p-space-md rounded-xl">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[24px] mt-0.5">campaign</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Banner de Temporada: "Feria San Juan &amp; Juane de Pan"</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Despliega un aviso flotante promocional y el botón directo a WhatsApp</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggle-sanjuan" onchange="toggleSiteAlert('sanjuan')" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle 3 -->
+<div class="flex items-center justify-between bg-surface-container-low p-space-md rounded-xl">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-on-surface-variant text-[24px] mt-0.5">delivery_dining</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Recepción de Pedidos Delivery Inmediato</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Permite o pausa la llegada de nuevos chats automáticos para mototaxis</span>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="toggle-delivery" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<!-- Price & Menu Quick Updates -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<h3 class="font-headline-sm text-[18px] text-primary">Precios de Carta del Mostrador</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm">
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col">
+<span class="font-label-stamp text-[10px] text-on-surface-variant uppercase">Pan Francés (Unidad)</span>
+<div class="flex items-center justify-between mt-1">
+<span class="font-headline-sm text-primary font-bold">S/ 0.40</span>
+<button class="text-secondary hover:underline font-label-stamp text-label-stamp" onclick="editarPrecio('Pan Francés', '0.40')">Editar</button>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col">
+<span class="font-label-stamp text-[10px] text-on-surface-variant uppercase">Pan de Yuca Relleno</span>
+<div class="flex items-center justify-between mt-1">
+<span class="font-headline-sm text-primary font-bold">S/ 1.50</span>
+<button class="text-secondary hover:underline font-label-stamp text-label-stamp" onclick="editarPrecio('Pan de Yuca', '1.50')">Editar</button>
+</div>
+</div>
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col">
+<span class="font-label-stamp text-[10px] text-on-surface-variant uppercase">Empanada Chonta</span>
+<div class="flex items-center justify-between mt-1">
+<span class="font-headline-sm text-primary font-bold">S/ 3.50</span>
+<button class="text-secondary hover:underline font-label-stamp text-label-stamp" onclick="editarPrecio('Empanada Chonta', '3.50')">Editar</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Website Preview Mini Card -->
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-[18px] text-primary">Vista Previa Móvil</h3>
+<span class="font-label-stamp text-label-stamp text-secondary">panaderiapimpos.pe</span>
+</div>
+<div class="w-full bg-surface p-space-sm rounded-xl border border-surface-container flex flex-col gap-space-sm shadow-inner">
+<!-- Simulated Active Alert Bar -->
+<div class="bg-tertiary-container text-on-tertiary px-space-sm py-1 rounded-md text-center" id="preview-alert-banner">
+<span class="font-label-stamp text-[10px] flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[12px]">oven_gen</span>
+                ¡Horno Activo! Nueva tanda de pan caliente a las 5:00 PM
+              </span>
+</div>
+<!-- Mini Header Mockup -->
+<div class="flex items-center justify-between border-b border-surface-container pb-2">
+<span class="font-headline-sm text-[16px] text-primary font-bold">Pimpo's Iquitos</span>
+<span class="font-label-stamp text-[10px] bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded-full">Abierto</span>
+</div>
+<!-- Mini Hero Showcase Photo -->
+<div class="w-full h-36 rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="Warm golden artisanal sourdough loaves and freshly baked bread rolls arranged on a rustic wooden tray with flour dusted around in an authentic Amazonian bakery kitchen in Iquitos, soft dawn morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxw9iPuIG73MnVEyrxkZATNE6XdgEgdrhpI3JIzI_MlGPPrIrwWAVFbepDG4E9_nI0G_7d-aoYJp7UYj90KZ_uzPPjzJGMOichdc47895l9xasifNdOgKCtu7wwkX01usudiCFmwQyxGTuHuuLLv0oq_ebcZPmPb9-JBNa1LQCyJPfNBkYJGwjKzsu7IidTZVYmxqhRCnURvBRJ0G-rEij530QVoi1cv_UJDmp1rbE2aYs0ENHLpGzIw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+<p class="text-white font-label-md text-[11px]">Tradición &amp; Sabor Artesanal desde las 4:00 AM</p>
+</div>
+</div>
+<div class="flex items-center justify-between text-[11px] font-body-sm text-on-surface-variant">
+<span>Delivery en Iquitos Centro:</span>
+<span class="text-secondary font-bold">S/ 4.00 fijo</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-2 rounded-full font-label-stamp text-label-stamp flex items-center justify-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">storefront</span>
+<span>Abrir Sitio Público</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-space-sm rounded-lg flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">add_a_photo</span>
+<div class="flex flex-col">
+<span class="font-label-stamp text-[11px] text-primary font-semibold">Subir Foto a la Galería Web</span>
+<span class="font-body-sm text-[11px] text-on-surface-variant">Formatos JPG, WebP hasta 5MB</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL: REGISTRAR CONSUMO DE TURNO (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="modal-consumo">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-2xl shadow-xl p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between border-b border-surface-container pb-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-primary">Registrar Consumo de Turno</h3>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('modal-consumo')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-sm font-body-sm text-body-sm">
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Insumo Utilizado:</span>
+<select class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" id="consumo-insumo">
+<option>Harina Especial Flor (Sacos 50kg)</option>
+<option>Levadura Fresca Prensada (Cajas 25kg)</option>
+<option>Manteca Vegetal Emulsionable (Cajas 15kg)</option>
+<option>Yuca Rallada Amazónica (Kg)</option>
+<option>Sal Marina Yodada Fina (Sacos 25kg)</option>
+</select>
+</label>
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Cantidad Usada en la Tanda:</span>
+<input class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" id="consumo-cantidad" placeholder="Ej. 2" step="0.5" type="number"/>
+</label>
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Maestro Panadero Responsable:</span>
+<input class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" readonly="" type="text" value="Don Carlos Ahuanari"/>
+</label>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container" onclick="closeModal('modal-consumo')">Cancelar</button>
+<button class="px-space-md py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md shadow-sm" onclick="confirmarConsumo()">Confirmar Descuento</button>
+</div>
+</div>
+</div>
+<!-- MODAL: REGISTRAR INGRESO FACTURA (Hidden by default) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm hidden flex items-center justify-center p-space-md" id="modal-ingreso">
+<div class="bg-surface-container-lowest w-full max-w-md rounded-2xl shadow-xl p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between border-b border-surface-container pb-space-xs">
+<h3 class="font-headline-sm text-headline-sm text-primary">Ingreso de Factura / Proveedor</h3>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="closeModal('modal-ingreso')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-sm font-body-sm text-body-sm">
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Proveedor:</span>
+<input class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" id="prov-nombre" placeholder="Ej. Molinos del Oriente S.A." type="text"/>
+</label>
+<div class="grid grid-cols-2 gap-space-sm">
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">N° Factura / Guía:</span>
+<input class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" placeholder="F001-000492" type="text"/>
+</label>
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Monto Total S/:</span>
+<input class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none" placeholder="1250.00" step="0.1" type="number"/>
+</label>
+</div>
+<label class="flex flex-col gap-1">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Insumo Recibido:</span>
+<select class="bg-surface border border-surface-container rounded-lg px-3 py-2 text-on-surface focus:outline-none">
+<option>Harina Especial Flor (50kg)</option>
+<option>Levadura Fresca (25kg)</option>
+<option>Manteca Vegetal (15kg)</option>
+<option>Yuca Rallada Amazónica (Kg)</option>
+</select>
+</label>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-2 rounded-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container" onclick="closeModal('modal-ingreso')">Cancelar</button>
+<button class="px-space-md py-2 bg-secondary text-on-secondary rounded-full font-label-md text-label-md shadow-sm" onclick="confirmarIngreso()">Registrar al Kárdex</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function switchTab(tabKey) {
+    // Hide all contents
+    document.getElementById('tab-content-kardex').classList.add('hidden');
+    document.getElementById('tab-content-clientes').classList.add('hidden');
+    document.getElementById('tab-content-publico').classList.add('hidden');
+
+    // Reset button styles
+    const buttons = ['kardex', 'clientes', 'publico'];
+    buttons.forEach(key => {
+      const btn = document.getElementById(`tab-btn-${key}`);
+      btn.className = 'flex items-center gap-space-xs px-space-md py-space-sm rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all';
+    });
+
+    // Activate selected
+    const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
+    activeBtn.className = 'flex items-center gap-space-xs px-space-md py-space-sm rounded-xl font-label-md text-label-md bg-primary text-on-primary shadow-sm transition-all';
+    document.getElementById(`tab-content-${tabKey}`).classList.remove('hidden');
+  }
+
+  function filterKardex() {
+    const query = document.getElementById('kardex-search').value.toLowerCase();
+    const rows = document.querySelectorAll('#kardex-table tbody tr');
+    rows.forEach(row => {
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(query) ? '' : 'none';
+    });
+  }
+
+  function filterClients() {
+    const query = document.getElementById('client-search').value.toLowerCase();
+    const cards = document.querySelectorAll('.client-card');
+    cards.forEach(card => {
+      const text = card.innerText.toLowerCase();
+      card.style.display = text.includes(query) ? 'flex' : 'none';
+    });
+  }
+
+  function toggleSiteAlert(type) {
+    if (type === 'pancaliente') {
+      const isChecked = document.getElementById('toggle-pancaliente').checked;
+      const preview = document.getElementById('preview-alert-banner');
+      if (preview) {
+        preview.style.display = isChecked ? 'block' : 'none';
+      }
+    }
+  }
+
+  function openModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('hidden');
+  }
+
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
+  }
+
+  function confirmarConsumo() {
+    alert('Consumo registrado correctamente en el Kárdex de amasadura.');
+    closeModal('modal-consumo');
+  }
+
+  function confirmarIngreso() {
+    alert('Factura ingresada y stock sumado automáticamente al almacén de Iquitos.');
+    closeModal('modal-ingreso');
+  }
+
+  function ajustarStock(insumo, actual) {
+    const nuevo = prompt(`Ajuste de inventario físico para: ${insumo}\nStock actual: ${actual}`, actual);
+    if (nuevo !== null && nuevo !== "") {
+      alert(`Stock de ${insumo} actualizado a ${nuevo}. Se generó comprobante de ajuste.`);
+    }
+  }
+
+  function solicitarPedidoProveedor(insumo) {
+    alert(`Generando orden de reorden express para ${insumo}. Notificación enviada al proveedor.`);
+  }
+
+  function editarPrecio(producto, actual) {
+    const nuevo = prompt(`Actualizar precio de venta para ${producto} (S/):`, actual);
+    if (nuevo) {
+      alert(`Precio de ${producto} actualizado a S/ ${nuevo} en el mostrador y catálogo.`);
+    }
+  }
+
+  function nuevoClienteModal() {
+    prompt("Ingrese Nombre del Vecino / Negocio:");
+    alert("Ficha creada. Puede sincronizar pedidos vía WhatsApp.");
+  }
+</script></main></div></body></html>

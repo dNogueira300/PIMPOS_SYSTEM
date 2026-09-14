@@ -139,18 +139,24 @@ Dos hallazgos que corrigen el plan y están explicados en el doc 03:
 
 ## 2. Fases
 
-| Fase   | Nombre                      | Entregable que la cierra                                                                     | Depende de |
-| ------ | --------------------------- | -------------------------------------------------------------------------------------------- | ---------- |
-| **F0** | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                       | —          |
-| **F1** | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles     | F0         |
-| **F2** | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas | F1         |
-| **F3** | Sitio público (Módulo 1)    | 🔄 **Desplegado**; falta dominio, pulido medible y revisión con el propietario               | F2         |
-| **F4** | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración       | F2, F3     |
-| **F5** | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                             | F2         |
-| **F6** | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                  | F2         |
-| **F7** | Cierre                      | Capacitación, manual, informe final y traspaso de credenciales                               | F3–F6      |
+| Fase     | Nombre                      | Entregable que la cierra                                                                                                           | Depende de |
+| -------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                             | —          |
+| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                           | F0         |
+| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                       | F1         |
+| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                    | F2         |
+| **F3.1** | Rediseño visual             | Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1` | F3         |
+| **F4**   | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración                                             | F2, F3     |
+| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                   | F2         |
+| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                        | F2         |
+| **F7**   | Cierre                      | Capacitación, manual, informe final y traspaso de credenciales                                                                     | F3–F6      |
 
 ### 2.1 Por qué este orden
+
+**F3.1 antes que F4** (decisión de Dan, 13/09/2026). El rediseño va antes del panel porque sus
+tokens —colores, tipografía, botones, tarjetas— son los que heredará el panel: hacerlo después
+obligaría a rehacer las pantallas de F4 dos veces. El prototipo de Stitch incluye ya una pantalla
+del panel, que se construye en F4 con el sistema de 3.1.
 
 **F3 antes que F4.** El sitio público sale a producción antes que el panel. Razones:
 
