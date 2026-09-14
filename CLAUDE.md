@@ -408,6 +408,12 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   la aparición por scroll, a mitad de camino. Por eso `e2e/accesibilidad.spec.ts` desactiva las
   animaciones antes de medir. Antes de tocar un token, comprobar si el color que se reporta es el
   del token o una mezcla.
+- **Un build local puede servir datos de la base de un build anterior.** Next guarda las respuestas
+  de `fetch` —y supabase-js consulta por `fetch`— en `.next/cache/fetch-cache`, y el build siguiente
+  las reutiliza. El 14/09 se cargaron novedades y testimonios en la base local, PostgREST los
+  devolvía con la llave anónima y la portada, recién construida, seguía sin mostrarlos. Parece un
+  problema de RLS y no lo es. Después de cambiar datos a mano: `rm -rf .next/cache/fetch-cache` y
+  volver a construir. En el CI no pasa, porque cada ejecución empieza sin caché.
 - **`test-results/` no sirve para guardar informes:** Playwright la vacía al empezar, así que los
   informes de Lighthouse desaparecían en cuanto se corría cualquier prueba. Van a `.lighthouse/`.
 - **En Git Bash, `pnpm lighthouse <url> /` no funciona:** MSYS convierte el `/` en una ruta de

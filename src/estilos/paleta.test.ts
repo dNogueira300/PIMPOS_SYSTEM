@@ -107,6 +107,12 @@ const PARES_CLARO: Par[] = [
   [mezclar(c.tinta900, c.dorado300, 0.8), c.dorado300, AA.texto, "detalle de la franja al 80 %"],
   [c.azul900, VELO_SOBRE_NEGRO, AA.texto, "titular del hero sobre el velo, peor caso"],
   [c.tinta600, VELO_SOBRE_NEGRO, AA.texto, "subtítulo del hero sobre el velo, peor caso"],
+  [
+    c.crema50,
+    mezclar(c.tinta900, "#ffffff", 0.8),
+    AA.texto,
+    "pie de foto de la galería, peor caso",
+  ],
   [c.peligro600, c.crema50, AA.texto, "mensajes de error"],
   [c.exito600, c.crema50, AA.texto, "mensajes de éxito"],
   [c.alerta600, c.crema50, AA.texto, "avisos de stock y vencimiento"],

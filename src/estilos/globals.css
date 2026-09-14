@@ -246,6 +246,12 @@
   --aviso-fondo: var(--pimpos-terracota-800);
   --aviso-texto: var(--pimpos-crema-50);
 
+  /* Pie de foto de la galeria (tarea 7): crema sobre un degradado de tinta
+     que sube desde el borde. El peor caso —la tinta al 80 % sobre un pixel
+     blanco— lo vigila src/estilos/paleta.test.ts. */
+  --pie-foto-fondo: var(--pimpos-tinta-900);
+  --pie-foto-texto: var(--pimpos-crema-50);
+
   /* Sellos: etiquetas cortas de borde dorado (tarea 3). */
   --sello-fondo: var(--pimpos-crema-100);
   --sello-borde: color-mix(in srgb, var(--pimpos-dorado-500) 40%, transparent);
@@ -326,6 +332,8 @@
   --color-franja-foreground: var(--franja-texto);
   --color-aviso: var(--aviso-fondo);
   --color-aviso-foreground: var(--aviso-texto);
+  --color-pie-foto: var(--pie-foto-fondo);
+  --color-pie-foto-foreground: var(--pie-foto-texto);
   --color-sello: var(--sello-fondo);
   --color-sello-foreground: var(--sello-texto);
 
