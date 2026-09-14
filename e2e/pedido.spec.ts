@@ -97,6 +97,32 @@ test("contacto muestra el numero de WhatsApp escrito y las condiciones", async (
   await expect(principal.getByText("S/ 10.00")).toBeVisible();
 });
 
+test("«Arma tu pedido» abre WhatsApp con lo que escribió el cliente", async ({ page }) => {
+  await page.goto("/contacto");
+  const formulario = page.getByRole("form", { name: "Arma tu pedido" });
+  const enviar = formulario.getByRole("link", { name: "Enviar el pedido por WhatsApp" });
+
+  // Sin nada que pedir no hay botón: un WhatsApp con el pedido vacío es justo
+  // la pregunta que este bloque quiere ahorrar.
+  await expect(formulario).toBeVisible();
+  await expect(enviar).toHaveCount(0);
+
+  await formulario.getByLabel("Tu nombre").fill("Mariana");
+  await formulario.getByLabel("Zona").selectOption("Belén");
+  await formulario.getByLabel("¿Qué quieres pedir?").fill("10 panes franceses");
+
+  await expect(enviar).toBeVisible();
+  const href = await enviar.getAttribute("href");
+  expect(href).toMatch(/^https:\/\/wa\.me\/51947874820\?text=/);
+  expect(textoDelMensaje(href)).toBe(
+    "Hola, quiero hacer un pedido.\n\nNombre: Mariana\nZona: Belén\n\nPedido:\n10 panes franceses",
+  );
+
+  // Y si se borra el pedido, el botón se va con él.
+  await formulario.getByLabel("¿Qué quieres pedir?").fill("   ");
+  await expect(enviar).toHaveCount(0);
+});
+
 test("la portada pone el precio del delivery en su propio bloque", async ({ page }) => {
   await page.goto("/");
 

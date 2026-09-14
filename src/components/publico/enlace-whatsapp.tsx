@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 const CLASES = {
   claro:
     "text-acento focus-visible:outline-ring font-medium underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2",
-  "sobre-azul":
-    "text-primary-foreground decoration-primary-foreground/60 hover:decoration-primary-foreground focus-visible:outline-primary-foreground font-medium underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2",
+  // La variante `sobre-azul` se retiró en la fase 3.1: el encabezado de las
+  // páginas, que era el único fondo azul con una frase enlazada, pasó a crema.
 } as const;
 
 /**

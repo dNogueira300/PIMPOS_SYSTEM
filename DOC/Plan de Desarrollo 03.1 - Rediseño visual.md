@@ -1794,6 +1794,28 @@ git add -A && git commit -m "feat(diseño): galería en mosaico con pies reales 
 
 Rama `feat/f3.1-t8-contacto`.
 
+> **Correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. **`mensajeArmado` no puede ir en `pedido.ts`.** El formulario es de cliente, y `pedido.ts`
+>    importa `catalogo.ts`, que trae Supabase y funciones `use cache`: es exactamente la trampa de
+>    `reloj.ts`. Va en **`src/lib/datos/pedido-armado.ts`**, sin dependencias, con su prueba.
+> 2. **La zona no viene elegida de antemano.** Con la primera marcada, quien no la toca pide «a
+>    Iquitos» sin haberlo decidido. Hay una opción vacía, «Elige tu zona», y el mensaje la omite.
+> 3. **El aviso de que falta el pedido y el botón viven en una región `aria-live`**: el botón aparece
+>    al escribir, y quien no lo ve tiene que enterarse. Los `placeholder` llevan
+>    `text-muted-foreground`, que tiene contraste medido.
+> 4. **Contacto conserva las condiciones del delivery**, debajo del formulario y en su tarjeta: la
+>    duda de cuánto cuesta el envío aparece justo antes de enviar.
+> 5. **Nosotros sigue usando `EncabezadoSeccion`** y no `TituloSeccion nivel={1}`: con los dos habría
+>    dos `h1`. `TituloSeccion` va en «Cómo trabajamos», y en ubicación los dos bloques son tarjetas
+>    con un titular pequeño: con `TituloSeccion` competían con el de la página.
+> 6. **Ubicación llevaba las zonas de reparto escritas a mano.** Salen de `delivery_zonas`.
+> 7. **Al pasar el encabezado a crema, la variante `sobre-azul` de `EnlaceWhatsApp` quedó sin uso** y
+>    se retiró. Y la prueba de `movimiento.spec.ts` que buscaba `a.boton-cta` en contacto busca ahora
+>    el botón por su nombre: el de contacto es el verde de WhatsApp.
+> 8. **En preguntas, el contorno de foco va en la tarjeta con `has-[summary:focus-visible]`**, no con
+>    `focus-within`: `focus-within` lo dibujaba también al abrir una pregunta con el ratón.
+
 **Consume:** `.tarjeta`, `.sello`, `.boton-whatsapp`, `TituloSeccion`, `enlaceWhatsApp()`.
 **Produce:** `mensajeArmado()` y `ArmaTuPedido`.
 

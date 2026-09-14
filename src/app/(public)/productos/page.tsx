@@ -33,10 +33,8 @@ export default async function Productos(props: PageProps<"/productos">) {
         entradilla={
           <>
             Todo lo que horneamos, con su precio. Si no encuentras algo,{" "}
-            <EnlaceWhatsApp enlace={consulta} variante="sobre-azul">
-              escríbenos por WhatsApp
-            </EnlaceWhatsApp>{" "}
-            y te decimos si lo tenemos.
+            <EnlaceWhatsApp enlace={consulta}>escríbenos por WhatsApp</EnlaceWhatsApp> y te decimos
+            si lo tenemos.
           </>
         }
       />

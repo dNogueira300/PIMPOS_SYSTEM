@@ -264,7 +264,9 @@ test("quien pide menos movimiento no recibe ninguno", async ({ browser }) => {
 test("el boton de pedido responde al pulsarlo", async ({ page }) => {
   await page.goto("/contacto");
 
-  const boton = page.getByRole("main").locator("a.boton-cta").first();
+  // En contacto el boton de escribir es el verde de WhatsApp desde la fase 3.1;
+  // se busca por lo que dice y no por la clase, que es lo que cambio.
+  const boton = page.getByRole("main").getByRole("link", { name: "Escribir por WhatsApp" });
   await expect(boton).toBeVisible();
 
   // El area tactil minima es un requisito, no una recomendacion (R15): el sitio
