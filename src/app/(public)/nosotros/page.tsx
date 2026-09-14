@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { TituloSeccion } from "@/components/publico/titulo-seccion";
 import { anioActual, anosDeOficio, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarGaleria } from "@/lib/datos/contenido";
 
@@ -45,7 +46,7 @@ export default async function Nosotros() {
           </div>
 
           {interior?.imagen ? (
-            <div className="acercarse relative aspect-[4/5] overflow-hidden rounded-xl lg:sticky lg:top-24 lg:self-start">
+            <div className="acercarse shadow-elevada relative aspect-[4/5] overflow-hidden rounded-2xl lg:sticky lg:top-24 lg:self-start">
               <Image
                 src={interior.imagen}
                 alt={interior.alt}
@@ -60,14 +61,14 @@ export default async function Nosotros() {
         {config.mision || config.vision ? (
           <div className="aparece-grupo mt-20 grid gap-8 md:grid-cols-2">
             {config.mision ? (
-              <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
-                <h2 className="font-heading text-2xl">Misión</h2>
+              <section className="tarjeta bg-muted p-6 sm:p-8">
+                <h2 className="font-heading text-primary text-2xl font-semibold">Misión</h2>
                 <p className="mt-3 text-pretty">{config.mision}</p>
               </section>
             ) : null}
             {config.vision ? (
-              <section className="bg-card border-border/30 rounded-xl border p-6 sm:p-8">
-                <h2 className="font-heading text-2xl">Visión</h2>
+              <section className="tarjeta bg-muted p-6 sm:p-8">
+                <h2 className="font-heading text-primary text-2xl font-semibold">Visión</h2>
                 <p className="mt-3 text-pretty">{config.vision}</p>
               </section>
             ) : null}
@@ -76,11 +77,15 @@ export default async function Nosotros() {
 
         {config.valores.length > 0 ? (
           <section className="mt-20">
-            <h2 className="font-heading text-3xl">Cómo trabajamos</h2>
-            <dl className="aparece-grupo mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            <TituloSeccion titulo="Cómo trabajamos" />
+            {/* Las tarjetas de valores de la portada (tarea 5), aqui todas y no
+                solo las cuatro primeras. */}
+            <dl className="aparece-grupo mt-8 grid gap-4 sm:grid-cols-2">
               {config.valores.map((valor) => (
-                <div key={valor.nombre} className="border-border/30 border-t pt-4">
-                  <dt className="font-heading text-acento text-xl">{valor.nombre}</dt>
+                <div key={valor.nombre} className="tarjeta p-5 sm:p-6">
+                  <dt className="font-heading text-primary text-xl font-semibold">
+                    {valor.nombre}
+                  </dt>
                   <dd className="text-muted-foreground mt-2 text-pretty">{valor.descripcion}</dd>
                 </div>
               ))}

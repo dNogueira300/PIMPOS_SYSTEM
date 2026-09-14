@@ -5,6 +5,7 @@ import { ExternalLink } from "lucide-react";
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
 import { Horario } from "@/components/publico/horario";
 import { direccionCompleta, obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { unirConY } from "@/lib/datos/pedido";
 
 export const metadata: Metadata = {
   title: "Ubicación",
@@ -20,7 +21,7 @@ const Mapa = dynamic(() => import("@/components/publico/mapa").then((m) => m.Map
     // Las mismas medidas que el mapa para que la pagina no de un salto al
     // cargarlo, `isolate` incluido: asi el hueco y el mapa se apilan igual.
     <div
-      className="bg-secondary isolate h-[60vh] min-h-80 w-full animate-pulse rounded-xl"
+      className="bg-muted isolate h-[60vh] min-h-80 w-full animate-pulse rounded-2xl"
       aria-hidden
     />
   ),
@@ -30,6 +31,7 @@ export default async function Ubicacion() {
   const config = await obtenerConfiguracion();
   const direccion = direccionCompleta(config);
   const coords = config.coordenadas;
+  const zonas = unirConY(config.delivery_zonas);
 
   return (
     <>
@@ -67,9 +69,9 @@ export default async function Ubicacion() {
           </p>
         )}
 
-        <div className="mt-10 grid gap-10 md:grid-cols-2">
-          <section>
-            <h2 className="font-heading text-2xl">Cómo llegar</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:gap-8">
+          <section className="tarjeta p-6 sm:p-8">
+            <h2 className="font-heading text-primary text-2xl font-semibold">Cómo llegar</h2>
             {direccion ? <p className="mt-3 text-lg">{direccion}</p> : null}
             {config.referencia ? (
               <p className="text-muted-foreground mt-1">{config.referencia}</p>
@@ -87,14 +89,18 @@ export default async function Ubicacion() {
               </a>
             ) : null}
 
-            <p className="text-muted-foreground mt-6 text-pretty">
-              Si te queda lejos, repartimos a domicilio en Iquitos, Belén, Punchana y San Juan
-              Bautista.
-            </p>
+            {/* Las zonas de la base, como en el resto del sitio: esta frase las
+                llevaba escritas a mano, y era el quinto sitio que habria que
+                acordarse de cambiar. */}
+            {zonas ? (
+              <p className="text-muted-foreground mt-6 text-pretty">
+                Si te queda lejos, repartimos a domicilio en {zonas}.
+              </p>
+            ) : null}
           </section>
 
-          <section>
-            <h2 className="font-heading text-2xl">Horario</h2>
+          <section className="tarjeta bg-muted p-6 sm:p-8">
+            <h2 className="font-heading text-primary text-2xl font-semibold">Horario</h2>
             <div className="mt-3">
               <Horario config={config} />
             </div>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { MessageCircle } from "lucide-react";
+import { ChevronDown, MessageCircle } from "lucide-react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
+import { TituloSeccion } from "@/components/publico/titulo-seccion";
 import { EnlaceWhatsApp } from "@/components/publico/enlace-whatsapp";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
@@ -47,10 +48,7 @@ export default async function PreguntasFrecuentes() {
         entradilla={
           <>
             Lo que más nos preguntan. Si tu duda no está aquí,{" "}
-            <EnlaceWhatsApp enlace={consulta} variante="sobre-azul">
-              escríbenos por WhatsApp
-            </EnlaceWhatsApp>
-            .
+            <EnlaceWhatsApp enlace={consulta}>escríbenos por WhatsApp</EnlaceWhatsApp>.
           </>
         }
       />
@@ -59,20 +57,24 @@ export default async function PreguntasFrecuentes() {
         {faqs.length === 0 ? (
           <p className="text-muted-foreground">Todavía no hay preguntas publicadas.</p>
         ) : (
-          <ul className="aparece-grupo border-border/30 border-t">
+          <ul className="aparece-grupo flex flex-col gap-3">
             {faqs.map((faq) => (
-              <li key={faq.id} className="border-border/30 border-b">
-                <details className="group">
-                  <summary className="focus-visible:outline-ring min-h-tactil flex cursor-pointer list-none items-center justify-between gap-4 py-4 focus-visible:outline-2 focus-visible:outline-offset-2">
-                    <h2 className="font-heading text-lg text-pretty">{faq.pregunta}</h2>
-                    <span
+              <li key={faq.id}>
+                {/* Cada pregunta en su tarjeta, como el acordeon del prototipo.
+                    El foco de teclado se dibuja en la tarjeta y no en el `summary`: con el
+                    `overflow-hidden` que redondea las esquinas, el contorno del
+                    `summary` quedaba recortado. */}
+                <details className="group tarjeta bg-muted has-[summary:focus-visible]:outline-ring overflow-hidden has-[summary:focus-visible]:outline-2 has-[summary:focus-visible]:outline-offset-2">
+                  <summary className="min-h-tactil flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 outline-none [&::-webkit-details-marker]:hidden">
+                    <h2 className="font-heading text-primary text-lg font-semibold text-pretty">
+                      {faq.pregunta}
+                    </h2>
+                    <ChevronDown
                       aria-hidden
-                      className="text-acento shrink-0 text-2xl transition-transform group-open:rotate-45"
-                    >
-                      +
-                    </span>
+                      className="text-acento size-5 shrink-0 group-open:rotate-180 motion-safe:transition-transform"
+                    />
                   </summary>
-                  <p className="text-muted-foreground pb-5 text-pretty">{faq.respuesta}</p>
+                  <p className="text-muted-foreground px-5 pb-5 text-pretty">{faq.respuesta}</p>
                 </details>
               </li>
             ))}
@@ -81,14 +83,14 @@ export default async function PreguntasFrecuentes() {
 
         {guias.length > 0 ? (
           <section className="mt-16">
-            <h2 className="font-heading text-3xl">Cómo hacerlo</h2>
+            <TituloSeccion titulo="Cómo hacerlo" />
             <div className="aparece-grupo mt-8 flex flex-col gap-10">
               {guias.map((guia) => (
                 // El `id` es el `slug`: el detalle de producto enlaza aqui
                 // directo. `scroll-mt` deja el titulo por debajo de la cabecera
                 // fija, que si no lo taparia al llegar.
                 <article key={guia.id} id={guia.slug} className="scroll-mt-24">
-                  <h3 className="font-heading text-acento text-xl">{guia.titulo}</h3>
+                  <h3 className="font-heading text-primary text-xl font-semibold">{guia.titulo}</h3>
                   {guia.resumen ? (
                     <p className="text-muted-foreground mt-1 text-pretty">{guia.resumen}</p>
                   ) : null}
@@ -110,7 +112,7 @@ export default async function PreguntasFrecuentes() {
                       href={pedido}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="boton-cta mt-5 w-fit"
+                      className="boton-whatsapp mt-5 w-fit"
                     >
                       <MessageCircle aria-hidden className="size-5" />
                       Pedir por WhatsApp
