@@ -233,6 +233,11 @@
   /* Precio: se muestra con orgullo (ficha 5.2), no se disimula. */
   --precio-texto: var(--pimpos-dorado-800);
 
+  /* Puntos guia de la pizarra, entre el nombre y el precio (tarea 6). Dorado
+     diluido como las lineas punteadas del prototipo: son decorativos y van fuera
+     del arbol de accesibilidad, asi que no les aplica el contraste de texto. */
+  --guia-puntos: color-mix(in srgb, var(--pimpos-dorado-500) 45%, transparent);
+
   /* Franja de confianza bajo el hero: durazno con tinta (prototipo). */
   --franja-fondo: var(--pimpos-dorado-300);
   --franja-texto: var(--pimpos-tinta-900);
@@ -316,6 +321,7 @@
   --color-whatsapp-foreground: var(--whatsapp-texto);
   --color-acento: var(--acento-texto);
   --color-precio: var(--precio-texto);
+  --color-guia: var(--guia-puntos);
   --color-franja: var(--franja-fondo);
   --color-franja-foreground: var(--franja-texto);
   --color-aviso: var(--aviso-fondo);

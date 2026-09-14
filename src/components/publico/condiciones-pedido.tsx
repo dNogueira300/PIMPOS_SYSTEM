@@ -10,15 +10,21 @@ import type { Condicion } from "@/lib/datos/pedido";
  */
 export function CondicionesPedido({
   condiciones,
+  enmarcada = false,
   className = "",
 }: {
   condiciones: readonly Condicion[];
+  /**
+   * Dentro de una tarjeta del prototipo (fase 3.1). La tarjeta ya pone el borde
+   * de fuera: con el de la lista encima, arriba y abajo salían dos líneas.
+   */
+  enmarcada?: boolean;
   className?: string;
 }) {
   if (condiciones.length === 0) return null;
 
-  return (
-    <dl className={`border-border/40 divide-border/40 divide-y border-y ${className}`}>
+  const lista = (
+    <dl className={`divide-border divide-y ${enmarcada ? "" : "border-border/40 border-y"}`}>
       {condiciones.map(({ clave, etiqueta, valor }) => (
         <div key={clave} className="flex items-baseline justify-between gap-6 py-2.5">
           <dt className="text-muted-foreground shrink-0">{etiqueta}</dt>
@@ -26,5 +32,11 @@ export function CondicionesPedido({
         </div>
       ))}
     </dl>
+  );
+
+  return enmarcada ? (
+    <div className={`tarjeta px-5 py-1.5 ${className}`}>{lista}</div>
+  ) : (
+    <div className={className}>{lista}</div>
   );
 }

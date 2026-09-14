@@ -133,3 +133,53 @@ test("la portada enseña lo que se hornea como pizarra, sin relleno", async ({ p
   await expect(bloque.locator("svg.lucide-croissant")).toHaveCount(0);
   await expect(bloque.getByText("Unidad", { exact: true })).toHaveCount(0);
 });
+
+test("en la portada, tarjeta solo para los productos con foto y ninguno dos veces", async ({
+  page,
+}) => {
+  // Decisión de Dan (13/09/2026): el híbrido. Las tarjetas del prototipo, solo
+  // para lo que tiene foto real; el resto sigue en la pizarra.
+  await page.goto("/");
+  const bloque = page.getByRole("region", { name: "Lo que horneamos hoy" });
+  const tarjetas = bloque.locator("article.tarjeta");
+
+  // La semilla tiene un destacado con foto, el Pan francés chico. Se exige
+  // antes de recorrer: con cero tarjetas el bucle de abajo no miraría nada.
+  await expect(tarjetas.first()).toBeVisible();
+
+  const enTarjeta: string[] = [];
+  for (const tarjeta of await tarjetas.all()) {
+    // Una tarjeta sin foto es justo lo que no se quiere.
+    await expect(tarjeta.locator("img")).toHaveCount(1);
+    await expect(tarjeta.locator("[data-precio]")).toContainText("S/");
+
+    const nombre = (await tarjeta.getByRole("heading", { level: 3 }).textContent())!.trim();
+    enTarjeta.push(nombre);
+
+    // El pedido lleva el producto escrito, no el mensaje genérico.
+    const href = await tarjeta
+      .getByRole("link", { name: /^Pedir por WhatsApp/ })
+      .getAttribute("href");
+    expect(new URL(href!).searchParams.get("text")).toContain(`quisiera pedir ${nombre}`);
+  }
+
+  // Lo que va en tarjeta no se repite en la pizarra, y la pizarra sigue ahí.
+  const filas = bloque.locator("li:not(:has(article)) a[href^='/productos/'] [data-nombre]");
+  expect(await filas.count()).toBeGreaterThan(0);
+  const enPizarra = (await filas.allTextContents()).map((texto) => texto.trim());
+  for (const nombre of enTarjeta) {
+    expect(
+      enPizarra.some((fila) => fila.startsWith(nombre)),
+      nombre,
+    ).toBe(false);
+  }
+});
+
+test("el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano", async ({ page }) => {
+  await page.goto("/productos");
+  const total = Number.parseInt((await page.getByRole("status").textContent()) ?? "", 10);
+
+  await page.goto("/");
+  const bloque = page.getByRole("region", { name: "Lo que horneamos hoy" });
+  await expect(bloque.getByRole("link", { name: `Ver los ${total} precios` })).toBeVisible();
+});

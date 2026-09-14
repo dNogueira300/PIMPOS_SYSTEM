@@ -28,12 +28,12 @@ export function PizarraPrecios({
   className?: string;
 }) {
   return (
-    <ul className={`aparece-grupo border-border/50 gap-x-12 border-t md:columns-2 ${className}`}>
+    <ul className={`aparece-grupo border-border gap-x-12 border-t md:columns-2 ${className}`}>
       {productos.map((producto, indice) => (
         <li
           key={producto.id}
           style={{ "--i": indice % 2 } as CSSProperties}
-          className="border-border/50 break-inside-avoid border-b"
+          className="border-border break-inside-avoid border-b"
         >
           <FilaPrecio producto={producto} />
         </li>
@@ -54,7 +54,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
       {producto.imagen ? (
         // `alt` vacio a proposito: el nombre ya va escrito al lado y es el
         // nombre del enlace. Leerlo dos veces no ayuda a nadie.
-        <span className="bg-secondary relative size-16 shrink-0 overflow-hidden rounded-md sm:size-20">
+        <span className="bg-muted relative size-16 shrink-0 overflow-hidden rounded-xl sm:size-20">
           <Image
             src={producto.imagen}
             alt=""
@@ -67,7 +67,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
 
       <span className="flex min-w-0 flex-1 items-baseline gap-3">
         <span data-nombre className="min-w-0">
-          <span className="font-heading block text-lg leading-snug decoration-1 underline-offset-4 group-hover:underline">
+          <span className="font-heading text-primary block text-lg leading-snug font-semibold decoration-1 underline-offset-4 group-hover:underline">
             {producto.nombre}
           </span>
           {presentacion ? (
@@ -77,10 +77,11 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
 
         {/* Los puntos guia, como en una carta: llevan el ojo del nombre a su
             precio aunque esten lejos. Decorativos, fuera del arbol de
-            accesibilidad. */}
+            accesibilidad. En el dorado del prototipo y no en tinta: son guía,
+            no texto, y así no compiten con el nombre ni con el precio. */}
         <span
           aria-hidden
-          className="border-foreground/25 relative -top-1 min-w-4 flex-1 border-b-2 border-dotted"
+          className="border-guia relative -top-1 min-w-4 flex-1 border-b-2 border-dotted"
         />
 
         {precio ? (

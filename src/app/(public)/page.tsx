@@ -7,9 +7,10 @@ import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
 import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
+import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
 import { TituloSeccion } from "@/components/publico/titulo-seccion";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
-import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
+import { formatearPrecio, listarDestacados, listarProductos } from "@/lib/datos/catalogo";
 import {
   anioActual,
   anosDeOficio,
@@ -24,6 +25,7 @@ import {
   listarSlides,
   listarTestimonios,
 } from "@/lib/datos/contenido";
+import { repartirPorFoto } from "@/lib/datos/destacados";
 import { primeraAperturaEscrita } from "@/lib/datos/horario";
 import { condicionesDelPedido, mensajeDePedido, unirConY } from "@/lib/datos/pedido";
 import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
@@ -103,6 +105,14 @@ export default async function Inicio() {
   // La cuenta de años se calcula, no se escribe: ver `anosDeOficio`.
   const anos = anosDeOficio(await anioActual(), config.anio_fundacion);
   const abreALas = primeraAperturaEscrita(config.horario_semanal);
+  const { conFoto, sinFoto } = repartirPorFoto(destacados);
+  // «Empieza en S/ 0.10» estaba escrito a mano: el día que el pan suba desde el
+  // panel, la entradilla mentiría. Sale del catálogo, como el número de precios,
+  // y dice «desde» y no «el pan»: el más barato no tiene por qué ser un pan.
+  const precios = productos
+    .map((producto) => producto.precioDesde)
+    .filter((precio): precio is number => precio !== null);
+  const precioMinimo = precios.length > 0 ? Math.min(...precios) : null;
 
   return (
     <>
@@ -184,30 +194,66 @@ export default async function Inicio() {
         </ul>
       </section>
 
-      {/* 3. Lo que vende, con su precio: la misma pizarra que el catalogo. */}
+      {/* 3. Lo que vende, con su precio. Híbrido (decisión de Dan, 13/09):
+          tarjeta del prototipo para los destacados con foto real y la pizarra
+          para el resto, que hoy son casi todos.
+
+          Con una o dos tarjetas van AL LADO de la pizarra y no encima: una
+          tarjeta sola en una fila de cuatro dejaba tres cuartos de fila vacíos,
+          que se lee como contenido que no cargó. Desde tres, la fila del
+          prototipo. */}
       <section
         aria-labelledby="titulo-horneamos"
         className="mx-auto max-w-(--container-contenido) px-4 pt-16 sm:px-6"
       >
         <div className="aparece flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <h2 id="titulo-horneamos" className="font-heading text-3xl sm:text-4xl">
-              Lo que horneamos hoy
-            </h2>
-            <p className="text-muted-foreground mt-2 max-w-prose text-pretty">
-              Todos los precios están a la vista. El pan del día empieza en S/ 0.10.
-            </p>
-          </div>
-          <Link
-            href="/productos"
-            className="text-acento focus-visible:outline-ring min-h-tactil flex items-center gap-1.5 font-medium hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-          >
-            Ver el catálogo completo
+          <TituloSeccion
+            id="titulo-horneamos"
+            sello="Del horno a tu mesa"
+            titulo="Lo que horneamos hoy"
+            entradilla={
+              precioMinimo !== null
+                ? `Todos los precios están a la vista, desde ${formatearPrecio(precioMinimo)}.`
+                : "Todos los precios están a la vista."
+            }
+          />
+          <Link href="/productos" className="boton-linea">
+            {productos.length > 0 ? `Ver los ${productos.length} precios` : "Ver el catálogo"}
             <ArrowRight aria-hidden className="size-4" />
           </Link>
         </div>
 
-        <PizarraPrecios productos={destacados} className="mt-8" />
+        {conFoto.length === 0 ? (
+          <PizarraPrecios productos={sinFoto} className="mt-8" />
+        ) : conFoto.length <= 2 ? (
+          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(0,20rem)_1fr] lg:gap-12">
+            <ul className="aparece-grupo grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+              {conFoto.map((producto, indice) => (
+                <li key={producto.id} style={{ "--i": indice } as CSSProperties}>
+                  <TarjetaProducto
+                    producto={producto}
+                    whatsapp={enlaceWhatsApp(config, mensajeDePedido(producto))}
+                  />
+                </li>
+              ))}
+            </ul>
+            {sinFoto.length > 0 ? <PizarraPrecios productos={sinFoto} /> : null}
+          </div>
+        ) : (
+          <>
+            <ul className="aparece-grupo mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {conFoto.map((producto, indice) => (
+                <li key={producto.id} style={{ "--i": indice } as CSSProperties}>
+                  <TarjetaProducto
+                    producto={producto}
+                    whatsapp={enlaceWhatsApp(config, mensajeDePedido(producto))}
+                  />
+                </li>
+              ))}
+            </ul>
+            {sinFoto.length > 0 ? <PizarraPrecios productos={sinFoto} className="mt-10" /> : null}
+          </>
+        )}
       </section>
 
       {/* 3 bis. La madrugada, ilustrada.

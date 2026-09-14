@@ -23,7 +23,7 @@ export function FiltroCategorias({ categorias }: { categorias: CategoriaPublica[
 
   return (
     <nav aria-label="Filtrar por categoría">
-      <ul className="flex flex-wrap gap-2">
+      <ul className="tarjeta bg-muted inline-flex flex-wrap gap-1 rounded-3xl p-1.5 sm:rounded-full">
         {opciones.map(({ slug, nombre }) => {
           const seleccionada = activa === slug || (slug === null && activa === null);
           return (
@@ -35,7 +35,7 @@ export function FiltroCategorias({ categorias }: { categorias: CategoriaPublica[
                 className={`focus-visible:outline-ring min-h-tactil flex items-center rounded-full px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
                   seleccionada
                     ? "bg-primary text-primary-foreground font-medium"
-                    : "bg-secondary text-secondary-foreground hover:bg-muted"
+                    : "text-foreground hover:bg-background"
                 }`}
               >
                 {nombre}
