@@ -1,11 +1,25 @@
 import Link from "next/link";
-import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 
 import { anioActual, direccionCompleta, type Configuracion } from "@/lib/datos/configuracion";
 
 import { Horario } from "./horario";
 import { SECCIONES } from "./navegacion";
 
+/** Titular de columna: serif azul, como los del prototipo. */
+const TITULO_COLUMNA = "font-heading text-primary mb-4 text-lg font-semibold";
+/** Enlace del pie: gris cálido que se vuelve azul, siempre con 44 px de alto. */
+const ENLACE = "text-muted-foreground hover:text-primary min-h-tactil flex items-center";
+
+/**
+ * Pie del sitio público, en cuatro columnas como el del prototipo de Stitch
+ * (plan 03.1, tarea 4): la marca, cómo contactar, el horario y las secciones.
+ *
+ * Claro y no azul desde 3.1. Del prototipo NO se toman ni el acceso al panel
+ * («Acceso Kárdex & Panel») —el panel no se anuncia al visitante, y `robots.txt`
+ * lo deja fuera— ni «Libro de reclamaciones» y «Términos de envío», que son
+ * enlaces a páginas que no existen.
+ */
 export async function Pie({ config }: { config: Configuracion }) {
   const direccion = direccionCompleta(config);
   const anio = await anioActual();
@@ -16,44 +30,16 @@ export async function Pie({ config }: { config: Configuracion }) {
   // siempre (critica del 12/09). El hueco estuvo primero en `<main>`, que no es
   // lo ultimo que se ve, y la prueba lo cazo. Desde `sm` no hay flotante.
   return (
-    <footer className="bg-primary text-primary-foreground mt-24 pb-20 sm:pb-0">
-      <div className="mx-auto grid max-w-(--container-contenido) gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.2fr_1fr_1.3fr]">
-        <div className="flex flex-col gap-4">
-          <p className="font-heading text-2xl">{config.nombre_comercial}</p>
+    <footer className="bg-muted text-foreground border-border mt-24 border-t pb-20 sm:pb-0">
+      <div className="mx-auto grid max-w-(--container-contenido) gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+        {/* 1. La marca */}
+        <div className="flex flex-col gap-3">
+          <p className="font-heading text-primary text-2xl font-semibold">
+            {config.nombre_comercial}
+          </p>
           {config.eslogan ? (
-            <p className="text-primary-foreground/80 text-pretty">{config.eslogan}</p>
+            <p className="text-muted-foreground text-pretty">{config.eslogan}</p>
           ) : null}
-
-          <ul className="flex flex-col gap-2 text-sm">
-            {direccion ? (
-              <li className="flex items-start gap-2">
-                <MapPin aria-hidden className="mt-0.5 size-4 shrink-0" />
-                <span>{direccion}</span>
-              </li>
-            ) : null}
-            {config.telefono ? (
-              <li className="flex items-center gap-2">
-                <Phone aria-hidden className="size-4 shrink-0" />
-                <a
-                  href={`tel:${config.telefono.replace(/\s/g, "")}`}
-                  className="min-h-tactil flex items-center hover:underline"
-                >
-                  {config.telefono}
-                </a>
-              </li>
-            ) : null}
-            {config.correo ? (
-              <li className="flex items-center gap-2">
-                <Mail aria-hidden className="size-4 shrink-0" />
-                <a
-                  href={`mailto:${config.correo}`}
-                  className="min-h-tactil flex items-center break-all hover:underline"
-                >
-                  {config.correo}
-                </a>
-              </li>
-            ) : null}
-          </ul>
 
           {/* Las redes vienen vacias en la ficha. Se muestran solo si el negocio
               las carga desde el panel: un icono que lleva a ningun sitio es
@@ -63,14 +49,14 @@ export async function Pie({ config }: { config: Configuracion }) {
               version 1 de lucide retiro las marcas comerciales, y dibujar un
               logotipo ajeno a mano no es algo que deba hacer este proyecto. */}
           {config.facebook || config.instagram ? (
-            <ul className="flex flex-col gap-1 text-sm">
+            <ul className="flex flex-col text-sm">
               {config.facebook ? (
                 <li>
                   <a
                     href={config.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-tactil flex items-center gap-2 hover:underline"
+                    className={`${ENLACE} gap-2`}
                   >
                     <ExternalLink aria-hidden className="size-4 shrink-0" />
                     Facebook
@@ -83,7 +69,7 @@ export async function Pie({ config }: { config: Configuracion }) {
                     href={config.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="min-h-tactil flex items-center gap-2 hover:underline"
+                    className={`${ENLACE} gap-2`}
                   >
                     <ExternalLink aria-hidden className="size-4 shrink-0" />
                     Instagram
@@ -94,34 +80,75 @@ export async function Pie({ config }: { config: Configuracion }) {
           ) : null}
         </div>
 
-        {/* Etiqueta distinta a la de la cabecera a proposito. Las dos listas
+        {/* 2. Contacto y dirección */}
+        <div>
+          <h2 className={TITULO_COLUMNA}>Dónde estamos</h2>
+          <ul className="flex flex-col gap-1 text-sm">
+            {direccion ? (
+              <li className="text-muted-foreground flex items-start gap-2 py-2">
+                <MapPin aria-hidden className="text-acento mt-0.5 size-4 shrink-0" />
+                <span>{direccion}</span>
+              </li>
+            ) : null}
+            {config.telefono ? (
+              <li className="flex items-center gap-2">
+                <Phone aria-hidden className="text-acento size-4 shrink-0" />
+                <a href={`tel:${config.telefono.replace(/\s/g, "")}`} className={ENLACE}>
+                  {config.telefono}
+                </a>
+              </li>
+            ) : null}
+            {config.correo ? (
+              <li className="flex items-center gap-2">
+                <Mail aria-hidden className="text-acento size-4 shrink-0" />
+                <a href={`mailto:${config.correo}`} className={`${ENLACE} break-all`}>
+                  {config.correo}
+                </a>
+              </li>
+            ) : null}
+            <li>
+              <Link
+                href="/ubicacion"
+                className="text-acento min-h-tactil flex items-center gap-1.5 font-semibold hover:underline"
+              >
+                Ver el mapa
+                <ArrowRight aria-hidden className="size-4" />
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* 3. Horario */}
+        <div>
+          <h2 className={TITULO_COLUMNA}>Horario de atención</h2>
+          <Horario config={config} />
+        </div>
+
+        {/* 4. Secciones.
+
+            Etiqueta distinta a la de la cabecera a proposito. Las dos listas
             llevan las mismas secciones, pero quien navega por landmarks con un
             lector de pantalla veia "Secciones del sitio" dos veces y no podia
             saber cual era el menu y cual el pie (axe, regla `landmark-unique`).
             El nombre visible sigue siendo "Secciones". */}
         <nav aria-label="Secciones del sitio, en el pie">
-          <h2 className="font-heading mb-4 text-lg">Secciones</h2>
-          <ul className="flex flex-col gap-1 text-sm">
+          <h2 className={TITULO_COLUMNA}>Secciones</h2>
+          <ul className="grid grid-cols-2 gap-x-4 text-sm sm:grid-cols-1">
             {SECCIONES.map(({ ruta, nombre }) => (
               <li key={ruta}>
-                <Link href={ruta} className="min-h-tactil flex items-center hover:underline">
+                <Link href={ruta} className={ENLACE}>
                   {nombre}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
-
-        <div>
-          <h2 className="font-heading mb-4 text-lg">Horario de atención</h2>
-          <Horario config={config} variante="oscuro" />
-        </div>
       </div>
 
-      <div className="border-primary-foreground/20 border-t">
-        <div className="text-primary-foreground/70 mx-auto flex max-w-(--container-contenido) flex-col gap-1 px-4 py-6 text-xs sm:flex-row sm:justify-between sm:px-6">
+      <div className="mx-auto max-w-(--container-contenido) px-4 pb-8 sm:px-6">
+        <div className="tarjeta text-muted-foreground flex flex-col gap-1 px-5 py-4 text-xs sm:flex-row sm:justify-between">
           <p>
-            {anio} {config.razon_social || config.nombre_comercial}
+            © {anio} {config.razon_social || config.nombre_comercial}
           </p>
           <p>Iquitos, Perú</p>
         </div>

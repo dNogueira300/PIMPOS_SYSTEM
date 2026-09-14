@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 
+import { BarraAviso } from "@/components/publico/barra-aviso";
 import { BotonWhatsApp } from "@/components/publico/boton-whatsapp";
 import { Cabecera } from "@/components/publico/cabecera";
 import { Pie } from "@/components/publico/pie";
 import { enlaceWhatsApp, formatearHora, obtenerConfiguracion } from "@/lib/datos/configuracion";
-import { agruparHorario } from "@/lib/datos/horario";
-import { mensajeDePedido } from "@/lib/datos/pedido";
+import { agruparHorario, primeraAperturaEscrita } from "@/lib/datos/horario";
+import { mensajeDePedido, unirConY } from "@/lib/datos/pedido";
+import { textoDelAviso } from "@/lib/datos/texto-aviso";
 import { urlDeImagen } from "@/lib/supabase/publico";
 
 /**
@@ -42,6 +44,14 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
       >
         Saltar al contenido
       </a>
+
+      {/* Antes de la cabecera y en su propia región: ver BarraAviso. */}
+      <BarraAviso
+        texto={textoDelAviso({
+          abreALas: primeraAperturaEscrita(config.horario_semanal),
+          zonas: unirConY(config.delivery_zonas),
+        })}
+      />
 
       <Cabecera
         logoAlt={config.logo_alt}
