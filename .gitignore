@@ -103,3 +103,7 @@ esquema-*.sql
 # ve se saltan diciendo por qué.
 DOC/Fotos y documentos Adjuntados Pimpos/
 DOC/descarga.png
+
+# Origen de las fuentes que descarga scripts/preparar-fuentes.py: TTF completos
+# que no hace falta versionar, se vuelven a bajar si se corre el guion.
+/.fuentes-origen/

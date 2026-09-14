@@ -460,6 +460,12 @@ false` con `breakpoints` en embla (el módulo se descarga igual, el bloqueo se q
   quitan por **densidad local** y no con morfología: una línea fina del grabado tiene vecinas y una
   mota no, y una apertura obligaría a elegir entre dejar motas o adelgazar el trazo. Todo en
   `scripts/preparar-ilustracion.py`, que además deja el asset en 130 KB desde los 2.4 MB del original.
+- **Antes de recortar una fuente OFL, leer si declara un _Reserved Font Name_.** Playfair Display lo
+  declara («Playfair Display»), y la OFL prohíbe que una **versión modificada** lo lleve. Recortar a
+  latín o fijar un peso es modificar, así que la derivada se llama «Playfair Pimpos» por dentro
+  —el trazo no cambia, y el nombre CSS lo pone `next/font`, no la tabla `name`—. Fraunces, Inter y
+  Plus Jakarta Sans no declaran ninguno. Se ve en la primera línea del `OFL.txt` de cada fuente, y
+  `scripts/preparar-fuentes.py` falla si el nombre reservado sigue dentro del archivo.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
   completo. Con la `anon` responde 401 `"Only the service_role API key can be used for this
 endpoint"`. Para un ping se consulta una tabla real; meter la `service_role` en un workflow
@@ -659,8 +665,9 @@ y hay prueba de cada una: va dentro de `@supports` (un navegador que no lo sopor
 contenido tal cual), dentro de `prefers-reduced-motion: no-preference`, y **apagado al imprimir**
 —sin scroll la animación se congela en su primer fotograma y el bloque saldría en blanco—. Y **termina mientras el bloque entra** (`entry 0% entry 70%`), no después: con la página quieta, todo lo que se ve entero está opaco.
 
-Tipografías por `next/font` **locales**, sin llamar a Google. Fraunces + Inter (alternativa:
-Bitter + Source Sans 3).
+Tipografías por `next/font` **locales**, sin llamar a Google: **Playfair Display** (títulos) +
+**Plus Jakarta Sans** (texto), desde la fase 3.1 (decisión de Dan, 13/09/2026). Sustituyen a
+Fraunces + Inter. Las prepara `scripts/preparar-fuentes.py`; 79 KB entre las dos.
 
 Dan pidió usar las skills de diseño instaladas. `03 - Frontend.md` §2 mapea cuál en qué fase y con
 qué entregable. **Orden obligatorio:** primero las de proceso (`brand`, `design-system`,

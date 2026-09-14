@@ -57,8 +57,9 @@
   --radius: 0.875rem; /* 14 px: esquina generosa, acompana el tono calido */
   --ancho-contenido: 75rem; /* 1200 px */
 
-  /* Tipografia: Fraunces para titulos e Inter para texto, elegidas por el
-     propietario sobre una maqueta real de la portada (doc 03 §3.2).
+  /* Tipografia: Playfair Display para titulos y Plus Jakarta Sans para texto,
+     elegidas por Dan el 13/09/2026 sobre el prototipo de Stitch (plan 03.1).
+     Sustituyen a Fraunces + Inter.
      `--fuente-titulo` y `--fuente-texto` las publica next/font desde
      src/estilos/fuentes.ts, con su propia familia de reserva ya incluida.
      El segundo valor de cada var() cubre el caso de que esas clases no esten

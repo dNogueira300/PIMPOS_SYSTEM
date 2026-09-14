@@ -179,21 +179,24 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 
-  // next/font genera nombres de familia con hash (`__Fraunces_a1b2c3`), asi que
-  // se comprueba el prefijo. Que la clase este puesta en el <html> no basta:
-  // esto verifica que la cadena token -> variable -> familia llega entera.
+  // Playfair Display en titulares y Plus Jakarta Sans en texto (decision de Dan,
+  // 13/09/2026, plan 03.1). next/font nombra la familia con la variable
+  // exportada en src/estilos/fuentes.ts (`playfair`, `jakarta`), asi que se
+  // comprueba ese nombre. Que la clase este puesta en el <html> no basta: esto
+  // verifica que la cadena token -> variable -> familia llega entera.
   const familiaTitulo = await page
     .getByRole("heading", { level: 2 })
     .first()
     .evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(familiaTitulo).toMatch(/Fraunces/i);
+  expect(familiaTitulo).toMatch(/playfair/i);
 
   const familiaTexto = await page.locator("body").evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(familiaTexto).toMatch(/Inter/i);
+  expect(familiaTexto).toMatch(/jakarta/i);
 
   // Y que el archivo se haya cargado de verdad, no solo declarado.
   const cargadas = await page.evaluate(() =>
     [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
   );
-  expect(cargadas.join(" ")).toMatch(/Fraunces/i);
+  expect(cargadas.join(" ")).toMatch(/playfair/i);
+  expect(cargadas.join(" ")).toMatch(/jakarta/i);
 });

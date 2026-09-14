@@ -12,36 +12,27 @@ despliegue no existiría.
 
 ## Tipografías
 
-| Archivo            | Familia  | Autoría                                                                         |
-| ------------------ | -------- | ------------------------------------------------------------------------------- |
-| `fraunces-600.ttf` | Fraunces | Copyright 2020 The Fraunces Project Authors — github.com/undercasetype/Fraunces |
-| `inter-500.ttf`    | Inter    | Copyright 2016 The Inter Project Authors — github.com/rsms/inter                |
+| Archivo            | Familia original  | Autoría                                                                                       |
+| ------------------ | ----------------- | --------------------------------------------------------------------------------------------- |
+| `playfair-700.ttf` | Playfair Display  | Copyright 2017 The Playfair Display Project Authors — github.com/clauseggers/Playfair-Display |
+| `jakarta-500.ttf`  | Plus Jakarta Sans | Copyright 2020 The Plus Jakarta Sans Project Authors — github.com/tokotype/PlusJakartaSans    |
 
-Ambas bajo la **SIL Open Font License 1.1** (<https://openfontlicense.org>), que permite
-usarlas, modificarlas y redistribuirlas con el proyecto, y exige conservar este aviso.
+Ambas bajo la **SIL Open Font License 1.1** (<https://openfontlicense.org>), que permite usarlas,
+modificarlas y redistribuirlas con el proyecto, y exige conservar este aviso.
 
-Son **versiones modificadas** en el sentido de la licencia: salen de los mismos archivos que usa el
-sitio (`src/estilos/fuentes/*.woff2`), convertidas a TTF y con los ejes fijados. La OFL prohíbe
-publicar una versión modificada con un _Reserved Font Name_, y se comprobó que ninguna de las dos
-declara uno — por eso conservan su nombre.
+Son **versiones modificadas** en el sentido de la licencia: salen del mismo TTF variable original
+que las del sitio, con el peso fijado (Playfair a 700, Jakarta a 500) y recortadas a latín.
 
-Se regeneran así, con `fonttools` y `brotli` (este último hace falta para leer el woff2):
+**Playfair Display declara «Playfair Display» como _Reserved Font Name_**, y la OFL prohíbe que una
+versión modificada lo lleve: por eso `playfair-700.ttf` se llama «Playfair Pimpos» por dentro, y así
+se registra en `src/app/opengraph-image.tsx`. Plus Jakarta Sans no declara ninguno y conserva el
+suyo. Detalle en `src/estilos/fuentes/LICENCIA.md`.
 
-```python
-from fontTools.ttLib import TTFont
-from fontTools.varLib import instancer
+Se regeneran junto con las del sitio:
 
-# Fraunces: ejes opsz (9–144) y wght (100–900). Tamaño óptico de titular.
-f = instancer.instantiateVariableFont(
-    TTFont("src/estilos/fuentes/fraunces-latin.woff2"), {"wght": 600, "opsz": 72}
-)
-f.flavor = None
-f.save("src/recursos/compartir/fraunces-600.ttf")
-
-# Inter: solo el eje wght (100–900).
-f = instancer.instantiateVariableFont(TTFont("src/estilos/fuentes/inter-latin.woff2"), {"wght": 500})
-f.flavor = None
-f.save("src/recursos/compartir/inter-500.ttf")
+```bash
+pip install fonttools brotli
+python scripts/preparar-fuentes.py
 ```
 
 ## Imágenes
@@ -53,4 +44,4 @@ f.save("src/recursos/compartir/inter-500.ttf")
 Son la marca del propio cliente, Panadería Pimpo's E.I.R.L.
 
 **Límite de peso:** el paquete de la imagen no puede pasar de 500 KB con fuentes y logos incluidos.
-Hoy son unos 125 KB. Antes de cambiar un archivo por uno más grande, sumar.
+Hoy son unos 90 KB (las dos fuentes, 69 KB, más el isotipo). Antes de cambiar un archivo por uno más grande, sumar.

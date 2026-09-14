@@ -18,9 +18,10 @@ import { obtenerConfiguracion } from "@/lib/datos/configuracion";
  *
  * - `ImageResponse` **no acepta woff2**, que es el formato de las fuentes del
  *   sitio. Solo ttf, otf y woff. Los `.ttf` de `src/recursos/compartir/` son
- *   las mismas Fraunces e Inter del sitio (misma licencia OFL, mismo archivo de
- *   origen), convertidas a estáticas: el motor tampoco maneja bien las fuentes
- *   variables, así que se fijaron grosor y tamaño óptico.
+ *   las mismas Playfair Display y Plus Jakarta Sans del sitio (misma licencia
+ *   OFL, mismo archivo de origen), convertidas a estáticas de un solo peso: el
+ *   motor tampoco maneja bien las fuentes variables. Las prepara
+ *   `scripts/preparar-fuentes.py`.
  * - El isotipo va en PNG y dentro del repositorio. El de `DOC/Fotos...` está fuera
  *   de git, y en el CI o en un despliegue no existiría.
  * - El paquete de esta imagen tiene un límite de 500 KB con fuentes y logos
@@ -37,8 +38,8 @@ export const contentType = "image/png";
 const RECURSOS = join(process.cwd(), "src/recursos/compartir");
 
 // No dependen de la petición: se leen una vez al cargar el módulo.
-const fraunces = await readFile(join(RECURSOS, "fraunces-600.ttf"));
-const inter = await readFile(join(RECURSOS, "inter-500.ttf"));
+const playfair = await readFile(join(RECURSOS, "playfair-700.ttf"));
+const jakarta = await readFile(join(RECURSOS, "jakarta-500.ttf"));
 const isotipo = `data:image/png;base64,${await readFile(join(RECURSOS, "isotipo.png"), "base64")}`;
 
 // Los colores van en crudo porque aquí no hay CSS ni variables: es una imagen.
@@ -63,7 +64,7 @@ export default async function ImagenParaCompartir() {
         height: "100%",
         display: "flex",
         backgroundColor: CREMA,
-        fontFamily: "Inter",
+        fontFamily: "Plus Jakarta Sans",
       }}
     >
       {/* Franja azul a la izquierda con el isotipo: el azul es el color que
@@ -96,7 +97,7 @@ export default async function ImagenParaCompartir() {
       >
         <div
           style={{
-            fontFamily: "Fraunces",
+            fontFamily: "Playfair Pimpos",
             fontSize: 76,
             lineHeight: 1.05,
             color: AZUL,
@@ -112,7 +113,7 @@ export default async function ImagenParaCompartir() {
         <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 10 }}>
           {masBarato !== null ? (
             <div style={{ fontSize: 30, color: TINTA, display: "flex" }}>
-              <span style={{ fontFamily: "Fraunces", color: DORADO, marginRight: 12 }}>
+              <span style={{ fontFamily: "Playfair Pimpos", color: DORADO, marginRight: 12 }}>
                 Desde {formatearPrecio(masBarato)}
               </span>
             </div>
@@ -124,8 +125,11 @@ export default async function ImagenParaCompartir() {
     {
       ...size,
       fonts: [
-        { name: "Fraunces", data: fraunces, weight: 600, style: "normal" },
-        { name: "Inter", data: inter, weight: 500, style: "normal" },
+        // "Playfair Pimpos": es el nombre que lleva por dentro la derivada de
+        // Playfair Display, que no puede usar el nombre reservado de la fuente
+        // (ver src/estilos/fuentes/LICENCIA.md). Solo es una etiqueta para el motor.
+        { name: "Playfair Pimpos", data: playfair, weight: 700, style: "normal" },
+        { name: "Plus Jakarta Sans", data: jakarta, weight: 500, style: "normal" },
       ],
     },
   );
