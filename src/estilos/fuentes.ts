@@ -1,38 +1,39 @@
 import localFont from "next/font/local";
 
 /**
- * Tipografía del sistema. Elegida por el propietario sobre una maqueta real de
- * la portada, no sobre una muestra de texto (doc 03 §3.2).
+ * Tipografía del sistema: Playfair Display para los títulos y Plus Jakarta
+ * Sans para el texto. Las eligió Dan el 13/09/2026 sobre el prototipo de Stitch
+ * que marca la dirección visual de la fase 3.1, en sustitución de Fraunces +
+ * Inter (plan 03.1, tarea 1).
  *
  * Se sirven desde el propio proyecto con `next/font/local`, nunca desde Google:
  * así no se envía la IP de cada visitante a un tercero y se ahorra la conexión
  * extra a `fonts.gstatic.com`, que retrasa el primer render. Iquitos tiene
  * conectividad móvil variable y el móvil es prioritario (R6).
  *
- * Ambas son variables: un archivo cubre todo el rango 300–700 en lugar de uno
- * por peso. Ver `fuentes/LICENCIA.md`.
+ * Las dos son variables y están recortadas a latín: un archivo por familia
+ * cubre todos los pesos, y juntas pesan 79 KB — menos que las 113 de las
+ * anteriores. Las prepara `scripts/preparar-fuentes.py`; ver
+ * `fuentes/LICENCIA.md`, que explica por qué el archivo de Playfair se llama
+ * «Playfair Pimpos» por dentro.
  *
  * Los dos export se llaman como la tipografía y no en español, saltándose la
  * convención del proyecto, por un motivo concreto: `next/font` usa el nombre de
  * la variable como nombre de la familia CSS. Con `fuenteTitulo`, las devtools
- * mostraban `font-family: fuenteTitulo`, que no dice qué letra es. Así se lee
- * `font-family: fraunces` y se entiende de un vistazo.
+ * mostrarían `font-family: fuenteTitulo`, que no dice qué letra es. Así se lee
+ * `font-family: playfair` y se entiende de un vistazo.
  */
 
 /**
- * Fraunces, para los títulos.
+ * Playfair Display, para los títulos.
  *
- * Su contraste entre trazo grueso y fino es lo que la hace leerse como hecha a
- * mano, que es el estilo tradicional/artesanal que declara la ficha (2.6) y lo
- * que acompaña a un logo con bebé chef y degradado arcoíris.
- *
- * Lleva además el eje óptico `opsz`: el navegador ajusta solo el contraste
- * según el tamaño con `font-optical-sizing: auto`, que es el comportamiento por
- * defecto. Por eso un titular grande se ve más marcado que un h3.
+ * Un serif de alto contraste entre trazo grueso y fino: le da a los titulares
+ * el aire de rótulo de panadería de siempre que pide el estilo tradicional de
+ * la ficha (2.6), sin volverse rústico.
  */
-export const fraunces = localFont({
-  src: "./fuentes/fraunces-latin.woff2",
-  weight: "300 700",
+export const playfair = localFont({
+  src: "./fuentes/playfair-latin.woff2",
+  weight: "400 900",
   style: "normal",
   display: "swap",
   variable: "--fuente-titulo",
@@ -42,10 +43,13 @@ export const fraunces = localFont({
   adjustFontFallback: "Times New Roman",
 });
 
-/** Inter, para el texto corrido: neutral y limpia, deja hablar al titular. */
-export const inter = localFont({
-  src: "./fuentes/inter-latin.woff2",
-  weight: "300 700",
+/**
+ * Plus Jakarta Sans, para el texto corrido y los precios: geométrica pero con
+ * contraformas abiertas, muy legible en cifras pequeñas en un teléfono.
+ */
+export const jakarta = localFont({
+  src: "./fuentes/jakarta-latin.woff2",
+  weight: "200 800",
   style: "normal",
   display: "swap",
   variable: "--fuente-texto",
@@ -54,4 +58,4 @@ export const inter = localFont({
 });
 
 /** Clases que hay que poner en el `<html>` para publicar ambas variables CSS. */
-export const clasesDeFuentes = `${fraunces.variable} ${inter.variable}`;
+export const clasesDeFuentes = `${playfair.variable} ${jakarta.variable}`;

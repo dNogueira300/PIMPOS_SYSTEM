@@ -168,3 +168,24 @@ test.describe("con la densidad de pantalla de un telefono real", () => {
     ).toEqual([]);
   });
 });
+
+test("las fuentes que se descargan no pasan de 140 KB", async ({ page }) => {
+  const fuentes: { url: string; bytes: number }[] = [];
+  page.on("response", async (respuesta) => {
+    if (!respuesta.url().endsWith(".woff2")) return;
+    fuentes.push({ url: respuesta.url(), bytes: (await respuesta.body()).byteLength });
+  });
+
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const total = fuentes.reduce((suma, fuente) => suma + fuente.bytes, 0);
+  console.log(`Fuentes: ${fuentes.length} archivos, ${Math.round(total / 1024)} KB`);
+
+  // Que la medicion exista: sin esto, una pagina que no cargara ninguna fuente
+  // pasaria el techo sin haber medido nada.
+  expect(fuentes.length, "No se midio ninguna fuente").toBeGreaterThan(0);
+  // Fraunces + Inter pesaban 113 KB. El techo deja margen para el cambio de
+  // familia (Playfair + Jakarta, plan 03.1) sin permitir que se cuele una
+  // tercera fuente o un corte completo sin recortar.
+  expect(total).toBeLessThan(140 * 1024);
+});
