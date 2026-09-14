@@ -250,14 +250,16 @@ Tokens en tres capas, todos en `src/estilos/globals.css` (Tailwind 4 se configur
 vez de inventar otros propios hace que toda la librería quede tintada con la marca sin editar un
 solo componente.
 
-### El dorado tiene dos valores, y no es redundancia
+### El dorado tiene cuatro valores, y cada uno un solo papel
 
-- `--pimpos-dorado-500` (`#C8801F`) **solo como fondo**, con tinta encima (5.34). Con blanco da
-  3.20 y no pasa AA.
-- `--pimpos-dorado-700` (`#8F5A10`) para texto, precio, icono o enlace (5.06 sobre crema).
+Desde la fase 3.1 la paleta es la del prototipo de Stitch con el azul del logo (valores y
+contrastes en [`docs/marca.md`](docs/marca.md) §8). El dorado es el que más fácil se usa mal:
 
-El plan original decía que bastaba con reservar `#C8801F` para texto de 18 px o más. Medido, da
-**2.80**: tampoco llega al umbral de texto grande. Por eso existe el segundo valor.
+- `--pimpos-dorado-300` (`#FDBD73`): **fondo** de la franja de confianza, con tinta encima (10.39).
+- `--pimpos-dorado-500` (`#D69B55`): **fondo** y bordes de sellos. Como texto da 2.31: no vale.
+- `--pimpos-dorado-800` (`#835413`): el único **texto** dorado —precios, sellos, enlaces—, 6.18
+  sobre el fondo. Nunca sobre el durazno (3.92) ni junto al azul (1.94).
+- `--pimpos-dorado-900` (`#6E460F`): hover de los botones marrones.
 
 ### Los contrastes no se afirman, se miden
 
@@ -273,16 +275,18 @@ La voz, el tono y las reglas de uso de marca están en [`docs/marca.md`](docs/ma
 
 ### Tipografía
 
-**Fraunces** para títulos e **Inter** para texto, elegidas por el propietario sobre una maqueta real
-de la portada (doc 03 §3.2). Se definen en `src/estilos/fuentes.ts` y se sirven con
+**Playfair Display** para títulos y **Plus Jakarta Sans** para texto, desde la fase 3.1 (decisión de
+Dan, 13/09/2026; en F1 eran Fraunces + Inter). Se definen en `src/estilos/fuentes.ts` y se sirven con
 `next/font/local` desde `src/estilos/fuentes/` — nunca desde Google: así no se envía la IP de cada
 visitante a un tercero y se ahorra la conexión a `fonts.gstatic.com`, que retrasa el primer render.
 
-Ambas son variables y solo del subconjunto **latin**, que cubre todo el español. Un archivo por
-familia sirve todo el rango 300–700; entre las dos suman unos 115 KB. Licencias y procedimiento de
-actualización en [`src/estilos/fuentes/LICENCIA.md`](src/estilos/fuentes/LICENCIA.md).
+Ambas son variables y solo del subconjunto **latin**, que cubre todo el español: 79 KB entre las dos.
+Las prepara `scripts/preparar-fuentes.py`, que las descarga del repositorio `google/fonts`, las recorta
+y genera también las TTF estáticas de la imagen para compartir. Playfair declara un _Reserved Font
+Name_, así que la copia recortada se llama «Playfair Pimpos» por dentro. Licencias en
+[`src/estilos/fuentes/LICENCIA.md`](src/estilos/fuentes/LICENCIA.md).
 
-Los `export` se llaman `fraunces` e `inter`, en inglés y saltándose la convención del proyecto,
+Los `export` se llaman `playfair` y `jakarta`, en inglés y saltándose la convención del proyecto,
 porque `next/font` usa el nombre de la variable como nombre de la familia CSS: con `fuenteTitulo`,
 las devtools mostraban `font-family: fuenteTitulo`, que no dice qué letra es.
 

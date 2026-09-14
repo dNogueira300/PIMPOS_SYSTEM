@@ -2052,6 +2052,21 @@ git add -A && git commit -m "feat(contacto): arma tu pedido por WhatsApp y el re
 
 Rama `docs/f3.1-cierre`.
 
+> **Resultado y correcciones al ejecutar la tarea (14/09/2026):**
+>
+> 1. **La línea base de la tarea 1 no valía para comparar.** Contra su 79, la portada daba 91 y
+>    parecía mejorar doce puntos. Se construyó el commit anterior a la fase (`373dc64`) y se midió en
+>    la misma sesión: **95 en `/`, 94 en `/productos`, 96 en `/contacto`**. La fase da 91, 95 y 96: la
+>    portada pierde 4 puntos, dentro del límite de 5. Accesibilidad ≥ 97, SEO 100.
+> 2. **El 97 de accesibilidad de contacto es la animación, no un contraste.** Los dos colores que
+>    marca Lighthouse son `tinta-600` y `dorado-800` exactos al 70 % de opacidad. axe da cero.
+> 3. **El bloque «Dónde estamos · Horario» de la portada no estaba en ninguna tarea** y seguía con el
+>    estilo de F3. Se vio comparando la portada entera con el prototipo; se corrige aquí, junto con
+>    cinco titulares más que tampoco estaban nombrados (error, 404, novedad individual, «no hay
+>    novedades»).
+> 4. **Paso 5, sin hacer desde aquí:** la vista previa de Vercel y el teléfono real los tiene que mirar
+>    Dan. Queda anotado en `Avance del proyecto.md`.
+
 - [ ] **Paso 1: la suite entera.**
 
 ```bash

@@ -50,7 +50,7 @@ export default async function Novedades() {
                 className="object-contain"
               />
             </div>
-            <p className="font-heading mt-6 text-2xl text-balance">
+            <p className="font-heading text-primary mt-6 text-2xl font-semibold text-balance">
               Hoy no tenemos promociones, pero sí pan recién horneado
             </p>
             <p className="text-muted-foreground mt-3 text-pretty">

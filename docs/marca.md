@@ -171,23 +171,46 @@ Pimpo's E.I.R.L.», solo aparece en el pie de página y en textos legales.
 
 ## 8. Identidad visual
 
-Colores extraídos de los archivos reales del cliente, no elegidos de catálogo:
+Desde la **fase 3.1** (14/09/2026) el sitio tiene el aspecto del prototipo de Google Stitch
+«Artisan Editorial» que eligió Dan, con una condición suya: **el azul principal es el del logo**, no
+el del prototipo. El detalle, tarea a tarea, está en `DOC/Plan de Desarrollo 03.1 - Rediseño
+visual.md`; las capturas del resultado, en `DOC/Maquetas/3.1/`.
 
-| Rol                | Color     | De dónde sale                                    |
-| ------------------ | --------- | ------------------------------------------------ |
-| Azul institucional | `#12306E` | Texto «PANADERÍA PASTELERÍA Y BODEGA» del logo   |
-| Azul fachada       | `#0060A8` | La fachada del local                             |
-| Crema / masa       | `#F7EFE2` | Fondo cálido; nunca blanco puro                  |
-| Dorado corteza     | `#C8801F` | El producto horneado. Acento y llamadas a acción |
-| Tinta              | `#231A14` | Marrón muy oscuro en lugar de negro puro         |
+| Rol                                   | Color     | Contraste (medido)                         | De dónde sale                                  |
+| ------------------------------------- | --------- | ------------------------------------------ | ---------------------------------------------- |
+| Azul institucional: titulares y botón | `#12306E` | 11.97 sobre el fondo                       | Texto «PANADERÍA PASTELERÍA Y BODEGA» del logo |
+| Azul fachada: foco visible            | `#0060A8` | Contorno, no texto                         | La fachada del local                           |
+| Fondo de página                       | `#FFF9EE` | —                                          | Crema del prototipo; nunca blanco puro         |
+| Sección alterna                       | `#FAF3E6` | —                                          | Crema del prototipo                            |
+| Tarjetas y campos                     | `#FFFFFF` | —                                          | Lo único blanco: lo que flota encima           |
+| Tinta: texto                          | `#1E1B14` | 16.40 sobre el fondo                       | Marrón muy oscuro en lugar de negro puro       |
+| Tinta secundaria                      | `#41474D` | 8.97 sobre el fondo, 8.52 sobre la alterna | Prototipo                                      |
+| Dorado de texto: precios, sellos      | `#835413` | 6.18 sobre el fondo, 5.87 sobre la alterna | El producto horneado                           |
+| Durazno: franja de confianza          | `#FDBD73` | 10.39 con tinta encima                     | Prototipo                                      |
+| Verde WhatsApp: botón de pedir        | `#2D5A43` | 7.91 con blanco                            | El verde de WhatsApp no llega a AA con blanco  |
+| Terracota: barra de aviso             | `#842113` | 9.07 con crema                             | Prototipo                                      |
+
+Los números no son de un comentario: los calcula `src/estilos/paleta.test.ts` leyendo
+`globals.css`, y la prueba falla si un token baja de AA. Dos peores casos también están ahí: el
+titular del hero sobre el velo crema encima de un píxel negro (8.50) y el pie de foto de la galería
+sobre su degradado encima de un píxel blanco (8.59).
+
+**El dorado solo es texto en su tono oscuro, `#835413`, y nunca sobre el durazno ni junto al azul**:
+da 3.92 sobre la franja y 1.94 contra el azul. Los dorados claros son fondos y bordes.
 
 **El arcoíris del logo es un detalle, no una paleta.** El degradado multicolor de «PIMPO'S» se usa
 como filete divisor o subrayado, nunca en fondos, botones ni bloques de texto. Compite con la
 fotografía del producto, y en este sitio la fotografía manda.
 
-**El dorado no alcanza contraste AA en texto pequeño** sobre crema. Se reserva para superficies
-grandes, iconos y texto de 18 px o más. Esto no es negociable: la accesibilidad AA es un mínimo del
-proyecto (doc 03 §3.4).
+**Tipografía.** **Playfair Display** en titulares y **Plus Jakarta Sans** en el texto (decisión de
+Dan, 13/09/2026), servidas desde el propio sitio, recortadas a latín: 79 KB entre las dos. Sustituyen
+a Fraunces + Inter, que había elegido el propietario en F1. Playfair declara un _Reserved Font Name_,
+así que la copia recortada se llama «Playfair Pimpos» por dentro (ver `CLAUDE.md`).
+
+**Formas.** Botones en píldora de al menos 48 px; tarjetas blancas con bordes muy tenues y sombras
+cálidas, nunca negras; sellos (etiquetas cortas con borde dorado) **con mesura**: como mucho uno por
+bloque y en pocos bloques, porque una etiqueta encima de cada sección es la marca de un sitio hecho
+por plantilla. El verde es solo para pedir por WhatsApp; el azul, para todo lo demás que se pulsa.
 
 **Logo.** Contiene la fotografía de un niño, así que no existe versión vectorial completa; el
 horizontal es raster (`logo-1024.webp`). El isotipo del bebé chef **sí** es vector real
@@ -205,11 +228,11 @@ sí declaró en 2.6.
 
 No son opiniones de diseño: son datos que van a aparecer publicados y que hoy no cuadran entre sí.
 
-| Dato           | Discrepancia                                                                                                                |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| **WhatsApp**   | El plan fija `51947874820`; el `.env.local` en uso tiene otro número. Hay que decidir cuál se publica                       |
-| **Dirección**  | El plan dice «Calle Elías Aguirre 1321»; la historia de la ficha dice «Av. Elías Aguirre». Afecta al JSON-LD y al mapa      |
-| **Tipografía** | Fraunces + Inter, o Bitter + Source Sans 3. Se valida con el propietario sobre una maqueta real de la portada (doc 03 §3.2) |
+| Dato           | Discrepancia                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **WhatsApp**   | El plan fija `51947874820`; el `.env.local` en uso tiene otro número. Hay que decidir cuál se publica                                                   |
+| **Dirección**  | El plan dice «Calle Elías Aguirre 1321»; la historia de la ficha dice «Av. Elías Aguirre». Afecta al JSON-LD y al mapa                                  |
+| **Tipografía** | Resuelto: Playfair Display + Plus Jakarta Sans desde la fase 3.1 (Dan, 13/09). Falta enseñárselo al propietario con las capturas de `DOC/Maquetas/3.1/` |
 
 ---
 

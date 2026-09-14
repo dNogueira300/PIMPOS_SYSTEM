@@ -11,24 +11,24 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 
 ## Estado
 
-**F0, F1, F2 y F3 cerradas.** El sitio está desplegado (12/09/2026) en
+**F0, F1, F2, F3 y F3.1 cerradas.** El sitio está desplegado (12/09/2026) en
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                                                                                                                                                          |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                    |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                  |
-| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                           |
-| F3.1 Rediseño    | ⬜ **Planificada el 13/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Plan y referencia en `DOC/Plan de Desarrollo 03.1` y `DOC/Maquetas/Stitch/` |
-| F4–F7            | ⬜                                                                                                                                                                                                                              |
+| Fase             | Estado                                                                                                                                                                                                                                                                                                                                                                                             |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                                                                                                                                                                                   |
+| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                                                                                                                                                                                       |
+| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                                                                                                                                                                                     |
+| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                                                                                                                                                                                              |
+| F3.1 Rediseño    | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Rendimiento contra F3 medido el mismo día y en la misma máquina: `/` 91 frente a 95, `/productos` 95 frente a 94, `/contacto` 96 frente a 96. Accesibilidad ≥ 97 y SEO 100. Plan en `DOC/Plan de Desarrollo 03.1`, capturas en `DOC/Maquetas/3.1/` |
+| F4–F7            | ⬜                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
 `security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
 obligatorias del doc 02 §11.3 pasan las 9.
 
-**Verificación:** 388 pgTAP + 134 unitarias + 192 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación:** 388 pgTAP + 169 unitarias + 212 flujos E2E + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -414,6 +414,18 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   devolvía con la llave anónima y la portada, recién construida, seguía sin mostrarlos. Parece un
   problema de RLS y no lo es. Después de cambiar datos a mano: `rm -rf .next/cache/fetch-cache` y
   volver a construir. En el CI no pasa, porque cada ejecución empieza sin caché.
+- **Una línea base de rendimiento solo vale el día que se mide.** La tarea 1 de 3.1 anotó 79 de
+  mediana en la portada; al cerrar, la fase dio 91, y parecía que el rediseño había mejorado doce
+  puntos. Se volvió a construir el commit de antes de la fase y se midió en la misma sesión: **95**.
+  La máquina iba más rápida ese día; el rediseño en realidad **costó 4 puntos**. Para comparar
+  rendimiento, las dos versiones se miden seguidas, con `git stash` + `git checkout <commit>` +
+  build, nunca contra un número guardado de otro día.
+- **Un plan que reparte el rediseño por secciones deja huecos entre ellas.** El plan 03.1 nombraba
+  cada bloque de la portada menos uno, «Dónde estamos · Horario», que llegó al cierre con el estilo
+  de F3 y todas las pruebas en verde: ninguna prueba mira si un titular es azul. Lo encontró
+  comparar la portada **entera** con el prototipo, lado a lado. Al cerrar un rediseño, antes de dar
+  nada por hecho: capturas de página completa y un `grep` de las clases viejas (`font-heading` sin
+  color, `bg-secondary`, `rounded-xl border`).
 - **`test-results/` no sirve para guardar informes:** Playwright la vacía al empezar, así que los
   informes de Lighthouse desaparecían en cuanto se corría cualquier prueba. Van a `.lighthouse/`.
 - **En Git Bash, `pnpm lighthouse <url> /` no funciona:** MSYS convierte el `/` en una ruta de
@@ -653,13 +665,25 @@ Una tarea no está hecha hasta que:
 ## Diseño
 
 Estilo declarado: **tradicional / artesanal**, no minimalista ni "premium". Pimpo's es un negocio
-de barrio de 22 años con precios desde S/ 0.10 y delivery propio: el precio se muestra con orgullo
-y el delivery es titular, no nota al pie.
+de barrio abierto en 2004, con precios desde S/ 0.10 y delivery propio: el precio se muestra con
+orgullo y el delivery es titular, no nota al pie.
 
-Paleta extraída de los archivos reales del cliente: azul institucional `#12306E`, azul fachada
-`#0060A8`, crema de fondo `#F7EFE2` (nunca blanco puro), dorado corteza `#C8801F` (acento/CTA),
-tinta `#231A14`. El degradado arcoíris del logo va **solo como detalle**, nunca en fondos ni botones.
-El dorado no alcanza contraste AA en texto pequeño: solo superficies grandes, iconos o ≥18 px.
+**Desde la fase 3.1, el lenguaje «artisan editorial» del prototipo de Stitch** (`DOC/Maquetas/Stitch/`),
+con el azul del logo y ningún dato del prototipo. Lo que hay que saber antes de tocar la interfaz:
+
+- **Paleta** (valores y contrastes medidos en `docs/marca.md` §8): azul `#12306E` para titulares y
+  lo que se pulsa; fondo crema `#FFF9EE` (nunca blanco puro) con secciones `#FAF3E6` y tarjetas
+  blancas; tinta `#1E1B14`; dorado de texto `#835413` para precios y sellos, **nunca sobre el durazno
+  ni junto al azul**; durazno `#FDBD73` en la franja; **verde `#2D5A43` solo para pedir por
+  WhatsApp**; terracota `#842113` en la barra de aviso. El arcoíris del logo, solo como detalle.
+- **Piezas** en `globals.css`: `.boton-cta` (azul), `.boton-whatsapp` (verde), `.boton-linea`,
+  todos en píldora de 48 px; `.tarjeta` y `.tarjeta--elevable`; `.sello`, **con mesura** (una
+  etiqueta encima de cada sección es la marca de una plantilla). Titulares con `TituloSeccion`, y el
+  de cada página interior con `EncabezadoSeccion`, sobre crema.
+- **El velo del hero** tiene opacidad mínima (`--velo-hero: 0.85`) fijada por el peor caso de
+  contraste, y su zona opaca no es un porcentaje: ver `.velo-hero`.
+- **Productos en híbrido**: tarjeta solo para los destacados con foto real (`repartirPorFoto`); todo
+  lo demás, pizarra de precios.
 
 Tokens en tres capas (primitivo → semántico → componente) como variables CSS nativas en
 `src/estilos/globals.css`. Ningún componente usa un color de la capa 1 directamente.

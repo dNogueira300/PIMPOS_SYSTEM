@@ -47,7 +47,9 @@ export default async function DetalleNovedad(props: PageProps<"/novedades/[slug]
         Todas las novedades
       </Link>
 
-      <h1 className="font-heading mt-4 text-4xl text-balance sm:text-5xl">{novedad.titulo}</h1>
+      <h1 className="font-heading text-primary mt-4 text-4xl font-bold text-balance sm:text-5xl">
+        {novedad.titulo}
+      </h1>
 
       {novedad.resumen ? (
         <p className="text-muted-foreground mt-4 text-lg text-pretty">{novedad.resumen}</p>
