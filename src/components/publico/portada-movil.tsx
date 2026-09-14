@@ -78,15 +78,20 @@ export function PortadaMovil({
         </div>
       ) : null}
 
-      <div className="bg-primary text-primary-foreground px-4 py-8">
-        <p className="font-heading text-3xl leading-tight text-balance">{nombre}</p>
+      {/* Crema con el nombre en azul desde la fase 3.1, como el hero del
+          prototipo. La foto se queda arriba y sin velo: aquí es el LCP y va
+          sola, sin nada encima que retrase pintarla. */}
+      <div className="bg-background px-4 pt-7 pb-9">
+        <p className="font-heading text-primary text-4xl leading-[1.1] font-bold tracking-[-0.01em] text-balance">
+          {nombre}
+        </p>
         {eslogan ? (
-          <p className="text-primary-foreground/85 mt-2 text-lg text-pretty">{eslogan}</p>
+          <p className="text-muted-foreground mt-2 text-lg text-pretty">{eslogan}</p>
         ) : null}
 
         {/* Lo primero que se pregunta quien quiere pan: si puede ir ya. */}
         <div className="mt-4">
-          <EstadoAhora horario={horario} variante="oscuro" />
+          <EstadoAhora horario={horario} />
         </div>
 
         {/* Dos puertas, no una.
@@ -96,8 +101,8 @@ export function PortadaMovil({
             cuanto esta y como pedirlo (PRODUCT.md). El hero contestaba solo la
             tercera, y para ver los precios habia que bajar o abrir el menu.
         
-            El dorado se queda para pedir, que es la accion que el negocio
-            quiere; ver los precios va de linea, como segunda opcion. */}
+            Pedir va en verde WhatsApp, que es la accion que el negocio quiere;
+            ver los precios va de linea, como segunda opcion. */}
         <div className="mt-6 flex flex-col gap-3">
           {whatsapp ? (
             <a
@@ -111,10 +116,7 @@ export function PortadaMovil({
             </a>
           ) : null}
 
-          <Link
-            href="/productos"
-            className="boton-linea boton-linea--sobre-azul flex w-full justify-center"
-          >
+          <Link href="/productos" className="boton-linea flex w-full justify-center">
             Ver los precios
           </Link>
         </div>

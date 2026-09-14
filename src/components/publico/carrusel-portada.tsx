@@ -125,27 +125,22 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                   />
                 ) : null}
 
-                {/* Degradado desde la tinta de marca, no negro puro: el texto
-                    tiene que leerse sobre cualquier foto sin que la foto se
-                    apague del todo.
+                {/* Velo crema desde la izquierda con el titular en azul (prototipo
+                    de Stitch, plan 03.1). Sustituye al degradado oscuro de F3.
+                    Por qué su zona opaca no es un porcentaje fijo, en la clase
+                    `.velo-hero` de globals.css. */}
+                <div className="velo-hero absolute inset-0" />
 
-                    85/55/10 y no 85/40/0: con el anterior, el subtitulo de la
-                    diapositiva 2 quedaba en 4.46 de contraste a 1280 px, por
-                    debajo de 4.5 (medido por pixeles en la critica del 11/09).
-                    Asi el peor titular queda en 5.52 y el peor subtitulo en
-                    5.66, oscureciendo la zona sin texto solo un 10 %. */}
-                <div className="absolute inset-0 bg-linear-to-t from-[#231a14]/85 via-[#231a14]/55 to-[#231a14]/10" />
-
-                <div className="absolute inset-0 flex items-end">
-                  {/* `pb-14` en el celular deja sitio a los puntos, que miden
-                      44 px: con menos, el boton del slide quedaba debajo. */}
-                  <div className="mx-auto w-full max-w-(--container-contenido) px-4 pb-14 sm:px-6 sm:pb-16">
-                    <div className="max-w-xl">
-                      <h2 className="font-heading text-3xl leading-tight text-balance text-[#fdf9f3] sm:text-5xl">
+                <div className="absolute inset-0 flex items-center">
+                  {/* `data-texto-hero`: la prueba mide que este bloque caiga
+                      entero dentro de la zona opaca del velo. */}
+                  <div className="mx-auto w-full max-w-(--container-contenido) px-4 pb-10 sm:px-6">
+                    <div data-texto-hero className="max-w-xl">
+                      <h2 className="font-heading text-primary text-4xl leading-[1.1] font-bold tracking-[-0.02em] text-balance lg:text-5xl">
                         {slide.titulo}
                       </h2>
                       {slide.subtitulo ? (
-                        <p className="mt-3 text-base text-pretty text-[#fdf9f3]/90 sm:text-lg">
+                        <p className="text-muted-foreground mt-4 text-base text-pretty sm:text-lg">
                           {slide.subtitulo}
                         </p>
                       ) : null}
@@ -179,10 +174,15 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
 
       {slides.length > 1 ? (
         <>
+          {/* Las flechas van abajo a la derecha, como en el prototipo, y no
+              centradas en los bordes: con el texto a la izquierda sobre el
+              velo, a 768 y 1024 px la flecha izquierda tapaba el comienzo del
+              titular y el subtítulo (a esos anchos el contenedor casi no tiene
+              margen). Lo vigila e2e/portada.spec.ts. */}
           <button
             type="button"
             onClick={() => embla?.scrollPrev()}
-            className="focus-visible:outline-ring size-tactil absolute top-1/2 left-2 hidden -translate-y-1/2 items-center justify-center rounded-full bg-[#fdf9f3]/85 text-[#231a14] transition-colors hover:bg-[#fdf9f3] focus-visible:outline-2 sm:flex"
+            className="focus-visible:outline-ring size-tactil bg-background text-primary shadow-suave hover:bg-muted absolute right-[4.25rem] bottom-2 hidden items-center justify-center rounded-full transition-colors focus-visible:outline-2 sm:flex"
           >
             <ChevronLeft aria-hidden className="size-6" />
             <span className="sr-only">Anterior</span>
@@ -190,7 +190,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
           <button
             type="button"
             onClick={() => embla?.scrollNext()}
-            className="focus-visible:outline-ring size-tactil absolute top-1/2 right-2 hidden -translate-y-1/2 items-center justify-center rounded-full bg-[#fdf9f3]/85 text-[#231a14] transition-colors hover:bg-[#fdf9f3] focus-visible:outline-2 sm:flex"
+            className="focus-visible:outline-ring size-tactil bg-background text-primary shadow-suave hover:bg-muted absolute right-4 bottom-2 hidden items-center justify-center rounded-full transition-colors focus-visible:outline-2 sm:flex"
           >
             <ChevronRight aria-hidden className="size-6" />
             <span className="sr-only">Siguiente</span>
@@ -198,7 +198,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
 
           {/* Cada punto es un boton de 44 px aunque la raya que se ve mida 12:
               el area tactil minima (R15) es la del dedo, no la del dibujo. */}
-          <div className="absolute inset-x-0 bottom-1 flex justify-center gap-1">
+          <div className="bg-background/85 absolute bottom-2 left-1/2 flex -translate-x-1/2 justify-center gap-0.5 rounded-full px-2">
             {slides.map((slide, indice) => (
               <button
                 key={slide.id}
@@ -209,7 +209,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
               >
                 <span
                   className={`block h-1.5 rounded-full transition-all ${
-                    indice === actual ? "w-6 bg-[#fdf9f3]" : "w-3 bg-[#fdf9f3]/50"
+                    indice === actual ? "bg-primary w-6" : "bg-primary/30 w-3"
                   }`}
                 />
                 <span className="sr-only">Ir a la diapositiva {indice + 1}</span>

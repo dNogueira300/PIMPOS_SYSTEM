@@ -528,6 +528,27 @@
     text-transform: uppercase;
   }
 
+  /* Velo crema del hero de escritorio (prototipo de Stitch, plan 03.1 tarea 5).
+
+     La zona opaca llega hasta `max(50% + 1rem, 40rem)` y no a un porcentaje fijo,
+     y es a proposito: el texto va en un contenedor centrado de ancho fijo, asi que
+     termina en el 50 % a partir de 1248 px, pero en el 59 % a 1024 y en el 78 % a
+     768. Con un degradado solo en porcentajes el final del titular caia en la
+     zona que ya se desvanece, donde el contraste deja de estar garantizado. Con
+     este tope el texto cae entero en la zona a --velo-hero (0.85), que es la que
+     paleta.test.ts da por buena en el peor caso, y e2e/portada.spec.ts lo mide en
+     cuatro anchos. */
+  .velo-hero {
+    --velo-color: color-mix(in srgb, var(--background) calc(var(--velo-hero) * 100%), transparent);
+    --velo-hasta: max(calc(50% + 1rem), 40rem);
+    background: linear-gradient(
+      to right,
+      var(--velo-color) 0,
+      var(--velo-color) var(--velo-hasta),
+      transparent calc(var(--velo-hasta) + 20%)
+    );
+  }
+
   /* Tarjeta: blanca sobre crema, borde de papel prensado y sombra calida. */
   .tarjeta {
     background-color: var(--card);

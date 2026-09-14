@@ -32,9 +32,41 @@ test("la portada muestra los tres datos verificables", async ({ page }) => {
 
   // Son datos de la ficha (2.5, 1.8, 1.11), no promesas de marketing. Si
   // alguno desaparece de la portada, es una decision, no un descuido.
-  for (const dato of ["Del día", "A toda Iquitos", "Desde 2004"]) {
-    await expect(page.getByText(dato, { exact: true })).toBeVisible();
+  //
+  // El tercero se titulaba «Desde 2004» hasta la fase 3.1: el año pasó al sello
+  // flotante del bloque de nosotros, como en el prototipo, para no decir lo
+  // mismo dos veces en la misma página (plan 03.1, tarea 5).
+  const franja = page.getByRole("region", { name: "Por qué comprar aquí" });
+  for (const dato of ["Del día", "A toda Iquitos", "En el barrio"]) {
+    await expect(franja.getByText(dato, { exact: true })).toBeVisible();
   }
+});
+
+test("el hero de escritorio pone el titular sobre el velo crema, en azul", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "El hero con carrusel es de escritorio.");
+  await page.goto("/");
+
+  const titular = page.locator('[aria-roledescription="diapositiva"][aria-label="1 de 3"] h2');
+  await expect(titular).toBeVisible();
+  // El azul institucional sobre el velo, no el crema de antes sobre un
+  // degradado oscuro. El contraste del peor caso lo prueba paleta.test.ts.
+  await expect(titular).toHaveCSS("color", "rgb(18, 48, 110)");
+});
+
+test("el bloque de nosotros dice el año de apertura, no una cuenta de años inventada", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  // El sello flotante del prototipo decía «24+ Años horneando en la Amazonía».
+  // Aquí dice el año, que sale de la base y no caduca.
+  const sello = page.locator("[data-sello-apertura]");
+  await expect(sello).toBeVisible();
+  await expect(sello).toContainText(/^Desde \d{4}/);
+  await expect(page.getByText(/\d+\+\s*años/i)).toHaveCount(0);
 });
 
 test("el catalogo llega desde la base con su precio a la vista", async ({ page }) => {
@@ -199,4 +231,64 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   );
   expect(cargadas.join(" ")).toMatch(/playfair/i);
   expect(cargadas.join(" ")).toMatch(/jakarta/i);
+});
+
+test("el texto del hero cae entero dentro de la zona opaca del velo y nada lo tapa", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "El hero con carrusel es de escritorio; los anchos se fijan aquí.");
+
+  // El contraste del titular sobre la foto solo está garantizado donde el velo
+  // está a --velo-hero (0.85): lo prueba paleta.test.ts en el peor caso. Esto
+  // prueba la otra mitad, que el texto no se salga de esa zona. Con un degradado
+  // en porcentajes se salía: el texto va en un contenedor centrado y termina en
+  // el 59 % a 1024 px y en el 78 % a 768.
+  const fuera: string[] = [];
+  for (const ancho of [768, 1024, 1280, 1920]) {
+    await page.setViewportSize({ width: ancho, height: 900 });
+    await page.goto("/");
+
+    const medida = await page.evaluate(() => {
+      const texto = document.querySelector("[data-texto-hero]");
+      const velo = document.querySelector(".velo-hero");
+      if (!texto || !velo) return null;
+
+      // El límite de la zona opaca se MIDE del CSS real, no se recalcula aquí
+      // con la fórmula copiada: la primera versión de esta prueba lo hacía, y
+      // pasaba igual con un velo roto, porque comparaba el texto contra la
+      // fórmula y no contra la hoja de estilos. Una sonda con
+      // `width: var(--velo-hasta)` resuelve el valor contra la caja del velo,
+      // que es la misma base contra la que resuelve el degradado.
+      const sonda = document.createElement("div");
+      sonda.style.cssText = "position:absolute;left:0;top:0;height:1px;width:var(--velo-hasta)";
+      velo.appendChild(sonda);
+      const zonaOpacaHasta = sonda.getBoundingClientRect().right;
+      sonda.remove();
+
+      const cajasTexto = [...texto.children].map((hijo) => hijo.getBoundingClientRect());
+      const bordeTexto = Math.max(...cajasTexto.map((caja) => caja.right));
+
+      // Y que ningún control del carrusel se monte encima del texto: a 1024 px
+      // la flecha izquierda tapaba el comienzo del subtítulo.
+      const controles = [...document.querySelectorAll('[aria-roledescription="carrusel"] button')]
+        .map((boton) => boton.getBoundingClientRect())
+        .filter((caja) => caja.width > 0);
+      const tapado = cajasTexto.some((t) =>
+        controles.some(
+          (c) => c.left < t.right && c.right > t.left && c.top < t.bottom && c.bottom > t.top,
+        ),
+      );
+      return { zonaOpacaHasta, bordeTexto, tapado };
+    });
+
+    expect(medida, `no hay hero con velo a ${ancho} px`).not.toBeNull();
+    if (medida!.tapado) fuera.push(`${ancho} px: un control del carrusel tapa el texto`);
+    if (medida!.bordeTexto > medida!.zonaOpacaHasta) {
+      fuera.push(
+        `${ancho} px: el texto llega a ${Math.round(medida!.bordeTexto)} y la zona opaca a ${Math.round(medida!.zonaOpacaHasta)}`,
+      );
+    }
+  }
+  expect(fuera, `Texto fuera de la zona opaca del velo:\n${fuera.join("\n")}`).toEqual([]);
 });

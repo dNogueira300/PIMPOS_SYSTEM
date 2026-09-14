@@ -1249,6 +1249,21 @@ Mirar a 375 px que la barra no pase de dos líneas y que el menú abierto se lea
 
 ## Tarea 5 — Portada: hero, franja y bloque de nosotros
 
+> **Correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. **El velo no puede ser un degradado solo en porcentajes.** El texto va en un contenedor
+>    centrado de ancho fijo: termina en el 50 % desde 1248 px, pero en el 59 % a 1024 y en el 78 % a
+>    768, dentro de la zona que ya se desvanece. La zona opaca llega a `max(50% + 1rem, 40rem)`, en
+>    la clase `.velo-hero` de `globals.css`, y una prueba mide con una sonda el CSS real en cuatro
+>    anchos. La primera versión de esa prueba recalculaba la fórmula en JavaScript y pasaba con un
+>    velo roto: se vio y se corrigió.
+> 2. **Las flechas del carrusel van abajo a la derecha**, como en el prototipo. Centradas en los
+>    bordes tapaban el comienzo del texto a 768 y 1024 px; la misma prueba lo vigila.
+> 3. **El titular de la madrugada no pasa a `TituloSeccion`**: su tamaño (5xl en escritorio) está
+>    medido para equilibrar la ilustración, y `TituloSeccion` lo encogería. Solo cambian color y peso.
+> 4. `cabecera.spec.ts` buscaba el titular exacto «Veintidós años en el barrio», que caducaba el 1 de
+>    enero; ahora busca la forma (`/años en el barrio/`).
+
 Rama `feat/f3.1-t5-portada-hero`.
 
 **Consume:** `TituloSeccion`, `.sello`, `.tarjeta`, `--velo-hero`, `anosDeOficio()`,
