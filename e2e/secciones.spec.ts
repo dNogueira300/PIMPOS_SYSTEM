@@ -68,6 +68,22 @@ test("un producto que no existe da 404, no una pagina vacia", async ({ page }) =
   expect(respuesta?.status()).toBe(404);
 });
 
+test("la galería pone el título real de cada foto como pie", async ({ page }) => {
+  await page.goto("/galeria");
+  const figuras = page.getByRole("main").locator("figure");
+  await expect(figuras.first()).toBeVisible();
+
+  // Las diez fotos de la semilla tienen título, así que cada figura lleva su
+  // pie. Si una foto se queda sin título en el panel, se queda sin pie; eso no
+  // lo mira esta prueba, que cuenta la semilla.
+  const pies = figuras.locator("figcaption");
+  await expect(pies).toHaveCount(await figuras.count());
+  await expect(pies.filter({ hasText: /^La fachada$/ })).toHaveCount(1);
+
+  // Los pies del prototipo («4:15 AM · El primer encendido») eran inventados.
+  await expect(page.getByText(/primer encendido/i)).toHaveCount(0);
+});
+
 test("la galeria muestra las fotos reales del local", async ({ page }) => {
   await page.goto("/galeria");
 

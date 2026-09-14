@@ -31,6 +31,7 @@ import { condicionesDelPedido, mensajeDePedido, unirConY } from "@/lib/datos/ped
 import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
 import { urlDeImagen } from "@/lib/supabase/publico";
+import { iniciales } from "@/lib/utilidades/iniciales";
 
 /**
  * Portada (doc 03 §4.2).
@@ -452,23 +453,32 @@ export default async function Inicio() {
         </section>
       ) : null}
 
-      {/* 6. Novedades vigentes. Se omite el bloque entero si no hay ninguna: un
-          "no hay novedades" no le sirve a nadie. */}
+      {/* 6. Novedades vigentes, en tarjetas. Se omite el bloque entero si no hay
+          ninguna: un "no hay novedades" no le sirve a nadie. */}
       {novedades.length > 0 ? (
-        <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
-          <h2 className="font-heading text-3xl sm:text-4xl">Novedades</h2>
-          <ul className="aparece-grupo divide-border/30 border-border/30 mt-8 divide-y border-y">
+        <section
+          aria-labelledby="titulo-novedades"
+          className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6"
+        >
+          <div className="aparece flex flex-wrap items-end justify-between gap-4">
+            <TituloSeccion id="titulo-novedades" titulo="Novedades" />
+            <Link href="/novedades" className="boton-linea">
+              Ver todas
+              <ArrowRight aria-hidden className="size-4" />
+            </Link>
+          </div>
+          <ul className="aparece-grupo mt-8 grid gap-6 md:grid-cols-3">
             {novedades.map((novedad, indice) => (
               <li key={novedad.id} style={{ "--i": indice } as CSSProperties}>
                 <Link
                   href={`/novedades/${novedad.slug}`}
-                  className="group focus-visible:outline-ring flex flex-col gap-1 py-5 focus-visible:outline-2 focus-visible:outline-offset-2 sm:flex-row sm:items-baseline sm:gap-8"
+                  className="tarjeta tarjeta--elevable group focus-visible:outline-ring flex h-full flex-col gap-2 p-6 focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
-                  <h3 className="font-heading text-xl group-hover:underline sm:w-2/5">
+                  <h3 className="font-heading text-primary text-xl leading-tight font-semibold text-balance decoration-1 underline-offset-4 group-hover:underline">
                     {novedad.titulo}
                   </h3>
                   {novedad.resumen ? (
-                    <p className="text-muted-foreground flex-1 text-pretty">{novedad.resumen}</p>
+                    <p className="text-muted-foreground text-sm text-pretty">{novedad.resumen}</p>
                   ) : null}
                 </Link>
               </li>
@@ -477,22 +487,42 @@ export default async function Inicio() {
         </section>
       ) : null}
 
-      {/* 7. Testimonios. */}
+      {/* 7. Testimonios, en las tarjetas del prototipo. Sin estrellas: la tabla
+          no guarda puntuación, y cinco estrellas puestas a mano serían una
+          valoración inventada. El bloque no sale si no hay testimonios reales
+          (0021): los de ejemplo no se publican. */}
       {testimonios.length > 0 ? (
-        <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6">
-          <h2 className="font-heading text-3xl sm:text-4xl">Lo que dicen los vecinos</h2>
+        <section
+          aria-labelledby="titulo-testimonios"
+          className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6"
+        >
+          <TituloSeccion id="titulo-testimonios" titulo="Lo que dicen los vecinos" />
           <ul className="aparece-grupo mt-8 grid gap-6 md:grid-cols-3">
             {testimonios.slice(0, 3).map((testimonio, indice) => (
-              <li
-                key={testimonio.id}
-                style={{ "--i": indice } as CSSProperties}
-                className="border-border/30 flex flex-col gap-4 border-t pt-5"
-              >
-                <blockquote className="text-pretty">“{testimonio.texto}”</blockquote>
-                <p className="text-muted-foreground mt-auto text-sm">
-                  {testimonio.nombre}
-                  {testimonio.procedencia ? `, ${testimonio.procedencia}` : ""}
-                </p>
+              <li key={testimonio.id} style={{ "--i": indice } as CSSProperties}>
+                <figure className="tarjeta bg-muted flex h-full flex-col gap-5 p-6">
+                  <blockquote className="text-foreground text-pretty italic">
+                    “{testimonio.texto}”
+                  </blockquote>
+                  <figcaption className="border-border mt-auto flex items-center gap-3 border-t pt-4">
+                    {/* Las iniciales, no una foto: la tabla no guarda
+                        retratos, y un avatar de stock sería otra persona. */}
+                    <span
+                      aria-hidden
+                      className="bg-franja text-franja-foreground grid size-10 shrink-0 place-items-center rounded-full text-sm font-semibold"
+                    >
+                      {iniciales(testimonio.nombre)}
+                    </span>
+                    <span className="text-sm">
+                      <span className="block font-semibold">{testimonio.nombre}</span>
+                      {testimonio.procedencia ? (
+                        <span className="text-muted-foreground block">
+                          {testimonio.procedencia}
+                        </span>
+                      ) : null}
+                    </span>
+                  </figcaption>
+                </figure>
               </li>
             ))}
           </ul>

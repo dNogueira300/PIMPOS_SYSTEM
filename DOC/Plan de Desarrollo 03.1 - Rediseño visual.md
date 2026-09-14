@@ -1693,6 +1693,25 @@ nuevas tiene que seguir en verde. Si falla, es que una tarjeta y la pizarra pide
 
 Rama `feat/f3.1-t7-novedades-galeria`.
 
+> **Correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. **El pie de foto del paso 3 llevaba colores escritos** (`from-[#1e1b14]/80`,
+>    `text-[#fff9ee]`), y ningún componente usa la capa 1. Van por tokens de capa 3,
+>    `--pie-foto-fondo` y `--pie-foto-texto` (utilidades `from-pie-foto/80` y
+>    `text-pie-foto-foreground`); el peor caso de contraste está en `paleta.test.ts`.
+> 2. **El mosaico solo con tres fotos o más.** Dos de los cuatro grupos de la semilla tienen dos
+>    fotos, y con la primera en `col-span-2 row-span-2` la otra quedaba arriba a su lado y debajo
+>    un hueco del tamaño de una foto. Con dos van a la par. La grande no lleva `aspect-[4/3]` desde
+>    `md`: ocupa el alto de las dos de al lado (`h-full`), y con el mismo aspecto no coincidían.
+> 3. **La novedad destacada solo si hay más de una**: invertir en azul la única que hay no destaca
+>    nada.
+> 4. **Las iniciales del testimonio son una función con prueba** (`src/lib/utilidades/iniciales.ts`):
+>    primer y último nombre, por letras y no por carácter, para que «C. Ríos» no dé «C.».
+> 5. **En local no hay novedades ni testimonios publicables**, así que los pasos 4 y 5 no se veían.
+>    Se cargaron filas de muestra solo para las capturas, axe y área táctil, y se borraron antes de
+>    la suite completa. Y no bastaba con cargarlas: ver la trampa de `.next/cache/fetch-cache` en
+>    `CLAUDE.md`.
+
 **Consume:** `.tarjeta`, `.tarjeta--elevable`, `.sello`, `TituloSeccion`. **Produce:** nada.
 
 Referencia: `<section id="novedades">` y `<section id="galeria">` del prototipo.
