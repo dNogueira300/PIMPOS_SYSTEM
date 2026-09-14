@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+
+<html lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "secondary": "#835413",
+          "on-primary": "#ffffff",
+          "secondary-fixed-dim": "#faba71",
+          "on-secondary": "#ffffff",
+          "surface": "#fff9ee",
+          "surface-dim": "#e0d9cd",
+          "on-tertiary": "#ffffff",
+          "primary": "#00334d",
+          "on-tertiary-fixed-variant": "#862214",
+          "outline": "#72787e",
+          "tertiary-container": "#842113",
+          "tertiary-fixed-dim": "#ffb4a7",
+          "surface-tint": "#356382",
+          "on-error-container": "#93000a",
+          "surface-container-lowest": "#ffffff",
+          "secondary-container": "#fdbd73",
+          "secondary-fixed": "#ffddba",
+          "primary-fixed-dim": "#9fccef",
+          "on-primary-fixed-variant": "#184b69",
+          "tertiary": "#640701",
+          "on-surface-variant": "#41474d",
+          "surface-bright": "#fff9ee",
+          "background": "#fff9ee",
+          "inverse-on-surface": "#f7f0e3",
+          "on-surface": "#1e1b14",
+          "surface-container-highest": "#e8e2d5",
+          "surface-container": "#f4ede0",
+          "on-secondary-container": "#774a08",
+          "surface-container-high": "#eee7db",
+          "inverse-surface": "#333028",
+          "surface-variant": "#e8e2d5",
+          "primary-container": "#174a68",
+          "on-error": "#ffffff",
+          "on-background": "#1e1b14",
+          "surface-container-low": "#faf3e6",
+          "error-container": "#ffdad6",
+          "on-tertiary-fixed": "#400200",
+          "on-primary-fixed": "#001e2f",
+          "on-secondary-fixed": "#2b1700",
+          "on-tertiary-container": "#ff9885",
+          "inverse-primary": "#9fccef",
+          "tertiary-fixed": "#ffdad4",
+          "on-primary-container": "#8cb9dc",
+          "error": "#ba1a1a",
+          "outline-variant": "#c1c7ce",
+          "on-secondary-fixed-variant": "#663d00",
+          "primary-fixed": "#c9e6ff"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-2xl": "4rem",
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "gutter": "1.5rem",
+          "space-lg": "1.5rem",
+          "margin": "2.5rem",
+          "gutter-mobile": "1rem",
+          "space-xl": "2.5rem",
+          "space-xs": "0.25rem",
+          "margin-mobile": "1.25rem"
+        },
+        "fontFamily": {
+          "body-sm": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-lg-mobile": [
+            "Playfair Display"
+          ],
+          "label-md": [
+            "Plus Jakarta Sans"
+          ],
+          "body-md": [
+            "Plus Jakarta Sans"
+          ],
+          "label-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "label-stamp": [
+            "Plus Jakarta Sans"
+          ],
+          "display-lg-mobile": [
+            "Playfair Display"
+          ],
+          "body-lg": [
+            "Plus Jakarta Sans"
+          ],
+          "headline-md": [
+            "Playfair Display"
+          ],
+          "display-lg": [
+            "Playfair Display"
+          ],
+          "headline-lg": [
+            "Playfair Display"
+          ],
+          "headline-sm": [
+            "Playfair Display"
+          ]
+        },
+        "fontSize": {
+          "body-sm": [
+            "13px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-lg-mobile": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.04em",
+              "fontWeight": "600"
+            }
+          ],
+          "body-md": [
+            "15px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "letterSpacing": "0.02em",
+              "fontWeight": "600"
+            }
+          ],
+          "label-stamp": [
+            "11px",
+            {
+              "lineHeight": "14px",
+              "letterSpacing": "0.08em",
+              "fontWeight": "700"
+            }
+          ],
+          "display-lg-mobile": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "18px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-md": [
+            "26px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg": [
+            "52px",
+            {
+              "lineHeight": "60px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 w-full z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="bg-tertiary-container text-on-tertiary py-space-xs px-margin-mobile md:px-margin text-center font-label-stamp text-label-stamp tracking-wider flex items-center justify-center gap-space-sm"><span>Horneamos con pasión desde las 4:00 AM · Envíos a todo Iquitos por WhatsApp</span></div><div class="h-20 bg-surface/90 backdrop-blur-xl transition-colors"><div class="max-w-[1280px] mx-auto h-full px-margin-mobile md:px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><img alt="Logo Panadería Pimpo's Iquitos" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VrYzpDUgGR0EmkK6TqKsO_g8YexXnufHJVk3JPt-otEoEtCYKIAndg3Pv3oRPkM66EllbSChNtFPix7cMVI2FIIWAsW6jiIkeijaNVNZYuwS2RTLmGYuSXRyNoBCjtYOJwT5D2vykYpy2mp7OILO5IjqKqybXZH-rJk-NlXvrgZMjsQXQMAOXkgpVqQPzM3W-vIs_tg42hrVDizTIlyS6w2y_bAswXChxX_UPuS5KjSLc2P5mHYA1OCweZ"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-tight tracking-tight">Pimpo's</span><span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Panadería &amp; Pastelería · Iquitos</span></div></div><nav class="hidden xl:flex items-center gap-space-md" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-full px-space-md py-space-xs"><a aria-current="page" class="transition-colors bg-primary-container text-on-primary font-label-md rounded-full px-space-md py-space-xs" data-path="inicio" href="#">Inicio</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="nosotros" href="#">Nosotros</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="productos" href="#">Productos</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="novedades" href="#">Novedades</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="galeria" href="#">Galería</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="testimonios" href="#">Testimonios</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="contacto-ubicacion" href="#">Contacto &amp; Ubicación</a><a class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors" data-path="preguntas-frecuentes" href="#">FAQ</a></nav><div class="flex items-center gap-space-sm"><a class="hidden md:inline-flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary px-space-md py-space-sm rounded-full font-label-md text-label-md shadow-[0_2px_6px_-1px_rgba(107,62,38,0.05)] transition-all" href="https://wa.me/51965123456" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-[18px]">chat</span><span>Pedir por WhatsApp</span></a><a class="inline-flex items-center gap-space-xs text-on-surface-variant hover:text-primary font-label-stamp text-label-stamp px-space-sm py-space-xs rounded-full hover:bg-surface-container transition-all" data-path="login" href="#"><span class="material-symbols-outlined text-[16px]">lock</span><span class="hidden lg:inline">Panel Interno</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-surface"><div class="flex flex-col w-full">
+<!-- HERO SLIDER SECTION -->
+<section class="relative w-full -mt-20 overflow-hidden bg-surface-container-low" id="inicio">
+<!-- Slides Track -->
+<div class="relative w-full min-h-[640px] lg:min-h-[720px] transition-transform duration-700 ease-out flex" id="hero-slider-track">
+<!-- Slide 1: Tradición Amazónica -->
+<div class="w-full shrink-0 min-h-[640px] lg:min-h-[720px] flex items-center relative pt-24 pb-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-[0.88] contrast-[1.05]" data-alt="Rustic Peruvian bakery table bathed in gentle dawn sunlight in Iquitos. Golden crusty sourdough loaves, warm baguettes, empanadas on greaseproof paper with flour dust on aged wood, cozy ambient bakery kitchen background with warm morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv-KmeiyRIoJqvZLkqYzO44J2VfAtfpDhPw-kNfgcKyQ_7mALVkCmpFdvRQ2dvBCKUAIgD1mPty4ofVuBG0rbtoI4El_JUDa7Zwf-BIu4azwxuEj2aExmrkmp9NPiO443Q3RyffgRKjc0rdqlNSNLsCWolnPX3FKcKt-QZPreWqVqkqmURwN6pNbkHq-CEHhbkuZG76ClOqF7I5-0G1F_D-d0tQFnhNcRHlCAFjPKqQdAOqJtAzGaUwA"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/75 to-transparent"></div>
+</div>
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin relative z-10 w-full">
+<div class="max-w-2xl flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs self-start px-space-md py-space-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-label-stamp shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">wb_twilight</span>
+<span>HORNEAMOS DESDE LAS 4:00 A.M. ☀️ EN IQUITOS</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight">
+              Tradición &amp; Insumos Amazónicos en Cada Horneada
+            </h1>
+<p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl">
+              Masa madre viva, corteza dorada y el calor de leña viva que despierta a los hogares de Punchana, Maynas y San Juan con aroma a hogar.
+            </p>
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="h-12 px-6 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="#productos">
+<span>Ver Carta &amp; Precios</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="h-12 px-6 rounded-full bg-secondary hover:bg-secondary-container hover:text-on-secondary-container text-on-secondary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20hacer%20un%20pedido%20de%20panes%20calientitos" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+<!-- Hot Batch Alert Bar -->
+<div class="mt-space-md p-space-md rounded-xl bg-tertiary-container text-on-tertiary flex items-center gap-space-md shadow-sm max-w-lg">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[28px] shrink-0">local_fire_department</span>
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-tertiary-fixed-dim uppercase tracking-wider">Horneada en Vivo Confirmada</span>
+<span class="font-body-sm text-body-sm font-semibold">Tanda matutina lista para reparto. Próxima tanda caliente: 4:00 PM.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 2: Pan Francés & Pan de Yuca -->
+<div class="w-full shrink-0 min-h-[640px] lg:min-h-[720px] flex items-center relative pt-24 pb-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-[0.85]" data-alt="Traditional Peruvian master baker smiling proudly taking steaming golden loaves from a traditional stone brick oven with a long wooden peel, warm glowing embers, authentic bakery in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYPvuV2o853vjzgUpiIz5oETsxbuqeKFBZwaDNg9BNbvCV6cdANwlRqa0PFnrwP6gLRATZHo1PMZrinZcPYRH5GP2RKYavIv5fCHH_M-3B15XPh0OQyckFXVOscJFTKF_FjvKHjRs2-2yiN_wkzHuAs5YNomxGAew08GmhuwE46yeDkJxlOLZ-q8zlp2AWFQrV3y0cIafoWqX9QBVarRAabZbvjQqci_qXu3OhLXg6XsU59jTdd0JK9w"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/80 to-transparent"></div>
+</div>
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin relative z-10 w-full">
+<div class="max-w-2xl flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs self-start px-space-md py-space-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-label-stamp">
+<span class="material-symbols-outlined text-[16px] text-secondary">bakery_dining</span>
+<span>100% ARTESANAL · MASA MADRE</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight">
+              Pan Francés Crocante, Ciabatta &amp; Pan de Yuca
+            </h2>
+<p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl">
+              Crocante por fuera, esponjoso y aireado por dentro. El sabor auténtico del desayuno tradicional loretano con café recién pasado.
+            </p>
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="h-12 px-6 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="#productos">
+<span>Explorar Variedades</span>
+</a>
+<a class="h-12 px-6 rounded-full bg-secondary hover:bg-secondary-container hover:text-on-secondary-container text-on-secondary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="https://wa.me/51965123456?text=Hola,%20deseo%20reservar%20Pan%20Franc%C3%A9s%20y%20Pan%20de%20Yuca" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Reservar Tanda Caliente</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Slide 3: Pastelería & Empanadas Iquiteñas -->
+<div class="w-full shrink-0 min-h-[640px] lg:min-h-[720px] flex items-center relative pt-24 pb-16">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-[0.88]" data-alt="Artisanal Peruvian bakery pastry table with chocolate cakes, layered puff pastries, golden meat empanadas with fresh lime, served on ceramic plates on rustic wooden tabletop in Loreto." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBexHTboDO6H-xJvDMHGaHFSePKZK-Iyt_qrs8VxhFc5UCee110l9ihsV7mmdc9DMEcpKeUXiKTm3CzkNcehPuNgcRUnjWIoWfdS_FgnF2uW8c-wbbqg6io6J_vzrhGOwPRe4yseYUAkgUq8vsb9seLUYfbxteIsNgiVctx2TdGfcpdlq1FgH92shxbBvoSCbOZshOBzW0cLgJyNznHjWJma8vH-WbyexAyQK9qK4W234IrH8KEcF0S-Q"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface/95 via-surface/80 to-transparent"></div>
+</div>
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin relative z-10 w-full">
+<div class="max-w-2xl flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs self-start px-space-md py-space-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-label-stamp">
+<span class="material-symbols-outlined text-[16px] text-secondary">cake</span>
+<span>DULCES &amp; SALADOS CASEROS</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tight">
+              Pastelería Fina y Empanadas Iquiteñas
+            </h2>
+<p class="font-body-lg text-body-md md:text-body-lg text-on-surface-variant max-w-xl">
+              Cacao regional, manjar blanco de olla cocinado a fuego lento y empanadas horneadas rellenas con el toque de sazón de nuestra tierra.
+            </p>
+<div class="flex flex-wrap items-center gap-space-md pt-space-xs">
+<a class="h-12 px-6 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="#productos">
+<span>Ver Delicias Dulces</span>
+</a>
+<a class="h-12 px-6 rounded-full bg-secondary hover:bg-secondary-container hover:text-on-secondary-container text-on-secondary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all" href="https://wa.me/51965123456?text=Hola,%20deseo%20pedir%20pasteler%C3%ADa%20y%20empanadas" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Pedir Selección Familiar</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Slider Controls & Dots -->
+<div class="absolute bottom-6 left-0 right-0 z-20">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex items-center justify-between">
+<div class="flex items-center gap-space-xs bg-surface-container/80 backdrop-blur-md px-space-md py-space-xs rounded-full shadow-sm">
+<button aria-label="Slide 1" class="hero-dot w-8 h-2 rounded-full bg-primary transition-all duration-300" onclick="goToHeroSlide(0)"></button>
+<button aria-label="Slide 2" class="hero-dot w-2.5 h-2 rounded-full bg-outline-variant hover:bg-primary transition-all duration-300" onclick="goToHeroSlide(1)"></button>
+<button aria-label="Slide 3" class="hero-dot w-2.5 h-2 rounded-full bg-outline-variant hover:bg-primary transition-all duration-300" onclick="goToHeroSlide(2)"></button>
+</div>
+<div class="flex items-center gap-space-xs">
+<button aria-label="Slide anterior" class="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high text-primary flex items-center justify-center shadow-sm transition-colors" onclick="prevHeroSlide()">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button aria-label="Slide siguiente" class="w-10 h-10 rounded-full bg-surface-container hover:bg-surface-container-high text-primary flex items-center justify-center shadow-sm transition-colors" onclick="nextHeroSlide()">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- QUICK ANNOUNCEMENT STRIP -->
+<div class="w-full bg-secondary-fixed text-on-secondary-fixed py-space-sm">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-wrap items-center justify-between gap-space-sm font-label-md text-label-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">storefront</span>
+<span>Atención continua en Centro Histórico de Iquitos: Lunes a Domingo 4:00 AM – 9:30 PM</span>
+</div>
+<div class="flex items-center gap-space-lg">
+<span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">verified</span> Fermentación 18 hrs</span>
+<span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">moped</span> Delivery rápido Maynas</span>
+</div>
+</div>
+</div>
+<!-- SECCIÓN 2: NOSOTROS -->
+<section class="w-full py-space-2xl bg-surface" id="nosotros">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+<!-- Left Visual Collage -->
+<div class="lg:col-span-6 relative">
+<div class="relative z-10 rounded-2xl overflow-hidden shadow-xl bg-surface-container">
+<img class="w-full h-[460px] object-cover" data-alt="Portrait of senior master artisan baker smiling with flour on his hands and apron, holding traditional wooden baker's peel inside an authentic brick oven bakery in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzhJ3LEMUf5fR4O19adhtswarleSwFjCKQlZQeIr79uiFFG6c4MpB0Z53399R_U_xN2dnEvE7isxuLX0xDmd3xSSAMS0L-Yi3H_gRTOkuLK_SNUH4-qMXSnpkvHDXKjoRXQw7XyrHnwooaiSH9-EfngOkE_gUT70wQ6TrY1A6YUMmWaMeF3I8rzZH8qBeoOlierhh4k2O5nFeH73bMe9501ahTUzdc6pVFcwpGr2i1wcXIXqdOp6_zHA"/>
+</div>
+<!-- Overlapping Heritage Stamp Badge -->
+<div class="absolute -bottom-6 -right-4 md:right-6 z-20 bg-surface-container-lowest p-space-md rounded-2xl shadow-xl max-w-[220px] flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary mb-space-xs">
+<span class="material-symbols-outlined text-[28px]">workspace_premium</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary leading-none">24+ Años</span>
+<span class="font-label-stamp text-label-stamp text-secondary uppercase mt-1">Horneando en la Amazonía</span>
+</div>
+<!-- Atmospheric Flour Dust Shape -->
+<div class="absolute -top-6 -left-6 w-32 h-32 rounded-full bg-secondary-container/40 blur-2xl -z-10"></div>
+</div>
+<!-- Right Story & Pillars -->
+<div class="lg:col-span-6 flex flex-col gap-space-md">
+<div class="inline-flex items-center gap-space-xs self-start px-space-md py-space-xs rounded-full bg-surface-container-high text-primary font-label-stamp text-label-stamp uppercase tracking-wider">
+<span>Nuestra Historia &amp; Vocación</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+            Pasión por el Buen Pan desde las 4:00 AM en Iquitos
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            En Panadería Pimpo’s E.I.R.L. entendemos el pan como un acto de bienvenida y afecto comunitario. Cada amanecer, mientras la ciudad de Iquitos aún reposa bajo el rocío del río Amazonas, encendemos nuestros hornos con paciencia, respetando los tiempos que la harina, el agua y la levadura natural demandan.
+          </p>
+<!-- 3 Pillars -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md mt-space-sm">
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]">hourglass_top</span>
+<h3 class="font-headline-sm text-[17px] text-primary">Fermentación Lenta</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Masa madre reposada 18 horas para una digestión liviana y corteza crujiente.</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]">eco</span>
+<h3 class="font-headline-sm text-[17px] text-primary">Insumos Locales</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Yuca regional, cacao loretano y mantecas puras seleccionadas a diario.</p>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]">favorite</span>
+<h3 class="font-headline-sm text-[17px] text-primary">Calidez Loretana</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Servicio alegre, familiar y puntual para abastecer su mesa a primera hora.</p>
+</div>
+</div>
+<div class="flex items-center gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-xs text-secondary font-label-stamp text-label-stamp uppercase tracking-wider">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>R.U.C. 20601234567 · E.I.R.L. Registrada</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 3: NUESTROS PRODUCTOS -->
+<section class="w-full py-space-2xl bg-surface-container-low" id="productos">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Del Horno a Su Mesa</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+            Nuestros Productos Artesanales
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Precios justos, peso exacto y frescura garantizada. Haga clic en el botón de WhatsApp de cada producto para pedir de forma inmediata.
+          </p>
+</div>
+<!-- Category Filter Tabs -->
+<div class="flex flex-wrap items-center gap-space-xs bg-surface p-1.5 rounded-full shadow-sm">
+<button class="product-filter-btn px-space-md py-space-xs rounded-full font-label-md text-label-md bg-primary text-on-primary transition-all" onclick="filterProducts('all')">Todos</button>
+<button class="product-filter-btn px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" onclick="filterProducts('panes')">Panes del Día</button>
+<button class="product-filter-btn px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" onclick="filterProducts('pasteleria')">Pastelería &amp; Dulces</button>
+<button class="product-filter-btn px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" onclick="filterProducts('salados')">Empanadas &amp; Salados</button>
+<button class="product-filter-btn px-space-md py-space-xs rounded-full font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all" onclick="filterProducts('cafeteria')">Café &amp; Otros</button>
+</div>
+</div>
+<!-- Products Bento/Card Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg" id="products-grid">
+<!-- Product 1 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="panes">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Traditional Peruvian French bread crispy golden rolls piled in a woven basket on a bakery counter in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7YnEclae8YwzgYpZX19drNjnhQIWUA7fONyKapnLse1sq8DhJDEpPG8ptvvY9NTpt5EsLnCwPL1M43itW5_ykgobLZxAUn5Xi_G3JH-J4HgSpQZU08vQ2enitTMjxCKm9QHLd5NCTHr2zWjaSv_V-YCQH3eU8IRYXRTzdVhYzhZCJ8SbGSojqY9ub-6warfpRV11m_YdY_ftAZ62mZv5f3ObQ9PQ_4ufxxTWw_NyWwKsZ1YcFYIAdmQ"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-tertiary text-on-tertiary font-label-stamp text-[10px] uppercase">Recién Salido</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Pan Francés Artesanal</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 3.50</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Bolsa x 10 unidades</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Crocante por fuera, miga suave y liviana. El pan insignia del desayuno loretano.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Pan%20Franc%C3%A9s%20Artesanal%20(Bolsa%20x%2010)%20-%20S/%203.50" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="panes">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Artisanal rustic ciabatta rolls with open airy crumb dusted with flour on parchment paper inside a rustic Amazonian bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWmD7ZjbPALyxa5iYZDZhCprK3ow3BqxyytYOhzvc5ZVMUcR_7uMUzFbPU4eXHp65H0BcJh7mEFuAkSbkIVY_PUZEqARknEepUpf28jJ231DPTG4oX-kT5sqyozn9P3V5QNr2F7sj2udLCjvV6H73DfN0bfFJQI2ximyhfhxSZtxZx-QaI-Kc-EBqD6GLJzcbKqIe-jLqkxDJf_lf6NpGKnkHiA9vbjSXoC1LUHUr8gM9aJUG4Va-DaA"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-secondary text-on-secondary font-label-stamp text-[10px] uppercase">Masa Madre</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Ciabatta Tradicional</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 4.20</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Bolsa x 6 unidades</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Alvéolos generosos, fermentación de 18 horas, ideal para sándwiches y quesos.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Ciabatta%20Tradicional%20(x%206%20und)%20-%20S/%204.20" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="panes">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Steaming golden pan de yuca cassava bread rolls with molten local cheese pulled slightly open, served hot on wooden board in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQV8QENtmCa-7metNr0825oeob8JVDrd1Q_Os6hJycSe8lUrEZIOK_iacfH-2YTPzqUJEVkScsiYUaGM2Srcm9xn56nNJQ3pIRtFId_9g-yvdh5g_TilpZfxiC5n2irPfTcMRcP_kzL6bcYThVmxXFVOwc5Kjsnp3ebSD5EcUk4DaqRG30cLBcCP96WtvvsWV6I8xEKpKXrmnDWCRH5eSLLYzzydvHIvXM8dlx38DTXKB5uFu6Q2RB2w"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-stamp text-[10px] uppercase">Especial Amazónico</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Pan de Yuca Caliente</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 5.00</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Porción x 4 unidades</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Elaborado con almidón de yuca local y queso criollo derretido. Textura gomosa perfecta.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Pan%20de%20Yuca%20Caliente%20(x%204)%20-%20S/%205.00" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="salados">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Traditional golden baked Peruvian meat empanada sliced open revealing seasoned juicy beef filling, onions, egg, and fresh lime wedge on the side." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnrlehnr1DRN7MWlCZQeVLh56tkAqIz3gksykMB9Jqct2S8rHoKbUvvz_98ohbVFyf-dJgeFdm4LmVx-qJReRZ9ErB6Jc8S7SRd64adK-qYL3Ko_xK4B9T6gtuw3zZmg86Ts6AhpXXUdwnFrayeUOgKzrs-NWh2TWDsjZhjZaUhedSyI8JAXiKpcmqVqQds580PzZZIh83JqS9OjfrPm0L3DV-3-PE98svWBOuz2dhxSeFK8oyEpmeGQ"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-primary text-on-primary font-label-stamp text-[10px] uppercase">Favorito de Iquitos</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Empanada de Carne y Chonta</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 4.50</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Unidad horneada</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Masa quebradiza rellena con carne seleccionada, chonta picada y especias de la selva.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Empanada%20de%20Carne%20y%20Chonta%20-%20S/%204.50" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="pasteleria">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Clear packaging bag filled with crunchy traditional Peruvian rosquitas de almidon biscuits on warm wood surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8SqLgdmP7Q_IoHwyzGC9UPH_cYKLdwoS8ihDmFz-ZCOAaXbuUnCPdqLNKlqLG9EMQJeUXgs1W_Xz_grETu-u52C84MU2mA6kin-poPnsI041vwe8FiSBJ5TR3NySgyOXLcKLBBEOU1263KNsSzGe3yiYbJPt5SUzhIqFDsacgcmt-Sr8vfF4MlOyOvHN6jykVPP2pQK3bgXpy68WSvlhDI3ZCfvb23_A2dUiMfrU1ocMxOTWF24fpgg"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-surface-container-highest text-primary font-label-stamp text-[10px] uppercase">Típico</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Rosquitas de Almidón</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 6.00</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Bolsa 250 gramos</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tostadas y crocantes, receta clásica loretana perfecta para la tarde con café o té.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Rosquitas%20de%20Almid%C3%B3n%20(250g)%20-%20S/%206.00" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 6 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="pasteleria">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Crispy puff pastry milhojas layers filled with rich caramel dulce de leche manjar blanco topped with dusted powdered sugar on artisan ceramic plate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFCSc1S3vAOGkkkiRkCTzOz6RUfQd7wyQ1YfZXUZJFtlL13N6952NUYaaCfH1hQ3Gt6dcXIST2eo3thbryHhIBlmNVZsrnZGaJ1qd8G4NPk5g7WR8Luo78AjIzKjJw5V_NVl0ZM1HZN9SUGfQYhN2l2J_5r7i4VWIuRN665p0xth0UhA4PjTfrGZe7gvz0KPlbi3A1bF9RWYDMczWDGyb2IQ4jvqsqmlEKfUj_ngZnI4Xkuj3sdPHEzg"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-secondary text-on-secondary font-label-stamp text-[10px] uppercase">Hecho en Olla</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Milhojas con Manjar</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 5.50</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Porción individual generosa</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Capas crocantes de hojaldre casero untadas con abundante manjar blanco cocinado a leña.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Milhojas%20con%20Manjar%20Blanco%20-%20S/%205.50" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 7 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="pasteleria">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Slice of rich moist chocolate cake made with dark Amazonian cacao with glossy fudge frosting on a minimalist stoneware dish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv3fd1vukgM9IEieGqIUSAHEXP2_OHqoAMuqU8Pd6ycCrlg_Y07xGdOSiDkiWxuo0rOGPUhyQRWOasfLQOfhMBecT3Hh-SVQxB-umKsJR4IvARzmXca5xS1a2JO97_e8LJEYlNITvx4EiE1v8NnzHzWsAgVR6RW7k13Tx4vrMTCUwEixTiD5GG-qDHI94lERwDUWTAoXgDojhnGBUAT3g5PRALm0iPuz_oKWTBmg-GMIpi8-49m8NjnQ"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-tertiary text-on-tertiary font-label-stamp text-[10px] uppercase">Cacao Regional</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Torta Húmeda Chocolate</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 7.00</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Porción corte especial</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Elaborada con pasta pura de cacao del Alto Amazonas. Textura untuosa, fudge artesanal.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Torta%20H%C3%BAmeda%20de%20Chocolate%20-%20S/%207.00" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+<!-- Product 8 -->
+<div class="product-card flex flex-col justify-between bg-surface-container-lowest rounded-2xl p-space-md shadow-sm hover:shadow-lg transition-all" data-category="panes">
+<div>
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container mb-space-sm">
+<img class="w-full h-full object-cover" data-alt="Freshly baked artisan golden French baguettes wrapped with brown kraft paper and twine on wooden bakery counter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjg1YCqyRhSZIugZF5YbW93UBGXWuUZ-fOr-j7_lLqvA9bZ5LPU5mBKzDci7uLn1Bys7OZSJo5GzPqpjnsg0q2FCzJjonFR9VJD0wKHo5C3jNBvvE8qNPE0a1Fg2FbYrp3FGc2qhW4rlzMebPc49qGbFdoDcst_URZt-1jvE9ZoEL71Kx0r-rDy6zDkeMB5i3dall4gr3j6Ln3FM9-Nb16f8FHRbYSEY6mnSLvz6b-iC1LnNhWDk8lQA"/>
+<span class="absolute top-2 left-2 px-space-xs py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-[10px] uppercase">Horneada Diaria</span>
+</div>
+<div class="flex items-center justify-between gap-space-xs mb-1">
+<h3 class="font-headline-sm text-[18px] text-primary leading-tight">Baguette Rústico Dorado</h3>
+<span class="font-headline-sm text-[18px] text-secondary font-bold shrink-0">S/ 3.80</span>
+</div>
+<p class="font-label-stamp text-label-stamp text-on-surface-variant mb-space-xs">Barra 280 gramos</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Corteza sonora y miga elástica enriquecida. Excelente para tostadas con mantequilla de la selva.</p>
+</div>
+<div class="mt-space-md pt-space-sm">
+<a class="w-full h-10 rounded-full bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir:%20Baguette%20R%C3%BAstico%20Dorado%20-%20S/%203.80" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir por WhatsApp</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Custom Order Banner -->
+<div class="w-full p-space-lg rounded-2xl bg-surface-container flex flex-col md:flex-row items-center justify-between gap-space-md shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">shopping_bag</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-headline-sm text-headline-sm text-primary">¿Desea una canasta mixta o pedido mayorista?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Atendemos a colegios, hoteles y cafeterías de Iquitos con tarifas preferenciales por volumen.</p>
+</div>
+</div>
+<a class="h-11 px-6 rounded-full bg-secondary hover:bg-secondary-container hover:text-on-secondary-container text-on-secondary font-label-md text-label-md flex items-center gap-space-xs shrink-0 transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20solicito%20cotizaci%C3%B3n%20para%20pedido%20mayorista" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px]">request_quote</span>
+<span>Cotizar por WhatsApp</span>
+</a>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 4: NOVEDADES & COMBOS DEL MES -->
+<section class="w-full py-space-2xl bg-surface" id="novedades">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Promociones Exclusivas</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+          Novedades &amp; Combos del Mes
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Diseñados para compartir en familia o abastecer el desayuno de su equipo de trabajo con los mejores sabores de la panadería.
+        </p>
+</div>
+<!-- Combos Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Combo 1 -->
+<div class="flex flex-col justify-between bg-surface-container-low rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all relative overflow-hidden">
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary-fixed/50 rounded-bl-full -z-0"></div>
+<div class="relative z-10 flex flex-col gap-space-sm">
+<span class="self-start px-space-sm py-0.5 rounded-full bg-secondary text-on-secondary font-label-stamp text-label-stamp uppercase">Ahorra 18%</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-space-xs">Combo Desayuno Amazónico</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">El favorito de las familias de Iquitos los sábados y domingos:</p>
+<ul class="flex flex-col gap-1.5 font-body-sm text-body-sm text-on-surface mt-space-xs">
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 10 Panes Franceses recién salidos</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 4 Panes de Yuca calientes con queso</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 2 Empanadas de carne y chonta</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 1 Porción de mermelada regional</li>
+</ul>
+</div>
+<div class="relative z-10 mt-space-lg pt-space-md border-t border-outline-variant/30 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-outline line-through">Antes S/ 22.50</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">S/ 18.50</span>
+</div>
+<a class="h-10 px-5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20pedir%20el%20Combo%20Desayuno%20Amaz%C3%B3nico%20(S/%2018.50)" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir Combo</span>
+</a>
+</div>
+</div>
+<!-- Combo 2 -->
+<div class="flex flex-col justify-between bg-primary text-on-primary rounded-2xl p-space-lg shadow-md hover:shadow-xl transition-all relative overflow-hidden">
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-primary-container/60 rounded-full -z-0"></div>
+<div class="relative z-10 flex flex-col gap-space-sm">
+<span class="self-start px-space-sm py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-stamp text-label-stamp uppercase">Especial Fin de Semana</span>
+<h3 class="font-headline-md text-headline-md text-on-primary mt-space-xs">Horneada Rústica Familiar</h3>
+<p class="font-body-sm text-body-sm text-primary-fixed">Diseñado para meriendas y almuerzos campestres:</p>
+<ul class="flex flex-col gap-1.5 font-body-sm text-body-sm text-on-primary mt-space-xs">
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary-fixed text-[16px]">check_circle</span> 2 Baguettes rústicos tostados</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary-fixed text-[16px]">check_circle</span> 6 Ciabattas de masa madre</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary-fixed text-[16px]">check_circle</span> 1 Bolsa de rosquitas de almidón (250g)</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary-fixed text-[16px]">check_circle</span> 2 Porciones de Milhojas con manjar</li>
+</ul>
+</div>
+<div class="relative z-10 mt-space-lg pt-space-md border-t border-primary-container/60 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-primary-fixed-dim line-through">Antes S/ 30.00</span>
+<span class="font-headline-md text-headline-md text-secondary-fixed font-bold">S/ 24.90</span>
+</div>
+<a class="h-10 px-5 rounded-full bg-secondary-fixed hover:bg-secondary-container text-on-secondary-fixed font-label-md text-label-md flex items-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20el%20Combo%20Horneada%20R%C3%BAstica%20Familiar%20(S/%2024.90)" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Pedir Combo</span>
+</a>
+</div>
+</div>
+<!-- Combo 3 -->
+<div class="flex flex-col justify-between bg-surface-container-low rounded-2xl p-space-lg shadow-sm hover:shadow-md transition-all relative overflow-hidden">
+<div class="relative z-10 flex flex-col gap-space-sm">
+<span class="self-start px-space-sm py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-stamp text-label-stamp uppercase">Empresas &amp; Eventos</span>
+<h3 class="font-headline-md text-headline-md text-primary mt-space-xs">Catering Matinal Pimpo's</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Para capacitaciones, oficinas y celebraciones corporativas:</p>
+<ul class="flex flex-col gap-1.5 font-body-sm text-body-sm text-on-surface mt-space-xs">
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 25 Mini empanaditas de carne horneadas</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 20 Mini ciabattitas con pollo y apio</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> 20 Bocaditos dulces surtidos</li>
+<li class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span> Envío programado con factura electrónica</li>
+</ul>
+</div>
+<div class="relative z-10 mt-space-lg pt-space-md border-t border-outline-variant/30 flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-stamp text-label-stamp text-outline">Desde 15 personas</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">S/ 85.00</span>
+</div>
+<a class="h-10 px-5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-space-xs transition-colors shadow-sm" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20solicito%20informaci%C3%B3n%20sobre%20Catering%20Matinal%20Corporativo" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+<span>Coordinar</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 5: GALERÍA VISUAL (El Horno en Vivo) -->
+<section class="w-full py-space-2xl bg-surface-container" id="galeria">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Atmósfera &amp; Artesanía</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+            El Horno en Vivo y Momentos Pimpo's
+          </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Un vistazo a nuestras madrugadas: el harina en suspensión, la madera encendida y la camaradería de un equipo que hornea con alma.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs text-secondary font-label-stamp text-label-stamp uppercase">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+<span>Fotografías tomadas en nuestro obrador de Iquitos</span>
+</div>
+</div>
+<!-- Asymmetric Mosaic Gallery -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md">
+<!-- Large Featured Image -->
+<div class="md:col-span-7 rounded-2xl overflow-hidden shadow-md relative group h-[340px] md:h-[420px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional wood fire oven interior with golden bread loaves baking inside on stone floor with glowing red embers in Iquitos bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGFppvDaMwE5-yfeMaxs3v3nawxl2Wmdaz72ZlYpOKkd0R_EKJMmf86YMrRRwOjd36ZPwBaq-SxFdoS-0hvuoMKJIRMPTWnKQJgYjhTKb-H1xk9vblqPq0ZgWSg-xC67IJb2o0Pe-xEp4V78lEY1GoY7E7TGur2Xvm7o7TCru7o52uYMJKZIDGhL2OUB-cX5z1O2sSvnPWvOWqrwa_MfiEIl0qtSOBQNkePyCsi40tDCSOVIvwjgVXxQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-90"></div>
+<div class="absolute bottom-4 left-4 right-4 text-on-primary">
+<span class="font-label-stamp text-label-stamp text-secondary-fixed uppercase">4:15 AM · El Primer Encendido</span>
+<p class="font-headline-sm text-[18px] font-semibold mt-0.5">El calor del barro y la piedra dan vida a la corteza rústica.</p>
+</div>
+</div>
+<!-- Right Split Images -->
+<div class="md:col-span-5 grid grid-cols-1 gap-space-md">
+<div class="rounded-2xl overflow-hidden shadow-md relative group h-[160px] md:h-[198px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Close up of artisan baker scoring fermented sourdough loaf with a razor blade with fine flour dust in Peruvian bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyosKwJU1m8knOWTz0rl-WxY6Cmwqt8jTlATTWnmvy5LBUXHIOzPvqNrUpnWpbqAtJ4rGz5rtQmCcpD7wqklhYX14Qcnm80ElJ5K_pixsIEYOKB-aDuD1lxD_JBYOS1Vkr-DQzhAjBFJU3Ov5gybVorNw7lny_4cKoJMD9SwCFSaTdeIUHcHpPSdiXN05jC5XLdYsmUAfjvGIh3BRHDgqAgDJ_QoFeYgWByfXVCtS4fjaJW55qFbFm0g"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-on-primary font-label-stamp text-label-stamp">Marcado artesanal a mano alzada</span>
+</div>
+<div class="rounded-2xl overflow-hidden shadow-md relative group h-[160px] md:h-[198px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Display rack filled with freshly baked golden pastries, empanadas, and sweet buns inside a cozy bakery shop in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYE7sEi-1TEntvwRgT6TbmtZzx4g6BNcHM-zNOi3XNqDpeRBNMlksCazb4xoQ-gyVOaI1spsY_I996WtuS_q_cmAGNRLayG2-linDMDg3TCcraDy_B8zIow3-6w2w2T14vd_e3A5obMQasyCBDocINinUo9UzaJU-NIouA9xUFbHElR-bKqnFaFzvVZaoCaOP7vWKj1QBBR366PLx7Dc3uMaXeBSX5SeuDDXaPkF6uqGRunOE4cY5Lrg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-on-primary font-label-stamp text-label-stamp">Vitrinas listas para el despacho matutino</span>
+</div>
+</div>
+<!-- Bottom Trio -->
+<div class="md:col-span-4 rounded-2xl overflow-hidden shadow-md relative group h-[200px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Wooden bowls with artisan dough fermenting under linen cloths with natural morning sunlight in Loreto bakery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKMA7k6UuIM3i5-04R6yRU-_q9-IltXUYAbUkKCIrxTOvq11fw142pa4DCMKAM8-nFLw7lf1fMzZrwZgyOirE_WIOl8l7IFM8RrueQbPFwEV8gL8n0nDs3cuTJBYA1MjMFNguS_DO7gxEAsTXklGc-lmqkpI4DTkaAvmFPfbSLER1l_a1VDqStWswZrW4Pb7RBE2hkMIUN3a65FlX2kmncTL15wb2gttX3ZLbO0cA6mB-UOt_s3R5f9w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-on-primary font-label-stamp text-label-stamp">Bannetons de fermentación prolongada</span>
+</div>
+<div class="md:col-span-4 rounded-2xl overflow-hidden shadow-md relative group h-[200px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cup of dark Peruvian espresso coffee with warm pan con chicharron or cheese roll on wooden breakfast tray in Iquitos." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6QtUtSXVz2CojHyusJNfFT5Wj5JdlQ8MfV8ZxOC7DS55pGPT1gLk-ijY2Mzjg1hYTdC0QcLR9MLGfLVmPfjIN-_l3kWhtXtUL38jvVvrVB6aFhR8AslzgFa6MUtN98jkEdzD0QVJFFCJDgv38Zk6V1306AiGUqCg8EnXP5r5j5W1ltM_LjpeRh_8Xi1qT9POi7UDG7iqfXMVVcqUHY267zJeh1e8f8rt3b3xJWzZtx-R1nOqwOB0u3Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-on-primary font-label-stamp text-label-stamp">Café de especialidad y pan de la mañana</span>
+</div>
+<div class="md:col-span-4 rounded-2xl overflow-hidden shadow-md relative group h-[200px] bg-surface-container-high">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Delivery motorcycle packed with warm paper bags of bread driving down lively palm lined street in Iquitos Peru at dawn." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVtGDfHu1Cmp3plJziCEirVxXYLTaDdK-4MZMvoAjdKTwCggKEk4311d6sF_OHSgEXvPgNuX37KaW_y2GOPCHhLm2e3QuzD0UyWIraIHucbXT47FuO2OUjtmsukwZ7TIw0Lf-mRPKA_LCVQzyhYJCWbQgJYRdyqN6dZYLXGJ3YAEJ9VBJREG-D8fmiZj2ijdOR8op2SszHrNv1xrFnO10p_2_wvyr38u1pe6OLiMmEAZC06VVLoL1Qfw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/70 via-transparent to-transparent"></div>
+<span class="absolute bottom-3 left-3 text-on-primary font-label-stamp text-label-stamp">Reparto matinal a Maynas y Punchana</span>
+</div>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 6: TESTIMONIOS -->
+<section class="w-full py-space-2xl bg-surface" id="testimonios">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<div class="text-center max-w-2xl mx-auto flex flex-col items-center gap-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">La Voz de Nuestra Gente</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+          Lo que dicen nuestros vecinos de Iquitos
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Generaciones de familias loretanas que desayunan y comparten meriendas con los panes y empanadas de Pimpo's.
+        </p>
+</div>
+<!-- Testimonials Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<!-- Review 1 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm flex flex-col justify-between gap-space-md relative">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "El mejor pan francés de toda la calle Morona y alrededores. Llegar a las 6 de la mañana y sentir la bolsa tibia no tiene comparación. Mis nietos adoran el pan de yuca recién salido."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold flex items-center justify-center font-label-md">
+              RG
+            </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Doña Rosa G.</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Vecina de Centro de Iquitos</span>
+</div>
+</div>
+</div>
+<!-- Review 2 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm flex flex-col justify-between gap-space-md relative">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "Pido por WhatsApp a las 6:30 AM para la oficina en Punchana y el muchacho llega impecable y con todo calientito. Las empanadas de carne y chonta son un espectáculo de sabor."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed font-bold flex items-center justify-center font-label-md">
+              CM
+            </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Carlos Mendoza</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">Cliente Delivery · Punchana</span>
+</div>
+</div>
+</div>
+<!-- Review 3 -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low shadow-sm flex flex-col justify-between gap-space-md relative">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface italic">
+              "Para el cumpleaños de mi madre encargamos la torta húmeda de cacao amazónico y bocaditos salados. Quedamos encantados con la atención y la frescura de todo."
+            </p>
+</div>
+<div class="flex items-center gap-space-sm pt-space-xs border-t border-outline-variant/30">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim text-on-secondary font-bold flex items-center justify-center font-label-md">
+              LV
+            </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-primary font-semibold">Lucía Vásquez</span>
+<span class="font-body-sm text-[12px] text-on-surface-variant">San Juan Bautista</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 7: UBICACIÓN Y CONTACTO -->
+<section class="w-full py-space-2xl bg-surface-container-low" id="contacto-ubicacion">
+<div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<div class="flex flex-col gap-space-xs max-w-xl">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Encuéntrenos en el Corazón de Iquitos</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+          Ubicación, Horarios &amp; Pedidos Directos
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Visite nuestro salón para tomar un café recién pasado o reciba su pedido en la puerta de su casa con nuestro equipo de reparto.
+        </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-stretch">
+<!-- Left Location & Details Card -->
+<div class="lg:col-span-6 flex flex-col justify-between bg-surface rounded-2xl p-space-lg shadow-sm gap-space-lg">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[24px]">pin_drop</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-[19px] text-primary">Panadería Pimpo's E.I.R.L.</h3>
+<p class="font-body-md text-body-md text-on-surface">Calle Putumayo 542 (cruce con Morona), Centro Histórico</p>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Iquitos, Provincia de Maynas, Región Loreto – Perú</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-secondary font-label-stamp text-label-stamp uppercase">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>Horarios de Atención Continuada</span>
+</div>
+<p class="font-body-md text-body-md font-semibold text-primary">Lunes a Domingo: 4:00 AM – 9:30 PM (Feriados atendemos)</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Horneadas calientes garantizadas: 4:30 AM | 7:00 AM | 4:00 PM</p>
+</div>
+<!-- Map View Trigger -->
+<div class="w-full h-52 rounded-xl bg-cover bg-center overflow-hidden relative shadow-inner bg-surface-container-high" data-location="Calle Putumayo 542, Iquitos, Peru" style="">
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-[2px] flex flex-col items-center justify-center text-center p-space-md">
+<span class="material-symbols-outlined text-surface text-[36px] drop-shadow">map</span>
+<span class="font-label-lg text-label-lg text-surface font-bold drop-shadow">Calle Putumayo 542 · Iquitos</span>
+<a class="mt-space-xs px-space-md py-1.5 rounded-full bg-surface text-primary font-label-stamp text-label-stamp uppercase shadow hover:bg-surface-container transition-colors" href="https://maps.google.com/?q=Iquitos,Loreto,Peru" rel="noopener noreferrer" target="_blank">
+                  Abrir en Google Maps
+                </a>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm pt-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase">Medios de Pago:</span>
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-stamp text-label-stamp text-primary font-bold">YAPE</span>
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-stamp text-label-stamp text-primary font-bold">PLIN</span>
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-stamp text-label-stamp text-primary font-bold">EFECTIVO</span>
+<span class="px-space-sm py-1 rounded bg-surface-container font-label-stamp text-label-stamp text-primary font-bold">TRANSFERENCIA BCP / BBVA</span>
+</div>
+</div>
+<!-- Right WhatsApp Quick Launcher Form -->
+<div class="lg:col-span-6 bg-surface rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs text-secondary font-label-stamp text-label-stamp uppercase">
+<span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+<span>Lanzador Rápido de Pedidos</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary">Arma tu Pedido en Segundos</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Completa los datos y te redirigiremos a WhatsApp con tu mensaje listo para enviar:</p>
+</div>
+<form class="flex flex-col gap-space-sm" id="quick-order-form" onsubmit="handleQuickOrder(event)">
+<div class="flex flex-col gap-1">
+<label class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Tu Nombre o Empresa</label>
+<input class="w-full h-11 px-4 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20" id="order-name" placeholder="Ej. Mariana Flores" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Distrito / Zona</label>
+<select class="w-full h-11 px-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20" id="order-zone">
+<option value="Iquitos Centro">Iquitos Centro</option>
+<option value="Punchana">Punchana</option>
+<option value="San Juan Bautista">San Juan Bautista</option>
+<option value="Belén">Belén</option>
+<option value="Recojo en Mostrador">Recojo en Mostrador (Putumayo 542)</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">Hora de Entrega Deseada</label>
+<input class="w-full h-11 px-4 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20" id="order-time" placeholder="Ej. 7:00 AM o Lo antes posible" type="text"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-stamp text-label-stamp text-on-surface-variant uppercase">¿Qué productos deseas pedir?</label>
+<textarea class="w-full p-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:bg-surface focus:outline-none focus:ring-2 focus:ring-primary/20 resize-none" id="order-details" placeholder="Ej. 10 panes franceses, 4 panes de yuca y 2 empanadas de carne" required="" rows="3"></textarea>
+</div>
+<button class="w-full h-12 rounded-full bg-secondary hover:bg-secondary-container hover:text-on-secondary-container text-on-secondary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-md transition-all mt-space-xs" type="submit">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+<span>Enviar Pedido Directo a WhatsApp</span>
+</button>
+</form>
+<div class="flex items-center justify-between text-on-surface-variant font-label-stamp text-label-stamp pt-space-xs border-t border-outline-variant/30">
+<span>Atención inmediata en horario comercial</span>
+<span class="text-primary font-bold">Teléfono: +51 965 123 456</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECCIÓN 8: PREGUNTAS FRECUENTES (FAQ) -->
+<section class="w-full py-space-2xl bg-surface" id="preguntas-frecuentes">
+<div class="max-w-[880px] mx-auto px-margin-mobile md:px-margin flex flex-col gap-space-xl">
+<div class="text-center flex flex-col items-center gap-space-xs">
+<span class="font-label-stamp text-label-stamp text-secondary uppercase tracking-widest">Respuestas Claras</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary">
+          Preguntas Frecuentes
+        </h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Todo lo que necesita saber sobre nuestras horneadas, pedidos exprés y formas de pago.
+        </p>
+</div>
+<!-- FAQ Accordions -->
+<div class="flex flex-col gap-space-sm" id="faq-container">
+<!-- FAQ Item 1 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm">
+<button class="w-full p-space-md flex items-center justify-between text-left hover:bg-surface-container transition-colors" onclick="toggleFaq(1)">
+<span class="font-headline-sm text-[18px] text-primary">¿A qué hora sale la primera horneada de pan caliente?</span>
+<span class="material-symbols-outlined text-secondary text-[22px] transition-transform duration-300" id="faq-icon-1">expand_more</span>
+</button>
+<div class="hidden px-space-md pb-space-md text-on-surface-variant font-body-sm text-body-sm" id="faq-content-1">
+            Nuestros maestros panaderos inician el trabajo a las 4:00 AM. La primera tanda oficial sale del horno caliente entre las 4:30 AM y las 4:45 AM. Para la tarde, la horneada caliente de pan francés y ciabatta sale puntualmente a las 4:00 PM.
+          </div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm">
+<button class="w-full p-space-md flex items-center justify-between text-left hover:bg-surface-container transition-colors" onclick="toggleFaq(2)">
+<span class="font-headline-sm text-[18px] text-primary">¿Cómo funcionan los pedidos y envíos por WhatsApp?</span>
+<span class="material-symbols-outlined text-secondary text-[22px] transition-transform duration-300" id="faq-icon-2">expand_more</span>
+</button>
+<div class="hidden px-space-md pb-space-md text-on-surface-variant font-body-sm text-body-sm" id="faq-content-2">
+            Es muy sencillo: nos escribe a nuestro WhatsApp oficial (+51 965 123 456), indica qué productos desea y su dirección en Iquitos, Punchana, San Juan o Belén. Le confirmamos monto total, coordina el medio de pago (Yape/Plin o efectivo al recibir) y nuestro motorizado sale de inmediato.
+          </div>
+</div>
+<!-- FAQ Item 3 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm">
+<button class="w-full p-space-md flex items-center justify-between text-left hover:bg-surface-container transition-colors" onclick="toggleFaq(3)">
+<span class="font-headline-sm text-[18px] text-primary">¿Tienen opciones para eventos, colegios o cafeterías aliadas?</span>
+<span class="material-symbols-outlined text-secondary text-[22px] transition-transform duration-300" id="faq-icon-3">expand_more</span>
+</button>
+<div class="hidden px-space-md pb-space-md text-on-surface-variant font-body-sm text-body-sm" id="faq-content-3">
+            Sí. Proveemos canastas de pan fresco a diario para restaurantes, comedores institucionales y hoteles de Iquitos. Además elaboramos bocaditos dulces y salados (mini empanadas, quiches, mini alfajores) con 24 horas de anticipación. Emitimos factura electrónica.
+          </div>
+</div>
+<!-- FAQ Item 4 -->
+<div class="rounded-xl bg-surface-container-low overflow-hidden shadow-sm">
+<button class="w-full p-space-md flex items-center justify-between text-left hover:bg-surface-container transition-colors" onclick="toggleFaq(4)">
+<span class="font-headline-sm text-[18px] text-primary">¿Qué medios de pago aceptan en delivery y mostrador?</span>
+<span class="material-symbols-outlined text-secondary text-[22px] transition-transform duration-300" id="faq-icon-4">expand_more</span>
+</button>
+<div class="hidden px-space-md pb-space-md text-on-surface-variant font-body-sm text-body-sm" id="faq-content-4">
+            Aceptamos pagos directos con Yape y Plin mediante código QR, transferencias bancarias BCP y BBVA, y dinero en efectivo (por favor especificar con cuánto pagará si requiere vuelto). En nuestro local físico también aceptamos tarjetas de débito y crédito.
+          </div>
+</div>
+</div>
+</div>
+</section>
+<!-- FLOATING ACTION BUTTON (WHATSAPP) -->
+<a aria-label="Pedir pan por WhatsApp" class="fixed bottom-6 right-6 z-50 flex items-center gap-space-xs bg-[#25D366] hover:bg-[#1EBE5D] text-white px-5 py-3 rounded-full shadow-2xl transition-transform hover:scale-105" href="https://wa.me/51965123456?text=Hola%20Pimpos,%20quiero%20hacer%20un%20pedido%20en%20este%20momento" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[24px]">chat</span>
+<span class="font-label-lg text-label-lg font-bold">Pedir Calentito</span>
+</a>
+</div>
+<script>
+  // Hero Slider Logic
+  let currentSlide = 0;
+  const totalSlides = 3;
+  let heroInterval = null;
+
+  function updateHeroSlider() {
+    const track = document.getElementById('hero-slider-track');
+    const dots = document.querySelectorAll('.hero-dot');
+    if (!track) return;
+    
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, idx) => {
+      if (idx === currentSlide) {
+        dot.classList.remove('w-2.5', 'bg-outline-variant');
+        dot.classList.add('w-8', 'bg-primary');
+      } else {
+        dot.classList.remove('w-8', 'bg-primary');
+        dot.classList.add('w-2.5', 'bg-outline-variant');
+      }
+    });
+  }
+
+  function nextHeroSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateHeroSlider();
+    resetHeroTimer();
+  }
+
+  function prevHeroSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateHeroSlider();
+    resetHeroTimer();
+  }
+
+  function goToHeroSlide(index) {
+    currentSlide = index;
+    updateHeroSlider();
+    resetHeroTimer();
+  }
+
+  function resetHeroTimer() {
+    if (heroInterval) clearInterval(heroInterval);
+    heroInterval = setInterval(nextHeroSlide, 6500);
+  }
+
+  // Product Filter Logic
+  function filterProducts(category) {
+    const cards = document.querySelectorAll('.product-card');
+    const buttons = document.querySelectorAll('.product-filter-btn');
+
+    buttons.forEach(btn => {
+      btn.classList.remove('bg-primary', 'text-on-primary');
+      btn.classList.add('text-on-surface-variant');
+    });
+
+    event.currentTarget.classList.add('bg-primary', 'text-on-primary');
+    event.currentTarget.classList.remove('text-on-surface-variant');
+
+    cards.forEach(card => {
+      const cardCategory = card.getAttribute('data-category');
+      if (category === 'all' || cardCategory === category) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Quick Order Launcher to WhatsApp
+  function handleQuickOrder(e) {
+    e.preventDefault();
+    const name = document.getElementById('order-name').value;
+    const zone = document.getElementById('order-zone').value;
+    const time = document.getElementById('order-time').value;
+    const details = document.getElementById('order-details').value;
+
+    const message = `¡Hola Panadería Pimpo's! Mi nombre es *${name}*.\n` +
+      `*Zona/Entrega:* ${zone}\n` +
+      `*Hora solicitada:* ${time || 'Lo antes posible'}\n` +
+      `*Mi pedido es:*\n${details}\n\n` +
+      `Por favor confírmenme disponibilidad y monto a pagar. ¡Gracias!`;
+
+    const encoded = encodeURIComponent(message);
+    window.open(`https://wa.me/51965123456?text=${encoded}`, '_blank');
+  }
+
+  // FAQ Accordion
+  function toggleFaq(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    if (!content) return;
+
+    if (content.classList.contains('hidden')) {
+      content.classList.remove('hidden');
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      content.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // Auto initialize slider timer
+  document.addEventListener('DOMContentLoaded', () => {
+    resetHeroTimer();
+  });
+</script></main><footer class="w-full bg-surface-container-low text-on-surface mt-space-2xl"><div class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin py-space-2xl"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl"><div class="flex flex-col gap-space-md"><div class="flex items-center gap-space-sm"><img alt="Logo Panadería Pimpo's Iquitos" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VrYzpDUgGR0EmkK6TqKsO_g8YexXnufHJVk3JPt-otEoEtCYKIAndg3Pv3oRPkM66EllbSChNtFPix7cMVI2FIIWAsW6jiIkeijaNVNZYuwS2RTLmGYuSXRyNoBCjtYOJwT5D2vykYpy2mp7OILO5IjqKqybXZH-rJk-NlXvrgZMjsQXQMAOXkgpVqQPzM3W-vIs_tg42hrVDizTIlyS6w2y_bAswXChxX_UPuS5KjSLc2P5mHYA1OCweZ"/><span class="font-headline-sm text-headline-sm text-primary">Pimpo's E.I.R.L.</span></div><p class="font-body-sm text-body-sm text-on-surface-variant">Tradición panadera en la Amazonía peruana. Horneamos desde las 4:00 AM panes artesanales, pasteles frescos y café de especialidad para todas las familias de Iquitos.</p><span class="font-label-stamp text-label-stamp text-secondary uppercase">RUC: 20601234567</span></div><div class="flex flex-col gap-space-md"><h4 class="font-headline-sm text-headline-sm text-primary">Atención &amp; Horarios</h4><ul class="flex flex-col gap-space-xs font-body-sm text-body-sm text-on-surface-variant"><li>Lunes a Domingo: 4:00 AM – 9:30 PM</li><li>Horneadas en Vivo: 4:30 AM &amp; 4:00 PM</li><li>Reparto Exprés: Maynas, Punchana, San Juan</li></ul><div class="mt-space-sm"><a class="inline-flex items-center gap-space-xs font-label-md text-label-md text-primary hover:text-primary-container font-semibold" href="https://wa.me/51965123456" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-[18px]">call</span> +51 965 123 456</a></div></div><div class="flex flex-col gap-space-md"><h4 class="font-headline-sm text-headline-sm text-primary">Ubicación Principal</h4><p class="font-body-sm text-body-sm text-on-surface-variant">Calle Putumayo 542, Centro Histórico<br/>Iquitos, Loreto – Perú</p><div class="flex flex-col gap-space-xs font-label-stamp text-label-stamp text-secondary"><span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">pin_drop</span> Punto de recojo &amp; Salón cafetería</span><span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">moped</span> Delivery local garantizado</span></div></div><div class="flex flex-col gap-space-md"><h4 class="font-headline-sm text-headline-sm text-primary">Gestión &amp; Acceso</h4><p class="font-body-sm text-body-sm text-on-surface-variant">Plataforma operativa para personal de horneado, kárdex de insumos y despacho en mostrador.</p><div class="flex flex-col gap-space-sm"><a class="inline-flex items-center justify-center gap-space-xs bg-surface-container-highest hover:bg-surface-container hover:text-on-surface text-on-surface px-space-md py-space-sm rounded-full font-label-md text-label-md transition-colors" data-path="login" href="#"><span class="material-symbols-outlined text-[18px]">admin_panel_settings</span> Acceso Kárdex &amp; Panel</a><a class="font-label-stamp text-label-stamp text-on-surface-variant hover:text-primary text-center" data-path="panel-de-control" href="#">Panel de Control Interno</a></div></div></div><div class="mt-space-2xl pt-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md bg-surface-container-high/40 rounded-xl px-space-lg py-space-md"><div class="font-label-stamp text-label-stamp text-on-surface-variant">© 2025 Panadería Pimpo's E.I.R.L. Todos los derechos reservados. Iquitos, Amazonía Peruana.</div><div class="flex items-center gap-space-lg font-label-stamp text-label-stamp text-on-surface-variant"><a class="hover:text-primary transition-colors" data-path="contacto-ubicacion" href="#">Libro de Reclamaciones</a><a class="hover:text-primary transition-colors" data-path="preguntas-frecuentes" href="#">Términos de Envío</a></div></div></div></footer></body></html>
