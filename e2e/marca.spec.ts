@@ -73,8 +73,10 @@ test("los años de oficio se calculan, no se escriben", async ({ page }) => {
   // que la pagina NO lleve un numero congelado de un anio anterior.
   const esperados = new Date().getFullYear() - ANIO_DE_APERTURA;
 
+  // El año vive en el sello del bloque de nosotros desde la fase 3.1; la cuenta
+  // de años sigue en la franja.
+  await expect(page.locator("[data-sello-apertura]")).toContainText(`Desde ${ANIO_DE_APERTURA}`);
   const franja = page.getByRole("region", { name: "Por qué comprar aquí" });
-  await expect(franja).toContainText(`Desde ${ANIO_DE_APERTURA}`);
   await expect(
     franja,
     `La franja deberia decir "${esperados} años". Si dice otro numero, esta escrito a mano.`,

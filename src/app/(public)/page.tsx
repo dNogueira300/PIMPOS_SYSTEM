@@ -7,6 +7,7 @@ import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
 import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
+import { TituloSeccion } from "@/components/publico/titulo-seccion";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { listarDestacados, listarProductos } from "@/lib/datos/catalogo";
 import {
@@ -52,7 +53,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
  * reparto, en cuanto cambie; los anios, el 1 de enero siguiente, sin que nada
  * falle ni avise.
  */
-function hechos(zonas: string, fundacion: number, anos: number | null) {
+function hechos(zonas: string, anos: number | null) {
   return [
     {
       icono: Clock,
@@ -66,7 +67,10 @@ function hechos(zonas: string, fundacion: number, anos: number | null) {
     },
     {
       icono: MapPin,
-      titulo: fundacion > 0 ? `Desde ${fundacion}` : "En el barrio",
+      // El año de apertura ya no va aqui sino en el sello del bloque de
+      // nosotros, como en el prototipo (plan 03.1, tarea 5): dicho dos veces en
+      // la misma pagina sobraba en una de las dos.
+      titulo: "En el barrio",
       // Sin la cuenta de anios, la frase se escribe sin ella: "en el mismo
       // barrio" se lee bien, y "0 anios en el mismo barrio" no.
       detalle: anos
@@ -167,12 +171,12 @@ export default async function Inicio() {
           primer pliegue, justo bajo el carrusel. Animarla dejaba "Desde 2004"
           casi invisible para quien entra y no toca nada. */}
       <section aria-label="Por qué comprar aquí" className="bg-franja text-franja-foreground">
-        <ul className="mx-auto grid max-w-(--container-contenido) gap-8 px-4 py-10 sm:grid-cols-3 sm:px-6">
-          {hechos(zonas, config.anio_fundacion, anos).map(({ icono: Icono, titulo, detalle }) => (
+        <ul className="mx-auto grid max-w-(--container-contenido) gap-6 px-4 py-8 sm:grid-cols-3 sm:gap-8 sm:px-6">
+          {hechos(zonas, anos).map(({ icono: Icono, titulo, detalle }) => (
             <li key={titulo} className="flex gap-3">
               <Icono aria-hidden className="mt-1 size-5 shrink-0" />
               <div>
-                <p className="font-heading text-lg">{titulo}</p>
+                <p className="font-heading text-lg font-semibold">{titulo}</p>
                 <p className="text-franja-foreground/80 text-sm text-pretty">{detalle}</p>
               </div>
             </li>
@@ -250,7 +254,7 @@ export default async function Inicio() {
         <div className="aparece-lateral">
           <h2
             id="titulo-madrugada"
-            className="font-heading text-3xl text-balance sm:text-4xl lg:text-5xl"
+            className="font-heading text-primary text-3xl font-semibold text-balance sm:text-4xl lg:text-5xl"
           >
             {abreALas
               ? `Aquí el día empieza a las ${abreALas}`
@@ -273,9 +277,12 @@ export default async function Inicio() {
         aria-labelledby="titulo-delivery"
         className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6"
       >
-        <div className="aparece bg-primary text-primary-foreground rounded-xl px-6 py-12 sm:px-12">
+        <div className="aparece bg-primary text-primary-foreground shadow-elevada rounded-2xl px-6 py-12 sm:px-12">
           <div className="max-w-2xl">
-            <h2 id="titulo-delivery" className="font-heading text-3xl text-balance sm:text-4xl">
+            <h2
+              id="titulo-delivery"
+              className="font-heading text-3xl font-semibold text-balance sm:text-4xl"
+            >
               Te lo llevamos a tu casa
             </h2>
             <p className="text-primary-foreground/85 mt-3 text-lg text-pretty">
@@ -317,36 +324,81 @@ export default async function Inicio() {
         </div>
       </section>
 
-      {/* 5. La historia, con la foto de la fachada. Asimetrico a proposito: es
-          el unico bloque de relato y no debe leerse como otra rejilla mas. */}
+      {/* 5. La historia, con la foto de la fachada y los valores de la ficha,
+          en la composición del bloque «nosotros» del prototipo de Stitch.
+          Asimétrico a propósito: es el único bloque de relato y no debe leerse
+          como otra rejilla más. */}
       {config.historia ? (
-        <section className="mx-auto mt-20 grid max-w-(--container-contenido) gap-10 px-4 sm:px-6 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+        <section
+          aria-labelledby="titulo-historia"
+          className="mx-auto mt-24 grid max-w-(--container-contenido) items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16"
+        >
           {fachada?.imagen ? (
-            <div className="acercarse relative aspect-[4/3] overflow-hidden rounded-xl">
-              <Image
-                src={fachada.imagen}
-                alt={fachada.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
-              />
+            <div className="relative">
+              <div className="acercarse shadow-elevada relative aspect-[4/3] overflow-hidden rounded-2xl">
+                <Image
+                  src={fachada.imagen}
+                  alt={fachada.alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover"
+                />
+              </div>
+
+              {/* El sello flotante del prototipo decía «24+ Años horneando en la
+                  Amazonía»: una cuenta inventada y además equivocada. Aquí dice
+                  el año de apertura, que sale de la base y no caduca (0024,
+                  0025). */}
+              {config.anio_fundacion > 0 ? (
+                <div
+                  data-sello-apertura
+                  className="tarjeta shadow-elevada absolute right-4 -bottom-7 flex flex-col items-center px-6 py-4 text-center sm:right-8"
+                >
+                  <p className="font-heading text-primary text-2xl font-bold sm:text-3xl">
+                    Desde {config.anio_fundacion}
+                  </p>
+                  <p className="text-acento mt-1 text-[0.6875rem] font-bold tracking-[0.08em] uppercase">
+                    Horneando en Iquitos
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : null}
 
           <div className="aparece-lateral">
-            {/* El numero va en letra porque es un titular, pero no escrito a
-                mano: se genera desde el anio de apertura. Sin cuenta creible,
-                el titular se queda sin cifra en vez de decir una falsa. */}
-            <h2 className="font-heading text-3xl sm:text-4xl">
-              {anos ? `${enLetra(anos)} años en el barrio` : "Toda una vida en el barrio"}
-            </h2>
-            <p className="text-muted-foreground mt-4 max-w-prose text-pretty">
-              {config.historia.split("\n\n")[0]}
-            </p>
-            <Link
-              href="/nosotros"
-              className="text-acento focus-visible:outline-ring min-h-tactil mt-6 inline-flex items-center gap-1.5 font-medium hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
+            {/* El número va en letra porque es un titular, pero no escrito a
+                mano: se genera desde el año de apertura. Sin cuenta creíble, el
+                titular se queda sin cifra en vez de decir una falsa. */}
+            <TituloSeccion
+              id="titulo-historia"
+              sello="Nuestra historia"
+              titulo={anos ? `${enLetra(anos)} años en el barrio` : "Toda una vida en el barrio"}
+              entradilla={config.historia.split("\n\n")[0]}
+            />
+
+            {/* Los valores de la ficha, en las tarjetas de «nosotros» del
+                prototipo. Los del prototipo («fermentación lenta», «insumos
+                locales») eran inventados; estos son los del negocio. */}
+            {config.valores.length > 0 ? (
+              <ul className="aparece-grupo mt-8 grid gap-3 sm:grid-cols-2">
+                {config.valores.slice(0, 4).map((valor, indice) => (
+                  <li
+                    key={valor.nombre}
+                    className="tarjeta bg-muted p-4"
+                    style={{ "--i": indice } as CSSProperties}
+                  >
+                    <p className="font-heading text-primary text-lg font-semibold">
+                      {valor.nombre}
+                    </p>
+                    <p className="text-muted-foreground mt-1 text-sm text-pretty">
+                      {valor.descripcion}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            <Link href="/nosotros" className="boton-linea mt-8">
               Conocer la panadería
               <ArrowRight aria-hidden className="size-4" />
             </Link>

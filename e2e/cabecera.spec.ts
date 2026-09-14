@@ -77,7 +77,9 @@ test("la historia de la portada ya no empieza por «Bienvenidos»", async ({ pag
 
   const bloque = page
     .locator("section")
-    .filter({ has: page.getByRole("heading", { name: "Veintidós años en el barrio" }) });
+    // Por la forma y no por el numero: «Veintidós» cambia solo el 1 de enero, y
+    // escrito aqui la prueba habria fallado sin que nada estuviera roto.
+    .filter({ has: page.getByRole("heading", { name: /años en el barrio/ }) });
   await expect(bloque).toContainText("emprendimiento familiar");
   await expect(bloque).not.toContainText("Bienvenidos");
 });
