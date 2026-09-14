@@ -38,6 +38,19 @@ volverse melosa; y habla con seguridad de lo que hornea sin presumir ni ponerse 
 La emoción que busca la ficha 2.5: que la web transmita **la misma sensación que entrar a la tienda**.
 Ese es el criterio para resolver cualquier duda.
 
+## Visual Language
+
+Desde la fase 3.1 (14/09/2026), el lenguaje **«artisan editorial»** del prototipo de Google Stitch
+que eligió Dan: titulares en **Playfair Display** y texto en **Plus Jakarta Sans**, superficies crema
+en capas con tarjetas blancas, bordes muy tenues y sombras cálidas, botones en píldora y sellos cortos
+con borde dorado. El azul es el del logo (`#12306E`), no el del prototipo, y el verde se reserva al
+botón de pedir por WhatsApp.
+
+Editorial no quiere decir premium: del prototipo se tomó la forma y **ningún dato** (estaba lleno de
+direcciones, productos, cifras y testimonios inventados), y los sellos van con mesura para que no se
+lea como plantilla. Paleta y contrastes en `docs/marca.md` §8; el porqué de cada pieza, en
+`DOC/Plan de Desarrollo 03.1 - Rediseño visual.md`.
+
 ## Anti-references
 
 - **El tono «premium» de las panaderías de gama alta de Lima** —El Pan de la Chola, Pan Atelier,

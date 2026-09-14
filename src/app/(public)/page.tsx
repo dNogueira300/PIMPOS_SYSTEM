@@ -529,11 +529,13 @@ export default async function Inicio() {
         </section>
       ) : null}
 
-      {/* 8. Dónde y cuándo. */}
+      {/* 8. Dónde y cuándo. Ninguna tarea del plan 03.1 lo nombraba y se quedó
+          con el estilo de F3 hasta el cierre: se vio al comparar la portada
+          entera con el prototipo, no leyendo el plan. */}
       <section className="mx-auto mt-20 max-w-(--container-contenido) px-4 pb-4 sm:px-6">
-        <div className="aparece bg-card border-border/30 grid gap-8 rounded-xl border p-6 sm:p-10 lg:grid-cols-2">
+        <div className="aparece tarjeta grid gap-6 p-6 sm:p-10 lg:grid-cols-2 lg:gap-10">
           <div>
-            <h2 className="font-heading text-3xl">Dónde estamos</h2>
+            <h2 className="font-heading text-primary text-3xl font-semibold">Dónde estamos</h2>
             {direccion ? <p className="mt-3 text-lg text-pretty">{direccion}</p> : null}
             {config.referencia ? (
               <p className="text-muted-foreground mt-1">{config.referencia}</p>
@@ -547,8 +549,8 @@ export default async function Inicio() {
             </Link>
           </div>
 
-          <div>
-            <h2 className="font-heading text-3xl">Horario</h2>
+          <div className="tarjeta bg-muted p-5 sm:p-6">
+            <h2 className="font-heading text-primary text-3xl font-semibold">Horario</h2>
             <div className="mt-3">
               <Horario config={config} />
             </div>

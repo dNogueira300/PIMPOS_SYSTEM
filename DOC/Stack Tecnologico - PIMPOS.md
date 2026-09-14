@@ -229,7 +229,7 @@ Estilo declarado en 2.6: **tradicional / artesanal**. Colores extraídos de los 
 | Tinta                         | `#231A14` | Marrón muy oscuro en vez de negro puro                                        |
 | Arcoíris del logo             | degradado | **Solo como detalle** (filete divisor, subrayado). Nunca en fondos ni botones |
 
-Tipografías: **Fraunces** (serif variable, cálida) para títulos + **Inter** para texto. Alternativa: **Bitter** + **Source Sans 3**.
+Tipografías: **Playfair Display** para títulos + **Plus Jakarta Sans** para texto, locales con `next/font/local`, desde la fase 3.1 (decisión de Dan, 13/09/2026). Sustituyen a Fraunces + Inter, que se eligieron en F1. La paleta de esta tabla es la de F1: la vigente, con sus contrastes medidos, está en `docs/marca.md` §8.
 
 ### 4.3 Datos, autenticación y almacenamiento
 
@@ -416,7 +416,7 @@ El módulo de clientes guarda nombre, celular, dirección, ubicación y **foto d
 2. **Dónde comprar el dominio** (ver §3.2). Decidir antes del despliegue de setiembre. Comparar **precio de renovación**, no el de promoción.
 3. **Período de retención** de datos de clientes — decisión del propietario.
 4. **Precios unitarios del catálogo completo:** `LISTAPRODUCTOS.docx` agrupa por bloques (S/ 0.10, 0.40, 0.50) pero varios ítems traen precio propio dentro del bloque. Se carga lo que está confirmado y el resto se completa desde el panel.
-5. **Fuentes definitivas** (Fraunces + Inter, o Bitter + Source Sans 3) — a validar con el propietario sobre una maqueta.
+5. **Fuentes definitivas** — ✅ resuelto: Playfair Display + Plus Jakarta Sans (fase 3.1).
 
 ---
 

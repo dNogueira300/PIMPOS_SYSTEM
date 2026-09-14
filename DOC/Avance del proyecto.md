@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 12/09/2026
+**Corte:** 14/09/2026
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -12,17 +12,17 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase   | Nombre                   | Estado                                                                                                                                     |
-| ------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| **F0** | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                        |
-| **F1** | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                        |
-| **F2** | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                        |
-| **F3** | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4 |
-| F3.1   | Rediseño visual          | ⬜ Planificada el 13/09: el prototipo de Stitch, con el azul institucional. Ver `Plan de Desarrollo 03.1`                                  |
-| F4     | Panel: contenido         | ⬜                                                                                                                                         |
-| F5     | Panel: insumos           | ⬜                                                                                                                                         |
-| F6     | Panel: clientes          | ⬜                                                                                                                                         |
-| F7     | Cierre                   | ⬜                                                                                                                                         |
+| Fase     | Nombre                   | Estado                                                                                                                                                       |
+| -------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                          |
+| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                          |
+| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                          |
+| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                   |
+| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero |
+| F4       | Panel: contenido         | ⬜                                                                                                                                                           |
+| F5       | Panel: insumos           | ⬜                                                                                                                                                           |
+| F6       | Panel: clientes          | ⬜                                                                                                                                                           |
+| F7       | Cierre                   | ⬜                                                                                                                                                           |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -515,6 +515,70 @@ carpeta del cliente), así que en el CI los buckets están vacíos y las comprob
 una foto se ve **se saltan diciendo por qué**. Para cubrirlo de verdad habría que meter unos 4 MB de
 imágenes en el repositorio o subirlas desde el flujo de trabajo. Declarado no es lo mismo que
 cubierto, y conviene decidirlo antes de F4.
+
+### Fase 3.1 — cerrada el 14/09/2026: el rediseño con el prototipo de Stitch
+
+**Qué se pidió.** El 13/09 Dan hizo un prototipo en Google Stitch («Panadería Pimpo's Web Platform»)
+y lo eligió como aspecto de la plataforma, con tres condiciones: **el azul principal es el del logo**
+(`#12306E`, no el `#174A68` del prototipo), la **tipografía del prototipo** (Playfair Display +
+Plus Jakarta Sans en vez de Fraunces + Inter) y los **productos en híbrido** (tarjeta con foto solo
+para lo que tiene foto; el resto, pizarra de precios). Se hizo en nueve tareas, un PR cada una, con el
+plan en `DOC/Plan de Desarrollo 03.1 - Rediseño visual.md` y el prototipo en `DOC/Maquetas/Stitch/`.
+
+**Qué se adoptó:** las dos fuentes (locales, 79 KB); la paleta crema en capas con tarjetas blancas,
+bordes tenues y sombras cálidas; botones en píldora de 48 px; sellos; la barra de aviso terracota;
+la cabecera con la sección activa en píldora azul y el pie en cuatro columnas; el hero con la foto
+velada en crema y el titular azul; la franja durazno; el bloque de nosotros con sello flotante; las
+tarjetas de producto (en híbrido); el filtro en píldora; la galería en mosaico con pie de foto; las
+tarjetas de novedades y testimonios; «Arma tu pedido»; y las preguntas en tarjetas.
+
+**Qué no, y por qué:**
+
+| Del prototipo                                     | Por qué no                                                                                                |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Sus datos: dirección, horario, productos, precios | Inventados por la IA que lo generó. Todo sigue saliendo de la base                                        |
+| «24+ años», «fermentación 18 horas»               | Cifras sin respaldo. El sello dice «Desde 2004», que sale de la base y no caduca                          |
+| Combos con precio tachado                         | No existen en la base. Novedades tomó ese estilo de tarjeta con lo que sí hay                             |
+| Estrellas en los testimonios                      | La tabla no guarda puntuación: serían inventadas                                                          |
+| Carrusel en el celular                            | Decisión del 12/09: foto quieta                                                                           |
+| Una etiqueta encima de cada sección               | Es la marca de un sitio hecho por plantilla. En la portada llevan sello dos bloques: productos e historia |
+| Acceso al panel en la cabecera                    | El panel no se anuncia al visitante                                                                       |
+| Material Symbols y Google Fonts por CDN           | lucide y `next/font/local`                                                                                |
+
+**Medido al cerrar**, con la suite entera en verde (388 pgTAP, 169 unitarias, 212 flujos E2E) y axe en
+cero en las doce rutas:
+
+| Ruta         | Rendimiento F3 → 3.1 | Accesibilidad | SEO |
+| ------------ | -------------------- | ------------- | --- |
+| `/`          | 95 → **91**          | 100           | 100 |
+| `/productos` | 94 → **95**          | 100           | 100 |
+| `/contacto`  | 96 → **96**          | 97            | 100 |
+
+Mediana de cinco pasadas de Lighthouse móvil, **las dos versiones medidas en la misma sesión**. El
+límite era no perder más de 5 puntos en la portada: se pierden 4. El 97 de contacto no es un contraste
+real: los dos colores que marca son sus tokens exactos al 70 % de opacidad, la aparición por scroll a
+medio camino (la misma trampa descrita en `CLAUDE.md`); axe, que mide con las animaciones apagadas,
+da cero.
+
+**Tres cosas que salieron al ejecutar y que el plan no preveía**, todas escritas en `CLAUDE.md`:
+
+- **La línea base de rendimiento del día 13 no servía.** Daba 79 en la portada, y contra ella el
+  rediseño parecía mejorar doce puntos. Medido el commit anterior a la fase en la misma sesión que la
+  fase: 95. Era la máquina.
+- **La caché de `fetch` del build servía datos de la base de un build anterior**: filas nuevas en la
+  base local que la portada no enseñaba. Parecía un problema de RLS.
+- **El bloque «Dónde estamos · Horario» de la portada no estaba en ninguna tarea** y llegó al cierre
+  con el estilo viejo y todas las pruebas en verde. Lo encontró comparar la portada entera con el
+  prototipo.
+
+**Sobre el rendimiento que F3 dejó para F4.** F3 declaró que la portada móvil no llegaba a 90 con este
+stack (mediana 79, techo 83 sin carrusel). Hoy, en la misma máquina, el código de F3 da 95 y el de
+3.1 da 91. La conclusión de F3 sobre la causa (la hidratación de React, no las imágenes) sigue en pie,
+pero **el número depende tanto de la máquina que no puede decidir nada solo**: antes de tocar el
+umbral en F4, medir contra el sitio desplegado, en el mismo rato, las versiones que se comparen.
+
+**Queda para revisar con el negocio:** enseñar las capturas de `DOC/Maquetas/3.1/` al propietario (la tipografía se eligió con el propietario en F1, y ha cambiado), mirarlo en un teléfono real a 375 px, y la foto de la
+galería titulada «La masa», que enseña el horno eléctrico.
 
 ### Pendiente del negocio
 

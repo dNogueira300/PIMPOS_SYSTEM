@@ -29,7 +29,7 @@ export async function PaginaNoEncontrada() {
   return (
     <div className="mx-auto max-w-(--container-contenido) px-4 py-16 sm:px-6 sm:py-24">
       <div className="max-w-2xl">
-        <h1 className="font-heading text-4xl text-balance sm:text-5xl">
+        <h1 className="font-heading text-primary text-4xl font-bold text-balance sm:text-5xl">
           No encontramos esta página
         </h1>
         <p className="text-muted-foreground mt-4 text-lg text-pretty">
@@ -61,7 +61,7 @@ export async function PaginaNoEncontrada() {
 
       {destacados.length > 0 ? (
         <section aria-labelledby="titulo-mientras" className="mt-16 max-w-3xl">
-          <h2 id="titulo-mientras" className="font-heading text-2xl">
+          <h2 id="titulo-mientras" className="font-heading text-primary text-2xl font-semibold">
             Mientras tanto, lo que horneamos hoy
           </h2>
           <PizarraPrecios productos={destacados} className="mt-4" />

@@ -83,6 +83,13 @@ Cada skill entra en un momento concreto y con un entregable concreto. No se invo
 
 ## 3. Sistema de diseño
 
+> **Desde la fase 3.1 (14/09/2026) los valores de esta sección están superados.** La paleta, la
+> tipografía (Playfair Display + Plus Jakarta Sans), los radios y las piezas base son los del
+> prototipo de Stitch con el azul institucional: ver `DOC/Plan de Desarrollo 03.1 - Rediseño
+visual.md` y `docs/marca.md` §8. Lo que sigue en pie de aquí es la **estructura** —las tres capas
+> de tokens, la regla de no usar primitivos en componentes, los mínimos de accesibilidad— y el
+> historial de por qué se decidió cada cosa en F1.
+
 ### 3.1 Tokens en tres capas
 
 ✅ **Implementado** en `src/estilos/globals.css`.

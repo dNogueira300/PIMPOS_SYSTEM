@@ -17,7 +17,7 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 
 ---
 
-## 1. Estado a la fecha (12/09/2026)
+## 1. Estado a la fecha (14/09/2026)
 
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
@@ -28,7 +28,7 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 | 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                                                                      |
 | Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                                                                       |
 | 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **23** hoy                                                                                                 |
-| 2–5 Desarrollo                                    | 🔄 F0, F1, F2 y **F3 cerradas**. F3 quedó desplegada, con la crítica de diseño (24/40 → 29/40) cerrada entera, axe en cero y el rendimiento investigado |
+| 2–5 Desarrollo                                    | 🔄 F0, F1, F2, F3 y **F3.1 cerradas**. F3 quedó desplegada con axe en cero y el rendimiento investigado; F3.1 le dio el aspecto del prototipo de Stitch |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -92,7 +92,7 @@ kárdex acabó necesitando archivo propio, de ahí que la lista no cuadre con la
 las tres primeras están cerradas y F3 tiene ya sus ocho secciones construidas. Ese margen importa
 porque no había semana de reserva.
 
-### 1.4 Fase 3 — en curso
+### 1.4 Fase 3 — cerrada el 12/09/2026
 
 Las **ocho secciones del sitio público** están construidas y leen de la base: portada, catálogo,
 ficha de producto, novedades, nosotros, galería, ubicación, preguntas frecuentes y contacto. El build
@@ -135,21 +135,33 @@ Dos hallazgos que corrigen el plan y están explicados en el doc 03:
   que entraron a propósito, tres de ellas para corregir una crítica de diseño. **La decisión de qué
   hacer con el número es de Dan y va en F4**; el detalle está en el doc 03.
 
+### 1.5 Fase 3.1 — cerrada el 14/09/2026
+
+El sitio público tiene el aspecto del prototipo de Google Stitch con el azul del logo, en nueve
+tareas y nueve PR (#42 a #49 y el de cierre). Playfair Display + Plus Jakarta Sans; paleta nueva con
+contrastes bajo prueba; píldoras, tarjetas y sellos; barra de aviso, cabecera y pie nuevos; hero con
+velo crema; productos en híbrido; galería en mosaico con pies reales; «Arma tu pedido» en contacto.
+Ningún dato del prototipo llegó al sitio.
+
+Rendimiento contra F3, medido el mismo día: portada 91 frente a 95 (el límite era no perder más de
+5), catálogo 95 frente a 94, contacto 96 frente a 96. 388 pgTAP, 169 unitarias y 212 flujos E2E en
+verde. El detalle, en `Avance del proyecto.md`; las capturas, en `DOC/Maquetas/3.1/`.
+
 ---
 
 ## 2. Fases
 
-| Fase     | Nombre                      | Entregable que la cierra                                                                                                           | Depende de |
-| -------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                             | —          |
-| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                           | F0         |
-| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                       | F1         |
-| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                    | F2         |
-| **F3.1** | Rediseño visual             | Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1` | F3         |
-| **F4**   | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración                                             | F2, F3     |
-| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                   | F2         |
-| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                        | F2         |
-| **F7**   | Cierre                      | Capacitación, manual, informe final y traspaso de credenciales                                                                     | F3–F6      |
+| Fase     | Nombre                      | Entregable que la cierra                                                                                                              | Depende de |
+| -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                                | —          |
+| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                              | F0         |
+| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                          | F1         |
+| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                       | F2         |
+| **F3.1** | Rediseño visual             | ✅ Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1` | F3         |
+| **F4**   | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración                                                | F2, F3     |
+| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                      | F2         |
+| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                           | F2         |
+| **F7**   | Cierre                      | Capacitación, manual, informe final y traspaso de credenciales                                                                        | F3–F6      |
 
 ### 2.1 Por qué este orden
 
