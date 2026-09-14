@@ -90,35 +90,35 @@ no-preference`. Ninguna librería de animación nueva.
 
 ## Mapa de archivos
 
-| Archivo                                                                      | Tarea | Qué pasa                                                     |
-| ---------------------------------------------------------------------------- | ----- | ------------------------------------------------------------ |
-| `scripts/preparar-fuentes.py`                                                | 1     | Nuevo: descarga, recorta a latín y convierte las fuentes     |
-| `src/estilos/fuentes/*.woff2`, `LICENCIA.md`                                 | 1     | Se sustituyen Fraunces e Inter                               |
-| `src/estilos/fuentes.ts`                                                     | 1     | Las dos fuentes nuevas                                       |
-| `src/recursos/compartir/*.ttf`, `LICENCIA.md`                                | 1     | Instancias estáticas para la imagen de compartir             |
-| `src/app/opengraph-image.tsx`                                                | 1     | Nombres de familia                                           |
-| `e2e/marca.spec.ts`                                                          | 1     | Prueba de que se aplican las fuentes nuevas                  |
-| `e2e/presupuesto.spec.ts`                                                    | 1     | Techo de peso de las fuentes precargadas                     |
-| `src/estilos/globals.css`                                                    | 2, 3  | Capas de tokens y piezas base                                |
-| `src/estilos/paleta.test.ts`                                                 | 2     | Nuevo: contraste de cada par de tokens, leído del propio CSS |
-| `src/lib/datos/aviso.ts` + `.test.ts`                                        | 4     | Nuevo: el texto de la barra de aviso, desde datos reales     |
-| `src/components/publico/barra-aviso.tsx`                                     | 4     | Nuevo                                                        |
-| `src/components/publico/cascara-publica.tsx`                                 | 4     | Monta la barra                                               |
-| `src/components/publico/cabecera.tsx`, `pie.tsx`                             | 4     | Estilo nuevo                                                 |
-| `src/components/publico/boton-whatsapp.tsx`                                  | 4     | Verde WhatsApp                                               |
-| `src/components/publico/portada-movil.tsx`                                   | 5     | Estilo nuevo, sin carrusel                                   |
-| `src/components/publico/carrusel-portada.tsx`                                | 5     | Velo crema y titular azul                                    |
-| `src/app/(public)/page.tsx`                                                  | 5, 6  | Franja, bloque nosotros, tarjetas híbridas                   |
-| `src/lib/datos/destacados.ts` + `.test.ts`                                   | 6     | Nuevo: separa destacados con foto y sin foto                 |
-| `src/components/publico/tarjeta-producto.tsx`                                | 6     | Nuevo                                                        |
-| `src/components/publico/pizarra-precios.tsx`                                 | 6     | Estilo nuevo                                                 |
-| `src/components/publico/filtro-categorias.tsx`                               | 6     | Píldoras                                                     |
-| `src/app/(public)/productos/page.tsx`, `[slug]/page.tsx`                     | 6     | Estilo nuevo                                                 |
-| `src/app/(public)/novedades/**`, `galeria/page.tsx`                          | 7     | Estilo nuevo                                                 |
-| `src/lib/datos/pedido.ts` + `pedido.test.ts`                                 | 8     | `mensajeArmado()`                                            |
-| `src/components/publico/arma-tu-pedido.tsx`                                  | 8     | Nuevo: el formulario que abre WhatsApp                       |
-| `src/app/(public)/contacto`, `ubicacion`, `nosotros`, `preguntas-frecuentes` | 8     | Estilo nuevo                                                 |
-| `docs/marca.md`, `PRODUCT.md`, `CLAUDE.md`, `DOC/*`                          | 9     | Documentación                                                |
+| Archivo                                                                      | Tarea | Qué pasa                                                 |
+| ---------------------------------------------------------------------------- | ----- | -------------------------------------------------------- |
+| `scripts/preparar-fuentes.py`                                                | 1     | Nuevo: descarga, recorta a latín y convierte las fuentes |
+| `src/estilos/fuentes/*.woff2`, `LICENCIA.md`                                 | 1     | Se sustituyen Fraunces e Inter                           |
+| `src/estilos/fuentes.ts`                                                     | 1     | Las dos fuentes nuevas                                   |
+| `src/recursos/compartir/*.ttf`, `LICENCIA.md`                                | 1     | Instancias estáticas para la imagen de compartir         |
+| `src/app/opengraph-image.tsx`                                                | 1     | Nombres de familia                                       |
+| `e2e/marca.spec.ts`                                                          | 1     | Prueba de que se aplican las fuentes nuevas              |
+| `e2e/presupuesto.spec.ts`                                                    | 1     | Techo de peso de las fuentes precargadas                 |
+| `src/estilos/globals.css`                                                    | 2, 3  | Capas de tokens y piezas base                            |
+| `src/estilos/paleta.test.ts`                                                 | 2     | Ya existía (F1): se amplía con las parejas del prototipo |
+| `src/lib/datos/aviso.ts` + `.test.ts`                                        | 4     | Nuevo: el texto de la barra de aviso, desde datos reales |
+| `src/components/publico/barra-aviso.tsx`                                     | 4     | Nuevo                                                    |
+| `src/components/publico/cascara-publica.tsx`                                 | 4     | Monta la barra                                           |
+| `src/components/publico/cabecera.tsx`, `pie.tsx`                             | 4     | Estilo nuevo                                             |
+| `src/components/publico/boton-whatsapp.tsx`                                  | 4     | Verde WhatsApp                                           |
+| `src/components/publico/portada-movil.tsx`                                   | 5     | Estilo nuevo, sin carrusel                               |
+| `src/components/publico/carrusel-portada.tsx`                                | 5     | Velo crema y titular azul                                |
+| `src/app/(public)/page.tsx`                                                  | 5, 6  | Franja, bloque nosotros, tarjetas híbridas               |
+| `src/lib/datos/destacados.ts` + `.test.ts`                                   | 6     | Nuevo: separa destacados con foto y sin foto             |
+| `src/components/publico/tarjeta-producto.tsx`                                | 6     | Nuevo                                                    |
+| `src/components/publico/pizarra-precios.tsx`                                 | 6     | Estilo nuevo                                             |
+| `src/components/publico/filtro-categorias.tsx`                               | 6     | Píldoras                                                 |
+| `src/app/(public)/productos/page.tsx`, `[slug]/page.tsx`                     | 6     | Estilo nuevo                                             |
+| `src/app/(public)/novedades/**`, `galeria/page.tsx`                          | 7     | Estilo nuevo                                             |
+| `src/lib/datos/pedido.ts` + `pedido.test.ts`                                 | 8     | `mensajeArmado()`                                        |
+| `src/components/publico/arma-tu-pedido.tsx`                                  | 8     | Nuevo: el formulario que abre WhatsApp                   |
+| `src/app/(public)/contacto`, `ubicacion`, `nosotros`, `preguntas-frecuentes` | 8     | Estilo nuevo                                             |
+| `docs/marca.md`, `PRODUCT.md`, `CLAUDE.md`, `DOC/*`                          | 9     | Documentación                                            |
 
 ---
 
@@ -356,6 +356,16 @@ git commit -m "feat(diseño): Playfair Display y Plus Jakarta Sans, servidas des
 ---
 
 ## Tarea 2 — Tokens: la paleta del prototipo con el azul institucional
+
+> **Dos correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. `src/estilos/paleta.test.ts` **ya existía** desde F1, con el tema oscuro, los colores de estado
+>    y las reglas del dorado. No se crea: se **amplía**, conservando todas sus comprobaciones y
+>    sumando las del prototipo. Quedó en 44.
+> 2. **El CTA sigue dorado en esta tarea** y pasa a la píldora azul en la tarea 3. Hoy hay
+>    `boton-cta` sobre fondo azul en la cabecera, el menú del celular, el bloque de delivery y el
+>    hero móvil: con el CTA azul, esos botones quedarían azul sobre azul, invisibles, y `main` se
+>    desplegaría roto. La tarea 3 cambia el color y arregla esos botones en el mismo PR.
 
 Rama `feat/f3.1-t2-tokens`.
 
