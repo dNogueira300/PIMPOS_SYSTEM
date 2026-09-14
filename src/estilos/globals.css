@@ -205,14 +205,14 @@
    Existen para poder ajustar una pieza sin mover el resto del sistema.
    ============================================================================= */
 :root {
-  /* Llamada a la accion principal. SIGUE DORADA en esta tarea, a proposito:
-     hoy hay botones de pedir sobre fondo azul (cabecera, menu del celular,
-     bloque de delivery, portada movil), y un CTA azul se perderia contra
-     ellos. Pasa a la pildora azul del prototipo en la tarea 3 del plan 03.1,
-     junto con los arreglos de esos botones. Tinta encima: 7.10. */
-  --cta-fondo: var(--pimpos-dorado-500);
-  --cta-texto: var(--pimpos-tinta-900);
-  --cta-fondo-hover: var(--pimpos-dorado-800);
+  /* Llamada a la accion principal: pildora azul institucional (prototipo de
+     Stitch). Estuvo dorada hasta la tarea 3 del plan 03.1 porque habia botones
+     de pedir sobre fondo azul que se habrian vuelto invisibles; en esta misma
+     tarea esos botones pasan a verde WhatsApp o a borde crema. Crema sobre
+     azul: 11.97; al pasar, sobre azul-800: 9.51. */
+  --cta-fondo: var(--pimpos-azul-900);
+  --cta-texto: var(--pimpos-crema-50);
+  --cta-fondo-hover: var(--pimpos-azul-800);
   --cta-texto-hover: var(--pimpos-crema-50);
 
   /* Accion secundaria del prototipo: pildora marron dorado. Nunca sobre azul
@@ -405,85 +405,135 @@
 }
 
 @layer components {
-  /* La llamada a la accion principal: pedir por WhatsApp, ver el catalogo.
-     Estaba repetida como una tira de utilidades en seis sitios, y con ella la
-     posibilidad de que una copia se quedara sin el area tactil o sin el foco
-     visible. Aqui vive una sola vez.
+  /* Botones del prototipo de Stitch: pildoras de 48 px (plan 03.1, tarea 3).
 
-     `active:translate-y-px` es la respuesta al pulsar: en un telefono, sin ese
-     hundimiento de un pixel, no se sabe si el toque entro. */
-  .boton-cta {
-    background-color: var(--cta-fondo);
-    color: var(--cta-texto);
-    min-height: var(--area-tactil-min);
+     Estaban repetidos como tiras de utilidades en seis sitios, y con ellos la
+     posibilidad de que una copia se quedara sin area tactil o sin foco visible.
+     Viven aqui una sola vez, con una base comun: 48 px de alto, que dejan
+     margen sobre los 44 del minimo tactil, y radio de pildora.
+
+     Cuatro variantes, cada una con un papel:
+     - .boton-cta: la accion principal, azul institucional.
+     - .boton-secundario: marron dorado. Nunca sobre un bloque azul (1.94).
+     - .boton-whatsapp: verde, para todo lo que abre el chat de pedidos.
+     - .boton-linea: de borde, para la segunda opcion junto a otra.
+
+     `translateY(1px)` al pulsar es la respuesta tactil: en un telefono, sin
+     ese hundimiento de un pixel, no se sabe si el toque entro. */
+  .boton-cta,
+  .boton-secundario,
+  .boton-linea,
+  .boton-whatsapp {
+    min-height: 3rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: var(--radius-md);
+    border-radius: 9999px;
     padding-inline: 1.5rem;
     font-weight: 600;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease,
-      transform 0.1s ease;
-  }
-
-  .boton-cta:hover {
-    background-color: var(--cta-fondo-hover);
-    color: var(--cta-texto-hover);
-  }
-
-  .boton-cta:active {
-    transform: translateY(1px);
-  }
-
-  .boton-cta:focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-  }
-
-  /* Sobre el azul institucional el anillo de foco azul no se ve. */
-  .boton-cta--sobre-azul:focus-visible {
-    outline-color: var(--primary-foreground);
-  }
-
-  /* La accion secundaria sobre el azul: "ver los precios" junto a "pedir".
-     De linea y no rellena, para que se lea como la segunda opcion y el dorado
-     del CTA siga siendo lo unico que pesa.
-
-     El borde va al 45 % del crema y no menos: medido, da 3.63 sobre el azul
-     institucional, y el borde de un control necesita 3:1 (WCAG 1.4.11). Al
-     35 % se queda en 2.76 y el boton se desdibuja para quien no ve bien. */
-  .boton-linea--sobre-azul {
-    color: var(--primary-foreground);
-    min-height: var(--area-tactil-min);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    border: 1.5px solid color-mix(in srgb, var(--primary-foreground) 45%, transparent);
-    border-radius: var(--radius-md);
-    padding-inline: 1.5rem;
-    font-weight: 600;
+    font-size: 0.9375rem;
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease,
       transform 0.1s ease;
   }
 
+  .boton-cta {
+    background-color: var(--cta-fondo);
+    color: var(--cta-texto);
+  }
+  .boton-cta:hover {
+    background-color: var(--cta-fondo-hover);
+    color: var(--cta-texto-hover);
+    box-shadow: var(--sombra-2);
+  }
+
+  .boton-secundario {
+    background-color: var(--cta-secundario-fondo);
+    color: var(--cta-secundario-texto);
+  }
+  .boton-secundario:hover {
+    background-color: var(--cta-secundario-fondo-hover);
+    box-shadow: var(--sombra-2);
+  }
+
+  .boton-whatsapp {
+    background-color: var(--whatsapp-fondo);
+    color: var(--whatsapp-texto);
+  }
+  .boton-whatsapp:hover {
+    background-color: var(--whatsapp-fondo-hover);
+    box-shadow: var(--sombra-2);
+  }
+
+  /* De linea: sobre crema, borde azul. Sobre azul, borde crema al 45 % y no
+     menos: medido en F3, da 3.63 contra el azul, y el borde de un control
+     necesita 3:1 (WCAG 1.4.11). Al 35 % se queda en 2.76. */
+  .boton-linea {
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+  }
+  .boton-linea:hover {
+    background-color: color-mix(in srgb, var(--primary) 8%, transparent);
+  }
+  .boton-linea--sobre-azul {
+    border-color: color-mix(in srgb, var(--primary-foreground) 45%, transparent);
+    color: var(--primary-foreground);
+  }
   .boton-linea--sobre-azul:hover {
     background-color: color-mix(in srgb, var(--primary-foreground) 12%, transparent);
     border-color: var(--primary-foreground);
   }
 
-  .boton-linea--sobre-azul:active {
+  .boton-cta:active,
+  .boton-secundario:active,
+  .boton-linea:active,
+  .boton-whatsapp:active {
     transform: translateY(1px);
   }
 
+  .boton-cta:focus-visible,
+  .boton-secundario:focus-visible,
+  .boton-linea:focus-visible,
+  .boton-whatsapp:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  /* Sobre el azul institucional el anillo de foco azul no se ve. */
+  .boton-cta--sobre-azul:focus-visible,
   .boton-linea--sobre-azul:focus-visible {
-    outline: 2px solid var(--primary-foreground);
-    outline-offset: 2px;
+    outline-color: var(--primary-foreground);
+  }
+
+  /* Sello: la etiqueta corta del prototipo ("NUESTRA HISTORIA", el nombre de
+     una categoria). Mayusculas solo aqui, porque son dos o tres palabras; en
+     titulares y parrafos, nunca. Y con mesura: el prototipo pone uno encima de
+     cada seccion, y repetido asi deja de destacar nada. */
+  .sello {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 9999px;
+    border: 1px solid var(--sello-borde);
+    background-color: var(--sello-fondo);
+    color: var(--sello-texto);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  /* Tarjeta: blanca sobre crema, borde de papel prensado y sombra calida. */
+  .tarjeta {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra-1);
   }
 
   @supports (animation-timeline: view()) {
@@ -518,6 +568,20 @@
         /* Aun con el escalonado, la ultima tarjeta de la fila acaba antes de
            estar entera en pantalla. */
         animation-range-end: entry 80%;
+      }
+
+      /* La tarjeta se levanta 3 px al pasar el mouse. Solo con puntero fino:
+         en un telefono el "hover" se queda pegado despues del toque. */
+      @media (hover: hover) {
+        .tarjeta--elevable {
+          transition:
+            transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.25s ease;
+        }
+        .tarjeta--elevable:hover {
+          transform: translateY(-3px);
+          box-shadow: var(--sombra-2);
+        }
       }
 
       /* Al imprimir no hay scroll, asi que una animacion guiada por el scroll

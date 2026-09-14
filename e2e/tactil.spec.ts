@@ -125,3 +125,32 @@ test("el boton flotante se aparta mientras el de la pagina esta a la vista", asy
   await expect(page).toHaveURL(/\/nosotros$/);
   await expect(flotante).toHaveCSS("opacity", "1");
 });
+
+test("los botones son píldoras de al menos 48 px de alto", async ({ page }) => {
+  await page.goto("/");
+  // El primer botón VISIBLE de cualquiera de las cuatro variantes, no el primer
+  // `.boton-cta`: en el celular ese es el del carrusel, que ahí está oculto, y
+  // el hero móvil pide por WhatsApp con `.boton-whatsapp`. Las cuatro comparten
+  // la misma base, que es lo que se mide.
+  const boton = page
+    .getByRole("main")
+    .locator(
+      ":is(a, button):is(.boton-cta, .boton-whatsapp, .boton-linea, .boton-secundario):visible",
+    )
+    .first();
+  await expect(boton).toBeVisible();
+
+  const { alto, radio } = await boton.evaluate((el) => {
+    const estilo = getComputedStyle(el);
+    return {
+      alto: el.getBoundingClientRect().height,
+      radio: parseFloat(estilo.borderTopLeftRadius),
+    };
+  });
+
+  // 48 px y no 44: el prototipo de Stitch los hace así (plan 03.1) y el margen
+  // sobre el mínimo táctil es a propósito. Es píldora cuando el radio llega al
+  // menos a la mitad del alto.
+  expect(alto).toBeGreaterThanOrEqual(48);
+  expect(radio).toBeGreaterThanOrEqual(alto / 2);
+});

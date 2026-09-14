@@ -104,14 +104,17 @@ export function PortadaMovil({
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="boton-cta flex w-full justify-center"
+              className="boton-whatsapp flex w-full justify-center"
             >
               <MessageCircle aria-hidden className="size-5" />
               Pedir por WhatsApp
             </a>
           ) : null}
 
-          <Link href="/productos" className="boton-linea--sobre-azul flex w-full justify-center">
+          <Link
+            href="/productos"
+            className="boton-linea boton-linea--sobre-azul flex w-full justify-center"
+          >
             Ver los precios
           </Link>
         </div>

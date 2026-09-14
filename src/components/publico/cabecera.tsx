@@ -102,7 +102,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="boton-cta boton-cta--sobre-azul ml-auto hidden px-4 text-sm sm:inline-flex lg:ml-4"
+            className="boton-whatsapp ml-auto hidden px-4 text-sm sm:inline-flex lg:ml-4"
           >
             Pedir por WhatsApp
           </a>
@@ -185,7 +185,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="boton-cta mt-4 flex px-4 sm:hidden"
+              className="boton-whatsapp mt-4 flex px-4 sm:hidden"
             >
               Pedir por WhatsApp
             </a>
