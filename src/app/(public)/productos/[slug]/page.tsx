@@ -111,7 +111,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
 
       {producto.imagen ? (
         <div className="mt-4 grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="acercarse bg-secondary relative aspect-[4/3] overflow-hidden rounded-xl">
+          <div className="acercarse bg-muted shadow-elevada relative aspect-[4/3] overflow-hidden rounded-2xl">
             <Image
               src={producto.imagen}
               alt={producto.imagenAlt ?? producto.nombre}
@@ -126,9 +126,13 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
           </div>
 
           <div className="aparece-lateral flex flex-col">
-            <h1 className="font-heading text-4xl text-balance sm:text-5xl">{producto.nombre}</h1>
+            <h1 className="font-heading text-primary text-4xl font-bold text-balance sm:text-5xl">
+              {producto.nombre}
+            </h1>
             {precio ? (
-              <p className="text-precio font-heading mt-4 text-3xl font-semibold">{precio}</p>
+              <p className="text-precio font-heading mt-4 text-3xl font-semibold tabular-nums">
+                {precio}
+              </p>
             ) : null}
             {presentacion ? <p className="text-muted-foreground mt-1">{presentacion}</p> : null}
             {varias ? <Presentaciones producto={producto} className="mt-4" /> : null}
@@ -145,7 +149,9 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
         // y el pedido va al lado. Es lo que el cliente viene a ver.
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           <div className="aparece">
-            <h1 className="font-heading text-4xl text-balance sm:text-5xl">{producto.nombre}</h1>
+            <h1 className="font-heading text-primary text-4xl font-bold text-balance sm:text-5xl">
+              {producto.nombre}
+            </h1>
             {presentacion ? (
               <p className="text-muted-foreground mt-2 text-lg">{presentacion}</p>
             ) : null}
@@ -169,7 +175,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
 
       {relacionados.length > 0 ? (
         <section className="mt-20">
-          <h2 className="font-heading text-2xl">
+          <h2 className="font-heading text-primary text-2xl font-semibold">
             También en {producto.categoriaNombre ?? "el catálogo"}
           </h2>
           <PizarraPrecios productos={relacionados} className="mt-6" />
@@ -200,7 +206,7 @@ function Presentaciones({
 }) {
   return (
     <section aria-labelledby="presentaciones" className={className} data-presentaciones>
-      <h2 id="presentaciones" className="font-heading text-lg">
+      <h2 id="presentaciones" className="font-heading text-primary text-lg font-semibold">
         Presentaciones
       </h2>
 
@@ -215,7 +221,7 @@ function Presentaciones({
             <span>{nombre}</span>
             {/* La linea de puntos lleva el ojo del nombre al precio sin pintar
                 una tabla: es como se lee una carta de toda la vida. */}
-            <span aria-hidden className="border-border/40 min-w-6 flex-1 border-b border-dotted" />
+            <span aria-hidden className="border-guia min-w-6 flex-1 border-b-2 border-dotted" />
             {precio !== null ? (
               <span className="text-precio font-heading font-semibold tabular-nums">
                 {formatearPrecio(precio)}
@@ -252,7 +258,12 @@ function BloquePedido({
     <div className="flex flex-col">
       {whatsapp ? (
         <>
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="boton-cta w-fit">
+          <a
+            href={whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="boton-whatsapp w-fit"
+          >
             <MessageCircle aria-hidden className="size-5" />
             Pedir por WhatsApp
           </a>
@@ -271,7 +282,7 @@ function BloquePedido({
         </>
       ) : null}
 
-      <CondicionesPedido condiciones={condiciones} className="mt-6 max-w-md text-sm" />
+      <CondicionesPedido condiciones={condiciones} enmarcada className="mt-6 max-w-md text-sm" />
 
       {guia ? (
         <Link

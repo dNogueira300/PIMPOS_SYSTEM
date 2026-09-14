@@ -1445,6 +1445,29 @@ hay que moverla a buscar el sello. Actualizar esa aserción, no borrarla.
 
 Rama `feat/f3.1-t6-productos`.
 
+> **Correcciones a este plan, descubiertas al ejecutar la tarea (14/09/2026):**
+>
+> 1. **Hoy solo un destacado tiene foto** (Pan francés chico). Con la rejilla de cuatro del paso 6,
+>    la tarjeta quedaba sola y con tres cuartos de fila vacíos, que se lee como contenido que no
+>    cargó. **Con una o dos tarjetas van al lado de la pizarra** (`lg:grid-cols-[20rem_1fr]`); desde
+>    tres, la fila del prototipo encima.
+> 2. **«El pan del día empieza en S/ 0.10» estaba escrito a mano** en la entradilla. Sale ahora del
+>    catálogo (el menor `precioDesde`) y dice «desde», no «el pan»: lo más barato no tiene por qué
+>    ser pan. Lo mismo que «Ver los N precios», que el plan ya pedía calcular.
+> 3. **El botón de la tarjeta lleva el nombre del producto oculto detrás del texto visible**
+>    («Pedir por WhatsApp: Pan francés chico»). Con varias tarjetas, el mismo nombre repetido no dice
+>    cuál. No va en `aria-label`: el nombre accesible tiene que empezar por lo que se ve (WCAG 2.5.3).
+>    Y el mensaje de WhatsApp lleva el producto, no el genérico.
+> 4. **Los puntos guía necesitan un token de capa 3** (`--guia-puntos`, utilidad `border-guia`): la
+>    clase del paso 7 usaba `--pimpos-dorado-500` directamente, y ningún componente usa la capa 1.
+> 5. **`CondicionesPedido` dentro de una tarjeta pintaba dos líneas** arriba y abajo (el borde de la
+>    tarjeta y el de la lista). Tiene una prop `enmarcada` que pone la tarjeta y quita el borde propio;
+>    contacto no cambia hasta la tarea 8.
+> 6. **También se tocaron** los títulos de categoría del catálogo (al azul) y su esqueleto de carga,
+>    que conservaba la forma de la rejilla de tarjetas retirada el 11/09 y hacía saltar la página.
+> 7. **La prueba del paso 9 no miraba que un producto no saliera dos veces.** Ahora exige que lo que va
+>    en tarjeta no se repita en la pizarra, y se vio fallar rompiendo `repartirPorFoto` a propósito.
+
 **Consume:** `.tarjeta`, `.tarjeta--elevable`, `.sello`, `.boton-cta`, `TituloSeccion`,
 `enlaceWhatsApp()`, `mensajeDePedido()`. **Produce:** `repartirPorFoto()` y `TarjetaProducto`.
 

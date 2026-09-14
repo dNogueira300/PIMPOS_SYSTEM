@@ -58,10 +58,12 @@ export default async function Productos(props: PageProps<"/productos">) {
 function EsqueletoCatalogo() {
   return (
     <div aria-hidden className="animate-pulse">
-      <div className="bg-secondary h-11 w-full max-w-md rounded-full" />
-      <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="bg-muted h-14 w-full max-w-3xl rounded-full" />
+      {/* Filas de pizarra, no tarjetas: el esqueleto tenía todavía la forma de la
+          rejilla que se retiró el 11/09, y al llegar el catálogo la página saltaba. */}
+      <div className="mt-10 gap-x-12 md:columns-2">
         {Array.from({ length: 8 }).map((_, indice) => (
-          <div key={indice} className="bg-secondary aspect-[4/3] rounded-lg" />
+          <div key={indice} className="border-border h-14 break-inside-avoid border-b" />
         ))}
       </div>
     </div>
@@ -95,7 +97,9 @@ async function Catalogo({
         // Estado vacio con salida: una categoria puede quedarse sin productos
         // publicados, y dejar la pagina en blanco haria pensar que se rompio.
         <div className="border-border/40 mt-8 rounded-lg border border-dashed px-6 py-16 text-center">
-          <p className="font-heading text-xl">Todavía no hay productos en esta categoría</p>
+          <p className="font-heading text-primary text-xl font-semibold">
+            Todavía no hay productos en esta categoría
+          </p>
           <p className="text-muted-foreground mt-2">
             <EnlaceWhatsApp enlace={consulta}>Escríbenos por WhatsApp</EnlaceWhatsApp> y te contamos
             qué tenemos hoy.
@@ -109,7 +113,9 @@ async function Catalogo({
         <div className="mt-10 flex flex-col gap-14">
           {agruparPorCategoria(visibles).map((grupo) => (
             <section key={grupo.slug ?? "otros"} aria-label={grupo.nombre}>
-              <h2 className="font-heading text-2xl sm:text-3xl">{grupo.nombre}</h2>
+              <h2 className="font-heading text-primary text-2xl font-semibold sm:text-3xl">
+                {grupo.nombre}
+              </h2>
               <PizarraPrecios productos={grupo.productos} className="mt-4" />
             </section>
           ))}
