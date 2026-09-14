@@ -308,7 +308,7 @@ export default async function Inicio() {
               href={whatsapp}
               target="_blank"
               rel="noopener noreferrer"
-              className="boton-cta boton-cta--sobre-azul mt-8"
+              className="boton-whatsapp mt-8"
             >
               <MessageCircle aria-hidden className="size-5" />
               Pedir por WhatsApp

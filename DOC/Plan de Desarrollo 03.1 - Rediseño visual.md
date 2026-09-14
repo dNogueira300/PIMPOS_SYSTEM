@@ -796,7 +796,14 @@ Rama `feat/f3.1-t3-piezas`.
 ```ts
 test("los botones son píldoras de al menos 48 px de alto", async ({ page }) => {
   await page.goto("/");
-  const boton = page.getByRole("main").locator("a.boton-cta").first();
+  // El primer botón VISIBLE de cualquier variante: en el celular el primer
+  // `.boton-cta` es el del carrusel, que ahí está oculto (corregido al ejecutar).
+  const boton = page
+    .getByRole("main")
+    .locator(
+      ":is(a, button):is(.boton-cta, .boton-whatsapp, .boton-linea, .boton-secundario):visible",
+    )
+    .first();
   await expect(boton).toBeVisible();
 
   const { alto, radio } = await boton.evaluate((el) => {
