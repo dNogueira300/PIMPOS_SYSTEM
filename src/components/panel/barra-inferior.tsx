@@ -1,10 +1,17 @@
 "use client";
 
-import { Ellipsis, ExternalLink, LogOut } from "lucide-react";
+import { Ellipsis, ExternalLink, LogOut, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { cerrarSesion } from "@/lib/acciones/autenticacion";
 import { esSeccionActiva, type SeccionPanel } from "@/lib/panel/navegacion";
 
@@ -50,12 +57,26 @@ export function BarraInferior({ secciones, nombre, rol }: Props) {
           <Ellipsis aria-hidden className="size-5" />
           Más
         </SheetTrigger>
-        <SheetContent side="bottom" className="gap-1 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-          <SheetHeader>
+        <SheetContent
+          side="bottom"
+          showCloseButton={false}
+          className="gap-1 pb-[calc(1rem+env(safe-area-inset-bottom))]"
+        >
+          <SheetHeader className="flex-row items-start justify-between">
             <SheetTitle>
               {nombre}{" "}
               <span className="text-muted-foreground block text-sm font-normal">{rol}</span>
             </SheetTitle>
+            {/* El cierre por defecto de shadcn mide 28 px (`size="icon-sm"`);
+                el panel no usa esas variantes por lo mismo que no usa
+                `Button` para sus botones (no llegan al area tactil). Este es
+                un boton propio de 44 px, con la equis dentro. */}
+            <SheetClose
+              aria-label="Cerrar"
+              className="hover:bg-muted -mt-1 -mr-1 flex size-11 shrink-0 items-center justify-center rounded-full"
+            >
+              <X aria-hidden className="size-5" />
+            </SheetClose>
           </SheetHeader>
           {enMas.map((seccion) => {
             const Icono = ICONOS[seccion.icono];

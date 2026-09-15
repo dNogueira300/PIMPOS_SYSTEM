@@ -32,7 +32,9 @@ export function BarraLateral({ secciones, nombre, rol }: Props) {
               href={seccion.ruta}
               aria-current={activa ? "page" : undefined}
               className={`flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm ${
-                activa ? "bg-white/15 font-semibold" : "opacity-85 hover:bg-white/10"
+                activa
+                  ? "bg-panel-lateral-activo font-semibold"
+                  : "hover:bg-panel-lateral-hover opacity-85"
               }`}
             >
               <Icono aria-hidden className="size-5" />
@@ -41,7 +43,7 @@ export function BarraLateral({ secciones, nombre, rol }: Props) {
           );
         })}
       </nav>
-      <div className="mt-auto flex flex-col gap-1 border-t border-white/20 pt-3 text-sm">
+      <div className="border-panel-lateral-borde mt-auto flex flex-col gap-1 border-t pt-3 text-sm">
         <p className="px-3">
           {nombre}
           <span className="block text-xs opacity-75">{rol}</span>
@@ -49,14 +51,14 @@ export function BarraLateral({ secciones, nombre, rol }: Props) {
         <Link
           href="/"
           target="_blank"
-          className="flex min-h-11 items-center gap-3 rounded-lg px-3 hover:bg-white/10"
+          className="hover:bg-panel-lateral-hover flex min-h-11 items-center gap-3 rounded-lg px-3"
         >
           <ExternalLink aria-hidden className="size-5" /> Ver el sitio
         </Link>
         <form action={cerrarSesion}>
           <button
             type="submit"
-            className="flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left hover:bg-white/10"
+            className="hover:bg-panel-lateral-hover flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left"
           >
             <LogOut aria-hidden className="size-5" /> Cerrar sesión
           </button>

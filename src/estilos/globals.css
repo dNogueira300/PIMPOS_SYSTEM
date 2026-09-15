@@ -271,6 +271,16 @@
      (R15), y esto no es una recomendacion, es el minimo de la definicion de
      "hecho". */
   --area-tactil-min: 2.75rem;
+
+  /* Barra lateral del panel (F4): resalte del item activo, su hover y el
+     borde que separa el pie de la barra. La barra es `bg-primary` con
+     `text-primary-foreground` (crema sobre azul institucional, 11.97), asi
+     que el "blanco" de estos lavados es en realidad ese mismo texto, mas
+     translucido -- no un primitivo nuevo. Al ir por debajo del texto, no le
+     baja el contraste: solo tine el fondo azul. */
+  --panel-lateral-activo: color-mix(in srgb, var(--primary-foreground) 15%, transparent);
+  --panel-lateral-hover: color-mix(in srgb, var(--primary-foreground) 10%, transparent);
+  --panel-lateral-borde: color-mix(in srgb, var(--primary-foreground) 20%, transparent);
 }
 
 /* =============================================================================
@@ -336,6 +346,9 @@
   --color-pie-foto-foreground: var(--pie-foto-texto);
   --color-sello: var(--sello-fondo);
   --color-sello-foreground: var(--sello-texto);
+  --color-panel-lateral-activo: var(--panel-lateral-activo);
+  --color-panel-lateral-hover: var(--panel-lateral-hover);
+  --color-panel-lateral-borde: var(--panel-lateral-borde);
 
   --shadow-suave: var(--sombra-1);
   --shadow-elevada: var(--sombra-2);
