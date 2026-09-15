@@ -1,89 +1,107 @@
-import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
-import { cerrarSesion } from "@/lib/acciones/autenticacion";
+import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { exigirAcceso } from "@/lib/auth/sesion";
-import { NOMBRE_DEL_ROL, rolesConAcceso } from "@/lib/auth/roles";
-import { Button } from "@/components/ui/button";
+import { seccionesPara } from "@/lib/panel/navegacion";
+import { crearClienteServidor } from "@/lib/supabase/servidor";
 
-export const metadata: Metadata = {
-  title: "Panel",
-  robots: { index: false, follow: false },
-};
-
-// Las secciones reales llegan en F4-F6. Esto muestra a que tiene acceso cada
-// rol, que es lo que hay que poder comprobar hoy.
-const SECCIONES = [
-  { ruta: "/admin/contenido", nombre: "Contenido" },
-  { ruta: "/admin/insumos", nombre: "Insumos" },
-  { ruta: "/admin/clientes", nombre: "Clientes" },
-  { ruta: "/admin/usuarios", nombre: "Usuarios" },
-  { ruta: "/admin/auditoria", nombre: "Auditoría" },
-  { ruta: "/admin/configuracion", nombre: "Configuración" },
-] as const;
-
-/**
- * Con Cache Components, leer la sesion (que sale de una cookie) ata el
- * renderizado a la peticion. Metiendolo en su propio componente dentro de un
- * `<Suspense>`, la cascara de la pagina se prerenderiza igual y solo esta parte
- * llega en streaming.
- */
-export default function Panel() {
+export default function Inicio({ searchParams }: PageProps<"/admin">) {
   return (
-    <Suspense fallback={<CargandoPanel />}>
-      <PanelAutenticado />
+    <Suspense fallback={null}>
+      <InicioConSesion searchParams={searchParams} />
     </Suspense>
   );
 }
 
-function CargandoPanel() {
+async function InicioConSesion({
+  searchParams,
+}: {
+  searchParams: PageProps<"/admin">["searchParams"];
+}) {
+  // `searchParams` es una Promise en Next 16, y se espera DENTRO del Suspense.
+  const { motivo } = await searchParams;
+  const sesion = await exigirAcceso("/admin");
+  const secciones = seccionesPara(sesion.rol).filter((s) => s.ruta !== "/admin");
+  const avisos = await contarAvisos(sesion.rol);
+
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-8 px-6 py-12">
-      <p className="text-muted-foreground text-sm">Cargando el panel...</p>
-    </main>
+    <>
+      <EncabezadoPanel titulo="Inicio" />
+      {motivo === "sin-acceso" ? (
+        <p role="status" className="bg-alerta/15 mb-4 rounded-xl p-3 text-sm">
+          Esa sección no está disponible para tu rol.
+        </p>
+      ) : null}
+
+      {avisos.length > 0 ? (
+        <section aria-labelledby="avisos" className="mb-6 flex flex-col gap-2">
+          <h2 id="avisos" className="font-semibold">
+            Para revisar
+          </h2>
+          {avisos.map((aviso) => (
+            <Link
+              key={aviso.ruta}
+              href={aviso.ruta}
+              data-aviso={aviso.clave}
+              className="bg-card flex min-h-12 items-center rounded-xl border p-4"
+            >
+              {aviso.texto}
+            </Link>
+          ))}
+        </section>
+      ) : null}
+
+      <section aria-labelledby="atajos">
+        <h2 id="atajos" className="mb-2 font-semibold">
+          Tus secciones
+        </h2>
+        <ul className="grid gap-2 sm:grid-cols-2">
+          {secciones.map((s) => (
+            <li key={s.ruta}>
+              <Link
+                href={s.ruta}
+                data-seccion={s.nombre}
+                className="tarjeta flex min-h-16 items-center p-4 font-semibold"
+              >
+                {s.nombre}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {secciones.length === 0 ? (
+          <p className="text-muted-foreground text-sm">
+            Por ahora tu rol no tiene secciones en el panel. Clientes llega pronto.
+          </p>
+        ) : null}
+      </section>
+    </>
   );
 }
 
-async function PanelAutenticado() {
-  // Se vuelve a comprobar aunque el proxy ya lo hizo: una Server Function se
-  // resuelve como POST a esta misma ruta y podria quedar fuera del `matcher`.
-  const sesion = await exigirAcceso("/admin");
+type Aviso = { clave: string; texto: string; ruta: string };
 
-  return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-8 px-6 py-12">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Panel de gestión</h1>
-          <p className="text-muted-foreground text-sm">
-            {sesion.correo} · {NOMBRE_DEL_ROL[sesion.rol]}
-          </p>
-        </div>
-        <form action={cerrarSesion}>
-          <Button type="submit" variant="outline" className="min-h-11">
-            Cerrar sesión
-          </Button>
-        </form>
-      </header>
+/**
+ * Cada tarea que añade algo que revisar añade aquí su cuenta. T1 trae la de
+ * datos por confirmar; T4, las de promociones.
+ */
+async function contarAvisos(rol: string): Promise<Aviso[]> {
+  const supabase = await crearClienteServidor();
+  const avisos: Aviso[] = [];
 
-      <section className="flex flex-col gap-2">
-        <h2 className="text-sm font-medium">Secciones disponibles para tu rol</h2>
-        <ul className="flex flex-col gap-1.5">
-          {SECCIONES.map(({ ruta, nombre }) => {
-            const permitido = rolesConAcceso(ruta)?.includes(sesion.rol) ?? false;
-            return (
-              <li key={ruta} className="text-sm" data-seccion={nombre} data-permitido={permitido}>
-                {permitido ? "✓" : "—"} {nombre}
-                {permitido ? null : (
-                  <span className="text-muted-foreground"> (sin acceso con tu rol)</span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-        <p className="text-muted-foreground text-sm">
-          Las secciones se construyen en las fases siguientes.
-        </p>
-      </section>
-    </main>
-  );
+  if (rol === "superadmin" || rol === "administrador") {
+    const { count } = await supabase
+      .from("configuracion_sitio")
+      .select("clave", { count: "exact", head: true })
+      .like("descripcion", "%PENDIENTE%");
+    if (count && count > 0) {
+      avisos.push({
+        clave: "pendientes",
+        texto: `${count} ${count === 1 ? "dato del sitio está" : "datos del sitio están"} por confirmar`,
+        ruta: "/admin/configuracion",
+      });
+    }
+  }
+
+  return avisos;
 }
