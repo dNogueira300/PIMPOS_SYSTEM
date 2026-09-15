@@ -43,20 +43,16 @@ test("un superadmin entra y ve todas las secciones", async ({ page }) => {
     await page.getByRole("button", { name: "Entrar" }).click();
 
     await expect(page).toHaveURL("/admin");
-    await expect(page.getByText("Super administrador")).toBeVisible();
 
-    for (const seccion of ["Contenido", "Insumos", "Clientes", "Usuarios", "Auditoría"]) {
-      await expect(page.locator(`[data-seccion="${seccion}"]`)).toHaveAttribute(
-        "data-permitido",
-        "true",
-      );
+    for (const seccion of ["Contenido", "Usuarios", "Configuración"]) {
+      await expect(page.locator(`[data-seccion="${seccion}"]`)).toBeVisible();
     }
   } finally {
     await borrarUsuario(usuario.id);
   }
 });
 
-test("un repartidor entra pero solo alcanza clientes", async ({ page }) => {
+test("un repartidor entra pero por ahora no ve secciones (F6 trae clientes)", async ({ page }) => {
   const usuario = await crearUsuario("repartidor");
 
   try {
@@ -66,14 +62,7 @@ test("un repartidor entra pero solo alcanza clientes", async ({ page }) => {
     await page.getByRole("button", { name: "Entrar" }).click();
 
     await expect(page).toHaveURL("/admin");
-    await expect(page.locator('[data-seccion="Clientes"]')).toHaveAttribute(
-      "data-permitido",
-      "true",
-    );
-    await expect(page.locator('[data-seccion="Insumos"]')).toHaveAttribute(
-      "data-permitido",
-      "false",
-    );
+    await expect(page.locator('[data-seccion="Contenido"]')).toHaveCount(0);
 
     // Y si escribe la URL a mano, el proxy lo devuelve al tablero.
     await page.goto("/admin/insumos");
@@ -100,7 +89,7 @@ test("una cuenta sin rol asignado entra pero no ve el panel", async ({ page }) =
   }
 });
 
-test("cerrar sesion devuelve al ingreso y corta el acceso", async ({ page }) => {
+test("cerrar sesion devuelve al ingreso y corta el acceso", async ({ page }, info) => {
   const usuario = await crearUsuario("administrador");
 
   try {
@@ -110,6 +99,10 @@ test("cerrar sesion devuelve al ingreso y corta el acceso", async ({ page }) => 
     await page.getByRole("button", { name: "Entrar" }).click();
     await expect(page).toHaveURL("/admin");
 
+    // En el celular, "Cerrar sesión" vive dentro de "Más" (barra inferior).
+    if (info.project.name === "movil") {
+      await page.getByRole("button", { name: "Más" }).click();
+    }
     await page.getByRole("button", { name: "Cerrar sesión" }).click();
     await expect(page).toHaveURL("/ingresar");
 
