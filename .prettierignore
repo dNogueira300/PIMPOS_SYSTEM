@@ -18,3 +18,7 @@ supabase/
 # El prototipo exportado de Stitch se guarda tal cual lo generó: es una
 # referencia visual de terceros, no código del proyecto (ver su LEEME.md).
 DOC/Maquetas/Stitch/*.html
+
+# Las maquetas de la sesion de diseño del plan 04 se guardan tal cual salieron
+# de esa sesion (ver su LEEME.md): son fragmentos de referencia, no codigo.
+DOC/Maquetas/4/*.html
