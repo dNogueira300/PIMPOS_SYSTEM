@@ -126,40 +126,51 @@ export function SubidaImagen({
 
       <div className="flex flex-wrap gap-2">
         {/*
-          El input real va encima del botón decorativo, invisible
-          (`opacity-0`) pero del mismo tamaño: así mide ≥ 44 px por sí mismo
-          (e2e/panel-accesibilidad.spec.ts mide TODO `input` visible, no el
-          `<label>` que lo envolviera) y sigue siendo un `<input type=file>`
-          normal para el teclado y el lector de pantalla, con su nombre
-          accesible en `aria-label` — lo que usa `page.getByLabel()` en las
-          pruebas. Un `sr-only` de 1×1 px habría fallado esa prueba.
+          El input real va DEBAJO del botón decorativo en el z-order visual
+          (por ser `position: absolute`, un input posicionado siempre pinta
+          encima de un `<span>` estático, sin importar el orden del DOM) pero
+          va ANTES que él en el DOM, como exige el selector `peer`: mide
+          ≥ 44 px por sí mismo (e2e/panel-accesibilidad.spec.ts mide TODO
+          `input` visible, no el `<label>` que lo envolviera), lleva su nombre
+          accesible en `aria-label` (lo que usa `page.getByLabel()` en las
+          pruebas — un `sr-only` de 1×1 px habría fallado esa prueba), y como
+          es `opacity-0` un anillo de foco puesto en ÉL sería invisible: por
+          eso el foco se marca en el `<span>` decorativo con
+          `peer-focus-visible:*` (WCAG 2.1 AA 2.4.7), con el mismo
+          `outline`/`--ring` que usan `.boton-cta`/`.boton-linea`.
         */}
         <span className="relative inline-flex">
-          <span aria-hidden className="boton-linea pointer-events-none">
-            <Camera aria-hidden className="size-5" /> Tomar foto
-          </span>
           <input
             type="file"
             accept={aceptar}
             capture="environment"
-            aria-label="Tomar foto"
-            className="absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+            aria-label={`Tomar foto para ${etiqueta}`}
+            className="peer absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
             onChange={(e) => void elegir(e.currentTarget.files?.[0])}
             disabled={fase.tipo === "subiendo"}
           />
+          <span
+            aria-hidden="true"
+            className="boton-linea peer-focus-visible:outline-ring pointer-events-none peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px]"
+          >
+            <Camera aria-hidden className="size-5" /> Tomar foto
+          </span>
         </span>
         <span className="relative inline-flex">
-          <span aria-hidden className="boton-linea pointer-events-none">
-            <ImagePlus aria-hidden className="size-5" /> Elegir de la galería
-          </span>
           <input
             type="file"
             accept={aceptar}
-            aria-label="Elegir de la galería"
-            className="absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
+            aria-label={`Elegir de la galería para ${etiqueta}`}
+            className="peer absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
             onChange={(e) => void elegir(e.currentTarget.files?.[0])}
             disabled={fase.tipo === "subiendo"}
           />
+          <span
+            aria-hidden="true"
+            className="boton-linea peer-focus-visible:outline-ring pointer-events-none peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px]"
+          >
+            <ImagePlus aria-hidden className="size-5" /> Elegir de la galería
+          </span>
         </span>
       </div>
 

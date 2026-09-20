@@ -18,7 +18,11 @@ test("crear una categoría con foto: se comprime, se sube y el bucket la sirve",
     await page.getByLabel("Nombre").fill(nombre);
 
     await page.getByRole("tab", { name: "Foto" }).click();
-    await page.getByLabel("Elegir de la galería").setInputFiles(await fotoDePrueba(page));
+    // El nombre accesible lleva la etiqueta del uploader (`para ${etiqueta}`)
+    // para que dos <SubidaImagen> en la misma pantalla no compartan nombre
+    // (T3 y T7 tienen más de una); por eso es una expresión, no el texto
+    // exacto.
+    await page.getByLabel(/Elegir de la galería/).setInputFiles(await fotoDePrueba(page));
     // Se espera a la vista previa y no a `data-fase`: la fase empieza en «quieta»
     // y la comprobación pasaría antes de subir nada.
     await expect(page.locator("[data-vista-previa]")).toHaveAttribute(
@@ -38,6 +42,42 @@ test("crear una categoría con foto: se comprime, se sube y el bucket la sirve",
     await expect(page.getByRole("link", { name: nombre }).first()).toBeVisible();
   } finally {
     await borrarDeLaBase("categorias_producto", "nombre", nombre);
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("las dos formas de elegir foto muestran un indicador de foco visible", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto("/admin/contenido/categorias/nueva");
+    await page.getByRole("tab", { name: "Foto" }).click();
+    // Radix hace focusable el propio `[role=tabpanel]` (patrón WAI-ARIA APG),
+    // así que el primer `Tab` después del disparador de la pestaña aterriza
+    // ahí, no en el primer control de dentro. Se consume aparte.
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("tabpanel")).toBeFocused();
+
+    for (const nombreAccesible of [/Tomar foto/, /Elegir de la galería/]) {
+      // `.focus()` programático no basta: Chromium solo activa `:focus-visible`
+      // con una interacción real de teclado (probado: con `.focus()` el input
+      // queda enfocado pero `:focus-visible` da `false`). `Tab` es la forma en
+      // que una persona que no usa el mouse llega de verdad a este control.
+      await page.keyboard.press("Tab");
+      const control = page.getByLabel(nombreAccesible);
+      await expect(control, `Tab debía llegar a «${nombreAccesible}»`).toBeFocused();
+      // El `<input type=file>` real es invisible (`opacity-0`): un anillo de
+      // foco puesto sobre él no se vería. El indicador tiene que estar en el
+      // botón decorativo de al lado (WCAG 2.1 AA 2.4.7).
+      const indicador = await control.evaluate((el) => {
+        const decorativo = el.parentElement?.querySelector('[aria-hidden="true"]');
+        if (!decorativo) throw new Error("no se encontró el botón decorativo junto al input");
+        const estilo = getComputedStyle(decorativo);
+        return { outlineStyle: estilo.outlineStyle, outlineWidth: estilo.outlineWidth };
+      });
+      expect(indicador.outlineStyle, `foco de «${nombreAccesible}»`).not.toBe("none");
+      expect(indicador.outlineWidth, `foco de «${nombreAccesible}»`).not.toBe("0px");
+    }
+  } finally {
     await borrarUsuario(usuario.id);
   }
 });
