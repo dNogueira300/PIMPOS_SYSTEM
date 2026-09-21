@@ -7,7 +7,10 @@ import { SUBSECCIONES_DE_CONTENIDO } from "@/lib/panel/navegacion";
  * Las pantallas se construyen tarea a tarea. Cada tarea añade su ruta aquí;
  * así el índice nunca enlaza a un 404.
  */
-const CONSTRUIDAS: readonly string[] = ["/admin/contenido/categorias"];
+const CONSTRUIDAS: readonly string[] = [
+  "/admin/contenido/productos",
+  "/admin/contenido/categorias",
+];
 
 export default function Contenido() {
   const disponibles = SUBSECCIONES_DE_CONTENIDO.filter((s) => CONSTRUIDAS.includes(s.ruta));
