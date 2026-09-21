@@ -1812,7 +1812,10 @@ export type Database = {
       }
     }
     Functions: {
-      [_ in never]: never
+      guardar_producto: {
+        Args: { p_presentaciones: Json; p_producto: Json }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
