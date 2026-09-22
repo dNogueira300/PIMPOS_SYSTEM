@@ -156,6 +156,8 @@ documentación compartan historial y se revisen en el mismo PR.
 - **Rediseño visual (fase 3.1)** → `03.1 - Rediseño visual.md`, tarea a tarea, con el prototipo en
   `DOC/Maquetas/Stitch/`. Del prototipo se toma la forma, **nunca los datos**: está lleno de
   dirección, horario, productos y testimonios inventados (ver su `LEEME.md`)
+- **Panel de contenido (fase 4)** → `04 - Panel de contenido.md`, tarea a tarea, con las 12
+  decisiones del 14/09/2026 y las maquetas aprobadas en `DOC/Maquetas/4/`
 - Versiones exactas de librerías y por qué se eligió cada una → `Stack Tecnologico - PIMPOS.md`
 
 ---

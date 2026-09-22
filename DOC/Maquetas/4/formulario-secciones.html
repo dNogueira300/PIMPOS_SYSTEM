@@ -1,0 +1,99 @@
+<style>
+  .pz { --azul:#12306E; --crema:#FFF9EE; --seccion:#FAF3E6; --tinta:#1E1B14; --dorado:#835413; --borde:#E5DCCB; --verde:#2D5A43; font-family:"Plus Jakarta Sans",system-ui,sans-serif; color:var(--tinta); }
+  .pz .titulo { font-family:"Playfair Display",Georgia,serif; color:var(--azul); font-weight:600; }
+  .pz .fila { display:flex; gap:16px; flex-wrap:wrap; align-items:flex-start; margin-top:12px; }
+  .pz .celular { width:210px; height:390px; border:8px solid #2b2b2b; border-radius:24px; overflow:hidden; background:var(--crema); font-size:11px; display:flex; flex-direction:column; }
+  .pz .cab { background:#fff; padding:8px 10px 0; }
+  .pz .pestanas { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--borde); margin-top:6px; }
+  .pz .pestanas span { text-align:center; padding:7px 0; font-size:10.5px; color:#6b6457; }
+  .pz .pestanas span.activa { color:var(--azul); font-weight:700; border-bottom:3px solid var(--azul); }
+  .pz .pestanas span.conerror { color:#9b1c10; font-weight:700; }
+  .pz .pasos { display:flex; gap:4px; margin:6px 0 8px; }
+  .pz .pasos i { flex:1; height:4px; border-radius:2px; background:var(--borde); }
+  .pz .pasos i.hecho { background:var(--azul); }
+  .pz .cuerpo { flex:1; padding:10px; display:flex; flex-direction:column; gap:6px; }
+  .pz label { font-size:10px; font-weight:600; color:#4a4438; }
+  .pz .campo { border:1px solid #9A9180; border-radius:6px; padding:6px 7px; background:#fff; }
+  .pz .ayuda { font-size:9.5px; color:#6b6457; }
+  .pz .precio { color:var(--dorado); font-weight:700; }
+  .pz .pres { display:grid; grid-template-columns:1.4fr 1fr; gap:5px; }
+  .pz .miniatura { width:54px; height:54px; border-radius:8px; background:linear-gradient(135deg,#e9d3ae,#c69a5c); }
+  .pz .boton { border-radius:999px; padding:7px 10px; text-align:center; font-weight:700; font-size:11px; }
+  .pz .boton.azul { background:var(--azul); color:#fff; }
+  .pz .boton.linea { border:1.5px solid var(--azul); color:var(--azul); background:#fff; }
+  .pz .barra { background:#fff; border-top:1px solid var(--borde); padding:8px 10px; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .pz .bloqueo { background:var(--seccion); border:1px dashed #b9ad97; border-radius:8px; padding:8px; font-size:10px; }
+  .pz .pie { font-size:10px; color:#555; text-align:center; margin-top:4px; }
+</style>
+
+<div class="pz">
+<h2>El formulario partido en tres</h2>
+<p class="subtitle">Las tres partes salen solas de lo que ya tiene el producto: <b>Datos</b> · <b>Precios</b> · <b>Fotos</b>. La pregunta es cómo se pasa de una a otra.</p>
+
+<div class="options">
+  <div class="option" data-choice="pestanas" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Pestañas y un solo «Guardar» (recomendada)</h3>
+      <p>Se salta a cualquier parte en un toque. Lo escrito en las tres se guarda junto. Si hay un error en una pestaña que no se ve, su nombre se pone rojo con un punto.</p>
+      <div class="fila">
+        <div>
+        <div class="celular">
+          <div class="cab"><span class="titulo" style="font-size:13px">‹ Hamburguesa grande</span>
+            <div class="pestanas"><span>Datos</span><span class="activa">Precios</span><span>Fotos</span></div></div>
+          <div class="cuerpo">
+            <label>Presentación · Precio</label>
+            <div class="pres"><div class="campo">Con ajonjolí</div><div class="campo"><span class="precio">S/ 0.30</span></div></div>
+            <div class="pres"><div class="campo">Rellena</div><div class="campo"><span class="precio">S/ 0.40</span></div></div>
+            <div class="boton linea">+ Otra presentación</div>
+            <div class="ayuda">Cada cambio de precio queda en el historial.</div>
+          </div>
+          <div class="barra"><div class="boton linea">Cancelar</div><div class="boton azul">Guardar</div></div>
+        </div>
+        <div class="pie">Editando: pestaña Precios</div>
+        </div>
+        <div>
+        <div class="celular">
+          <div class="cab"><span class="titulo" style="font-size:13px">‹ Hamburguesa grande</span>
+            <div class="pestanas"><span class="activa">Datos</span><span class="conerror">Precios ●</span><span>Fotos</span></div></div>
+          <div class="cuerpo">
+            <label>Nombre</label><div class="campo">Hamburguesa grande</div>
+            <label>Categoría</label><div class="campo">Panes clásicos ▾</div>
+            <label>Descripción</label><div class="campo" style="min-height:40px">Suave, de corteza dorada…</div>
+            <div class="ayuda" style="color:#9b1c10;font-weight:600">No se guardó: revisa la pestaña Precios.</div>
+          </div>
+          <div class="barra"><div class="boton linea">Cancelar</div><div class="boton azul">Guardar</div></div>
+        </div>
+        <div class="pie">Error en una pestaña oculta</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="pasos" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Pasos: Siguiente → Siguiente → Guardar</h3>
+      <p>Guía de principio a fin, que viene bien para quien entra por primera vez. Pero para cambiar solo un precio hay que pasar por «Datos» antes. Y los productos se editan muchas más veces de las que se crean.</p>
+      <div class="fila">
+        <div class="celular">
+          <div class="cab"><span class="titulo" style="font-size:13px">Nuevo producto</span>
+            <div class="pasos"><i class="hecho"></i><i class="hecho"></i><i></i></div><div class="ayuda" style="padding-bottom:6px">Paso 2 de 3 · Precios</div></div>
+          <div class="cuerpo">
+            <div class="pres"><div class="campo">Unidad</div><div class="campo"><span class="precio">S/ 0.30</span></div></div>
+            <div class="boton linea">+ Otra presentación</div>
+          </div>
+          <div class="barra"><div class="boton linea">‹ Atrás</div><div class="boton azul">Siguiente</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:16px;max-width:760px;font-size:13px;line-height:1.5">
+  <h3>Un detalle que decide cómo funciona «Fotos» en las dos opciones</h3>
+  <p>Cada foto es una fila de <code>producto_imagenes</code>, que exige el <code>producto_id</code>, y su archivo va en <code>productos/{id del producto}/…</code> (convención del doc 02 §12). <b>Un producto nuevo no tiene id hasta que se guarda.</b> Así que, al crear, la pestaña Fotos muestra:</p>
+  <div class="bloqueo" style="max-width:320px">📷 <b>Primero guarda el producto</b> y después podrás añadirle fotos.</div>
+  <p>Al editar, las fotos se suben en el momento, con su propio botón, y no esperan al «Guardar». Así además no se pierden si se corta la conexión (la copia local solo guarda texto).</p>
+</div>
+</div>

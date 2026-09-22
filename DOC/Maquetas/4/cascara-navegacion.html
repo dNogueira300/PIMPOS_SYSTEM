@@ -1,0 +1,122 @@
+<style>
+  .pz { --azul:#12306E; --crema:#FFF9EE; --seccion:#FAF3E6; --tinta:#1E1B14; --dorado:#835413; --borde:#E5DCCB; font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: var(--tinta); }
+  .pz .titulo { font-family: "Playfair Display", Georgia, serif; color: var(--azul); font-weight: 600; }
+  .pz .fila { display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap; }
+  .pz .escritorio { width: 520px; height: 330px; border:1px solid var(--borde); border-radius:10px; overflow:hidden; display:flex; background:var(--crema); }
+  .pz .lateral { width:150px; background:var(--azul); color:#fff; padding:12px 8px; font-size:12px; display:flex; flex-direction:column; gap:2px; }
+  .pz .lateral .marca { font-family:"Playfair Display",Georgia,serif; font-size:15px; padding:4px 8px 12px; }
+  .pz .lateral a { display:block; padding:7px 8px; border-radius:6px; color:#fff; text-decoration:none; opacity:.85; }
+  .pz .lateral a.activo { background:rgba(255,255,255,.16); opacity:1; font-weight:600; }
+  .pz .lateral a.sub { padding-left:22px; font-size:11px; opacity:.75; }
+  .pz .lateral a.sub.activo { opacity:1; background:rgba(255,255,255,.1); }
+  .pz .lateral .pie { margin-top:auto; font-size:10px; opacity:.7; padding:8px; border-top:1px solid rgba(255,255,255,.2); }
+  .pz .cuerpo { flex:1; padding:14px 16px; font-size:12px; }
+  .pz .cab { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .pz .cta { background:var(--azul); color:#fff; border-radius:999px; padding:6px 12px; font-size:11px; font-weight:600; }
+  .pz .tabla { background:#fff; border:1px solid var(--borde); border-radius:8px; }
+  .pz .tabla div { display:grid; grid-template-columns: 2fr 1fr 1fr; padding:6px 10px; border-bottom:1px solid var(--borde); font-size:11px; }
+  .pz .tabla div:first-child { color:#6b6457; font-weight:600; background:var(--seccion); }
+  .pz .precio { color:var(--dorado); font-weight:600; }
+  .pz .celular { width:200px; height:380px; border:8px solid #2b2b2b; border-radius:24px; overflow:hidden; background:var(--crema); display:flex; flex-direction:column; font-size:11px; position:relative; }
+  .pz .cel-cab { background:#fff; border-bottom:1px solid var(--borde); padding:8px 10px; display:flex; align-items:center; justify-content:space-between; }
+  .pz .cel-cuerpo { flex:1; padding:10px; display:flex; flex-direction:column; gap:6px; overflow:hidden; }
+  .pz .tarjeta { background:#fff; border:1px solid var(--borde); border-radius:8px; padding:7px 9px; }
+  .pz .tarjeta b { display:block; font-size:11px; }
+  .pz .inferior { display:grid; background:#fff; border-top:1px solid var(--borde); }
+  .pz .inferior span { text-align:center; padding:6px 0 8px; font-size:9px; color:#6b6457; }
+  .pz .inferior span i { display:block; font-style:normal; font-size:14px; }
+  .pz .inferior span.activo { color:var(--azul); font-weight:700; }
+  .pz .hamb { font-size:16px; }
+  .pz .migas { font-size:10px; color:#6b6457; }
+  .pz .nota { font-size:12px; color:#555; margin-top:8px; max-width:760px; }
+</style>
+
+<div class="pz">
+<h2>La cáscara del panel: ¿cómo se navega?</h2>
+<p class="subtitle">Las dos opciones usan la misma barra lateral azul en escritorio. Cambia el celular, que es donde se usa en campo (375 px). Colores y tipografía, los del sitio desde 3.1.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Barra inferior en el celular (recomendada)</h3>
+      <p>Las secciones principales siempre a la vista, al alcance del pulgar. Cada rol ve solo lo suyo: el repartidor, dos botones.</p>
+      <div class="fila" style="margin-top:12px">
+        <div class="escritorio">
+          <div class="lateral">
+            <div class="marca">Pimpo's · Panel</div>
+            <a>Inicio</a>
+            <a class="activo">Contenido</a>
+            <a class="sub activo">Productos</a>
+            <a class="sub">Categorías</a>
+            <a class="sub">Novedades <span style="background:#FDBD73;color:#1E1B14;border-radius:999px;padding:0 5px;font-size:9px">1</span></a>
+            <a class="sub">Portada</a>
+            <a class="sub">Galería · Preguntas · Guías · Testimonios</a>
+            <a>Usuarios</a>
+            <a>Configuración</a>
+            <div class="pie">Marcos · Administrador<br>Cerrar sesión · Ver el sitio ↗</div>
+          </div>
+          <div class="cuerpo">
+            <div class="migas">Contenido › Productos</div>
+            <div class="cab"><span class="titulo" style="font-size:18px">Productos</span><span class="cta">+ Nuevo producto</span></div>
+            <div class="tabla">
+              <div><span>Nombre</span><span>Precio</span><span>Estado</span></div>
+              <div><span>Pan francés</span><span class="precio">S/ 0.10</span><span>Publicado</span></div>
+              <div><span>Hamburguesa grande</span><span class="precio">S/ 0.30</span><span>Publicado</span></div>
+              <div><span>Keke de naranja</span><span class="precio">S/ 5.00</span><span>Borrador</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="celular">
+          <div class="cel-cab"><span class="titulo" style="font-size:14px">Productos</span><span class="cta">+ Nuevo</span></div>
+          <div class="cel-cuerpo">
+            <div class="migas">‹ Contenido</div>
+            <div class="tarjeta"><b>Pan francés</b><span class="precio">S/ 0.10</span> · Publicado</div>
+            <div class="tarjeta"><b>Hamburguesa grande</b><span class="precio">S/ 0.30</span> · Publicado</div>
+            <div class="tarjeta"><b>Keke de naranja</b><span class="precio">S/ 5.00</span> · Borrador</div>
+          </div>
+          <div class="inferior" style="grid-template-columns:repeat(4,1fr)">
+            <span><i>⌂</i>Inicio</span>
+            <span class="activo"><i>▦</i>Contenido</span>
+            <span><i>☺</i>Usuarios</span>
+            <span><i>⋯</i>Más</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Menú de hamburguesa en el celular</h3>
+      <p>La misma barra lateral, escondida detrás de un botón (como el menú del sitio público). Más espacio vertical, pero cambiar de sección cuesta dos toques y hay que descubrir el botón.</p>
+      <div class="fila" style="margin-top:12px">
+        <div class="celular">
+          <div class="cel-cab"><span class="hamb">☰</span><span class="titulo" style="font-size:14px">Productos</span><span class="cta">+ Nuevo</span></div>
+          <div class="cel-cuerpo">
+            <div class="migas">Contenido › Productos</div>
+            <div class="tarjeta"><b>Pan francés</b><span class="precio">S/ 0.10</span> · Publicado</div>
+            <div class="tarjeta"><b>Hamburguesa grande</b><span class="precio">S/ 0.30</span> · Publicado</div>
+            <div class="tarjeta"><b>Keke de naranja</b><span class="precio">S/ 5.00</span> · Borrador</div>
+            <div class="tarjeta"><b>Pan de yema</b><span class="precio">S/ 0.20</span> · Publicado</div>
+          </div>
+        </div>
+        <div class="celular">
+          <div style="display:flex;height:100%">
+            <div class="lateral" style="width:150px">
+              <div class="marca">Pimpo's · Panel</div>
+              <a>Inicio</a><a class="activo">Contenido</a><a class="sub activo">Productos</a><a class="sub">Categorías</a><a class="sub">Novedades</a><a class="sub">Portada</a><a>Usuarios</a><a>Configuración</a>
+              <div class="pie">Cerrar sesión</div>
+            </div>
+            <div style="flex:1;background:rgba(0,0,0,.35)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="nota"><b>Datos de ejemplo:</b> los nombres y precios de la maqueta son solo para dar forma a la pantalla. En la de verdad, todo sale de la base.<br>
+<b>En los dos casos:</b> en el celular, la lista pasa a tarjetas y no a una tabla con desplazamiento lateral (doc 03 §5.1). La acción principal, «+ Nuevo», se ve siempre sin bajar. «Más» abre Configuración, «Ver el sitio» y Cerrar sesión. El número sobre Novedades es el aviso de promociones en revisión, y solo lo ven el administrador y el superadmin.</p>
+</div>
