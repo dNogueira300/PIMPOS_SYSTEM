@@ -80,7 +80,7 @@ export function ListaAdaptable<F extends { id: string }>({
                   {c === principal ? (
                     <Link
                       href={enlace(fila)}
-                      className="inline-flex min-h-11 items-center font-semibold hover:underline"
+                      className="inline-flex min-h-11 min-w-11 items-center font-semibold hover:underline"
                     >
                       {c.celda(fila)}
                     </Link>

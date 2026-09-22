@@ -176,10 +176,28 @@ test("en la portada, tarjeta solo para los productos con foto y ninguno dos vece
 });
 
 test("el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano", async ({ page }) => {
-  await page.goto("/productos");
-  const total = Number.parseInt((await page.getByRole("status").textContent()) ?? "", 10);
+  // Dos lecturas de un dato compartido, en dos navegaciones: si algo publica o
+  // borra un producto justo entre medias (el panel sí lo hace ahora — T3 crea
+  // y borra productos de verdad mientras el resto de la suite corre), el
+  // numero que se leyo en /productos puede no ser ya el que enseña la
+  // portada un instante despues, sin que la portada este mintiendo. Es la
+  // trampa que ya avisa CLAUDE.md: una prueba cuyo numero no es el suyo.
+  // `toPass()` repite las DOS lecturas juntas, asi que solo se da por buena
+  // cuando coinciden en la misma pasada; si la portada dijera un numero fijo
+  // o equivocado, nunca coincidiria y seguiria fallando hasta agotar el
+  // presupuesto, no se cuela por una carrera de otra prueba.
+  await expect(async () => {
+    await page.goto("/productos");
+    const total = Number.parseInt((await page.getByRole("status").textContent()) ?? "", 10);
 
-  await page.goto("/");
-  const bloque = page.getByRole("region", { name: "Lo que horneamos hoy" });
-  await expect(bloque.getByRole("link", { name: `Ver los ${total} precios` })).toBeVisible();
+    await page.goto("/");
+    const bloque = page.getByRole("region", { name: "Lo que horneamos hoy" });
+    // Timeout corto en esta comprobacion interna: si el numero esta mal de
+    // verdad, cada intento falla rapido y `toPass` alcanza a reintentar
+    // varias veces dentro de su propio presupuesto en vez de agotarlo en el
+    // primer intento.
+    await expect(bloque.getByRole("link", { name: `Ver los ${total} precios` })).toBeVisible({
+      timeout: 2_000,
+    });
+  }).toPass({ timeout: 15_000 });
 });
