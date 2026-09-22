@@ -7,22 +7,23 @@ import { ConfirmarBorrado } from "@/components/panel/confirmar-borrado";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { EtiquetaEstado } from "@/components/panel/etiqueta-estado";
 import { ListaAdaptable } from "@/components/panel/lista-adaptable";
-import { borrarCategoria } from "@/lib/acciones/categorias";
+import { borrarSlide } from "@/lib/acciones/contenido";
 import { moverFila } from "@/lib/acciones/orden";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
-const RUTA = "/admin/contenido/categorias";
+const RUTA = "/admin/contenido/portada";
 
-export default function Categorias() {
+export default function Portada() {
   return (
     <>
       <EncabezadoPanel
-        titulo="Categorías"
+        titulo="Portada"
+        descripcion="Las fotos grandes del inicio del sitio, en el orden en que pasan."
         volver={{ ruta: "/admin/contenido", nombre: "Contenido" }}
         accion={
           <Link href={`${RUTA}/nueva`} className="boton-cta">
-            <Plus aria-hidden className="size-5" /> Nueva categoría
+            <Plus aria-hidden className="size-5" /> Nuevo slide
           </Link>
         }
       />
@@ -37,41 +38,35 @@ async function Lista() {
   await exigirAcceso(RUTA);
   const supabase = await crearClienteServidor();
   const { data, error } = await supabase
-    .from("categorias_producto")
-    .select("id, nombre, estado, orden")
+    .from("slides")
+    .select("id, titulo, estado, es_demo")
     .is("deleted_at", null)
     .order("orden")
     .order("id");
-
-  if (error) {
-    return <p role="alert">No se pudieron cargar las categorías. Recarga la página.</p>;
-  }
+  if (error) return <p role="alert">No se pudieron cargar los slides. Recarga la página.</p>;
 
   return (
     <ListaAdaptable
-      etiqueta="Categorías del catálogo"
+      etiqueta="Slides de la portada"
       filas={data}
-      enlace={(c) => `${RUTA}/${c.id}`}
+      enlace={(s) => `${RUTA}/${s.id}`}
       columnas={[
-        { titulo: "Nombre", celda: (c) => c.nombre, principal: true },
-        { titulo: "Estado", celda: (c) => <EtiquetaEstado estado={c.estado} /> },
+        { titulo: "Titular", celda: (s) => s.titulo, principal: true },
+        { titulo: "Estado", celda: (s) => <EtiquetaEstado estado={s.estado} /> },
       ]}
-      acciones={(c) => (
+      acciones={(s) => (
         <>
           <BotonesOrden
-            nombre={`la categoría ${c.nombre}`}
-            subir={moverFila.bind(null, "categorias_producto", c.id, "arriba")}
-            bajar={moverFila.bind(null, "categorias_producto", c.id, "abajo")}
-            primero={c.id === data[0]?.id}
-            ultimo={c.id === data.at(-1)?.id}
+            nombre={`el slide ${s.titulo}`}
+            subir={moverFila.bind(null, "slides", s.id, "arriba")}
+            bajar={moverFila.bind(null, "slides", s.id, "abajo")}
+            primero={s.id === data[0]?.id}
+            ultimo={s.id === data.at(-1)?.id}
           />
-          <ConfirmarBorrado
-            nombre={`la categoría ${c.nombre}`}
-            accion={borrarCategoria.bind(null, c.id)}
-          />
+          <ConfirmarBorrado nombre={`el slide ${s.titulo}`} accion={borrarSlide.bind(null, s.id)} />
         </>
       )}
-      vacio={<p>Todavía no hay categorías. Crea la primera con «Nueva categoría».</p>}
+      vacio={<p>No hay slides. Sin ninguno, la portada muestra su versión sin carrusel.</p>}
     />
   );
 }
