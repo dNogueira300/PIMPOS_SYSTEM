@@ -2,7 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
 import { entrarComo } from "./ayudas/sesion";
-import { borrarUsuario } from "./ayudas/usuarios";
+import { borrarUsuario, type UsuarioDePrueba } from "./ayudas/usuarios";
 
 /**
  * Las rutas del panel que existen. Cada tarea añade las suyas: axe y el área
@@ -28,32 +28,63 @@ async function controlesPequenos(page: Page): Promise<string[]> {
   );
 }
 
-test("el panel no tiene errores de axe", async ({ page }) => {
-  const usuario = await entrarComo(page, "superadmin");
-  try {
-    for (const ruta of RUTAS_DEL_PANEL) {
+/**
+ * Una ruta por prueba, no una prueba que recorre todas las rutas.
+ *
+ * Hasta la ronda 1 de la tarea 3, «el panel no tiene errores de axe» y «todo
+ * control mide 44 px» eran un solo test con un bucle por dentro: con las 6
+ * rutas de entonces ya tardaba 18.4 s de los 30 s del timeout por defecto, sin
+ * ninguna carga. Las tareas 4-7 añaden novedades, portada, galería, preguntas,
+ * guías, testimonios, usuarios y configuración — la prueba no iba a sobrevivir
+ * a la fase, y encima un fallo en la ruta 2 no dejaba correr la 3 a la 6.
+ * Partiéndola en un `test()` por ruta, el presupuesto de tiempo, el reintento
+ * y el mensaje de fallo son por ruta: crecer en rutas ya no acerca un techo
+ * fijo, y una ruta rota no oculta a las demás. El inicio de sesión va en
+ * `beforeEach`/`afterEach` en vez de una sola vez para todo el archivo: así
+ * cada prueba es independiente de verdad (nada que una ruta deje mal montado
+ * en la sesión salpica a la siguiente), a cambio de un inicio de sesión de
+ * más por ruta — barato frente al problema que resuelve.
+ */
+test.describe("axe en cada ruta del panel", () => {
+  let usuario: UsuarioDePrueba;
+
+  test.beforeEach(async ({ page }) => {
+    usuario = await entrarComo(page, "superadmin");
+  });
+
+  test.afterEach(async () => {
+    await borrarUsuario(usuario.id);
+  });
+
+  for (const ruta of RUTAS_DEL_PANEL) {
+    test(`axe en ${ruta}`, async ({ page }) => {
       await page.goto(ruta);
       // El <Suspense> del layout sirve el titulo "Cargando el panel..." antes
       // de que llegue la sesion: axe tiene que medir la pantalla real.
       await page.locator("main#contenido").waitFor();
       const { violations } = await new AxeBuilder({ page }).analyze();
       expect(violations, `axe en ${ruta}`).toEqual([]);
-    }
-  } finally {
-    await borrarUsuario(usuario.id);
+    });
   }
 });
 
-test("todo control del panel mide al menos 44 × 44 px", async ({ page }) => {
-  const usuario = await entrarComo(page, "superadmin");
-  try {
-    for (const ruta of RUTAS_DEL_PANEL) {
+test.describe("area tactil en cada ruta del panel", () => {
+  let usuario: UsuarioDePrueba;
+
+  test.beforeEach(async ({ page }) => {
+    usuario = await entrarComo(page, "superadmin");
+  });
+
+  test.afterEach(async () => {
+    await borrarUsuario(usuario.id);
+  });
+
+  for (const ruta of RUTAS_DEL_PANEL) {
+    test(`controles de al menos 44 × 44 px en ${ruta}`, async ({ page }) => {
       await page.goto(ruta);
       await page.locator("main#contenido").waitFor();
       expect(await controlesPequenos(page), `controles pequeños en ${ruta}`).toEqual([]);
-    }
-  } finally {
-    await borrarUsuario(usuario.id);
+    });
   }
 });
 
