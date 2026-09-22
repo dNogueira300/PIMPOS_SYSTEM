@@ -781,6 +781,7 @@ export type Database = {
           leida_por: string | null
           lote_id: string | null
           mensaje: string
+          novedad_id: string | null
           resuelta_en: string | null
           tipo: string
           titulo: string
@@ -794,6 +795,7 @@ export type Database = {
           leida_por?: string | null
           lote_id?: string | null
           mensaje: string
+          novedad_id?: string | null
           resuelta_en?: string | null
           tipo: string
           titulo: string
@@ -807,6 +809,7 @@ export type Database = {
           leida_por?: string | null
           lote_id?: string | null
           mensaje?: string
+          novedad_id?: string | null
           resuelta_en?: string | null
           tipo?: string
           titulo?: string
@@ -826,12 +829,27 @@ export type Database = {
             referencedRelation: "lotes_insumo"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "notificaciones_novedad_id_fkey"
+            columns: ["novedad_id"]
+            isOneToOne: false
+            referencedRelation: "novedades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notificaciones_novedad_id_fkey"
+            columns: ["novedad_id"]
+            isOneToOne: false
+            referencedRelation: "novedades_publicas"
+            referencedColumns: ["id"]
+          },
         ]
       }
       novedades: {
         Row: {
           aprobada_en: string | null
           aprobada_por: string | null
+          comentario_revision: string | null
           contenido: string
           created_at: string
           created_by: string | null
@@ -852,6 +870,7 @@ export type Database = {
         Insert: {
           aprobada_en?: string | null
           aprobada_por?: string | null
+          comentario_revision?: string | null
           contenido: string
           created_at?: string
           created_by?: string | null
@@ -872,6 +891,7 @@ export type Database = {
         Update: {
           aprobada_en?: string | null
           aprobada_por?: string | null
+          comentario_revision?: string | null
           contenido?: string
           created_at?: string
           created_by?: string | null

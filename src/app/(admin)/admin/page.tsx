@@ -23,7 +23,7 @@ async function InicioConSesion({
   const { motivo } = await searchParams;
   const sesion = await exigirAcceso("/admin");
   const secciones = seccionesPara(sesion.rol).filter((s) => s.ruta !== "/admin");
-  const avisos = await contarAvisos(sesion.rol);
+  const avisos = await contarAvisos(sesion.rol, sesion.usuarioId);
 
   return (
     <>
@@ -85,7 +85,7 @@ type Aviso = { clave: string; texto: string; ruta: string };
  * Cada tarea que añade algo que revisar añade aquí su cuenta. T1 trae la de
  * datos por confirmar; T4, las de promociones.
  */
-async function contarAvisos(rol: string): Promise<Aviso[]> {
+async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
   const supabase = await crearClienteServidor();
   const avisos: Aviso[] = [];
 
@@ -99,6 +99,37 @@ async function contarAvisos(rol: string): Promise<Aviso[]> {
         clave: "pendientes",
         texto: `${count} ${count === 1 ? "dato del sitio está" : "datos del sitio están"} por confirmar`,
         ruta: "/admin/configuracion",
+      });
+    }
+
+    const { count: enRevision } = await supabase
+      .from("notificaciones")
+      .select("id", { count: "exact", head: true })
+      .eq("tipo", "promocion_en_revision")
+      .is("resuelta_en", null);
+    if (enRevision && enRevision > 0) {
+      avisos.unshift({
+        clave: "promociones-en-revision",
+        texto: `${enRevision} ${enRevision === 1 ? "promoción espera" : "promociones esperan"} tu aprobación`,
+        ruta: "/admin/contenido/novedades",
+      });
+    }
+  }
+
+  if (rol === "ingeniero") {
+    const { count: devueltas } = await supabase
+      .from("novedades")
+      .select("id", { count: "exact", head: true })
+      .eq("tipo", "promocion")
+      .eq("estado", "borrador")
+      .not("comentario_revision", "is", null)
+      .eq("created_by", usuarioId)
+      .is("deleted_at", null);
+    if (devueltas && devueltas > 0) {
+      avisos.push({
+        clave: "promociones-devueltas",
+        texto: `${devueltas} ${devueltas === 1 ? "promoción tuya fue devuelta" : "promociones tuyas fueron devueltas"} con comentario`,
+        ruta: "/admin/contenido/novedades",
       });
     }
   }

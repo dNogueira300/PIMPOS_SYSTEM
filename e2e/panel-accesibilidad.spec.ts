@@ -15,6 +15,8 @@ export const RUTAS_DEL_PANEL = [
   "/admin/contenido/categorias/nueva",
   "/admin/contenido/productos",
   "/admin/contenido/productos/nuevo",
+  "/admin/contenido/novedades",
+  "/admin/contenido/novedades/nueva",
 ];
 
 /** Los controles interactivos por debajo de 44 x 44 px, con su HTML para identificarlos. */
