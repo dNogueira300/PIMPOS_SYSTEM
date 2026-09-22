@@ -8,7 +8,12 @@ import { borrarUsuario } from "./ayudas/usuarios";
  * Las rutas del panel que existen. Cada tarea añade las suyas: axe y el área
  * táctil las recorren todas, a 375 px y en escritorio, sin desactivar reglas.
  */
-export const RUTAS_DEL_PANEL = ["/admin", "/admin/contenido"];
+export const RUTAS_DEL_PANEL = [
+  "/admin",
+  "/admin/contenido",
+  "/admin/contenido/categorias",
+  "/admin/contenido/categorias/nueva",
+];
 
 /** Los controles interactivos por debajo de 44 x 44 px, con su HTML para identificarlos. */
 async function controlesPequenos(page: Page): Promise<string[]> {
