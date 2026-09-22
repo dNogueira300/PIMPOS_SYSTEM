@@ -10,6 +10,7 @@ import { SUBSECCIONES_DE_CONTENIDO } from "@/lib/panel/navegacion";
 const CONSTRUIDAS: readonly string[] = [
   "/admin/contenido/productos",
   "/admin/contenido/categorias",
+  "/admin/contenido/novedades",
 ];
 
 export default function Contenido() {
