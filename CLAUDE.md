@@ -15,20 +15,23 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase             | Estado                                                                                                                                                                                                                                                                                                                                                                                             |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F0 Preparación   | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                                                                                                                                                                                   |
-| F1 Fundación     | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                                                                                                                                                                                       |
-| F2 Backend       | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                                                                                                                                                                                     |
-| F3 Sitio público | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                                                                                                                                                                                              |
-| F3.1 Rediseño    | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Rendimiento contra F3 medido el mismo día y en la misma máquina: `/` 91 frente a 95, `/productos` 95 frente a 94, `/contacto` 96 frente a 96. Accesibilidad ≥ 97 y SEO 100. Plan en `DOC/Plan de Desarrollo 03.1`, capturas en `DOC/Maquetas/3.1/` |
-| F4–F7            | ⬜                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Fase               | Estado                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación     | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                                                                                                                                                                                               |
+| F1 Fundación       | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                                                                                                                                                                                                   |
+| F2 Backend         | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                                                                                                                                                                                                 |
+| F3 Sitio público   | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                                                                                                                                                                                                          |
+| F3.1 Rediseño      | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Rendimiento contra F3 medido el mismo día y en la misma máquina: `/` 91 frente a 95, `/productos` 95 frente a 94, `/contacto` 96 frente a 96. Accesibilidad ≥ 97 y SEO 100. Plan en `DOC/Plan de Desarrollo 03.1`, capturas en `DOC/Maquetas/3.1/`             |
+| F4 Panel contenido | 🔶 **En curso.** Tareas 1–3 fusionadas en `main` el 22/09: cáscara del panel con navegación por rol, categorías y productos con presentaciones, historial de precios y fotos. Plan tarea a tarea en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`; avance real en `.superpowers/sdd/Plan de Desarrollo 04 - Panel de contenido/progress.md` (fuera de git). Siguiente: tarea 4, novedades con aprobación |
+| F5–F7              | ⬜                                                                                                                                                                                                                                                                                                                                                                                                             |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, 377 pruebas pgTAP. Las 9 pruebas
-obligatorias del doc 02 §11.3 pasan las 9.
+`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, **27 migraciones**. Las 9 pruebas
+obligatorias del doc 02 §11.3 pasan las 9. Desde F4: la autoría de cada fila la sella un trigger
+(0026) y el catálogo se guarda con `public.guardar_producto` (0027), que es una transacción.
 
-**Verificación:** 388 pgTAP + 169 unitarias + 212 flujos E2E + 3 guiones que prueban lo que SQL no
+**Verificación** (medido el 22/09/2026, con F4 T1–T3 dentro): 406 pgTAP + 209 unitarias +
+284 flujos E2E (27 se saltan sin imágenes semilla) + 3 guiones que prueban lo que SQL no
 puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
 CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
@@ -257,6 +260,17 @@ pnpm se activa por corepack (`corepack prepare pnpm@12.3.4 --activate`), **no** 
   En ambos casos el mensaje del servidor (`Only the service_role API key...`,
   `email_not_confirmed`, `invalid_credentials`) era el único dato útil, y no lleva secretos.
   Guardar la respuesta entera e imprimirla al fallar.
+- **El App Router deja montado el DOM de la pantalla anterior** tras una navegación de cliente, para
+  que volver sea instantáneo. En una prueba, `getByLabel("Precio (S/)")` encuentra entonces dos
+  campos y falla por modo estricto **siempre**, no de vez en cuando. `getByRole` sí respeta el árbol
+  de accesibilidad: se busca dentro de la región viva (`getByRole("tabpanel", { name: "Precios" })`)
+  y no en toda la página. Salió al navegar de crear a editar un producto (F4, tarea 3).
+- **Una prueba que compara dos lecturas hechas en momentos distintos se rompe cuando otra prueba
+  escribe entremedias.** La del catálogo leía el total de productos en `/productos` y después el
+  número de la portada; desde que el panel publica productos reales durante la suite, podían no
+  coincidir. Se leen las dos juntas y se reintenta hasta que concuerdan (`expect(...).toPass()`),
+  sin dejar de fallar si la portada trae el número equivocado. Es la misma lección del «el total
+  nunca es suyo», aplicada al tiempo y no a la fixture.
 - **Next 16 no es el Next de los docs viejos.** Antes de escribir codigo de app, leer
   `node_modules/next/dist/docs/` (el propio `AGENTS.md` que genera `next dev` lo exige). Lo que ya
   toca a este proyecto: `middleware.ts` pasa a **`src/proxy.ts`** con export `proxy` y runtime
@@ -514,7 +528,14 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
     a la petición y tiraría el prerenderizado entero; sin sesión, PostgREST atiende como `anon` y la
     RLS muestra justo lo que ve un visitante.
 - `src/app/(admin)/` — dashboard, contenido, insumos, clientes, usuarios, auditoría, configuración.
-  Dinámico y siempre autenticado.
+  Dinámico y siempre autenticado. **Construido desde F4** (tareas 1–3): la cáscara vive en
+  `src/components/panel/` (barra lateral en escritorio, barra inferior a 375 px, lista que pasa de
+  tabla a tarjetas, formulario con copia local en el navegador, pestañas, subida de fotos
+  comprimidas) y la lógica en `src/lib/panel/`. **Toda mutación pasa por `ejecutarAccion()`**
+  (`src/lib/panel/accion.ts`): vuelve a exigir acceso, valida con el mismo esquema Zod que el
+  navegador, traduce el error de Postgres a una frase que dice qué hacer, y refresca el sitio con
+  `updateTag`. Hay una prueba de axe y otra de área táctil **por cada ruta** del panel
+  (`e2e/panel-accesibilidad.spec.ts`): al añadir una ruta, se añade a `RUTAS_DEL_PANEL`.
 - `middleware.ts` — refresco de sesión + guardia por rol.
 - Mutaciones por **Server Actions** validadas con Zod; no hay API REST propia salvo webhooks puntuales.
 
@@ -531,7 +552,7 @@ el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 25 migraciones** (`supabase/migrations/`), en orden:
+**Las 27 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                        | Contenido                                                                                                      |
 | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
@@ -560,6 +581,8 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                |
 | `0024_anio_fundacion`          | El año de apertura (2004) en la configuración: la cuenta de años deja de estar escrita a mano                  |
 | `0025_slide_sin_cuenta`        | El tercer slide decía «22 años»: pasa a decir el año de apertura, que no caduca                                |
+| `0026_autoria`                 | `created_by`/`updated_by` los pone un trigger con el usuario del JWT, en toda tabla que tenga las dos columnas |
+| `0027_guardar_producto`        | `public.guardar_producto`: el producto y sus presentaciones, en una sola transacción. `security invoker`       |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
