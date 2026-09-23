@@ -45,6 +45,16 @@ function deAuth(error: { code?: string; message: string }): ErrorDePostgres {
 }
 
 /**
+ * Un paso con la service_role falló: el original va al registro (solo código
+ * y mensaje, nunca la contraseña) y a la persona le llega una frase que dice
+ * en qué quedó la cuenta y qué hacer, no la traducción genérica.
+ */
+function fallaAMedias(paso: string, original: { code?: string; message: string }, frase: string) {
+  console.error(`[panel] ${paso}: código ${original.code ?? "?"} — ${original.message}`);
+  return sinPermiso(frase);
+}
+
+/**
  * El perfil de otra persona, leído con la sesión de quien pide: si la RLS no
  * deja verlo, tampoco se toca su cuenta con la service_role.
  */
@@ -194,16 +204,33 @@ export async function restablecerClave(id: string): Promise<EstadoAccion> {
         );
       }
 
-      const clave = generarClaveTemporal();
+      // Primero se cierran sus sesiones (0030) y DESPUÉS se cambia la
+      // contraseña. Al revés, si lo segundo fallara, la contraseña nueva ya
+      // valdría sin que nadie la hubiera visto y la sesión vieja seguiría
+      // abierta. Así, lo peor que deja un fallo a medias es a esa persona
+      // fuera, con su contraseña de siempre.
       const admin = crearClienteAdministrador();
+      const { error: errorSesiones } = await admin.rpc("cerrar_sesiones", { usuario: d.id });
+      if (errorSesiones) {
+        return fallaAMedias(
+          "restablecer (cerrar sesiones)",
+          errorSesiones,
+          "No se pudo darle una contraseña nueva: no cambió nada. Inténtalo otra vez en un momento.",
+        );
+      }
+
+      const clave = generarClaveTemporal();
       const { data, error } = await admin.auth.admin.updateUserById(d.id, {
         password: clave,
         app_metadata: { debe_cambiar_clave: true },
       });
-      if (error) return { error: deAuth(error) };
-      // Quien tuviera abierta esa cuenta la pierde ya, no en una hora (0030).
-      const { error: errorSesiones } = await admin.rpc("cerrar_sesiones", { usuario: d.id });
-      if (errorSesiones) return { error: errorSesiones };
+      if (error) {
+        return fallaAMedias(
+          "restablecer (contraseña)",
+          error,
+          "Se cerró su sesión, pero la contraseña no se cambió: sigue siendo la de antes. Pulsa otra vez «Darle una contraseña temporal nueva».",
+        );
+      }
       return { error: null, id: d.id, extra: { clave, correo: data.user.email ?? "" } };
     },
   });
