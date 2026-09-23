@@ -63,10 +63,14 @@ export default defineConfig({
     // Estas sobreescriben lo que hubiera en .env.local: las pruebas siempre
     // corren contra el Supabase local, nunca contra el proyecto alojado.
     env: (() => {
-      const { apiUrl, anonKey } = supabaseLocal();
+      const { apiUrl, anonKey, serviceRoleKey } = supabaseLocal();
       return {
         NEXT_PUBLIC_SUPABASE_URL: apiUrl,
         NEXT_PUBLIC_SUPABASE_ANON_KEY: anonKey,
+        // La del entorno LOCAL, fija y pública (demo del CLI). La usa el panel
+        // de usuarios (T6) para dar de alta cuentas. Sin NEXT_PUBLIC_: solo la
+        // lee el servidor.
+        SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey,
         // El sitemap, la imagen para compartir y los datos estructurados llevan
         // URLs absolutas. Tienen que apuntar al servidor de las pruebas para
         // que la prueba pueda pedirlas de verdad.

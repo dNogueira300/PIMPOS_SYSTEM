@@ -21,9 +21,14 @@ type Props = {
   /** Lo que se borra, con su nombre real: «el producto Pan francés». */
   nombre: string;
   accion: () => Promise<EstadoAccion>;
+  /** Qué pasa al borrar, si no es lo de siempre (una cuenta no «se ve en el sitio»). */
+  aviso?: string;
 };
 
-export function ConfirmarBorrado({ nombre, accion }: Props) {
+const AVISO =
+  "Dejará de verse en el sitio y en esta lista. Si fue un error, un administrador puede recuperarlo.";
+
+export function ConfirmarBorrado({ nombre, accion, aviso = AVISO }: Props) {
   const [pendiente, iniciar] = useTransition();
 
   return (
@@ -37,10 +42,7 @@ export function ConfirmarBorrado({ nombre, accion }: Props) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>¿Borrar {nombre}?</AlertDialogTitle>
-          <AlertDialogDescription>
-            Dejará de verse en el sitio y en esta lista. Si fue un error, un administrador puede
-            recuperarlo.
-          </AlertDialogDescription>
+          <AlertDialogDescription>{aviso}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="boton-linea">No, dejarlo</AlertDialogCancel>

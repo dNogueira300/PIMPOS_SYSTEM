@@ -109,6 +109,8 @@ export function FormularioPanel({ clave, accion, destino, alGuardar, validar, ch
       for (const campo of form.querySelectorAll<HTMLInputElement>("input[type=password]")) {
         delete valores[campo.name];
       }
+      // Sin nada que no sea contraseña (cambiar-clave), no hay copia que ofrecer.
+      if (Object.keys(valores).length === 0) return;
       guardarBorrador(localStorage, clave, valores, Date.now());
     }, AL_ESCRIBIR_MS);
   }

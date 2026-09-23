@@ -18,8 +18,19 @@ import { refrescarSesion } from "@/lib/supabase/proxy";
  * politicas RLS de Postgres, que se aplican vaya la peticion por donde vaya.
  */
 export async function proxy(peticion: NextRequest) {
-  const { respuesta, rol, haySesion } = await refrescarSesion(peticion);
+  const { respuesta, rol, haySesion, debeCambiarClave } = await refrescarSesion(peticion);
   const ruta = peticion.nextUrl.pathname;
+
+  // Primer ingreso con contraseña temporal (T6). Sin sesión no hay contraseña
+  // que cambiar.
+  if (ruta === "/cambiar-clave") {
+    return haySesion ? respuesta : NextResponse.redirect(new URL("/ingresar", peticion.url));
+  }
+
+  // Con contraseña temporal no se entra a nada del panel hasta cambiarla.
+  if (debeCambiarClave && esRutaDelPanel(ruta)) {
+    return NextResponse.redirect(new URL("/cambiar-clave", peticion.url));
+  }
 
   // Quien ya tiene sesion util no necesita ver el formulario de ingreso.
   if (ruta === "/ingresar" && rol !== null) {
