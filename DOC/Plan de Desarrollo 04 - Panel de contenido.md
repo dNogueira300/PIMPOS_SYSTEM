@@ -9199,9 +9199,14 @@ export async function cambiarMiClave(fd: FormData): Promise<EstadoAccion> {
 > **Resuelto en la revisión del PR #57 (migración 0030):** desactivar, eliminar o restablecer la
 > contraseña de alguien le cierra la sesión **en el acto**, no «hasta una hora». Se borran sus filas
 > de `auth.sessions` (y con ellas sus refresh tokens), `app.rol_actual()` deja de reconocer un token
-> cuya `session_id` ya no existe, y el panel lo nota con `getUser()` en el proxy y en
-> `obtenerSesion()`. El rol sigue viajando en el token (decisión de F2): lo único que cuesta es una
-> búsqueda por clave primaria en `auth.sessions` por consulta.
+> cuya `session_id` ya no existe, y el panel lo nota preguntándole a la base con el RPC
+> `public.sesion_abierta()`: en `obtenerSesion()` (así fallan el layout, cada página y cada Server
+> Action vía `exigirAcceso`) y, en el proxy, **solo** en `/ingresar` y `/cambiar-clave`, donde además
+> borra las cookies para que el ingreso y el panel no se reboten la sesión cerrada. `getClaims()`
+> verifica la firma en local y no se entera; `getUser()` sí, pero se descartó por coste medido
+> (~0.2–0.36 s por llamada frente a ~0.02 s de PostgREST, y la suite del panel de 4 a 7 min). El rol
+> sigue viajando en el token (decisión de F2): lo que cuesta es una búsqueda por clave primaria en
+> `auth.sessions` por consulta y un RPC por petición del panel.
 >
 > `app_metadata` en `updateUserById` **se fusiona** con lo que ya tenía (no borra `provider`).
 > Comprobarlo en local con `select raw_app_meta_data from auth.users where email = '...'` después de

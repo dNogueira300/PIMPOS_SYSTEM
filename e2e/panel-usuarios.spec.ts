@@ -45,7 +45,8 @@ test("un administrador da de alta a alguien, y ese alguien cambia la contraseña
 }) => {
   // Tres ingresos, un alta y un cambio de contraseña en un solo flujo: con 4
   // procesos en paralelo pasa de 25 s, al borde de los 30 del límite. Desde
-  // 0030 cada navegación del panel pregunta a Auth si la sesión sigue abierta.
+  // 0030 cada petición del panel pregunta además a la base (el RPC
+  // `sesion_abierta`, por PostgREST) si la sesión sigue abierta.
   test.slow();
   const admin = await entrarComo(page, "administrador");
   const id = sufijo();
