@@ -17,9 +17,23 @@ import { refrescarSesion } from "@/lib/supabase/proxy";
  * de esta guardia sin que nadie lo note. La autorizacion de verdad esta en las
  * politicas RLS de Postgres, que se aplican vaya la peticion por donde vaya.
  */
+/**
+ * Donde el proxy le pregunta a la base si la sesión sigue abierta (0030).
+ *
+ * En las rutas del panel no hace falta: el layout y cada acción llaman a
+ * `exigirAcceso`, que ya lo pregunta, y hacerlo también aquí duplicaba la
+ * llamada en cada navegación. Aquí sí: si no, una sesión cerrada con el token
+ * aún firmado rebotaría entre `/ingresar` («ya tienes sesión, ve al panel») y
+ * el panel («tu sesión no vale, ve al ingreso»). Al preguntarlo en la puerta
+ * de entrada, se borran las cookies y se ve el formulario.
+ */
+const RUTAS_DE_ACCESO = new Set(["/ingresar", "/cambiar-clave"]);
+
 export async function proxy(peticion: NextRequest) {
-  const { respuesta, rol, haySesion, debeCambiarClave } = await refrescarSesion(peticion);
   const ruta = peticion.nextUrl.pathname;
+  const { respuesta, rol, haySesion, debeCambiarClave } = await refrescarSesion(peticion, {
+    comprobarEnServidor: RUTAS_DE_ACCESO.has(ruta),
+  });
 
   // Primer ingreso con contraseña temporal (T6). Sin sesión no hay contraseña
   // que cambiar.

@@ -43,6 +43,10 @@ async function apuntarLaAccionA(page: Page, desde: string, hacia: string) {
 test("un administrador da de alta a alguien, y ese alguien cambia la contraseña al entrar", async ({
   page,
 }) => {
+  // Tres ingresos, un alta y un cambio de contraseña en un solo flujo: con 4
+  // procesos en paralelo pasa de 25 s, al borde de los 30 del límite. Desde
+  // 0030 cada navegación del panel pregunta a Auth si la sesión sigue abierta.
+  test.slow();
   const admin = await entrarComo(page, "administrador");
   const id = sufijo();
   const correo = `e2e-alta-${id}@pimpos.test`;

@@ -6,6 +6,7 @@ import { esRol } from "@/lib/auth/roles";
 import type { Database } from "@/tipos/database.types";
 
 import { llavePublicaDeSupabase, urlDeSupabase } from "./entorno";
+import { sesionAbierta } from "./sesion-abierta";
 
 /**
  * Refresca la sesion y devuelve el rol del peticionario.
@@ -18,7 +19,15 @@ import { llavePublicaDeSupabase, urlDeSupabase } from "./entorno";
  * controla. En codigo de servidor esa diferencia es la que separa una
  * comprobacion real de una decorativa.
  */
-export async function refrescarSesion(peticion: NextRequest): Promise<{
+export async function refrescarSesion(
+  peticion: NextRequest,
+  /**
+   * Preguntarle además a Auth si la sesión sigue abierta (ver abajo). Solo en
+   * el ingreso y el cambio de contraseña: en el panel lo pregunta
+   * `exigirAcceso`, y en el sitio público sería una llamada de red para nada.
+   */
+  { comprobarEnServidor }: { comprobarEnServidor: boolean },
+): Promise<{
   respuesta: NextResponse;
   rol: Rol | null;
   haySesion: boolean;
@@ -47,7 +56,19 @@ export async function refrescarSesion(peticion: NextRequest): Promise<{
   });
 
   const { data } = await supabase.auth.getClaims();
-  const claims = data?.claims ?? null;
+  let claims = data?.claims ?? null;
+
+  // `getClaims()` verifica la firma en local (clave asimétrica): no se entera
+  // de que la sesión se cerró en el servidor al desactivar a alguien o
+  // restablecer su contraseña (0030). Se le pregunta a la base con
+  // `sesion_abierta()` (ver `sesionAbierta()`). Cualquier fallo cuenta como
+  // sin sesión (falla cerrado); solo un «no» de la base borra además las
+  // cookies, para que un corte de red no cierre la sesión a nadie.
+  if (claims && comprobarEnServidor) {
+    const abierta = await sesionAbierta(supabase);
+    if (abierta === false) await supabase.auth.signOut({ scope: "local" });
+    if (abierta !== true) claims = null;
+  }
 
   // El claim `rol` lo inyecta app.custom_access_token() al emitir el token
   // (migracion 0003). JwtPayload lleva indice `[key: string]: any`, asi que se

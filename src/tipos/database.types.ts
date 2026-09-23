@@ -1832,10 +1832,12 @@ export type Database = {
       }
     }
     Functions: {
+      cerrar_sesiones: { Args: { usuario: string }; Returns: undefined }
       guardar_producto: {
         Args: { p_presentaciones: Json; p_producto: Json }
         Returns: string
       }
+      sesion_abierta: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

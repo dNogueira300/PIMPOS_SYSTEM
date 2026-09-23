@@ -9075,8 +9075,8 @@ export async function cambiarActivo(id: string, activo: boolean): Promise<Estado
         .select("id")
         .single();
       if (error) return { error };
-      // Bloquear impide renovar la sesión. Lo que ya tiene abierto dura como
-      // mucho lo que dura un token (jwt_expiry = 1 hora): ver la nota del paso.
+      // Bloquear impide volver a entrar. Lo que ya tenía abierto lo cierra el
+      // trigger de 0030 en el acto (ver la nota del paso).
       const { error: errorBloqueo } = await crearClienteAdministrador().auth.admin.updateUserById(
         d.id,
         {
@@ -9196,11 +9196,12 @@ export async function cambiarMiClave(fd: FormData): Promise<EstadoAccion> {
 }
 ```
 
-> **Límite conocido, a documentar en el cierre:** desactivar a alguien le quita el panel en su
-> siguiente ingreso, pero la sesión que ya tiene abierta conserva su rol **hasta una hora**
-> (`jwt_expiry = 3600`), porque la RLS lee el rol del token y no de la tabla (decisión de F2 para
-> no consultar `perfiles` en cada petición). Para un despido con prisa, la salida es bajar
-> `jwt_expiry` en Supabase, no cambiar las políticas. Se lo cuento a Dan en T8.
+> **Resuelto en la revisión del PR #57 (migración 0030):** desactivar, eliminar o restablecer la
+> contraseña de alguien le cierra la sesión **en el acto**, no «hasta una hora». Se borran sus filas
+> de `auth.sessions` (y con ellas sus refresh tokens), `app.rol_actual()` deja de reconocer un token
+> cuya `session_id` ya no existe, y el panel lo nota con `getUser()` en el proxy y en
+> `obtenerSesion()`. El rol sigue viajando en el token (decisión de F2): lo único que cuesta es una
+> búsqueda por clave primaria en `auth.sessions` por consulta.
 >
 > `app_metadata` en `updateUserById` **se fusiona** con lo que ya tenía (no borra `provider`).
 > Comprobarlo en local con `select raw_app_meta_data from auth.users where email = '...'` después de
@@ -11175,8 +11176,8 @@ supabase migration list --linked      # ya aplicadas
 ### Paso 4 — Documentar
 
 - [ ] `DOC/Avance del proyecto.md`: F4 cerrada con fecha; lo construido; las 12 decisiones del
-      14/09/2026; los números medidos del paso 1; **el límite conocido de una hora** al desactivar
-      a alguien (T6) y cómo acortarlo (`jwt_expiry`); lo que queda del negocio.
+      14/09/2026; los números medidos del paso 1; cómo se cierra la sesión en el acto al desactivar
+      a alguien (T6, migración 0030); lo que queda del negocio.
 - [ ] `CLAUDE.md`:
   - Tabla de estado: F4 ✅ con su resumen y los números medidos.
   - «La base hoy» y «Verificación»: tablas, políticas, triggers y totales de pruebas nuevos.
@@ -11223,8 +11224,9 @@ guardar (T2, T3); el arreglo del rol superadmin (T6, migración 0029); el orden 
 
 **Límites conocidos, declarados y no resueltos:**
 
-- Desactivar a alguien no le quita una sesión ya abierta hasta **una hora** (`jwt_expiry`), porque
-  el rol viaja en el token. Se documenta en T8; la salida es acortar el token, no cambiar la RLS.
+- ~~Desactivar a alguien no le quita una sesión ya abierta hasta una hora~~: resuelto en T6
+  (migración 0030). Desactivar, eliminar o restablecer la contraseña cierra la sesión en el acto.
+  Lo que sí sigue esperando al próximo token es un **cambio de rol** (hasta una hora).
 - Una foto reemplazada se queda en el bucket. Limpieza de huérfanas: F7, si el espacio lo pide.
 - El historial de precios se guarda pero no tiene pantalla en F4.
 - No hay papelera: lo borrado se recupera desde el editor SQL (`deleted_at = null`).

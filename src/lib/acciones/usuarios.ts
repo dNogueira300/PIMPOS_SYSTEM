@@ -163,8 +163,8 @@ export async function cambiarActivo(id: string, activo: boolean): Promise<Estado
         .single();
       if (error) return { error };
 
-      // Bloquear impide entrar y renovar la sesión. Lo que ya tiene abierto
-      // conserva su rol como mucho lo que dura un token (jwt_expiry = 1 hora).
+      // Bloquear impide volver a entrar. Lo que ya tenía abierto lo cierra el
+      // trigger de 0030 al pasar `activo` a false, en el acto.
       const { error: errorBloqueo } = await crearClienteAdministrador().auth.admin.updateUserById(
         d.id,
         { ban_duration: d.activo ? "none" : BLOQUEO },
@@ -195,11 +195,15 @@ export async function restablecerClave(id: string): Promise<EstadoAccion> {
       }
 
       const clave = generarClaveTemporal();
-      const { data, error } = await crearClienteAdministrador().auth.admin.updateUserById(d.id, {
+      const admin = crearClienteAdministrador();
+      const { data, error } = await admin.auth.admin.updateUserById(d.id, {
         password: clave,
         app_metadata: { debe_cambiar_clave: true },
       });
       if (error) return { error: deAuth(error) };
+      // Quien tuviera abierta esa cuenta la pierde ya, no en una hora (0030).
+      const { error: errorSesiones } = await admin.rpc("cerrar_sesiones", { usuario: d.id });
+      if (errorSesiones) return { error: errorSesiones };
       return { error: null, id: d.id, extra: { clave, correo: data.user.email ?? "" } };
     },
   });
