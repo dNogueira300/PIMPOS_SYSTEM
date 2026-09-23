@@ -70,6 +70,13 @@ export async function iniciarSesion(
     redirect("/ingresar?motivo=sin-permisos");
   }
 
+  // Cuenta recién creada o con contraseña restablecida (T6): primero elige la
+  // suya. El proxy lo exigiría igual; decidirlo aquí evita el rebote.
+  const metadatos = data?.claims?.app_metadata as Record<string, unknown> | undefined;
+  if (metadatos?.debe_cambiar_clave === true) {
+    redirect("/cambiar-clave");
+  }
+
   // A donde iba antes de que el proxy lo trajera aqui. Se exige que sea una
   // ruta interna del panel: un `volver` con URL absoluta, o que empiece por
   // `//`, seria un redirector abierto hacia cualquier sitio.

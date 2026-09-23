@@ -22,6 +22,7 @@ export async function refrescarSesion(peticion: NextRequest): Promise<{
   respuesta: NextResponse;
   rol: Rol | null;
   haySesion: boolean;
+  debeCambiarClave: boolean;
 }> {
   let respuesta = NextResponse.next({ request: peticion });
 
@@ -54,5 +55,11 @@ export async function refrescarSesion(peticion: NextRequest): Promise<{
   // tener ninguno.
   const rol = claims && esRol(claims.rol) ? claims.rol : null;
 
-  return { respuesta, rol, haySesion: claims !== null };
+  // Lo ponen el alta y el «restablecer» del panel de usuarios (T6) en
+  // `app_metadata`, que solo escribe la service_role: el usuario no se lo puede
+  // quitar editando su propio perfil ni con `auth.updateUser`.
+  const metadatos = claims?.app_metadata as Record<string, unknown> | undefined;
+  const debeCambiarClave = metadatos?.debe_cambiar_clave === true;
+
+  return { respuesta, rol, haySesion: claims !== null, debeCambiarClave };
 }
