@@ -6,7 +6,11 @@ import type { Rol } from "@/lib/auth/roles";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteAdministrador } from "@/lib/supabase/administrador";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
-import { puedeGestionarAcceso, rolesQuePuedeAsignar } from "@/lib/validaciones/usuario";
+import {
+  puedeGestionarAcceso,
+  puedeRestablecerClave,
+  rolesQuePuedeAsignar,
+} from "@/lib/validaciones/usuario";
 
 import { AccionesUsuario } from "../acciones-usuario";
 import { FormularioUsuario } from "../formulario-usuario";
@@ -58,6 +62,7 @@ async function Editor({ params }: { params: PageProps<"/admin/usuarios/[id]">["p
         activo={perfil.activo}
         esYo={esYo}
         puedeGestionar={puedeGestionar}
+        puedeRestablecer={puedeRestablecerClave(sesion.rol, perfil.rol)}
         puedeEliminar={sesion.rol === "superadmin"}
       />
     </>

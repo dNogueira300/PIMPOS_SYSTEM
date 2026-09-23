@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import type { Rol } from "@/lib/auth/roles";
+import { NOMBRE_DEL_ROL, type Rol } from "@/lib/auth/roles";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { ejecutarAccion, type ContextoAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { generarClaveTemporal } from "@/lib/panel/clave-temporal";
@@ -14,7 +14,7 @@ import {
   esquemaUsuario,
   leerCambioClave,
   leerUsuario,
-  puedeGestionarAcceso,
+  puedeRestablecerClave,
   rolesQuePuedeAsignar,
 } from "@/lib/validaciones/usuario";
 
@@ -42,6 +42,16 @@ const sinPermiso = (message: string) => ({ error: { code: "P0001", message } });
 
 function deAuth(error: { code?: string; message: string }): ErrorDePostgres {
   return { code: error.code, message: error.message };
+}
+
+/**
+ * Un paso con la service_role falló: el original va al registro (solo código
+ * y mensaje, nunca la contraseña) y a la persona le llega una frase que dice
+ * en qué quedó la cuenta y qué hacer, no la traducción genérica.
+ */
+function fallaAMedias(paso: string, original: { code?: string; message: string }, frase: string) {
+  console.error(`[panel] ${paso}: código ${original.code ?? "?"} — ${original.message}`);
+  return sinPermiso(frase);
 }
 
 /**
@@ -163,8 +173,8 @@ export async function cambiarActivo(id: string, activo: boolean): Promise<Estado
         .single();
       if (error) return { error };
 
-      // Bloquear impide entrar y renovar la sesión. Lo que ya tiene abierto
-      // conserva su rol como mucho lo que dura un token (jwt_expiry = 1 hora).
+      // Bloquear impide volver a entrar. Lo que ya tenía abierto lo cierra el
+      // trigger de 0030 al pasar `activo` a false, en el acto.
       const { error: errorBloqueo } = await crearClienteAdministrador().auth.admin.updateUserById(
         d.id,
         { ban_duration: d.activo ? "none" : BLOQUEO },
@@ -186,20 +196,41 @@ export async function restablecerClave(id: string): Promise<EstadoAccion> {
       const destino = await perfilDeOtro(d.id, contexto);
       if (destino.error) return { error: destino.error };
       // La service_role no pasa por el trigger de 0029: sin esta línea, un
-      // administrador podría quedarse con la contraseña de un superadmin y
-      // entrar como él.
-      if (!puedeGestionarAcceso(contexto.sesion.rol, destino.rol)) {
+      // administrador podría quedarse con la contraseña de un superadmin (o de
+      // otro administrador) y entrar como él.
+      if (!puedeRestablecerClave(contexto.sesion.rol, destino.rol)) {
         return sinPermiso(
-          "Solo el super administrador puede darle una contraseña nueva a un super administrador.",
+          `Solo el super administrador puede darle una contraseña nueva a un ${NOMBRE_DEL_ROL[destino.rol].toLowerCase()}.`,
+        );
+      }
+
+      // Primero se cierran sus sesiones (0030) y DESPUÉS se cambia la
+      // contraseña. Al revés, si lo segundo fallara, la contraseña nueva ya
+      // valdría sin que nadie la hubiera visto y la sesión vieja seguiría
+      // abierta. Así, lo peor que deja un fallo a medias es a esa persona
+      // fuera, con su contraseña de siempre.
+      const admin = crearClienteAdministrador();
+      const { error: errorSesiones } = await admin.rpc("cerrar_sesiones", { usuario: d.id });
+      if (errorSesiones) {
+        return fallaAMedias(
+          "restablecer (cerrar sesiones)",
+          errorSesiones,
+          "No se pudo darle una contraseña nueva: no cambió nada. Inténtalo otra vez en un momento.",
         );
       }
 
       const clave = generarClaveTemporal();
-      const { data, error } = await crearClienteAdministrador().auth.admin.updateUserById(d.id, {
+      const { data, error } = await admin.auth.admin.updateUserById(d.id, {
         password: clave,
         app_metadata: { debe_cambiar_clave: true },
       });
-      if (error) return { error: deAuth(error) };
+      if (error) {
+        return fallaAMedias(
+          "restablecer (contraseña)",
+          error,
+          "Se cerró su sesión, pero la contraseña no se cambió: sigue siendo la de antes. Pulsa otra vez «Darle una contraseña temporal nueva».",
+        );
+      }
       return { error: null, id: d.id, extra: { clave, correo: data.user.email ?? "" } };
     },
   });

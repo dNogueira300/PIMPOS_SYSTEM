@@ -18,6 +18,8 @@ type Props = {
   esYo: boolean;
   /** false si quien mira es administrador y la cuenta es de un superadmin (0029). */
   puedeGestionar: boolean;
+  /** Más estricta: la contraseña de un administrador solo la da el superadmin. */
+  puedeRestablecer: boolean;
   puedeEliminar: boolean;
 };
 
@@ -31,6 +33,7 @@ export function AccionesUsuario({
   activo,
   esYo,
   puedeGestionar,
+  puedeRestablecer,
   puedeEliminar,
 }: Props) {
   const router = useRouter();
@@ -91,21 +94,23 @@ export function AccionesUsuario({
         )}
         {activo ? "Desactivar la cuenta" : "Reactivar la cuenta"}
       </button>
-      <button
-        type="button"
-        className="boton-linea"
-        disabled={pendiente}
-        onClick={() =>
-          iniciar(async () => {
-            const r = await restablecerClave(id);
-            if (r.estado === "ok" && r.extra?.clave)
-              setNueva({ correo: r.extra.correo ?? "", clave: r.extra.clave });
-            if (r.estado === "error") toast.error(r.mensaje);
-          })
-        }
-      >
-        <KeyRound aria-hidden className="size-5" /> Darle una contraseña temporal nueva
-      </button>
+      {puedeRestablecer ? (
+        <button
+          type="button"
+          className="boton-linea"
+          disabled={pendiente}
+          onClick={() =>
+            iniciar(async () => {
+              const r = await restablecerClave(id);
+              if (r.estado === "ok" && r.extra?.clave)
+                setNueva({ correo: r.extra.correo ?? "", clave: r.extra.clave });
+              if (r.estado === "error") toast.error(r.mensaje);
+            })
+          }
+        >
+          <KeyRound aria-hidden className="size-5" /> Darle una contraseña temporal nueva
+        </button>
+      ) : null}
       {puedeEliminar ? (
         <div className="flex items-center gap-2">
           <ConfirmarBorrado

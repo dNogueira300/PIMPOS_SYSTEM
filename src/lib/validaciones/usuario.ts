@@ -29,6 +29,22 @@ export function puedeGestionarAcceso(quienPide: Rol, destino: Rol): boolean {
   return false;
 }
 
+/**
+ * Si quien pide puede darle una contraseña temporal nueva a la cuenta de
+ * destino. Más estricta que `puedeGestionarAcceso`: quien restablece la
+ * contraseña de alguien puede entrar como él, así que un administrador solo lo
+ * hace con ingenieros y repartidores; la de un administrador o un superadmin,
+ * solo el superadmin (pedido de Dan en la revisión del PR #57).
+ *
+ * Como en `puedeGestionarAcceso`, la service_role no pasa por el trigger de
+ * 0029: esta función es la regla, y la acción la aplica antes de tocar Auth.
+ */
+export function puedeRestablecerClave(quienPide: Rol, destino: Rol): boolean {
+  if (quienPide === "superadmin") return true;
+  if (quienPide === "administrador") return destino === "ingeniero" || destino === "repartidor";
+  return false;
+}
+
 export const esquemaUsuario = z.object({
   id: z.uuid().nullable(),
   nombre_completo: z
