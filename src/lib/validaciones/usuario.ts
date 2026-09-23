@@ -14,6 +14,21 @@ export function rolesQuePuedeAsignar(rol: Rol): Rol[] {
   return [];
 }
 
+/**
+ * Si quien pide puede tocar el acceso de la cuenta de destino: desactivarla,
+ * reactivarla o darle una contraseña temporal nueva.
+ *
+ * Es la ÚNICA regla entre un administrador y la cuenta de un superadmin en lo
+ * que vive en Auth: la contraseña y el bloqueo se escriben con la service_role,
+ * que no pasa por el trigger de 0029. La usan la acción (que decide) y la ficha
+ * (que solo esconde los botones).
+ */
+export function puedeGestionarAcceso(quienPide: Rol, destino: Rol): boolean {
+  if (quienPide === "superadmin") return true;
+  if (quienPide === "administrador") return destino !== "superadmin";
+  return false;
+}
+
 export const esquemaUsuario = z.object({
   id: z.uuid().nullable(),
   nombre_completo: z

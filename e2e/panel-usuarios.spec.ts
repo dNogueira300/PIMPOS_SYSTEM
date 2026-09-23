@@ -174,6 +174,53 @@ test("el administrador no toca el acceso de un superadmin", async ({ page }) => 
   }
 });
 
+test("aunque llame a la acción a mano, un administrador no le cambia la contraseña a un superadmin", async ({
+  page,
+  browser,
+}) => {
+  const admin = await entrarComo(page, "administrador");
+  const otra = await crearUsuario("repartidor");
+  const jefe = await crearUsuario("superadmin");
+  try {
+    // En la ficha de un superadmin el botón no existe: esconderlo no es
+    // control de acceso. Se pulsa en la ficha de otra cuenta y, en el camino,
+    // la petición de la Server Action se reescribe para apuntar al superadmin.
+    // Es lo mismo que haría alguien copiando la petición desde las
+    // herramientas del navegador.
+    let reescrita = false;
+    await page.route(`**/admin/usuarios/${otra.id}`, async (ruta) => {
+      const peticion = ruta.request();
+      const cuerpo = peticion.postData();
+      if (peticion.method() !== "POST" || !peticion.headers()["next-action"] || !cuerpo) {
+        return ruta.continue();
+      }
+      expect(cuerpo).toContain(otra.id);
+      reescrita = true;
+      await ruta.continue({ postData: cuerpo.replaceAll(otra.id, jefe.id) });
+    });
+
+    await page.goto(`/admin/usuarios/${otra.id}`);
+    await page.getByRole("button", { name: "Darle una contraseña temporal nueva" }).click();
+    await expect(
+      page.getByText(
+        "Solo el super administrador puede darle una contraseña nueva a un super administrador.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    expect(reescrita, "la petición de la acción no pasó por la reescritura").toBe(true);
+    await expect(page.locator("[data-clave]")).toHaveCount(0);
+
+    // Y la contraseña del superadmin sigue siendo la suya.
+    const suya = await intentarEntrar(browser, jefe.correo, jefe.clave);
+    await expect(suya).toHaveURL("/admin");
+    await suya.context().close();
+  } finally {
+    await borrarUsuario(jefe.id);
+    await borrarUsuario(otra.id);
+    await borrarUsuario(admin.id);
+  }
+});
+
 test("el superadmin elimina una cuenta nombrándola antes, y esa cuenta ya no entra", async ({
   page,
   browser,

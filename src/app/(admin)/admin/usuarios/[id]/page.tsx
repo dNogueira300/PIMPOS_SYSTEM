@@ -6,7 +6,7 @@ import type { Rol } from "@/lib/auth/roles";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteAdministrador } from "@/lib/supabase/administrador";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
-import { rolesQuePuedeAsignar } from "@/lib/validaciones/usuario";
+import { puedeGestionarAcceso, rolesQuePuedeAsignar } from "@/lib/validaciones/usuario";
 
 import { AccionesUsuario } from "../acciones-usuario";
 import { FormularioUsuario } from "../formulario-usuario";
@@ -38,7 +38,7 @@ async function Editor({ params }: { params: PageProps<"/admin/usuarios/[id]">["p
   const esYo = perfil.id === sesion.usuarioId;
   // Un administrador no toca el rol ni el acceso de un superadmin (0029): se
   // le enseña su rol, fijo, y ningún botón de acceso.
-  const puedeGestionar = perfil.rol !== "superadmin" || sesion.rol === "superadmin";
+  const puedeGestionar = puedeGestionarAcceso(sesion.rol, perfil.rol);
   const asignables: Rol[] =
     esYo || !puedeGestionar ? [perfil.rol] : rolesQuePuedeAsignar(sesion.rol);
 

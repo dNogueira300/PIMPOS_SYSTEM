@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { esquemaCambioClave, esquemaUsuario, rolesQuePuedeAsignar } from "./usuario";
+import {
+  esquemaCambioClave,
+  esquemaUsuario,
+  puedeGestionarAcceso,
+  rolesQuePuedeAsignar,
+} from "./usuario";
 
 describe("rolesQuePuedeAsignar", () => {
   it("el administrador no ofrece superadmin", () => {
@@ -18,6 +23,35 @@ describe("rolesQuePuedeAsignar", () => {
   it("el resto no asigna ninguno", () => {
     expect(rolesQuePuedeAsignar("ingeniero")).toEqual([]);
     expect(rolesQuePuedeAsignar("repartidor")).toEqual([]);
+  });
+});
+
+describe("puedeGestionarAcceso", () => {
+  // Contraseña temporal, desactivar: la service_role no pasa por el trigger de
+  // 0029, así que esta función es la única regla entre un administrador y la
+  // cuenta de un superadmin.
+  it("el administrador NO toca el acceso de un superadmin", () => {
+    expect(puedeGestionarAcceso("administrador", "superadmin")).toBe(false);
+  });
+
+  it("el administrador sí toca el de administradores, ingenieros y repartidores", () => {
+    for (const destino of ["administrador", "ingeniero", "repartidor"] as const) {
+      expect(puedeGestionarAcceso("administrador", destino)).toBe(true);
+    }
+  });
+
+  it("el superadmin toca el de todos", () => {
+    for (const destino of ["superadmin", "administrador", "ingeniero", "repartidor"] as const) {
+      expect(puedeGestionarAcceso("superadmin", destino)).toBe(true);
+    }
+  });
+
+  it("ingeniero y repartidor no tocan el de nadie", () => {
+    for (const quien of ["ingeniero", "repartidor"] as const) {
+      for (const destino of ["superadmin", "administrador", "ingeniero", "repartidor"] as const) {
+        expect(puedeGestionarAcceso(quien, destino)).toBe(false);
+      }
+    }
   });
 });
 

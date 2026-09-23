@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 
+import type { Rol } from "@/lib/auth/roles";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { ejecutarAccion, type ContextoAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { generarClaveTemporal } from "@/lib/panel/clave-temporal";
@@ -13,6 +14,7 @@ import {
   esquemaUsuario,
   leerCambioClave,
   leerUsuario,
+  puedeGestionarAcceso,
   rolesQuePuedeAsignar,
 } from "@/lib/validaciones/usuario";
 
@@ -49,7 +51,7 @@ function deAuth(error: { code?: string; message: string }): ErrorDePostgres {
 async function perfilDeOtro(
   id: string,
   { supabase, sesion }: ContextoAccion,
-): Promise<{ error: ErrorDePostgres } | { error: null; rol: string }> {
+): Promise<{ error: ErrorDePostgres } | { error: null; rol: Rol }> {
   if (id === sesion.usuarioId) {
     return sinPermiso("Esta es tu cuenta: tu acceso lo cambia otro administrador.");
   }
@@ -186,7 +188,7 @@ export async function restablecerClave(id: string): Promise<EstadoAccion> {
       // La service_role no pasa por el trigger de 0029: sin esta línea, un
       // administrador podría quedarse con la contraseña de un superadmin y
       // entrar como él.
-      if (destino.rol === "superadmin" && contexto.sesion.rol !== "superadmin") {
+      if (!puedeGestionarAcceso(contexto.sesion.rol, destino.rol)) {
         return sinPermiso(
           "Solo el super administrador puede darle una contraseña nueva a un super administrador.",
         );
