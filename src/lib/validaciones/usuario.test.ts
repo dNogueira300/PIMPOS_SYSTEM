@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 
+import type { Rol } from "@/lib/auth/roles";
+
 import {
   esquemaCambioClave,
   esquemaUsuario,
   puedeGestionarAcceso,
+  puedeRestablecerClave,
   rolesQuePuedeAsignar,
 } from "./usuario";
 
@@ -53,6 +56,26 @@ describe("puedeGestionarAcceso", () => {
       }
     }
   });
+});
+
+describe("puedeRestablecerClave", () => {
+  // Pedido de Dan (revisión del PR #57): la contraseña de un administrador solo
+  // la restablece el superadmin. La tabla entera, para que un cambio en
+  // cualquier casilla se note.
+  const TABLA = {
+    superadmin: { superadmin: true, administrador: true, ingeniero: true, repartidor: true },
+    administrador: { superadmin: false, administrador: false, ingeniero: true, repartidor: true },
+    ingeniero: { superadmin: false, administrador: false, ingeniero: false, repartidor: false },
+    repartidor: { superadmin: false, administrador: false, ingeniero: false, repartidor: false },
+  } as const;
+
+  for (const [quien, fila] of Object.entries(TABLA)) {
+    for (const [destino, esperado] of Object.entries(fila)) {
+      it(`${quien} → ${destino}: ${esperado ? "sí" : "no"}`, () => {
+        expect(puedeRestablecerClave(quien as Rol, destino as Rol)).toBe(esperado);
+      });
+    }
+  }
 });
 
 describe("esquemaUsuario", () => {

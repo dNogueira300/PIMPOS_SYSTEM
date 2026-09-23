@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 
-import type { Rol } from "@/lib/auth/roles";
+import { NOMBRE_DEL_ROL, type Rol } from "@/lib/auth/roles";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { ejecutarAccion, type ContextoAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { generarClaveTemporal } from "@/lib/panel/clave-temporal";
@@ -14,7 +14,7 @@ import {
   esquemaUsuario,
   leerCambioClave,
   leerUsuario,
-  puedeGestionarAcceso,
+  puedeRestablecerClave,
   rolesQuePuedeAsignar,
 } from "@/lib/validaciones/usuario";
 
@@ -186,11 +186,11 @@ export async function restablecerClave(id: string): Promise<EstadoAccion> {
       const destino = await perfilDeOtro(d.id, contexto);
       if (destino.error) return { error: destino.error };
       // La service_role no pasa por el trigger de 0029: sin esta línea, un
-      // administrador podría quedarse con la contraseña de un superadmin y
-      // entrar como él.
-      if (!puedeGestionarAcceso(contexto.sesion.rol, destino.rol)) {
+      // administrador podría quedarse con la contraseña de un superadmin (o de
+      // otro administrador) y entrar como él.
+      if (!puedeRestablecerClave(contexto.sesion.rol, destino.rol)) {
         return sinPermiso(
-          "Solo el super administrador puede darle una contraseña nueva a un super administrador.",
+          `Solo el super administrador puede darle una contraseña nueva a un ${NOMBRE_DEL_ROL[destino.rol].toLowerCase()}.`,
         );
       }
 
