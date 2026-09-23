@@ -67,3 +67,17 @@ export async function borrarUsuario(id: string): Promise<void> {
     headers: cabeceras(),
   });
 }
+
+/** Para limpiar cuentas que crea el propio panel y cuyo id no conoce la prueba. */
+export async function borrarUsuarioPorCorreo(correo: string): Promise<void> {
+  const { apiUrl } = supabaseLocal();
+  const respuesta = await fetch(`${apiUrl}/auth/v1/admin/users?per_page=1000`, {
+    headers: cabeceras(),
+  });
+  if (!respuesta.ok) {
+    throw new Error(`No se pudo listar las cuentas: ${respuesta.status} ${await respuesta.text()}`);
+  }
+  const { users } = (await respuesta.json()) as { users: { id: string; email?: string }[] };
+  const cuenta = users.find((u) => u.email === correo);
+  if (cuenta) await borrarUsuario(cuenta.id);
+}

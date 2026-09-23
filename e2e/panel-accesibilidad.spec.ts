@@ -27,6 +27,8 @@ export const RUTAS_DEL_PANEL = [
   "/admin/contenido/guias/nueva",
   "/admin/contenido/testimonios",
   "/admin/contenido/testimonios/nueva",
+  "/admin/usuarios",
+  "/admin/usuarios/nuevo",
 ];
 
 /** Los controles interactivos por debajo de 44 x 44 px, con su HTML para identificarlos. */
