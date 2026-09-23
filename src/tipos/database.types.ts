@@ -1833,6 +1833,10 @@ export type Database = {
     }
     Functions: {
       cerrar_sesiones: { Args: { usuario: string }; Returns: undefined }
+      guardar_configuracion: {
+        Args: { p_confirmadas?: string[]; p_valores: Json }
+        Returns: number
+      }
       guardar_producto: {
         Args: { p_presentaciones: Json; p_producto: Json }
         Returns: string
