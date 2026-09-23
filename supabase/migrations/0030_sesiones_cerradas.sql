@@ -41,6 +41,37 @@
 -- =============================================================================
 
 -- -----------------------------------------------------------------------------
+-- Guarda: sin estos privilegios, 0030 no debe aplicarse.
+--
+-- Las funciones de abajo son de quien corre la migración (current_user). Si
+-- no puede LEER auth.sessions, app.rol_actual() lanzaría un error en CADA
+-- consulta con sesión: el panel entero caído. Si no salta la RLS de
+-- auth.sessions (activada, sin políticas), no vería ninguna fila:
+-- sesion_vigente() diría «cerrada» a todos y nadie tendría rol. Y sin DELETE,
+-- desactivar a alguien fallaría. Mejor que la migración no entre, avisando.
+-- Como toda migración corre en una transacción, nada de lo de abajo se aplica.
+-- -----------------------------------------------------------------------------
+do $$
+declare
+  v_leer    boolean := has_table_privilege(current_user, 'auth.sessions', 'SELECT');
+  v_borrar  boolean := has_table_privilege(current_user, 'auth.sessions', 'DELETE');
+  v_sin_rls boolean := (select rolbypassrls or rolsuper from pg_roles where rolname = current_user);
+begin
+  if not (v_leer and v_borrar and v_sin_rls) then
+    raise exception using
+      message = format(
+        '0030 no se aplicó: el rol %s no puede %s. Sin eso, el panel se quedaría sin acceso para todos.',
+        current_user,
+        concat_ws(', ',
+          case when not v_leer    then 'leer auth.sessions (SELECT)' end,
+          case when not v_borrar  then 'borrar de auth.sessions (DELETE)' end,
+          case when not v_sin_rls then 'saltar la RLS (BYPASSRLS)' end)),
+      hint = 'No se aplicó nada de esta migración. Revisa los privilegios con el SQL del informe de la tarea 6 antes de volver a intentarlo.';
+  end if;
+end;
+$$;
+
+-- -----------------------------------------------------------------------------
 -- ¿Sigue existiendo esta sesión? La usa rol_actual(), que corre con los
 -- privilegios de quien consulta (authenticated), y authenticated no puede leer
 -- auth.sessions: por eso es SECURITY DEFINER. Solo contesta sí o no sobre un
