@@ -212,7 +212,7 @@ las pantallas siguientes: `ejecutarAccion()`, la traducción de errores, `ListaA
 
 ### Paso 1 — Guardar las maquetas aprobadas
 
-- [ ] Copiar las dos maquetas de la sesión de diseño al repositorio, para que la decisión quede
+- [x] Copiar las dos maquetas de la sesión de diseño al repositorio, para que la decisión quede
       versionada junto al plan:
 
 ```bash
@@ -221,7 +221,7 @@ cp "../.superpowers/brainstorm/686-1789423220/content/cascara-navegacion.html" D
 cp "../.superpowers/brainstorm/686-1789423220/content/formulario-secciones.html" DOC/Maquetas/4/
 ```
 
-- [ ] Crear `DOC/Maquetas/4/LEEME.md`:
+- [x] Crear `DOC/Maquetas/4/LEEME.md`:
 
 ```markdown
 # Maquetas de la Fase 4 — panel
@@ -243,7 +243,7 @@ Hoy ninguna tabla rellena `created_by` ni `updated_by`: las columnas existen y q
 Si lo hiciera la aplicación, bastaría una petición directa a PostgREST con otro valor para
 falsificarlo. Lo pone un trigger con `auth.uid()`.
 
-- [ ] Escribir la prueba `supabase/tests/0026_autoria.test.sql`:
+- [x] Escribir la prueba `supabase/tests/0026_autoria.test.sql`:
 
 ```sql
 -- Verifica la autoría sellada por la base (0026).
@@ -335,9 +335,9 @@ select * from finish();
 rollback;
 ```
 
-- [ ] Correrla y verla fallar: `supabase test db` → FAIL en la primera (hay tablas sin trigger).
+- [x] Correrla y verla fallar: `supabase test db` → FAIL en la primera (hay tablas sin trigger).
 
-- [ ] Escribir `supabase/migrations/0026_autoria.sql`:
+- [x] Escribir `supabase/migrations/0026_autoria.sql`:
 
 ```sql
 -- =============================================================================
@@ -407,19 +407,19 @@ $$;
 > `configuracion_sitio` tiene `updated_by` pero no `created_by`, así que queda fuera de este
 > trigger. Su `updated_by` lo pone la acción de la tarea 7 con un trigger propio.
 
-- [ ] `supabase db reset` y `supabase test db` → las 6 pasan y las 388 anteriores siguen en verde.
+- [x] `supabase db reset` y `supabase test db` → las 6 pasan y las 388 anteriores siguen en verde.
       (Después del reset, `bash supabase/seeds/imagenes/subir-imagenes.sh`: el reset vacía los
       buckets.)
-- [ ] `pnpm supabase:tipos` (no cambia ninguna columna, pero así se confirma que el tipo sigue
+- [x] `pnpm supabase:tipos` (no cambia ninguna columna, pero así se confirma que el tipo sigue
       igual: `git diff src/tipos` vacío).
-- [ ] Commit: `feat(base): la autoría de cada fila la sella la base`
+- [x] Commit: `feat(base): la autoría de cada fila la sella la base`
 
 ### Paso 3 — Qué secciones ve cada rol
 
 Insumos y Clientes **no** se muestran todavía: un enlace a una pantalla que no existe es peor que
 no tenerlo. Entran en F5 y F6 añadiendo una línea aquí.
 
-- [ ] Escribir `src/lib/panel/navegacion.test.ts`:
+- [x] Escribir `src/lib/panel/navegacion.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -465,8 +465,8 @@ describe("esSeccionActiva", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/navegacion.test.ts` → FAIL («Cannot find module»).
-- [ ] Escribir `src/lib/panel/navegacion.ts`:
+- [x] `pnpm test -- src/lib/panel/navegacion.test.ts` → FAIL («Cannot find module»).
+- [x] Escribir `src/lib/panel/navegacion.ts`:
 
 ```ts
 import { puedeAcceder, type Rol } from "@/lib/auth/roles";
@@ -522,7 +522,7 @@ export function esSeccionActiva(actual: string, ruta: string): boolean {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/navegacion.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/navegacion.test.ts` → PASS.
 
 > Las rutas de `SUBSECCIONES_DE_CONTENIDO` que todavía no existen dan 404 hasta su tarea. El índice
 > de Contenido (paso 9) solo pinta las que ya están construidas, con la lista `CONSTRUIDAS` que cada
@@ -530,7 +530,7 @@ export function esSeccionActiva(actual: string, ruta: string): boolean {
 
 ### Paso 4 — Errores de Postgres en español
 
-- [ ] Escribir `src/lib/panel/errores.test.ts`:
+- [x] Escribir `src/lib/panel/errores.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -586,8 +586,8 @@ describe("traducirError", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/errores.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/errores.ts`:
+- [x] `pnpm test -- src/lib/panel/errores.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/errores.ts`:
 
 ```ts
 /**
@@ -634,11 +634,11 @@ export function traducirError(error: ErrorDePostgres, entidad: string): string {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/errores.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/errores.test.ts` → PASS.
 
 ### Paso 5 — Leer un `FormData` sin repetir conversiones
 
-- [ ] Escribir `src/lib/panel/formulario.test.ts`:
+- [x] Escribir `src/lib/panel/formulario.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -680,8 +680,8 @@ describe("lectura de FormData", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/formulario.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/formulario.ts`:
+- [x] `pnpm test -- src/lib/panel/formulario.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/formulario.ts`:
 
 ```ts
 /**
@@ -721,7 +721,7 @@ export function json(fd: FormData, nombre: string): unknown {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/formulario.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/formulario.test.ts` → PASS.
 
 ### Paso 6 — `ejecutarAccion()`
 
@@ -729,8 +729,8 @@ No lleva prueba unitaria: todo lo que hace es coser piezas que ya la tienen (Zod
 `exigirAcceso`) con `next/cache` y Supabase, que no se ejecutan fuera de Next. La cubren los E2E
 de cada pantalla.
 
-- [ ] `pnpm add server-only`
-- [ ] Escribir `src/lib/panel/accion.ts`:
+- [x] `pnpm add server-only`
+- [x] Escribir `src/lib/panel/accion.ts`:
 
 ```ts
 import "server-only";
@@ -832,12 +832,12 @@ export async function ejecutarAccion<S extends z.ZodType>(
 }
 ```
 
-- [ ] `pnpm typecheck` → sin errores.
-- [ ] Commit: `feat(panel): acciones con acceso, validación y errores en español`
+- [x] `pnpm typecheck` → sin errores.
+- [x] Commit: `feat(panel): acciones con acceso, validación y errores en español`
 
 ### Paso 7 — Componentes de shadcn
 
-- [ ] Añadirlos con la CLI que ya está en `dependencies` (sin TTY hace falta `--yes`):
+- [x] Añadirlos con la CLI que ya está en `dependencies` (sin TTY hace falta `--yes`):
 
 ```bash
 pnpm exec shadcn add input label textarea tabs alert-dialog sheet sonner --yes
@@ -847,17 +847,17 @@ pnpm exec shadcn add input label textarea tabs alert-dialog sheet sonner --yes
 esconden el valor), así que la copia local no puede restaurarlos escribiendo en el DOM. En el panel
 se usan `<select>` e `<input type="checkbox" role="switch">` nativos con estilo propio.
 
-- [ ] Revisar el diff: la CLI **no** debe tocar `src/app/layout.tsx` ni meter fuentes de Google (le
+- [x] Revisar el diff: la CLI **no** debe tocar `src/app/layout.tsx` ni meter fuentes de Google (le
       pasó a `shadcn init` en F1). Si lo hace, revertir esa parte con `git checkout -- src/app/layout.tsx`.
-- [ ] `sonner` trae su propio `Toaster` con `next-themes`. El panel no tiene tema oscuro: en
+- [x] `sonner` trae su propio `Toaster` con `next-themes`. El panel no tiene tema oscuro: en
       `src/components/ui/sonner.tsx`, quitar la importación de `next-themes` y fijar `theme="light"`.
       Si la CLI añadió `next-themes` a `package.json`, `pnpm remove next-themes`.
-- [ ] `pnpm typecheck && pnpm lint` → sin avisos.
-- [ ] Commit: `chore(ui): componentes de shadcn para los formularios del panel`
+- [x] `pnpm typecheck && pnpm lint` → sin avisos.
+- [x] Commit: `chore(ui): componentes de shadcn para los formularios del panel`
 
 ### Paso 8 — La cáscara
 
-- [ ] Escribir `src/components/panel/etiqueta-estado.tsx`:
+- [x] Escribir `src/components/panel/etiqueta-estado.tsx`:
 
 ```tsx
 import type { Database } from "@/tipos/database.types";
@@ -894,7 +894,7 @@ export function EtiquetaEstado({ estado }: { estado: EstadoPublicacion }) {
 }
 ```
 
-- [ ] Escribir `src/components/panel/barra-lateral.tsx`:
+- [x] Escribir `src/components/panel/barra-lateral.tsx`:
 
 ```tsx
 "use client";
@@ -966,7 +966,7 @@ export function BarraLateral({ secciones, nombre, rol }: Props) {
 }
 ```
 
-- [ ] Escribir `src/components/panel/barra-inferior.tsx`:
+- [x] Escribir `src/components/panel/barra-inferior.tsx`:
 
 ```tsx
 "use client";
@@ -1058,7 +1058,7 @@ export function BarraInferior({ secciones, nombre, rol }: Props) {
 }
 ```
 
-- [ ] Escribir `src/components/panel/cascara-panel.tsx`:
+- [x] Escribir `src/components/panel/cascara-panel.tsx`:
 
 ```tsx
 import type { ReactNode } from "react";
@@ -1094,7 +1094,7 @@ export function CascaraPanel({ rol, nombre, children }: Props) {
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/layout.tsx`:
+- [x] Escribir `src/app/(admin)/admin/layout.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -1139,7 +1139,7 @@ async function CascaraConSesion({ children }: { children: React.ReactNode }) {
 }
 ```
 
-- [ ] Escribir `src/components/panel/encabezado-panel.tsx`:
+- [x] Escribir `src/components/panel/encabezado-panel.tsx`:
 
 ```tsx
 import { ChevronLeft } from "lucide-react";
@@ -1180,7 +1180,7 @@ export function EncabezadoPanel({ titulo, volver, accion, descripcion }: Props) 
 
 > `font-heading` y `text-primary` son las utilidades que ya usa `TituloSeccion` del sitio.
 
-- [ ] Escribir `src/components/panel/lista-adaptable.tsx`:
+- [x] Escribir `src/components/panel/lista-adaptable.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -1292,7 +1292,7 @@ export function ListaAdaptable<F extends { id: string }>({
 > usar desde otro Server Component (una `page.tsx`), nunca pasarle funciones desde un
 > `"use client"`. Es justo como se usa en todas las tareas.
 
-- [ ] Escribir `src/components/panel/confirmar-borrado.tsx`:
+- [x] Escribir `src/components/panel/confirmar-borrado.tsx`:
 
 ```tsx
 "use client";
@@ -1365,11 +1365,11 @@ export function ConfirmarBorrado({ nombre, accion }: Props) {
 > pantalla de papelera no está en F4 —se recupera poniendo `deleted_at = null` desde el editor SQL—.
 > No se promete lo que el panel no hace.
 
-- [ ] Commit: `feat(panel): cáscara con barra lateral, barra inferior y piezas de lista`
+- [x] Commit: `feat(panel): cáscara con barra lateral, barra inferior y piezas de lista`
 
 ### Paso 9 — Inicio e índice de Contenido
 
-- [ ] Reescribir `src/app/(admin)/admin/page.tsx`:
+- [x] Reescribir `src/app/(admin)/admin/page.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -1484,7 +1484,7 @@ async function contarAvisos(rol: string): Promise<Aviso[]> {
 > `motivo` puede llegar como `string[]` si la dirección lo repite; la comparación con
 > `"sin-acceso"` ya descarta ese caso sin estrecharlo.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/page.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -1523,13 +1523,13 @@ export default function Contenido() {
 
 > Esta página no lee la sesión: el layout ya la exige y la protege. No necesita `<Suspense>`.
 
-- [ ] `pnpm build` → sin errores de prerender («Uncached data was accessed outside of <Suspense>»
+- [x] `pnpm build` → sin errores de prerender («Uncached data was accessed outside of <Suspense>»
       significa que algo lee cookies fuera de un `<Suspense>`: revisar el paso anterior).
-- [ ] Commit: `feat(panel): inicio con atajos por rol e índice de contenido`
+- [x] Commit: `feat(panel): inicio con atajos por rol e índice de contenido`
 
 ### Paso 10 — Pruebas de navegador
 
-- [ ] Escribir `e2e/ayudas/sesion.ts`:
+- [x] Escribir `e2e/ayudas/sesion.ts`:
 
 ```ts
 import type { Page } from "@playwright/test";
@@ -1553,7 +1553,7 @@ export async function entrarComo(page: Page, rol: Rol): Promise<UsuarioDePrueba>
 }
 ```
 
-- [ ] Escribir `e2e/panel-cascara.spec.ts`:
+- [x] Escribir `e2e/panel-cascara.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -1616,7 +1616,7 @@ test("la barra inferior no tapa el final de la página", async ({ page }, info) 
 });
 ```
 
-- [ ] Escribir `e2e/panel-accesibilidad.spec.ts`:
+- [x] Escribir `e2e/panel-accesibilidad.spec.ts`:
 
 ```ts
 import AxeBuilder from "@axe-core/playwright";
@@ -1672,7 +1672,7 @@ test("todo control del panel mide al menos 44 × 44 px", async ({ page }) => {
 > importarla en vez de repetir la de arriba. Las casillas (`input[type=checkbox]` dentro de un
 > `<label>` de 44 px) cuentan por su etiqueta: exentarlas igual que en `tactil.spec.ts`.
 
-- [ ] Actualizar `e2e/autenticacion.spec.ts`: el inicio ya no pinta las secciones sin permiso con
+- [x] Actualizar `e2e/autenticacion.spec.ts`: el inicio ya no pinta las secciones sin permiso con
       `data-permitido="false"`. Sustituir las comprobaciones de `data-permitido` por la presencia o
       ausencia del atajo:
 
@@ -1688,13 +1688,13 @@ await expect(page.locator('[data-seccion="Contenido"]')).toHaveCount(0);
 
 Y la redirección del repartidor que escribe `/admin/insumos` a mano sigue igual.
 
-- [ ] Liberar el puerto 3000 (`netstat -ano | grep ":3000 " | grep LISTENING`, cerrar ese PID) y
+- [x] Liberar el puerto 3000 (`netstat -ano | grep ":3000 " | grep LISTENING`, cerrar ese PID) y
       correr: `pnpm test:e2e e2e/panel-cascara.spec.ts e2e/panel-accesibilidad.spec.ts e2e/autenticacion.spec.ts`
       → PASS en `movil` y `escritorio`.
-- [ ] `pnpm test:e2e` completo → los 212 anteriores siguen en verde.
-- [ ] Mirarlo a 375 px y a 1280 px con los cuatro roles. Comparar con `DOC/Maquetas/4/cascara-navegacion.html`.
-- [ ] Commit: `test(panel): navegación por rol, axe y área táctil del panel`
-- [ ] PR `feat/f4-t1-cascara` → CI en verde → fusionar.
+- [x] `pnpm test:e2e` completo → los 212 anteriores siguen en verde.
+- [x] Mirarlo a 375 px y a 1280 px con los cuatro roles. Comparar con `DOC/Maquetas/4/cascara-navegacion.html`.
+- [x] Commit: `test(panel): navegación por rol, axe y área táctil del panel`
+- [x] PR `feat/f4-t1-cascara` → CI en verde → fusionar.
 
 ---
 
@@ -1736,7 +1736,7 @@ foto de prueba que cierra el hueco del CI para las fotos que sube el panel.
 
 ### Paso 1 — La copia local, lógica pura
 
-- [ ] Escribir `src/lib/panel/borrador.test.ts`:
+- [x] Escribir `src/lib/panel/borrador.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1827,8 +1827,8 @@ describe("copia local de un formulario", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/borrador.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/borrador.ts`:
+- [x] `pnpm test -- src/lib/panel/borrador.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/borrador.ts`:
 
 ```ts
 /**
@@ -1928,11 +1928,11 @@ export function haceCuanto(desde: number, ahora: number): string {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/borrador.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/borrador.test.ts` → PASS.
 
 ### Paso 2 — Validar y nombrar una foto, lógica pura
 
-- [ ] Escribir `src/lib/panel/imagen.test.ts`:
+- [x] Escribir `src/lib/panel/imagen.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1968,8 +1968,8 @@ describe("rutaDeSubida", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/imagen.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/imagen.ts`:
+- [x] `pnpm test -- src/lib/panel/imagen.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/imagen.ts`:
 
 ```ts
 /** 20 MB: por encima, comprimir en un celular modesto se cuelga. */
@@ -1997,12 +1997,12 @@ export function rutaDeSubida(carpeta: string, id: string, extension = "webp"): s
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/imagen.test.ts` → PASS.
-- [ ] Commit: `feat(panel): copia local de formularios y reglas de subida de fotos`
+- [x] `pnpm test -- src/lib/panel/imagen.test.ts` → PASS.
+- [x] Commit: `feat(panel): copia local de formularios y reglas de subida de fotos`
 
 ### Paso 3 — `FormularioPanel`, `Campo` y `BarraGuardar`
 
-- [ ] Escribir `src/components/panel/formulario-panel.tsx`:
+- [x] Escribir `src/components/panel/formulario-panel.tsx`:
 
 ```tsx
 "use client";
@@ -2240,7 +2240,7 @@ export function FormularioPanel({ clave, accion, destino, alGuardar, validar, ch
 > servidor (tercer argumento de `useSyncExternalStore`), así que el aviso solo se pinta en el
 > navegador.
 
-- [ ] Escribir `src/components/panel/campo.tsx`:
+- [x] Escribir `src/components/panel/campo.tsx`:
 
 ```tsx
 "use client";
@@ -2327,7 +2327,7 @@ export function Interruptor({ nombre, etiqueta, ayuda, marcado }: PropsInterrupt
 }
 ```
 
-- [ ] Escribir `src/components/panel/barra-guardar.tsx`:
+- [x] Escribir `src/components/panel/barra-guardar.tsx`:
 
 ```tsx
 "use client";
@@ -2357,7 +2357,7 @@ export function BarraGuardar({ volver }: { volver: string }) {
 
 ### Paso 4 — Pestañas que no pierden campos
 
-- [ ] Escribir `src/components/panel/pestanas-formulario.tsx`:
+- [x] Escribir `src/components/panel/pestanas-formulario.tsx`:
 
 ```tsx
 "use client";
@@ -2445,8 +2445,8 @@ export function PestanasFormulario({ pestanas }: { pestanas: readonly Pestana[] 
 
 ### Paso 5 — Subida de fotos
 
-- [ ] `pnpm add browser-image-compression`
-- [ ] Escribir `src/components/panel/subida-imagen.tsx`:
+- [x] `pnpm add browser-image-compression`
+- [x] Escribir `src/components/panel/subida-imagen.tsx`:
 
 ```tsx
 "use client";
@@ -2621,12 +2621,12 @@ export function SubidaImagen({
 > bucket (no se borra al subir la nueva); la limpieza de huérfanas es trabajo de F7 si el espacio lo
 > pide.
 
-- [ ] `pnpm typecheck && pnpm lint`.
-- [ ] Commit: `feat(panel): formulario con copia local, pestañas y subida de fotos`
+- [x] `pnpm typecheck && pnpm lint`.
+- [x] Commit: `feat(panel): formulario con copia local, pestañas y subida de fotos`
 
 ### Paso 6 — Categorías: esquema
 
-- [ ] Escribir `src/lib/validaciones/categoria.test.ts`:
+- [x] Escribir `src/lib/validaciones/categoria.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -2667,8 +2667,8 @@ describe("esquemaCategoria", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/categoria.test.ts` → FAIL.
-- [ ] Escribir `src/lib/validaciones/categoria.ts`:
+- [x] `pnpm test -- src/lib/validaciones/categoria.test.ts` → FAIL.
+- [x] Escribir `src/lib/validaciones/categoria.ts`:
 
 ```ts
 import * as z from "zod";
@@ -2711,11 +2711,11 @@ export function validarCategoria(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/categoria.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/validaciones/categoria.test.ts` → PASS.
 
 ### Paso 7 — Categorías: acciones y pantallas
 
-- [ ] Escribir `src/lib/acciones/categorias.ts`:
+- [x] Escribir `src/lib/acciones/categorias.ts`:
 
 ```ts
 "use server";
@@ -2811,7 +2811,7 @@ export async function borrarCategoria(id: string): Promise<EstadoAccion> {
 > apuntando a una fila que existe). Lo que se evita aquí es que el catálogo público enseñe productos
 > de una categoría que desapareció del filtro.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/categorias/formulario-categoria.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/categorias/formulario-categoria.tsx`:
 
 ```tsx
 "use client";
@@ -2894,7 +2894,7 @@ export function FormularioCategoria({ categoria }: { categoria: CategoriaEditabl
 > La foto de una categoría no depende de un id (no hay tabla de imágenes con FK), así que se puede
 > subir también al crear. La regla «primero guarda» es solo de los productos (T3).
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/categorias/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/categorias/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -2967,7 +2967,7 @@ async function Lista() {
 > `borrarCategoria.bind(null, c.id)` es la forma documentada de pasar un argumento a una Server
 > Action desde un Server Component a un componente de cliente.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/categorias/nueva/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/categorias/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -2987,7 +2987,7 @@ export default function NuevaCategoria() {
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/categorias/[id]/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/categorias/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -3038,12 +3038,12 @@ async function Editor({
 > Un `id` que no es uuid hace fallar la consulta con `22P02` y `data` queda en `null`: sale el 404,
 > que es lo correcto.
 
-- [ ] Añadir la ruta a `CONSTRUIDAS` en `src/app/(admin)/admin/contenido/page.tsx`:
+- [x] Añadir la ruta a `CONSTRUIDAS` en `src/app/(admin)/admin/contenido/page.tsx`:
       `const CONSTRUIDAS: readonly string[] = ["/admin/contenido/categorias"];`
-- [ ] Añadir a `RUTAS_DEL_PANEL` en `e2e/panel-accesibilidad.spec.ts`:
+- [x] Añadir a `RUTAS_DEL_PANEL` en `e2e/panel-accesibilidad.spec.ts`:
       `"/admin/contenido/categorias", "/admin/contenido/categorias/nueva"`.
-- [ ] `pnpm build` → sin errores de prerender.
-- [ ] Commit: `feat(catalogo): categorías desde el panel`
+- [x] `pnpm build` → sin errores de prerender.
+- [x] Commit: `feat(catalogo): categorías desde el panel`
 
 ### Paso 8 — La foto de prueba y el flujo en el navegador
 
@@ -3051,7 +3051,7 @@ La foto se **dibuja en el propio navegador** de la prueba con un `<canvas>`: es 
 el repositorio y no hay binario que mantener. Cumple lo que se decidió (decisión 4): nada del
 cliente, y el flujo real de comprimir y subir.
 
-- [ ] Escribir `e2e/ayudas/foto.ts`:
+- [x] Escribir `e2e/ayudas/foto.ts`:
 
 ```ts
 import type { Page } from "@playwright/test";
@@ -3078,7 +3078,7 @@ export async function fotoDePrueba(page: Page) {
 }
 ```
 
-- [ ] Escribir `e2e/ayudas/base.ts`:
+- [x] Escribir `e2e/ayudas/base.ts`:
 
 ```ts
 import { supabaseLocal } from "./supabase-local";
@@ -3099,7 +3099,7 @@ export async function borrarDeLaBase(tabla: string, columna: string, valor: stri
 }
 ```
 
-- [ ] Escribir `e2e/panel-categorias.spec.ts`:
+- [x] Escribir `e2e/panel-categorias.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -3216,12 +3216,12 @@ test("borrar pide confirmación nombrando la categoría", async ({ page }) => {
 > La prueba de subida corre en el CI con Storage local: no depende de las 62 fotos semilla. Es la
 > que cierra el hueco declarado en F3 para las fotos que sube el panel.
 
-- [ ] Liberar el puerto 3000 y correr `pnpm test:e2e e2e/panel-categorias.spec.ts e2e/panel-accesibilidad.spec.ts`
+- [x] Liberar el puerto 3000 y correr `pnpm test:e2e e2e/panel-categorias.spec.ts e2e/panel-accesibilidad.spec.ts`
       → PASS en los dos proyectos.
-- [ ] Comprobar a mano, con la vista previa de Vercel, desde un celular de verdad: «Tomar foto» abre
+- [x] Comprobar a mano, con la vista previa de Vercel, desde un celular de verdad: «Tomar foto» abre
       la cámara y la foto se sube en unos segundos por datos móviles.
-- [ ] Commit: `test(catalogo): subida de foto, copia local y errores en pestañas`
-- [ ] PR `feat/f4-t2-categorias` → CI en verde → fusionar.
+- [x] Commit: `test(catalogo): subida de foto, copia local y errores en pestañas`
+- [x] PR `feat/f4-t2-categorias` → CI en verde → fusionar.
 
 ---
 
@@ -3264,7 +3264,7 @@ supabase-js no abre transacciones. Si la acción guardara el producto y después
 en llamadas separadas, un corte de señal entre las dos dejaría un producto publicado sin precio. Una
 función de Postgres es una transacción por sí sola: o entra todo o no entra nada.
 
-- [ ] Escribir `supabase/tests/0027_guardar_producto.test.sql`:
+- [x] Escribir `supabase/tests/0027_guardar_producto.test.sql`:
 
 ```sql
 -- Verifica guardar_producto (0027).
@@ -3383,8 +3383,8 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FAIL (la función no existe).
-- [ ] Escribir `supabase/migrations/0027_guardar_producto.sql`:
+- [x] `supabase test db` → FAIL (la función no existe).
+- [x] Escribir `supabase/migrations/0027_guardar_producto.sql`:
 
 ```sql
 -- =============================================================================
@@ -3515,13 +3515,13 @@ grant execute on function public.guardar_producto(jsonb, jsonb) to authenticated
 > real con `select public.guardar_producto(...)` en `psql` y ajustar **la prueba**, no la función:
 > lo que se defiende es que falle.
 
-- [ ] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
-- [ ] `pnpm supabase:tipos` → `database.types.ts` gana `Functions.guardar_producto`.
-- [ ] Commit: `feat(base): guardar un producto con sus presentaciones en una sola transacción`
+- [x] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
+- [x] `pnpm supabase:tipos` → `database.types.ts` gana `Functions.guardar_producto`.
+- [x] Commit: `feat(base): guardar un producto con sus presentaciones en una sola transacción`
 
 ### Paso 2 — Esquema del producto
 
-- [ ] Escribir `src/lib/validaciones/producto.test.ts`:
+- [x] Escribir `src/lib/validaciones/producto.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -3625,8 +3625,8 @@ describe("esquemaProducto", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/producto.test.ts` → FAIL.
-- [ ] Escribir `src/lib/validaciones/producto.ts`:
+- [x] `pnpm test -- src/lib/validaciones/producto.test.ts` → FAIL.
+- [x] Escribir `src/lib/validaciones/producto.ts`:
 
 ```ts
 import * as z from "zod";
@@ -3727,11 +3727,11 @@ export function validarProducto(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/producto.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/validaciones/producto.test.ts` → PASS.
 
 ### Paso 3 — Acciones de productos y fotos
 
-- [ ] Escribir `src/lib/acciones/productos.ts`:
+- [x] Escribir `src/lib/acciones/productos.ts`:
 
 ```ts
 "use server";
@@ -3942,12 +3942,12 @@ export async function listarFotosSueltas(): Promise<string[]> {
 > imports normales; están así solo para dejar claro que esta función lee y no pasa por
 > `ejecutarAccion`. Si lint prefiere los estáticos, usarlos.
 
-- [ ] `pnpm typecheck` → sin errores. Si `supabase.rpc("guardar_producto", ...)` no tipa los
+- [x] `pnpm typecheck` → sin errores. Si `supabase.rpc("guardar_producto", ...)` no tipa los
       argumentos jsonb, es que falta `pnpm supabase:tipos` del paso 1.
 
 ### Paso 4 — Las pestañas Precios y Fotos
 
-- [ ] Escribir `src/components/panel/editor-presentaciones.tsx`:
+- [x] Escribir `src/components/panel/editor-presentaciones.tsx`:
 
 ```tsx
 "use client";
@@ -4127,7 +4127,7 @@ export function EditorPresentaciones({ iniciales }: { iniciales: Presentacion[] 
 }
 ```
 
-- [ ] Escribir `src/components/panel/fotos-producto.tsx`:
+- [x] Escribir `src/components/panel/fotos-producto.tsx`:
 
 ```tsx
 "use client";
@@ -4296,7 +4296,7 @@ export function FotosProducto({ productoId, nombreProducto, fotos }: Props) {
 
 ### Paso 5 — Pantallas de productos
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/productos/formulario-producto.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/productos/formulario-producto.tsx`:
 
 ```tsx
 "use client";
@@ -4412,7 +4412,7 @@ export function FormularioProducto({ producto, categorias }: Props) {
 > accidente un producto sin foto ni descripción. Tras el primer «Guardar» se abre su ficha para
 > añadir las fotos y publicarlo.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/productos/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/productos/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -4560,7 +4560,7 @@ async function Lista({
 > Si el build se queja, mover `formatearPrecio` a `src/lib/datos/reloj.ts` o a un
 > `src/lib/utilidades/precio.ts` sin dependencias y reexportarlo desde `catalogo.ts`.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/productos/nuevo/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/productos/nuevo/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -4597,7 +4597,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/productos/[id]/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/productos/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -4670,14 +4670,14 @@ async function Editor({ params }: { params: Params }) {
 }
 ```
 
-- [ ] Añadir `"/admin/contenido/productos"` a `CONSTRUIDAS` (primera posición) y a `RUTAS_DEL_PANEL`
+- [x] Añadir `"/admin/contenido/productos"` a `CONSTRUIDAS` (primera posición) y a `RUTAS_DEL_PANEL`
       `"/admin/contenido/productos"`, `"/admin/contenido/productos/nuevo"`.
-- [ ] `pnpm typecheck && pnpm lint && pnpm build`.
-- [ ] Commit: `feat(catalogo): productos con presentaciones y fotos desde el panel`
+- [x] `pnpm typecheck && pnpm lint && pnpm build`.
+- [x] Commit: `feat(catalogo): productos con presentaciones y fotos desde el panel`
 
 ### Paso 6 — El flujo que cierra la tarea: publicar y verlo en el sitio
 
-- [ ] Escribir `e2e/panel-productos.spec.ts`:
+- [x] Escribir `e2e/panel-productos.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -4803,16 +4803,16 @@ test("cambiar un precio deja constancia en el historial", async ({ page }) => {
 > historial. Un catálogo con productos «Pan E2E» en otra prueba en paralelo no rompe nada: las
 > pruebas del sitio cuentan fixtures, no totales (trampa de `CLAUDE.md`).
 
-- [ ] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-productos.spec.ts` → PASS en los dos proyectos.
-- [ ] `pnpm test:e2e` completo en verde (la pizarra y las presentaciones del sitio siguen igual).
-- [ ] **Rendimiento (decisión 3):** esta tarea toca `catalogo.ts` solo si hubo que mover
+- [x] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-productos.spec.ts` → PASS en los dos proyectos.
+- [x] `pnpm test:e2e` completo en verde (la pizarra y las presentaciones del sitio siguen igual).
+- [x] **Rendimiento (decisión 3):** esta tarea toca `catalogo.ts` solo si hubo que mover
       `formatearPrecio`. Si se movió, medir `/` y `/productos` con `PASADAS=5 pnpm lighthouse`
       contra `main` en la misma sesión; si no, anotar en el PR que no cambia nada del sitio.
-- [ ] En local, abrir un producto con la foto suelta `producto-4-kekito.webp` y comprobar que sale en
+- [x] En local, abrir un producto con la foto suelta `producto-4-kekito.webp` y comprobar que sale en
       «Elegir entre las fotos ya subidas». **Asignar las tres sueltas en producción** es tarea del
       negocio desde el panel (T8).
-- [ ] Commit: `test(catalogo): publicar un producto y verlo en el sitio sin redesplegar`
-- [ ] PR `feat/f4-t3-productos` → CI en verde → fusionar.
+- [x] Commit: `test(catalogo): publicar un producto y verlo en el sitio sin redesplegar`
+- [x] PR `feat/f4-t3-productos` → CI en verde → fusionar.
 
 ---
 
@@ -4852,7 +4852,7 @@ formulario. La base impone las tres reglas: publicar, avisar y comentar.
 
 ### Paso 1 — La base: comentario de devolución y aviso de revisión
 
-- [ ] Escribir `supabase/tests/0028_aprobacion_con_aviso.test.sql`:
+- [x] Escribir `supabase/tests/0028_aprobacion_con_aviso.test.sql`:
 
 ```sql
 -- Verifica la aprobación con aviso (0028).
@@ -4955,8 +4955,8 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FAIL.
-- [ ] Escribir `supabase/migrations/0028_aprobacion_con_aviso.sql`:
+- [x] `supabase test db` → FAIL.
+- [x] Escribir `supabase/migrations/0028_aprobacion_con_aviso.sql`:
 
 ```sql
 -- =============================================================================
@@ -5074,14 +5074,14 @@ create trigger novedades_avisar_revision
 > El `throws_ok` del ingeniero publicando espera `23514` porque 0010 lanza con
 > `errcode = 'check_violation'`. Los `raise exception` de 0028, sin `errcode`, dan `P0001`.
 
-- [ ] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS
+- [x] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS
       (las 11 de 0010 siguen en verde: el trigger nuevo es `before` y no toca `estado`).
-- [ ] `pnpm supabase:tipos`.
-- [ ] Commit: `feat(base): aviso de promoción en revisión y comentario de devolución`
+- [x] `pnpm supabase:tipos`.
+- [x] Commit: `feat(base): aviso de promoción en revisión y comentario de devolución`
 
 ### Paso 2 — Fechas de Iquitos y botones por rol, lógica pura
 
-- [ ] Escribir `src/lib/panel/hora-lima.test.ts`:
+- [x] Escribir `src/lib/panel/hora-lima.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5109,7 +5109,7 @@ describe("hora de Iquitos (UTC−5, sin horario de verano)", () => {
 });
 ```
 
-- [ ] Escribir `src/lib/panel/aprobacion.test.ts`:
+- [x] Escribir `src/lib/panel/aprobacion.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5183,8 +5183,8 @@ describe("estadoTras", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/hora-lima.test.ts src/lib/panel/aprobacion.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/hora-lima.ts`:
+- [x] `pnpm test -- src/lib/panel/hora-lima.test.ts src/lib/panel/aprobacion.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/hora-lima.ts`:
 
 ```ts
 /**
@@ -5211,7 +5211,7 @@ export function utcALima(iso: string | null): string {
 }
 ```
 
-- [ ] Escribir `src/lib/panel/aprobacion.ts`:
+- [x] Escribir `src/lib/panel/aprobacion.ts`:
 
 ```ts
 import type { Rol } from "@/lib/auth/roles";
@@ -5309,11 +5309,11 @@ export function estadoTras(intencion: Intencion, actual: EstadoPublicacion): Est
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/hora-lima.test.ts src/lib/panel/aprobacion.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/hora-lima.test.ts src/lib/panel/aprobacion.test.ts` → PASS.
 
 ### Paso 3 — Esquema y acciones
 
-- [ ] Escribir `src/lib/validaciones/novedad.test.ts`:
+- [x] Escribir `src/lib/validaciones/novedad.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5371,8 +5371,8 @@ describe("esquemaNovedad", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/novedad.test.ts` → FAIL.
-- [ ] Escribir `src/lib/validaciones/novedad.ts`:
+- [x] `pnpm test -- src/lib/validaciones/novedad.test.ts` → FAIL.
+- [x] Escribir `src/lib/validaciones/novedad.ts`:
 
 ```ts
 import * as z from "zod";
@@ -5439,8 +5439,8 @@ export function validarNovedad(fd: FormData) {
 > `z.iso.datetime()` es la forma de Zod 4. Si la versión fijada lo nombra distinto, `z.string()`
 > basta: `limaAUtc` ya garantiza la forma.
 
-- [ ] `pnpm test -- src/lib/validaciones/novedad.test.ts` → PASS.
-- [ ] Escribir `src/lib/acciones/novedades.ts`:
+- [x] `pnpm test -- src/lib/validaciones/novedad.test.ts` → PASS.
+- [x] Escribir `src/lib/acciones/novedades.ts`:
 
 ```ts
 "use server";
@@ -5548,7 +5548,7 @@ export async function borrarNovedad(id: string): Promise<EstadoAccion> {
 
 ### Paso 4 — Pantallas
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/novedades/formulario-novedad.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/novedades/formulario-novedad.tsx`:
 
 ```tsx
 "use client";
@@ -5756,7 +5756,7 @@ function BarraAprobacion({ acciones }: { acciones: Intencion[] }) {
 > botones de las pestañas también son `<button>`, y dentro de un fieldset desactivado dejarían de
 > cambiar de pestaña. `className="contents"` evita que el fieldset altere el diseño.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/novedades/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/novedades/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -5846,7 +5846,7 @@ async function Lista() {
 > `order("estado")` ordena por el orden del enum (`borrador, en_revision, publicado, archivado`),
 > no alfabético. Si se prefiere «en revisión» primero, ordenar en JavaScript tras la consulta.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/novedades/nueva/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/novedades/nueva/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -5884,7 +5884,7 @@ async function Formulario() {
 > Si el ingeniero elige un tipo que no es promoción y pulsa «Enviar a revisión», la acción lo
 > publica (`intencionEfectiva`): un aviso no se revisa.
 
-- [ ] Escribir `src/app/(admin)/admin/contenido/novedades/[id]/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/contenido/novedades/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -5941,7 +5941,7 @@ async function Editor({ params }: { params: Params }) {
 
 ### Paso 5 — Avisos en el inicio
 
-- [ ] En `src/app/(admin)/admin/page.tsx`, ampliar `contarAvisos`:
+- [x] En `src/app/(admin)/admin/page.tsx`, ampliar `contarAvisos`:
 
 ```ts
 if (rol === "superadmin" || rol === "administrador") {
@@ -5981,14 +5981,14 @@ if (rol === "ingeniero") {
 y cambiar la firma a `contarAvisos(rol: string, usuarioId: string)`, llamándola con
 `contarAvisos(sesion.rol, sesion.usuarioId)`. `created_by` es fiable desde 0026 (T1).
 
-- [ ] Añadir `"/admin/contenido/novedades"` a `CONSTRUIDAS` y a `RUTAS_DEL_PANEL` junto con
+- [x] Añadir `"/admin/contenido/novedades"` a `CONSTRUIDAS` y a `RUTAS_DEL_PANEL` junto con
       `"/admin/contenido/novedades/nueva"`.
-- [ ] `pnpm typecheck && pnpm lint && pnpm build`.
-- [ ] Commit: `feat(contenido): novedades con aprobación y avisos en el inicio`
+- [x] `pnpm typecheck && pnpm lint && pnpm build`.
+- [x] Commit: `feat(contenido): novedades con aprobación y avisos en el inicio`
 
 ### Paso 6 — El flujo de aprobación en el navegador
 
-- [ ] Escribir `e2e/panel-novedades.spec.ts`:
+- [x] Escribir `e2e/panel-novedades.spec.ts`:
 
 ```ts
 import { expect, test, type Browser } from "@playwright/test";
@@ -6129,9 +6129,9 @@ test("aunque la pida por la API, un ingeniero no puede publicar una promoción",
 > responde **400** a un `check_violation`; si responde otro 4xx, ajustar el número, nunca aceptar
 > «distinto de 201» (trampa de las pruebas negativas en `CLAUDE.md`).
 
-- [ ] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-novedades.spec.ts` → PASS en los dos proyectos.
-- [ ] Commit: `test(contenido): el ciclo de aprobación de una promoción, por la interfaz y por la API`
-- [ ] PR `feat/f4-t4-novedades` → CI en verde → fusionar.
+- [x] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-novedades.spec.ts` → PASS en los dos proyectos.
+- [x] Commit: `test(contenido): el ciclo de aprobación de una promoción, por la interfaz y por la API`
+- [x] PR `feat/f4-t4-novedades` → CI en verde → fusionar.
 
 ---
 
@@ -6170,7 +6170,7 @@ necesita migración: las tablas y sus políticas son de 0010.
 
 ### Paso 1 — Reordenar, lógica pura
 
-- [ ] Escribir `src/lib/panel/orden.test.ts`:
+- [x] Escribir `src/lib/panel/orden.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -6212,8 +6212,8 @@ describe("reordenar", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/orden.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/orden.ts`:
+- [x] `pnpm test -- src/lib/panel/orden.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/orden.ts`:
 
 ```ts
 /**
@@ -6246,11 +6246,11 @@ export function reordenar(
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/orden.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/orden.test.ts` → PASS.
 
 ### Paso 2 — La acción de orden y sus botones
 
-- [ ] Escribir `src/lib/acciones/orden.ts`:
+- [x] Escribir `src/lib/acciones/orden.ts`:
 
 ```ts
 "use server";
@@ -6375,7 +6375,7 @@ export async function moverFila(
 > `orden`, que la lista y el sitio desempatan por `id`, y el siguiente movimiento lo normaliza
 > (paso 1). No merece una función de Postgres.
 
-- [ ] Escribir `src/components/panel/botones-orden.tsx`:
+- [x] Escribir `src/components/panel/botones-orden.tsx`:
 
 ```tsx
 "use client";
@@ -6431,7 +6431,7 @@ export function BotonesOrden({ nombre, subir, bajar, primero, ultimo }: Props) {
 > La lista se actualiza sola: `updateTag` dentro de la acción invalida también el render del panel
 > que la pidió, y Next vuelve a pintar la página tras la Server Action.
 
-- [ ] En `src/app/(admin)/admin/contenido/categorias/page.tsx`, dentro de `acciones`, antes del
+- [x] En `src/app/(admin)/admin/contenido/categorias/page.tsx`, dentro de `acciones`, antes del
       `ConfirmarBorrado`:
 
 ```tsx
@@ -6451,11 +6451,11 @@ acciones={(c) => (
 
 con los imports de `BotonesOrden` y `moverFila`, y `.order("id")` después de `.order("orden")`.
 
-- [ ] Commit: `feat(panel): cambiar el orden de una lista con subir y bajar`
+- [x] Commit: `feat(panel): cambiar el orden de una lista con subir y bajar`
 
 ### Paso 3 — Los cinco esquemas
 
-- [ ] Escribir `src/lib/validaciones/contenido.test.ts`:
+- [x] Escribir `src/lib/validaciones/contenido.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -6563,8 +6563,8 @@ describe("pregunta, guía y testimonio", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/contenido.test.ts` → FAIL.
-- [ ] Escribir `src/lib/validaciones/contenido.ts`:
+- [x] `pnpm test -- src/lib/validaciones/contenido.test.ts` → FAIL.
+- [x] Escribir `src/lib/validaciones/contenido.ts`:
 
 ```ts
 import * as z from "zod";
@@ -6748,11 +6748,11 @@ export function leerTestimonio(fd: FormData) {
 export const validarTestimonio = (fd: FormData) => errores(esquemaTestimonio, leerTestimonio(fd));
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/contenido.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/validaciones/contenido.test.ts` → PASS.
 
 ### Paso 4 — Las acciones
 
-- [ ] Escribir `src/lib/acciones/contenido.ts`:
+- [x] Escribir `src/lib/acciones/contenido.ts`:
 
 ```ts
 "use server";
@@ -6988,8 +6988,8 @@ async function borrarLogico(
 > `borrarLogico` no lleva `export`: en un archivo `"use server"` todo lo exportado se convierte en
 > una acción que se puede llamar desde el navegador, y esta recibe la tabla por parámetro.
 
-- [ ] `pnpm typecheck`.
-- [ ] Commit: `feat(contenido): esquemas y acciones de portada, galería, preguntas, guías y testimonios`
+- [x] `pnpm typecheck`.
+- [x] Commit: `feat(contenido): esquemas y acciones de portada, galería, preguntas, guías y testimonios`
 
 ### Paso 5 — Las pantallas
 
@@ -6998,7 +6998,7 @@ página `nueva` y una `[id]` que cargan la fila y pintan el formulario. Se escri
 
 #### Portada (`/admin/contenido/portada`)
 
-- [ ] `src/app/(admin)/admin/contenido/portada/formulario.tsx`:
+- [x] `src/app/(admin)/admin/contenido/portada/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -7164,7 +7164,7 @@ export function FormularioSlide({ slide }: { slide: SlideEditable | null }) {
 > añadir `accent-primary h-11`. Recordatorio de 3.1: **el celular no lleva carrusel** (decisión del
 > 12/09); la foto vertical la usa `PortadaMovil` si existe.
 
-- [ ] `src/app/(admin)/admin/contenido/portada/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/portada/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -7241,7 +7241,7 @@ async function Lista() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/portada/nueva/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/portada/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -7261,7 +7261,7 @@ export default function NuevoSlide() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/portada/[id]/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/portada/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -7310,7 +7310,7 @@ async function Editor({ params }: { params: Params }) {
 
 #### Galería (`/admin/contenido/galeria`)
 
-- [ ] `src/app/(admin)/admin/contenido/galeria/formulario.tsx`:
+- [x] `src/app/(admin)/admin/contenido/galeria/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -7390,7 +7390,7 @@ export function FormularioFotoGaleria({ foto }: { foto: FotoGaleriaEditable | nu
 > Si falta la foto, el error «Sube la foto.» lo pinta la propia `SubidaImagen` (T2) bajo sus
 > botones: lee `errores[nombre]` del formulario.
 
-- [ ] `src/app/(admin)/admin/contenido/galeria/page.tsx` (con miniatura en la lista):
+- [x] `src/app/(admin)/admin/contenido/galeria/page.tsx` (con miniatura en la lista):
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -7490,7 +7490,7 @@ async function Lista() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/galeria/nueva/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/galeria/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -7510,7 +7510,7 @@ export default function NuevaFoto() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/galeria/[id]/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/galeria/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -7557,7 +7557,7 @@ async function Editor({ params }: { params: Params }) {
 
 #### Preguntas frecuentes (`/admin/contenido/preguntas`)
 
-- [ ] `src/app/(admin)/admin/contenido/preguntas/formulario.tsx`:
+- [x] `src/app/(admin)/admin/contenido/preguntas/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -7609,7 +7609,7 @@ export function FormularioFaq({ faq }: { faq: FaqEditable | null }) {
 > La ayuda sobre el horario viene de 0018: la respuesta del horario repite las horas como texto
 > libre, y si el negocio cambia el horario en Configuración (T7) esta respuesta no se entera.
 
-- [ ] `src/app/(admin)/admin/contenido/preguntas/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/preguntas/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -7688,7 +7688,7 @@ async function Lista() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/preguntas/nueva/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/preguntas/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -7708,7 +7708,7 @@ export default function NuevaPregunta() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/preguntas/[id]/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/preguntas/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -7755,7 +7755,7 @@ async function Editor({ params }: { params: Params }) {
 
 #### Guías (`/admin/contenido/guias`)
 
-- [ ] `src/app/(admin)/admin/contenido/guias/formulario.tsx`:
+- [x] `src/app/(admin)/admin/contenido/guias/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -7813,7 +7813,7 @@ export function FormularioGuia({ guia }: { guia: GuiaEditable | null }) {
 > Comprobarlo en `src/app/(public)/preguntas-frecuentes/page.tsx`; si pinta el texto de corrido,
 > quitar esa ayuda.
 
-- [ ] `src/app/(admin)/admin/contenido/guias/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/guias/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -7890,7 +7890,7 @@ async function Lista() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/guias/nueva/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/guias/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -7910,7 +7910,7 @@ export default function NuevaGuia() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/guias/[id]/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/guias/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -7957,7 +7957,7 @@ async function Editor({ params }: { params: Params }) {
 
 #### Testimonios (`/admin/contenido/testimonios`)
 
-- [ ] `src/app/(admin)/admin/contenido/testimonios/formulario.tsx`:
+- [x] `src/app/(admin)/admin/contenido/testimonios/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -8022,7 +8022,7 @@ export function FormularioTestimonio({ testimonio }: { testimonio: TestimonioEdi
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/testimonios/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/testimonios/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -8115,7 +8115,7 @@ async function Lista() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/testimonios/nueva/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/testimonios/nueva/page.tsx`:
 
 ```tsx
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
@@ -8135,7 +8135,7 @@ export default function NuevoTestimonio() {
 }
 ```
 
-- [ ] `src/app/(admin)/admin/contenido/testimonios/[id]/page.tsx`:
+- [x] `src/app/(admin)/admin/contenido/testimonios/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -8182,16 +8182,16 @@ async function Editor({ params }: { params: Params }) {
 }
 ```
 
-- [ ] Completar `CONSTRUIDAS` con las ocho rutas de `SUBSECCIONES_DE_CONTENIDO` (ya están todas
+- [x] Completar `CONSTRUIDAS` con las ocho rutas de `SUBSECCIONES_DE_CONTENIDO` (ya están todas
       construidas) y **quitar la lista `CONSTRUIDAS`**: el índice vuelve a pintar
       `SUBSECCIONES_DE_CONTENIDO` entero.
-- [ ] Añadir a `RUTAS_DEL_PANEL` las cinco listas y sus cinco páginas `nueva`.
-- [ ] `pnpm typecheck && pnpm lint && pnpm build`.
-- [ ] Commit: `feat(contenido): pantallas de portada, galería, preguntas, guías y testimonios`
+- [x] Añadir a `RUTAS_DEL_PANEL` las cinco listas y sus cinco páginas `nueva`.
+- [x] `pnpm typecheck && pnpm lint && pnpm build`.
+- [x] Commit: `feat(contenido): pantallas de portada, galería, preguntas, guías y testimonios`
 
 ### Paso 6 — Una ida y vuelta por pantalla
 
-- [ ] Escribir `e2e/panel-contenido.spec.ts`:
+- [x] Escribir `e2e/panel-contenido.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -8352,10 +8352,10 @@ test("una guía nueva queda en la lista con su estado", async ({ page }) => {
 > Las preguntas de las semillas tienen `orden` 1–5 y las nuevas nacen con 0: el primer movimiento
 > normaliza toda la tabla (paso 1), y la prueba solo compara las dos suyas entre sí.
 
-- [ ] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-contenido.spec.ts e2e/panel-accesibilidad.spec.ts`
+- [x] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-contenido.spec.ts e2e/panel-accesibilidad.spec.ts`
       → PASS en los dos proyectos. Después la suite completa.
-- [ ] Commit: `test(contenido): ida y vuelta de cada pantalla de contenido`
-- [ ] PR `feat/f4-t5-contenido` → CI en verde → fusionar.
+- [x] Commit: `test(contenido): ida y vuelta de cada pantalla de contenido`
+- [x] PR `feat/f4-t5-contenido` → CI en verde → fusionar.
 
 ---
 
@@ -8401,7 +8401,7 @@ La RLS decide **qué filas** puede tocar alguien, no **qué valor** escribe en u
 «administracion edita perfiles» deja al administrador editar cualquier perfil, así que puede poner
 `rol = 'superadmin'` en el suyo. Un trigger cierra las cuatro cosas que la política no puede ver.
 
-- [ ] Escribir `supabase/tests/0029_perfiles_protegidos.test.sql`:
+- [x] Escribir `supabase/tests/0029_perfiles_protegidos.test.sql`:
 
 ```sql
 -- Verifica la protección de perfiles (0029).
@@ -8474,8 +8474,8 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FAIL.
-- [ ] Escribir `supabase/migrations/0029_perfiles_protegidos.sql`:
+- [x] `supabase test db` → FAIL.
+- [x] Escribir `supabase/migrations/0029_perfiles_protegidos.sql`:
 
 ```sql
 -- =============================================================================
@@ -8562,12 +8562,12 @@ create trigger perfiles_proteger
 > Comprobar que las pruebas de 0003 y 0005 siguen en verde: sus fixtures escriben perfiles **sin
 > sesión** (antes del `set local role`), que es justo lo que el trigger deja pasar.
 
-- [ ] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
-- [ ] Commit: `fix(base): un administrador ya no puede darse el rol superadmin`
+- [x] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
+- [x] Commit: `fix(base): un administrador ya no puede darse el rol superadmin`
 
 ### Paso 2 — Contraseña temporal y reglas de usuario, lógica pura
 
-- [ ] Escribir `src/lib/panel/clave-temporal.test.ts`:
+- [x] Escribir `src/lib/panel/clave-temporal.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8606,7 +8606,7 @@ describe("generarClaveTemporal", () => {
 });
 ```
 
-- [ ] Escribir `src/lib/validaciones/usuario.test.ts`:
+- [x] Escribir `src/lib/validaciones/usuario.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8675,8 +8675,8 @@ describe("esquemaCambioClave", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/clave-temporal.test.ts src/lib/validaciones/usuario.test.ts` → FAIL.
-- [ ] Escribir `src/lib/panel/clave-temporal.ts`:
+- [x] `pnpm test -- src/lib/panel/clave-temporal.test.ts src/lib/validaciones/usuario.test.ts` → FAIL.
+- [x] Escribir `src/lib/panel/clave-temporal.ts`:
 
 ```ts
 /**
@@ -8720,7 +8720,7 @@ export function generarClaveTemporal(azar: Azar = azarSeguro): string {
 > El `%` sobre un `Uint32` introduce un sesgo de menos de una parte en 70 millones con un alfabeto de
 > 55 símbolos: irrelevante para una contraseña que caduca en el primer ingreso.
 
-- [ ] Escribir `src/lib/validaciones/usuario.ts`:
+- [x] Escribir `src/lib/validaciones/usuario.ts`:
 
 ```ts
 import * as z from "zod";
@@ -8792,11 +8792,11 @@ export function validarCambioClave(fd: FormData) {
 > por correo, y sin SMTP propio no llega). El formulario de edición lo manda igual en un campo de
 > solo lectura para que el esquema sea uno.
 
-- [ ] `pnpm test -- src/lib/panel/clave-temporal.test.ts src/lib/validaciones/usuario.test.ts` → PASS.
+- [x] `pnpm test -- src/lib/panel/clave-temporal.test.ts src/lib/validaciones/usuario.test.ts` → PASS.
 
 ### Paso 3 — El cliente con `service_role`, encerrado
 
-- [ ] Escribir `src/lib/supabase/administrador.ts`:
+- [x] Escribir `src/lib/supabase/administrador.ts`:
 
 ```ts
 import "server-only";
@@ -8834,14 +8834,14 @@ export function crearClienteAdministrador() {
 }
 ```
 
-- [ ] En `playwright.config.ts`, añadir al `env` del `webServer`:
+- [x] En `playwright.config.ts`, añadir al `env` del `webServer`:
       `SUPABASE_SERVICE_ROLE_KEY: serviceRoleKey,` (desestructurando `serviceRoleKey` de
       `supabaseLocal()` junto a `apiUrl` y `anonKey`). Es la llave del entorno local, pública y fija.
-- [ ] Añadir `SUPABASE_SERVICE_ROLE_KEY` a `.env.local` con el valor de `supabase status`.
+- [x] Añadir `SUPABASE_SERVICE_ROLE_KEY` a `.env.local` con el valor de `supabase status`.
 
 ### Paso 4 — Primer ingreso: el proxy manda a cambiar la contraseña
 
-- [ ] En `src/lib/supabase/proxy.ts`, ampliar lo que devuelve `refrescarSesion`:
+- [x] En `src/lib/supabase/proxy.ts`, ampliar lo que devuelve `refrescarSesion`:
 
 ```ts
 export async function refrescarSesion(peticion: NextRequest): Promise<{
@@ -8861,7 +8861,7 @@ export async function refrescarSesion(peticion: NextRequest): Promise<{
 }
 ```
 
-- [ ] En `src/proxy.ts`, justo después de leer la sesión:
+- [x] En `src/proxy.ts`, justo después de leer la sesión:
 
 ```ts
 const { respuesta, rol, haySesion, debeCambiarClave } = await refrescarSesion(peticion);
@@ -8877,7 +8877,7 @@ if (debeCambiarClave && esRutaDelPanel(ruta)) {
 }
 ```
 
-- [ ] En `src/lib/acciones/autenticacion.ts`, dentro de `iniciarSesion`, después de comprobar el rol
+- [x] En `src/lib/acciones/autenticacion.ts`, dentro de `iniciarSesion`, después de comprobar el rol
       y antes de calcular `destino`:
 
 ```ts
@@ -8887,7 +8887,7 @@ if (metadatos?.debe_cambiar_clave === true) {
 }
 ```
 
-- [ ] Escribir `src/app/(auth)/cambiar-clave/formulario.tsx`:
+- [x] Escribir `src/app/(auth)/cambiar-clave/formulario.tsx`:
 
 ```tsx
 "use client";
@@ -8927,7 +8927,7 @@ export function FormularioCambioClave() {
 > `FormularioPanel` (T2) ya deja fuera de la copia local todo `input[type=password]`; la prueba del
 > paso 7 lo comprueba mirando `localStorage`.
 
-- [ ] Escribir `src/app/(auth)/cambiar-clave/page.tsx`:
+- [x] Escribir `src/app/(auth)/cambiar-clave/page.tsx`:
 
 ```tsx
 import type { Metadata } from "next";
@@ -8960,7 +8960,7 @@ export default function CambiarClave() {
 
 ### Paso 5 — Acciones de usuarios
 
-- [ ] Escribir `src/lib/acciones/usuarios.ts`:
+- [x] Escribir `src/lib/acciones/usuarios.ts`:
 
 ```ts
 "use server";
@@ -9213,7 +9213,7 @@ export async function cambiarMiClave(fd: FormData): Promise<EstadoAccion> {
 
 ### Paso 6 — Pantallas de usuarios
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/clave-temporal.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/clave-temporal.tsx`:
 
 ```tsx
 "use client";
@@ -9265,7 +9265,7 @@ export function ClaveTemporal({ correo, clave }: { correo: string; clave: string
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/formulario-usuario.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/formulario-usuario.tsx`:
 
 ```tsx
 "use client";
@@ -9375,7 +9375,7 @@ export function FormularioUsuario({ usuario, rolesAsignables }: Props) {
 > Los `radio` del rol se restauran desde la copia local como `RadioNodeList` (ya previsto en
 > `recuperar()`, T2).
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/acciones-usuario.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/acciones-usuario.tsx`:
 
 ```tsx
 "use client";
@@ -9458,7 +9458,7 @@ export function AccionesUsuario({ id, nombre, activo, esYo, puedeEliminar }: Pro
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -9528,7 +9528,7 @@ async function Lista() {
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/nuevo/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/nuevo/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -9559,7 +9559,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] Escribir `src/app/(admin)/admin/usuarios/[id]/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/usuarios/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -9627,15 +9627,15 @@ async function Editor({ params }: { params: Params }) {
 }
 ```
 
-- [ ] Añadir a `RUTAS_DEL_PANEL`: `"/admin/usuarios"`, `"/admin/usuarios/nuevo"`. `/cambiar-clave`
+- [x] Añadir a `RUTAS_DEL_PANEL`: `"/admin/usuarios"`, `"/admin/usuarios/nuevo"`. `/cambiar-clave`
       lo recorre axe dentro de la prueba de alta (paso 7), que es la única que llega ahí.
-- [ ] `pnpm typecheck && pnpm lint && pnpm build`. **Comprobar que el build no incluye la llave:**
+- [x] `pnpm typecheck && pnpm lint && pnpm build`. **Comprobar que el build no incluye la llave:**
       `grep -r "service_role" .next/static` no devuelve nada.
-- [ ] Commit: `feat(usuarios): altas con contraseña temporal, roles y bloqueo desde el panel`
+- [x] Commit: `feat(usuarios): altas con contraseña temporal, roles y bloqueo desde el panel`
 
 ### Paso 7 — El primer ingreso en el navegador
 
-- [ ] En `e2e/ayudas/usuarios.ts`, añadir:
+- [x] En `e2e/ayudas/usuarios.ts`, añadir:
 
 ```ts
 /** Para limpiar cuentas que crea el propio panel y cuyo id no conoce la prueba. */
@@ -9650,7 +9650,7 @@ export async function borrarUsuarioPorCorreo(correo: string): Promise<void> {
 }
 ```
 
-- [ ] Escribir `e2e/panel-usuarios.spec.ts`:
+- [x] Escribir `e2e/panel-usuarios.spec.ts`:
 
 ```ts
 import AxeBuilder from "@axe-core/playwright";
@@ -9756,11 +9756,11 @@ test("el ingeniero no entra a usuarios", async ({ page }) => {
 });
 ```
 
-- [ ] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-usuarios.spec.ts e2e/autenticacion.spec.ts` →
+- [x] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-usuarios.spec.ts e2e/autenticacion.spec.ts` →
       PASS en los dos proyectos. Después la suite completa.
-- [ ] Commit: `test(usuarios): alta, primer ingreso con cambio de contraseña y bloqueo`
-- [ ] PR `feat/f4-t6-usuarios` → CI en verde → fusionar.
-- [ ] **Después de fusionar y antes de desplegar:** añadir `SUPABASE_SERVICE_ROLE_KEY` en Vercel
+- [x] Commit: `test(usuarios): alta, primer ingreso con cambio de contraseña y bloqueo`
+- [x] PR `feat/f4-t6-usuarios` → CI en verde → fusionar.
+- [x] **Después de fusionar y antes de desplegar:** añadir `SUPABASE_SERVICE_ROLE_KEY` en Vercel
       (Production y Preview) desde Supabase → Project Settings → API Keys. **Sin `NEXT_PUBLIC_`.**
       Sin ella, `/admin/usuarios` lanza el error explicado de `crearClienteAdministrador`.
 
@@ -9806,7 +9806,7 @@ formado ya no puede tirar la configuración entera a los valores de reserva.
 
 ### Paso 1 — Guardar varios ajustes de una vez
 
-- [ ] Escribir `supabase/tests/0030_guardar_configuracion.test.sql`:
+- [x] Escribir `supabase/tests/0030_guardar_configuracion.test.sql`:
 
 ```sql
 -- Verifica guardar_configuracion (0030).
@@ -9873,8 +9873,8 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FAIL.
-- [ ] Escribir `supabase/migrations/0030_guardar_configuracion.sql`:
+- [x] `supabase test db` → FAIL.
+- [x] Escribir `supabase/migrations/0030_guardar_configuracion.sql`:
 
 ```sql
 -- =============================================================================
@@ -9964,17 +9964,17 @@ create trigger configuracion_sitio_sellar_editor
 > La prueba de 0026 cuenta tablas con `created_by` **y** `updated_by`; `configuracion_sitio` no
 > entra, así que no hay que tocarla.
 
-- [ ] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
-- [ ] `pnpm supabase:tipos`.
-- [ ] Commit: `feat(base): guardar la configuración en una sola transacción`
+- [x] `supabase db reset && bash supabase/seeds/imagenes/subir-imagenes.sh && supabase test db` → PASS.
+- [x] `pnpm supabase:tipos`.
+- [x] Commit: `feat(base): guardar la configuración en una sola transacción`
 
 ### Paso 2 — El esquema del panel, atado al del sitio
 
-- [ ] En `src/lib/datos/configuracion.ts`, exportar el esquema sin cambiar nada más:
+- [x] En `src/lib/datos/configuracion.ts`, exportar el esquema sin cambiar nada más:
       `const ESQUEMA = z.object({` → `export const esquemaConfiguracion = z.object({`, y sustituir
       las dos apariciones de `ESQUEMA` (`ESQUEMA.parse({})`, `ESQUEMA.safeParse(...)`) y el
       `z.infer<typeof ESQUEMA>`.
-- [ ] Escribir `src/lib/validaciones/configuracion-panel.test.ts`:
+- [x] Escribir `src/lib/validaciones/configuracion-panel.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -10090,8 +10090,8 @@ describe("configuración desde el panel", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/configuracion-panel.test.ts` → FAIL.
-- [ ] Escribir `src/lib/validaciones/configuracion-panel.ts`:
+- [x] `pnpm test -- src/lib/validaciones/configuracion-panel.test.ts` → FAIL.
+- [x] Escribir `src/lib/validaciones/configuracion-panel.ts`:
 
 ```ts
 import * as z from "zod";
@@ -10239,8 +10239,8 @@ export function validarConfiguracion(fd: FormData) {
 > aquí parece raro al revisar, moverlo a `src/lib/utilidades/precio.ts` y reexportarlo desde
 > `producto.ts`: es una función pura sin dependencias.
 
-- [ ] `pnpm test -- src/lib/validaciones/configuracion-panel.test.ts src/lib/datos/configuracion.test.ts` → PASS.
-- [ ] Escribir `src/lib/acciones/configuracion.ts`:
+- [x] `pnpm test -- src/lib/validaciones/configuracion-panel.test.ts src/lib/datos/configuracion.test.ts` → PASS.
+- [x] Escribir `src/lib/acciones/configuracion.ts`:
 
 ```ts
 "use server";
@@ -10295,7 +10295,7 @@ export async function guardarConfiguracion(fd: FormData): Promise<EstadoAccion> 
 
 ### Paso 3 — Editores de horario, ubicación y marca
 
-- [ ] Escribir `src/components/panel/editor-horario.tsx`:
+- [x] Escribir `src/components/panel/editor-horario.tsx`:
 
 ```tsx
 "use client";
@@ -10449,7 +10449,7 @@ export function EditorHorario({ inicial }: { inicial: Horario }) {
 > importa en la prueba. `configuracion-panel.ts` no lo importa (ver arriba), así que se puede usar
 > en el formulario.
 
-- [ ] Escribir `src/components/panel/selector-ubicacion.tsx`:
+- [x] Escribir `src/components/panel/selector-ubicacion.tsx`:
 
 ```tsx
 "use client";
@@ -10555,7 +10555,7 @@ export function SelectorUbicacion({ inicial }: { inicial: Punto | null }) {
 > El marcador arrastrable se mueve también con teclado (`keyboard: true`); comprobar con axe que
 > Leaflet le pone `role` y nombre, y si no, añadir `aria-label` en `m.getElement()` tras crearlo.
 
-- [ ] Escribir `src/components/panel/vista-marca.tsx`:
+- [x] Escribir `src/components/panel/vista-marca.tsx`:
 
 ```tsx
 "use client";
@@ -10615,7 +10615,7 @@ export function VistaFavicon({ nombreCampo }: { nombreCampo: string }) {
 
 ### Paso 4 — La pantalla
 
-- [ ] Escribir `src/app/(admin)/admin/configuracion/formulario-configuracion.tsx`:
+- [x] Escribir `src/app/(admin)/admin/configuracion/formulario-configuracion.tsx`:
 
 ```tsx
 "use client";
@@ -10864,7 +10864,7 @@ export function FormularioConfiguracion({ ajustes }: { ajustes: Record<string, A
 > `public/marca/favicon.svg` se queda como está y sigue sirviendo mientras la ruta guardada empiece
 > por `/` (`urlDeImagen` lo respeta).
 
-- [ ] Escribir `src/app/(admin)/admin/configuracion/page.tsx`:
+- [x] Escribir `src/app/(admin)/admin/configuracion/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -10904,11 +10904,11 @@ async function Formulario() {
 }
 ```
 
-- [ ] Añadir `"/admin/configuracion"` a `RUTAS_DEL_PANEL`.
+- [x] Añadir `"/admin/configuracion"` a `RUTAS_DEL_PANEL`.
 
 ### Paso 5 — El favicon, desde la configuración
 
-- [ ] En `src/app/layout.tsx`, sustituir `export const metadata: Metadata = { ... }` por la misma
+- [x] En `src/app/layout.tsx`, sustituir `export const metadata: Metadata = { ... }` por la misma
       metadata fija más el favicon leído:
 
 ```tsx
@@ -10936,17 +10936,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 ```
 
-- [ ] `pnpm build` → sin errores de prerender. Si Next se queja de datos sin caché en
+- [x] `pnpm build` → sin errores de prerender. Si Next se queja de datos sin caché en
       `generateMetadata`, confirmar que `obtenerConfiguracion` sigue con `"use cache"` (lo tiene).
-- [ ] **Rendimiento (decisión 3):** el layout raíz cambia, así que se mide. En la misma sesión:
+- [x] **Rendimiento (decisión 3):** el layout raíz cambia, así que se mide. En la misma sesión:
       `git stash`, `git checkout main`, `pnpm build`, `PASADAS=5 pnpm lighthouse` (anotar `/`);
       volver a la rama, `git stash pop`, `pnpm build`, `PASADAS=5 pnpm lighthouse`. La mediana de `/`
       no puede bajar más de 3 puntos. Anotar los dos números en el PR.
-- [ ] Commit: `feat(configuracion): datos del negocio, horarios, pedidos y marca desde el panel`
+- [x] Commit: `feat(configuracion): datos del negocio, horarios, pedidos y marca desde el panel`
 
 ### Paso 6 — En el navegador
 
-- [ ] Escribir `e2e/panel-configuracion.spec.ts`:
+- [x] Escribir `e2e/panel-configuracion.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -11092,13 +11092,13 @@ test("el sitio anuncia el favicon de la configuración", async ({ page }) => {
 > pero cambiar el favicon real en la base local lo cambia para las pruebas en paralelo de otros
 > archivos. Si se quiere automatizar, hacerlo en este archivo serial con restauración en `finally`.
 
-- [ ] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-configuracion.spec.ts e2e/panel-accesibilidad.spec.ts`
+- [x] Liberar el puerto 3000; `pnpm test:e2e e2e/panel-configuracion.spec.ts e2e/panel-accesibilidad.spec.ts`
       → PASS. Después la suite completa: las pruebas del sitio (pedido, horario, marca) no deben
       verse afectadas porque este archivo restaura cada valor.
-- [ ] Comprobar a mano: subir un favicon PNG desde el panel, guardar, recargar el sitio en otra
+- [x] Comprobar a mano: subir un favicon PNG desde el panel, guardar, recargar el sitio en otra
       pestaña y ver el icono nuevo (el navegador cachea favicons: probar en una ventana privada).
-- [ ] Commit: `test(configuracion): cambiar datos del negocio y verlos en el sitio`
-- [ ] PR `feat/f4-t7-configuracion` → CI en verde → fusionar.
+- [x] Commit: `test(configuracion): cambiar datos del negocio y verlos en el sitio`
+- [x] PR `feat/f4-t7-configuracion` → CI en verde → fusionar.
 
 ---
 
@@ -11179,10 +11179,10 @@ supabase migration list --linked      # ya aplicadas
 
 ### Paso 4 — Documentar
 
-- [ ] `DOC/Avance del proyecto.md`: F4 cerrada con fecha; lo construido; las 12 decisiones del
+- [x] `DOC/Avance del proyecto.md`: F4 cerrada con fecha; lo construido; las 12 decisiones del
       14/09/2026; los números medidos del paso 1; cómo se cierra la sesión en el acto al desactivar
       a alguien (T6, migración 0030); lo que queda del negocio.
-- [ ] `CLAUDE.md`:
+- [x] `CLAUDE.md`:
   - Tabla de estado: F4 ✅ con su resumen y los números medidos.
   - «La base hoy» y «Verificación»: tablas, políticas, triggers y totales de pruebas nuevos.
   - Tabla de migraciones: filas `0026_autoria` a `0030_guardar_configuracion`, una línea cada una.
@@ -11193,11 +11193,11 @@ supabase migration list --linked      # ya aplicadas
   - Trampas nuevas que hayan salido al ejecutar el plan (como mínimo: `<form action>` vacía el
     formulario en React 19; Radix Tabs desmonta campos sin `forceMount`; los controles de Radix no
     los restaura una copia local; la RLS no ve **qué valor** se escribe, por eso 0029).
-- [ ] `DOC/Plan de Desarrollo 00`: F4 ✅; usuarios dentro de F4; auditoría movida a F7.
-- [ ] `DOC/Plan de Desarrollo 03 - Frontend.md`: §5.1 (copia local), §5.5 (favicon con
+- [x] `DOC/Plan de Desarrollo 00`: F4 ✅; usuarios dentro de F4; auditoría movida a F7.
+- [x] `DOC/Plan de Desarrollo 03 - Frontend.md`: §5.1 (copia local), §5.5 (favicon con
       `generateMetadata`, no `icon.tsx`), §6 (pruebas del panel) y el umbral de rendimiento relativo.
-- [ ] `DOC/Plan de Desarrollo 02`: sección breve de las migraciones 0026–0030.
-- [ ] Este plan: marcar las casillas que se hicieron y anotar al final lo que resultó distinto.
+- [x] `DOC/Plan de Desarrollo 02`: sección breve de las migraciones 0026–0030.
+- [x] Este plan: marcar las casillas que se hicieron y anotar al final lo que resultó distinto.
 - [ ] Enseñarle el panel al propietario con las cuentas reales.
 - [ ] PR `docs/f4-cierre` → CI en verde → fusionar.
 
@@ -11250,3 +11250,53 @@ comportamiento exacto de `z.flattenError` con errores anidados (T3, presentacion
 de error que devuelve Postgres en las pruebas negativas de pgTAP (ajustar la prueba, nunca la
 regla), y si `react-hooks/purity` o `set-state-in-effect` marcan algo de T2 y T7 (hay alternativa
 escrita junto a cada caso). Ninguna regla de lint se desactiva para pasar.
+
+---
+
+## Lo que resultó distinto (cierre, 24/09/2026)
+
+Escrito al fusionar T8. F4 quedó en 7 migraciones (`0026`–`0032`), no las 5 que preveía la cabecera
+de la tarea 8, y en 32 migraciones totales, no 30 como llegó a decir una versión intermedia de este
+plan.
+
+- **La numeración de migraciones se corrió dos veces, no una.** T6 (sesiones cerradas) tomó el
+  número `0030` que el plan le había reservado a la configuración (T7), así que T7 pasó a `0031`. Y
+  la revisión final de F4 —que no estaba en el plan original como tarea propia— añadió `0032`. La
+  tabla de `CLAUDE.md` lleva la numeración real, no la del borrador.
+- **Una tarea 9 sin numerar: la revisión final.** Entre T7 y T8 se corrió una revisión de todo el
+  diff de F4 (`ae96d1b..24c6490`, 50 commits) que encontró cuatro problemas de fondo —avisos de
+  revisión huérfanos al borrar una promoción, el cambio de rol sin cerrar sesión, el ingeniero con
+  permiso de escritura en el bucket `marca`, y `CLAUDE.md` desfasado sobre la variable de Vercel— y
+  una tanda de arreglos los cerró en `fix/f4-revision-final` (migración `0032`, PR #61). El plan no
+  la nombraba porque nació de mirar el conjunto entero, no una tarea sola; queda documentada en
+  `revision-final-report.md`.
+- **T6 creció de un PR a tres rondas grandes**, todas dentro del mismo alcance de negocio
+  («usuarios y contraseña temporal») pero con una pieza que el plan no preveía: cerrar la sesión al
+  instante al desactivar, restablecer la contraseña o (desde 0032) cambiar el rol. Fue un pedido de
+  Dan sobre el propio PR #57, no un descubrimiento de bug — el plan original aceptaba el límite de
+  «hasta una hora» y Dan decidió que no. Ver `task-6-report.md`.
+- **El límite de «una hora» que este plan declaraba en varios sitios ya no existe** para desactivar,
+  eliminar o restablecer la contraseña: 0030 borra las sesiones de `auth.sessions` en el acto y
+  `app.rol_actual()` deja de reconocer el token. Un **cambio de rol** también cierra la sesión desde 0032. No queda ningún camino de los tres que dejara el panel abierto con un rol o un acceso que ya
+  no correspondía.
+- **El costo de comprobar la sesión en cada petición se resolvió con un RPC, no con `getUser()`.**
+  El plan no especificaba el mecanismo; medido en local, `getUser()` (Auth) tardaba 0.18–0.36 s por
+  llamada contra 0.013–0.025 s de una consulta a PostgREST, y con la suite completa en marcha esa
+  diferencia se notaba en minutos, no en milisegundos. `public.sesion_abierta()` es el que se usa.
+- **T3, T5 y T7 encontraron carreras de prueba que el plan no anticipaba** entre proyectos de
+  Playwright corriendo en paralelo sobre las mismas filas compartidas (`configuracion_sitio`,
+  `faqs`, el orden de una lista). Salieron `e2e/ayudas/cerrojo.ts` (un cerrojo entre procesos, con
+  dueño y latido) y la costumbre de restringir a un solo proyecto las pruebas que escriben en una
+  fila singleton.
+- **El favicon se implementó con `generateMetadata`, no con `app/icon.tsx`** (decisión ya escrita en
+  el brief de T7, confirmada al ejecutar): `ImageResponse` no dibuja bien un SVG y el favicon de
+  fábrica lo es.
+- **Rendimiento:** T3 y T7 midieron contra `main`, como pedía la decisión 3, con dos mediciones no
+  concluyentes por la máquina de la sesión (memoria crítica, dispersión de hasta 30 puntos entre
+  pasadas de la misma versión sin tocar nada). La comparación decisiva —F4 completa contra
+  `ae96d1b`, en una máquina en reposo— queda para cuando se corra el paso 1 de esta tarea; ver el
+  aviso «PENDIENTE» en `DOC/Avance del proyecto.md` y en `CLAUDE.md`.
+- **Los conteos de pruebas crecieron bastante más que en el plan de cada tarea individual**: al
+  cierre, 482 pgTAP (29 archivos), 295 Vitest (32 archivos) y 402 Playwright listadas en 28 archivos
+  (no se corrió la suite completa en T8 por la memoria de la máquina; el número es el que lista
+  `pnpm exec playwright test --list`, no un conteo de una ejecución).

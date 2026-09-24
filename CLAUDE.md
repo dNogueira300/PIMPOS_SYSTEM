@@ -11,29 +11,34 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 
 ## Estado
 
-**F0, F1, F2, F3 y F3.1 cerradas.** El sitio está desplegado (12/09/2026) en
+**F0, F1, F2, F3, F3.1 y F4 cerradas.** El sitio está desplegado (12/09/2026) en
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
-| Fase               | Estado                                                                                                                                                                                                                                                                                                                                                                                                         |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| F0 Preparación     | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                                                                                                                                                                                               |
-| F1 Fundación       | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                                                                                                                                                                                                   |
-| F2 Backend         | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                                                                                                                                                                                                 |
-| F3 Sitio público   | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                                                                                                                                                                                                          |
-| F3.1 Rediseño      | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Rendimiento contra F3 medido el mismo día y en la misma máquina: `/` 91 frente a 95, `/productos` 95 frente a 94, `/contacto` 96 frente a 96. Accesibilidad ≥ 97 y SEO 100. Plan en `DOC/Plan de Desarrollo 03.1`, capturas en `DOC/Maquetas/3.1/`             |
-| F4 Panel contenido | 🔶 **En curso.** Tareas 1–3 fusionadas en `main` el 22/09: cáscara del panel con navegación por rol, categorías y productos con presentaciones, historial de precios y fotos. Plan tarea a tarea en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`; avance real en `.superpowers/sdd/Plan de Desarrollo 04 - Panel de contenido/progress.md` (fuera de git). Siguiente: tarea 4, novedades con aprobación |
-| F5–F7              | ⬜                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Fase               | Estado                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| F0 Preparación     | ✅ 8/8 comprobaciones, verificadas en producción                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| F1 Fundación       | ✅ scaffold + autenticación + sistema de diseño + tipografía                                                                                                                                                                                                                                                                                                                                                                                                         |
+| F2 Backend         | ✅ 16 migraciones, checklist de cierre del doc 02 §15 completo                                                                                                                                                                                                                                                                                                                                                                                                       |
+| F3 Sitio público   | ✅ **Cerrada el 12/09.** Desplegado, crítica **29/40** cerrada, axe en cero y en el CI, Lighthouse accesibilidad y SEO ✅. El rendimiento y lo del negocio pasan a F4                                                                                                                                                                                                                                                                                                |
+| F3.1 Rediseño      | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul `#12306E`, Playfair Display + Plus Jakarta Sans y productos en híbrido. Rendimiento contra F3 medido el mismo día y en la misma máquina: `/` 91 frente a 95, `/productos` 95 frente a 94, `/contacto` 96 frente a 96. Accesibilidad ≥ 97 y SEO 100. Plan en `DOC/Plan de Desarrollo 03.1`, capturas en `DOC/Maquetas/3.1/`                                                                   |
+| F4 Panel contenido | ✅ **Cerrada el 24/09/2026** (PR #61, revisión final incluida). Las 8 tareas: cáscara del panel, categorías, productos con presentaciones/fotos/historial de precios, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios con contraseña temporal y cierre de sesión al instante, configuración y marca. Rendimiento: **PENDIENTE** medir F4 completa contra `ae96d1b` en una máquina en reposo (paso 1 de T8; ver «Verificación» abajo) |
+| F5–F7              | ⬜                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 
 **La base hoy:** 27 tablas **todas con RLS** (cero sin proteger), 11 vistas **todas con
-`security_invoker`**, 78 políticas, 2 trabajos de `pg_cron`, **27 migraciones**. Las 9 pruebas
-obligatorias del doc 02 §11.3 pasan las 9. Desde F4: la autoría de cada fila la sella un trigger
-(0026) y el catálogo se guarda con `public.guardar_producto` (0027), que es una transacción.
+`security_invoker`**, 81 políticas (65 en `public`, 16 en `storage`), 73 triggers, 2 trabajos de
+`pg_cron`, **32 migraciones**. Las 9 pruebas obligatorias del doc 02 §11.3 pasan las 9. Desde F4: la
+autoría de cada fila la sella un trigger (0026), el catálogo se guarda con `public.guardar_producto`
+(0027) y la configuración con `public.guardar_configuracion` (0031), las dos en una transacción; y
+desactivar a alguien, restablecerle la contraseña o cambiarle el rol le cierra la sesión **en el
+acto** (0030 + 0032), no en la próxima hora.
 
-**Verificación** (medido el 22/09/2026, con F4 T1–T3 dentro): 406 pgTAP + 209 unitarias +
-284 flujos E2E (27 se saltan sin imágenes semilla) + 3 guiones que prueban lo que SQL no
-puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por PR con
-CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
+**Verificación** (medido el 24/09/2026, con F4 completa): **482 pgTAP** (29 archivos) + **295
+unitarias** (32 archivos, Vitest) + **402 flujos E2E listados** en 28 archivos (`pnpm exec
+playwright test --list`; la suite completa no se corrió entera en esta sesión por la memoria de la
+máquina, así que este número es el listado, no el de una ejecución) + 3 guiones que prueban lo que
+SQL no puede (`verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`). Todo por
+PR con CI en verde; `main` protegida. No dar nada por cerrado sin ejecutarlo.
 
 **axe corre en el CI; Lighthouse no, y es a propósito.** `e2e/accesibilidad.spec.ts` pasa axe por las
 12 rutas públicas en los dos tamaños y con el menú del celular abierto, sin desactivar ni una regla:
@@ -102,34 +107,57 @@ en el mismo instante, no la opacidad, que pasa por una transición de 200 ms.
 `page.clock` sí es la herramienta correcta cuando lo que se congela es **el paso del tiempo como
 dato** —«Abierto ahora» depende de qué hora es—, no cuando se persigue un efecto de un gesto.
 
-**Pendiente del negocio:** crear al resto de usuarios (solo existe el superadmin), el dominio, las
-fotos de producto y las redes sociales (Facebook e Instagram están vacíos y el pie solo los muestra
-si se cargan). Ninguno bloquea el trabajo técnico.
+**Pendiente del negocio (F4):** crear a Marcos y Debra **desde el panel** ahora que existe
+`/admin/usuarios` (solo existe el superadmin todavía), confirmar con el negocio los datos «Por
+confirmar» (teléfono fijo, costo y tiempo de delivery, pedido mínimo, formas de pago), asignar las
+tres fotos sueltas del bucket si corresponden a algún producto, cargar Facebook e Instagram si ya
+existen, el dominio y las fotos de los 32 productos que aún no tienen. Ninguno bloquea el trabajo
+técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exacto.
 
-**El despliegue, en corto** (12/09/2026). El sitio vive en
-https://pimpos-system-iota.vercel.app, sin dominio todavía. En Vercel hay **dos variables y solo
-dos**:
+**El despliegue, en corto** (actualizado el 24/09/2026 con el cierre de F4). El sitio vive en
+https://pimpos-system-iota.vercel.app, sin dominio todavía. En Vercel hay **tres variables**:
 
-| Variable                        | De dónde sale                                                  |
-| ------------------------------- | -------------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase → Project Settings → Data API                         |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API Keys (la `anon`/publishable) |
+| Variable                        | De dónde sale                                                                                               |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase → Project Settings → Data API                                                                      |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase → Project Settings → API Keys (la `anon`/publishable)                                              |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Supabase → Project Settings → API Keys (la `service_role`), **Production y Preview**, añadida el 23/09/2026 |
+
+**`SUPABASE_SERVICE_ROLE_KEY` no lleva `NEXT_PUBLIC_`**, así que nunca llega al navegador. La lee
+solo `src/lib/supabase/administrador.ts` (`import "server-only"`), y solo la usan las acciones de
+`/admin/usuarios` (F4, tarea 6), siempre después de `exigirAcceso`. Sin ella, esas páginas fallan con
+un error explicado en vez de exponer nada.
 
 **`NEXT_PUBLIC_SITE_URL` se deja sin poner a propósito** hasta que haya dominio: sin ella,
 `urlDelSitio()` usa `VERCEL_PROJECT_PRODUCTION_URL`, que Vercel inyecta sola, y así el `sitemap`, las
 canónicas y la imagen para compartir no publican una dirección provisional. Cuando llegue
 `panaderiapimpos.com`, se añade y manda ella.
 
-Las otras cuatro del `.env.example` (`SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_WHATSAPP`,
-`RESEND_API_KEY`, `CORREO_ALERTAS`) **no las lee ningún archivo todavía**: el número de WhatsApp sale
-de `configuracion_sitio` y Resend es de F5. Ponerlas hoy sería guardar secretos sin uso.
+Las otras tres del `.env.example` (`NEXT_PUBLIC_WHATSAPP`, `RESEND_API_KEY`, `CORREO_ALERTAS`) **no
+las lee ningún archivo todavía**: el número de WhatsApp sale de `configuracion_sitio` y Resend es de
+F5. Ponerlas hoy sería guardar secretos sin uso.
 
-Producción tiene las 25 migraciones, la semilla `01_maestros.sql` (cargada a mano desde el editor
-SQL del panel, **nunca con `--include-seed`**) y las 62 imágenes en sus buckets.
+Producción tiene las migraciones hasta la **0031** aplicadas (Dan, 23/09/2026); la **0032**
+(revisión final de F4) queda pendiente de `db push` junto con la fusión de PR #61, **sin
+`--include-seed`**. La semilla es `01_maestros.sql` (cargada a mano desde el editor SQL del panel,
+**nunca con `--include-seed`**) y las 62 imágenes están en sus buckets.
+
+**Recuperar la contraseña del superadmin, si hace falta.** No hay flujo de «¿Olvidaste tu
+contraseña?» en el sitio: se hace por SQL, desde el editor de Supabase alojado, contra el `id` del
+superadmin en `auth.users`:
+
+```sql
+update auth.users
+set encrypted_password = extensions.crypt('<clave-nueva>', extensions.gen_salt('bf'))
+where id = '<uuid-del-superadmin>';
+```
+
+No deja la clave en ningún registro de la aplicación; queda solo en el historial de quien lo ejecuta
+en el editor SQL.
 
 **Un hueco declarado, no cubierto:** las imágenes semilla no van en el repositorio, así que en el CI
 los buckets están vacíos y las comprobaciones que miran si una foto **se ve** se saltan diciendo por
-qué. Localmente sí corren. Decidir antes de F4 si se cubre.
+qué. Localmente sí corren. La decisión de cubrirlo o no se aplazó durante toda F4; sigue pendiente.
 
 Tampoco proponer cambios de stack ni de hosting: se cerraron el 05/09/2026.
 
@@ -220,7 +248,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 377 pruebas pgTAP
+supabase test db                  # 482 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -504,6 +532,57 @@ false` con `breakpoints` en embla (el módulo se descarga igual, el bloqueo se q
   completo. Con la `anon` responde 401 `"Only the service_role API key can be used for this
 endpoint"`. Para un ping se consulta una tabla real; meter la `service_role` en un workflow
   sería poner una llave que salta toda la RLS dentro de un ping.
+- **React 19 vacía un `<form action={...}>` al terminar la acción, también cuando vuelve con
+  errores.** Es justo cuando la persona necesita ver lo que escribió para corregirlo. Por eso
+  `FormularioPanel` (F4) envía con `onSubmit` + `startTransition`, no con `action`.
+- **Radix Tabs desmonta el panel oculto**, así que un campo en una pestaña que no está activa pierde
+  su valor al cambiar de pestaña, salvo que se le pase `forceMount`. `PestanasFormulario` lo usa en
+  las tres pestañas del formulario de producto (F4, tarea 3) precisamente por esto.
+- **La copia local de un formulario no restaura un control de Radix** (un `Select`, un `Switch`):
+  esos componentes no son `<input>` nativos y no leen su valor de un atributo `value` del DOM. El
+  borrador guarda y devuelve el dato, pero el componente tiene que aplicarlo él mismo al montar, no
+  basta con rellenar el HTML.
+- **La RLS decide qué filas se pueden tocar, no qué valor se escribe en ellas.** La política de
+  `perfiles` (0003) deja que un administrador edite su propio perfil, y eso incluía poder ponerse
+  `rol = 'superadmin'`: la fila era suya, así que la política lo dejaba pasar. Se cierra con un
+  trigger (0029, `app.proteger_perfiles()`), que sí puede mirar de qué valor a qué valor cambia una
+  columna. Regla general: cuando lo que importa es la transición de un valor y no solo la fila, hace
+  falta un trigger además de la política.
+- **Una escritura con `service_role` no pasa por los triggers que dependen de la sesión**, porque
+  `auth.uid()` es NULL para ese rol. `app.proteger_perfiles()` (0029) no ve una llamada de la Admin
+  API. Cada camino que usa `service_role` (F4, tarea 6: restablecer contraseña, desactivar) repite su
+  propia comprobación de autorización contra la sesión de quien pide la acción (`perfilDeOtro()`,
+  `puedeGestionarAcceso()`, `puedeRestablecerClave()`) antes de tocar Auth — la regla en Postgres no
+  basta cuando el camino la puede rodear.
+- **`setInputFiles` como primera interacción después de `goto` se pierde si llega antes de que React
+  hidrate.** El evento se dispara sobre el DOM del servidor y no hay manejador todavía escuchando.
+  Rellenar antes un campo de texto (que fuerza la espera a la hidratación) resuelve la carrera.
+- **`PestanasFormulario` salta a la PRIMERA pestaña con error, no a la que se estaba viendo.** Es a
+  propósito (el plan de F4 lo pide: una pestaña con errores se marca en rojo con un punto), pero una
+  prueba que espera quedarse en la pestaña actual tras un error de otra falla si no lo tiene en
+  cuenta.
+- **Dos proyectos de Playwright en paralelo escribiendo la misma fila compartida se pisan.** Pasó con
+  `configuracion_sitio` (una tabla singleton) y con el orden de `faqs`: `test.describe.configure({
+mode: "serial" })` solo ordena pruebas **dentro** de un proyecto, no entre los dos proyectos
+  (`movil` y `escritorio`), que corren en workers separados y a la vez. Salidas usadas en F4: cuando
+  la prueba escribe en una fila global, restringirla a un solo proyecto
+  (`test.skip(info.project.name !== "movil", ...)`, como ya hacía `panel-cascara.spec.ts`); cuando
+  además hace falta que dos operaciones no se crucen (crear y reordenar en la misma lista), un
+  cerrojo entre procesos (`e2e/ayudas/cerrojo.ts`: `mkdir` atómico con dueño y latido, se rompe solo
+  si lleva 15 s sin renovarse).
+- **`getClaims()` verifica la firma del JWT en local y no puede ver que la sesión se borró en el
+  servidor.** El token sigue siendo válido criptográficamente hasta que expira (hasta 1 h), aunque
+  `auth.sessions` ya no tenga la fila. Para saber si una sesión sigue abierta de verdad (F4, tarea 6:
+  desactivar/restablecer/cambiar rol cierran en el acto) hace falta preguntarle a la base
+  (`public.sesion_abierta()`, un RPC), no a la firma del token.
+- **Un PR se puede fusionar mientras todavía hay rondas de revisión abiertas sobre él.** Pasó con el
+  PR #57 de F4 (tarea 6): se fusionó en un commit intermedio y las rondas 2–4 quedaron sin destino.
+  La salida fue abrir un PR nuevo desde una rama renombrada con los commits que faltaban, no forzar
+  nada sobre `main`. Si el ritmo de fusión no está claro, confirmar antes de seguir arreglando sobre
+  una rama que ya se fusionó.
+- **`ghcr.io` puede responder `toomanyrequests` en el paso «Levantar Supabase» del CI**, antes de
+  tocar ninguna migración. Es infraestructura compartida de GitHub Container Registry, no un fallo
+  del PR: se relanza el job más tarde y pasa.
 
 ---
 
@@ -527,15 +606,32 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
   - `src/lib/supabase/publico.ts` — cliente **sin cookies**. Leer una cookie ataría el renderizado
     a la petición y tiraría el prerenderizado entero; sin sesión, PostgREST atiende como `anon` y la
     RLS muestra justo lo que ve un visitante.
-- `src/app/(admin)/` — dashboard, contenido, insumos, clientes, usuarios, auditoría, configuración.
-  Dinámico y siempre autenticado. **Construido desde F4** (tareas 1–3): la cáscara vive en
-  `src/components/panel/` (barra lateral en escritorio, barra inferior a 375 px, lista que pasa de
-  tabla a tarjetas, formulario con copia local en el navegador, pestañas, subida de fotos
-  comprimidas) y la lógica en `src/lib/panel/`. **Toda mutación pasa por `ejecutarAccion()`**
-  (`src/lib/panel/accion.ts`): vuelve a exigir acceso, valida con el mismo esquema Zod que el
-  navegador, traduce el error de Postgres a una frase que dice qué hacer, y refresca el sitio con
-  `updateTag`. Hay una prueba de axe y otra de área táctil **por cada ruta** del panel
-  (`e2e/panel-accesibilidad.spec.ts`): al añadir una ruta, se añade a `RUTAS_DEL_PANEL`.
+- `src/app/(admin)/` — contenido (categorías, productos, novedades, portada, galería, preguntas,
+  guías, testimonios), usuarios y configuración. Insumos, clientes y auditoría quedan para F5–F7.
+  Dinámico y siempre autenticado. **Construido en F4** (las 7 tareas de contenido + cierre, cerrada
+  el 24/09/2026): la cáscara vive en `src/components/panel/` (barra lateral en escritorio, barra
+  inferior fija a 375 px, lista que pasa de tabla a tarjetas nunca a scroll lateral, formulario con
+  copia local automática en el navegador — «Tienes cambios sin guardar… Recuperarlos / Descartar» —,
+  formularios largos en pestañas con un solo «Guardar», subida de fotos comprimidas en el navegador)
+  y la lógica en `src/lib/panel/`. **Toda mutación pasa por `ejecutarAccion()`**
+  (`src/lib/panel/accion.ts`): vuelve a exigir acceso (`exigirAcceso`), valida con el mismo esquema
+  Zod que el navegador, traduce el error de Postgres a una frase que dice qué hacer, y refresca el
+  sitio con `updateTag` usando la etiqueta de `src/lib/datos/etiquetas.ts` que corresponda
+  (`catalogo`, `novedades`, `contenido` o `marca`). La copia local vive en `src/lib/panel/borrador.ts`
+  (claves `pimpos:borrador:*`) y se borra al cerrar sesión y al llegar a `/ingresar` sin sesión —
+  contiene datos que pueden ser personales, así que no sobrevive a un cambio de quién está sentado
+  frente al teclado. `src/lib/supabase/administrador.ts` es el único archivo que lee
+  `SUPABASE_SERVICE_ROLE_KEY` (`import "server-only"`), y solo lo usan las páginas y acciones de
+  `/admin/usuarios`, siempre después de `exigirAcceso`. Hay una prueba de axe y otra de área táctil
+  **por cada ruta** del panel (`e2e/panel-accesibilidad.spec.ts`, 21 rutas): al añadir una ruta, se
+  añade a `RUTAS_DEL_PANEL`.
+  - **La sesión se cierra en el acto, no en la próxima hora.** Desactivar a alguien, eliminarlo,
+    restablecerle la contraseña o cambiarle el rol borra sus filas de `auth.sessions` (0030 + 0032):
+    `app.rol_actual()` devuelve NULL si la `session_id` del JWT ya no existe, y el panel se entera
+    preguntando a `public.sesion_abierta()` — en `obtenerSesion()` (cada página y cada Server Action,
+    vía `exigirAcceso`) y, en el proxy, solo en `/ingresar` y `/cambiar-clave` (se descartó
+    `getUser()` de Auth por coste medido: ~0.2–0.36 s por llamada contra ~0.02 s del RPC contra
+    PostgREST). No queda ningún límite conocido de «hasta una hora» en estos cuatro caminos.
 - `middleware.ts` — refresco de sesión + guardia por rol.
 - Mutaciones por **Server Actions** validadas con Zod; no hay API REST propia salvo webhooks puntuales.
 
@@ -545,44 +641,52 @@ un botón en la interfaz nunca cuenta como control de acceso: si la regla import
 política o restricción en Postgres (p. ej. la aprobación de promociones y la autorización de bajas
 de insumo son triggers/`check`, no validaciones de formulario).
 
-**Cuatro roles:** `superadmin` (único que elimina usuarios) · `administrador` · `ingeniero`
-(crea promociones pero no las publica) · `repartidor` (solo clientes). Matriz completa de RLS en
-el doc 02 §11.
+**Cuatro roles:** `superadmin` (único que elimina usuarios, que le cambia el rol a otro superadmin, o
+que le restablece la contraseña a un administrador — matriz completa de quién gestiona el acceso de
+quién en `puedeGestionarAcceso()`/`puedeRestablecerClave()`, `src/lib/validaciones/usuario.ts`) ·
+`administrador` · `ingeniero` (crea promociones pero no las publica; desde F4 tampoco resuelve avisos
+de promoción ni escribe en el bucket `marca`) · `repartidor` (solo clientes). Matriz completa de RLS
+en el doc 02 §11.
 
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 27 migraciones** (`supabase/migrations/`), en orden:
+**Las 32 migraciones** (`supabase/migrations/`), en orden:
 
-| Archivo                        | Contenido                                                                                                      |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `0001_extensiones`             | Esquema `app` + las 5 extensiones. `pg_cron` va en `pg_catalog`                                                |
-| `0002_comunes`                 | Los 6 enums, `app.set_updated_at()`, `app.rol_actual()`, `app.es_rol()`                                        |
-| `0003_roles_perfiles`          | `roles`, `perfiles`, el hook `app.custom_access_token()` y sus políticas                                       |
-| `0004_catalogo_roles`          | Las 4 filas de `roles` — migración, no semilla, ver la trampa de abajo                                         |
-| `0005_perfil_automatico`       | Trigger sobre `auth.users` que crea el perfil                                                                  |
-| `0006_perfil_siempre_inactivo` | El trigger deja de leer el rol de los metadatos                                                                |
-| `0007_auditoria`               | `app.auditoria`, trigger genérico y la vista `public.auditoria`                                                |
-| `0008_configuracion`           | `configuracion_sitio` y sus ~24 valores de la ficha                                                            |
-| `0009_catalogo`                | Categorías, productos, variantes, imágenes e historial de precios                                              |
-| `0010_contenido`               | Novedades con aprobación, slides, guías, galería, faqs, testimonios                                            |
-| `0011_insumos`                 | Unidades, equivalencias, proveedores, almacenes y `app.convertir_a_base()`                                     |
-| `0012_kardex`                  | Lotes, movimientos, saldos por trigger y `app.recalcular_saldos()`                                             |
-| `0013_clientes`                | Zonas, clientes, fotos, consentimientos y `app.sin_tildes()`                                                   |
-| `0014_storage_politicas`       | Las 12 políticas de los 7 buckets                                                                              |
-| `0015_cron_alertas`            | `notificaciones`, `app.evaluar_alertas()` y los 2 trabajos de cron                                             |
-| `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                                                      |
-| `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada                                     |
-| `0018_faq_horario`             | La respuesta del horario en 12 h. Repite las horas como texto libre: si cambia el horario, cambia también ella |
-| `0019_historia`                | La historia del negocio, reescrita en la voz de `docs/marca.md`                                                |
-| `0020_slides_enfoque`          | `slides.enfoque`: por qué altura se recorta cada foto del carrusel. La vista `slides_publicos` lo expone       |
-| `0021_testimonios_sin_demo`    | `testimonios_publicos` deja fuera los `es_demo`: un testimonio inventado es una reseña falsa                   |
-| `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                         |
-| `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                |
-| `0024_anio_fundacion`          | El año de apertura (2004) en la configuración: la cuenta de años deja de estar escrita a mano                  |
-| `0025_slide_sin_cuenta`        | El tercer slide decía «22 años»: pasa a decir el año de apertura, que no caduca                                |
-| `0026_autoria`                 | `created_by`/`updated_by` los pone un trigger con el usuario del JWT, en toda tabla que tenga las dos columnas |
-| `0027_guardar_producto`        | `public.guardar_producto`: el producto y sus presentaciones, en una sola transacción. `security invoker`       |
+| Archivo                        | Contenido                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0001_extensiones`             | Esquema `app` + las 5 extensiones. `pg_cron` va en `pg_catalog`                                                                                                                                                                                                                                                                                                                                                              |
+| `0002_comunes`                 | Los 6 enums, `app.set_updated_at()`, `app.rol_actual()`, `app.es_rol()`                                                                                                                                                                                                                                                                                                                                                      |
+| `0003_roles_perfiles`          | `roles`, `perfiles`, el hook `app.custom_access_token()` y sus políticas                                                                                                                                                                                                                                                                                                                                                     |
+| `0004_catalogo_roles`          | Las 4 filas de `roles` — migración, no semilla, ver la trampa de abajo                                                                                                                                                                                                                                                                                                                                                       |
+| `0005_perfil_automatico`       | Trigger sobre `auth.users` que crea el perfil                                                                                                                                                                                                                                                                                                                                                                                |
+| `0006_perfil_siempre_inactivo` | El trigger deja de leer el rol de los metadatos                                                                                                                                                                                                                                                                                                                                                                              |
+| `0007_auditoria`               | `app.auditoria`, trigger genérico y la vista `public.auditoria`                                                                                                                                                                                                                                                                                                                                                              |
+| `0008_configuracion`           | `configuracion_sitio` y sus ~24 valores de la ficha                                                                                                                                                                                                                                                                                                                                                                          |
+| `0009_catalogo`                | Categorías, productos, variantes, imágenes e historial de precios                                                                                                                                                                                                                                                                                                                                                            |
+| `0010_contenido`               | Novedades con aprobación, slides, guías, galería, faqs, testimonios                                                                                                                                                                                                                                                                                                                                                          |
+| `0011_insumos`                 | Unidades, equivalencias, proveedores, almacenes y `app.convertir_a_base()`                                                                                                                                                                                                                                                                                                                                                   |
+| `0012_kardex`                  | Lotes, movimientos, saldos por trigger y `app.recalcular_saldos()`                                                                                                                                                                                                                                                                                                                                                           |
+| `0013_clientes`                | Zonas, clientes, fotos, consentimientos y `app.sin_tildes()`                                                                                                                                                                                                                                                                                                                                                                 |
+| `0014_storage_politicas`       | Las 12 políticas de los 7 buckets                                                                                                                                                                                                                                                                                                                                                                                            |
+| `0015_cron_alertas`            | `notificaciones`, `app.evaluar_alertas()` y los 2 trabajos de cron                                                                                                                                                                                                                                                                                                                                                           |
+| `0016_vistas`                  | Las 9 vistas de lectura del sitio público                                                                                                                                                                                                                                                                                                                                                                                    |
+| `0017_pedidos`                 | Condiciones del delivery en `configuracion_sitio`, con su forma comprobada                                                                                                                                                                                                                                                                                                                                                   |
+| `0018_faq_horario`             | La respuesta del horario en 12 h. Repite las horas como texto libre: si cambia el horario, cambia también ella                                                                                                                                                                                                                                                                                                               |
+| `0019_historia`                | La historia del negocio, reescrita en la voz de `docs/marca.md`                                                                                                                                                                                                                                                                                                                                                              |
+| `0020_slides_enfoque`          | `slides.enfoque`: por qué altura se recorta cada foto del carrusel. La vista `slides_publicos` lo expone                                                                                                                                                                                                                                                                                                                     |
+| `0021_testimonios_sin_demo`    | `testimonios_publicos` deja fuera los `es_demo`: un testimonio inventado es una reseña falsa                                                                                                                                                                                                                                                                                                                                 |
+| `0022_presentaciones`          | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                                                                                                                                                                                                                                                                                                                                       |
+| `0023_slides_reales`           | Las tres diapositivas de portada, reales. Producción no carga semillas: el hero va en migración                                                                                                                                                                                                                                                                                                                              |
+| `0024_anio_fundacion`          | El año de apertura (2004) en la configuración: la cuenta de años deja de estar escrita a mano                                                                                                                                                                                                                                                                                                                                |
+| `0025_slide_sin_cuenta`        | El tercer slide decía «22 años»: pasa a decir el año de apertura, que no caduca                                                                                                                                                                                                                                                                                                                                              |
+| `0026_autoria`                 | `created_by`/`updated_by` los pone un trigger con el usuario del JWT, en toda tabla que tenga las dos columnas                                                                                                                                                                                                                                                                                                               |
+| `0027_guardar_producto`        | `public.guardar_producto`: el producto y sus presentaciones, en una sola transacción. `security invoker`                                                                                                                                                                                                                                                                                                                     |
+| `0028_aprobacion_con_aviso`    | Flujo de aprobación de promociones completo: aviso al administrador cuando una entra en revisión, comentario de devolución para el ingeniero                                                                                                                                                                                                                                                                                 |
+| `0029_perfiles_protegidos`     | Trigger `app.proteger_perfiles()`: nadie cambia su propio rol/`activo`/`deleted_at`, solo el superadmin da o quita el rol superadmin, el `id` de un perfil no se puede mover                                                                                                                                                                                                                                                 |
+| `0030_sesiones_cerradas`       | Desactivar a alguien o restablecerle la contraseña le cierra la sesión **en el acto**: `app.sesion_vigente()`, `app.rol_actual()` ya no reconoce una `session_id` borrada, `public.cerrar_sesiones()` (solo `service_role`) y `public.sesion_abierta()` que consulta el panel. Guarda de privilegios: se niega a aplicarse si el rol de la migración no puede `SELECT`/`DELETE` sobre `auth.sessions` o no tiene `BYPASSRLS` |
+| `0031_guardar_configuracion`   | `public.guardar_configuracion`: hasta ~30 filas de `configuracion_sitio` de una vez, todas o ninguna. Numerada 0031 y no 0030 porque T6 (sesiones) ya había tomado ese número                                                                                                                                                                                                                                                |
+| `0032_revision_final`          | Cuatro arreglos de la revisión final de F4: cierra avisos de revisión huérfanos al borrar una promoción, el cambio de **rol** también cierra la sesión en el acto, solo superadmin/administrador escriben en el bucket `marca`, el ingeniero solo resuelve avisos de insumo (no los de promoción)                                                                                                                            |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
@@ -620,8 +724,10 @@ mismo aplica al panel web: desactivar "Allow new users to sign up", nunca el pro
   uno de sal 25 kg). Es la lógica con más riesgo de error silencioso; va cubierta con Vitest
   **antes** de escribir su interfaz.
 - _`configuracion_sitio`_ (clave/valor jsonb): hace administrables logo, favicon, coordenadas,
-  horarios y textos, y desde 0017 las condiciones del delivery (grupo `pedidos`). `app/icon.tsx` y
-  `app/apple-icon.tsx` leen de ahí (requisito R21). **Zod la valida entera**: un valor con la forma
+  horarios y textos, y desde 0017 las condiciones del delivery (grupo `pedidos`). El favicon
+  (requisito R21) se sirve desde `generateMetadata` en `app/layout.tsx`, no desde `app/icon.tsx`:
+  `ImageResponse` (`next/og`) no dibuja bien el SVG de fábrica. Editable desde F4 en
+  `/admin/configuracion`, pestaña Marca. **Zod la valida entera**: un valor con la forma
   equivocada no se pierde solo, tira el objeto completo a los valores de reserva y el sitio se queda
   sin teléfono, dirección ni horario. Por eso las claves de `pedidos` llevan además un `check` por
   clave en la base, que rechaza el valor al guardarlo. Lo inventado para maquetar lleva `PENDIENTE`

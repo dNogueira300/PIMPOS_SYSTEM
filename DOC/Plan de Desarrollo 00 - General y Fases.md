@@ -17,18 +17,18 @@ El motivo no es formalismo: el esquema de la base, las políticas RLS y los buck
 
 ---
 
-## 1. Estado a la fecha (14/09/2026)
+## 1. Estado a la fecha (24/09/2026)
 
 > **Resumen ejecutivo del avance en `Avance del proyecto.md`.** Este documento mantiene el
 > plan; aquel cuenta qué se hizo y por qué.
 
-| Actividad del plan de trabajo                     | Estado                                                                                                                                                  |
-| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                                                                                      |
-| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                                                                      |
-| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                                                                       |
-| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **23** hoy                                                                                                 |
-| 2–5 Desarrollo                                    | 🔄 F0, F1, F2, F3 y **F3.1 cerradas**. F3 quedó desplegada con axe en cero y el rendimiento investigado; F3.1 le dio el aspecto del prototipo de Stitch |
+| Actividad del plan de trabajo                     | Estado                                                                                                                                                                                                |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.1 Diagnóstico y levantamiento de requerimientos | ✅ Completo (ficha llenada, 12 secciones + anexos)                                                                                                                                                    |
+| 1.2 Diseño de arquitectura y stack                | ✅ Completo (`Stack Tecnologico - PIMPOS.md` v2.0)                                                                                                                                                    |
+| Material gráfico                                  | ✅ Recibido y optimizado (`_OPTIMIZADO/`), pendientes resueltos con datos semilla                                                                                                                     |
+| 1.3 Diseño de base de datos                       | ✅ Completo: 16 migraciones al cierre de F2, **32** hoy                                                                                                                                               |
+| 2–5 Desarrollo                                    | 🔄 F0, F1, F2, F3, **F3.1 y F4 cerradas**. F3 quedó desplegada con axe en cero y el rendimiento investigado; F3.1 le dio el aspecto del prototipo de Stitch; F4 abre el panel de contenido y usuarios |
 
 ### 1.1 Fase 0 — cerrada el 06/09/2026
 
@@ -147,21 +147,44 @@ Rendimiento contra F3, medido el mismo día: portada 91 frente a 95 (el límite 
 5), catálogo 95 frente a 94, contacto 96 frente a 96. 388 pgTAP, 169 unitarias y 212 flujos E2E en
 verde. El detalle, en `Avance del proyecto.md`; las capturas, en `DOC/Maquetas/3.1/`.
 
+### 1.6 Fase 4 — cerrada el 24/09/2026
+
+El panel de contenido, en 8 tareas (PR #51 a #61, más una revisión final sobre el conjunto):
+cáscara con navegación por rol; categorías; productos con presentaciones, historial de precios y
+fotos; novedades con aprobación (R10); portada, galería, preguntas, guías y testimonios;
+**usuarios** con contraseña temporal y bloqueo, dentro de F4 por decisión de Dan del 14/09/2026
+(«Marcos y Debra tienen que poder probar el panel en cuanto exista»); configuración y marca,
+incluido el favicon (R21) vía `generateMetadata`; y el cierre — medir, desplegar y documentar.
+
+**La auditoría queda fuera de F4 y pasa a F7.** El plan original (doc 03) la contemplaba en el
+panel de contenido; la decisión del 14/09/2026 la sacó para no atrasar el alta de usuarios, y
+`app.auditoria` + la vista `public.auditoria` (0007) ya registran cada cambio desde F2 — solo falta
+la pantalla que los muestre, que se construye en F7 junto con el resto del cierre del proyecto.
+
+Siete migraciones nuevas (`0026`–`0032`, detalladas en el doc 02): autoría sellada por trigger,
+`guardar_producto` transaccional, aprobación de promociones con aviso, perfiles protegidos contra
+la autoescalada a superadmin, sesiones cerradas en el acto al desactivar/restablecer/cambiar rol,
+`guardar_configuracion` transaccional y los cuatro arreglos de la revisión final. 32 migraciones en
+total, 482 pgTAP, 295 unitarias y 402 pruebas de navegador listadas al cierre.
+
+Detalle completo, lo que resultó distinto y los números medidos: `DOC/Plan de Desarrollo 04 - Panel
+de contenido.md` (con su sección final «Lo que resultó distinto») y `Avance del proyecto.md`.
+
 ---
 
 ## 2. Fases
 
-| Fase     | Nombre                      | Entregable que la cierra                                                                                                              | Depende de |
-| -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                                | —          |
-| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                              | F0         |
-| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                          | F1         |
-| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                       | F2         |
-| **F3.1** | Rediseño visual             | ✅ Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1` | F3         |
-| **F4**   | Panel: contenido (Módulo 2) | CRUD de productos, novedades, slides, guías, galería, FAQ, testimonios y configuración                                                | F2, F3     |
-| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                      | F2         |
-| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                           | F2         |
-| **F7**   | Cierre                      | Capacitación, manual, informe final y traspaso de credenciales                                                                        | F3–F6      |
+| Fase     | Nombre                      | Entregable que la cierra                                                                                                               | Depende de |
+| -------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                                 | —          |
+| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                               | F0         |
+| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                           | F1         |
+| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                        | F2         |
+| **F3.1** | Rediseño visual             | ✅ Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1`  | F3         |
+| **F4**   | Panel: contenido (Módulo 2) | ✅ CRUD de productos, novedades, slides, guías, galería, FAQ y configuración; **usuarios** (movido dentro por decisión del 14/09/2026) | F2, F3     |
+| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                       | F2         |
+| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                            | F2         |
+| **F7**   | Cierre                      | Capacitación, manual, informe final, traspaso de credenciales y **auditoría** (movida desde F4)                                        | F3–F6      |
 
 ### 2.1 Por qué este orden
 
@@ -222,12 +245,11 @@ PIMPOS_SYSTEM/
 │  │  │                      galeria · contacto · ubicacion · faq
 │  │  ├─ (admin)/            dashboard · contenido · insumos · clientes ·
 │  │  │                      usuarios · auditoria · configuracion
-│  │  ├─ (auth)/             ingresar · recuperar-clave
+│  │  ├─ (auth)/             ingresar · cambiar-clave
 │  │  ├─ api/                webhooks y endpoints puntuales
-│  │  ├─ icon.tsx            favicon dinámico (R21)
-│  │  ├─ apple-icon.tsx
 │  │  ├─ sitemap.ts · robots.ts · manifest.ts
-│  │  └─ layout.tsx
+│  │  └─ layout.tsx          favicon dinámico (R21) vía `generateMetadata`; el
+│  │                         apple-touch-icon queda fijo en `public/marca/`
 │  ├─ components/
 │  │  ├─ ui/                 shadcn/ui
 │  │  ├─ publico/            secciones del sitio

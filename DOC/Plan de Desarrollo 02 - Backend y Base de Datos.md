@@ -51,21 +51,35 @@ Separar `app` reduce la superficie que PostgREST publica. Todo lo que no necesit
 **Fase 2, ya aplicadas.** El kárdex acabó necesitando migración propia y los índices se
 quedaron en la migración de cada tabla, que es donde se entienden:
 
-| #    | Archivo                    | Contenido                                                                                            |
-| ---- | -------------------------- | ---------------------------------------------------------------------------------------------------- |
-| 0011 | `insumos.sql`              | `unidades_medida`, `equivalencias`, `proveedores`, `almacenes`, `insumos` y `app.convertir_a_base()` |
-| 0012 | `kardex.sql`               | `lotes_insumo`, `movimientos_insumo`, `saldos_insumo` y `app.recalcular_saldos()`                    |
-| 0013 | `clientes.sql`             | `zonas_reparto`, `clientes`, `cliente_fotos`, `consentimientos`, `app.sin_tildes()`                  |
-| 0014 | `storage_politicas.sql`    | Las 12 políticas de los 7 buckets                                                                    |
-| 0015 | `cron_alertas.sql`         | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                            |
-| 0016 | `vistas.sql`               | Las 9 vistas de lectura del sitio público                                                            |
-| 0017 | `pedidos.sql`              | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada      |
-| 0018 | `faq_horario.sql`          | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito   |
-| 0019 | `historia.sql`             | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito           |
-| 0020 | `slides_enfoque.sql`       | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva  |
-| 0021 | `testimonios_sin_demo.sql` | `testimonios_publicos` deja fuera los de ejemplo (`es_demo`): uno inventado es una reseña falsa      |
-| 0022 | `presentaciones.sql`       | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay               |
-| 0023 | `slides_reales.sql`        | Las tres diapositivas de portada. Producción no carga semillas: el hero tenía que ir en migración    |
+| #    | Archivo                         | Contenido                                                                                                    |
+| ---- | ------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 0011 | `insumos.sql`                   | `unidades_medida`, `equivalencias`, `proveedores`, `almacenes`, `insumos` y `app.convertir_a_base()`         |
+| 0012 | `kardex.sql`                    | `lotes_insumo`, `movimientos_insumo`, `saldos_insumo` y `app.recalcular_saldos()`                            |
+| 0013 | `clientes.sql`                  | `zonas_reparto`, `clientes`, `cliente_fotos`, `consentimientos`, `app.sin_tildes()`                          |
+| 0014 | `storage_politicas.sql`         | Las 12 políticas de los 7 buckets                                                                            |
+| 0015 | `cron_alertas.sql`              | `notificaciones`, `app.evaluar_alertas()` y los dos trabajos de `pg_cron`                                    |
+| 0016 | `vistas.sql`                    | Las 9 vistas de lectura del sitio público                                                                    |
+| 0017 | `pedidos.sql`                   | Condiciones del delivery en `configuracion_sitio` (F3, tras el cierre), con la forma comprobada              |
+| 0018 | `faq_horario.sql`               | La respuesta del horario en preguntas frecuentes, de 24 h a 12 h, solo si nadie la había reescrito           |
+| 0019 | `historia.sql`                  | La historia del negocio, reescrita en la voz de la marca, solo si nadie la había reescrito                   |
+| 0020 | `slides_enfoque.sql`            | `slides.enfoque` (0–100) y la vista ampliada: por qué altura se recorta la foto de cada diapositiva          |
+| 0021 | `testimonios_sin_demo.sql`      | `testimonios_publicos` deja fuera los de ejemplo (`es_demo`): uno inventado es una reseña falsa              |
+| 0022 | `presentaciones.sql`            | `productos_publicos` manda todas las presentaciones con su precio, no solo cuántas hay                       |
+| 0023 | `slides_reales.sql`             | Las tres diapositivas de portada. Producción no carga semillas: el hero tenía que ir en migración            |
+| 0024 | `anio_fundacion.sql`            | El año de apertura (2004) en `configuracion_sitio`, con `check`: la cuenta de años deja de escribirse a mano |
+| 0025 | `slide_sin_cuenta_de_anios.sql` | El tercer slide decía «22 años»: pasa a decir el año de apertura, que no caduca                              |
+
+**F4, panel de contenido (cerrada el 24/09/2026):**
+
+| #    | Archivo                     | Contenido                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0026 | `autoria.sql`               | Trigger que sella `created_by`/`updated_by` con el usuario del JWT, en toda tabla que tenga las dos columnas                                                                                                                                                                                                                                                                                                                                                                |
+| 0027 | `guardar_producto.sql`      | `public.guardar_producto`: el producto y sus presentaciones, en una sola transacción (`security invoker`)                                                                                                                                                                                                                                                                                                                                                                   |
+| 0028 | `aprobacion_con_aviso.sql`  | El flujo de aprobación de promociones completo: aviso al administrador cuando una entra en revisión, y comentario de devolución para el ingeniero                                                                                                                                                                                                                                                                                                                           |
+| 0029 | `perfiles_protegidos.sql`   | Trigger `app.proteger_perfiles()`: cierra el hueco de RLS que dejaba a un administrador ponerse `rol = 'superadmin'` (decisión 11 del 14/09/2026). Nadie cambia su propio rol/`activo`/`deleted_at`, solo el superadmin toca a otro superadmin, y el `id` de un perfil no se puede mover                                                                                                                                                                                    |
+| 0030 | `sesiones_cerradas.sql`     | Desactivar a alguien o restablecerle la contraseña le cierra la sesión **en el acto**: `app.sesion_vigente()`, `app.rol_actual()` deja de reconocer una `session_id` borrada, `public.cerrar_sesiones()` (solo `service_role`) y `public.sesion_abierta()`, que consulta el panel. Lleva una guarda al principio: se niega a aplicarse si el rol de la migración no tiene `SELECT`/`DELETE` sobre `auth.sessions` o `BYPASSRLS`, para no dejar el panel sin acceso a ciegas |
+| 0031 | `guardar_configuracion.sql` | `public.guardar_configuracion`: hasta ~30 filas de `configuracion_sitio` de una vez, todas o ninguna. Se numera 0031 y no 0030 porque la tarea de sesiones tomó ese número primero                                                                                                                                                                                                                                                                                          |
+| 0032 | `revision_final.sql`        | Cuatro arreglos que salieron de revisar el conjunto de F4: cierra avisos de revisión huérfanos al borrar una promoción, el cambio de **rol** también cierra la sesión en el acto, solo superadmin/administrador escriben en el bucket `marca`, y el ingeniero deja de poder resolver avisos de promoción (solo los de insumo)                                                                                                                                               |
 
 Semillas aparte, en `supabase/seeds/` — y solo para lo que únicamente necesita el entorno de
 desarrollo, por el motivo de §3.2.
@@ -75,8 +89,10 @@ desarrollo, por el motivo de §3.2.
 **Fase 2 cerrada el 08/09/2026.** Las 16 migraciones aplican limpio sobre una base vacía.
 
 **27 tablas, todas con RLS activada** — cero sin proteger. 11 vistas, **todas con
-`security_invoker`**. 78 políticas (66 en `public`/`app` y 12 en `storage`), 2 trabajos de
-`pg_cron`. **326 pruebas pgTAP** en verde, que corren en cada PR.
+`security_invoker`**. **81 políticas** (65 en `public` y 16 en `storage`), **73 triggers**, 2
+trabajos de `pg_cron`. **482 pruebas pgTAP** en verde (medido el 24/09/2026, con F4 completa), que
+corren en cada PR. Ninguna tabla ni vista nueva desde F2: F4 amplió reglas sobre las que ya
+existían, con triggers y funciones nuevas, no con esquema nuevo.
 
 **Después del cierre** (11/09/2026, F3): `0017_pedidos` añade a `configuracion_sitio` un grupo
 `pedidos` con cinco claves —zonas, costo, mínimo, tiempo y formas de pago— y una restricción que
@@ -87,8 +103,9 @@ recorta su foto. `0021_testimonios_sin_demo` deja fuera de la vista pública los
 ejemplo, que se estaban publicando. Después (12/09/2026), `0022_presentaciones` amplía `productos_publicos` con **todas** las
 presentaciones de cada producto y no solo cuántas hay —los dos productos de dos precios se pedían a
 ciegas—, y `0023_slides_reales` carga las tres diapositivas de portada: en producción no podían venir
-de una semilla, porque allí las semillas no se cargan. Hoy son **23 migraciones y 377 pruebas
-pgTAP**.
+de una semilla, porque allí las semillas no se cargan. Al cierre de F3 eran **23 migraciones y 377
+pruebas pgTAP**; F3.1 sumó `0024` y `0025` (el año de apertura, sin escribir la cuenta a mano) y F4
+las llevó a las 32 y 482 de hoy — ver el párrafo de F4 más abajo.
 
 Nota sobre `es_demo`: se filtra en `testimonios_publicos` y **no** en `slides_publicos`, y no es
 incoherencia. Un testimonio inventado con nombre de persona es una reseña falsa en cuanto alguien lo
@@ -103,6 +120,15 @@ filtrar.
 Las tres últimas comparten una regla: **un texto que el negocio puede haber editado solo se corrige
 si sigue siendo el de fábrica**, reconocido por su contenido, y la corrección no se audita, porque
 no es un cambio que hiciera una persona.
+
+**F4 (cerrada el 24/09/2026) añadió siete migraciones, `0026` a `0032`**, todas sobre tablas que ya
+existían: quién quedaba escrito como autor de una fila (0026), guardar el producto y la
+configuración cada uno en una sola transacción (0027 y 0031), el flujo de aprobación de promociones
+con aviso (0028), el hueco de RLS que dejaba a un administrador ponerse `rol = 'superadmin'` (0029),
+que desactivar/restablecer/cambiar el rol de alguien le cierre la sesión en el acto y no en la
+próxima hora (0030 + 0032), y tres arreglos más de una revisión sobre el conjunto (0032: avisos de
+revisión huérfanos, el bucket `marca` y los avisos que puede resolver un ingeniero). Detalle
+completo en `CLAUDE.md` y en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
 
 Las 9 pruebas obligatorias de §11.3 pasan las 9:
 
