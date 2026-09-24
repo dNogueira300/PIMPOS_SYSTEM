@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 
+import { fotoDePrueba } from "./ayudas/foto";
 import { supabaseLocal } from "./ayudas/supabase-local";
 import { entrarComo } from "./ayudas/sesion";
 import { borrarUsuario } from "./ayudas/usuarios";
@@ -153,6 +154,41 @@ test("el ingeniero no entra a configuración", async ({ page }) => {
     await page.goto("/admin/configuracion");
     await expect(page).toHaveURL("/admin?motivo=sin-acceso");
   } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("el administrador sube el logo al bucket marca (0032 se lo deja solo a la administración)", async ({
+  page,
+  request,
+}) => {
+  const usuario = await entrarComo(page, "administrador");
+  let subida: string | null = null;
+  try {
+    await page.goto("/admin/configuracion");
+    // Pulsar la pestaña exige que React ya hidrató: así `setInputFiles` no
+    // llega antes que el `onChange` (ver panel-contenido.spec.ts).
+    await page.getByRole("tab", { name: "Marca" }).click();
+    const logo = page.locator('[data-subida="logo_url"]');
+    await logo
+      .getByLabel(/Elegir de la galería para Logo completo/)
+      .setInputFiles(await fotoDePrueba(page));
+    // Sin Guardar: la configuración es una fila compartida con las demás
+    // pruebas. Lo que se comprueba es que Storage acepta la subida.
+    const vista = logo.locator("[data-vista-previa]");
+    await expect(vista).toHaveAttribute("src", /\/marca\/logo\/.+\.png$/);
+    const src = (await vista.getAttribute("src")) ?? "";
+    subida = src.split("/marca/")[1] ?? null;
+    expect((await request.get(src)).status()).toBe(200);
+    await expect(logo.getByText("No se pudo subir la foto")).toHaveCount(0);
+  } finally {
+    if (subida) {
+      const { apiUrl, serviceRoleKey } = supabaseLocal();
+      await fetch(`${apiUrl}/storage/v1/object/marca/${subida}`, {
+        method: "DELETE",
+        headers: { apikey: serviceRoleKey, Authorization: `Bearer ${serviceRoleKey}` },
+      });
+    }
     await borrarUsuario(usuario.id);
   }
 });
