@@ -18,12 +18,27 @@ const DESTINO: Record<TablaOrdenable, { ruta: string; etiqueta: Etiqueta }> = {
   testimonios: { ruta: "/admin/contenido/testimonios", etiqueta: ETIQUETAS.contenido },
 };
 
+// `tabla` y `hacia` llegan del navegador como cualquier argumento de una Server
+// Action: sin validarlos, `DESTINO[tabla]` con un valor desconocido tiraba un
+// 500 antes incluso de comprobar el acceso.
+const esquemaDestino = z.object({
+  tabla: z.enum(Object.keys(DESTINO) as [TablaOrdenable, ...TablaOrdenable[]]),
+  hacia: z.enum(["arriba", "abajo"]),
+});
+
 export async function moverFila(
   tabla: TablaOrdenable,
   id: string,
   hacia: "arriba" | "abajo",
 ): Promise<EstadoAccion> {
-  const { ruta, etiqueta } = DESTINO[tabla];
+  const destino = esquemaDestino.safeParse({ tabla, hacia });
+  if (!destino.success) {
+    return {
+      estado: "error",
+      mensaje: "No se pudo cambiar el orden. Recarga la página y vuelve a intentarlo.",
+    };
+  }
+  const { ruta, etiqueta } = DESTINO[destino.data.tabla];
   return ejecutarAccion({
     ruta,
     esquema: z.object({ id: z.uuid(), hacia: z.enum(["arriba", "abajo"]) }),
