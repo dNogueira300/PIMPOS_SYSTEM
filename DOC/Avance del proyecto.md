@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 14/09/2026
+**Corte:** 24/09/2026
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -12,17 +12,17 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase     | Nombre                   | Estado                                                                                                                                                       |
-| -------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                          |
-| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                          |
-| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                          |
-| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                   |
-| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero |
-| F4       | Panel: contenido         | ⬜                                                                                                                                                           |
-| F5       | Panel: insumos           | ⬜                                                                                                                                                           |
-| F6       | Panel: clientes          | ⬜                                                                                                                                                           |
-| F7       | Cierre                   | ⬜                                                                                                                                                           |
+| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                               |
+| -------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                  |
+| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                  |
+| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                  |
+| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                           |
+| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                         |
+| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento: **PENDIENTE** medir F4 completa contra `ae96d1b` en máquina en reposo |
+| F5       | Panel: insumos           | ⬜                                                                                                                                                                                                                                                                   |
+| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                   |
+| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                   |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -580,17 +580,86 @@ umbral en F4, medir contra el sitio desplegado, en el mismo rato, las versiones 
 **Queda para revisar con el negocio:** enseñar las capturas de `DOC/Maquetas/3.1/` al propietario (la tipografía se eligió con el propietario en F1, y ha cambiado), mirarlo en un teléfono real a 375 px, y la foto de la
 galería titulada «La masa», que enseña el horno eléctrico.
 
+### Fase 4 — cerrada el 24/09/2026: el panel de contenido
+
+**Qué se construyó.** Ocho tareas, un PR cada una (#51 a #61, la última una revisión sobre el
+conjunto de F4), sobre la cáscara del panel con navegación por rol (barra lateral en escritorio,
+barra inferior fija a 375 px): categorías; productos con presentaciones, historial de precios y
+fotos comprimidas en el navegador; novedades con aprobación (el ingeniero envía a revisión, el
+administrador publica o devuelve con un comentario); portada, galería, preguntas frecuentes, guías y
+testimonios; usuarios con contraseña temporal de un solo uso y cambio obligatorio en el primer
+ingreso; y configuración del sitio con la pestaña de marca (logo y favicon). Todo lo que hoy solo se
+cambiaba con una migración —salvo insumos y clientes, que son F5 y F6— ya se cambia desde el panel,
+en el celular, sin redesplegar.
+
+**Las 12 decisiones de Dan del 14/09/2026** que fijaron el alcance: usuarios dentro de F4 y
+auditoría fuera, a F7 (Marcos y Debra tenían que poder probar el panel en cuanto existiera); «todo
+formulario guarda borrador» como copia local automática en el navegador (texto, nunca fotos);
+rendimiento del sitio público medido en relativo (no más de 3 puntos por debajo de `main`, en la
+misma sesión) en vez del umbral absoluto de F3; fotos de prueba propias en el CI, nunca del cliente;
+aprobación de promociones con aviso en el panel y comentario de devolución; alta de usuarios con
+contraseña temporal mostrada una sola vez; pantallas propias por módulo sobre piezas compartidas
+(«enfoque A»), sin motor CRUD genérico; sin `@tanstack/react-table` ni `react-hook-form` —los
+mismos formularios nativos que ya regían el sitio público—; barra lateral en escritorio y barra
+inferior fija en el celular; formularios largos en pestañas con un solo «Guardar»; el arreglo de
+seguridad que le impedía a un administrador ponerse el rol superadmin (0029); y el orden de las
+tareas, con usuarios después de novedades/contenido.
+
+**Rendimiento — PENDIENTE.** El paso 1 del cierre (medir F4 completa contra `ae96d1b`, el último
+commit de F3.1 en `main`, en la misma sesión y máquina) no se corrió todavía en una máquina en
+reposo: `[PENDIENTE: mediana de PASADAS=5 pnpm lighthouse en / , /productos y /contacto, F4 completa
+contra ae96d1b]`. Dos mediciones parciales durante F4, ninguna concluyente por la máquina de la
+sesión (memoria crítica, dispersión de hasta 30 puntos entre pasadas de la misma versión sin tocar
+nada — la misma trampa de medición que ya documenta `CLAUDE.md`):
+
+| Tarea                      | Ruta        | Antes               | Después             | Delta                                       |
+| -------------------------- | ----------- | ------------------- | ------------------- | ------------------------------------------- |
+| T3 (productos)             | `/`         | 67 (58–71)          | 64 (51–83)          | sin regresión distinguible del ruido        |
+| T3 (productos)             | `/contacto` | 67 (60–76)          | 74 (72–80)          | sin regresión distinguible del ruido        |
+| T7 (configuración/favicon) | `/`         | 75 (63/79/75/94/68) | 77 (61/79/71/77/79) | +2, dentro del presupuesto                  |
+| T7 (configuración/favicon) | `/contacto` | 84 (90/71/91/84/82) | 73 (65/89/95/65/73) | no concluyente (máquina con ~1.3 GB libres) |
+
+Producción, medida después de fusionar T7: `/` **81**, `/contacto` **89**.
+
+**La sesión se cierra en el acto, no en la próxima hora.** El límite que T6 dejaba escrito al
+principio —desactivar a alguien no le quitaba una sesión ya abierta hasta que expirara su token, hasta
+una hora— se cerró dentro de la misma fase, en dos pasos: la migración `0030` hace que desactivar,
+eliminar o restablecer la contraseña de alguien borre sus filas de `auth.sessions` (lo que revoca
+también sus refresh tokens) y que `app.rol_actual()` deje de reconocer un token cuya `session_id` ya
+no existe; la `0032` (revisión final) extiende lo mismo a **cambiar el rol**. El panel se entera
+preguntando en cada página y cada Server Action al RPC `public.sesion_abierta()` (se descartó
+`getUser()` de Auth por coste medido: ~0.2–0.36 s por llamada contra ~0.02 s de una consulta a
+PostgREST). Hoy no queda ningún camino de los cuatro —desactivar, eliminar, restablecer contraseña,
+cambiar rol— que deje el panel abierto con un acceso que ya no corresponde.
+
+**Límites conocidos, declarados y no resueltos:** dos administradores reordenando la misma lista al
+mismo tiempo pueden pisarse un movimiento (`reordenar()` reescribe toda la tabla cuando el orden no
+va consecutivo); un visitante cuya página empieza a cargar justo antes de que el panel llame a
+`updateTag` puede quedarse con la versión anterior hasta el siguiente cambio de contenido (el
+`cacheLife` de cada etiqueta acota cuánto); restaurar por SQL una promoción borrada en revisión no
+reabre su aviso; una foto reemplazada se queda huérfana en el bucket, sin limpieza automática; el
+historial de precios se guarda pero no tiene pantalla propia en F4.
+
+**Pendiente del negocio, específico de F4:** crear a Marcos y Debra **desde el panel** ahora que
+`/admin/usuarios` existe (hoy solo hay superadmin); confirmar con el negocio los datos «Por
+confirmar» (teléfono fijo, costo y tiempo de delivery, pedido mínimo, formas de pago); asignar las
+tres fotos sueltas del bucket a un producto si corresponde; cargar Facebook e Instagram si ya
+existen; revisar el panel en un teléfono real (paso 2 del cierre, con capturas comparadas contra las
+maquetas de `DOC/Maquetas/4/`); y enseñarle el panel al propietario con las cuentas reales. Ninguno
+bloquea el trabajo técnico. Detalle completo, incluida la sección «Lo que resultó distinto» del
+plan, en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
+
 ### Pendiente del negocio
 
-| Tema                  | Qué hace falta                                                                                                                                                                                                                     |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin                                                                                                                                                            |
-| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                                                                                           |
-| **Dominio**           | `panaderiapimpos.com`. **No bloquea el trabajo técnico** (decisión de Dan, 12/09/2026): el sitio vive en la dirección de Vercel y `urlDelSitio()` la toma sola. Hace falta antes de enseñárselo al propietario y de Search Console |
-| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo                                                                           |
-| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px                                                                 |
-| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; se asignan desde el panel en F4                                                             |
-| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                          |
+| Tema                  | Qué hace falta                                                                                                                                                                                                                                      |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin — **ya se puede hacer desde `/admin/usuarios`**, con contraseña temporal de un solo uso; falta que Dan lo haga en producción (paso 3 del cierre de F4)                      |
+| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                                                                                                            |
+| **Dominio**           | `panaderiapimpos.com`. **No bloquea el trabajo técnico** (decisión de Dan, 12/09/2026): el sitio vive en la dirección de Vercel y `urlDelSitio()` la toma sola. Hace falta antes de enseñárselo al propietario y de Search Console                  |
+| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo. **Ya se cargan desde `/admin/configuracion`**, pestaña Redes; falta que el negocio los dé |
+| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px. **Ya se suben desde el panel**, con la cámara del celular                       |
+| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; **se asignan desde `/admin/contenido/productos`**, disponible desde F4                                       |
+| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                                           |
 
 ### Datos por confirmar
 
@@ -623,33 +692,35 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 
 ## 6. Riesgos vivos
 
-| Riesgo                                     | Estado                                                                                                                                                                                                   |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                       |
-| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                        |
-| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                                   |
-| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                           |
-| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                                |
-| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                         |
-| Usuarios de nivel básico no usan el panel  | 🟡 Se mitiga en F4 con lenguaje sin jerga y capacitación                                                                                                                                                 |
-| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                            |
-| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. Decidir antes de F4                                                                                                                    |
-| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                                     |
-| Lighthouse: rendimiento por debajo de 90   | 🟡 **Investigado y declarado.** Tres hipótesis medidas y descartadas; el techo con el carrusel fuera sigue en 83. Es la hidratación de React, no nuestro código. Pasa a F4 como decisión sobre el umbral |
+| Riesgo                                     | Estado                                                                                                                                                                                              |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                  |
+| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                   |
+| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                              |
+| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                      |
+| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                           |
+| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                    |
+| Usuarios de nivel básico no usan el panel  | 🟡 Panel construido con lenguaje sin jerga, copia local automática y confirmación antes de borrar (F4). Falta la capacitación real con Marcos y Debra, con las cuentas creadas en producción        |
+| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                       |
+| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. La decisión de cubrirlo se aplazó durante toda F4; sigue pendiente                                                                |
+| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                                |
+| Lighthouse: rendimiento por debajo de 90   | 🟡 El umbral pasó a relativo desde F4 (no más de 3 puntos por debajo de `main`, misma sesión). La comparación decisiva de F4 completa contra `ae96d1b` queda **PENDIENTE** de una máquina en reposo |
 
 ---
 
 ## 7. Dónde está cada cosa
 
-| Documento                                         | Para qué                                            |
-| ------------------------------------------------- | --------------------------------------------------- |
-| `Plan de Desarrollo 00 - General y Fases`         | Orden de fases, convenciones y cronograma           |
-| `Plan de Desarrollo 01 - Preparacion y Servicios` | Fase 0, cerrada, con lo que resultó distinto        |
-| `Plan de Desarrollo 02 - Backend y Base de Datos` | Esquema, seguridad y migraciones                    |
-| `Plan de Desarrollo 03 - Frontend`                | Diseño, sitio público y panel                       |
-| `Stack Tecnologico - PIMPOS`                      | Versiones y por qué cada una                        |
-| `Maquetas/`                                       | Las opciones de tipografía y las capturas           |
-| **Este documento**                                | Resumen de avance. Se actualiza al cerrar cada fase |
+| Documento                                         | Para qué                                                               |
+| ------------------------------------------------- | ---------------------------------------------------------------------- |
+| `Plan de Desarrollo 00 - General y Fases`         | Orden de fases, convenciones y cronograma                              |
+| `Plan de Desarrollo 01 - Preparacion y Servicios` | Fase 0, cerrada, con lo que resultó distinto                           |
+| `Plan de Desarrollo 02 - Backend y Base de Datos` | Esquema, seguridad y migraciones                                       |
+| `Plan de Desarrollo 03 - Frontend`                | Diseño, sitio público y panel                                          |
+| `Plan de Desarrollo 03.1 - Rediseño visual`       | Fase 3.1, cerrada, con lo que resultó distinto                         |
+| `Plan de Desarrollo 04 - Panel de contenido`      | Fase 4, cerrada, tarea a tarea, con «Lo que resultó distinto» al final |
+| `Stack Tecnologico - PIMPOS`                      | Versiones y por qué cada una                                           |
+| `Maquetas/`                                       | Las opciones de tipografía y las capturas                              |
+| **Este documento**                                | Resumen de avance. Se actualiza al cerrar cada fase                    |
 
 Dentro del repositorio:
 
