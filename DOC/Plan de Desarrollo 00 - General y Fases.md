@@ -245,12 +245,11 @@ PIMPOS_SYSTEM/
 │  │  │                      galeria · contacto · ubicacion · faq
 │  │  ├─ (admin)/            dashboard · contenido · insumos · clientes ·
 │  │  │                      usuarios · auditoria · configuracion
-│  │  ├─ (auth)/             ingresar · recuperar-clave
+│  │  ├─ (auth)/             ingresar · cambiar-clave
 │  │  ├─ api/                webhooks y endpoints puntuales
-│  │  ├─ icon.tsx            favicon dinámico (R21)
-│  │  ├─ apple-icon.tsx
 │  │  ├─ sitemap.ts · robots.ts · manifest.ts
-│  │  └─ layout.tsx
+│  │  └─ layout.tsx          favicon dinámico (R21) vía `generateMetadata`; el
+│  │                         apple-touch-icon queda fijo en `public/marca/`
 │  ├─ components/
 │  │  ├─ ui/                 shadcn/ui
 │  │  ├─ publico/            secciones del sitio

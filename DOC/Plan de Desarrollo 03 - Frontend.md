@@ -706,9 +706,10 @@ Lo marcado se comprobó ejecutándolo, no leyéndolo.
 **Pasa a la Fase 4.** Nada de esto bloquea el cierre de F3: depende del negocio, de una URL con
 dominio propio, o de una decisión sobre el umbral.
 
-- [ ] **Decidir qué se hace con el umbral de rendimiento.** La recomendación, con la evidencia de
-      abajo: revisarlo como ya se revisó el presupuesto de JavaScript, que también estaba por debajo
-      del suelo del framework
+- [x] **Decidir qué se hace con el umbral de rendimiento.** Decidido en F4 (decisión 3, 14/09/2026):
+      el umbral pasa de absoluto (≥ 90) a **relativo** — ningún PR baja la mediana más de 3 puntos
+      contra `main`, medida en la misma sesión. Ver §4.5, «Desde F4, el umbral de rendimiento del
+      sitio público es relativo, no absoluto»
 - [ ] JSON-LD validado con la herramienta de resultados enriquecidos de Google. La forma ya la
       comprueba una prueba; la herramienta necesita una URL pública
 - [ ] Verificado en Chrome y Safari móvil **reales**, no solo en el emulador
