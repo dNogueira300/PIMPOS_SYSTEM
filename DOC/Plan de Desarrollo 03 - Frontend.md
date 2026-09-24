@@ -490,6 +490,16 @@ Lo que se vigila ahora, con prueba automática en cada PR:
 `/ubicacion` queda fuera de ese techo a propósito: carga un mapa porque quien entra en «dónde
 estamos» viene a verlo. Se vigila con su propio límite (194 KB medidos, tope 250).
 
+**Desde F4, el umbral de rendimiento del sitio público es relativo, no absoluto** (decisión 3 de
+Dan, 14/09/2026): ningún PR de F4 puede bajar la mediana de `PASADAS=5 pnpm lighthouse` en una ruta
+pública más de **3 puntos**, medida en la misma sesión contra `main` (`git stash` + `git checkout
+main` + build; nunca contra un número guardado de otro día — es la misma trampa de medición que ya
+costó una fase en F3.1). Sustituye al «≥ 90 en móvil» de este documento, que la investigación de
+arriba ya había dejado sin sustento: el suelo lo pone React 19 + Next 16, no el código del proyecto.
+Solo las tareas que tocan código que llega al sitio público quedan obligadas a medir (en F4, la de
+productos y la de configuración/favicon, por tocar el layout raíz); el resto del panel no carga nada
+en las rutas públicas y no necesita remedirlas.
+
 **Dos trampas de medición**, las dos del tipo que ya salió caro antes:
 
 - Sumar la cabecera `content-length` de las respuestas daba **2 KB** y la prueba pasaba. Esa cabecera
@@ -547,9 +557,21 @@ El panel lo usan personas con **nivel de computadora básico** (ficha 6.5) desde
 
 - Español claro, cero jerga. "Guardar", no "Persistir". "Publicado", no "Estado: activo"
 - Una acción principal por pantalla, visible sin desplazarse
-- Confirmación explícita antes de borrar, diciendo **qué** se borra
+- Confirmación explícita antes de borrar, diciendo **qué** se borra — y sin prometer una
+  recuperación que el panel no tiene: el texto dice «pide ayuda al encargado del sistema», no
+  «puedes deshacerlo»
 - Errores que explican qué hacer, no códigos
-- Todo formulario guarda borrador: perder una conexión no debe perder el trabajo
+- **Todo formulario guarda borrador, con una copia local automática en el navegador** (decisión de
+  Dan, 14/09/2026): mientras se escribe, `FormularioPanel` guarda el texto (nunca fotos) bajo una
+  clave `pimpos:borrador:<ruta>` en `localStorage`; si la persona vuelve a esa pantalla con algo sin
+  guardar, ve «Tienes cambios sin guardar… Recuperarlos / Descartar». Piezas compartidas desde F4,
+  tarea 2: `src/lib/panel/borrador.ts`. La copia se borra al guardar con éxito, al cerrar sesión y al
+  llegar a `/ingresar` sin sesión — no sobrevive a un cambio de quién usa el teclado, porque puede
+  llevar datos personales. React 19 vacía un `<form action={...}>` al terminar la acción, también al
+  volver con errores, así que `FormularioPanel` no usa `action`: envía con `onSubmit` +
+  `startTransition` para no perder lo escrito justo cuando hay que corregirlo. Y un control de Radix
+  (`Select`, `Switch`) no se restaura solo con rellenar el HTML: el propio componente tiene que
+  aplicar el valor guardado al montar.
 - **Todas las tablas funcionan a 375 px** de ancho — en móvil se convierten en tarjetas, no en tablas con desplazamiento lateral
 
 ### 5.2 Rutas
@@ -596,7 +618,14 @@ En `/admin/configuracion`, pestaña **Marca**:
 
 - Subir **logo** (WebP/PNG/SVG, máx. 2 MB) con vista previa sobre fondo claro y oscuro
 - Subir **favicon** (SVG/PNG/ICO) con vista previa a 16, 32 y 180 px, para que se vea si es legible antes de guardar
-- Al guardar: `revalidateTag('marca')` refresca el sitio público sin volver a desplegar
+- Al guardar: `updateTag(ETIQUETAS.marca)` refresca el sitio público sin volver a desplegar
+
+**Implementado (F4, tarea 7) con `generateMetadata`, no con `app/icon.tsx`/`app/apple-icon.tsx`.**
+`ImageResponse` (`next/og`), el motor detrás de un `icon.tsx` dinámico, no dibuja bien un SVG — y el
+favicon de fábrica del sitio es un SVG. `app/layout.tsx` exporta un `generateMetadata` asíncrono que
+añade `icons.icon` desde `obtenerConfiguracion()` (`"use cache"`, etiqueta `marca`); sin favicon
+subido, resuelve a `/marca/favicon.svg` en `public/`. `icons.apple` queda fijo en
+`public/marca/apple-touch-icon.png`, porque Apple no acepta SVG para el icono de inicio.
 
 ### 5.6 Dashboard
 
@@ -621,6 +650,17 @@ Todos los gráficos con **texto alternativo y tabla de datos accesible** — un 
 | **Manual**        | Cada pantalla a 375 px, 768 px y 1440 px                                                                                                                                                         |
 | **Accesibilidad** | **axe automatizado** en `e2e/accesibilidad.spec.ts`, en cada PR: 12 rutas públicas × 2 tamaños + el menú del celular abierto, sin desactivar ninguna regla; navegación completa solo con teclado |
 | **Lighthouse**    | `pnpm lighthouse`, a mano. **No va en el CI**: mide tiempos, y un tiempo depende de la máquina — en un runner compartido el mismo sitio da 96 y luego 78, y pondría en rojo ramas sanas          |
+
+**El panel (F4) tiene su propia capa, además de la del sitio público:**
+
+| Tipo                                  | Qué cubre                                                                                                                                                                                                                                                                                         |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`e2e/panel-accesibilidad.spec.ts`** | axe **y** área táctil (≥ 44 × 44 px) por **cada ruta** del panel, en `RUTAS_DEL_PANEL` (21 rutas al cierre de F4: dashboard, cada módulo de contenido y su `nueva/`, usuarios y su `nuevo/`, configuración). Al añadir una ruta, se añade a la lista                                              |
+| **`e2e/panel-*.spec.ts` por módulo**  | Un flujo completo por módulo — crear, editar, publicar, borrar — desde la interfaz, no llamando a la Server Action directamente. `panel-usuarios.spec.ts` cubre además el primer ingreso con cambio de contraseña obligatorio                                                                     |
+| **`e2e/panel-sesiones.spec.ts`**      | Que desactivar, restablecer la contraseña o cambiar el rol de otra persona le cierre la sesión **en el acto** (dos navegadores: uno actúa, el otro es el afectado), y que cambiar la propia contraseña no cierre nada                                                                             |
+| **Vitest por regla de autorización**  | Cada función pura que decide quién puede hacer qué (`puedeGestionarAcceso`, `puedeRestablecerClave`, `rolesQuePuedeAsignar`) tiene su tabla de verdad completa, no solo casos sueltos                                                                                                             |
+| **pgTAP por migración**               | Cada migración de F4 (`0026`–`0032`) prueba su regla de base, con las pruebas negativas exigiendo el código y el texto exacto del error, no solo «algo falló»                                                                                                                                     |
+| **Carreras entre proyectos**          | Las pruebas que escriben en una fila compartida (`configuracion_sitio`, el orden de `faqs`) se restringen a un solo proyecto de Playwright o usan un cerrojo entre procesos (`e2e/ayudas/cerrojo.ts`) — dos proyectos en paralelo sobre la misma fila se pisan aunque cada uno mida algo distinto |
 
 ---
 
