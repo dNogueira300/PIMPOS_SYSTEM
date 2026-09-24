@@ -41,7 +41,7 @@ const VALOR = z.object({
 export { DIAS, anosDeOficio, describirTramos, enLetra, formatearHora } from "./reloj";
 export type { Dia, Tramo } from "./reloj";
 
-const ESQUEMA = z.object({
+export const esquemaConfiguracion = z.object({
   nombre_comercial: z.string().default("Panadería Pimpo's"),
   razon_social: z.string().default(""),
   eslogan: z.string().default(""),
@@ -83,10 +83,10 @@ const ESQUEMA = z.object({
   formas_pago: z.array(z.string()).default([]),
 });
 
-export type Configuracion = z.infer<typeof ESQUEMA>;
+export type Configuracion = z.infer<typeof esquemaConfiguracion>;
 
 /** Lo que se usa si la base no responde. Vale para que la pagina no se caiga. */
-const RESERVA: Configuracion = ESQUEMA.parse({});
+const RESERVA: Configuracion = esquemaConfiguracion.parse({});
 
 export async function obtenerConfiguracion(): Promise<Configuracion> {
   "use cache";
@@ -105,7 +105,7 @@ export async function obtenerConfiguracion(): Promise<Configuracion> {
     return RESERVA;
   }
 
-  const resultado = ESQUEMA.safeParse(data.valores);
+  const resultado = esquemaConfiguracion.safeParse(data.valores);
   return resultado.success ? resultado.data : RESERVA;
 }
 
