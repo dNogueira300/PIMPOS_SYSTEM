@@ -1335,8 +1335,8 @@ export function ConfirmarBorrado({ nombre, accion }: Props) {
         <AlertDialogHeader>
           <AlertDialogTitle>¿Borrar {nombre}?</AlertDialogTitle>
           <AlertDialogDescription>
-            Dejará de verse en el sitio y en esta lista. Si fue un error, un administrador puede
-            recuperarlo.
+            Dejará de verse en el sitio y en el panel. Si te equivocas, pide ayuda al encargado del
+            sistema antes de volver a cargarlo.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -1361,10 +1361,9 @@ export function ConfirmarBorrado({ nombre, accion }: Props) {
 }
 ```
 
-> «un administrador puede recuperarlo» es cierto en la base (borrado lógico) pero la pantalla de
-> papelera no está en F4: se recupera poniendo `deleted_at = null` desde el editor SQL. Si al
-> revisar la tarea se prefiere no prometerlo, cambiar la frase por «Dejará de verse en el sitio y en
-> esta lista.»
+> **Cambiado en la revisión final de F4:** el texto decía «un administrador puede recuperarlo», y la
+> pantalla de papelera no está en F4 —se recupera poniendo `deleted_at = null` desde el editor SQL—.
+> No se promete lo que el panel no hace.
 
 - [ ] Commit: `feat(panel): cáscara con barra lateral, barra inferior y piezas de lista`
 
@@ -9046,7 +9045,7 @@ export async function guardarUsuario(fd: FormData): Promise<EstadoAccion> {
     entidad: "el usuario",
     etiquetas: [],
     mensajeOk:
-      "Cambios guardados. El rol nuevo vale desde su próximo ingreso o en menos de una hora.",
+      "Cambios guardados. Si le cambiaste el rol, tendrá que volver a ingresar y ya entrará con el nuevo.",
     hacer: async (d, { supabase }) => {
       const { error } = await supabase
         .from("perfiles")
@@ -11231,7 +11230,9 @@ guardar (T2, T3); el arreglo del rol superadmin (T6, migración 0029); el orden 
 
 - ~~Desactivar a alguien no le quita una sesión ya abierta hasta una hora~~: resuelto en T6
   (migración 0030). Desactivar, eliminar o restablecer la contraseña cierra la sesión en el acto.
-  Lo que sí sigue esperando al próximo token es un **cambio de rol** (hasta una hora).
+  ~~Un cambio de rol esperaba al próximo token (hasta una hora)~~: resuelto en la revisión final
+  (migración 0032). Cambiar el rol también cierra la sesión, y al volver a entrar el token trae el
+  rol nuevo.
 - Una foto reemplazada se queda en el bucket. Limpieza de huérfanas: F7, si el espacio lo pide.
 - El historial de precios se guarda pero no tiene pantalla en F4.
 - No hay papelera: lo borrado se recupera desde el editor SQL (`deleted_at = null`).
