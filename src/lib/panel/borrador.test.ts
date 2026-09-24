@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   CADUCIDAD_MS,
   borrarBorrador,
+  borrarTodosLosBorradores,
   claveDeBorrador,
   guardarBorrador,
   haceCuanto,
@@ -82,5 +83,34 @@ describe("copia local de un formulario", () => {
     expect(haceCuanto(0, 60 * minuto)).toBe("hace 1 hora");
     expect(haceCuanto(0, 5 * 60 * minuto)).toBe("hace 5 horas");
     expect(haceCuanto(0, 3 * 24 * 60 * minuto)).toBe("hace 3 días");
+  });
+
+  it("al cerrar sesión se borran todas las copias, y nada más", () => {
+    const datos = new Map<string, string>([
+      ["pimpos:borrador:usuario:nuevo", "{}"],
+      ["pimpos:borrador:producto:abc", "{}"],
+      ["pimpos:otra-cosa", "1"],
+      ["tema", "oscuro"],
+    ]);
+    const almacen = {
+      get length() {
+        return datos.size;
+      },
+      key: (i: number) => [...datos.keys()][i] ?? null,
+      removeItem: (k: string) => void datos.delete(k),
+    };
+    borrarTodosLosBorradores(almacen);
+    expect([...datos.keys()]).toEqual(["pimpos:otra-cosa", "tema"]);
+  });
+
+  it("si el almacén no se deja leer, no revienta el cierre de sesión", () => {
+    const almacen = {
+      get length(): number {
+        throw new Error("SecurityError");
+      },
+      key: () => null,
+      removeItem: () => undefined,
+    };
+    expect(() => borrarTodosLosBorradores(almacen)).not.toThrow();
   });
 });

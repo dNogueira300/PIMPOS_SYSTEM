@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cerrarSesion } from "@/lib/acciones/autenticacion";
+import { olvidarBorradoresDelNavegador } from "@/lib/panel/borrador";
 import { esSeccionActiva, type NombreIcono, type SeccionPanel } from "@/lib/panel/navegacion";
 
 export const ICONOS: Record<NombreIcono, typeof House> = {
@@ -55,7 +56,7 @@ export function BarraLateral({ secciones, nombre, rol }: Props) {
         >
           <ExternalLink aria-hidden className="size-5" /> Ver el sitio
         </Link>
-        <form action={cerrarSesion}>
+        <form action={cerrarSesion} onSubmit={olvidarBorradoresDelNavegador}>
           <button
             type="submit"
             className="hover:bg-panel-lateral-hover flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left"

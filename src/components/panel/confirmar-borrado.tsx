@@ -25,8 +25,10 @@ type Props = {
   aviso?: string;
 };
 
+// Sin promesa de «recuperarlo»: el panel no tiene papelera (lo borrado solo se
+// recupera desde la base, a mano).
 const AVISO =
-  "Dejará de verse en el sitio y en esta lista. Si fue un error, un administrador puede recuperarlo.";
+  "Dejará de verse en el sitio y en el panel. Si te equivocas, pide ayuda al encargado del sistema antes de volver a cargarlo.";
 
 export function ConfirmarBorrado({ nombre, accion, aviso = AVISO }: Props) {
   const [pendiente, iniciar] = useTransition();

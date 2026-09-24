@@ -1,14 +1,25 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import { iniciarSesion, type EstadoIngreso } from "@/lib/acciones/autenticacion";
 import { Button } from "@/components/ui/button";
+import { olvidarBorradoresDelNavegador } from "@/lib/panel/borrador";
 
 const ESTADO_INICIAL: EstadoIngreso = {};
 
 export function FormularioIngreso({ volver }: { volver: string | null }) {
   const [estado, accion, enviando] = useActionState(iniciarSesion, ESTADO_INICIAL);
+
+  // Aquí solo llega quien no tiene sesión (con sesión, el proxy lo manda al
+  // panel): cerró sesión, o se la cerraron al desactivarlo, cambiarle el rol o
+  // restablecer su contraseña. Las copias locales de formularios eran de esa
+  // sesión y no deben quedar para quien entre después en el mismo celular.
+  // Cubre también la copia que el formulario guarde justo tras pulsar «Cerrar
+  // sesión», con el temporizador aún corriendo.
+  useEffect(() => {
+    olvidarBorradoresDelNavegador();
+  }, []);
 
   return (
     <form action={accion} className="flex flex-col gap-4" noValidate>

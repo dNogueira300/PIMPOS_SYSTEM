@@ -134,8 +134,10 @@ export async function guardarUsuario(fd: FormData): Promise<EstadoAccion> {
     entrada: leerUsuario(fd),
     entidad: "el usuario",
     etiquetas: [],
+    // Cambiar el rol le cierra la sesión en el acto (0032): vuelve a entrar y
+    // el token nuevo ya trae el rol nuevo.
     mensajeOk:
-      "Cambios guardados. El rol nuevo vale desde su próximo ingreso o en menos de una hora.",
+      "Cambios guardados. Si le cambiaste el rol, tendrá que volver a ingresar y ya entrará con el nuevo.",
     // El correo llega (el esquema es uno) pero no se escribe: cambiarlo exige
     // confirmarlo por correo, y sin SMTP propio no llega.
     hacer: async (d, { supabase }) => {

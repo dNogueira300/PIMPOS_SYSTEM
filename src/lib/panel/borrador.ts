@@ -15,8 +15,10 @@ type Almacen = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 export const CADUCIDAD_MS = 7 * 24 * 60 * 60 * 1000;
 
+const PREFIJO = "pimpos:borrador:";
+
 export function claveDeBorrador(formulario: string, id: string | null): string {
-  return `pimpos:borrador:${formulario}:${id ?? "nuevo"}`;
+  return `${PREFIJO}${formulario}:${id ?? "nuevo"}`;
 }
 
 export function valoresDe(fd: FormData): ValoresBorrador {
@@ -81,6 +83,37 @@ export function borrarBorrador(almacen: Almacen, clave: string): void {
     almacen.removeItem(clave);
   } catch {
     // Igual que al guardar.
+  }
+}
+
+/**
+ * Todas las copias de este navegador, de todos los formularios. Se llama al
+ * cerrar sesión y al llegar a /ingresar: en un celular compartido, quien entra
+ * después no debe ver lo que escribió el anterior (en el alta de un usuario,
+ * datos personales; Ley N.° 29733).
+ */
+export function borrarTodosLosBorradores(
+  almacen: Pick<Storage, "length" | "key" | "removeItem">,
+): void {
+  try {
+    // Primero se juntan las claves: borrar mientras se recorre corre los índices.
+    const claves: string[] = [];
+    for (let i = 0; i < almacen.length; i++) {
+      const clave = almacen.key(i);
+      if (clave?.startsWith(PREFIJO)) claves.push(clave);
+    }
+    for (const clave of claves) almacen.removeItem(clave);
+  } catch {
+    // Almacén bloqueado: no hay copias que borrar, y el cierre de sesión sigue.
+  }
+}
+
+/** `borrarTodosLosBorradores` sobre el `localStorage` de este navegador. */
+export function olvidarBorradoresDelNavegador(): void {
+  try {
+    borrarTodosLosBorradores(window.localStorage);
+  } catch {
+    // Acceder a `localStorage` también puede lanzar (almacenamiento bloqueado).
   }
 }
 

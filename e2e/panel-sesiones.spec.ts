@@ -132,6 +132,109 @@ test("darle una contraseña temporal nueva le cierra la sesión que tenía abier
   }
 });
 
+test("cambiarle el rol a alguien le cierra la sesión que tenía abierta, en el acto (0032)", async ({
+  page,
+  browser,
+}) => {
+  const admin = await entrarComo(page, "administrador");
+  const inge = await crearUsuario("ingeniero");
+  try {
+    const suya = await entrarEnOtroNavegador(browser, inge);
+    const token = await tokenDelNavegador(suya.context());
+    expect(await insumosQueVe(token), "antes, su rol le enseña los insumos").toHaveLength(1);
+
+    await page.goto(`/admin/usuarios/${inge.id}`);
+    await page.getByRole("radio", { name: /Repartidor/ }).check();
+    await page.getByRole("button", { name: "Guardar" }).click();
+    await expect(
+      page.getByText(
+        "Cambios guardados. Si le cambiaste el rol, tendrá que volver a ingresar y ya entrará con el nuevo.",
+      ),
+    ).toBeVisible();
+
+    await comprobarQueSeCerro(suya, token);
+    await suya.context().close();
+  } finally {
+    await borrarUsuario(inge.id);
+    await borrarUsuario(admin.id);
+  }
+});
+
+/** Las claves de copias locales de formularios que tiene este navegador. */
+async function borradoresGuardados(pagina: Page): Promise<string[]> {
+  return pagina.evaluate(() =>
+    Object.keys(localStorage).filter((k) => k.startsWith("pimpos:borrador:")),
+  );
+}
+
+test("cerrar sesión borra las copias locales: quien entra después en el mismo celular no las ve", async ({
+  page,
+}, info) => {
+  const primera = await entrarComo(page, "administrador");
+  const segunda = await crearUsuario("administrador");
+  try {
+    // El alta de un usuario: datos personales de otra persona (Ley N.° 29733).
+    await page.goto("/admin/usuarios/nuevo");
+    await page.getByLabel("Nombre y apellido").fill("Persona de prueba sin guardar");
+    await page.getByLabel("Correo").fill("persona-sin-guardar@pimpos.test");
+    await expect
+      .poll(() => borradoresGuardados(page), { message: "la copia se guarda al dejar de escribir" })
+      .toEqual(["pimpos:borrador:usuario:nuevo"]);
+
+    // En el celular, «Cerrar sesión» vive dentro de «Más» (barra inferior).
+    if (info.project.name === "movil") {
+      await page.getByRole("button", { name: "Más" }).click();
+    }
+    await page.getByRole("button", { name: "Cerrar sesión" }).click();
+    await expect(page).toHaveURL("/ingresar");
+    await expect.poll(() => borradoresGuardados(page)).toEqual([]);
+
+    // Recargar el ingreso: el App Router deja montado (oculto) el formulario
+    // del alta, que también tiene un campo «Correo».
+    await page.goto("/ingresar");
+    await page.getByLabel("Correo").fill(segunda.correo);
+    await page.getByLabel("Contraseña").fill(segunda.clave);
+    await page.getByRole("button", { name: "Entrar" }).click();
+    await page.waitForURL("/admin");
+    await page.locator("main#contenido").waitFor();
+
+    await page.goto("/admin/usuarios/nuevo");
+    await expect(page.getByLabel("Nombre y apellido")).toBeVisible();
+    await expect(page.locator("[data-borrador]")).toHaveCount(0);
+    await expect(page.getByLabel("Nombre y apellido")).toHaveValue("");
+  } finally {
+    await borrarUsuario(segunda.id);
+    await borrarUsuario(primera.id);
+  }
+});
+
+test("si le cierran la sesión, sus copias locales se borran al llegar al ingreso", async ({
+  page,
+  browser,
+}) => {
+  const admin = await entrarComo(page, "administrador");
+  const inge = await crearUsuario("ingeniero");
+  try {
+    const suya = await entrarEnOtroNavegador(browser, inge);
+    await suya.goto("/admin/contenido/categorias/nueva");
+    await suya.getByLabel("Nombre").fill("Categoría de prueba sin guardar");
+    await expect.poll(() => borradoresGuardados(suya)).toEqual(["pimpos:borrador:categoria:nuevo"]);
+
+    await page.goto(`/admin/usuarios/${inge.id}`);
+    await page.getByRole("button", { name: "Desactivar la cuenta" }).click();
+    await expect(page.getByText("Cuenta desactivada. Ya no puede entrar.")).toBeVisible();
+
+    await suya.goto("/admin/contenido/categorias/nueva");
+    await expect(suya).toHaveURL(/\/ingresar/);
+    await expect(suya.getByRole("button", { name: "Entrar" })).toBeVisible();
+    await expect.poll(() => borradoresGuardados(suya)).toEqual([]);
+    await suya.context().close();
+  } finally {
+    await borrarUsuario(inge.id);
+    await borrarUsuario(admin.id);
+  }
+});
+
 test("cambiar la PROPIA contraseña no cierra la sesión con la que se está entrando", async ({
   page,
 }) => {
