@@ -63,14 +63,14 @@ export function EditorHorario({ inicial }: { inicial: Horario }) {
               <span className="font-semibold">{NOMBRE[dia]}</span>
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 {/*
-                  size-11 (44 px), no size-5: e2e/panel-accesibilidad.spec.ts
+                  size-11 (44 px) y shrink-0, no size-5: e2e/panel-accesibilidad.spec.ts
                   mide TODO input visible, no el <label> que lo envuelve (ver
                   el mismo razonamiento en components/panel/campo.tsx,
-                  Interruptor).
+                  Interruptor). Sin shrink-0, el flex del label lo encoge.
                 */}
                 <input
                   type="checkbox"
-                  className="size-11"
+                  className="size-11 shrink-0"
                   checked={cerrado}
                   onChange={(e) =>
                     cambiar(

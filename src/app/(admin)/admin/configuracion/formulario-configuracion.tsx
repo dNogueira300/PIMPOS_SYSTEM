@@ -49,8 +49,13 @@ export function FormularioConfiguracion({ ajustes }: { ajustes: Record<string, A
         </Campo>
         {pendiente ? (
           <label className="flex min-h-11 items-center gap-2 text-sm">
-            {/* size-11 (44 px): e2e/panel-accesibilidad.spec.ts mide TODO input visible. */}
-            <input type="checkbox" name={`confirmar_${clave}`} className="size-11" />
+            {/*
+              size-11 (44 px) y shrink-0: sin shrink-0, el texto largo de la
+              etiqueta encoge el checkbox por debajo de 44 px dentro de este
+              flex a 375 px (mismo motivo que Interruptor en campo.tsx).
+              e2e/panel-accesibilidad.spec.ts mide TODO input visible.
+            */}
+            <input type="checkbox" name={`confirmar_${clave}`} className="size-11 shrink-0" />
             Este dato ya está confirmado con el negocio
           </label>
         ) : null}
