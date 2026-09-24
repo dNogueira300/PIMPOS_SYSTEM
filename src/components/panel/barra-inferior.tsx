@@ -13,6 +13,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cerrarSesion } from "@/lib/acciones/autenticacion";
+import { olvidarBorradoresDelNavegador } from "@/lib/panel/borrador";
 import { esSeccionActiva, type SeccionPanel } from "@/lib/panel/navegacion";
 
 import { ICONOS } from "./barra-lateral";
@@ -93,7 +94,7 @@ export function BarraInferior({ secciones, nombre, rol }: Props) {
           <Link href="/" target="_blank" className="flex min-h-12 items-center gap-3 px-4">
             <ExternalLink aria-hidden className="size-5" /> Ver el sitio
           </Link>
-          <form action={cerrarSesion}>
+          <form action={cerrarSesion} onSubmit={olvidarBorradoresDelNavegador}>
             <button
               type="submit"
               className="flex min-h-12 w-full items-center gap-3 px-4 text-left"
