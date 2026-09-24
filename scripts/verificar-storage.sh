@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Verificacion de las politicas de Storage (migracion 0014).
+# Verificacion de las politicas de Storage (migraciones 0014 y 0032).
 #
 #   bash scripts/verificar-storage.sh
 #
@@ -35,7 +35,7 @@ fail() { echo "  [FALLA] $1"; fallos=$((fallos + 1)); }
 denegado() { case "$1" in 4??) return 0 ;; *) return 1 ;; esac; }
 
 declare -A TOKEN
-for rol in ingeniero repartidor; do
+for rol in administrador ingeniero repartidor; do
   correo="storage-$rol-$(date +%s%N)@pimpos.test"
   uid=$(curl -s -X POST "$API_URL/auth/v1/admin/users" \
     -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
@@ -80,6 +80,17 @@ denegado "$cod" && ok "un repartidor NO sube al bucket de productos -> $cod" \
 cod=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/storage/v1/object/public/productos/prueba/pan-$EJEC.webp")
 [ "$cod" = "200" ] && ok "y la foto de producto SI es publica -> $cod" \
                    || fail "la foto de producto no se sirve en publico -> $cod"
+
+echo
+echo "== 1b. Bucket marca: logo y favicon, solo la administracion (0032) =="
+cod=$(subir "${TOKEN[ingeniero]}" "marca/prueba/logo-inge-$EJEC.png" "image/png")
+denegado "$cod" && ok "un ingeniero NO sube al bucket de marca -> $cod"                 || fail "el ingeniero subio el logo -> $cod"
+
+cod=$(subir "${TOKEN[administrador]}" "marca/prueba/logo-$EJEC.png" "image/png")
+[ "$cod" = "200" ] && ok "un administrador SI sube al bucket de marca -> $cod"                    || fail "el administrador no pudo subir el logo -> $cod"
+
+cod=$(curl -s -o /dev/null -w "%{http_code}" "$API_URL/storage/v1/object/public/marca/prueba/logo-$EJEC.png")
+[ "$cod" = "200" ] && ok "y el logo SI es publico -> $cod"                    || fail "el logo no se sirve en publico -> $cod"
 
 echo
 echo "== 2. Bucket clientes: privado de verdad =="
