@@ -595,33 +595,39 @@ export type Database = {
       lotes_insumo: {
         Row: {
           codigo: string | null
+          costo_unitario: number | null
           created_at: string
           created_by: string | null
           fecha_vencimiento: string | null
           id: string
           insumo_id: string
+          llegada: number
           observacion: string | null
           updated_at: string
           updated_by: string | null
         }
         Insert: {
           codigo?: string | null
+          costo_unitario?: number | null
           created_at?: string
           created_by?: string | null
           fecha_vencimiento?: string | null
           id?: string
           insumo_id: string
+          llegada?: never
           observacion?: string | null
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
           codigo?: string | null
+          costo_unitario?: number | null
           created_at?: string
           created_by?: string | null
           fecha_vencimiento?: string | null
           id?: string
           insumo_id?: string
+          llegada?: never
           observacion?: string | null
           updated_at?: string
           updated_by?: string | null
@@ -636,9 +642,46 @@ export type Database = {
           },
         ]
       }
+      movimiento_lotes: {
+        Row: {
+          cantidad_base: number
+          costo_unitario: number | null
+          lote_id: string
+          movimiento_id: string
+        }
+        Insert: {
+          cantidad_base: number
+          costo_unitario?: number | null
+          lote_id: string
+          movimiento_id: string
+        }
+        Update: {
+          cantidad_base?: number
+          costo_unitario?: number | null
+          lote_id?: string
+          movimiento_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimiento_lotes_lote_id_fkey"
+            columns: ["lote_id"]
+            isOneToOne: false
+            referencedRelation: "lotes_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimiento_lotes_movimiento_id_fkey"
+            columns: ["movimiento_id"]
+            isOneToOne: false
+            referencedRelation: "movimientos_insumo"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       movimientos_insumo: {
         Row: {
           almacen_id: string
+          anula_a: string | null
           area_turno: string | null
           autorizado_por: string | null
           cantidad: number
@@ -666,11 +709,13 @@ export type Database = {
           proveedor_id: string | null
           responsable_id: string
           secuencia: number
-          tipo: "ingreso" | "consumo" | "baja"
+          sentido: number
+          tipo: "ingreso" | "consumo" | "baja" | "ajuste" | "anulacion"
           unidad_id: string
         }
         Insert: {
-          almacen_id: string
+          almacen_id?: string
+          anula_a?: string | null
           area_turno?: string | null
           autorizado_por?: string | null
           cantidad: number
@@ -696,13 +741,15 @@ export type Database = {
           origen_consumo?: "produccion" | "retiro_directo" | null
           precio_unitario?: number | null
           proveedor_id?: string | null
-          responsable_id: string
+          responsable_id?: string
           secuencia?: never
-          tipo: "ingreso" | "consumo" | "baja"
+          sentido: number
+          tipo: "ingreso" | "consumo" | "baja" | "ajuste" | "anulacion"
           unidad_id: string
         }
         Update: {
           almacen_id?: string
+          anula_a?: string | null
           area_turno?: string | null
           autorizado_por?: string | null
           cantidad?: number
@@ -730,7 +777,8 @@ export type Database = {
           proveedor_id?: string | null
           responsable_id?: string
           secuencia?: never
-          tipo?: "ingreso" | "consumo" | "baja"
+          sentido?: number
+          tipo?: "ingreso" | "consumo" | "baja" | "ajuste" | "anulacion"
           unidad_id?: string
         }
         Relationships: [
@@ -739,6 +787,13 @@ export type Database = {
             columns: ["almacen_id"]
             isOneToOne: false
             referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_anula_a_fkey"
+            columns: ["anula_a"]
+            isOneToOne: false
+            referencedRelation: "movimientos_insumo"
             referencedColumns: ["id"]
           },
           {
@@ -1331,6 +1386,52 @@ export type Database = {
             columns: ["insumo_id"]
             isOneToOne: false
             referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saldos_lote: {
+        Row: {
+          actualizado_en: string
+          almacen_id: string
+          cantidad_base: number
+          insumo_id: string
+          lote_id: string
+        }
+        Insert: {
+          actualizado_en?: string
+          almacen_id: string
+          cantidad_base?: number
+          insumo_id: string
+          lote_id: string
+        }
+        Update: {
+          actualizado_en?: string
+          almacen_id?: string
+          cantidad_base?: number
+          insumo_id?: string
+          lote_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saldos_lote_almacen_id_fkey"
+            columns: ["almacen_id"]
+            isOneToOne: false
+            referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saldos_lote_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saldos_lote_lote_id_fkey"
+            columns: ["lote_id"]
+            isOneToOne: true
+            referencedRelation: "lotes_insumo"
             referencedColumns: ["id"]
           },
         ]
