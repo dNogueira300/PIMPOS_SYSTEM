@@ -155,9 +155,12 @@ export async function Pie({ config }: { config: Configuracion }) {
                 — por eso no lleva icono ni va dentro de ningun <nav>. `nofollow`
                 porque no es un enlace que un buscador deba seguir; `/ingresar` ya
                 esta fuera del indice por `robots.ts` y por sus propios metadatos. */}
+            {/* Sin precarga: la portada ya va justo del presupuesto de rendimiento
+                (doc 03.1) y quien visita el sitio no va a entrar al panel. */}
             <Link
               href="/ingresar"
               rel="nofollow"
+              prefetch={false}
               className="focus-visible:outline-ring hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               Personal
