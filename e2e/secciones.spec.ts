@@ -182,3 +182,22 @@ test("el pie repite contacto y horario en todas las secciones", async ({ page })
   // prueba mira es la fila del domingo.
   await expect(pie.getByText("Cerrado", { exact: true })).toBeVisible();
 });
+
+test("el pie lleva un enlace discreto al ingreso del personal", async ({ page }) => {
+  await page.goto("/");
+
+  const pie = page.getByRole("contentinfo");
+  const enlace = pie.getByRole("link", { name: "Personal" });
+
+  // Discreto: no vive en ningun landmark de navegacion, solo en la letra
+  // pequeña del pie.
+  await expect(pie.getByRole("navigation").getByRole("link", { name: "Personal" })).toHaveCount(0);
+  await expect(page.getByRole("banner").getByRole("link", { name: "Personal" })).toHaveCount(0);
+
+  await expect(enlace).toHaveAttribute("href", "/ingresar");
+  await expect(enlace).toHaveAttribute("rel", "nofollow");
+
+  await enlace.click();
+  await expect(page).toHaveURL(/\/ingresar$/);
+  await expect(page.getByLabel("Correo")).toBeVisible();
+});

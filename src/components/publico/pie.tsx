@@ -148,7 +148,20 @@ export async function Pie({ config }: { config: Configuracion }) {
       <div className="mx-auto max-w-(--container-contenido) px-4 pb-8 sm:px-6">
         <div className="tarjeta text-muted-foreground flex flex-col gap-1 px-5 py-4 text-xs sm:flex-row sm:justify-between">
           <p>
-            © {anio} {config.razon_social || config.nombre_comercial}
+            © {anio} {config.razon_social || config.nombre_comercial} ·{" "}
+            {/* Enlace discreto al ingreso del personal: mismo color y tamaño que
+                el resto de la letra pequeña, subrayado solo al pasar el cursor o
+                enfocar. No es una llamada a la accion, es parte del pie de pagina
+                — por eso no lleva icono ni va dentro de ningun <nav>. `nofollow`
+                porque no es un enlace que un buscador deba seguir; `/ingresar` ya
+                esta fuera del indice por `robots.ts` y por sus propios metadatos. */}
+            <Link
+              href="/ingresar"
+              rel="nofollow"
+              className="focus-visible:outline-ring hover:underline focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Personal
+            </Link>
           </p>
           <p>Iquitos, Perú</p>
         </div>
