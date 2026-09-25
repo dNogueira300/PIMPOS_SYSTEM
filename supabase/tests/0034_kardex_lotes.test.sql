@@ -6,7 +6,7 @@
 -- movió, aunque la equivalencia haya cambiado; y que ajustar y anular sean cosa
 -- de la administración, también si alguien llama a la API directamente.
 begin;
-select plan(48);
+select plan(53);
 
 -- =============================================================================
 -- Fixtures
@@ -333,6 +333,46 @@ select is(
 );
 
 -- =============================================================================
+-- Anular un ingreso que nadie tocó todavía: el lote entero vuelve a 0
+--
+-- Hasta aquí las anulaciones probadas deshacían un CONSUMO (sentido pasa de -1
+-- a 1). Falta el otro sentido: anular una ENTRADA intacta, que tiene que
+-- devolver el lote a 0 y no solo bajar el saldo del insumo.
+-- =============================================================================
+with m as (
+  insert into public.movimientos_insumo
+    (tipo, insumo_id, cantidad, unidad_id, responsable_id, proveedor_id, documento_tipo)
+  select 'ingreso', sal, 5, kg, '33333333-3333-3333-3333-333333333333', proveedor, 'boleta'
+  from ref returning id)
+insert into mov select 'sal-ingreso-intacto', id from m;
+
+select lives_ok(
+  format($$ insert into public.movimientos_insumo (tipo, anula_a, insumo_id, cantidad, unidad_id, responsable_id, observacion)
+       values ('anulacion', %L, %L, 1, %L, '22222222-2222-2222-2222-222222222222', 'Se registró de más') $$,
+    (select id from mov where clave = 'sal-ingreso-intacto'), (select sal from ref), (select kg from ref)),
+  'un ingreso que nadie consumió sí se puede anular'
+);
+select is(
+  (select s.cantidad_base from public.saldos_lote s
+     join public.movimiento_lotes ml on ml.lote_id = s.lote_id
+    where ml.movimiento_id = (select id from mov where clave = 'sal-ingreso-intacto')),
+  0.0::numeric(14,4), 'y su lote entero vuelve a 0, no solo el saldo del insumo'
+);
+select is(
+  (select cantidad_base from public.saldos_insumo where insumo_id = (select sal from ref)),
+  6.0::numeric(14,4), 'el saldo del insumo baja lo mismo que había entrado'
+);
+
+-- Un segundo ingreso intacto, para que la administración lo anule por la API
+-- más abajo (sin que nadie más lo haya tocado antes).
+with m as (
+  insert into public.movimientos_insumo
+    (tipo, insumo_id, cantidad, unidad_id, responsable_id, proveedor_id, documento_tipo)
+  select 'ingreso', sal, 3, kg, '33333333-3333-3333-3333-333333333333', proveedor, 'boleta'
+  from ref returning id)
+insert into mov select 'sal-ingreso-para-admin', id from m;
+
+-- =============================================================================
 -- Quién puede qué, por la API
 -- =============================================================================
 set local role authenticated;
@@ -364,9 +404,23 @@ select throws_ok(
   $$ update public.saldos_lote set cantidad_base = 1000 $$,
   '42501', null, 'ni escribe un saldo de lote'
 );
+select throws_ok(
+  format($$ insert into public.movimientos_insumo (tipo, anula_a, insumo_id, cantidad, unidad_id, observacion)
+       values ('anulacion', %L, %L, 1, %L, 'Intento no autorizado') $$,
+    (select id from mov where clave = 'harina-1'), (select harina from ref), (select kg from ref)),
+  '42501', null, 'el ingeniero tampoco anula: ajuste y anulación son cosa de la administración'
+);
 select ok(
   (select count(*) from public.movimiento_lotes) > 0,
   'pero sí lee de qué lote salió cada cosa'
+);
+
+set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "rol": "administrador"}';
+select lives_ok(
+  format($$ insert into public.movimientos_insumo (tipo, anula_a, insumo_id, cantidad, unidad_id, responsable_id, observacion)
+       values ('anulacion', %L, %L, 1, %L, '22222222-2222-2222-2222-222222222222', 'Se registró de más') $$,
+    (select id from mov where clave = 'sal-ingreso-para-admin'), (select sal from ref), (select kg from ref)),
+  'un administrador sí anula, por la API'
 );
 
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
