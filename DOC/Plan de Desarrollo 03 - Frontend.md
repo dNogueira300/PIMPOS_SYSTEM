@@ -498,7 +498,9 @@ costó una fase en F3.1). Sustituye al «≥ 90 en móvil» de este documento, q
 arriba ya había dejado sin sustento: el suelo lo pone React 19 + Next 16, no el código del proyecto.
 Solo las tareas que tocan código que llega al sitio público quedan obligadas a medir (en F4, la de
 productos y la de configuración/favicon, por tocar el layout raíz); el resto del panel no carga nada
-en las rutas públicas y no necesita remedirlas.
+en las rutas públicas y no necesita remedirlas. En la portada, cinco pasadas no bastan para
+decidir: su LCP simulado es bimodal y la mediana cambia de lado por azar. Se miden las dos builds
+intercaladas, con muchas pasadas y un control A/A (trampa en `CLAUDE.md`, medida al cerrar F4).
 
 **Dos trampas de medición**, las dos del tipo que ya salió caro antes:
 

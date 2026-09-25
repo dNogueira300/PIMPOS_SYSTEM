@@ -12,17 +12,17 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                               |
-| -------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                  |
-| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                  |
-| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                  |
-| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                           |
-| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                         |
-| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento: **PENDIENTE** medir F4 completa contra `ae96d1b` en máquina en reposo |
-| F5       | Panel: insumos           | ⬜                                                                                                                                                                                                                                                                   |
-| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                   |
-| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                   |
+| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                                                               |
+| -------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                                                  |
+| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                                                  |
+| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                                                  |
+| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                           |
+| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                         |
+| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96 |
+| F5       | Panel: insumos           | ⬜                                                                                                                                                                                                                                                                                                   |
+| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                                                   |
+| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                   |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -605,12 +605,19 @@ inferior fija en el celular; formularios largos en pestañas con un solo «Guard
 seguridad que le impedía a un administrador ponerse el rol superadmin (0029); y el orden de las
 tareas, con usuarios después de novedades/contenido.
 
-**Rendimiento — PENDIENTE.** El paso 1 del cierre (medir F4 completa contra `ae96d1b`, el último
-commit de F3.1 en `main`, en la misma sesión y máquina) no se corrió todavía en una máquina en
-reposo: `[PENDIENTE: mediana de PASADAS=5 pnpm lighthouse en / , /productos y /contacto, F4 completa
-contra ae96d1b]`. Dos mediciones parciales durante F4, ninguna concluyente por la máquina de la
-sesión (memoria crítica, dispersión de hasta 30 puntos entre pasadas de la misma versión sin tocar
-nada — la misma trampa de medición que ya documenta `CLAUDE.md`):
+**Rendimiento — medido el 25/09/2026, sin regresión.** F4 completa (`main` @ 02ee955) contra
+`ae96d1b`, el último commit de F3.1, en la misma sesión y máquina. En `/` se midieron las dos
+builds intercaladas, 37 pasadas cada una: mediana **91 frente a 91**, media 91.7 frente a 90.8, y
+una prueba de permutación da p = 0.25, así que la diferencia no es significativa. `/productos` pasó
+de 91 a 95 y `/contacto` de 95 a 96 (`PASADAS=5`). Accesibilidad 100 / 100 / 97 y SEO 100 en las
+tres. La bajada de 96 a 90.5 que se había visto venía de cómo mide Lighthouse, no de F4: el LCP
+simulado de la portada sale en dos modos (~2.65 s o ~3.4 s) según una carrera en la traza de
+localhost, y con pocas pasadas la mediana cae de un lado o del otro por azar (trampa en
+`CLAUDE.md`). Informe completo en
+`.superpowers/sdd/Plan de Desarrollo 04 - Panel de contenido/rendimiento-portada-report.md`.
+
+Las mediciones parciales de durante F4, que no concluyeron nada por la máquina de la sesión, fueron
+estas:
 
 | Tarea                      | Ruta        | Antes               | Después             | Delta                                       |
 | -------------------------- | ----------- | ------------------- | ------------------- | ------------------------------------------- |
@@ -692,19 +699,19 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 
 ## 6. Riesgos vivos
 
-| Riesgo                                     | Estado                                                                                                                                                                                              |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                  |
-| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                   |
-| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                              |
-| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                      |
-| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                           |
-| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                    |
-| Usuarios de nivel básico no usan el panel  | 🟡 Panel construido con lenguaje sin jerga, copia local automática y confirmación antes de borrar (F4). Falta la capacitación real con Marcos y Debra, con las cuentas creadas en producción        |
-| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                       |
-| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. La decisión de cubrirlo se aplazó durante toda F4; sigue pendiente                                                                |
-| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                                |
-| Lighthouse: rendimiento por debajo de 90   | 🟡 El umbral pasó a relativo desde F4 (no más de 3 puntos por debajo de `main`, misma sesión). La comparación decisiva de F4 completa contra `ae96d1b` queda **PENDIENTE** de una máquina en reposo |
+| Riesgo                                     | Estado                                                                                                                                                                                             |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                 |
+| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                  |
+| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                             |
+| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                     |
+| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                          |
+| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                   |
+| Usuarios de nivel básico no usan el panel  | 🟡 Panel construido con lenguaje sin jerga, copia local automática y confirmación antes de borrar (F4). Falta la capacitación real con Marcos y Debra, con las cuentas creadas en producción       |
+| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                      |
+| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. La decisión de cubrirlo se aplazó durante toda F4; sigue pendiente                                                               |
+| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                               |
+| Lighthouse: rendimiento por debajo de 90   | 🟢 El umbral pasó a relativo desde F4 (no más de 3 puntos por debajo de `main`, misma sesión). F4 completa contra `ae96d1b` (25/09): `/` 91 frente a 91 con 37 pasadas intercaladas, sin regresión |
 
 ---
 

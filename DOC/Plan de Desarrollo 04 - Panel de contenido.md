@@ -11115,7 +11115,8 @@ producción, y documentada para que la siguiente sesión no tenga que reconstrui
 Una línea base de rendimiento solo vale el día que se mide (trampa de `CLAUDE.md`). El commit de
 antes de F4 es el último de F3.1 en `main`: `ae96d1b`.
 
-- [ ] En la misma sesión y la misma máquina:
+- [x] En la misma sesión y la misma máquina (25/09/2026; en `/`, además, 37 pasadas intercaladas por
+      versión, ver «Lo que resultó distinto»):
 
 ```bash
 git stash
@@ -11126,13 +11127,14 @@ PASADAS=5 pnpm lighthouse            # los mismos tres
 git stash pop
 ```
 
-- [ ] Criterio (decisión 3): la mediana de rendimiento de cada ruta no baja más de **3 puntos**;
+- [x] Criterio (decisión 3): la mediana de rendimiento de cada ruta no baja más de **3 puntos**;
       accesibilidad ≥ 97 y SEO 100 en las tres. Si una ruta baja más, **no se cierra**: se busca qué
       tarea lo causó con el mismo procedimiento sobre los commits de fusión de T3 y T7, que son las
       dos que tocan código público.
-- [ ] Contar las pruebas de verdad, no copiar números: `supabase test db` (pgTAP), `pnpm test`
-      (Vitest) y `pnpm test:e2e` (Playwright). Anotar los tres totales.
-- [ ] `grep -r "service_role\|SERVICE_ROLE" .next/static` → vacío.
+- [x] Contar las pruebas de verdad, no copiar números: `supabase test db` (pgTAP), `pnpm test`
+      (Vitest) y `pnpm test:e2e` (Playwright). Anotar los tres totales. (24/09: 482 pgTAP y 295
+      Vitest ejecutadas; las 402 de Playwright, listadas y no ejecutadas enteras, por la memoria.)
+- [x] `grep -r "service_role\|SERVICE_ROLE" .next/static` → vacío (25/09, build de `main` @ 02ee955).
 
 ### Paso 2 — Revisión a mano en un teléfono real
 
@@ -11291,11 +11293,14 @@ plan.
 - **El favicon se implementó con `generateMetadata`, no con `app/icon.tsx`** (decisión ya escrita en
   el brief de T7, confirmada al ejecutar): `ImageResponse` no dibuja bien un SVG y el favicon de
   fábrica lo es.
-- **Rendimiento:** T3 y T7 midieron contra `main`, como pedía la decisión 3, con dos mediciones no
-  concluyentes por la máquina de la sesión (memoria crítica, dispersión de hasta 30 puntos entre
-  pasadas de la misma versión sin tocar nada). La comparación decisiva —F4 completa contra
-  `ae96d1b`, en una máquina en reposo— queda para cuando se corra el paso 1 de esta tarea; ver el
-  aviso «PENDIENTE» en `DOC/Avance del proyecto.md` y en `CLAUDE.md`.
+- **Rendimiento: la regresión de la portada no existía.** T3 y T7 midieron contra `main` sin sacar
+  nada en limpio. El paso 1, corrido el 25/09 con `PASADAS=5`, parecía dar `/` 96 frente a 90.5.
+  Midiendo las dos builds intercaladas, 37 pasadas cada una, salió **91 frente a 91** (p = 0.25).
+  El LCP simulado de la portada es bimodal (~2.65 s o ~3.4 s) por una carrera de la traza en
+  localhost, y con cinco pasadas la mediana cae de un lado o del otro por azar. `/productos` quedó
+  91 → 95 y `/contacto` 95 → 96; accesibilidad y SEO, en su sitio. El `generateMetadata` de T7 no
+  cambia ni un byte del HTML de `/`. No se tocó código; la trampa está en `CLAUDE.md` y el informe en
+  `rendimiento-portada-report.md`.
 - **Los conteos de pruebas crecieron bastante más que en el plan de cada tarea individual**: al
   cierre, 482 pgTAP (29 archivos), 295 Vitest (32 archivos) y 402 Playwright listadas en 28 archivos
   (no se corrió la suite completa en T8 por la memoria de la máquina; el número es el que lista
