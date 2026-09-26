@@ -1,14 +1,17 @@
 -- Verifica registrar_conteo, anular_movimiento y kardex_insumo (0037).
 begin;
-select plan(15);
+select plan(17);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test', now(), now()),
-  ('33333333-3333-3333-3333-333333333333', 'inge@pimpos.test',  now(), now());
+  ('33333333-3333-3333-3333-333333333333', 'inge@pimpos.test',  now(), now()),
+  ('44444444-4444-4444-4444-444444444444', 'reparte@pimpos.test', now(), now());
 update public.perfiles set rol = 'administrador', activo = true, nombre_completo = 'Debra Prueba'
  where id = '22222222-2222-2222-2222-222222222222';
 update public.perfiles set rol = 'ingeniero', activo = true, nombre_completo = 'Marcos Prueba'
  where id = '33333333-3333-3333-3333-333333333333';
+update public.perfiles set rol = 'repartidor', activo = true, nombre_completo = 'Julio Prueba'
+ where id = '44444444-4444-4444-4444-444444444444';
 
 create temp table ref as
 select
@@ -72,13 +75,29 @@ select is(
   (select cantidad_base from public.saldos_insumo where insumo_id = (select mejorador from ref)),
   12.0::numeric(14,4), 'anular la salida devuelve los 3 kg'
 );
+select throws_ok($$
+  select public.anular_movimiento((select valor from t where clave = 'salida'), 'Otra vez')
+$$, 'P0001', 'Ese registro ya está anulado. Recarga la página.',
+  'anular el mismo movimiento dos veces avisa en vez de romper por la restricción única');
+reset role;
+
+-- ---------------------------------------------------------------------------
+-- Nombre de persona: solo lo lee quien ya puede ver el kárdex
+-- ---------------------------------------------------------------------------
+set local role authenticated;
+set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
+select is(
+  app.nombre_de_persona('22222222-2222-2222-2222-222222222222'::uuid),
+  null::text,
+  'un repartidor no puede leer el nombre de otra persona por nombre_de_persona'
+);
+reset role;
 
 -- ---------------------------------------------------------------------------
 -- Kárdex
 -- ---------------------------------------------------------------------------
 -- Un consumo a las 23:30 de Iquitos del día anterior (04:30 UTC de hoy) cuenta
 -- en el día de Iquitos, no en el de UTC.
-reset role;
 insert into public.movimientos_insumo
   (tipo, insumo_id, cantidad, unidad_id, responsable_id, origen_consumo, destino_lote, area_turno, ocurrido_en)
 select 'consumo', mejorador, 1, kg, '33333333-3333-3333-3333-333333333333', 'produccion', 'Pan', 'Noche',

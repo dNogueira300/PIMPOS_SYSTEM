@@ -6,6 +6,13 @@
 -- -----------------------------------------------------------------------------
 -- Un nombre para enseñar. `perfiles` solo deja ver el propio al ingeniero
 -- (0003), y el kárdex tiene que decir quién registró cada cosa.
+--
+-- `security definer` salta esa RLS a propósito, así que la función repite
+-- aquí el filtro: sin él, cualquier `authenticated` (incluido un repartidor,
+-- que no debería poder leer perfiles ajenos) podría llamarla directo y sacar
+-- el nombre completo de cualquiera. Solo quien ya puede ver el kárdex
+-- (administración e ingeniero) recibe el nombre; cualquier otro recibe NULL,
+-- que `kardex_insumo` maneja igual que un responsable sin perfil.
 -- -----------------------------------------------------------------------------
 create or replace function app.nombre_de_persona(p_id uuid)
 returns text
@@ -14,7 +21,11 @@ stable
 security definer
 set search_path = ''
 as $$
-  select nombre_completo from public.perfiles where id = p_id;
+  select case
+    when app.es_rol('superadmin', 'administrador', 'ingeniero')
+      then (select nombre_completo from public.perfiles where id = p_id)
+    else null
+  end;
 $$;
 revoke execute on function app.nombre_de_persona(uuid) from public, anon;
 grant execute on function app.nombre_de_persona(uuid) to authenticated;
@@ -90,6 +101,15 @@ grant execute on function public.registrar_conteo(jsonb, text) to authenticated;
 -- -----------------------------------------------------------------------------
 -- Anular. `security invoker`: la política de 0034 ya dice que solo la
 -- administración inserta anulaciones.
+--
+-- `idx_mov_anula_a` (0034) impide dos anulaciones del mismo movimiento a nivel
+-- de base, pero sin este chequeo el segundo intento llegaba a
+-- `traducirError` como un `23505` genérico («Ya hay el registro con ese
+-- nombre…»), que no dice nada de anular. La comprobación de arriba cubre el
+-- caso normal (recargar y volver a pulsar); el `exception when
+-- unique_violation` de abajo cubre la carrera real entre dos administradores
+-- que anulan el mismo movimiento casi a la vez, para que también reciba la
+-- misma frase en vez del error crudo de la base.
 -- -----------------------------------------------------------------------------
 create or replace function public.anular_movimiento(p_id uuid, p_motivo text)
 returns uuid
@@ -100,11 +120,21 @@ as $$
 declare
   v_id uuid;
 begin
-  insert into public.movimientos_insumo (tipo, anula_a, insumo_id, cantidad, unidad_id, observacion)
-  select 'anulacion', m.id, m.insumo_id, m.cantidad, m.unidad_id, nullif(btrim(p_motivo), '')
-    from public.movimientos_insumo m
-   where m.id = p_id
-  returning id into v_id;
+  if exists (select 1 from public.movimientos_insumo where anula_a = p_id) then
+    raise exception 'Ese registro ya está anulado. Recarga la página.' using errcode = 'P0001';
+  end if;
+
+  begin
+    insert into public.movimientos_insumo (tipo, anula_a, insumo_id, cantidad, unidad_id, observacion)
+    select 'anulacion', m.id, m.insumo_id, m.cantidad, m.unidad_id, nullif(btrim(p_motivo), '')
+      from public.movimientos_insumo m
+     where m.id = p_id
+    returning id into v_id;
+  exception
+    when unique_violation then
+      raise exception 'Ese registro ya está anulado. Recarga la página.' using errcode = 'P0001';
+  end;
+
   if v_id is null then
     raise exception 'No se encontró el movimiento que quieres anular.' using errcode = 'P0001';
   end if;
