@@ -6,12 +6,18 @@ const nombres = (rol: Parameters<typeof seccionesPara>[0]) =>
   seccionesPara(rol).map((s) => s.nombre);
 
 describe("seccionesPara", () => {
-  it("el administrador ve las cuatro secciones de F4", () => {
-    expect(nombres("administrador")).toEqual(["Inicio", "Contenido", "Usuarios", "Configuración"]);
+  it("el administrador ve insumos entre contenido y usuarios", () => {
+    expect(nombres("administrador")).toEqual([
+      "Inicio",
+      "Contenido",
+      "Insumos",
+      "Usuarios",
+      "Configuración",
+    ]);
   });
 
-  it("el ingeniero ve inicio y contenido, no usuarios ni configuración", () => {
-    expect(nombres("ingeniero")).toEqual(["Inicio", "Contenido"]);
+  it("el ingeniero ve inicio, contenido e insumos, no usuarios ni configuración", () => {
+    expect(nombres("ingeniero")).toEqual(["Inicio", "Contenido", "Insumos"]);
   });
 
   it("el repartidor solo ve el inicio hasta que existan clientes (F6)", () => {
