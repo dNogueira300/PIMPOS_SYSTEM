@@ -1991,6 +1991,10 @@ export type Database = {
       }
     }
     Functions: {
+      anular_movimiento: {
+        Args: { p_id: string; p_motivo: string }
+        Returns: string
+      }
       cerrar_sesiones: { Args: { usuario: string }; Returns: undefined }
       guardar_configuracion: {
         Args: { p_confirmadas?: string[]; p_valores: Json }
@@ -2008,8 +2012,35 @@ export type Database = {
         Args: { p_numero: string; p_proveedor: string }
         Returns: string
       }
+      kardex_insumo: {
+        Args: { p_desde: string; p_hasta: string; p_insumo: string }
+        Returns: {
+          anula_a: string
+          anulado: boolean
+          area_turno: string
+          cantidad: number
+          cantidad_base: number
+          costo: number
+          destino_lote: string
+          documento: string
+          id: string
+          motivo_baja: string
+          observacion: string
+          ocurrido_en: string
+          proveedor: string
+          responsable: string
+          saldo: number
+          sentido: number
+          tipo: string
+          unidad: string
+        }[]
+      }
       registrar_consumo: {
         Args: { p_cabecera: Json; p_lineas: Json }
+        Returns: number
+      }
+      registrar_conteo: {
+        Args: { p_lineas: Json; p_observacion: string }
         Returns: number
       }
       registrar_ingreso: {

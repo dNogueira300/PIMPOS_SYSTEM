@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
 import { entrarComo } from "./ayudas/sesion";
+import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario, type UsuarioDePrueba } from "./ayudas/usuarios";
 
 /**
@@ -31,6 +32,7 @@ export const RUTAS_DEL_PANEL = [
   "/admin/insumos/nuevo",
   "/admin/insumos/ingreso",
   "/admin/insumos/consumo",
+  "/admin/insumos/conteo",
   "/admin/insumos/proveedores",
   "/admin/insumos/proveedores/nuevo",
   "/admin/usuarios",
@@ -126,6 +128,24 @@ test("el «Más» del celular no tiene errores de axe ni controles pequeños", a
     const { violations } = await new AxeBuilder({ page }).analyze();
     expect(violations, "axe en «Más»").toEqual([]);
     expect(await controlesPequenos(page), "controles pequeños en «Más»").toEqual([]);
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("axe y área táctil en la ficha de un insumo", async ({ page }) => {
+  const usuario = await entrarComo(page, "superadmin");
+  try {
+    const { apiUrl, serviceRoleKey } = supabaseLocal();
+    const respuesta = await fetch(`${apiUrl}/rest/v1/insumos?nombre=eq.Harina&select=id`, {
+      headers: { apikey: serviceRoleKey, Authorization: `Bearer ${serviceRoleKey}` },
+    });
+    const [{ id }] = (await respuesta.json()) as { id: string }[];
+    await page.goto(`/admin/insumos/${id}`);
+    await page.locator("main#contenido").waitFor();
+    const { violations } = await new AxeBuilder({ page }).analyze();
+    expect(violations, `axe en /admin/insumos/${id}`).toEqual([]);
+    expect(await controlesPequenos(page), `controles pequeños en /admin/insumos/${id}`).toEqual([]);
   } finally {
     await borrarUsuario(usuario.id);
   }
