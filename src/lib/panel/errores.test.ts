@@ -37,6 +37,21 @@ describe("traducirError", () => {
     ).toBe("Algún dato no cumple las reglas. Revisa lo que escribiste.");
   });
 
+  it("una unidad sin equivalencia enseña el mensaje de la base, que dice cuál falta", () => {
+    expect(
+      traducirError(
+        {
+          code: "P0002",
+          message:
+            "No hay equivalencia de Botella a la unidad base de este insumo. Registrala antes de mover stock.",
+        },
+        "un ingreso",
+      ),
+    ).toBe(
+      "No hay equivalencia de Botella a la unidad base de este insumo. Registrala antes de mover stock.",
+    );
+  });
+
   it("algo en uso no se puede borrar", () => {
     expect(traducirError({ code: "23503", message: "fk" }, "la categoría")).toBe(
       "No se puede: la categoría todavía se usa en otra parte.",

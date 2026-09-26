@@ -2004,6 +2004,18 @@ export type Database = {
         Args: { p_presentaciones: Json; p_producto: Json }
         Returns: string
       }
+      ingreso_registrado: {
+        Args: { p_numero: string; p_proveedor: string }
+        Returns: string
+      }
+      registrar_consumo: {
+        Args: { p_cabecera: Json; p_lineas: Json }
+        Returns: number
+      }
+      registrar_ingreso: {
+        Args: { p_documento: Json; p_lineas: Json }
+        Returns: number
+      }
       sesion_abierta: { Args: never; Returns: boolean }
     }
     Enums: {

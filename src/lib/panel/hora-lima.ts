@@ -20,3 +20,12 @@ export function utcALima(iso: string | null): string {
   if (Number.isNaN(fecha.getTime())) return "";
   return new Date(fecha.getTime() - CINCO_HORAS_MS).toISOString().slice(0, 16);
 }
+
+/** «12/10/2026 08:00», en hora de Iquitos. Para mensajes y listas. */
+export function formatearFechaLima(iso: string): string {
+  const local = utcALima(iso);
+  if (!local) return "";
+  const [fecha, hora] = local.split("T");
+  const [anio, mes, dia] = fecha!.split("-");
+  return `${dia}/${mes}/${anio} ${hora}`;
+}

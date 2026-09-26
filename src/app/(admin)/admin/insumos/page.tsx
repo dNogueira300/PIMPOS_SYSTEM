@@ -15,7 +15,10 @@ const RUTA = "/admin/insumos";
  * Lo que se puede registrar desde aquí. Cada tarea añade su entrada: T3
  * ingreso y consumo, T4 conteo (solo administración), T5 pedir baja.
  */
-const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracion?: boolean }> = [];
+const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracion?: boolean }> = [
+  { ruta: "/admin/insumos/ingreso", nombre: "Registrar ingreso" },
+  { ruta: "/admin/insumos/consumo", nombre: "Registrar consumo" },
+];
 
 export default function Existencias({ searchParams }: PageProps<"/admin/insumos">) {
   return (
