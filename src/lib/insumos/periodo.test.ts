@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { hoyEnLima, leerPeriodo, sumarDias } from "./periodo";
+import { hoyEnLima, leerPeriodo, periodoNombrado, sumarDias } from "./periodo";
 
 // 12/10/2026 a las 02:00 en UTC son las 21:00 del 11/10 en Iquitos.
 const AHORA = new Date("2026-10-12T02:00:00.000Z");
@@ -42,5 +42,16 @@ describe("leerPeriodo", () => {
       desde: "2026-10-05",
       hasta: "2026-10-11",
     });
+  });
+});
+
+describe("periodoNombrado", () => {
+  // Domingo 11/10/2026 a las 21:00 en Iquitos.
+  it("esta semana va del lunes a hoy", () => {
+    expect(periodoNombrado("semana", AHORA)).toEqual({ desde: "2026-10-05", hasta: "2026-10-11" });
+  });
+
+  it("este mes va del día 1 a hoy", () => {
+    expect(periodoNombrado("mes", AHORA)).toEqual({ desde: "2026-10-01", hasta: "2026-10-11" });
   });
 });

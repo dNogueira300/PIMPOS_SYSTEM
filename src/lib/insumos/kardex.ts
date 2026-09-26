@@ -12,6 +12,7 @@ export const NOMBRE_MOTIVO: Readonly<Record<string, string>> = {
   danado: "Producto dañado",
   devolucion_proveedor: "Devolución al proveedor",
   consumo_interno: "Consumo del personal",
+  faltante_conteo: "Faltó al contar",
 };
 
 type FilaKardex = {
