@@ -17,6 +17,16 @@ export type Reporte = {
   columnas: Columna[];
   filas: Fila[];
   total: number | null;
+  /**
+   * `sinCosto[i]` es `true` cuando parte de lo que cuenta `filas[i]` salió de
+   * un lote sin costo registrado: el dinero de esa fila es lo que SÍ se sabe,
+   * no toda la cantidad (revisión de tarea 6, hallazgo I-2). Mismo largo y
+   * orden que `filas`; en un reporte sin columna de dinero (`kardex`) va
+   * siempre en `false`.
+   */
+  sinCosto: boolean[];
+  /** Si alguna fila lleva `sinCosto`, para la nota al pie del total. */
+  hayCostosDesconocidos: boolean;
   grafico: { nombre: string; valor: number }[] | null;
   unidadGrafico: "soles" | null;
 };
@@ -76,12 +86,17 @@ export async function leerReporte(
     case "existencias": {
       const { data, error } = await supabase.rpc("reporte_existencias");
       if (error) throw new Error(error.message);
+      // `f.valor` ya es la suma de los lotes CON costo conocido (la base la
+      // calcula así): una fila `sin_costo` no vale "—" — vale lo que sí se
+      // sabe, y el aviso de la tabla dice que es parcial. Ocultarla como null
+      // era el hallazgo I-1: la suma visible dejaba de cuadrar con el total
+      // sin ninguna pista de por qué.
       const filas = data.map((f) => ({
         insumo: f.nombre,
         cantidad: n(f.cantidad_base),
         unidad: f.unidad,
         minimo: n(f.stock_minimo),
-        valor: f.sin_costo ? null : n(f.valor),
+        valor: n(f.valor),
       }));
       return {
         slug,
@@ -95,7 +110,9 @@ export async function leerReporte(
           { clave: "valor", titulo: "Valor", tipo: "soles" },
         ],
         filas,
-        total: data.reduce((s, f) => s + n(f.valor), 0),
+        total: filas.reduce((s, f) => s + f.valor, 0),
+        sinCosto: data.map((f) => f.sin_costo),
+        hayCostosDesconocidos: data.some((f) => f.sin_costo),
         grafico: null,
         unidadGrafico: null,
       };
@@ -123,6 +140,8 @@ export async function leerReporte(
           costo: n(f.costo),
         })),
         total: data.reduce((s, f) => s + n(f.costo), 0),
+        sinCosto: data.map((f) => f.sin_costo),
+        hayCostosDesconocidos: data.some((f) => f.sin_costo),
         grafico: primeros(data.map((f) => ({ nombre: f.nombre, valor: n(f.costo) }))),
         unidadGrafico: "soles",
       };
@@ -155,6 +174,8 @@ export async function leerReporte(
           costo: n(f.costo),
         })),
         total: data.reduce((s, f) => s + n(f.costo), 0),
+        sinCosto: data.map((f) => f.sin_costo),
+        hayCostosDesconocidos: data.some((f) => f.sin_costo),
         grafico: primeros([...porProveedor].map(([nombre, valor]) => ({ nombre, valor }))),
         unidadGrafico: "soles",
       };
@@ -189,6 +210,8 @@ export async function leerReporte(
           costo: n(f.costo),
         })),
         total: data.reduce((s, f) => s + n(f.costo), 0),
+        sinCosto: data.map((f) => f.sin_costo),
+        hayCostosDesconocidos: data.some((f) => f.sin_costo),
         grafico: primeros([...porMotivo].map(([nombre, valor]) => ({ nombre, valor }))),
         unidadGrafico: "soles",
       };
@@ -202,6 +225,8 @@ export async function leerReporte(
           columnas: [],
           filas: [],
           total: null,
+          sinCosto: [],
+          hayCostosDesconocidos: false,
           grafico: null,
           unidadGrafico: null,
         };
@@ -236,6 +261,11 @@ export async function leerReporte(
           responsable: m.responsable,
         })),
         total: null,
+        // El kárdex no lleva columna de dinero (es el detalle de cada
+        // movimiento, no un total del periodo): no hay costo desconocido que
+        // avisar aquí.
+        sinCosto: (data ?? []).map(() => false),
+        hayCostosDesconocidos: false,
         grafico: null,
         unidadGrafico: null,
       };

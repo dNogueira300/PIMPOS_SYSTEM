@@ -2181,6 +2181,7 @@ export type Database = {
           documentos: number
           insumo: string
           proveedor: string
+          sin_costo: boolean
           unidad: string
         }[]
       }
@@ -2191,6 +2192,7 @@ export type Database = {
           costo: number
           insumo_id: string
           nombre: string
+          sin_costo: boolean
           unidad: string
         }[]
       }
@@ -2214,6 +2216,7 @@ export type Database = {
           costo: number
           insumo: string
           motivo: string
+          sin_costo: boolean
           unidad: string
         }[]
       }

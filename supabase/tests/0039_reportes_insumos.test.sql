@@ -2,9 +2,11 @@
 --
 -- Lo que se defiende: que cada total salga del costo REAL de los lotes; que lo
 -- anulado no cuente; que un movimiento de las 23:30 de Iquitos caiga en su día
--- de Iquitos; y que un faltante de conteo aparezca como pérdida.
+-- de Iquitos; que un faltante de conteo aparezca como pérdida; y que un lote
+-- sin costo registrado se avise (`sin_costo`) en vez de contarse como S/ 0 sin
+-- decirlo (revisión de tarea 6, hallazgo I-2).
 begin;
-select plan(11);
+select plan(14);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test',   now(), now()),
@@ -53,6 +55,36 @@ select 'baja', harina, 5, kg, '22222222-2222-2222-2222-222222222222', 'merma', '
 insert into public.movimientos_insumo (tipo, sentido, insumo_id, cantidad, unidad_id, responsable_id, observacion)
 select 'ajuste', -1, harina, 2, kg, '22222222-2222-2222-2222-222222222222', 'Conteo semanal' from ref;
 
+-- Un insumo nuevo con dos lotes: el primero sin costo (inventario inicial sin
+-- precio) y el segundo a S/ 10 el kilo. FEFO sin fechas saca primero el más
+-- antiguo, así que un consumo de 7 kg saca los 4 kg sin costo y 3 kg a S/ 10.
+-- El costo del reporte tiene que ser 3 × 10 = 30, ni 7 × 10 = 70 ni 0: ese es
+-- el hallazgo I-2 (un lote sin costo no puede colarse como si valiera cero
+-- sin que el reporte lo diga).
+insert into public.insumos (nombre, unidad_base_id)
+select 'Insumo de prueba sin costo', kg from ref;
+insert into public.movimientos_insumo
+  (tipo, sentido, insumo_id, cantidad, unidad_id, responsable_id, observacion, ocurrido_en)
+select 'ajuste', 1,
+       (select id from public.insumos where nombre = 'Insumo de prueba sin costo'),
+       4, kg, '33333333-3333-3333-3333-333333333333', 'Inventario inicial, costo desconocido',
+       ((hoy - 2) + time '08:00') at time zone 'America/Lima'
+  from ref;
+insert into public.movimientos_insumo
+  (tipo, sentido, insumo_id, cantidad, unidad_id, responsable_id, precio_unitario, observacion, ocurrido_en)
+select 'ajuste', 1,
+       (select id from public.insumos where nombre = 'Insumo de prueba sin costo'),
+       6, kg, '33333333-3333-3333-3333-333333333333', 10, 'Segundo lote, con costo conocido',
+       ((hoy - 2) + time '09:00') at time zone 'America/Lima'
+  from ref;
+insert into public.movimientos_insumo
+  (tipo, insumo_id, cantidad, unidad_id, responsable_id, ocurrido_en)
+select 'consumo',
+       (select id from public.insumos where nombre = 'Insumo de prueba sin costo'),
+       7, kg, '33333333-3333-3333-3333-333333333333',
+       ((hoy - 2) + time '10:00') at time zone 'America/Lima'
+  from ref;
+
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "rol": "ingeniero"}';
 
@@ -95,6 +127,22 @@ select is(
 select is(
   (select sin_costo from public.reporte_existencias() where insumo_id = (select harina from ref)),
   false, 'y todos sus lotes tienen costo'
+);
+
+select is(
+  (select cantidad_base from public.reporte_consumo((select hoy - 2 from ref), (select hoy - 2 from ref))
+    where insumo_id = (select id from public.insumos where nombre = 'Insumo de prueba sin costo')),
+  7.0::numeric, 'el consumo del insumo sin costo se repartió en dos lotes: 4 + 3 = 7 kg'
+);
+select is(
+  (select costo from public.reporte_consumo((select hoy - 2 from ref), (select hoy - 2 from ref))
+    where insumo_id = (select id from public.insumos where nombre = 'Insumo de prueba sin costo')),
+  30.00::numeric, 'pero el costo excluye los 4 kg sin costo: solo cuentan los 3 kg a S/ 10'
+);
+select is(
+  (select sin_costo from public.reporte_consumo((select hoy - 2 from ref), (select hoy - 2 from ref))
+    where insumo_id = (select id from public.insumos where nombre = 'Insumo de prueba sin costo')),
+  true, 'y el reporte avisa que parte de esa cantidad no tiene costo registrado'
 );
 
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';

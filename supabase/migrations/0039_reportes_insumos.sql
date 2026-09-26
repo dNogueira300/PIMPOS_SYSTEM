@@ -63,8 +63,17 @@ as $$
 $$;
 
 -- Consumo por periodo ----------------------------------------------------------
+--
+-- `sin_costo`: true si parte de lo consumido salió de un lote sin costo
+-- registrado. `costo` ya excluía esa parte (`coalesce(ml.costo_unitario, 0)`
+-- la suma como cero); sin esta columna, esa exclusión era invisible: un
+-- costo bajo por un lote sin precio se veía igual que un costo bajo de
+-- verdad (revisión de tarea 6, hallazgo I-2).
 create or replace function public.reporte_consumo(p_desde date, p_hasta date)
-returns table (insumo_id uuid, nombre text, unidad text, cantidad_base numeric, costo numeric)
+returns table (
+  insumo_id uuid, nombre text, unidad text, cantidad_base numeric, costo numeric,
+  sin_costo boolean
+)
 language sql
 stable
 security invoker
@@ -72,7 +81,8 @@ set search_path = ''
 as $$
   select i.id, i.nombre, u.codigo,
          sum(ml.cantidad_base),
-         round(sum(ml.cantidad_base * coalesce(ml.costo_unitario, 0)), 2)
+         round(sum(ml.cantidad_base * coalesce(ml.costo_unitario, 0)), 2),
+         bool_or(ml.costo_unitario is null)
     from public.movimientos_insumo m
     join public.movimiento_lotes ml on ml.movimiento_id = m.id
     join public.insumos i on i.id = m.insumo_id
@@ -85,8 +95,15 @@ as $$
 $$;
 
 -- Compras por proveedor --------------------------------------------------------
+-- `sin_costo`: ver el comentario de `reporte_consumo`. Aquí es infrecuente (un
+-- ingreso normal siempre trae precio o costo total), pero un ajuste de entrada
+-- sin precio también crea un lote sin costo, y esta función lo hereda si algún
+-- día un ingreso llegara a compartir lote con uno de esos.
 create or replace function public.reporte_compras(p_desde date, p_hasta date)
-returns table (proveedor text, insumo text, unidad text, cantidad_base numeric, costo numeric, documentos bigint)
+returns table (
+  proveedor text, insumo text, unidad text, cantidad_base numeric, costo numeric,
+  documentos bigint, sin_costo boolean
+)
 language sql
 stable
 security invoker
@@ -97,7 +114,8 @@ as $$
          -- repartiera en dos lotes, sumar el del movimiento lo contaría dos veces.
          sum(ml.cantidad_base),
          round(sum(ml.cantidad_base * coalesce(ml.costo_unitario, 0)), 2),
-         count(distinct lower(btrim(m.documento_numero)))
+         count(distinct lower(btrim(m.documento_numero))),
+         bool_or(ml.costo_unitario is null)
     from public.movimientos_insumo m
     join public.movimiento_lotes ml on ml.movimiento_id = m.id
     join public.proveedores p on p.id = m.proveedor_id
@@ -111,8 +129,14 @@ as $$
 $$;
 
 -- Mermas y pérdidas: bajas aprobadas + faltantes encontrados al contar ---------
+-- `sin_costo`: ver el comentario de `reporte_consumo`. Aquí es el caso más
+-- probable de los tres: una baja o un faltante de conteo pueden salir
+-- perfectamente de un lote de inventario inicial cargado sin precio.
 create or replace function public.reporte_mermas(p_desde date, p_hasta date)
-returns table (motivo text, insumo text, unidad text, cantidad_base numeric, costo numeric)
+returns table (
+  motivo text, insumo text, unidad text, cantidad_base numeric, costo numeric,
+  sin_costo boolean
+)
 language sql
 stable
 security invoker
@@ -121,7 +145,8 @@ as $$
   select case when m.tipo = 'baja' then m.motivo_baja::text else 'faltante_conteo' end,
          i.nombre, u.codigo,
          sum(ml.cantidad_base),
-         round(sum(ml.cantidad_base * coalesce(ml.costo_unitario, 0)), 2)
+         round(sum(ml.cantidad_base * coalesce(ml.costo_unitario, 0)), 2),
+         bool_or(ml.costo_unitario is null)
     from public.movimientos_insumo m
     join public.movimiento_lotes ml on ml.movimiento_id = m.id
     join public.insumos i on i.id = m.insumo_id
