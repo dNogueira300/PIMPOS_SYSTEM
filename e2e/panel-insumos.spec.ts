@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 
+import { borrarDeLaBase } from "./ayudas/base";
 import { entrarComo } from "./ayudas/sesion";
 import { borrarUsuario } from "./ayudas/usuarios";
 
@@ -33,6 +34,10 @@ test("el ingeniero crea un insumo con su equivalencia y lo ve en Existencias", a
       .getByText("Bajo el mínimo");
     await expect(avisoLista.or(avisoTabla)).toBeVisible();
   } finally {
+    // Sin esto, cada corrida deja un insumo real en la base: `0011_insumos.
+    // test.sql` cuenta los 22 de la ficha 7.2 y falla en cuanto sobra uno
+    // (equivalencias se va sola por el `on delete cascade` de 0011).
+    await borrarDeLaBase("insumos", "nombre", nombre);
     await borrarUsuario(usuario.id);
   }
 });

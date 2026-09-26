@@ -1,6 +1,6 @@
--- Verifica guardar_insumo y existencias_insumo (0035).
+-- Verifica guardar_insumo, existencias_insumo y el retiro con saldo (0035).
 begin;
-select plan(14);
+select plan(16);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('33333333-3333-3333-3333-333333333333', 'inge@pimpos.test',    now(), now()),
@@ -91,6 +91,32 @@ select is(
   (select por_vencer from public.existencias_insumo where id = (select valor from t where clave = 'coco')),
   true, 'un lote con existencia que vence en 5 días lo marca por vencer'
 );
+
+-- Retirar con saldo, prohibido en la base (revisión de la tarea 2, I-1): la
+-- política ya deja que el ingeniero haga este `update` directamente, así que
+-- hay que probarlo por ahí y no solo a través de `retirarInsumo()`.
+set local role authenticated;
+set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "rol": "ingeniero"}';
+
+select throws_ok($$
+  update public.insumos set deleted_at = now()
+   where id = (select valor from t where clave = 'coco')
+$$,
+  'P0001',
+  'Todavía quedan 18 kg de Coco rallado 0035. Pide su baja o haz un conteo antes de retirarlo.',
+  'no se retira un insumo con existencias, ni por la API directa'
+);
+
+insert into t select 'vacio', public.guardar_insumo(
+  jsonb_build_object('nombre', 'Sin movimientos 0035', 'unidad_base_id', (select kg from ref),
+                     'stock_minimo', '0'),
+  '[]'::jsonb
+);
+select lives_ok($$
+  update public.insumos set deleted_at = now(), activo = false
+   where id = (select valor from t where clave = 'vacio')
+$$, 'un insumo sin saldo sí se retira');
+reset role;
 
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';

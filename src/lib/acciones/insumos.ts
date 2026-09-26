@@ -34,7 +34,17 @@ export async function guardarInsumo(fd: FormData): Promise<EstadoAccion> {
   });
 }
 
-/** Retirar, no borrar: sus movimientos siguen contando la historia. */
+/**
+ * Retirar, no borrar: sus movimientos siguen contando la historia.
+ *
+ * No hay una comprobación previa de existencias aquí: la hace el trigger
+ * `app.bloquear_retiro_con_saldo()` (0035, revisión de la tarea 2) sobre
+ * `public.insumos`, porque la política RLS deja que cualquiera de los tres
+ * roles de insumos haga este mismo `update` directamente por la API — un
+ * chequeo solo aquí no lo vería. `traducirError` deja pasar tal cual el
+ * mensaje de un `P0001` que no tiene forma de mensaje de Postgres, así que el
+ * texto del trigger («Todavía quedan…») llega intacto a la pantalla.
+ */
 export async function retirarInsumo(id: string): Promise<EstadoAccion> {
   return ejecutarAccion({
     ruta: RUTA_INSUMOS,
@@ -44,20 +54,6 @@ export async function retirarInsumo(id: string): Promise<EstadoAccion> {
     etiquetas: [],
     mensajeOk: "Insumo retirado. Ya no aparece en Existencias.",
     hacer: async ({ id }, { supabase }) => {
-      const { data: existencia, error: errorLectura } = await supabase
-        .from("existencias_insumo")
-        .select("cantidad_base, unidad_base")
-        .eq("id", id)
-        .single();
-      if (errorLectura) return { error: errorLectura };
-      if (Number(existencia.cantidad_base) > 0) {
-        return {
-          error: {
-            code: "P0001",
-            message: `Todavía quedan ${existencia.cantidad_base} ${existencia.unidad_base}. Pide su baja o haz un conteo antes de retirarlo.`,
-          },
-        };
-      }
       const { error } = await supabase
         .from("insumos")
         .update({ deleted_at: new Date().toISOString(), activo: false })

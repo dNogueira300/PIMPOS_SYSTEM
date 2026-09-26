@@ -56,6 +56,7 @@ async function Lista() {
         <ConfirmarBorrado
           nombre={`el proveedor ${p.nombre}`}
           accion={retirarProveedor.bind(null, p.id)}
+          aviso="Deja de aparecer al registrar compras. Sus compras anteriores se conservan."
         />
       )}
       vacio={<p>Todavía no hay proveedores. Crea el primero con «Nuevo proveedor».</p>}

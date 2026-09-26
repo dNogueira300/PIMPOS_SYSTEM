@@ -57,6 +57,7 @@ async function Editor({ params }: { params: PageProps<"/admin/insumos/[id]/edita
           <ConfirmarBorrado
             nombre={`el insumo ${data.nombre}`}
             accion={retirarInsumo.bind(null, id)}
+            aviso="Deja de aparecer en Existencias. Sus movimientos se conservan."
           />
         }
       />

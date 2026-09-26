@@ -128,3 +128,56 @@ comment on view public.existencias_insumo is
   'Cuánto hay de cada insumo, si está bajo el mínimo y si algo vence pronto. Para el panel (F5).';
 revoke all on public.existencias_insumo from anon;
 grant select on public.existencias_insumo to authenticated;
+
+-- -----------------------------------------------------------------------------
+-- Retirar un insumo con existencias, prohibido en la base (revisión de la
+-- tarea 2, hallazgo I-1).
+--
+-- `retirarInsumo()` (src/lib/acciones/insumos.ts) comprobaba esto en el
+-- servidor antes de hacer el `update`, pero la política "insumos gestiona
+-- insumos" (0011) deja que superadmin, administrador e ingeniero actualicen
+-- `deleted_at`/`activo` en una fila de `insumos` directamente por la API —
+-- una llamada a PostgREST que se salte la Server Action rodea el control por
+-- completo. La regla se repite aquí porque es la que de verdad importa.
+--
+-- Sin `security definer`: los tres roles que pueden llegar a este `update`
+-- (la misma política de arriba) ya tienen `select` sobre `saldos_insumo`
+-- ("insumos lee saldos", 0012) y sobre `unidades_medida`, así que el trigger
+-- corre con los privilegios de quien retira sin necesitar más permiso del
+-- que ya tiene.
+-- -----------------------------------------------------------------------------
+create or replace function app.bloquear_retiro_con_saldo()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  v_saldo  numeric(14,4);
+  v_unidad text;
+begin
+  if (new.deleted_at is not null and old.deleted_at is null)
+     or (new.activo is false and old.activo is true) then
+    select coalesce(sum(cantidad_base), 0) into v_saldo
+      from public.saldos_insumo
+     where insumo_id = old.id;
+
+    if v_saldo > 0 then
+      select u.codigo into v_unidad
+        from public.unidades_medida u
+       where u.id = old.unidad_base_id;
+      raise exception '%', format(
+        'Todavía quedan %s %s de %s. Pide su baja o haz un conteo antes de retirarlo.',
+        app.formatear_cantidad(v_saldo), v_unidad, old.nombre)
+        using errcode = 'P0001';
+    end if;
+  end if;
+  return new;
+end;
+$$;
+
+comment on function app.bloquear_retiro_con_saldo() is
+  'Trigger BEFORE UPDATE en insumos: no deja poner deleted_at/activo=false en un insumo con saldo.';
+
+create trigger insumos_bloquear_retiro_con_saldo
+  before update on public.insumos
+  for each row execute function app.bloquear_retiro_con_saldo();
