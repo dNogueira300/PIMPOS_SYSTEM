@@ -360,6 +360,13 @@ export type Database = {
             foreignKeyName: "equivalencias_insumo_id_fkey"
             columns: ["insumo_id"]
             isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "equivalencias_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
             referencedRelation: "insumos"
             referencedColumns: ["id"]
           },
@@ -637,6 +644,13 @@ export type Database = {
             foreignKeyName: "lotes_insumo_insumo_id_fkey"
             columns: ["insumo_id"]
             isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lotes_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
             referencedRelation: "insumos"
             referencedColumns: ["id"]
           },
@@ -800,6 +814,13 @@ export type Database = {
             foreignKeyName: "movimientos_insumo_insumo_id_fkey"
             columns: ["insumo_id"]
             isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
             referencedRelation: "insumos"
             referencedColumns: ["id"]
           },
@@ -870,6 +891,13 @@ export type Database = {
           titulo?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "notificaciones_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notificaciones_insumo_id_fkey"
             columns: ["insumo_id"]
@@ -1385,6 +1413,13 @@ export type Database = {
             foreignKeyName: "saldos_insumo_insumo_id_fkey"
             columns: ["insumo_id"]
             isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saldos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
             referencedRelation: "insumos"
             referencedColumns: ["id"]
           },
@@ -1418,6 +1453,13 @@ export type Database = {
             columns: ["almacen_id"]
             isOneToOne: false
             referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saldos_lote_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "existencias_insumo"
             referencedColumns: ["id"]
           },
           {
@@ -1688,6 +1730,22 @@ export type Database = {
         }
         Relationships: []
       }
+      existencias_insumo: {
+        Row: {
+          activo: boolean | null
+          bajo_minimo: boolean | null
+          cantidad_base: number | null
+          es_perecible: boolean | null
+          id: string | null
+          nombre: string | null
+          por_vencer: boolean | null
+          presentacion: string | null
+          proximo_vencimiento: string | null
+          stock_minimo: number | null
+          unidad_base: string | null
+        }
+        Relationships: []
+      }
       faqs_publicas: {
         Row: {
           es_demo: boolean | null
@@ -1937,6 +1995,10 @@ export type Database = {
       guardar_configuracion: {
         Args: { p_confirmadas?: string[]; p_valores: Json }
         Returns: number
+      }
+      guardar_insumo: {
+        Args: { p_equivalencias: Json; p_insumo: Json }
+        Returns: string
       }
       guardar_producto: {
         Args: { p_presentaciones: Json; p_producto: Json }
