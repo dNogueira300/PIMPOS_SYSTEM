@@ -859,6 +859,7 @@ export type Database = {
           mensaje: string
           novedad_id: string | null
           resuelta_en: string | null
+          solicitud_baja_id: string | null
           tipo: string
           titulo: string
         }
@@ -873,6 +874,7 @@ export type Database = {
           mensaje: string
           novedad_id?: string | null
           resuelta_en?: string | null
+          solicitud_baja_id?: string | null
           tipo: string
           titulo: string
         }
@@ -887,6 +889,7 @@ export type Database = {
           mensaje?: string
           novedad_id?: string | null
           resuelta_en?: string | null
+          solicitud_baja_id?: string | null
           tipo?: string
           titulo?: string
         }
@@ -924,6 +927,13 @@ export type Database = {
             columns: ["novedad_id"]
             isOneToOne: false
             referencedRelation: "novedades_publicas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notificaciones_solicitud_baja_id_fkey"
+            columns: ["solicitud_baja_id"]
+            isOneToOne: false
+            referencedRelation: "solicitudes_baja"
             referencedColumns: ["id"]
           },
         ]
@@ -1544,6 +1554,117 @@ export type Database = {
         }
         Relationships: []
       }
+      solicitudes_baja: {
+        Row: {
+          cantidad: number
+          comentario_rechazo: string | null
+          created_at: string
+          created_by: string | null
+          estado: string
+          id: string
+          insumo_id: string
+          lote_id: string | null
+          motivo_baja:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+          movimiento_id: string | null
+          observacion: string
+          resuelto_en: string | null
+          resuelto_por: string | null
+          solicitado_por: string
+          unidad_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          cantidad: number
+          comentario_rechazo?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado?: string
+          id?: string
+          insumo_id: string
+          lote_id?: string | null
+          motivo_baja:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+          movimiento_id?: string | null
+          observacion: string
+          resuelto_en?: string | null
+          resuelto_por?: string | null
+          solicitado_por?: string
+          unidad_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          cantidad?: number
+          comentario_rechazo?: string | null
+          created_at?: string
+          created_by?: string | null
+          estado?: string
+          id?: string
+          insumo_id?: string
+          lote_id?: string | null
+          motivo_baja?:
+            | "merma"
+            | "vencimiento"
+            | "danado"
+            | "devolucion_proveedor"
+            | "consumo_interno"
+          movimiento_id?: string | null
+          observacion?: string
+          resuelto_en?: string | null
+          resuelto_por?: string | null
+          solicitado_por?: string
+          unidad_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solicitudes_baja_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitudes_baja_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitudes_baja_lote_id_fkey"
+            columns: ["lote_id"]
+            isOneToOne: false
+            referencedRelation: "lotes_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitudes_baja_movimiento_id_fkey"
+            columns: ["movimiento_id"]
+            isOneToOne: true
+            referencedRelation: "movimientos_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitudes_baja_unidad_id_fkey"
+            columns: ["unidad_id"]
+            isOneToOne: false
+            referencedRelation: "unidades_medida"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       testimonios: {
         Row: {
           created_at: string
@@ -1995,6 +2116,7 @@ export type Database = {
         Args: { p_id: string; p_motivo: string }
         Returns: string
       }
+      aprobar_baja: { Args: { p_id: string }; Returns: string }
       cerrar_sesiones: { Args: { usuario: string }; Returns: undefined }
       guardar_configuracion: {
         Args: { p_confirmadas?: string[]; p_valores: Json }
@@ -2034,6 +2156,10 @@ export type Database = {
           tipo: string
           unidad: string
         }[]
+      }
+      rechazar_baja: {
+        Args: { p_comentario: string; p_id: string }
+        Returns: undefined
       }
       registrar_consumo: {
         Args: { p_cabecera: Json; p_lineas: Json }

@@ -83,7 +83,8 @@ type Aviso = { clave: string; texto: string; ruta: string };
 
 /**
  * Cada tarea que añade algo que revisar añade aquí su cuenta. T1 trae la de
- * datos por confirmar; T4, las de promociones.
+ * datos por confirmar; T4, las de promociones; T5 de F5, las de insumos y
+ * bajas.
  */
 async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
   const supabase = await crearClienteServidor();
@@ -114,6 +115,47 @@ async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
         ruta: "/admin/contenido/novedades",
       });
     }
+
+    const { count: bajas } = await supabase
+      .from("solicitudes_baja")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", "pendiente");
+    if (bajas && bajas > 0) {
+      avisos.unshift({
+        clave: "bajas-pendientes",
+        texto: `${bajas} ${bajas === 1 ? "baja espera" : "bajas esperan"} tu aprobación`,
+        ruta: "/admin/insumos/bajas",
+      });
+    }
+  }
+
+  if (rol === "superadmin" || rol === "administrador" || rol === "ingeniero") {
+    const [{ count: bajo }, { count: vencer }] = await Promise.all([
+      supabase
+        .from("existencias_insumo")
+        .select("id", { count: "exact", head: true })
+        .eq("activo", true)
+        .eq("bajo_minimo", true),
+      supabase
+        .from("existencias_insumo")
+        .select("id", { count: "exact", head: true })
+        .eq("activo", true)
+        .eq("por_vencer", true),
+    ]);
+    if (bajo && bajo > 0) {
+      avisos.push({
+        clave: "insumos-bajo-minimo",
+        texto: `${bajo} ${bajo === 1 ? "insumo está" : "insumos están"} bajo el mínimo`,
+        ruta: "/admin/insumos?ver=bajo",
+      });
+    }
+    if (vencer && vencer > 0) {
+      avisos.push({
+        clave: "insumos-por-vencer",
+        texto: `${vencer} ${vencer === 1 ? "insumo tiene" : "insumos tienen"} algo por vencer`,
+        ruta: "/admin/insumos?ver=vencer",
+      });
+    }
   }
 
   if (rol === "ingeniero") {
@@ -130,6 +172,20 @@ async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
         clave: "promociones-devueltas",
         texto: `${devueltas} ${devueltas === 1 ? "promoción tuya fue devuelta" : "promociones tuyas fueron devueltas"} con comentario`,
         ruta: "/admin/contenido/novedades",
+      });
+    }
+
+    const { count: rechazadas } = await supabase
+      .from("solicitudes_baja")
+      .select("id", { count: "exact", head: true })
+      .eq("estado", "rechazada")
+      .eq("solicitado_por", usuarioId)
+      .gte("resuelto_en", new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString());
+    if (rechazadas && rechazadas > 0) {
+      avisos.push({
+        clave: "bajas-rechazadas",
+        texto: `${rechazadas} ${rechazadas === 1 ? "baja tuya fue rechazada" : "bajas tuyas fueron rechazadas"} esta semana`,
+        ruta: "/admin/insumos/bajas",
       });
     }
   }

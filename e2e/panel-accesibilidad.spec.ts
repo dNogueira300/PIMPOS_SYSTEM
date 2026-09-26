@@ -33,6 +33,8 @@ export const RUTAS_DEL_PANEL = [
   "/admin/insumos/ingreso",
   "/admin/insumos/consumo",
   "/admin/insumos/conteo",
+  "/admin/insumos/bajas",
+  "/admin/insumos/bajas/nueva",
   "/admin/insumos/proveedores",
   "/admin/insumos/proveedores/nuevo",
   "/admin/usuarios",

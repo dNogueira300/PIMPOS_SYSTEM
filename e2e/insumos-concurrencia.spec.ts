@@ -1,28 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
 import { expect, test } from "@playwright/test";
 
-import { supabaseLocal } from "./ayudas/supabase-local";
-import { crearUsuario } from "./ayudas/usuarios";
+import { sesionDeApi } from "./ayudas/insumos";
 
 test.beforeEach(({}, info) => {
   test.skip(info.project.name !== "movil", "no depende del tamaño de pantalla");
 });
 
-async function sesion(rol: string) {
-  const { apiUrl, anonKey } = supabaseLocal();
-  const usuario = await crearUsuario(rol);
-  const cliente = createClient(apiUrl, anonKey, { auth: { persistSession: false } });
-  const { error } = await cliente.auth.signInWithPassword({
-    email: usuario.correo,
-    password: usuario.clave,
-  });
-  if (error) throw new Error(`No se pudo entrar: ${error.message}`);
-  return cliente;
-}
-
 test("dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda", async () => {
-  const administracion = await sesion("administrador");
-  const [uno, otro] = await Promise.all([sesion("ingeniero"), sesion("ingeniero")]);
+  const administracion = await sesionDeApi("administrador");
+  const [uno, otro] = await Promise.all([sesionDeApi("ingeniero"), sesionDeApi("ingeniero")]);
 
   const { data: kg } = await administracion
     .from("unidades_medida")
