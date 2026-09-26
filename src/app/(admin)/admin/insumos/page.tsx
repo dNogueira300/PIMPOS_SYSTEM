@@ -19,6 +19,7 @@ const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracio
   { ruta: "/admin/insumos/ingreso", nombre: "Registrar ingreso" },
   { ruta: "/admin/insumos/consumo", nombre: "Registrar consumo" },
   { ruta: "/admin/insumos/conteo", nombre: "Conteo", soloAdministracion: true },
+  { ruta: "/admin/insumos/bajas/nueva", nombre: "Pedir baja" },
 ];
 
 export default function Existencias({ searchParams }: PageProps<"/admin/insumos">) {
@@ -157,9 +158,18 @@ async function Lista({
         ]}
         vacio={<p>No hay insumos que coincidan. Prueba con otra palabra o crea uno nuevo.</p>}
       />
-      <p className="mt-4 text-sm">
-        <Link href={`${RUTA}/proveedores`} className="inline-flex min-h-11 items-center underline">
+      <p className="mt-4 flex flex-wrap gap-x-4 text-sm">
+        <Link
+          href={`${RUTA}/proveedores`}
+          className="inline-flex min-h-11 min-w-11 items-center underline"
+        >
           Proveedores
+        </Link>
+        <Link
+          href={`${RUTA}/bajas`}
+          className="inline-flex min-h-11 min-w-11 items-center underline"
+        >
+          Bajas
         </Link>
       </p>
     </>
