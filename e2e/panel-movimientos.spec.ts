@@ -1,6 +1,8 @@
+import { createClient } from "@supabase/supabase-js";
 import { expect, test } from "@playwright/test";
 
 import { entrarComo } from "./ayudas/sesion";
+import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 // Escribe en la harina y el azúcar de la semilla: un solo proyecto, para que
@@ -68,6 +70,57 @@ test("un ingreso de dos líneas sube el saldo y un consumo lo baja", async ({ pa
     await page.getByLabel("Observación").fill("Repetida");
     await page.getByRole("button", { name: "Guardar" }).click();
     await expect(page.getByText(/ya se registró el/)).toBeVisible();
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("cambiar de un insumo perecible a uno que no vence no deja fecha en el lote", async ({
+  page,
+}) => {
+  // Revisión de la tarea 3 (I-1): la línea traía la fecha de la Manteca y el
+  // insumo cambió a Azúcar, que no vence. Sin la limpieza al cambiar de
+  // insumo, esa fecha viajaría igual y crearía un lote con vencimiento
+  // fantasma para un insumo que nunca vence.
+  const usuario = await entrarComo(page, "ingeniero");
+  const boleta = `E2E-VENCE-${Date.now()}`;
+  try {
+    await page.goto("/admin/insumos/ingreso");
+    await page.getByLabel("Proveedor").selectOption({ label: "Comercial FOX" });
+    await page.getByLabel("Número", { exact: true }).fill(boleta);
+    await page.getByLabel("Insumo 1").selectOption({ label: "Manteca" });
+    await page.getByLabel("Cantidad 1").fill("1");
+    await page.getByLabel("Unidad 1").selectOption({ label: "Caja" });
+    await page.getByLabel("Precio unitario 1 (S/)").fill("90");
+    await page.getByLabel("Vence 1").fill("2027-01-01");
+
+    // Cambia a un insumo que no vence: el campo «Vence» desaparece.
+    await page.getByLabel("Insumo 1").selectOption({ label: "Azúcar" });
+    await expect(page.getByLabel("Vence 1")).toHaveCount(0);
+    await page.getByLabel("Unidad 1").selectOption({ label: "Kilogramo" });
+    await page.getByLabel("Observación").fill("Prueba E2E de vencimiento fantasma");
+    await page.getByRole("button", { name: "Guardar" }).click();
+    await page.waitForURL("/admin/insumos");
+
+    // El lote que de verdad se creó no lleva la fecha de la Manteca.
+    const { apiUrl, anonKey } = supabaseLocal();
+    const cliente = createClient(apiUrl, anonKey, { auth: { persistSession: false } });
+    const { error: errorSesion } = await cliente.auth.signInWithPassword({
+      email: usuario.correo,
+      password: usuario.clave,
+    });
+    expect(errorSesion).toBeNull();
+
+    const { data, error } = await cliente
+      .from("movimiento_lotes")
+      .select("lotes_insumo(fecha_vencimiento), movimientos_insumo!inner(documento_numero)")
+      .eq("movimientos_insumo.documento_numero", boleta);
+    expect(error).toBeNull();
+    expect(data).toHaveLength(1);
+    const lote = Array.isArray(data![0]!.lotes_insumo)
+      ? data![0]!.lotes_insumo[0]
+      : data![0]!.lotes_insumo;
+    expect(lote!.fecha_vencimiento).toBeNull();
   } finally {
     await borrarUsuario(usuario.id);
   }

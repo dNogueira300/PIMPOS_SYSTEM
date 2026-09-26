@@ -47,11 +47,13 @@ security invoker
 set search_path = ''
 as $$
 declare
-  v_cuando timestamptz := app.momento_del_registro(p_documento ->> 'ocurrido_en');
-  v_item   jsonb;
-  v_lote   uuid;
-  v_codigo text;
-  v_n      integer := 0;
+  v_cuando    timestamptz := app.momento_del_registro(p_documento ->> 'ocurrido_en');
+  v_item      jsonb;
+  v_lote      uuid;
+  v_codigo    text;
+  v_perecible boolean;
+  v_fecha     date;
+  v_n         integer := 0;
 begin
   if jsonb_typeof(p_lineas) is distinct from 'array' or jsonb_array_length(p_lineas) = 0 then
     raise exception 'Añade al menos un insumo.' using errcode = 'P0001';
@@ -61,6 +63,16 @@ begin
   loop
     v_lote := null;
     v_codigo := nullif(btrim(v_item ->> 'codigo_lote'), '');
+
+    select i.es_perecible into v_perecible
+      from public.insumos i where i.id = (v_item ->> 'insumo_id')::uuid;
+
+    -- Una fecha de vencimiento solo tiene sentido si el insumo vence. Si
+    -- llega igual (por ejemplo, el formulario traía otra línea con un
+    -- insumo perecible y no se limpió al cambiarlo), se ignora: nada de
+    -- crear un lote con fecha fantasma que dispare una alerta de
+    -- vencimiento falsa para un insumo que nunca vence.
+    v_fecha := case when v_perecible then nullif(v_item ->> 'fecha_vencimiento', '')::date else null end;
 
     if v_codigo is not null and exists (
       select 1 from public.lotes_insumo
@@ -73,9 +85,9 @@ begin
 
     -- Con código o fecha, el lote se crea aquí; sin ninguno de los dos, lo crea
     -- el reparto (0034) al registrar la entrada.
-    if v_codigo is not null or nullif(v_item ->> 'fecha_vencimiento', '') is not null then
+    if v_codigo is not null or v_fecha is not null then
       insert into public.lotes_insumo (insumo_id, codigo, fecha_vencimiento)
-      values ((v_item ->> 'insumo_id')::uuid, v_codigo, nullif(v_item ->> 'fecha_vencimiento', '')::date)
+      values ((v_item ->> 'insumo_id')::uuid, v_codigo, v_fecha)
       returning id into v_lote;
     end if;
 

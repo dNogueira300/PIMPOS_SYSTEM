@@ -2,10 +2,11 @@
 --
 -- Lo que se defiende: que una boleta de varias líneas entre entera o no entre;
 -- que un lote con código repetido se explique; que un consumo que no alcanza
--- no deje a medias las líneas anteriores; y que avisar de un documento repetido
--- no cuente los anulados.
+-- no deje a medias las líneas anteriores; que avisar de un documento repetido
+-- no cuente los anulados; y que una fecha de vencimiento mandada para un
+-- insumo que no vence se ignore (revisión de la tarea 3, hallazgo I-1).
 begin;
-select plan(17);
+select plan(19);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test',   now(), now()),
@@ -59,6 +60,28 @@ select is(
 select is(
   (select responsable_id from public.movimientos_insumo where documento_numero = 'B001-123' limit 1),
   '33333333-3333-3333-3333-333333333333'::uuid, 'a nombre de quien registra'
+);
+
+-- Una fecha de vencimiento para un insumo que no vence se ignora: nada de un
+-- lote con vencimiento fantasma que dispare una alerta falsa (I-1).
+select is(
+  public.registrar_ingreso(
+    jsonb_build_object('proveedor_id', (select fox from ref), 'documento_tipo', 'boleta',
+                       'documento_numero', 'B001-127', 'observacion', 'x'),
+    jsonb_build_array(
+      jsonb_build_object('insumo_id', (select azucar from ref), 'cantidad', '1',
+                         'unidad_id', (select saco from ref), 'precio_unitario', '120',
+                         'fecha_vencimiento', (current_date + 10)::text))),
+  1, 'un ingreso de un insumo que no vence, con una fecha de vencimiento igual'
+);
+select is(
+  (select l.fecha_vencimiento
+     from public.lotes_insumo l
+     join public.movimiento_lotes ml on ml.lote_id = l.id
+     join public.movimientos_insumo m on m.id = ml.movimiento_id
+    where m.documento_numero = 'B001-127'),
+  null::date,
+  'la fecha se ignora: el insumo no es perecible, su lote no lleva vencimiento'
 );
 
 select throws_ok($$

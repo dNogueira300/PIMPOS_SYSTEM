@@ -112,6 +112,12 @@ export function EditorLineas({
                       insumo_id: e.target.value,
                       // La unidad del insumo anterior no vale para el nuevo.
                       unidad_id: elegido?.unidades[0]?.id ?? "",
+                      // Y tampoco su fecha de vencimiento ni su lote: si venían
+                      // de un perecible y el nuevo insumo no lo es (o al
+                      // revés), una fecha o un código que ya no aplican
+                      // viajarían igual en el JSON de la línea.
+                      fecha_vencimiento: "",
+                      codigo_lote: "",
                     });
                   }}
                 >
