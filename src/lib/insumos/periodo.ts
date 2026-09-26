@@ -32,3 +32,12 @@ export function leerPeriodo(
   const desde = fechaValida(params.desde) ? params.desde : sumarDias(hasta, -(diasPorDefecto - 1));
   return desde <= hasta ? { desde, hasta } : { desde: hasta, hasta: desde };
 }
+
+/** «Esta semana» (lunes a hoy) o «Este mes» (día 1 a hoy), en días de Iquitos. */
+export function periodoNombrado(nombre: "semana" | "mes", ahora: Date): Periodo {
+  const hoy = hoyEnLima(ahora);
+  if (nombre === "mes") return { desde: `${hoy.slice(0, 8)}01`, hasta: hoy };
+  const diaSemana = new Date(`${hoy}T12:00:00.000Z`).getUTCDay(); // 0 = domingo
+  const desdeLunes = (diaSemana + 6) % 7;
+  return { desde: sumarDias(hoy, -desdeLunes), hasta: hoy };
+}

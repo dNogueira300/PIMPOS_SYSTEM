@@ -2173,6 +2173,50 @@ export type Database = {
         Args: { p_documento: Json; p_lineas: Json }
         Returns: number
       }
+      reporte_compras: {
+        Args: { p_desde: string; p_hasta: string }
+        Returns: {
+          cantidad_base: number
+          costo: number
+          documentos: number
+          insumo: string
+          proveedor: string
+          unidad: string
+        }[]
+      }
+      reporte_consumo: {
+        Args: { p_desde: string; p_hasta: string }
+        Returns: {
+          cantidad_base: number
+          costo: number
+          insumo_id: string
+          nombre: string
+          unidad: string
+        }[]
+      }
+      reporte_existencias: {
+        Args: never
+        Returns: {
+          cantidad_base: number
+          insumo_id: string
+          nombre: string
+          proximo_vencimiento: string
+          sin_costo: boolean
+          stock_minimo: number
+          unidad: string
+          valor: number
+        }[]
+      }
+      reporte_mermas: {
+        Args: { p_desde: string; p_hasta: string }
+        Returns: {
+          cantidad_base: number
+          costo: number
+          insumo: string
+          motivo: string
+          unidad: string
+        }[]
+      }
       sesion_abierta: { Args: never; Returns: boolean }
     }
     Enums: {
