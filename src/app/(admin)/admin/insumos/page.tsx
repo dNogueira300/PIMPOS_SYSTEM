@@ -18,6 +18,7 @@ const RUTA = "/admin/insumos";
 const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracion?: boolean }> = [
   { ruta: "/admin/insumos/ingreso", nombre: "Registrar ingreso" },
   { ruta: "/admin/insumos/consumo", nombre: "Registrar consumo" },
+  { ruta: "/admin/insumos/conteo", nombre: "Conteo", soloAdministracion: true },
 ];
 
 export default function Existencias({ searchParams }: PageProps<"/admin/insumos">) {
@@ -136,7 +137,7 @@ async function Lista({
       <ListaAdaptable
         etiqueta="Existencias de insumos"
         filas={filas}
-        enlace={(i) => `${RUTA}/${i.id}/editar`}
+        enlace={(i) => `${RUTA}/${i.id}`}
         columnas={[
           { titulo: "Insumo", celda: (i) => i.nombre, principal: true },
           {
