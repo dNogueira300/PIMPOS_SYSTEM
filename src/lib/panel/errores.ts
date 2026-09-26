@@ -31,8 +31,9 @@ export function traducirError(error: ErrorDePostgres, entidad: string): string {
       return `No se encontró ${entidad}. Puede que otra persona lo haya borrado.`;
     case "23514":
     case "P0001":
+    case "P0002":
       // Los triggers y funciones del proyecto escriben su `message` para
-      // personas (p. ej. 0010). Los checks de columna, no.
+      // personas (p. ej. 0010, 0011). Los checks de columna, no.
       return esMensajeDePostgres(error.message)
         ? "Algún dato no cumple las reglas. Revisa lo que escribiste."
         : error.message;
