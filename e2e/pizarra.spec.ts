@@ -181,7 +181,7 @@ test("el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano", 
   // y borra productos de verdad mientras el resto de la suite corre), el
   // numero que se leyo en /productos puede no ser ya el que enseña la
   // portada un instante despues, sin que la portada este mintiendo. Es la
-  // trampa que ya avisa CLAUDE.md: una prueba cuyo numero no es el suyo.
+  // trampa que ya avisa AGENTS.md: una prueba cuyo numero no es el suyo.
   // `toPass()` repite las DOS lecturas juntas, asi que solo se da por buena
   // cuando coinciden en la misma pasada; si la portada dijera un numero fijo
   // o equivocado, nunca coincidiria y seguiria fallando hasta agotar el

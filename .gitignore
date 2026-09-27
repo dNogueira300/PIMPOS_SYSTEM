@@ -61,14 +61,14 @@ pnpm-debug.log*
 # Configuraciones y artefactos de las herramientas de IA que usa Dan en su
 # máquina. No se versionan.
 #
-# CLAUDE.md es la excepción, decidida por Dan el 11/09/2026: es la memoria del
-# proyecto —estado, decisiones y trampas ya pagadas— y no puede depender de un
-# solo disco. Se versiona igual que DOC/. CLAUDE.local.md sigue fuera: es la
-# variante personal, no la del proyecto.
+# AGENTS.md y CLAUDE.md son la excepción. AGENTS.md es la memoria del proyecto
+# —estado, decisiones y trampas ya pagadas— para cualquier agente (decisión de
+# Dan del 11/09/2026 para CLAUDE.md, trasladada a AGENTS.md el 27/09/2026), y
+# CLAUDE.md solo lo importa. No pueden depender de un solo disco: se versionan
+# igual que DOC/. CLAUDE.local.md sigue fuera: es la variante personal.
 .claude/
 .claude*/
 CLAUDE.local.md
-AGENTS.md
 .mcp.json
 .claude-flow/
 *.claude.*

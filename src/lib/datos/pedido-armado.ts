@@ -7,7 +7,7 @@
  *
  * Vive aparte de `pedido.ts` y sin dependencias a propósito: lo usa un
  * componente de cliente, y `pedido.ts` importa `catalogo.ts`, que trae Supabase
- * y funciones `use cache`. Es la trampa de `reloj.ts` (CLAUDE.md): el build se
+ * y funciones `use cache`. Es la trampa de `reloj.ts` (AGENTS.md): el build se
  * cae, y la traza no lo dice en ese orden.
  */
 

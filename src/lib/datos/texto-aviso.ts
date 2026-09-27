@@ -11,7 +11,7 @@
  *
  * Sin dependencias a propósito: si algún día lo usa un componente de cliente, no
  * debe arrastrar Supabase ni `use cache` (ver la trampa de `reloj.ts` en
- * CLAUDE.md).
+ * AGENTS.md).
  */
 export function textoDelAviso({
   abreALas,

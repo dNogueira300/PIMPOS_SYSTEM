@@ -186,7 +186,7 @@ Versiones verificadas contra el registro de npm el **05/09/2026**.
 >
 > Lo que pasó de verdad: TypeScript 7 no lo alcanzan `typescript-eslint` (pide `<6.1`) ni ESLint 10 (`eslint-plugin-react` llega a `^9.7`). Se usan **TypeScript 5.9.3 y ESLint 9.39.5**, documentado en el README.
 
-> **Cache Components está activado** (`cacheComponents: true` en `next.config.ts`). Es lo que permite el modelo que pide el plan: el sitio público sale como HTML estático, lo que depende de la petición llega después en streaming, y el panel invalidará por etiqueta con `revalidateTag` cuando publique (R21, R7). El precio a pagar: todo lo que lea `cookies()`, `headers()` o `searchParams` tiene que ir dentro de un `<Suspense>`, y un `new Date()` suelto rompe el build por ser un valor que cambia entre renderizados. Las dos cosas están resueltas y anotadas en `CLAUDE.md`.
+> **Cache Components está activado** (`cacheComponents: true` en `next.config.ts`). Es lo que permite el modelo que pide el plan: el sitio público sale como HTML estático, lo que depende de la petición llega después en streaming, y el panel invalidará por etiqueta con `revalidateTag` cuando publique (R21, R7). El precio a pagar: todo lo que lea `cookies()`, `headers()` o `searchParams` tiene que ir dentro de un `<Suspense>`, y un `new Date()` suelto rompe el build por ser un valor que cambia entre renderizados. Las dos cosas están resueltas y anotadas en `AGENTS.md`.
 
 ### 4.2 Interfaz
 

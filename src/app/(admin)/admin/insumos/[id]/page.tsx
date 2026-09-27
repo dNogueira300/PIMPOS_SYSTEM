@@ -38,7 +38,7 @@ async function Ficha({
   const sesion = await exigirAcceso("/admin/insumos");
   const esAdministracion = sesion.rol === "superadmin" || sesion.rol === "administrador";
   // Dentro de un componente dinámico (espera la sesión): aquí `new Date()` no
-  // rompe el prerenderizado (trampa de Cache Components en CLAUDE.md).
+  // rompe el prerenderizado (trampa de Cache Components en AGENTS.md).
   const periodo = leerPeriodo(filtros, new Date(), 30);
 
   const supabase = await crearClienteServidor();

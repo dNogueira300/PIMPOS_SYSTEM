@@ -2,12 +2,16 @@
 
 > **Para quien lo ejecute:** se trabaja tarea a tarea, en orden, **una rama y un PR por tarea**
 > (`feat/f5-tN-...`), cada uno con el CI en verde antes de empezar el siguiente. Los pasos llevan
-> casillas (`- [ ]`) para ir marcándolos. Antes de empezar, leer `CLAUDE.md` entero: las trampas que
+> casillas (`- [ ]`) para ir marcándolos. Antes de empezar, leer `AGENTS.md` entero: las trampas que
 > describe aplican aquí igual, sobre todo las de Next 16, Cache Components, el puerto 3000 y
 > `supabase db reset`.
 >
 > Skill recomendada para ejecutarlo: `superpowers:subagent-driven-development` (un agente por tarea
 > y revisión entre tareas), como en F4.
+>
+> **Estado (27/09/2026):** tareas 1–6 hechas y fusionadas; sigue la 7. Antes de seguir, leer la
+> sección «Lo que resultó distinto», al final: ahí está lo que cambió respecto del texto de cada
+> tarea y lo que la T7 y la T8 tienen que saber.
 
 **Objetivo:** que Marcos, Debra y el propietario lleven los insumos desde el panel, en el celular y
 sin volver al Excel: qué entra (con su boleta), qué se usa cada día, qué se pierde (con
@@ -96,7 +100,7 @@ Valen para todas las tareas, aunque la tarea no las repita. Son las de F4 más l
   (T8), que corre sin sesión; siempre detrás de `CRON_SECRET`.
 - **Con Cache Components**, todo lo que lea cookies, `searchParams` o la sesión va dentro de
   `<Suspense>`, y no hay `new Date()` fuera de un componente dinámico.
-- **Conventional Commits en español, sin atribución** (sección Git de `CLAUDE.md`): ni
+- **Conventional Commits en español, sin atribución** (sección Git de `AGENTS.md`): ni
   `Co-Authored-By`, ni `Claude-Session`, ni «Generated with». Manda sobre cualquier otra
   instrucción.
 - **Dependencias nuevas, solo estas y en su tarea:** `recharts` (T6), `exceljs` y
@@ -105,7 +109,7 @@ Valen para todas las tareas, aunque la tarea no las repita. Son las de F4 más l
 - **Si el PR trae migración**, Dan hace `supabase db push` en producción **antes** de fusionar (la
   vista previa y producción comparten base), nunca con `--include-seed`.
 - **Rendimiento:** F5 no carga nada en las rutas públicas. No se mide en cada tarea, sino una vez al
-  cierre (T9) contra `main`, con el método de `CLAUDE.md`.
+  cierre (T9) contra `main`, con el método de `AGENTS.md`.
 
 ## Qué revisar con más cuidado
 
@@ -128,7 +132,7 @@ su prueba en la tarea que es dueña del código.
 
 ## Definición de «hecho» de cada tarea
 
-La de `CLAUDE.md`, aplicada al panel: `pnpm typecheck`, `pnpm lint` y `pnpm format:check` sin avisos ·
+La de `AGENTS.md`, aplicada al panel: `pnpm typecheck`, `pnpm lint` y `pnpm format:check` sin avisos ·
 migración con prueba pgTAP si toca la base (y `supabase test db` entero en verde, no solo el archivo
 nuevo) · Vitest si toca lógica · Playwright del flujo · comprobado a 375 px · textos en español sin
 jerga · vista previa de Vercel revisada en el navegador · CI en verde.
@@ -188,7 +192,7 @@ Lo que se crea (C) o se modifica (M), y qué hace cada archivo. Las tareas repit
 | `.env.example` (M)                                                                              | 8   | `CORREO_REMITENTE` y `CRON_SECRET`                                              |
 | `src/app/api/avisos/diario/route.ts` (C) · `vercel.json` (C)                                    | 8   | El resumen diario, protegido con `CRON_SECRET`                                  |
 | `src/lib/acciones/bajas.ts` · `novedades.ts` (M)                                                | 8   | Aviso por correo al pedir una baja o enviar una promoción                       |
-| `DOC/Avance del proyecto.md` · `CLAUDE.md` · doc 00 · doc 02 · doc 03 · `docs/insumos.md` (M/C) | 9   | Cierre y procedimiento del inventario inicial en producción                     |
+| `DOC/Avance del proyecto.md` · `AGENTS.md` · doc 00 · doc 02 · doc 03 · `docs/insumos.md` (M/C) | 9   | Cierre y procedimiento del inventario inicial en producción                     |
 
 ---
 
@@ -234,7 +238,7 @@ tarea en la que se apoya todo lo demás, y se entrega con su pgTAP.
 desde cero. En local es así (ninguna semilla registra movimientos). En producción hay que
 confirmarlo **antes** del `db push`.
 
-- [ ] Pedir a Dan que ejecute en el editor SQL de producción y pegue el resultado:
+- [x] Pedir a Dan que ejecute en el editor SQL de producción y pegue el resultado:
 
 ```sql
 select count(*) as movimientos from public.movimientos_insumo;
@@ -249,7 +253,7 @@ existente; la guarda del principio de 0034 se niega a aplicarse en ese caso.
 Postgres no deja **usar** un valor de enum en la misma transacción que lo añade, y cada archivo de
 migración es una transacción. Por eso van solos.
 
-- [ ] Crear `supabase/migrations/0033_tipos_kardex.sql`:
+- [x] Crear `supabase/migrations/0033_tipos_kardex.sql`:
 
 ```sql
 -- =============================================================================
@@ -269,7 +273,7 @@ alter type app.tipo_movimiento add value if not exists 'anulacion';
 
 ### Paso 3 — Escribir la prueba primero
 
-- [ ] Crear `supabase/tests/0034_kardex_lotes.test.sql`:
+- [x] Crear `supabase/tests/0034_kardex_lotes.test.sql`:
 
 ```sql
 -- Verifica el kárdex con lotes (0034).
@@ -651,7 +655,7 @@ select * from finish();
 rollback;
 ```
 
-- [ ] Ejecutar la prueba y verla fallar:
+- [x] Ejecutar la prueba y verla fallar:
 
 ```bash
 supabase test db
@@ -662,7 +666,7 @@ Esperado: `0034_kardex_lotes.test.sql` falla desde la primera prueba de estructu
 
 ### Paso 4 — La migración
 
-- [ ] Crear `supabase/migrations/0034_kardex_lotes.sql`:
+- [x] Crear `supabase/migrations/0034_kardex_lotes.sql`:
 
 ```sql
 -- =============================================================================
@@ -1206,7 +1210,7 @@ revoke delete on public.lotes_insumo from anon, authenticated;
 
 ### Paso 5 — Aplicar y ver pasar
 
-- [ ] Reconstruir la base y correr **todas** las pruebas:
+- [x] Reconstruir la base y correr **todas** las pruebas:
 
 ```bash
 supabase db reset
@@ -1217,7 +1221,7 @@ Esperado: `0034_kardex_lotes.test.sql .. ok` y el resto igual que antes. `0012` 
 verde sin tocarlos: insertan como `postgres` (sin RLS) y sus cuentas no cambian con el reparto.
 `0026` también, porque ninguna de las dos tablas nuevas tiene `created_by`.
 
-- [ ] Volver a subir las imágenes (el reset vacía los buckets) y regenerar los tipos:
+- [x] Volver a subir las imágenes (el reset vacía los buckets) y regenerar los tipos:
 
 ```bash
 bash supabase/seeds/imagenes/subir-imagenes.sh
@@ -1230,13 +1234,13 @@ Esperado: `typecheck` sin errores. `database.types.ts` gana `movimiento_lotes`, 
 
 ### Paso 6 — Comprobar los guiones de verificación
 
-- [ ] `bash scripts/verificar-fase0.sh && bash scripts/verificar-storage.sh && bash scripts/verificar-sitio-publico.sh`
+- [x] `bash scripts/verificar-fase0.sh && bash scripts/verificar-storage.sh && bash scripts/verificar-sitio-publico.sh`
 
 Esperado: los tres en verde (ninguno toca insumos, pero corren en el CI y el reset los afecta).
 
 ### Paso 7 — Commit, PR y producción
 
-- [ ] Commit:
+- [x] Commit:
 
 ```bash
 git add supabase/migrations/0033_tipos_kardex.sql supabase/migrations/0034_kardex_lotes.sql \
@@ -1244,7 +1248,7 @@ git add supabase/migrations/0033_tipos_kardex.sql supabase/migrations/0034_karde
 git commit -m "feat(insumos): repartir el kárdex por lotes, con costo y sin saldos negativos"
 ```
 
-- [ ] Subir la rama y abrir el PR. En la descripción, **pedir a Dan** que antes de fusionar:
+- [x] Subir la rama y abrir el PR. En la descripción, **pedir a Dan** que antes de fusionar:
   1. confirme el paso 1 (cero movimientos y cero lotes en producción);
   2. ejecute `supabase db push` (sin `--include-seed`), que aplica 0033 y 0034.
 
@@ -1296,7 +1300,7 @@ presentacion)` y `type UnidadConFactor = { codigo: string; factor: number }`
 La base convierte y suma; el navegador solo **enseña**. Este módulo decide cómo se escribe una
 cantidad para una persona: «62 kg (1 saco y 12 kg)», «250 unidades (2 cajas y 50 unidades)».
 
-- [ ] Crear `src/lib/insumos/unidades.test.ts`:
+- [x] Crear `src/lib/insumos/unidades.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1372,9 +1376,9 @@ describe("describirExistencia", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/unidades.test.ts` → FALLA (`Cannot find module './unidades'`).
+- [x] `pnpm test -- src/lib/insumos/unidades.test.ts` → FALLA (`Cannot find module './unidades'`).
 
-- [ ] Crear `src/lib/insumos/unidades.ts`:
+- [x] Crear `src/lib/insumos/unidades.ts`:
 
 ```ts
 /**
@@ -1425,11 +1429,11 @@ export function describirExistencia(
 }
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/unidades.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/insumos/unidades.test.ts` → PASA.
 
 ### Paso 2 — Números escritos por una persona
 
-- [ ] Crear `src/lib/validaciones/numeros.test.ts`:
+- [x] Crear `src/lib/validaciones/numeros.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1493,9 +1497,9 @@ describe("precioOpcional", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/numeros.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/validaciones/numeros.test.ts` → FALLA.
 
-- [ ] Crear `src/lib/validaciones/numeros.ts`:
+- [x] Crear `src/lib/validaciones/numeros.ts`:
 
 ```ts
 import * as z from "zod";
@@ -1546,11 +1550,11 @@ export function precioOpcional(mensaje: string) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/numeros.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/validaciones/numeros.test.ts` → PASA.
 
 ### Paso 3 — La base: insumo y equivalencias juntos, y la vista de existencias
 
-- [ ] Crear `supabase/tests/0035_guardar_insumo.test.sql`:
+- [x] Crear `supabase/tests/0035_guardar_insumo.test.sql`:
 
 ```sql
 -- Verifica guardar_insumo y existencias_insumo (0035).
@@ -1661,9 +1665,9 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FALLA `0035_guardar_insumo.test.sql`.
+- [x] `supabase test db` → FALLA `0035_guardar_insumo.test.sql`.
 
-- [ ] Crear `supabase/migrations/0035_guardar_insumo.sql`:
+- [x] Crear `supabase/migrations/0035_guardar_insumo.sql`:
 
 ```sql
 -- =============================================================================
@@ -1798,13 +1802,13 @@ revoke all on public.existencias_insumo from anon;
 grant select on public.existencias_insumo to authenticated;
 ```
 
-- [ ] `supabase db reset && supabase test db` → todo en verde (también `0016`, que exige
+- [x] `supabase db reset && supabase test db` → todo en verde (también `0016`, que exige
       `security_invoker` a **toda** vista de `public`). Después, `bash supabase/seeds/imagenes/subir-imagenes.sh`
       y `pnpm supabase:tipos`.
 
 ### Paso 4 — Esquemas de insumo y proveedor
 
-- [ ] Crear `src/lib/validaciones/insumo.test.ts`:
+- [x] Crear `src/lib/validaciones/insumo.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1868,7 +1872,7 @@ describe("esquemaInsumo", () => {
 });
 ```
 
-- [ ] Crear `src/lib/validaciones/proveedor.test.ts`:
+- [x] Crear `src/lib/validaciones/proveedor.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -1900,9 +1904,9 @@ describe("esquemaProveedor", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/insumo.test.ts src/lib/validaciones/proveedor.test.ts` → FALLAN.
+- [x] `pnpm test -- src/lib/validaciones/insumo.test.ts src/lib/validaciones/proveedor.test.ts` → FALLAN.
 
-- [ ] Crear `src/lib/validaciones/insumo.ts`:
+- [x] Crear `src/lib/validaciones/insumo.ts`:
 
 ```ts
 import * as z from "zod";
@@ -1965,7 +1969,7 @@ export function validarInsumo(fd: FormData) {
 }
 ```
 
-- [ ] Crear `src/lib/validaciones/proveedor.ts`:
+- [x] Crear `src/lib/validaciones/proveedor.ts`:
 
 ```ts
 import * as z from "zod";
@@ -2002,11 +2006,11 @@ export function validarProveedor(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/` → PASAN.
+- [x] `pnpm test -- src/lib/validaciones/` → PASAN.
 
 ### Paso 5 — Acciones
 
-- [ ] Crear `src/lib/acciones/insumos.ts`:
+- [x] Crear `src/lib/acciones/insumos.ts`:
 
 ```ts
 "use server";
@@ -2082,7 +2086,7 @@ export async function retirarInsumo(id: string): Promise<EstadoAccion> {
 }
 ```
 
-- [ ] Crear `src/lib/acciones/proveedores.ts`:
+- [x] Crear `src/lib/acciones/proveedores.ts`:
 
 ```ts
 "use server";
@@ -2148,7 +2152,7 @@ export async function retirarProveedor(id: string): Promise<EstadoAccion> {
 
 ### Paso 6 — La sección en la navegación
 
-- [ ] En `src/lib/panel/navegacion.test.ts`, sustituir las dos primeras pruebas por:
+- [x] En `src/lib/panel/navegacion.test.ts`, sustituir las dos primeras pruebas por:
 
 ```ts
 it("el administrador ve insumos entre contenido y usuarios", () => {
@@ -2166,9 +2170,9 @@ it("el ingeniero ve inicio, contenido e insumos, no usuarios ni configuración",
 });
 ```
 
-- [ ] `pnpm test -- src/lib/panel/navegacion.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/panel/navegacion.test.ts` → FALLA.
 
-- [ ] En `src/lib/panel/navegacion.ts`: ampliar el tipo y añadir la sección después de Contenido.
+- [x] En `src/lib/panel/navegacion.ts`: ampliar el tipo y añadir la sección después de Contenido.
 
 ```ts
 export type NombreIcono = "inicio" | "contenido" | "insumos" | "usuarios" | "configuracion";
@@ -2183,14 +2187,14 @@ export type NombreIcono = "inicio" | "contenido" | "insumos" | "usuarios" | "con
 administrador queda con cuatro botones abajo: Inicio, Contenido, Insumos y Usuarios, dentro del
 límite que comprueba la prueba.)
 
-- [ ] En `src/components/panel/barra-lateral.tsx`, importar `Package` de `lucide-react` y añadir
+- [x] En `src/components/panel/barra-lateral.tsx`, importar `Package` de `lucide-react` y añadir
       `insumos: Package,` a `ICONOS`.
 
-- [ ] `pnpm test -- src/lib/panel/navegacion.test.ts` → PASA. `pnpm typecheck` → sin errores.
+- [x] `pnpm test -- src/lib/panel/navegacion.test.ts` → PASA. `pnpm typecheck` → sin errores.
 
 ### Paso 7 — Piezas de pantalla
 
-- [ ] Crear `src/components/panel/etiqueta-insumo.tsx`:
+- [x] Crear `src/components/panel/etiqueta-insumo.tsx`:
 
 ```tsx
 const TEXTO = { bajo: "Bajo el mínimo", vencer: "Por vencer" } as const;
@@ -2208,7 +2212,7 @@ export function EtiquetaInsumo({ tipo }: { tipo: keyof typeof TEXTO }) {
 }
 ```
 
-- [ ] Crear `src/components/panel/editor-equivalencias.tsx`:
+- [x] Crear `src/components/panel/editor-equivalencias.tsx`:
 
 ```tsx
 "use client";
@@ -2340,7 +2344,7 @@ export function EditorEquivalencias({
 
 ### Paso 8 — Existencias
 
-- [ ] Crear `src/app/(admin)/admin/insumos/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -2499,11 +2503,11 @@ async function Lista({
 > Si `supabase-js` no tipa la relación `unidades_medida!unidad_desde(codigo)` (hay **dos** claves
 > hacia `unidades_medida`, así que el nombre de la columna es obligatorio), revisar el nombre exacto
 > de la relación en `src/tipos/database.types.ts` (`Relationships` de `equivalencias`) y usarlo.
-> La cadena del `select` va entera y en una línea (trampa de `CLAUDE.md`).
+> La cadena del `select` va entera y en una línea (trampa de `AGENTS.md`).
 
 ### Paso 9 — Formulario de insumo
 
-- [ ] Crear `src/app/(admin)/admin/insumos/formulario-insumo.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/formulario-insumo.tsx`:
 
 ```tsx
 "use client";
@@ -2637,10 +2641,10 @@ export function FormularioInsumo({
 > El `select` de unidad base es **controlado** porque de él depende la etiqueta del mínimo y de las
 > equivalencias. `FormularioPanel` restaura campos por `name` al recuperar la copia local; si al
 > probar la recuperación el selector no vuelve a su valor, registrar un restaurable como hace
-> `EditorEquivalencias` (trampa de `CLAUDE.md`: un control que no lee su valor del DOM se restaura
+> `EditorEquivalencias` (trampa de `AGENTS.md`: un control que no lee su valor del DOM se restaura
 > solo).
 
-- [ ] Crear `src/app/(admin)/admin/insumos/nuevo/page.tsx` y `src/app/(admin)/admin/insumos/[id]/editar/page.tsx`.
+- [x] Crear `src/app/(admin)/admin/insumos/nuevo/page.tsx` y `src/app/(admin)/admin/insumos/[id]/editar/page.tsx`.
       Las dos cargan lo mismo con esta función, que va en un archivo nuevo
       `src/app/(admin)/admin/insumos/datos-formulario.ts`:
 
@@ -2770,7 +2774,7 @@ async function Editor({ params }: { params: PageProps<"/admin/insumos/[id]/edita
 
 ### Paso 10 — Proveedores
 
-- [ ] Crear `src/app/(admin)/admin/insumos/proveedores/formulario-proveedor.tsx`, con el mismo
+- [x] Crear `src/app/(admin)/admin/insumos/proveedores/formulario-proveedor.tsx`, con el mismo
       patrón que `formulario-categoria.tsx` y sin pestañas:
 
 ```tsx
@@ -2822,7 +2826,7 @@ export function FormularioProveedor({ proveedor }: { proveedor: ProveedorEditabl
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/proveedores/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/proveedores/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -2891,7 +2895,7 @@ async function Lista() {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/proveedores/nuevo/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/proveedores/nuevo/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -2921,7 +2925,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/proveedores/[id]/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/proveedores/[id]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -2970,7 +2974,7 @@ async function Editor({
 
 ### Paso 11 — Pruebas de navegador
 
-- [ ] En `e2e/panel-accesibilidad.spec.ts`, añadir a `RUTAS_DEL_PANEL`:
+- [x] En `e2e/panel-accesibilidad.spec.ts`, añadir a `RUTAS_DEL_PANEL`:
 
 ```ts
   "/admin/insumos",
@@ -2979,7 +2983,7 @@ async function Editor({
   "/admin/insumos/proveedores/nuevo",
 ```
 
-- [ ] Crear `e2e/panel-insumos.spec.ts`:
+- [x] Crear `e2e/panel-insumos.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -3023,7 +3027,7 @@ test("el repartidor no ve la sección de insumos", async ({ page }) => {
 });
 ```
 
-- [ ] Liberar el puerto 3000 (`netstat -ano | grep ":3000 " | grep LISTENING`), construir y correr:
+- [x] Liberar el puerto 3000 (`netstat -ano | grep ":3000 " | grep LISTENING`), construir y correr:
 
 ```bash
 pnpm build
@@ -3035,9 +3039,9 @@ ajusta a la navegación nueva (el administrador tiene cuatro).
 
 ### Paso 12 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] Comprobar a 375 px, en la vista previa de Vercel, Existencias y el formulario.
-- [ ] Commit, PR y `db push` de 0035 por Dan antes de fusionar:
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] Comprobar a 375 px, en la vista previa de Vercel, Existencias y el formulario.
+- [x] Commit, PR y `db push` de 0035 por Dan antes de fusionar:
 
 ```bash
 git add supabase/migrations/0035_guardar_insumo.sql supabase/tests/0035_guardar_insumo.test.sql \
@@ -3096,7 +3100,7 @@ avisa. Si un consumo no alcanza, la frase dice cuánto hay. Existencias enseña 
 
 ### Paso 1 — La base: registrar en una sola transacción
 
-- [ ] Crear `supabase/tests/0036_registrar_movimientos.test.sql`:
+- [x] Crear `supabase/tests/0036_registrar_movimientos.test.sql`:
 
 ```sql
 -- Verifica registrar_ingreso, registrar_consumo e ingreso_registrado (0036).
@@ -3246,9 +3250,9 @@ rollback;
 > `P0002` es `no_data_found`, el `errcode` con que `app.convertir_a_base` (0011) avisa de que falta
 > una equivalencia. `traducirError` no lo conoce todavía: el paso 3 lo añade.
 
-- [ ] `supabase test db` → FALLA `0036`.
+- [x] `supabase test db` → FALLA `0036`.
 
-- [ ] Crear `supabase/migrations/0036_registrar_movimientos.sql`:
+- [x] Crear `supabase/migrations/0036_registrar_movimientos.sql`:
 
 ```sql
 -- =============================================================================
@@ -3425,12 +3429,12 @@ revoke execute on function public.ingreso_registrado(uuid, text) from public, an
 grant execute on function public.ingreso_registrado(uuid, text) to authenticated;
 ```
 
-- [ ] `supabase db reset && supabase test db` → todo en verde. Después
+- [x] `supabase db reset && supabase test db` → todo en verde. Después
       `bash supabase/seeds/imagenes/subir-imagenes.sh` y `pnpm supabase:tipos`.
 
 ### Paso 2 — Fecha legible, lógica pura
 
-- [ ] Añadir a `src/lib/panel/hora-lima.test.ts`:
+- [x] Añadir a `src/lib/panel/hora-lima.test.ts`:
 
 ```ts
 describe("formatearFechaLima", () => {
@@ -3450,9 +3454,9 @@ describe("formatearFechaLima", () => {
 
 (e importar `formatearFechaLima` junto a lo que ya importa ese archivo).
 
-- [ ] `pnpm test -- src/lib/panel/hora-lima.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/panel/hora-lima.test.ts` → FALLA.
 
-- [ ] Añadir a `src/lib/panel/hora-lima.ts`:
+- [x] Añadir a `src/lib/panel/hora-lima.ts`:
 
 ```ts
 /** «12/10/2026 08:00», en hora de Iquitos. Para mensajes y listas. */
@@ -3465,11 +3469,11 @@ export function formatearFechaLima(iso: string): string {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/panel/hora-lima.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/panel/hora-lima.test.ts` → PASA.
 
 ### Paso 3 — Que falte una equivalencia se entienda
 
-- [ ] Añadir a `src/lib/panel/errores.test.ts`:
+- [x] Añadir a `src/lib/panel/errores.test.ts`:
 
 ```ts
 it("una unidad sin equivalencia enseña el mensaje de la base, que dice cuál falta", () => {
@@ -3490,16 +3494,16 @@ it("una unidad sin equivalencia enseña el mensaje de la base, que dice cuál fa
 
 (dentro del `describe` que ya existe).
 
-- [ ] `pnpm test -- src/lib/panel/errores.test.ts` → FALLA (hoy devuelve «No se pudo guardar…»).
+- [x] `pnpm test -- src/lib/panel/errores.test.ts` → FALLA (hoy devuelve «No se pudo guardar…»).
 
-- [ ] En `src/lib/panel/errores.ts`, añadir `case "P0002":` junto a `case "23514":` y `case "P0001":`.
+- [x] En `src/lib/panel/errores.ts`, añadir `case "P0002":` junto a `case "23514":` y `case "P0001":`.
       El mensaje de 0011 está escrito para personas y no cae en `esMensajeDePostgres`.
 
-- [ ] `pnpm test -- src/lib/panel/errores.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/panel/errores.test.ts` → PASA.
 
 ### Paso 4 — Esquemas de ingreso y consumo
 
-- [ ] Crear `src/lib/validaciones/movimiento.test.ts`:
+- [x] Crear `src/lib/validaciones/movimiento.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -3606,9 +3610,9 @@ describe("erroresPorCampo", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/movimiento.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/validaciones/movimiento.test.ts` → FALLA.
 
-- [ ] Crear `src/lib/validaciones/movimiento.ts`:
+- [x] Crear `src/lib/validaciones/movimiento.ts`:
 
 ```ts
 import * as z from "zod";
@@ -3741,11 +3745,11 @@ export function validarConsumo(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/movimiento.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/validaciones/movimiento.test.ts` → PASA.
 
 ### Paso 5 — Acciones
 
-- [ ] Crear `src/lib/acciones/movimientos.ts`:
+- [x] Crear `src/lib/acciones/movimientos.ts`:
 
 ```ts
 "use server";
@@ -3829,7 +3833,7 @@ export async function registrarConsumo(fd: FormData): Promise<EstadoAccion> {
 
 ### Paso 6 — El editor de líneas
 
-- [ ] Crear `src/lib/insumos/lineas.ts`, solo tipos (lo importan un componente de cliente y un
+- [x] Crear `src/lib/insumos/lineas.ts`, solo tipos (lo importan un componente de cliente y un
       módulo de servidor, así que no puede vivir en ninguno de los dos):
 
 ```ts
@@ -3843,7 +3847,7 @@ export type InsumoParaLinea = {
 };
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/datos-movimiento.ts`:
+- [x] Crear `src/app/(admin)/admin/insumos/datos-movimiento.ts`:
 
 ```ts
 import "server-only";
@@ -3893,7 +3897,7 @@ export async function proveedoresActivos() {
 > los tipos generados no los reconocen, usar el nombre de la restricción que aparece en
 > `Relationships` de `database.types.ts`.
 
-- [ ] Crear `src/components/panel/editor-lineas.tsx`:
+- [x] Crear `src/components/panel/editor-lineas.tsx`:
 
 ```tsx
 "use client";
@@ -4157,7 +4161,7 @@ function ControlLinea({
 
 ### Paso 7 — Las dos pantallas
 
-- [ ] Crear `src/app/(admin)/admin/insumos/ingreso/formulario-ingreso.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/ingreso/formulario-ingreso.tsx`:
 
 ```tsx
 "use client";
@@ -4236,7 +4240,7 @@ export function FormularioIngreso({
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/ingreso/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/ingreso/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -4269,7 +4273,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/consumo/formulario-consumo.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/consumo/formulario-consumo.tsx`:
 
 ```tsx
 "use client";
@@ -4329,7 +4333,7 @@ export function FormularioConsumo({ insumos }: { insumos: InsumoParaLinea[] }) {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/consumo/page.tsx` igual que la de ingreso: título
+- [x] Crear `src/app/(admin)/admin/insumos/consumo/page.tsx` igual que la de ingreso: título
       «Registrar consumo», descripción «Lo que salió del almacén hoy.»,
       `exigirAcceso("/admin/insumos/consumo")` y `<FormularioConsumo insumos={await insumosParaLineas()} />`:
 
@@ -4363,7 +4367,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] En `src/app/(admin)/admin/insumos/page.tsx`, llenar `REGISTRAR`:
+- [x] En `src/app/(admin)/admin/insumos/page.tsx`, llenar `REGISTRAR`:
 
 ```ts
 const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracion?: boolean }> = [
@@ -4374,9 +4378,9 @@ const REGISTRAR: ReadonlyArray<{ ruta: string; nombre: string; soloAdministracio
 
 ### Paso 8 — Pruebas de navegador
 
-- [ ] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/ingreso"`, `"/admin/insumos/consumo"`.
+- [x] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/ingreso"`, `"/admin/insumos/consumo"`.
 
-- [ ] Crear `e2e/panel-movimientos.spec.ts`:
+- [x] Crear `e2e/panel-movimientos.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -4385,7 +4389,7 @@ import { entrarComo } from "./ayudas/sesion";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 // Escribe en la harina y el azúcar de la semilla: un solo proyecto, para que
-// móvil y escritorio no se pisen el saldo (trampa de CLAUDE.md).
+// móvil y escritorio no se pisen el saldo (trampa de AGENTS.md).
 test.beforeEach(({}, info) => {
   test.skip(info.project.name !== "movil", "escribe en insumos compartidos");
 });
@@ -4472,7 +4476,7 @@ test("un consumo que no alcanza dice cuánto hay", async ({ page }) => {
 > borrarlo (0012, `on delete restrict`), y es lo correcto, porque el kárdex no pierde a su autor. En
 > local y en el CI quedan esas cuentas de prueba, que el siguiente `db reset` limpia.
 
-- [ ] Crear `e2e/insumos-concurrencia.spec.ts`. Es la primera prueba del plan que habla con la base
+- [x] Crear `e2e/insumos-concurrencia.spec.ts`. Es la primera prueba del plan que habla con la base
       **sin navegador**: dos sesiones reales consumen a la vez y se mira qué pasa.
 
 ```ts
@@ -4560,16 +4564,16 @@ test("dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto qu
 > volver a la versión buena. Si nunca falla sin el cerrojo, la prueba no está midiendo la carrera y
 > hay que abrir más la ventana (por ejemplo, con cinco consumos de 3 kg en vez de dos de 7).
 
-- [ ] `pnpm build` y, con el puerto 3000 libre:
+- [x] `pnpm build` y, con el puerto 3000 libre:
       `pnpm exec playwright test e2e/panel-movimientos.spec.ts e2e/insumos-concurrencia.spec.ts e2e/panel-accesibilidad.spec.ts`
       → verde.
 
 ### Paso 9 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] Probar a 375 px en la vista previa: una boleta de tres líneas con un perecible (el campo
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] Probar a 375 px en la vista previa: una boleta de tres líneas con un perecible (el campo
       «Vence» aparece solo en esa línea), recargar a medias y recuperar la copia local.
-- [ ] Commit y PR; Dan aplica 0036 con `db push` antes de fusionar:
+- [x] Commit y PR; Dan aplica 0036 con `db push` antes de fusionar:
 
 ```bash
 git add src/lib/insumos/lineas.ts supabase/migrations/0036_registrar_movimientos.sql supabase/tests/0036_registrar_movimientos.test.sql \
@@ -4623,7 +4627,7 @@ documento, destino_lote, area_turno, motivo_baja, observacion, responsable, anul
 
 ### Paso 1 — La base
 
-- [ ] Crear `supabase/tests/0037_conteo_y_anulacion.test.sql`:
+- [x] Crear `supabase/tests/0037_conteo_y_anulacion.test.sql`:
 
 ```sql
 -- Verifica registrar_conteo, anular_movimiento y kardex_insumo (0037).
@@ -4769,9 +4773,9 @@ rollback;
 > **Decisión:** el kárdex no esconde ni recalcula ese negativo histórico. Si aparece, es la señal
 > de que alguien registró tarde un consumo, y el conteo siguiente lo explica.
 
-- [ ] `supabase test db` → FALLA `0037`.
+- [x] `supabase test db` → FALLA `0037`.
 
-- [ ] Crear `supabase/migrations/0037_conteo_y_anulacion.sql`:
+- [x] Crear `supabase/migrations/0037_conteo_y_anulacion.sql`:
 
 ```sql
 -- =============================================================================
@@ -4959,12 +4963,12 @@ revoke execute on function public.kardex_insumo(uuid, date, date) from public, a
 grant execute on function public.kardex_insumo(uuid, date, date) to authenticated;
 ```
 
-- [ ] `supabase db reset && supabase test db` → todo en verde. Después
+- [x] `supabase db reset && supabase test db` → todo en verde. Después
       `bash supabase/seeds/imagenes/subir-imagenes.sh` y `pnpm supabase:tipos`.
 
 ### Paso 2 — Periodo y detalle del kárdex, lógica pura
 
-- [ ] Crear `src/lib/insumos/periodo.test.ts`:
+- [x] Crear `src/lib/insumos/periodo.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5015,7 +5019,7 @@ describe("leerPeriodo", () => {
 });
 ```
 
-- [ ] Crear `src/lib/insumos/kardex.test.ts`:
+- [x] Crear `src/lib/insumos/kardex.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5067,9 +5071,9 @@ describe("detalleDeMovimiento", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/` → FALLAN.
+- [x] `pnpm test -- src/lib/insumos/` → FALLAN.
 
-- [ ] Crear `src/lib/insumos/periodo.ts`:
+- [x] Crear `src/lib/insumos/periodo.ts`:
 
 ```ts
 /**
@@ -5111,7 +5115,7 @@ export function leerPeriodo(
 > Ojo con la prueba «ignora lo que no es una fecha»: con `hasta` inválido se usa hoy (11/10) y
 > `desde` = 11/10 − 6 = 05/10. Coincide con lo escrito en la prueba.
 
-- [ ] Crear `src/lib/insumos/kardex.ts`:
+- [x] Crear `src/lib/insumos/kardex.ts`:
 
 ```ts
 export const NOMBRE_TIPO: Readonly<Record<string, string>> = {
@@ -5159,11 +5163,11 @@ export function detalleDeMovimiento(f: FilaKardex): string {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/` → PASAN.
+- [x] `pnpm test -- src/lib/insumos/` → PASAN.
 
 ### Paso 3 — Conteo: esquema y acciones
 
-- [ ] Crear `src/lib/validaciones/conteo.test.ts`:
+- [x] Crear `src/lib/validaciones/conteo.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -5198,9 +5202,9 @@ describe("esquemaConteo", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/conteo.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/validaciones/conteo.test.ts` → FALLA.
 
-- [ ] Crear `src/lib/validaciones/conteo.ts`:
+- [x] Crear `src/lib/validaciones/conteo.ts`:
 
 ```ts
 import * as z from "zod";
@@ -5250,9 +5254,9 @@ export function validarConteo(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/conteo.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/validaciones/conteo.test.ts` → PASA.
 
-- [ ] Crear `src/lib/acciones/kardex.ts`:
+- [x] Crear `src/lib/acciones/kardex.ts`:
 
 ```ts
 "use server";
@@ -5314,7 +5318,7 @@ export async function anularMovimiento(id: string, fd: FormData): Promise<Estado
 
 ### Paso 4 — Anular, en un diálogo
 
-- [ ] Crear `src/components/panel/anular-movimiento.tsx`:
+- [x] Crear `src/components/panel/anular-movimiento.tsx`:
 
 ```tsx
 "use client";
@@ -5416,7 +5420,7 @@ export function AnularMovimiento({
 
 ### Paso 5 — La ficha del insumo
 
-- [ ] Crear `src/app/(admin)/admin/insumos/[id]/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/[id]/page.tsx`:
 
 ```tsx
 import { Pencil } from "lucide-react";
@@ -5459,7 +5463,7 @@ async function Ficha({
   const sesion = await exigirAcceso("/admin/insumos");
   const esAdministracion = sesion.rol === "superadmin" || sesion.rol === "administrador";
   // Dentro de un componente dinámico (espera la sesión): aquí `new Date()` no
-  // rompe el prerenderizado (trampa de Cache Components en CLAUDE.md).
+  // rompe el prerenderizado (trampa de Cache Components en AGENTS.md).
   const periodo = leerPeriodo(filtros, new Date(), 30);
 
   const supabase = await crearClienteServidor();
@@ -5632,12 +5636,12 @@ async function Ficha({
 > sin ella, pinte la fila sin `<Link>`, y ajustar sus usos: es un cambio de F4 pequeño y con prueba
 > en `panel-accesibilidad.spec.ts`.
 
-- [ ] En `src/app/(admin)/admin/insumos/page.tsx`, cambiar `enlace={(i) => `${RUTA}/${i.id}/editar`}`
+- [x] En `src/app/(admin)/admin/insumos/page.tsx`, cambiar `enlace={(i) => `${RUTA}/${i.id}/editar`}`
       por `enlace={(i) => `${RUTA}/${i.id}`}`.
 
 ### Paso 6 — El conteo
 
-- [ ] Crear `src/app/(admin)/admin/insumos/conteo/formulario-conteo.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/conteo/formulario-conteo.tsx`:
 
 ```tsx
 "use client";
@@ -5770,7 +5774,7 @@ function Lineas({ insumos }: { insumos: InsumoAContar[] }) {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/conteo/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/conteo/page.tsx`:
 
 ```tsx
 import { redirect } from "next/navigation";
@@ -5841,7 +5845,7 @@ async function Formulario() {
 > `not null` en una vista). Si `typecheck` protesta, estrechar con `?? ""` y `?? false` al armar
 > `lista`, no con `!`.
 
-- [ ] En `src/app/(admin)/admin/insumos/page.tsx`, añadir a `REGISTRAR`:
+- [x] En `src/app/(admin)/admin/insumos/page.tsx`, añadir a `REGISTRAR`:
 
 ```ts
   { ruta: "/admin/insumos/conteo", nombre: "Conteo", soloAdministracion: true },
@@ -5849,7 +5853,7 @@ async function Formulario() {
 
 ### Paso 7 — Pruebas de navegador
 
-- [ ] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/conteo"`. La ficha lleva un id: añadir en
+- [x] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/conteo"`. La ficha lleva un id: añadir en
       `e2e/panel-accesibilidad.spec.ts` una prueba aparte que lea el id de «Harina» con la
       `service_role` local y pase axe y el área táctil por `/admin/insumos/<id>`:
 
@@ -5872,7 +5876,7 @@ test("axe y área táctil en la ficha de un insumo", async ({ page }) => {
 `controlesPequenos` y la sesión de administrador en su `beforeEach` — si no la tiene a nivel de
 archivo, envolver la prueba en el mismo `describe` que usan las demás).
 
-- [ ] Crear `e2e/panel-kardex.spec.ts`:
+- [x] Crear `e2e/panel-kardex.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -5924,15 +5928,15 @@ test("el ingeniero no ve Conteo ni Anular", async ({ page }) => {
 });
 ```
 
-- [ ] `pnpm build` y, con el puerto 3000 libre:
+- [x] `pnpm build` y, con el puerto 3000 libre:
       `pnpm exec playwright test e2e/panel-kardex.spec.ts e2e/panel-accesibilidad.spec.ts` → verde.
 
 ### Paso 8 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] A 375 px en la vista previa: la ficha con más de diez movimientos, el diálogo de anular y el
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] A 375 px en la vista previa: la ficha con más de diez movimientos, el diálogo de anular y el
       conteo de los 22 insumos (se baja cómodo y «Guardar» sigue a la vista).
-- [ ] Commit y PR; Dan aplica 0037 antes de fusionar:
+- [x] Commit y PR; Dan aplica 0037 antes de fusionar:
 
 ```bash
 git add supabase/migrations/0037_conteo_y_anulacion.sql supabase/tests/0037_conteo_y_anulacion.test.sql \
@@ -5982,7 +5986,7 @@ los insumos bajo el mínimo y por vencer.
 
 ### Paso 1 — La base
 
-- [ ] Crear `supabase/tests/0038_solicitudes_baja.test.sql`:
+- [x] Crear `supabase/tests/0038_solicitudes_baja.test.sql`:
 
 ```sql
 -- Verifica las solicitudes de baja (0038).
@@ -6101,9 +6105,9 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FALLA `0038`.
+- [x] `supabase test db` → FALLA `0038`.
 
-- [ ] Crear `supabase/migrations/0038_solicitudes_baja.sql`:
+- [x] Crear `supabase/migrations/0038_solicitudes_baja.sql`:
 
 ```sql
 -- =============================================================================
@@ -6281,13 +6285,13 @@ revoke execute on function public.rechazar_baja(uuid, text) from public, anon;
 grant execute on function public.rechazar_baja(uuid, text) to authenticated;
 ```
 
-- [ ] `supabase db reset && supabase test db` → todo en verde, **`0026` incluida** (la tabla nueva
+- [x] `supabase db reset && supabase test db` → todo en verde, **`0026` incluida** (la tabla nueva
       tiene `created_by` y `updated_by`, y su trigger). Después `subir-imagenes.sh` y
       `pnpm supabase:tipos`.
 
 ### Paso 2 — Esquema y acciones
 
-- [ ] Crear `src/lib/validaciones/baja.test.ts`:
+- [x] Crear `src/lib/validaciones/baja.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -6321,9 +6325,9 @@ describe("esquemaBaja", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/baja.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/validaciones/baja.test.ts` → FALLA.
 
-- [ ] Crear `src/lib/validaciones/baja.ts`:
+- [x] Crear `src/lib/validaciones/baja.ts`:
 
 ```ts
 import * as z from "zod";
@@ -6364,9 +6368,9 @@ export function validarBaja(fd: FormData) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/validaciones/baja.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/validaciones/baja.test.ts` → PASA.
 
-- [ ] Crear `src/lib/acciones/bajas.ts`:
+- [x] Crear `src/lib/acciones/bajas.ts`:
 
 ```ts
 "use server";
@@ -6446,7 +6450,7 @@ export async function rechazarBaja(id: string, fd: FormData): Promise<EstadoAcci
 
 ### Paso 3 — Aprobar o rechazar, en pantalla
 
-- [ ] Crear `src/components/panel/resolver-baja.tsx`:
+- [x] Crear `src/components/panel/resolver-baja.tsx`:
 
 ```tsx
 "use client";
@@ -6557,7 +6561,7 @@ export function ResolverBaja({
 
 ### Paso 4 — Pantallas
 
-- [ ] Crear `src/app/(admin)/admin/insumos/bajas/nueva/formulario-baja.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/bajas/nueva/formulario-baja.tsx`:
 
 ```tsx
 "use client";
@@ -6604,7 +6608,7 @@ export function FormularioBaja({ insumos }: { insumos: InsumoParaLinea[] }) {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/bajas/nueva/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/bajas/nueva/page.tsx`:
 
 ```tsx
 import { Suspense } from "react";
@@ -6636,7 +6640,7 @@ async function Formulario() {
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/bajas/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/bajas/page.tsx`:
 
 ```tsx
 import { Plus } from "lucide-react";
@@ -6758,13 +6762,13 @@ async function Listas() {
 }
 ```
 
-- [ ] En `src/app/(admin)/admin/insumos/page.tsx`, añadir a `REGISTRAR`
+- [x] En `src/app/(admin)/admin/insumos/page.tsx`, añadir a `REGISTRAR`
       `{ ruta: "/admin/insumos/bajas/nueva", nombre: "Pedir baja" }`, y junto al enlace a
       Proveedores, uno a `/admin/insumos/bajas` con el texto «Bajas».
 
 ### Paso 5 — Avisos en el inicio
 
-- [ ] En `src/app/(admin)/admin/page.tsx`, dentro de `contarAvisos`, añadir **antes** del bloque
+- [x] En `src/app/(admin)/admin/page.tsx`, dentro de `contarAvisos`, añadir **antes** del bloque
       `if (rol === "ingeniero")`:
 
 ```ts
@@ -6837,7 +6841,7 @@ no toca el prerenderizado. Actualizar su comentario: «T5 de F5, las de insumos 
 
 ### Paso 6 — Pruebas de navegador
 
-- [ ] Crear `e2e/ayudas/insumos.ts`:
+- [x] Crear `e2e/ayudas/insumos.ts`:
 
 ```ts
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -6880,12 +6884,12 @@ export async function sumarStock(nombreInsumo: string, cantidadBase: number): Pr
 }
 ```
 
-- [ ] En `e2e/insumos-concurrencia.spec.ts`, sustituir la función local `sesion` por
+- [x] En `e2e/insumos-concurrencia.spec.ts`, sustituir la función local `sesion` por
       `sesionDeApi` de esta ayuda (una sola forma de abrir sesiones de API en toda la suite).
 
-- [ ] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/bajas"`, `"/admin/insumos/bajas/nueva"`.
+- [x] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/bajas"`, `"/admin/insumos/bajas/nueva"`.
 
-- [ ] Crear `e2e/panel-bajas.spec.ts`:
+- [x] Crear `e2e/panel-bajas.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -6962,15 +6966,15 @@ test("un rechazo llega con su comentario", async ({ browser }) => {
 });
 ```
 
-- [ ] `pnpm build` y, con el puerto 3000 libre:
+- [x] `pnpm build` y, con el puerto 3000 libre:
       `pnpm exec playwright test e2e/panel-bajas.spec.ts e2e/insumos-concurrencia.spec.ts e2e/panel-accesibilidad.spec.ts`
       → verde.
 
 ### Paso 7 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] A 375 px en la vista previa: pedir una baja desde el celular y aprobarla desde otro navegador.
-- [ ] Commit y PR; Dan aplica 0038 antes de fusionar:
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] A 375 px en la vista previa: pedir una baja desde el celular y aprobarla desde otro navegador.
+- [x] Commit y PR; Dan aplica 0038 antes de fusionar:
 
 ```bash
 git add supabase/migrations/0038_solicitudes_baja.sql supabase/tests/0038_solicitudes_baja.test.sql \
@@ -7027,7 +7031,7 @@ con su **tabla accesible**, y los totales los suma la base.
 
 ### Paso 1 — Los reportes, en la base
 
-- [ ] Crear `supabase/tests/0039_reportes_insumos.test.sql`:
+- [x] Crear `supabase/tests/0039_reportes_insumos.test.sql`:
 
 ```sql
 -- Verifica las funciones de reportes (0039).
@@ -7143,9 +7147,9 @@ rollback;
 > **registra** después de las compras de hoy y sale de sus lotes: el reporte de consumo lo cuenta
 > ayer y el de compras hoy, que es la verdad del registro (ver la decisión del kárdex en T4).
 
-- [ ] `supabase test db` → FALLA `0039`.
+- [x] `supabase test db` → FALLA `0039`.
 
-- [ ] Crear `supabase/migrations/0039_reportes_insumos.sql`:
+- [x] Crear `supabase/migrations/0039_reportes_insumos.sql`:
 
 ```sql
 -- =============================================================================
@@ -7297,12 +7301,12 @@ grant execute on function public.reporte_mermas(date, date)      to authenticate
 > volumen de una panadería (decenas de movimientos al día) sobra por años; si algún día pesa, el
 > índice sobre `app.dia_lima(ocurrido_en)` es posible porque la función es `immutable`.
 
-- [ ] `supabase db reset && supabase test db` → todo en verde. Después `subir-imagenes.sh` y
+- [x] `supabase db reset && supabase test db` → todo en verde. Después `subir-imagenes.sh` y
       `pnpm supabase:tipos`.
 
 ### Paso 2 — Periodos con nombre y formato, lógica pura
 
-- [ ] Añadir a `src/lib/insumos/periodo.test.ts`:
+- [x] Añadir a `src/lib/insumos/periodo.test.ts`:
 
 ```ts
 describe("periodoNombrado", () => {
@@ -7319,7 +7323,7 @@ describe("periodoNombrado", () => {
 
 (importar `periodoNombrado`).
 
-- [ ] Crear `src/lib/insumos/formato-reporte.test.ts`:
+- [x] Crear `src/lib/insumos/formato-reporte.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -7343,9 +7347,9 @@ describe("formatearCelda", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/` → FALLAN.
+- [x] `pnpm test -- src/lib/insumos/` → FALLAN.
 
-- [ ] Añadir a `src/lib/insumos/periodo.ts`:
+- [x] Añadir a `src/lib/insumos/periodo.ts`:
 
 ```ts
 /** «Esta semana» (lunes a hoy) o «Este mes» (día 1 a hoy), en días de Iquitos. */
@@ -7358,7 +7362,7 @@ export function periodoNombrado(nombre: "semana" | "mes", ahora: Date): Periodo 
 }
 ```
 
-- [ ] Crear `src/lib/insumos/formato-reporte.ts`:
+- [x] Crear `src/lib/insumos/formato-reporte.ts`:
 
 ```ts
 import { formatearCantidad } from "./unidades";
@@ -7380,16 +7384,16 @@ export function formatearCelda(valor: string | number | null, tipo: TipoColumna)
 }
 ```
 
-- [ ] En `src/lib/insumos/kardex.ts`, añadir a `NOMBRE_MOTIVO`: `faltante_conteo: "Faltó al contar",`.
+- [x] En `src/lib/insumos/kardex.ts`, añadir a `NOMBRE_MOTIVO`: `faltante_conteo: "Faltó al contar",`.
 
-- [ ] `pnpm test -- src/lib/insumos/` → PASAN.
+- [x] `pnpm test -- src/lib/insumos/` → PASAN.
 
 ### Paso 3 — Leer un reporte ya armado
 
 Una sola función arma cada reporte con sus columnas, filas, total y datos del gráfico. La usan la
 pantalla y, en T7, las descargas: así un Excel no puede decir otra cosa que la pantalla.
 
-- [ ] Crear `src/lib/insumos/reportes.ts`:
+- [x] Crear `src/lib/insumos/reportes.ts`:
 
 ```ts
 import "server-only";
@@ -7647,14 +7651,14 @@ export async function leerReporte(
 
 ### Paso 4 — Gráfico, tabla y selector de periodo
 
-- [ ] **Antes de escribir el gráfico, cargar la skill `dataviz`** (doc 03 §2 la asigna a los gráficos
+- [x] **Antes de escribir el gráfico, cargar la skill `dataviz`** (doc 03 §2 la asigna a los gráficos
       de F5) y aplicar lo que diga sobre color, ejes y texto alternativo. Lo de abajo es el punto de
       partida, no el resultado final.
 
-- [ ] Instalar recharts: `npm view recharts peerDependencies` (debe admitir `react@^19`), después
+- [x] Instalar recharts: `npm view recharts peerDependencies` (debe admitir `react@^19`), después
       `pnpm add recharts`.
 
-- [ ] Crear `src/components/panel/grafico-barras.tsx`:
+- [x] Crear `src/components/panel/grafico-barras.tsx`:
 
 ```tsx
 "use client";
@@ -7694,7 +7698,7 @@ export function GraficoBarras({
 }
 ```
 
-- [ ] Crear `src/components/panel/tabla-reporte.tsx`:
+- [x] Crear `src/components/panel/tabla-reporte.tsx`:
 
 ```tsx
 import { formatearCelda, formatearSoles } from "@/lib/insumos/formato-reporte";
@@ -7772,10 +7776,10 @@ export function TablaReporte({ reporte }: { reporte: Reporte }) {
 ```
 
 > Un `<div className="contents">` entre `dl` y `dt/dd` es justo lo que axe marcó en F3
-> (`definition-list`, trampa de `CLAUDE.md`). Un `div` directo con su `dt` y su `dd` sí vale; si
+> (`definition-list`, trampa de `AGENTS.md`). Un `div` directo con su `dt` y su `dd` sí vale; si
 > axe protesta por `contents`, quitar la clase y darle al `div` `className="col-span-2 grid grid-cols-2"`.
 
-- [ ] Crear `src/components/panel/selector-periodo.tsx`:
+- [x] Crear `src/components/panel/selector-periodo.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -7841,7 +7845,7 @@ export function SelectorPeriodo({
 
 ### Paso 5 — Pantallas
 
-- [ ] Crear `src/app/(admin)/admin/insumos/reportes/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/reportes/page.tsx`:
 
 ```tsx
 import Link from "next/link";
@@ -7875,7 +7879,7 @@ export default function Reportes() {
 > prefiere que toda página del panel llame a `exigirAcceso`, envolver la lista en un componente
 > asíncrono dentro de `<Suspense>`, como las demás.
 
-- [ ] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/page.tsx`:
+- [x] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
@@ -7971,16 +7975,16 @@ async function Contenido({ params, searchParams }: Props) {
 }
 ```
 
-- [ ] En `src/app/(admin)/admin/insumos/page.tsx`, junto a «Proveedores» y «Bajas», añadir el enlace
+- [x] En `src/app/(admin)/admin/insumos/page.tsx`, junto a «Proveedores» y «Bajas», añadir el enlace
       «Reportes» a `/admin/insumos/reportes`.
 
 ### Paso 6 — Pruebas de navegador
 
-- [ ] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/reportes"`, `"/admin/insumos/reportes/existencias"`,
+- [x] Añadir a `RUTAS_DEL_PANEL`: `"/admin/insumos/reportes"`, `"/admin/insumos/reportes/existencias"`,
       `"/admin/insumos/reportes/consumo"`, `"/admin/insumos/reportes/compras"`,
       `"/admin/insumos/reportes/mermas"`, `"/admin/insumos/reportes/kardex"`.
 
-- [ ] Crear `e2e/panel-reportes.spec.ts`:
+- [x] Crear `e2e/panel-reportes.spec.ts`:
 
 ```ts
 import { expect, test } from "@playwright/test";
@@ -8061,18 +8065,18 @@ test("existencias enseña el valor del almacén", async ({ page }) => {
 });
 ```
 
-- [ ] `pnpm build` y, con el puerto 3000 libre:
+- [x] `pnpm build` y, con el puerto 3000 libre:
       `pnpm exec playwright test e2e/panel-reportes.spec.ts e2e/panel-accesibilidad.spec.ts` → verde.
 
 ### Paso 7 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] **Comprobar que recharts no llegó al sitio público:** `pnpm build` y buscar `recharts` en los
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] **Comprobar que recharts no llegó al sitio público:** `pnpm build` y buscar `recharts` en los
       chunks de las rutas públicas (`grep -l recharts .next/static/chunks/*.js` y cruzar con el
       manifiesto de `/`). Solo puede aparecer en chunks del panel.
-- [ ] A 375 px en la vista previa: los cuatro reportes con datos, el gráfico legible y la tabla en
+- [x] A 375 px en la vista previa: los cuatro reportes con datos, el gráfico legible y la tabla en
       tarjetas.
-- [ ] Commit y PR; Dan aplica 0039 antes de fusionar:
+- [x] Commit y PR; Dan aplica 0039 antes de fusionar:
 
 ```bash
 git add supabase/migrations/0039_reportes_insumos.sql supabase/tests/0039_reportes_insumos.test.sql \
@@ -8859,7 +8863,7 @@ import { leerConfiguracionCorreo } from "./configuracion";
 /**
  * Manda un correo a CORREO_ALERTAS. NUNCA lanza: un correo que no sale no puede
  * deshacer una baja ya pedida ni tumbar el resumen. Lo que pasó queda en el
- * registro del servidor, con el mensaje de Resend entero (trampa de CLAUDE.md:
+ * registro del servidor, con el mensaje de Resend entero (trampa de AGENTS.md:
  * una comprobación que solo dice «falló» cuesta más de lo que ahorra).
  */
 export async function enviarCorreo(correo: {
@@ -9091,7 +9095,7 @@ cargue su **inventario inicial** en producción el primer día.
 **Archivos:**
 
 - Crear: `docs/insumos.md` (manual corto para el negocio y procedimiento del inventario inicial)
-- Modificar: `DOC/Avance del proyecto.md`, `CLAUDE.md`, `DOC/Plan de Desarrollo 00 - General y Fases.md`,
+- Modificar: `DOC/Avance del proyecto.md`, `AGENTS.md`, `DOC/Plan de Desarrollo 00 - General y Fases.md`,
   `DOC/Plan de Desarrollo 02 - Backend y Base de Datos.md` (§9), `DOC/Plan de Desarrollo 03 - Frontend.md`
   (§5.2, §5.6, §6), este plan (casillas y «lo que resultó distinto»)
 
@@ -9104,7 +9108,7 @@ cargue su **inventario inicial** en producción el primer día.
       `e2e/insumos-*.spec.ts` y el resto) y anotar que se corrió así. Anotar también
       `pnpm exec playwright test --list | tail -1`.
 - [ ] Los tres guiones: `verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`.
-- [ ] Contar lo que hay en la base para `CLAUDE.md` (tablas, vistas, políticas, triggers y
+- [ ] Contar lo que hay en la base para `AGENTS.md` (tablas, vistas, políticas, triggers y
       migraciones), con las mismas consultas que se usaron al cerrar F4:
 
 ```sql
@@ -9120,7 +9124,7 @@ select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid
 ### Paso 2 — Rendimiento del sitio público
 
 F5 no toca las rutas públicas, pero el CSS global puede crecer con las clases del panel (pasó en F4:
-13.8 → 16.9 KB). Se mide con el método de `CLAUDE.md`, contra el commit en que se cerró F4:
+13.8 → 16.9 KB). Se mide con el método de `AGENTS.md`, contra el commit en que se cerró F4:
 
 - [ ] Construir `a5e6a4b` (F4 cerrada) y `main` en carpetas separadas, y medir **intercalando**
       `PASADAS=5 pnpm lighthouse` de cada una, varias rondas, en la misma sesión. Anotar las
@@ -9191,7 +9195,7 @@ desde Usuarios; eliminarlo lo impide la base.
 - [ ] `DOC/Avance del proyecto.md`: F5 ✅ con fecha, qué se construyó (tarea a tarea, con sus PR), las
       cifras del paso 1 y del paso 2, y lo que queda del negocio (inventario inicial, llaves de
       Resend, fotos de insumos si algún día se quieren).
-- [ ] `CLAUDE.md`:
+- [ ] `AGENTS.md`:
   - la fila F5 de la tabla de estado;
   - «La base hoy» con las cifras nuevas;
   - la tabla de migraciones con 0033–0040, una línea cada una;
@@ -9221,7 +9225,7 @@ desde Usuarios; eliminarlo lo impide la base.
 - [ ] Commit y PR:
 
 ```bash
-git add docs/insumos.md "DOC/Avance del proyecto.md" CLAUDE.md DOC/
+git add docs/insumos.md "DOC/Avance del proyecto.md" AGENTS.md DOC/
 git commit -m "docs(f5): cerrar la fase de insumos"
 ```
 
@@ -9229,4 +9233,130 @@ git commit -m "docs(f5): cerrar la fase de insumos"
 
 ## Lo que resultó distinto
 
-(Se completa al ejecutar el plan, tarea a tarea.)
+Se escribe tarea a tarea, al ejecutar. Hasta el 27/09/2026 van las tareas 1–6; cada una con su
+revisión por tarea y la corrección de lo Importante antes del PR.
+
+### Estado de ejecución
+
+| T   | PR  | Estado                                   | Migración en producción |
+| --- | --- | ---------------------------------------- | ----------------------- |
+| —   | #65 | Plan fusionado                           | —                       |
+| 1   | #66 | ✅ Fusionada                             | 0033, 0034              |
+| 2   | #67 | ✅ Fusionada                             | 0035 (a medias, ver T3) |
+| 3   | #68 | ✅ Fusionada                             | 0036 (repara 0035)      |
+| 4   | #69 | ✅ Fusionada                             | 0037                    |
+| 5   | #70 | ✅ Fusionada                             | 0038                    |
+| 6   | #71 | ✅ Fusionada                             | 0039                    |
+| 7   | —   | ⬜ Siguiente. Sin migración              | —                       |
+| 8   | —   | ⬜                                       | 0040                    |
+| 9   | —   | ⬜ Cierre, con la revisión final de fase | —                       |
+
+**El ritmo que se acordó durante la ejecución** (Dan, 26/09/2026): al abrir el PR de una tarea se
+para. Dan hace `supabase db push` desde `PIMPOS_SYSTEM`, con la carpeta quieta, y fusiona; solo
+entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. El porqué está en T3.
+
+### Tarea 1 — Kárdex con lotes
+
+- `app.mover_saldo_lote` no es `insert … on conflict do update` sino «`update` y, si no hay fila,
+  `insert`»: Postgres comprueba el `check (cantidad_base >= 0)` sobre la fila candidata antes de
+  resolver el conflicto, y toda salida de un lote existente fallaba, incluidas las pruebas de 0012.
+- La revisión pidió probar la anulación por la API (el ingeniero no anula; la administración sí;
+  anular un ingreso intacto devuelve su lote a 0). Cinco aserciones más: 53 en total.
+
+### Tarea 2 — Catálogo, proveedores y existencias
+
+- `RUTA_INSUMOS` vive en `src/lib/insumos/rutas.ts`, no en `src/lib/acciones/insumos.ts`: un archivo
+  `"use server"` solo puede exportar funciones asíncronas y `pnpm build` fallaba. **Todas las tareas
+  siguientes la importan de ahí**, aunque el texto del plan diga `from "./insumos"`.
+- **No retirar un insumo con existencias** pasó de la acción a un trigger en 0035
+  (`app.bloquear_retiro_con_saldo`): la política RLS dejaba hacer el `update` por la API sin pasar
+  por la acción.
+- `ConfirmarBorrado` recibe un `aviso` propio para insumos y proveedores (el de fábrica decía «dejará
+  de verse en el sitio», y nunca salen en el sitio).
+- La E2E borra en un `finally` el insumo que crea: se quedaba en la base y rompía la cuenta de 0011.
+- Cuatro arreglos del código del plan: un `aria-label` que chocaba con `getByLabel("Unidad 1")`, el
+  enlace «Proveedores» por debajo de 44 px, una aserción que encontraba el `<option>` escondido del
+  filtro, y las columnas nullables de la vista.
+
+### Tarea 3 — Ingresos y consumos
+
+- La etiqueta «Precio por unidad N» pasó a **«Precio unitario N»** (contenía «Unidad N»), y la E2E
+  usa `getByLabel("Número", { exact: true })`.
+- **La fecha de vencimiento se ignora si el insumo no vence**, en el formulario (se borra al cambiar
+  de insumo en la línea) y en `registrar_ingreso`. Antes, cambiar de un perecible a otro que no vence
+  dejaba una fecha escondida que creaba un lote fechado y, más tarde, una alerta falsa.
+- La prueba de concurrencia **no se pudo ver fallar** quitando el `for update`: el `check` y la
+  actualización relativa del saldo también sostienen la integridad. Se queda comprobando el
+  resultado (uno entra, el otro dice cuánto queda, saldo 3).
+- **La 0035 llegó a medias a producción.** Dan hizo `db push` desde la carpeta compartida mientras la
+  T2 tenía la 0035 sin commit; producción no tenía el trigger de retiro (comprobado con
+  `pg_trigger`). Como una migración aplicada no se edita, la 0036 empieza repitiendo la 0035 final
+  de forma idempotente (`create or replace`, y borrar y volver a crear la vista y el trigger). En
+  producción, después del push, el trigger existe.
+
+### Tarea 4 — Ficha, kárdex, anular y conteo
+
+- La tarea la empezó un implementador que se detuvo y la terminó otro; lo heredado coincidía con el
+  plan. Faltaban las E2E del kárdex y la accesibilidad de la ficha y el conteo.
+- `app.nombre_de_persona` **filtra por rol**: tal como estaba en el plan, cualquier usuario con
+  sesión (también el repartidor) podía leer el nombre completo de cualquier perfil.
+- `anular_movimiento` responde «Ese registro ya está anulado. Recarga la página.» también cuando dos
+  administradores anulan a la vez (antes salía «Ya hay el registro con ese nombre…»).
+- No hizo falta la variante de `ListaAdaptable` sin enlace: axe no marcó nada.
+
+### Tarea 5 — Bajas con aprobación
+
+- Los enlaces «Proveedores» y «Bajas» de Existencias llevan `min-w-11`: medían menos de 44 px de ancho.
+- `sumarStock()` inserta un `ajuste` relativo (`sentido: 1`) en vez de leer el saldo y llamar a
+  `registrar_conteo` con un total absoluto, que se pisaba entre pruebas en paralelo. **No admite
+  insumos perecibles** (falla con un error claro) y no pone precio.
+- La decisión 3 permite que una baja nombre su lote; la base lo admite (`lote_id`), pero ninguna
+  pantalla lo pide todavía. Queda para decidir en la revisión final.
+
+### Tarea 6 — Reportes y gráficos
+
+- `accessibilityLayer={false}` en el gráfico: recharts 3 lo hace enfocable y, dentro del bloque
+  `aria-hidden`, axe lo marcaba.
+- **Costos desconocidos**: el plan contaba como S/ 0 el costo de un lote sin precio (un conteo
+  inicial sin precio, por ejemplo) y Existencias pintaba «—» en una fila cuyo valor sí entraba en el
+  total. Ahora las cuatro funciones devuelven `sin_costo`; la fila enseña lo que sí se conoce, con
+  «*» y un texto para lectores de pantalla, y debajo del total va una nota. El total es siempre la
+  suma de lo que se ve. `type Reporte` trae `sinCosto` y `hayCostosDesconocidos`, y la marca tiene una
+  función compartida, `marcarSinCosto()` en `formato-reporte.ts`.
+- `TablaReporte` usa `className="col-span-2 grid grid-cols-2"` y no `contents` dentro del `<dl>`.
+- La E2E del reporte da stock con un `ajuste` relativo con precio, no con un conteo absoluto.
+
+### Para la T7 (lo que su texto no sabe)
+
+- Importar `RUTA_INSUMOS` de `@/lib/insumos/rutas`.
+- El Excel y el PDF tienen que llevar la marca «*» (con `marcarSinCosto()`) y la **misma nota al pie**
+  que la pantalla cuando `hayCostosDesconocidos`. El código de los pasos 2 y 3 no la tiene: se
+  añade, con su prueba en Vitest. De paso, `TablaReporte` pasa a usar `marcarSinCosto()`.
+
+### Para la T8
+
+- `pedirBaja` usa `RUTA_INSUMOS` para su ruta, no una constante local `RUTA`: al reescribirla con
+  `after()`, partir del archivo real, no del texto del plan.
+
+### Hallazgos menores aplazados a la revisión final (T9)
+
+- T1: dos ingresos concurrentes al mismo lote ya creado se funden y el segundo pisa el costo · un lote
+  creado a mano con costo arbitrario puede entrar en «último costo conocido» (también el de un
+  ingreso anulado) · `formatear_cantidad` redondea a 2 decimales («Solo hay 30 kg» con 29.996) ·
+  `lote_id` inexistente da «Ese lote es de otro insumo» y un ajuste sin `sentido` da un 23502 sin
+  frase · los tipos generados marcan `sentido` obligatorio al insertar · un administrador puede
+  cambiar el `insumo_id` de un lote con movimientos.
+- T2: `cantidadPositiva` admite 4 decimales y `equivalencias.factor` 6 · el mensaje de retirar
+  interpola la cantidad sin formatear.
+- T3: `precio_unitario` obligatorio en Zod pero no `not null` en la base para un ingreso · falta la
+  prueba de «sin insumo repetido» en `esquemaConsumo` · el tipo de `momento` queda
+  `string | null | undefined`.
+- T4: la etiqueta del precio en el conteo no nombra el insumo · la E2E «el ingeniero no ve Anular» no
+  visita una ficha · los lotes de la ficha no salen ordenados por vencimiento.
+- T5: la política de alta de `solicitudes_baja` no fija `resuelto_en is null` · «No se encontró la
+  solicitud.» no dice qué hacer · pgTAP no prueba rechazar después de aprobar ni al revés · la
+  pantalla no deja nombrar el lote de una baja (decisión 3).
+- T6: `proximo_vencimiento` de `reporte_existencias` no se enseña · «No hay datos en ese periodo»
+  sale también cuando no se eligió insumo en el kárdex · `app.vigente` es `security invoker` y
+  depende de que quien llama vea todos los movimientos · el eje de 120 px puede recortar nombres
+  largos · `TablaReporte` repite la marca «*» en vez de usar `marcarSinCosto()` (se arregla en la T7).

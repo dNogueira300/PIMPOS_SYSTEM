@@ -6,7 +6,7 @@ import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 // Escribe en la harina y el azúcar de la semilla: un solo proyecto, para que
-// móvil y escritorio no se pisen el saldo (trampa de CLAUDE.md).
+// móvil y escritorio no se pisen el saldo (trampa de AGENTS.md).
 test.beforeEach(({}, info) => {
   test.skip(info.project.name !== "movil", "escribe en insumos compartidos");
 });

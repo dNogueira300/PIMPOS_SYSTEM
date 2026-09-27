@@ -63,7 +63,7 @@ test("dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto qu
   } finally {
     // Limpieza parcial, a propósito incompleta: el insumo ya tiene movimientos
     // (el ajuste y el consumo que entró), y `movimientos_insumo.insumo_id` es
-    // `on delete restrict` — el kárdex nunca se borra (CLAUDE.md, decisión 2 del
+    // `on delete restrict` — el kárdex nunca se borra (AGENTS.md, decisión 2 del
     // plan 05). Lo único que se puede hacer es retirarlo, igual que
     // `retirarInsumo`, para que no quede visible en Existencias. La fila sigue
     // contando en un `count(*) from insumos` sin filtrar: por eso el cierre de
