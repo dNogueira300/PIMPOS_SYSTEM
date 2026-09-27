@@ -32,7 +32,7 @@ const METADATA_FIJA: Metadata = {
 /**
  * El favicon es administrable (R21). No se sirve con `app/icon.tsx` +
  * `ImageResponse`: ese generador no dibuja SVG de forma fiable (trampa de
- * `next/og` en CLAUDE.md) y el favicon de fábrica es SVG. Un
+ * `next/og` en AGENTS.md) y el favicon de fábrica es SVG. Un
  * `<link rel="icon">` a la URL guardada no necesita generar ninguna imagen.
  *
  * `obtenerConfiguracion` está en `use cache` con la etiqueta `marca`: no

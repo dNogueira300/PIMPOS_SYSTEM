@@ -20,7 +20,7 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 | **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                           |
 | **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                         |
 | **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96 |
-| F5       | Panel: insumos           | ⬜                                                                                                                                                                                                                                                                                                   |
+| **F5**   | Panel: insumos           | 🟡 **En curso.** Tareas 1–6 de 9 fusionadas y aplicadas en producción (27/09/2026): kárdex por lotes, catálogo y existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes. Faltan exportar, correo y cierre                                            |
 | F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                                                   |
 | F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                   |
 
@@ -557,10 +557,10 @@ cero en las doce rutas:
 Mediana de cinco pasadas de Lighthouse móvil, **las dos versiones medidas en la misma sesión**. El
 límite era no perder más de 5 puntos en la portada: se pierden 4. El 97 de contacto no es un contraste
 real: los dos colores que marca son sus tokens exactos al 70 % de opacidad, la aparición por scroll a
-medio camino (la misma trampa descrita en `CLAUDE.md`); axe, que mide con las animaciones apagadas,
+medio camino (la misma trampa descrita en `AGENTS.md`); axe, que mide con las animaciones apagadas,
 da cero.
 
-**Tres cosas que salieron al ejecutar y que el plan no preveía**, todas escritas en `CLAUDE.md`:
+**Tres cosas que salieron al ejecutar y que el plan no preveía**, todas escritas en `AGENTS.md`:
 
 - **La línea base de rendimiento del día 13 no servía.** Daba 79 en la portada, y contra ella el
   rediseño parecía mejorar doce puntos. Medido el commit anterior a la fase en la misma sesión que la
@@ -613,7 +613,7 @@ de 91 a 95 y `/contacto` de 95 a 96 (`PASADAS=5`). Accesibilidad 100 / 100 / 97 
 tres. La bajada de 96 a 90.5 que se había visto venía de cómo mide Lighthouse, no de F4: el LCP
 simulado de la portada sale en dos modos (~2.65 s o ~3.4 s) según una carrera en la traza de
 localhost, y con pocas pasadas la mediana cae de un lado o del otro por azar (trampa en
-`CLAUDE.md`). Informe completo en
+`AGENTS.md`). Informe completo en
 `.superpowers/sdd/Plan de Desarrollo 04 - Panel de contenido/rendimiento-portada-report.md`.
 
 Las mediciones parciales de durante F4, que no concluyeron nada por la máquina de la sesión, fueron
@@ -656,17 +656,48 @@ maquetas de `DOC/Maquetas/4/`); y enseñarle el panel al propietario con las cue
 bloquea el trabajo técnico. Detalle completo, incluida la sección «Lo que resultó distinto» del
 plan, en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
 
+### Fase 5 — en curso: el panel de insumos (27/09/2026)
+
+**El plan.** `DOC/Plan de Desarrollo 05 - Insumos.md`, con las 10 decisiones de Dan del 25/09/2026:
+bajas con solicitud y aprobación; ajuste por conteo y anulación (nunca se borra un movimiento);
+lotes automáticos que salen por vencimiento (FEFO); **el saldo nunca es negativo**; costo por lote;
+Excel y PDF; correo con Resend apagado hasta que haya dominio; un solo almacén; ingresos y consumos
+de varias líneas con aviso de documento repetido; recetas fuera de F5.
+
+**Qué hay hecho (tareas 1–6, PR #66 a #71).** La base reparte cada movimiento entre lotes y rechaza
+el consumo que no alcanza con una frase que dice cuánto hay. En el panel, sección Insumos:
+Existencias (cuánto hay, en su unidad y en su presentación, con «Bajo el mínimo» y «Por vencer»),
+insumos con sus unidades de compra, proveedores, registrar ingreso (una boleta de varias líneas) y
+consumo del día, la ficha de cada insumo con sus lotes y su kárdex, anular y conteo físico (solo la
+administración; el conteo carga también el inventario inicial), bajas que pide el ingeniero y
+aprueba o rechaza la administración, avisos en el inicio, y los cinco reportes de la ficha 7.8 con
+gráfico y tabla. Migraciones 0033 a 0039, todas en producción.
+
+**Lo que salió en el camino.** La 0035 llegó a medias a producción porque el `db push` se hizo
+mientras un agente tenía el archivo sin terminar en la misma carpeta; la 0036 la repara al empezar,
+comprobado en producción. Desde entonces se trabaja así: PR de la tarea, se para, Dan aplica la
+migración con la carpeta quieta y fusiona, y solo entonces empieza la siguiente. Los reportes marcan
+con «*» lo que no tiene costo registrado en vez de contarlo como S/ 0. Todo lo que cambió respecto
+del texto del plan está en su sección «Lo que resultó distinto».
+
+**Cifras (27/09/2026).** 616 pruebas pgTAP, 351 de Vitest, 490 flujos E2E listados; 30 tablas con
+RLS, 12 vistas, 39 migraciones.
+
+**Lo que falta.** T7 (exportar los reportes a Excel y PDF), T8 (avisos por correo) y T9 (cierre:
+revisión final de la fase, rendimiento del sitio público y el procedimiento del inventario inicial).
+
 ### Pendiente del negocio
 
-| Tema                  | Qué hace falta                                                                                                                                                                                                                                      |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Usuarios**          | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin — **ya se puede hacer desde `/admin/usuarios`**, con contraseña temporal de un solo uso; falta que Dan lo haga en producción (paso 3 del cierre de F4)                      |
-| **Vercel**            | Aplazado por decisión propia. No bloquea                                                                                                                                                                                                            |
-| **Dominio**           | `panaderiapimpos.com`. **No bloquea el trabajo técnico** (decisión de Dan, 12/09/2026): el sitio vive en la dirección de Vercel y `urlDelSitio()` la toma sola. Hace falta antes de enseñárselo al propietario y de Search Console                  |
-| **Redes sociales**    | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo. **Ya se cargan desde `/admin/configuracion`**, pestaña Redes; falta que el negocio los dé |
-| **Fotos**             | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px. **Ya se suben desde el panel**, con la cámara del celular                       |
-| **Fotos sin asignar** | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; **se asignan desde `/admin/contenido/productos`**, disponible desde F4                                       |
-| **Google Business**   | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                                           |
+| Tema                   | Qué hace falta                                                                                                                                                                                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Usuarios**           | Crear a Marcos, Debra y los repartidores. Hoy solo existe el superadmin — **ya se puede hacer desde `/admin/usuarios`**, con contraseña temporal de un solo uso; falta que Dan lo haga en producción (paso 3 del cierre de F4)                      |
+| **Vercel**             | Aplazado por decisión propia. No bloquea                                                                                                                                                                                                            |
+| **Dominio**            | `panaderiapimpos.com`. **No bloquea el trabajo técnico** (decisión de Dan, 12/09/2026): el sitio vive en la dirección de Vercel y `urlDelSitio()` la toma sola. Hace falta antes de enseñárselo al propietario y de Search Console                  |
+| **Redes sociales**     | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo. **Ya se cargan desde `/admin/configuracion`**, pestaña Redes; falta que el negocio los dé |
+| **Fotos**              | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px. **Ya se suben desde el panel**, con la cámara del celular                       |
+| **Fotos sin asignar**  | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; **se asignan desde `/admin/contenido/productos`**, disponible desde F4                                       |
+| **Inventario inicial** | Contar el almacén y cargarlo desde **Insumos → Conteo** (administración) antes de registrar compras y consumos reales. Sin eso, Existencias está en cero. La T9 deja el paso a paso en `docs/insumos.md`                                            |
+| **Google Business**    | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                                           |
 
 ### Datos por confirmar
 

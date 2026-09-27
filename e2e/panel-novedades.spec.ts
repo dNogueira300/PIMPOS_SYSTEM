@@ -47,7 +47,7 @@ test("ingeniero envía, administrador devuelve, ingeniero corrige, administrador
     // El aviso cuenta TODAS las promociones en revisión, no solo la de esta
     // prueba: los proyectos `movil` y `escritorio` corren esta misma prueba en
     // paralelo contra la misma base, así que el número puede ser 1 o 2 y el
-    // texto pasa de "espera" a "esperan" (el total nunca es suyo, CLAUDE.md).
+    // texto pasa de "espera" a "esperan" (el total nunca es suyo, AGENTS.md).
     // Se comprueba el sufijo común, no el número.
     await admin.page.goto("/admin");
     await expect(admin.page.locator('[data-aviso="promociones-en-revision"]')).toContainText(

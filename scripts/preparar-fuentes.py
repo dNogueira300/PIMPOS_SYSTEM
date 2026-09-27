@@ -10,7 +10,7 @@ Dos salidas por fuente, porque las usan dos motores distintos:
   `next/font/local` a todo el sitio.
 - `src/recursos/compartir/*.ttf`: estaticas, de un solo peso. `ImageResponse`
   (`next/og`) no acepta woff2 ni maneja bien las fuentes variables (ver la
-  trampa en CLAUDE.md), asi que la imagen para compartir necesita las suyas.
+  trampa en AGENTS.md), asi que la imagen para compartir necesita las suyas.
 
 Las dos son OFL 1.1 y salen del repositorio oficial de Google Fonts: se
 descargan UNA vez, aqui, y se versionan. El sitio nunca llama a Google en

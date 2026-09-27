@@ -14,7 +14,7 @@ const ETIQUETA = "text-foreground mb-1.5 block text-xs font-bold tracking-[0.06e
  * y abre WhatsApp: no envía nada a un servidor ni guarda datos personales.
  *
  * Recibe el número ya limpio y las zonas de la base; nunca importa
- * `configuracion.ts`, que arrastraría Supabase al navegador (CLAUDE.md).
+ * `configuracion.ts`, que arrastraría Supabase al navegador (AGENTS.md).
  *
  * El botón no existe hasta que hay algo que pedir, en vez de estar desactivado:
  * un enlace no se puede desactivar de verdad, y uno que abre WhatsApp con un

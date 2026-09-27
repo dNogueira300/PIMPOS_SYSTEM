@@ -128,7 +128,7 @@ con aviso (0028), el hueco de RLS que dejaba a un administrador ponerse `rol = '
 que desactivar/restablecer/cambiar el rol de alguien le cierre la sesión en el acto y no en la
 próxima hora (0030 + 0032), y tres arreglos más de una revisión sobre el conjunto (0032: avisos de
 revisión huérfanos, el bucket `marca` y los avisos que puede resolver un ingeniero). Detalle
-completo en `CLAUDE.md` y en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
+completo en `AGENTS.md` y en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
 
 Las 9 pruebas obligatorias de §11.3 pasan las 9:
 
@@ -489,6 +489,13 @@ Tres decisiones que sostienen todo el módulo:
 1. **Una sola tabla, un solo kárdex.** Tres tablas separadas terminan contradiciéndose y nadie sabe cuál tiene razón.
 2. **`cantidad_base` se calcula por trigger** al insertar, aplicando la equivalencia. El saldo suma siempre la misma unidad; nadie suma sacos con kilos.
 3. **`baja_autorizada` es una restricción de la base.** La ficha 7.7 exige autorización del encargado para registrar una baja; si eso vive solo en la interfaz, se salta con una petición directa a la API.
+
+> **Cómo quedó en F5** (migraciones 0033–0039, plan 05). El kárdex reparte cada movimiento entre
+> lotes (`movimiento_lotes`, `saldos_lote`): una salida sale primero del lote que vence antes y el
+> saldo por lote tiene `check (>= 0)`, así que el negativo es imposible. Hay dos tipos nuevos,
+> `ajuste` (conteo físico) y `anulacion` (el contrario exacto de un movimiento, a los mismos lotes).
+> La baja ya no la registra el ingeniero: la **pide** en `solicitudes_baja` y la aprueba la
+> administración. Detalle en `DOC/Plan de Desarrollo 05 - Insumos.md` y en `AGENTS.md`.
 
 ### 9.3 Saldos
 

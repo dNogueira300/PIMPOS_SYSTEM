@@ -205,7 +205,7 @@ fotografía del producto, y en este sitio la fotografía manda.
 **Tipografía.** **Playfair Display** en titulares y **Plus Jakarta Sans** en el texto (decisión de
 Dan, 13/09/2026), servidas desde el propio sitio, recortadas a latín: 79 KB entre las dos. Sustituyen
 a Fraunces + Inter, que había elegido el propietario en F1. Playfair declara un _Reserved Font Name_,
-así que la copia recortada se llama «Playfair Pimpos» por dentro (ver `CLAUDE.md`).
+así que la copia recortada se llama «Playfair Pimpos» por dentro (ver `AGENTS.md`).
 
 **Formas.** Botones en píldora de al menos 48 px; tarjetas blancas con bordes muy tenues y sombras
 cálidas, nunca negras; sellos (etiquetas cortas con borde dorado) **con mesura**: como mucho uno por

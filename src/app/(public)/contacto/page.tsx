@@ -41,7 +41,7 @@ export default async function Contacto() {
   const direccion = direccionCompleta(config);
   const condiciones = condicionesDelPedido(config);
   // El mismo numero que usa `enlaceWhatsApp`, limpio. El formulario es de
-  // cliente y no puede importar `configuracion.ts` (CLAUDE.md).
+  // cliente y no puede importar `configuracion.ts` (AGENTS.md).
   const digitos = config.whatsapp.replace(/\D/g, "");
   const pagos = config.formas_pago.map((forma) => forma.trim()).filter(Boolean);
 

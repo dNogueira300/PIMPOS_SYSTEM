@@ -1,6 +1,6 @@
 /**
  * La base guarda en UTC y el panel muestra la hora de Iquitos (convención de
- * CLAUDE.md). Perú no cambia la hora en verano, así que el desfase es fijo:
+ * AGENTS.md). Perú no cambia la hora en verano, así que el desfase es fijo:
  * −05:00. Sin librería de zonas horarias.
  *
  * `<input type="datetime-local">` trabaja con «2026-10-01T08:00», sin zona.
