@@ -695,6 +695,10 @@ mode: "serial" })` solo ordena pruebas **dentro** de un proyecto, no entre los d
 - **recharts 3 hace el gráfico enfocable** (`accessibilityLayer`: `role="application"`,
   `tabindex="0"`), y dentro de un bloque `aria-hidden` axe lo marca (`aria-hidden-focus`). El gráfico
   lleva `accessibilityLayer={false}`: lo accesible es la tabla de al lado.
+- **`exceljs` declara su propio `interface Buffer` global**, y sus tipos no aceptan el `Buffer` de
+  Node en `workbook.xlsx.load()`, aunque en ejecución es lo que lee. Se convierte en la llamada
+  (`as unknown as Parameters<typeof libro.xlsx.load>[0]`), con un comentario; no se cambia el tipo
+  que devuelve `reporteAExcel`.
 - **Las columnas de una vista salen nullables en los tipos generados**, aunque en la tabla sean
   `not null` (`existencias_insumo`). Se normalizan al leer (`?? ""`, `?? false`), nunca con `!`.
 

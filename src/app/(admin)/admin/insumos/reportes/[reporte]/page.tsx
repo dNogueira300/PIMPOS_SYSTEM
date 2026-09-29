@@ -85,6 +85,21 @@ async function Contenido({ params, searchParams }: Props) {
       {reporte.grafico ? (
         <GraficoBarras datos={reporte.grafico} titulo={`${reporte.titulo}, en soles`} />
       ) : null}
+      {reporte.filas.length > 0 ? (
+        <div className="mb-4 flex flex-wrap gap-2">
+          {(["excel", "pdf"] as const).map((formato) => (
+            // Un <a> y no <Link>: es una descarga, no una navegación del panel.
+            <a
+              key={formato}
+              href={`${ruta}/${formato}?${new URLSearchParams({ ...periodo, ...(insumo ? { insumo } : {}) })}`}
+              className="boton-linea"
+              download
+            >
+              Descargar {formato === "excel" ? "Excel" : "PDF"}
+            </a>
+          ))}
+        </div>
+      ) : null}
       <TablaReporte reporte={reporte} />
     </>
   );

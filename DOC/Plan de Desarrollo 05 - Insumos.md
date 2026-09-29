@@ -9247,7 +9247,7 @@ revisión por tarea y la corrección de lo Importante antes del PR.
 | 4   | #69 | ✅ Fusionada                             | 0037                    |
 | 5   | #70 | ✅ Fusionada                             | 0038                    |
 | 6   | #71 | ✅ Fusionada                             | 0039                    |
-| 7   | —   | ⬜ Siguiente. Sin migración              | —                       |
+| 7   | —   | 🟡 PR abierto. Sin migración             | —                       |
 | 8   | —   | ⬜                                       | 0040                    |
 | 9   | —   | ⬜ Cierre, con la revisión final de fase | —                       |
 
@@ -9332,6 +9332,31 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 - El Excel y el PDF tienen que llevar la marca «*» (con `marcarSinCosto()`) y la **misma nota al pie**
   que la pantalla cuando `hayCostosDesconocidos`. El código de los pasos 2 y 3 no la tiene: se
   añade, con su prueba en Vitest. De paso, `TablaReporte` pasa a usar `marcarSinCosto()`.
+
+### Tarea 7 — Exportar a Excel y PDF
+
+- Se ejecutó **sin subagente implementador** (Dan, 29/09/2026): la implementó la sesión principal y
+  un subagente hizo solo la revisión final de la rama.
+- **La marca «\*» y la nota al pie salen en los tres formatos.** `formato-reporte.ts` exporta
+  `MARCA_SIN_COSTO`, `AVISO_SIN_COSTO` (que antes vivía solo en `TablaReporte`) y
+  `textosDeLasFilas(reporte)`, que es lo que pinta el PDF: el texto de cada celda se prueba ahí en
+  Vitest, sin leer el PDF. `TablaReporte` usa ya `marcarSinCosto()` (hallazgo menor de T6).
+- **En el Excel la marca va en el formato de la celda, no en su valor** (`"S/" #,##0.00" *"`): la
+  celda sigue siendo un número que se suma, que era el requisito del paso 2.
+- Las cantidades del Excel van en formato «General» y no «0.####»: con ese formato Excel escribe
+  «120.» cuando la cantidad es entera.
+- Las dos rutas comparten `src/lib/insumos/descargar-reporte.ts` (acceso, periodo, nombre y
+  cabeceras); cada una pasa su conversor, así el Excel no carga el motor del PDF.
+- El PDF va **apaisado con más de cinco columnas** (el kárdex), repite la cabecera en cada página,
+  corta palabras sin el diccionario inglés de react-pdf y dice «No hay datos en ese periodo» si llega
+  vacío. Las TTF de `src/recursos/compartir/` tienen todos los signos (tildes, ñ, «—», «·»):
+  comprobado con fonttools.
+- `exceljs` declara un `interface Buffer` global que no acepta el `Buffer` de Node en `load()`: la
+  prueba lo convierte con un comentario. En ejecución no pasa nada.
+- La E2E suma dos pruebas al plan: el kárdex se descarga con el insumo y el periodo de la pantalla
+  (nombre del archivo y título), y el repartidor no descarga.
+- Comprobado en el build: ningún archivo de `.next/static` trae `exceljs` ni `react-pdf`, y las dos
+  TTF entran en la traza de la función del PDF (`route.js.nft.json`).
 
 ### Para la T8
 
