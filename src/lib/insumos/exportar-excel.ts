@@ -12,6 +12,21 @@ const FORMATO = { soles: SOLES, cantidad: "General" } as const;
 const SOLES_SIN_COSTO = `${SOLES}"${MARCA_SIN_COSTO}"`;
 
 /**
+ * Excel no admite en el nombre de hoja más de 31 caracteres, algunos signos,
+ * un apóstrofo al principio o al final, ni «History». El título del kárdex
+ * lleva el nombre del insumo, que es texto libre del panel: sin esto, un
+ * nombre con apóstrofo daba un error 500 al descargar. El título entero va en A1.
+ */
+function nombreDeHoja(titulo: string): string {
+  const nombre = titulo
+    .replace(/[\\/?*[\]:]/g, " ")
+    .slice(0, 31)
+    .replace(/^'+|'+$/g, "")
+    .trim();
+  return nombre && nombre.toLowerCase() !== "history" ? nombre : "Reporte";
+}
+
+/**
  * Un reporte a `.xlsx`. Los números van como números (el propietario los suma
  * en su hoja, como hacía antes), con formato de soles o de cantidad. Filas:
  * 1 título · 2 periodo · 3 vacía · 4 cabecera · 5… datos · después, el total
@@ -20,8 +35,7 @@ const SOLES_SIN_COSTO = `${SOLES}"${MARCA_SIN_COSTO}"`;
 export async function reporteAExcel(reporte: Reporte): Promise<Buffer> {
   const libro = new ExcelJS.Workbook();
   libro.creator = "Panadería Pimpo's";
-  // Excel no admite más de 31 caracteres ni algunos signos en el nombre de hoja.
-  const hoja = libro.addWorksheet(reporte.titulo.replace(/[\\/?*[\]:]/g, " ").slice(0, 31));
+  const hoja = libro.addWorksheet(nombreDeHoja(reporte.titulo));
 
   hoja.getCell("A1").value = reporte.titulo;
   hoja.getCell("A1").font = { bold: true, size: 14 };

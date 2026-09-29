@@ -3,7 +3,7 @@ import "server-only";
 import { exigirAcceso } from "@/lib/auth/sesion";
 
 import { nombreDeArchivo } from "./nombre-archivo";
-import { leerPeriodo } from "./periodo";
+import { hoyEnLima, leerPeriodo } from "./periodo";
 import { esSlugReporte, leerReporte, REPORTES, type Reporte } from "./reportes";
 
 const TIPO = {
@@ -29,9 +29,16 @@ export async function descargarReporte(
 
   const parametros = new URL(peticion.url).searchParams;
   const periodo = leerPeriodo(Object.fromEntries(parametros), new Date(), 30);
-  const reporte = await leerReporte(slug, periodo, parametros.get("insumo") ?? undefined);
+  const leido = await leerReporte(slug, periodo, parametros.get("insumo") ?? undefined);
+  // Un reporte sin periodo (existencias) es una foto del almacén: en pantalla
+  // dice «Hoy», pero un archivo guardado tiene que decir de qué día es.
+  const dia = hoyEnLima(new Date());
+  const conPeriodo = REPORTES[slug].conPeriodo;
+  const reporte = conPeriodo
+    ? leido
+    : { ...leido, subtitulo: `Al ${dia.split("-").reverse().join("/")}` };
   const archivo = await convertir(reporte);
-  const nombre = nombreDeArchivo(slug, REPORTES[slug].conPeriodo ? periodo : null, extension);
+  const nombre = nombreDeArchivo(slug, conPeriodo ? periodo : dia, extension);
 
   return new Response(new Uint8Array(archivo), {
     headers: {

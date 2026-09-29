@@ -9357,6 +9357,17 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
   (nombre del archivo y título), y el repartidor no descarga.
 - Comprobado en el build: ningún archivo de `.next/static` trae `exceljs` ni `react-pdf`, y las dos
   TTF entran en la traza de la función del PDF (`route.js.nft.json`).
+- La revisión encontró tres cosas Importantes, arregladas antes del PR, cada una con una prueba que
+  se vio fallar:
+  - **Sin el atributo `download` en los botones.** Con él, si la sesión se había cerrado, el navegador
+    guardaba el HTML de `/ingresar` como si fuera el Excel. `Content-Disposition: attachment` basta
+    para descargar, y con la sesión cerrada ahora se llega a ingresar (E2E).
+  - **El nombre de hoja del Excel ya no puede romper la descarga.** El del kárdex lleva el nombre del
+    insumo; si tras recortarlo a 31 caracteres empezaba o terminaba en apóstrofo, exceljs lanzaba y
+    la descarga daba 500. `nombreDeHoja()` lo limpia (Vitest).
+  - **Existencias exportadas dicen de qué día son**: «Al 29/09/2026» dentro y
+    `pimpos-existencias-2026-09-29.xlsx` como nombre, en día de Iquitos. La pantalla sigue diciendo
+    «Hoy». `nombreDeArchivo` recibe un periodo o una fecha, ya no `null`.
 
 ### Para la T8
 
@@ -9384,4 +9395,13 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 - T6: `proximo_vencimiento` de `reporte_existencias` no se enseña · «No hay datos en ese periodo»
   sale también cuando no se eligió insumo en el kárdex · `app.vigente` es `security invoker` y
   depende de que quien llama vea todos los movimientos · el eje de 120 px puede recortar nombres
-  largos · `TablaReporte` repite la marca «*» en vez de usar `marcarSinCosto()` (se arregla en la T7).
+  largos · ~~`TablaReporte` repite la marca «*» en vez de usar `marcarSinCosto()`~~ (arreglado en la
+  T7).
+- T7: un error de la base (`?insumo=abc`, o una fecha imposible como `2026-02-30`, que `leerPeriodo`
+  acepta) da un 500 sin frase en la descarga · el total del Excel no se escribe si la columna de
+  soles fuera la primera (hoy no pasa en ningún reporte) · el total es un número fijo, no `SUM` · el
+  Excel enseña hasta 4 decimales en cantidades y la pantalla 2 · `exportar-excel.ts` y
+  `exportar-pdf.tsx` no llevan `server-only` · la marca en `TablaReporte` se saca con `slice` · las
+  E2E de acceso seguirían en verde sin el `exigirAcceso` de la ruta (lo cubre el proxy) y la del
+  Excel no compara números con la pantalla · `exceljs` 4.4.0 arrastra dependencias abandonadas
+  (`fstream`, `rimraf@2`, `glob@7`, `inflight`).

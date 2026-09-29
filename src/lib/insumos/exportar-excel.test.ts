@@ -84,4 +84,12 @@ describe("reporteAExcel", () => {
     expect(hoja.name.length).toBeLessThanOrEqual(31);
     expect(hoja.getCell("A1").value).toBe("Kárdex de un insumo: Harina especial panadera");
   });
+
+  it("un nombre de insumo con apóstrofo en el borde de la hoja no rompe la descarga", async () => {
+    // 31 caracteres justos terminando en «'»: Excel no admite ese nombre de hoja.
+    const titulo = "Kárdex de un insumo: Pan d'agu'";
+    const hoja = await abrir({ ...reporte, slug: "kardex", titulo, total: null });
+    expect(hoja.name.startsWith("'") || hoja.name.endsWith("'")).toBe(false);
+    expect(hoja.getCell("A1").value).toBe(titulo);
+  });
 });

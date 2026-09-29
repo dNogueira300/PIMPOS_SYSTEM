@@ -9,7 +9,9 @@ describe("nombreDeArchivo", () => {
     );
   });
 
-  it("sin periodo, solo el reporte", () => {
-    expect(nombreDeArchivo("existencias", null, "pdf")).toBe("pimpos-existencias.pdf");
+  it("una foto de un día lleva ese día", () => {
+    expect(nombreDeArchivo("existencias", "2026-09-29", "pdf")).toBe(
+      "pimpos-existencias-2026-09-29.pdf",
+    );
   });
 });

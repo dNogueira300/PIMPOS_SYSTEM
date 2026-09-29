@@ -18,12 +18,14 @@ test("el Excel de existencias trae lo mismo que la pantalla", async ({ page }) =
       page.waitForEvent("download"),
       page.getByRole("link", { name: "Descargar Excel" }).click(),
     ]);
-    expect(descarga.suggestedFilename()).toBe("pimpos-existencias.xlsx");
+    // Una foto del almacén dice de qué día es, en el nombre y dentro.
+    expect(descarga.suggestedFilename()).toMatch(/^pimpos-existencias-\d{4}-\d{2}-\d{2}\.xlsx$/);
 
     const libro = new ExcelJS.Workbook();
     await libro.xlsx.readFile(await descarga.path());
     const hoja = libro.worksheets[0]!;
     expect(hoja.getCell("A1").value).toBe("Existencias y valorización");
+    expect(hoja.getCell("A2").value).toMatch(/^Al \d{2}\/\d{2}\/\d{4}$/);
     const insumos: unknown[] = [];
     hoja.eachRow((fila, n) => {
       if (n >= 5) insumos.push(fila.getCell(1).value);
@@ -42,7 +44,7 @@ test("el PDF se descarga", async ({ page }) => {
       page.waitForEvent("download"),
       page.getByRole("link", { name: "Descargar PDF" }).click(),
     ]);
-    expect(descarga.suggestedFilename()).toBe("pimpos-existencias.pdf");
+    expect(descarga.suggestedFilename()).toMatch(/^pimpos-existencias-\d{4}-\d{2}-\d{2}\.pdf$/);
   } finally {
     await borrarUsuario(usuario.id);
   }
@@ -70,6 +72,26 @@ test("el kárdex se descarga con el insumo y el periodo de la pantalla", async (
     const libro = new ExcelJS.Workbook();
     await libro.xlsx.readFile(await descarga.path());
     expect(libro.worksheets[0]!.getCell("A1").value).toBe("Kárdex de un insumo: Sal");
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("si la sesión se cerró, el botón lleva a ingresar y no baja un archivo", async ({
+  page,
+  context,
+}) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto("/admin/insumos/reportes/existencias");
+    const enlace = page.getByRole("link", { name: "Descargar Excel" });
+    await expect(enlace).toBeVisible();
+    await context.clearCookies();
+    let descargas = 0;
+    page.on("download", () => (descargas += 1));
+    await enlace.click();
+    await expect(page).toHaveURL(/\/ingresar/);
+    expect(descargas).toBe(0);
   } finally {
     await borrarUsuario(usuario.id);
   }

@@ -89,11 +89,13 @@ async function Contenido({ params, searchParams }: Props) {
         <div className="mb-4 flex flex-wrap gap-2">
           {(["excel", "pdf"] as const).map((formato) => (
             // Un <a> y no <Link>: es una descarga, no una navegación del panel.
+            // Sin el atributo `download`: `Content-Disposition: attachment` ya la
+            // descarga, y si la sesión se cerró el navegador sigue la redirección
+            // a /ingresar en vez de guardar ese HTML como si fuera el archivo.
             <a
               key={formato}
               href={`${ruta}/${formato}?${new URLSearchParams({ ...periodo, ...(insumo ? { insumo } : {}) })}`}
               className="boton-linea"
-              download
             >
               Descargar {formato === "excel" ? "Excel" : "PDF"}
             </a>
