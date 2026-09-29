@@ -1,3 +1,4 @@
+import type { Reporte } from "./reportes";
 import { formatearCantidad } from "./unidades";
 
 export type TipoColumna = "texto" | "cantidad" | "soles";
@@ -27,5 +28,28 @@ export function formatearCelda(valor: string | number | null, tipo: TipoColumna)
  * `leerReporte` con el resto del reporte.
  */
 export function marcarSinCosto(celda: string, tipo: TipoColumna, sinCosto: boolean): string {
-  return tipo === "soles" && sinCosto ? `${celda} *` : celda;
+  return tipo === "soles" && sinCosto ? `${celda}${MARCA_SIN_COSTO}` : celda;
+}
+
+/** Lo que `marcarSinCosto` añade. El Excel lo pone en el formato de la celda, no en su valor. */
+export const MARCA_SIN_COSTO = " *";
+
+/** La nota que acompaña al total cuando alguna fila lleva la marca: la misma en pantalla, Excel y PDF. */
+export const AVISO_SIN_COSTO =
+  "* Parte de esta cantidad no tiene costo registrado, así que su costo no está incluido. Se corrige registrando el precio en el próximo conteo o ingreso.";
+
+/**
+ * Cada celda del reporte como la escribe la pantalla, marca incluida. Es lo que
+ * pinta el PDF: así el texto de una celda se prueba aquí y no leyendo el PDF.
+ */
+export function textosDeLasFilas(reporte: Reporte): string[][] {
+  return reporte.filas.map((fila, i) =>
+    reporte.columnas.map((c) =>
+      marcarSinCosto(
+        formatearCelda(fila[c.clave] ?? null, c.tipo),
+        c.tipo,
+        reporte.sinCosto[i] ?? false,
+      ),
+    ),
+  );
 }

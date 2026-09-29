@@ -1,23 +1,28 @@
 import type { ReactNode } from "react";
 
-import { formatearCelda, formatearSoles } from "@/lib/insumos/formato-reporte";
+import {
+  AVISO_SIN_COSTO,
+  formatearCelda,
+  formatearSoles,
+  marcarSinCosto,
+} from "@/lib/insumos/formato-reporte";
 import type { Columna, Reporte } from "@/lib/insumos/reportes";
-
-const AVISO_SIN_COSTO =
-  "* Parte de esta cantidad no tiene costo registrado, así que su costo no está incluido. Se corrige registrando el precio en el próximo conteo o ingreso.";
 
 /**
  * El valor de una celda, con el aviso de costo desconocido cuando aplica
- * (revisión de tarea 6, hallazgo I-2): el asterisco es `aria-hidden` porque
- * leído en voz alta no dice nada, y el texto real del aviso va aparte, en
- * `sr-only`, para no depender de que alguien vea el símbolo.
+ * (revisión de tarea 6, hallazgo I-2). La marca sale de `marcarSinCosto`, la
+ * misma que usan el Excel y el PDF; aquí va `aria-hidden` porque leída en voz
+ * alta no dice nada, y el texto real del aviso va aparte, en `sr-only`, para
+ * no depender de que alguien vea el símbolo.
  */
 function celda(valor: string | number | null, columna: Columna, sinCosto: boolean): ReactNode {
   const texto = formatearCelda(valor, columna.tipo);
-  if (columna.tipo !== "soles" || !sinCosto) return texto;
+  const marca = marcarSinCosto(texto, columna.tipo, sinCosto).slice(texto.length);
+  if (!marca) return texto;
   return (
     <>
-      {texto} <span aria-hidden="true">*</span>
+      {texto}
+      <span aria-hidden="true">{marca}</span>
       <span className="sr-only">, incluye cantidades sin costo registrado</span>
     </>
   );

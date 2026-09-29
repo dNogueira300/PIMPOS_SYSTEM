@@ -9247,7 +9247,7 @@ revisión por tarea y la corrección de lo Importante antes del PR.
 | 4   | #69 | ✅ Fusionada                             | 0037                    |
 | 5   | #70 | ✅ Fusionada                             | 0038                    |
 | 6   | #71 | ✅ Fusionada                             | 0039                    |
-| 7   | —   | ⬜ Siguiente. Sin migración              | —                       |
+| 7   | —   | 🟡 PR abierto. Sin migración             | —                       |
 | 8   | —   | ⬜                                       | 0040                    |
 | 9   | —   | ⬜ Cierre, con la revisión final de fase | —                       |
 
@@ -9333,6 +9333,42 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
   que la pantalla cuando `hayCostosDesconocidos`. El código de los pasos 2 y 3 no la tiene: se
   añade, con su prueba en Vitest. De paso, `TablaReporte` pasa a usar `marcarSinCosto()`.
 
+### Tarea 7 — Exportar a Excel y PDF
+
+- Se ejecutó **sin subagente implementador** (Dan, 29/09/2026): la implementó la sesión principal y
+  un subagente hizo solo la revisión final de la rama.
+- **La marca «\*» y la nota al pie salen en los tres formatos.** `formato-reporte.ts` exporta
+  `MARCA_SIN_COSTO`, `AVISO_SIN_COSTO` (que antes vivía solo en `TablaReporte`) y
+  `textosDeLasFilas(reporte)`, que es lo que pinta el PDF: el texto de cada celda se prueba ahí en
+  Vitest, sin leer el PDF. `TablaReporte` usa ya `marcarSinCosto()` (hallazgo menor de T6).
+- **En el Excel la marca va en el formato de la celda, no en su valor** (`"S/" #,##0.00" *"`): la
+  celda sigue siendo un número que se suma, que era el requisito del paso 2.
+- Las cantidades del Excel van en formato «General» y no «0.####»: con ese formato Excel escribe
+  «120.» cuando la cantidad es entera.
+- Las dos rutas comparten `src/lib/insumos/descargar-reporte.ts` (acceso, periodo, nombre y
+  cabeceras); cada una pasa su conversor, así el Excel no carga el motor del PDF.
+- El PDF va **apaisado con más de cinco columnas** (el kárdex), repite la cabecera en cada página,
+  corta palabras sin el diccionario inglés de react-pdf y dice «No hay datos en ese periodo» si llega
+  vacío. Las TTF de `src/recursos/compartir/` tienen todos los signos (tildes, ñ, «—», «·»):
+  comprobado con fonttools.
+- `exceljs` declara un `interface Buffer` global que no acepta el `Buffer` de Node en `load()`: la
+  prueba lo convierte con un comentario. En ejecución no pasa nada.
+- La E2E suma dos pruebas al plan: el kárdex se descarga con el insumo y el periodo de la pantalla
+  (nombre del archivo y título), y el repartidor no descarga.
+- Comprobado en el build: ningún archivo de `.next/static` trae `exceljs` ni `react-pdf`, y las dos
+  TTF entran en la traza de la función del PDF (`route.js.nft.json`).
+- La revisión encontró tres cosas Importantes, arregladas antes del PR, cada una con una prueba que
+  se vio fallar:
+  - **Sin el atributo `download` en los botones.** Con él, si la sesión se había cerrado, el navegador
+    guardaba el HTML de `/ingresar` como si fuera el Excel. `Content-Disposition: attachment` basta
+    para descargar, y con la sesión cerrada ahora se llega a ingresar (E2E).
+  - **El nombre de hoja del Excel ya no puede romper la descarga.** El del kárdex lleva el nombre del
+    insumo; si tras recortarlo a 31 caracteres empezaba o terminaba en apóstrofo, exceljs lanzaba y
+    la descarga daba 500. `nombreDeHoja()` lo limpia (Vitest).
+  - **Existencias exportadas dicen de qué día son**: «Al 29/09/2026» dentro y
+    `pimpos-existencias-2026-09-29.xlsx` como nombre, en día de Iquitos. La pantalla sigue diciendo
+    «Hoy». `nombreDeArchivo` recibe un periodo o una fecha, ya no `null`.
+
 ### Para la T8
 
 - `pedirBaja` usa `RUTA_INSUMOS` para su ruta, no una constante local `RUTA`: al reescribirla con
@@ -9359,4 +9395,13 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 - T6: `proximo_vencimiento` de `reporte_existencias` no se enseña · «No hay datos en ese periodo»
   sale también cuando no se eligió insumo en el kárdex · `app.vigente` es `security invoker` y
   depende de que quien llama vea todos los movimientos · el eje de 120 px puede recortar nombres
-  largos · `TablaReporte` repite la marca «*» en vez de usar `marcarSinCosto()` (se arregla en la T7).
+  largos · ~~`TablaReporte` repite la marca «*» en vez de usar `marcarSinCosto()`~~ (arreglado en la
+  T7).
+- T7: un error de la base (`?insumo=abc`, o una fecha imposible como `2026-02-30`, que `leerPeriodo`
+  acepta) da un 500 sin frase en la descarga · el total del Excel no se escribe si la columna de
+  soles fuera la primera (hoy no pasa en ningún reporte) · el total es un número fijo, no `SUM` · el
+  Excel enseña hasta 4 decimales en cantidades y la pantalla 2 · `exportar-excel.ts` y
+  `exportar-pdf.tsx` no llevan `server-only` · la marca en `TablaReporte` se saca con `slice` · las
+  E2E de acceso seguirían en verde sin el `exigirAcceso` de la ruta (lo cubre el proxy) y la del
+  Excel no compara números con la pantalla · `exceljs` 4.4.0 arrastra dependencias abandonadas
+  (`fstream`, `rimraf@2`, `glob@7`, `inflight`).

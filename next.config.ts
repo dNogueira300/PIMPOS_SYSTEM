@@ -42,6 +42,15 @@ const nextConfig: NextConfig = {
    */
   cacheComponents: true,
 
+  /**
+   * El PDF de los reportes (F5, tarea 7) lee sus TTF en tiempo de ejecución,
+   * no en el build como la imagen para compartir: sin esto no viajan con la
+   * función a Vercel y la descarga falla con `ENOENT`.
+   */
+  outputFileTracingIncludes: {
+    "/admin/insumos/reportes/[reporte]/pdf": ["./src/recursos/compartir/*.ttf"],
+  },
+
   images: {
     // AVIF primero: pesa menos que WebP y el movil es prioritario (R6).
     formats: ["image/avif", "image/webp"],
