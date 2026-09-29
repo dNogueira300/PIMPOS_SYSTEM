@@ -699,6 +699,10 @@ mode: "serial" })` solo ordena pruebas **dentro** de un proyecto, no entre los d
   Node en `workbook.xlsx.load()`, aunque en ejecución es lo que lee. Se convierte en la llamada
   (`as unknown as Parameters<typeof libro.xlsx.load>[0]`), con un comentario; no se cambia el tipo
   que devuelve `reporteAExcel`.
+- **Una variable de entorno vacía del proceso gana a `.env.local`.** `@next/env` solo rellena las que
+  el proceso no tiene (`hasOwnProperty`), aunque la del proceso sea `""`. Por eso el servidor de las
+  E2E arranca con `RESEND_API_KEY: ""` y `CORREO_ALERTAS: ""` en `playwright.config.ts`: nunca manda
+  un correo de verdad, tenga quien tenga su llave en local.
 - **Las columnas de una vista salen nullables en los tipos generados**, aunque en la tabla sean
   `not null` (`existencias_insumo`). Se normalizan al leer (`?? ""`, `?? false`), nunca con `!`.
 
@@ -826,6 +830,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0037_conteo_y_anulacion`      | `registrar_conteo` (security definer, solo administración), `anular_movimiento`, `kardex_insumo` (saldo acumulado en días de Iquitos), `app.nombre_de_persona` (solo para los tres roles de insumos)                                                                                                                                                                                                                         |
 | `0038_solicitudes_baja`        | `solicitudes_baja`, `aprobar_baja` y `rechazar_baja` (security definer con comprobación de rol), aviso `baja_pendiente` en `notificaciones`                                                                                                                                                                                                                                                                                  |
 | `0039_reportes_insumos`        | `reporte_existencias`, `reporte_consumo`, `reporte_compras`, `reporte_mermas` (bajas + faltantes de conteo), con el costo real de cada lote y `sin_costo` cuando una parte no tiene costo registrado                                                                                                                                                                                                                         |
+| `0040_avisos_por_correo`       | `notificaciones.enviada_en`: qué avisos salieron ya en el resumen por correo. Solo la escribe el servidor (`service_role`); un trigger se lo impide a cualquier sesión, también a la administración                                                                                                                                                                                                                          |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y

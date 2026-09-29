@@ -1,15 +1,18 @@
 "use server";
 
+import { after } from "next/server";
 import * as z from "zod";
 
+import { enviarCorreo } from "@/lib/correo/enviar";
 import { RUTA_INSUMOS } from "@/lib/insumos/rutas";
 import { ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
+import { urlAbsoluta } from "@/lib/sitio";
 import { esquemaBaja, leerBaja } from "@/lib/validaciones/baja";
 
 const RUTA = `${RUTA_INSUMOS}/bajas`;
 
 export async function pedirBaja(fd: FormData): Promise<EstadoAccion> {
-  return ejecutarAccion({
+  const resultado = await ejecutarAccion({
     ruta: `${RUTA}/nueva`,
     esquema: esquemaBaja,
     entrada: leerBaja(fd),
@@ -32,6 +35,20 @@ export async function pedirBaja(fd: FormData): Promise<EstadoAccion> {
       return { error, id: data?.id };
     },
   });
+  // `after`: el correo sale cuando la respuesta ya se fue, así que un correo
+  // lento no hace esperar a nadie. Es un segundo canal: el aviso del panel
+  // (0038) no cambia.
+  if (resultado.estado === "ok") {
+    const enlace = urlAbsoluta(RUTA);
+    after(() =>
+      enviarCorreo({
+        asunto: "Pimpo's: una baja espera tu aprobación",
+        texto: `Alguien pidió dar de baja un insumo. Revísala en ${enlace}`,
+        html: `<p>Alguien pidió dar de baja un insumo. <a href="${enlace}">Revísala en el panel</a>.</p>`,
+      }),
+    );
+  }
+  return resultado;
 }
 
 export async function aprobarBaja(id: string): Promise<EstadoAccion> {

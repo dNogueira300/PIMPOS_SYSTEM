@@ -9247,8 +9247,8 @@ revisión por tarea y la corrección de lo Importante antes del PR.
 | 4   | #69 | ✅ Fusionada                             | 0037                    |
 | 5   | #70 | ✅ Fusionada                             | 0038                    |
 | 6   | #71 | ✅ Fusionada                             | 0039                    |
-| 7   | —   | 🟡 PR abierto. Sin migración             | —                       |
-| 8   | —   | ⬜                                       | 0040                    |
+| 7   | #73 | ✅ Fusionada                             | —                       |
+| 8   | —   | 🟡 PR abierto                            | 0040 (pendiente)        |
 | 9   | —   | ⬜ Cierre, con la revisión final de fase | —                       |
 
 **El ritmo que se acordó durante la ejecución** (Dan, 26/09/2026): al abrir el PR de una tarea se
@@ -9373,6 +9373,32 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 
 - `pedirBaja` usa `RUTA_INSUMOS` para su ruta, no una constante local `RUTA`: al reescribirla con
   `after()`, partir del archivo real, no del texto del plan.
+
+### Tarea 8 — Avisos por correo
+
+- Igual que la T7: sin subagente implementador, y un subagente solo para la revisión final.
+- La prueba pgTAP de 0040 pasa de 3 a 6 aserciones: la administración **tampoco** puede marcar un
+  aviso como enviado, el servidor (`service_role`) sí, y el ingeniero sigue pudiendo marcarlo como
+  leído (el trigger no estorba lo que ya hacía el panel).
+- **El paso 4 no se prueba a mano: tiene E2E** (`e2e/avisos-diario.spec.ts`): 401 sin cabecera y
+  con un secreto equivocado, y con el correo apagado responde
+  `{"enviados":0,"motivo":"Falta RESEND_API_KEY"}` y deja el aviso sin marcar. El servidor de las
+  pruebas arranca con `CRON_SECRET` de prueba y con `RESEND_API_KEY` y `CORREO_ALERTAS` **vacías**:
+  una variable del proceso gana a `.env.local` aunque esté vacía (`@next/env` mira
+  `hasOwnProperty`), así que la suite no manda correos reales aunque alguien tenga su llave en local.
+  El `curl` a mano del plan también se hizo: 401 sin cabecera, y el registro dice
+  `[correo] apagado (Falta RESEND_API_KEY): «Pimpo's: 1 aviso del 29/09/2026»`.
+- `enviar.ts` tiene prueba en Vitest con Resend simulado (apagado no llama, encendido manda a todos
+  con el remitente, un rechazo no cuenta como enviado, un fallo de red no lanza). Se vio fallar
+  rompiendo a propósito el manejo del rechazo.
+- El secreto del cron se compara en tiempo constante (`timingSafeEqual` sobre los hash), y un
+  `CRON_SECRET` en blanco cuenta como que no hay.
+- El resumen tiene un grupo «Otros avisos»: un tipo nuevo de `notificaciones` que no esté en la lista
+  se contaba en el asunto, se marcaba como enviado y no salía en el cuerpo.
+- La fecha del resumen y la de `enviada_en` salen del mismo instante.
+- Las E2E de bajas y novedades pasan con un worker (6/6). Con cuatro en paralelo, en esta máquina
+  los flujos largos pasan de los 30 s; el correo apagado no suma tiempo (`after()` corre después de
+  responder).
 
 ### Hallazgos menores aplazados a la revisión final (T9)
 

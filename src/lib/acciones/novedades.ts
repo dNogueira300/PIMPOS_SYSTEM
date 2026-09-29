@@ -1,10 +1,13 @@
 "use server";
 
+import { after } from "next/server";
 import * as z from "zod";
 
+import { enviarCorreo } from "@/lib/correo/enviar";
 import { ETIQUETAS } from "@/lib/datos/etiquetas";
 import { ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { accionesDisponibles, estadoTras, intencionEfectiva } from "@/lib/panel/aprobacion";
+import { urlAbsoluta } from "@/lib/sitio";
 import { generarSlug } from "@/lib/utilidades/slug";
 import { esquemaNovedad, leerNovedad } from "@/lib/validaciones/novedad";
 
@@ -19,7 +22,9 @@ const MENSAJES = {
 } as const;
 
 export async function guardarNovedad(fd: FormData): Promise<EstadoAccion> {
-  return ejecutarAccion({
+  // Si este guardado la manda a revisión (y no lo estaba ya), se avisa por correo.
+  let paraRevision = false;
+  const resultado = await ejecutarAccion({
     ruta: RUTA,
     esquema: esquemaNovedad,
     entrada: leerNovedad(fd),
@@ -47,6 +52,9 @@ export async function guardarNovedad(fd: FormData): Promise<EstadoAccion> {
       if (!accionesDisponibles(sesion.rol, d.tipo, estadoActual).includes(intencion)) {
         return { error: { code: "42501", message: "intención no permitida" } };
       }
+
+      paraRevision =
+        estadoTras(intencion, estadoActual) === "en_revision" && estadoActual !== "en_revision";
 
       const fila = {
         tipo: d.tipo,
@@ -79,6 +87,18 @@ export async function guardarNovedad(fd: FormData): Promise<EstadoAccion> {
       return { error, id: data?.id, mensaje: MENSAJES[intencion] };
     },
   });
+  // Segundo canal, como en `pedirBaja`: el aviso del panel (0028) no cambia.
+  if (resultado.estado === "ok" && paraRevision) {
+    const enlace = urlAbsoluta(RUTA);
+    after(() =>
+      enviarCorreo({
+        asunto: "Pimpo's: una promoción espera tu aprobación",
+        texto: `Hay una promoción esperando revisión en ${enlace}`,
+        html: `<p>Hay una promoción esperando revisión. <a href="${enlace}">Ábrela en el panel</a>.</p>`,
+      }),
+    );
+  }
+  return resultado;
 }
 
 export async function borrarNovedad(id: string): Promise<EstadoAccion> {

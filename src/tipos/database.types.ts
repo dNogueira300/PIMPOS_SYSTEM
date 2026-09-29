@@ -851,6 +851,7 @@ export type Database = {
         Row: {
           clave_unica: string
           created_at: string
+          enviada_en: string | null
           id: string
           insumo_id: string | null
           leida_en: string | null
@@ -866,6 +867,7 @@ export type Database = {
         Insert: {
           clave_unica: string
           created_at?: string
+          enviada_en?: string | null
           id?: string
           insumo_id?: string | null
           leida_en?: string | null
@@ -881,6 +883,7 @@ export type Database = {
         Update: {
           clave_unica?: string
           created_at?: string
+          enviada_en?: string | null
           id?: string
           insumo_id?: string | null
           leida_en?: string | null
