@@ -9,6 +9,33 @@ const GRUPOS: ReadonlyArray<{ nombre: string; tipos: readonly string[] }> = [
 ];
 const CONOCIDOS = new Set(GRUPOS.flatMap((g) => g.tipos));
 
+/**
+ * Los avisos de insumos que se repiten: `pg_cron` crea uno nuevo cada día
+ * mientras dure la situación (la clave lleva la fecha, 0015).
+ */
+const REPETIDOS_CADA_DIA = new Set(["stock_bajo", "por_vencer", "vencido"]);
+
+/**
+ * De los avisos de insumos, solo el más reciente de cada insumo (y lote) y
+ * tipo. Mientras el correo esté apagado se acumula uno por día; al encenderlo,
+ * el primer resumen repetiría «Queda poco Harina» una vez por cada día, con
+ * cantidades viejas. Los que esperan una decisión (bajas, promociones) se
+ * quedan todos: cada uno es otra solicitud. Espera los avisos en orden de
+ * llegada y lo conserva.
+ */
+export function avisosVigentes<
+  T extends AvisoCorreo & { insumo_id: string | null; lote_id: string | null },
+>(avisos: T[]): T[] {
+  const ultimo = new Map<string, number>();
+  avisos.forEach((a, i) => {
+    if (REPETIDOS_CADA_DIA.has(a.tipo)) ultimo.set(`${a.tipo}|${a.insumo_id}|${a.lote_id}`, i);
+  });
+  return avisos.filter(
+    (a, i) =>
+      !REPETIDOS_CADA_DIA.has(a.tipo) || ultimo.get(`${a.tipo}|${a.insumo_id}|${a.lote_id}`) === i,
+  );
+}
+
 const escapar = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 

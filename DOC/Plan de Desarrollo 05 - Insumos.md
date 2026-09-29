@@ -9399,6 +9399,23 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 - Las E2E de bajas y novedades pasan con un worker (6/6). Con cuatro en paralelo, en esta máquina
   los flujos largos pasan de los 30 s; el correo apagado no suma tiempo (`after()` corre después de
   responder).
+- La revisión encontró tres cosas Importantes, arregladas antes del PR:
+  - **El primer correo al encenderlo.** `stock_bajo`, `por_vencer` y `vencido` se crean cada día con
+    clave nueva y nada los resuelve: tras semanas apagado, el primer resumen repetía «Queda poco
+    Harina» una vez por día, y la marca con `.in("id", […])` metía cientos de ids en la URL; si
+    fallaba, el mismo correo salía cada mañana. Ahora `avisosVigentes()` deja solo el más reciente
+    por insumo, lote y tipo (las bajas y promociones se quedan todas), y la marca va con un filtro
+    (`enviada_en is null`, `resuelta_en is null`, `created_at <=` el último leído) que marca también
+    los repetidos. Vitest.
+  - **La hora del cron.** En el plan Hobby Vercel solo garantiza la hora, no el minuto: `15 11` podía
+    correr antes del `pg_cron` de las 11:10 UTC y dejar los avisos del día para mañana. Pasa a
+    `0 12 * * *`: **el resumen llega entre las 07:00 y las 07:59 de Iquitos**, no a las 06:15.
+  - **El aviso al momento de una promoción tiene prueba.** La condición vive en
+    `vaARevision(intencion, estadoActual)` (`src/lib/panel/aprobacion.ts`), con Vitest para crear y
+    enviar, reenviar tras devolverla, guardar una que ya está en revisión y el aviso que el ingeniero
+    «envía» (se publica).
+- La marca por filtro no tiene prueba automática: solo corre con el correo encendido. pgTAP sí prueba
+  que la `service_role` puede escribir `enviada_en`.
 
 ### Hallazgos menores aplazados a la revisión final (T9)
 
@@ -9431,3 +9448,10 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
   E2E de acceso seguirían en verde sin el `exigirAcceso` de la ruta (lo cubre el proxy) y la del
   Excel no compara números con la pantalla · `exceljs` 4.4.0 arrastra dependencias abandonadas
   (`fstream`, `rimraf@2`, `glob@7`, `inflight`).
+- T8: dos ejecuciones del resumen a la vez (Vercel admite entregar un cron dos veces) mandan dos
+  correos: se leería y se reclamaría en un solo `update … returning` · el asunto dice «avisos del
+  <hoy>» aunque traiga avisos de días anteriores · el resumen no lleva enlace al panel ni frase de
+  entrada · los avisos al momento no dicen qué insumo ni qué promoción · sin `CRON_SECRET`, la ruta le
+  dice a cualquiera qué variable falta · con `reuseExistingServer`, un `next start` viejo en el 3000
+  sin el `CRON_SECRET` de prueba hace fallar `avisos-diario.spec.ts` (la trampa del puerto de
+  AGENTS.md) · el índice parcial de 0040 no aporta con la tabla tan pequeña.

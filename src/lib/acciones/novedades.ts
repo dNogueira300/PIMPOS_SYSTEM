@@ -6,7 +6,12 @@ import * as z from "zod";
 import { enviarCorreo } from "@/lib/correo/enviar";
 import { ETIQUETAS } from "@/lib/datos/etiquetas";
 import { ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
-import { accionesDisponibles, estadoTras, intencionEfectiva } from "@/lib/panel/aprobacion";
+import {
+  accionesDisponibles,
+  estadoTras,
+  intencionEfectiva,
+  vaARevision,
+} from "@/lib/panel/aprobacion";
 import { urlAbsoluta } from "@/lib/sitio";
 import { generarSlug } from "@/lib/utilidades/slug";
 import { esquemaNovedad, leerNovedad } from "@/lib/validaciones/novedad";
@@ -53,8 +58,7 @@ export async function guardarNovedad(fd: FormData): Promise<EstadoAccion> {
         return { error: { code: "42501", message: "intención no permitida" } };
       }
 
-      paraRevision =
-        estadoTras(intencion, estadoActual) === "en_revision" && estadoActual !== "en_revision";
+      paraRevision = vaARevision(intencion, estadoActual);
 
       const fila = {
         tipo: d.tipo,
