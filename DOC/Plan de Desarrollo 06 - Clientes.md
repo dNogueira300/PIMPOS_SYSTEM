@@ -5097,3 +5097,104 @@ meta `clientes` antes que `consentimientos` fuera de réplica fallaría al cerra
       `/admin/clientes/nuevo` cargan y que las cuatro zonas salen en el alta. **No** se registra un
       cliente de prueba en producción: dejaría una constancia de borrado en `supresiones` que no se
       puede quitar. El primer cliente real lo registra el negocio.
+
+---
+
+## Lo que resultó distinto
+
+Escrito al fusionar la T6 (30/09/2026). Cada tarea se implementó en la sesión principal y una
+revisión de la rama con un subagente (opus) antes del PR; lo Importante de cada revisión se arregló
+con su prueba vista fallar primero. El registro completo está en
+`.superpowers/sdd/Plan de Desarrollo 06 - Clientes/progress.md` (fuera de git).
+
+**Adelantado a la T7** (a pedido de Dan, 30/09/2026): `docs/clientes.md`, la nota de clientes en
+`docs/respaldo-y-restauracion.md` y la puesta al día de `AGENTS.md`, `DOC/Avance del proyecto.md` y
+los planes 00 y 02 se escribieron al fusionar la T6. En la T7 quedan por revisar con las cifras del
+cierre, no por escribir.
+
+### Tarea 1 — Reglas en la base (0042, PR #78)
+
+- **El plan se equivocaba con Storage:** decía que 0014 no tenía política de borrado en el bucket
+  `clientes`, y tenía una para los cuatro roles («reparto borra fotos de clientes»). 0042 la retira y
+  crea la de los encargados, como pide la decisión 2. `verificar-storage.sh` comprueba ahora que el
+  repartidor no borra la foto y el ingeniero sí (vista fallar con la política vieja).
+- **Otra prueba de 0013 dependía del alta del repartidor** (la 34, «con quien registro a cada
+  persona»): el alta pasa al ingeniero, por `registrar_cliente`, y el número de pruebas no cambia.
+- **Cuatro huecos que encontró la revisión**, cerrados en la misma 0042 antes del push:
+  - el permiso obligatorio se saltaba creando el cliente «de ejemplo» y desmarcándolo después:
+    `es_demo` solo lo ponen las semillas, y el trigger diferido despierta también al desmarcarlo;
+  - un punto podía guardarse con una sola coordenada;
+  - el celular podía guardarse con espacios o con el 51, y el aviso de celular repetido compara por
+    igualdad: ahora solo dígitos;
+  - una zona se podía borrar de verdad, saltándose la regla de no retirarla con clientes activos.
+
+### Tarea 2 — Datos personales (0043, PR #79)
+
+- **La prueba del plan chocaba con el permiso diferido de 0042** (eventos en cola impiden apagar un
+  trigger, y una clienta registrada y borrada en la misma transacción dejaba su evento pendiente):
+  se ajustó la prueba, no la migración. En el panel son transacciones distintas.
+- **Dos huecos de la revisión**, cerrados en 0043: la nota del permiso (`observacion`) sobrevivía al
+  borrado, y una ficha borrada se podía volver a activar, rellenar o recibir fotos (la regla estaba
+  solo en la interfaz). Ahora lo impide la base, también en Storage.
+
+### Tareas 3 y 4 — Consultar, registrar y corregir (PR #80)
+
+- La lista avisa «Se muestran los primeros 200» cuando `buscar_clientes` llega a su tope.
+- La casilla del permiso es un control propio de 44 px con su error debajo, no un `Campo`.
+- `SelectorUbicacion` se reescribió con un modo opcional (tocar el mapa, «Usar mi ubicación»,
+  «Quitar el punto»); sin él, Configuración se comporta igual.
+- La limpieza de pruebas del plan no borraba nada en Storage (`prefixes` son nombres exactos): lista
+  la carpeta y borra por nombre.
+- **Cuatro arreglos de la revisión:** un nombre de cliente con código se ejecutaba en el globo del
+  mapa (**crítico**: `escaparHtml`, también en el mapa público); el mapa nacía gris en su pestaña
+  oculta (también el de Configuración); añadir una foto dejaba «cambios sin guardar» falsos
+  (`SubidaImagen inmediata`); buscar en la vista Mapa volvía a la lista (`BuscadorEnVivo conservar`).
+
+### Tareas 5 y 6 — Administración y exportar (PR #81)
+
+- La prueba del plan para «Para revisar» solo envejecía la ficha; la vista mira también las fotos y
+  el permiso, y se envejecen los tres.
+- Esa misma prueba destapó que a 375 px dos botones de texto dejaban el nombre en 0 px:
+  `ListaAdaptable accionesDebajo`. Y la de área táctil, con una fila en la lista, que el lápiz de la
+  tabla de escritorio encogía por debajo de 44 px.
+- Se incorporaron tres menores aplazados: el diálogo pide no escribir nombre ni número en el motivo;
+  las fichas borradas salen de la lista y del aviso de celular repetido; y el borrado de fotos vuelve
+  a listar la carpeta, porque `storage.remove()` no avisa cuando la RLS no deja borrar.
+- El botón «Borrar sus datos» lleva el nombre del cliente para los lectores de pantalla.
+- **Tres arreglos de la revisión:** si Storage fallaba al borrar desde «Para revisar», no quedaba
+  camino para reintentar (ahora lleva a la ficha; la prueba simula el fallo quitando un momento la
+  política de borrado); la descarga se cortaba en 1000 clientes (tope de PostgREST: `leerTodas`); y
+  «Sigue siendo cliente» reactivaba a quien otra persona acababa de desactivar.
+
+### Hallazgos menores aplazados (para la revisión final de la T7)
+
+Ya resueltos por una tarea posterior: el aviso de los 200 (T3), el celular `000000` de las fichas
+borradas (T5), el filtro de la descarga sin el texto buscado (T6), el motivo sin datos personales
+(T5) y el `remove()` que no avisa (T5).
+
+Siguen abiertos:
+
+- **Base:** un administrador puede cambiar el `cliente_id` de un permiso (su política de edición
+  cubre todas las columnas); el repartidor puede cambiar `created_at` de un cliente y el cliente o la
+  ruta de una foto; `registrar_cliente` con una coordenada `''` da un error sin traducir (el panel
+  manda `null`); `%` y `_` actúan como comodines en el buscador (inofensivo); el tachado de la
+  auditoría depende de que el dueño tenga `BYPASSRLS` y, si le faltara, no tacharía ni avisaría (una
+  guarda como la de 0030); `clientes_para_revisar` no cuenta una revocación como actividad; y
+  `supresiones.borrado_por` y `exportaciones_clientes.exportado_por` impiden borrar a ese usuario
+  (se desactiva, como con `consentimientos`).
+- **Fotos:** si la foto se sube y su fila no llega a guardarse (carrera de tres fotos, o un `23505`
+  que sale con el mensaje de «nombre repetido»), el archivo queda huérfano; `agregarFotoCliente` no
+  comprueba que la ruta sea de la carpeta del cliente; y «cambiar foto» del repartidor tendrá que ser
+  sobrescribir la misma ruta, porque ya no puede borrar.
+- **Pantallas:** `leerFicha` y `zonasActivas` callan el error (pasar por `avisarDeConsulta`); la copia
+  local guarda marcada la casilla del permiso; «1 cliente no tiene punto…: están» en singular; la
+  decisión 8 pedía un botón «registrar igual» y el aviso dice «puedes seguir»; el `42501` del trigger
+  del repartidor llega con el mensaje genérico; la ficha, editar y corregir no tienen prueba de axe
+  (rutas con `[id]`); sin teclado no se marca el punto (solo con «Usar mi ubicación»).
+- **Borrar y descargar:** el motivo de más de 300 letras da el error de Zod en inglés; el error del
+  diálogo no se anuncia (`role="alert"`) y sobrevive a cerrar y abrir; la descarga no valida el
+  parámetro `zona` (un texto que no es uuid da un 500 en texto plano); los botones de descarga se
+  esconden si la búsqueda no encuentra a nadie, aunque la descarga no usa la búsqueda; si el archivo
+  falla después de anotar la descarga, queda anotada sin archivo; y una zona con nombre sin letras deja
+  `pimpos-clientes--<fecha>`.
+- **Guion:** espacios sobrantes en tres líneas de `verificar-storage.sh`, de antes de F6.
