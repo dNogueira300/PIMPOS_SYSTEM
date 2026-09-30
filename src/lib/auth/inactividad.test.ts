@@ -19,8 +19,10 @@ describe("sesionInactiva", () => {
     expect(sesionInactiva(String(AHORA - 2 * HORA - 1000), AHORA)).toBe(true);
   });
 
-  it("sin marca de actividad no hay nada que medir: empieza a contar ahora", () => {
-    expect(sesionInactiva(undefined, AHORA)).toBe(false);
+  it("con sesión y sin marca, falla cerrado: se borró la cookie o la sesión es de antes", () => {
+    // Entrar escribe la marca (`iniciarSesion`), así que una sesión sin ella
+    // no es una recién abierta.
+    expect(sesionInactiva(undefined, AHORA)).toBe(true);
   });
 
   it("una marca que no es un número cuenta como vencida: falla cerrado", () => {

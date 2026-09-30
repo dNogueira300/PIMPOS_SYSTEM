@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { COOKIE_ACTIVIDAD, sesionInactiva } from "@/lib/auth/inactividad";
+import { COOKIE_ACTIVIDAD, DURACION_MARCA_S, sesionInactiva } from "@/lib/auth/inactividad";
 import type { Rol } from "@/lib/auth/roles";
 import { esRol } from "@/lib/auth/roles";
 import type { Database } from "@/tipos/database.types";
@@ -88,30 +88,44 @@ export async function refrescarSesion(
   // Dos horas sin actividad (pedido de Dan, 29/09/2026). Se cierra como una
   // sesión cerrada en el servidor: se revoca y se borran sus cookies.
   let inactiva = false;
+  const marca = peticion.cookies.get(COOKIE_ACTIVIDAD)?.value;
   if (claims && vigilarInactividad) {
-    inactiva = sesionInactiva(peticion.cookies.get(COOKIE_ACTIVIDAD)?.value, Date.now());
+    inactiva = sesionInactiva(marca, Date.now());
     if (inactiva) {
       await supabase.auth.signOut({ scope: "local" });
       claims = null;
     }
+  } else if (vigilarInactividad && marca !== undefined) {
+    // Ya sin sesión, pero con la marca vencida: la cerró la inactividad en
+    // una petición anterior (una precarga, otra pestaña). Salir la borra, así
+    // que quien cerró sesión a propósito no ve este motivo.
+    inactiva = sesionInactiva(marca, Date.now());
   }
 
   // Al final, después de cualquier `setAll`, que vuelve a crear la respuesta.
-  if (vigilarInactividad) {
-    if (claims) {
-      respuesta.cookies.set(COOKIE_ACTIVIDAD, String(Date.now()), {
-        path: "/",
-        sameSite: "lax",
-        secure: peticion.nextUrl.protocol === "https:",
-        // La lee y la renueva también el navegador (`VigiaInactividad`).
-        httpOnly: false,
-        maxAge: 30 * 24 * 60 * 60,
-      });
-    } else {
-      // Sin sesión no hay nada que medir; así una marca vieja no echa a nadie
-      // en cuanto vuelva a entrar.
-      respuesta.cookies.delete(COOKIE_ACTIVIDAD);
-    }
+  //
+  // Solo con sesión, y solo al cargar una página entera (`sec-fetch-dest:
+  // document`, lo pone el navegador). Las peticiones del router —precargas de
+  // `<Link>`, navegaciones del panel, Server Actions— no la renuevan: Next le
+  // quita al proxy las cabeceras que dirían cuál es una precarga, y una
+  // precarga sale sin que nadie toque nada, así que contaría como actividad de
+  // una pestaña quieta. Las demás nacen de un toque o de una tecla, y esas ya
+  // las renueva el navegador (`VigiaInactividad`). Sin la cabecera (navegador
+  // muy viejo, curl) cuenta como página entera.
+  //
+  // Sin sesión no se borra: una marca vencida que se queda hace que un cierre
+  // que falló (sin red) se vuelva a intentar en la petición siguiente, y
+  // entrar la reescribe (`iniciarSesion`).
+  const esPaginaEntera = (peticion.headers.get("sec-fetch-dest") ?? "document") === "document";
+  if (vigilarInactividad && claims && esPaginaEntera) {
+    respuesta.cookies.set(COOKIE_ACTIVIDAD, String(Date.now()), {
+      path: "/",
+      sameSite: "lax",
+      secure: peticion.nextUrl.protocol === "https:",
+      // La lee y la renueva también el navegador (`VigiaInactividad`).
+      httpOnly: false,
+      maxAge: DURACION_MARCA_S,
+    });
   }
 
   // El claim `rol` lo inyecta app.custom_access_token() al emitir el token

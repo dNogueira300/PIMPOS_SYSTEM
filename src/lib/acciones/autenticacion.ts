@@ -4,7 +4,7 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import * as z from "zod";
 
-import { COOKIE_ACTIVIDAD } from "@/lib/auth/inactividad";
+import { COOKIE_ACTIVIDAD, DURACION_MARCA_S } from "@/lib/auth/inactividad";
 import { esRol } from "@/lib/auth/roles";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { esquemaIngreso } from "@/lib/validaciones/autenticacion";
@@ -102,19 +102,6 @@ export async function cerrarSesion(): Promise<void> {
   redirect("/ingresar");
 }
 
-/**
- * La llama el navegador (`VigiaInactividad`) cuando la pestaña lleva dos horas
- * abierta sin que nadie la toque. Es una salida voluntaria, así que no hace
- * falta creerle al reloj del navegador: cerrar sesión nunca da más acceso.
- */
-export async function cerrarSesionPorInactividad(): Promise<void> {
-  const supabase = await crearClienteServidor();
-  await supabase.auth.signOut({ scope: "local" });
-  (await cookies()).delete(COOKIE_ACTIVIDAD);
-  redirect("/ingresar?motivo=inactividad");
-}
-
-/** La misma cookie que pone el proxy (`src/lib/supabase/proxy.ts`), con los mismos atributos. */
 async function marcarActividad(): Promise<void> {
   const cabeceras = await headers();
   const protocolo = cabeceras.get("x-forwarded-proto")?.split(",")[0]?.trim();
@@ -123,6 +110,6 @@ async function marcarActividad(): Promise<void> {
     sameSite: "lax",
     secure: protocolo === "https" || (cabeceras.get("origin") ?? "").startsWith("https:"),
     httpOnly: false,
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: DURACION_MARCA_S,
   });
 }

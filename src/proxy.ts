@@ -42,10 +42,10 @@ export async function proxy(peticion: NextRequest) {
   // Dos horas sin usar el panel: la sesión ya se cerró en `refrescarSesion`;
   // aquí se lleva al ingreso diciendo por qué. La redirección es una respuesta
   // nueva, así que se le pasan las cookies que borraron la sesión.
-  if (inactiva && esRutaDelPanel(ruta)) {
+  if (inactiva && (esRutaDelPanel(ruta) || ruta === "/cambiar-clave")) {
     const destino = new URL("/ingresar", peticion.url);
     destino.searchParams.set("motivo", "inactividad");
-    destino.searchParams.set("volver", ruta);
+    if (esRutaDelPanel(ruta)) destino.searchParams.set("volver", ruta);
     const redireccion = NextResponse.redirect(destino);
     for (const cookie of respuesta.cookies.getAll()) redireccion.cookies.set(cookie);
     return redireccion;
