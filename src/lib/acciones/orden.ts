@@ -7,15 +7,18 @@ import { ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { reordenar } from "@/lib/panel/orden";
 
 export type TablaOrdenable =
-  "categorias_producto" | "slides" | "galeria" | "faqs" | "guias" | "testimonios";
+  "categorias_producto" | "slides" | "galeria" | "faqs" | "guias" | "testimonios" | "zonas_reparto";
 
-const DESTINO: Record<TablaOrdenable, { ruta: string; etiqueta: Etiqueta }> = {
+// `etiqueta: null`: las zonas (F6) no se ven en el sitio público, no hay nada
+// que refrescar allí.
+const DESTINO: Record<TablaOrdenable, { ruta: string; etiqueta: Etiqueta | null }> = {
   categorias_producto: { ruta: "/admin/contenido/categorias", etiqueta: ETIQUETAS.catalogo },
   slides: { ruta: "/admin/contenido/portada", etiqueta: ETIQUETAS.novedades },
   galeria: { ruta: "/admin/contenido/galeria", etiqueta: ETIQUETAS.contenido },
   faqs: { ruta: "/admin/contenido/preguntas", etiqueta: ETIQUETAS.contenido },
   guias: { ruta: "/admin/contenido/guias", etiqueta: ETIQUETAS.contenido },
   testimonios: { ruta: "/admin/contenido/testimonios", etiqueta: ETIQUETAS.contenido },
+  zonas_reparto: { ruta: "/admin/clientes/zonas", etiqueta: null },
 };
 
 // `tabla` y `hacia` llegan del navegador como cualquier argumento de una Server
@@ -44,7 +47,7 @@ export async function moverFila(
     esquema: z.object({ id: z.uuid(), hacia: z.enum(["arriba", "abajo"]) }),
     entrada: { id, hacia },
     entidad: "la fila",
-    etiquetas: [etiqueta],
+    etiquetas: etiqueta ? [etiqueta] : [],
     mensajeOk: "Orden cambiado.",
     hacer: async (d, { supabase }) => {
       // Una rama por tabla: supabase-js deduce el tipo de la fila del nombre
@@ -93,6 +96,13 @@ export async function moverFila(
               .is("deleted_at", null)
               .order("orden")
               .order("id");
+          case "zonas_reparto":
+            return supabase
+              .from("zonas_reparto")
+              .select("id, orden")
+              .is("deleted_at", null)
+              .order("orden")
+              .order("id");
         }
       };
       const escribir = (fila: string, orden: number) => {
@@ -109,6 +119,8 @@ export async function moverFila(
             return supabase.from("guias").update({ orden }).eq("id", fila);
           case "testimonios":
             return supabase.from("testimonios").update({ orden }).eq("id", fila);
+          case "zonas_reparto":
+            return supabase.from("zonas_reparto").update({ orden }).eq("id", fila);
         }
       };
 

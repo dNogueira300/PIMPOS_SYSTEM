@@ -27,6 +27,12 @@ type Props<F extends { id: string }> = {
   nombreFila?: (fila: F) => string;
   /** El texto del lápiz: «Editar» por defecto; «Corregir» para el repartidor (F6). */
   etiquetaEditar?: string;
+  /**
+   * En el celular, los botones van en su propia fila, debajo del nombre. Para
+   * acciones con texto («Sigue siendo cliente»): junto al nombre lo dejaban
+   * en 0 px de ancho a 375 px (F6, T5).
+   */
+  accionesDebajo?: boolean;
   /** Lo que se ve cuando no hay nada: qué es y cómo empezar. */
   vacio: ReactNode;
   /** Botones por fila (ordenar, borrar). Van fuera del enlace. */
@@ -47,6 +53,7 @@ export function ListaAdaptable<F extends { id: string }>({
   editar,
   nombreFila,
   etiquetaEditar = "Editar",
+  accionesDebajo = false,
   etiqueta,
 }: Props<F>) {
   if (filas.length === 0) {
@@ -71,7 +78,7 @@ export function ListaAdaptable<F extends { id: string }>({
         <Link
           href={editar(fila)}
           aria-label={`${etiquetaEditar} ${nombreDe(fila)}`.trim()}
-          className="text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-full"
+          className="text-primary hover:bg-primary/10 inline-flex size-11 shrink-0 items-center justify-center rounded-full"
         >
           <Pencil aria-hidden className="size-5" />
         </Link>
@@ -84,7 +91,10 @@ export function ListaAdaptable<F extends { id: string }>({
     <>
       <ul aria-label={etiqueta} className="flex flex-col gap-2 md:hidden">
         {filas.map((fila) => (
-          <li key={fila.id} className="bg-card flex items-center gap-2 rounded-xl border p-3">
+          <li
+            key={fila.id}
+            className={`bg-card flex items-center gap-2 rounded-xl border p-3 ${accionesDebajo ? "flex-wrap" : ""}`}
+          >
             {/* `min-w-0` y `wrap-anywhere`: una palabra larga se corta en vez de
                 empujar los botones fuera de la tarjeta (a 375 px caben cuatro,
                 44 px cada uno, y al texto le queda poco). */}
@@ -100,7 +110,15 @@ export function ListaAdaptable<F extends { id: string }>({
               </span>
             </Link>
             {hayAcciones ? (
-              <div className="flex shrink-0 items-center gap-1">{botones(fila)}</div>
+              <div
+                className={
+                  accionesDebajo
+                    ? "flex w-full flex-wrap items-center justify-end gap-2"
+                    : "flex shrink-0 items-center gap-1"
+                }
+              >
+                {botones(fila)}
+              </div>
             ) : null}
           </li>
         ))}
@@ -141,7 +159,11 @@ export function ListaAdaptable<F extends { id: string }>({
               ))}
               {hayAcciones ? (
                 <td className="px-4 py-2">
-                  <div className="flex justify-end gap-1">{botones(fila)}</div>
+                  {/* `flex-wrap`: con botones de texto al lado («Para revisar», F6), el
+                      lápiz encogía por debajo de 44 px en vez de bajar de línea. */}
+                  <div className="flex flex-wrap items-center justify-end gap-1">
+                    {botones(fila)}
+                  </div>
                 </td>
               ) : null}
             </tr>

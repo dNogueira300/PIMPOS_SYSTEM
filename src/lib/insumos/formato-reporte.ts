@@ -1,5 +1,21 @@
-import type { Reporte } from "./reportes";
+import type { Columna, Fila } from "./reportes";
 import { formatearCantidad } from "./unidades";
+
+/**
+ * Lo que necesitan el Excel y el PDF: un reporte de insumos lo cumple tal cual,
+ * y la lista de clientes (F6) también, sin gráfico ni slug.
+ */
+export type TablaExportable = {
+  titulo: string;
+  subtitulo: string;
+  columnas: Columna[];
+  filas: Fila[];
+  total: number | null;
+  sinCosto: boolean[];
+  hayCostosDesconocidos: boolean;
+  /** Lo que dice el PDF sin filas. Por defecto, el de un reporte con periodo. */
+  vacio?: string;
+};
 
 export type TipoColumna = "texto" | "cantidad" | "soles";
 
@@ -42,7 +58,7 @@ export const AVISO_SIN_COSTO =
  * Cada celda del reporte como la escribe la pantalla, marca incluida. Es lo que
  * pinta el PDF: así el texto de una celda se prueba aquí y no leyendo el PDF.
  */
-export function textosDeLasFilas(reporte: Reporte): string[][] {
+export function textosDeLasFilas(reporte: TablaExportable): string[][] {
   return reporte.filas.map((fila, i) =>
     reporte.columnas.map((c) =>
       marcarSinCosto(

@@ -34,6 +34,7 @@ async function Contenido({
   const texto = typeof q === "string" ? q : "";
   const filtroZona = typeof zona === "string" ? zona : "";
   const encargado = sesion.rol !== "repartidor";
+  const administracion = sesion.rol === "superadmin" || sesion.rol === "administrador";
   // Solo los encargados ven los desactivados (decisión 3).
   const verDesactivados = encargado && estado === "desactivados";
   const enMapa = vista === "mapa";
@@ -61,9 +62,21 @@ async function Contenido({
         descripcion="Para el reparto: busca por nombre o celular, filtra por zona, llama, escribe o mira cómo llegar."
         accion={
           encargado ? (
-            <Link href={`${RUTA}/nuevo`} className="boton-cta">
-              <Plus aria-hidden className="size-5" /> Nuevo cliente
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href={`${RUTA}/nuevo`} className="boton-cta">
+                <Plus aria-hidden className="size-5" /> Nuevo cliente
+              </Link>
+              {administracion ? (
+                <>
+                  <Link href={`${RUTA}/zonas`} className="boton-linea">
+                    Zonas
+                  </Link>
+                  <Link href={`${RUTA}/revisar`} className="boton-linea">
+                    Para revisar
+                  </Link>
+                </>
+              ) : null}
+            </div>
           ) : null
         }
       />
@@ -122,6 +135,27 @@ async function Contenido({
           Se muestran los primeros {TOPE_BUSQUEDA}. Escribe un nombre o elige una zona para ver los
           demás.
         </p>
+      ) : null}
+
+      {administracion && !enMapa && clientes !== null && clientes.length > 0 ? (
+        <div className="mb-4 flex flex-wrap gap-2">
+          {(["excel", "pdf"] as const).map((formato) => (
+            // Un <a>, no <Link>, y sin `download`: ver el mismo bloque en reportes de insumos.
+            <a
+              key={formato}
+              href={`/admin/clientes/${formato}?${new URLSearchParams({
+                ...(filtroZona ? { zona: filtroZona } : {}),
+                ...(verDesactivados ? { estado: "desactivados" } : {}),
+              })}`}
+              className="boton-linea"
+            >
+              Descargar {formato === "excel" ? "Excel" : "PDF"}
+            </a>
+          ))}
+          <p className="text-muted-foreground w-full text-sm">
+            Descarga todos los de la zona elegida, sin fotos. Queda anotado quién descargó y cuándo.
+          </p>
+        </div>
       ) : null}
 
       {clientes === null ? (

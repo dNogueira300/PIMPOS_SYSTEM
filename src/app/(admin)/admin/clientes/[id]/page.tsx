@@ -5,6 +5,10 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { BotonActivoCliente } from "@/components/panel/boton-activo-cliente";
+import {
+  BorrarDatosCliente,
+  BorrarFotosQueQuedaron,
+} from "@/components/panel/borrar-datos-cliente";
 import { BotonesContacto } from "@/components/panel/botones-contacto";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { exigirAcceso } from "@/lib/auth/sesion";
@@ -29,12 +33,17 @@ async function Contenido({ params }: Pick<Props, "params">) {
   const cliente = await leerFicha(id);
   if (!cliente) notFound();
   const encargado = sesion.rol !== "repartidor";
+  const administracion = sesion.rol === "superadmin" || sesion.rol === "administrador";
 
   return (
     <>
       <EncabezadoPanel
         titulo={cliente.nombre_completo}
-        descripcion={cliente.activo ? undefined : "Desactivado: no sale en la lista ni en el mapa."}
+        descripcion={
+          cliente.activo || cliente.borrado
+            ? undefined
+            : "Desactivado: no sale en la lista ni en el mapa."
+        }
         volver={{ ruta: "/admin/clientes", nombre: "Clientes" }}
         accion={
           cliente.borrado ? null : (
@@ -53,9 +62,14 @@ async function Contenido({ params }: Pick<Props, "params">) {
       />
 
       {cliente.borrado ? (
-        <p className="bg-card rounded-xl border p-4">
-          Los datos de este cliente se borraron a su pedido. Solo queda la constancia.
-        </p>
+        <>
+          <p className="bg-card rounded-xl border p-4" data-datos-borrados>
+            Los datos de este cliente se borraron a su pedido. Solo queda la constancia.
+          </p>
+          {administracion && cliente.fotosEnCarpeta > 0 ? (
+            <BorrarFotosQueQuedaron id={id} cuantas={cliente.fotosEnCarpeta} />
+          ) : null}
+        </>
       ) : (
         <>
           <div className="mb-4 flex flex-wrap gap-2">
@@ -146,6 +160,18 @@ async function Contenido({ params }: Pick<Props, "params">) {
               <p className="text-sm">Sin permiso vigente.</p>
             )}
           </section>
+
+          {administracion ? (
+            <section aria-labelledby="datos-personales" className="mb-6 border-t pt-4">
+              <h2 id="datos-personales" className="mb-2 font-semibold">
+                Datos personales
+              </h2>
+              <p className="text-muted-foreground mb-3 text-sm">
+                Si el cliente pide que borren sus datos, desactivarlo no basta: se borran aquí.
+              </p>
+              <BorrarDatosCliente id={id} nombre={cliente.nombre_completo} />
+            </section>
+          ) : null}
         </>
       )}
     </>

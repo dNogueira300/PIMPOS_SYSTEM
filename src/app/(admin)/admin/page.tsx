@@ -85,7 +85,7 @@ type Aviso = { clave: string; texto: string; ruta: string };
 /**
  * Cada tarea que añade algo que revisar añade aquí su cuenta. T1 trae la de
  * datos por confirmar; T4, las de promociones; T5 de F5, las de insumos y
- * bajas.
+ * bajas; F6, la de clientes para revisar.
  */
 async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
   const supabase = await crearClienteServidor();
@@ -126,6 +126,17 @@ async function contarAvisos(rol: string, usuarioId: string): Promise<Aviso[]> {
         clave: "bajas-pendientes",
         texto: `${bajas} ${bajas === 1 ? "baja espera" : "bajas esperan"} tu aprobación`,
         ruta: "/admin/insumos/bajas",
+      });
+    }
+
+    const { count: paraRevisar } = await supabase
+      .from("clientes_para_revisar")
+      .select("id", { count: "exact", head: true });
+    if (paraRevisar && paraRevisar > 0) {
+      avisos.push({
+        clave: "clientes-para-revisar",
+        texto: `${paraRevisar} ${paraRevisar === 1 ? "cliente lleva" : "clientes llevan"} dos años sin cambios`,
+        ruta: "/admin/clientes/revisar",
       });
     }
   }
