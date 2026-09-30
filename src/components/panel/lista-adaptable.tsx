@@ -78,7 +78,7 @@ export function ListaAdaptable<F extends { id: string }>({
         <Link
           href={editar(fila)}
           aria-label={`${etiquetaEditar} ${nombreDe(fila)}`.trim()}
-          className="text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-full"
+          className="text-primary hover:bg-primary/10 inline-flex size-11 shrink-0 items-center justify-center rounded-full"
         >
           <Pencil aria-hidden className="size-5" />
         </Link>
@@ -159,7 +159,11 @@ export function ListaAdaptable<F extends { id: string }>({
               ))}
               {hayAcciones ? (
                 <td className="px-4 py-2">
-                  <div className="flex justify-end gap-1">{botones(fila)}</div>
+                  {/* `flex-wrap`: con botones de texto al lado («Para revisar», F6), el
+                      lápiz encogía por debajo de 44 px en vez de bajar de línea. */}
+                  <div className="flex flex-wrap items-center justify-end gap-1">
+                    {botones(fila)}
+                  </div>
                 </td>
               ) : null}
             </tr>

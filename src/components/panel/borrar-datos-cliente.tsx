@@ -28,7 +28,12 @@ export function BorrarDatosCliente({ id, nombre }: { id: string; nombre: string 
 
   return (
     <AlertDialog open={abierto} onOpenChange={setAbierto}>
-      <AlertDialogTrigger className="boton-linea text-destructive">
+      <AlertDialogTrigger
+        className="boton-linea text-destructive shrink-0"
+        // Con su nombre: en «Para revisar» hay uno por cliente. Empieza por el
+        // texto visible, para que la voz y la vista digan lo mismo.
+        aria-label={`Borrar sus datos: ${nombre}`}
+      >
         Borrar sus datos
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -75,9 +80,16 @@ export function BorrarDatosCliente({ id, nombre }: { id: string; nombre: string 
                 }
                 if (r.estado === "ok") {
                   setAbierto(false);
-                  if (r.extra?.fotosSinBorrar) toast.warning(r.mensaje);
-                  else toast.success(r.mensaje);
-                  router.refresh();
+                  if (r.extra?.fotosSinBorrar) {
+                    // Quedaron fotos: a la ficha, que es donde se reintenta.
+                    // Desde «Para revisar» el cliente sale de la lista y el
+                    // aviso se iba sin dejar camino (revisión de T5).
+                    toast.warning(r.mensaje);
+                    router.push(`/admin/clientes/${id}`);
+                  } else {
+                    toast.success(r.mensaje);
+                    router.refresh();
+                  }
                 }
               })
             }

@@ -316,6 +316,9 @@ export async function seguirComoCliente(id: string): Promise<EstadoAccion> {
         .from("clientes")
         .update({ activo: true })
         .eq("id", d.id)
+        // Solo renueva la fecha de uno que sigue activo: si otra persona lo
+        // acaba de desactivar, no lo devuelve al reparto a escondidas.
+        .eq("activo", true)
         .is("deleted_at", null)
         .select("id")
         .single();

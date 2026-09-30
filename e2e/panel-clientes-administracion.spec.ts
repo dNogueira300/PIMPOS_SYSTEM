@@ -111,3 +111,103 @@ test("un cliente de hace dos años sale en el inicio y en «Para revisar»; «Si
     await borrarUsuario(usuario.id);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Revisión de la rama (T5 + T6)
+// ---------------------------------------------------------------------------
+
+const POLITICA_BORRAR_FOTOS = `
+  create policy "encargados borran fotos de clientes"
+    on storage.objects for delete to authenticated
+    using (
+      bucket_id = 'clientes'
+      and (select app.es_rol('superadmin', 'administrador', 'ingeniero'))
+      and app.carpeta_es_cliente_visible(name)
+    );`;
+
+/** La vista mira la ficha, sus fotos y su permiso: se envejecen los tres. */
+function envejecer(id: string) {
+  sqlLocal(`
+    alter table public.clientes disable trigger clientes_set_updated_at;
+    update public.clientes set updated_at = now() - interval '2 years 1 day' where id = '${id}';
+    alter table public.clientes enable trigger clientes_set_updated_at;
+    update public.consentimientos set created_at = now() - interval '3 years' where cliente_id = '${id}';
+    alter table public.cliente_fotos disable trigger cliente_fotos_set_updated_at;
+    update public.cliente_fotos set updated_at = now() - interval '3 years' where cliente_id = '${id}';
+    alter table public.cliente_fotos enable trigger cliente_fotos_set_updated_at;`);
+}
+
+test("si Storage no deja borrar las fotos, lleva a la ficha y ahí se reintenta (Review Focus)", async ({
+  page,
+}) => {
+  const nombre = `Fotos Rebeldes ${Date.now()}`;
+  const id = await crearClienteDePrueba({ nombre });
+  const api = await sesionDeApi("administrador");
+  await api.storage
+    .from("clientes")
+    .upload(`${id}/fachada.webp`, new Blob([new Uint8Array(64)], { type: "image/webp" }));
+  await api.from("cliente_fotos").insert({ cliente_id: id, ruta: `${id}/fachada.webp`, orden: 1 });
+  envejecer(id);
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    // Storage falla después de que la base ya borró: sin política de borrado,
+    // `remove()` no borra nada (y tampoco da error).
+    sqlLocal(`drop policy "encargados borran fotos de clientes" on storage.objects;`);
+    await page.goto("/admin/clientes/revisar");
+    await page.getByRole("button", { name: `Borrar sus datos: ${nombre}` }).click();
+    await page.getByLabel(/¿Por qué\?/).fill("Lo pidió en el local");
+    await page.getByRole("button", { name: "Sí, borrar sus datos" }).click();
+
+    // No se queda en una lista de la que el cliente ya salió: va a su ficha.
+    await page.waitForURL(`/admin/clientes/${id}`);
+    const reintentar = page.getByRole("button", { name: "Borrar las fotos que quedaron" });
+    await expect(reintentar).toBeVisible();
+
+    sqlLocal(POLITICA_BORRAR_FOTOS);
+    await reintentar.click();
+    await expect(reintentar).toHaveCount(0);
+    const { data: archivos } = await api.storage.from("clientes").list(id);
+    expect(archivos ?? []).toHaveLength(0);
+  } finally {
+    sqlLocal(`do $$ begin
+      if not exists (select 1 from pg_policies where schemaname = 'storage'
+                     and policyname = 'encargados borran fotos de clientes') then
+        execute $p$${POLITICA_BORRAR_FOTOS}$p$;
+      end if; end $$;`);
+    await borrarClienteDePrueba(id);
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("«Sigue siendo cliente» no reactiva a quien otro acaba de desactivar", async ({ page }) => {
+  const nombre = `Recien Desactivado ${Date.now()}`;
+  const id = await crearClienteDePrueba({ nombre });
+  envejecer(id);
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto("/admin/clientes/revisar");
+    await expect(
+      page.getByRole("button", { name: `${nombre} sigue siendo cliente` }),
+    ).toBeVisible();
+    // Mientras tanto, otra persona lo desactiva desde su ficha.
+    await (
+      await sesionDeApi("administrador")
+    )
+      .from("clientes")
+      .update({ activo: false })
+      .eq("id", id);
+    await page.getByRole("button", { name: `${nombre} sigue siendo cliente` }).click();
+    await expect(page.locator("[data-sonner-toast]").first()).toBeVisible();
+    const { data } = await (
+      await sesionDeApi("administrador")
+    )
+      .from("clientes")
+      .select("activo")
+      .eq("id", id)
+      .single();
+    expect(data?.activo).toBe(false);
+  } finally {
+    await borrarClienteDePrueba(id);
+    await borrarUsuario(usuario.id);
+  }
+});

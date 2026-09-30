@@ -6,6 +6,8 @@ import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { generarSlug } from "@/lib/utilidades/slug";
 
+import { NOMBRE_BORRADO } from "./borrado";
+import { leerTodas } from "./paginas";
 import { clientesATabla } from "./tabla";
 
 const TIPO = {
@@ -31,32 +33,31 @@ export async function descargarClientes(
   const desactivados = parametros.get("estado") === "desactivados";
 
   const supabase = await crearClienteServidor();
-  const [{ data: zona }, { data: borrados, error: errorBorrados }] = await Promise.all([
-    zonaId
-      ? supabase.from("zonas_reparto").select("nombre").eq("id", zonaId).maybeSingle()
-      : Promise.resolve({ data: null }),
-    supabase.from("supresiones").select("cliente_id"),
-  ]);
-  if (errorBorrados)
-    return new Response("No se pudo preparar la lista. Inténtalo otra vez.", { status: 500 });
+  const { data: zona } = zonaId
+    ? await supabase.from("zonas_reparto").select("nombre").eq("id", zonaId).maybeSingle()
+    : { data: null };
 
-  let consulta = supabase
-    .from("clientes")
-    .select(
-      "id, nombre_completo, celular, direccion, referencia, latitud, activo, zonas_reparto(nombre)",
-    )
-    .is("deleted_at", null)
-    .eq("activo", !desactivados)
-    .order("nombre_completo");
-  if (zonaId) consulta = consulta.eq("zona_id", zonaId);
-  const { data, error } = await consulta;
-  if (error)
+  // Por páginas: PostgREST no devuelve más de 1000 filas por petición, y «Todas
+  // las zonas» se cortaba ahí sin avisar (revisión de T6).
+  const { data, error } = await leerTodas((desde, hasta) => {
+    let consulta = supabase
+      .from("clientes")
+      .select(
+        "id, nombre_completo, celular, direccion, referencia, latitud, activo, zonas_reparto(nombre)",
+      )
+      .is("deleted_at", null)
+      .eq("activo", !desactivados)
+      .order("nombre_completo")
+      .order("id");
+    if (zonaId) consulta = consulta.eq("zona_id", zonaId);
+    return consulta.range(desde, hasta);
+  });
+  if (error || !data)
     return new Response("No se pudo preparar la lista. Inténtalo otra vez.", { status: 500 });
 
   // Los de datos borrados a pedido no salen nunca: ya no son de nadie.
-  const fuera = new Set((borrados ?? []).map((b) => b.cliente_id));
   const filas = data
-    .filter((c) => !fuera.has(c.id))
+    .filter((c) => c.nombre_completo !== NOMBRE_BORRADO)
     .map((c) => ({
       nombre_completo: c.nombre_completo,
       celular: c.celular,
