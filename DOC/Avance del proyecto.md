@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 24/09/2026
+**Corte:** 30/09/2026
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -12,17 +12,17 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                                                               |
-| -------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                                                  |
-| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                                                  |
-| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                                                  |
-| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                           |
-| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                         |
-| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96 |
-| **F5**   | Panel: insumos           | 🟡 **En curso.** Tareas 1–6 de 9 fusionadas y aplicadas en producción (27/09/2026): kárdex por lotes, catálogo y existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes. Faltan exportar, correo y cierre                                            |
-| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                                                   |
-| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                   |
+| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                                                                                                                         |
+| -------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                                                                                                            |
+| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                                                                                                            |
+| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                                                                                                            |
+| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                                                                                     |
+| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                                                                                   |
+| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96                                                           |
+| **F5**   | Panel: insumos           | ✅ **Cerrada el 30/09/2026** en lo técnico (PR #66 a #75). Kárdex por lotes, existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes con Excel y PDF, avisos por correo (apagados hasta tener dominio). Falta del negocio: el inventario inicial. Rendimiento contra `a5e6a4b`: `/` 86.5 frente a 85 (p = 0.79) |
+| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                                                                                                             |
+| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                                                                             |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -121,21 +121,23 @@ panel, que el horario salga con el domingo cerrado.
 
 ### Base de datos
 
-**27 tablas, todas con seguridad a nivel de fila activada.** Ninguna sin proteger. Y **11 vistas,
-todas con `security_invoker`**, que es lo que impide que una vista salte esa seguridad.
+**30 tablas, todas con seguridad a nivel de fila activada.** Ninguna sin proteger. Y **12 vistas,
+todas con `security_invoker`**, que es lo que impide que una vista salte esa seguridad. 86 políticas
+(70 en `public`, 16 en `storage`), 86 triggers, 2 tareas programadas y 41 migraciones (30/09/2026).
 
-| Bloque           | Qué contiene                                                                      |
-| ---------------- | --------------------------------------------------------------------------------- |
-| Roles y perfiles | Los 4 roles y el perfil de cada usuario                                           |
-| Auditoría        | Quién cambió qué y cuándo. No se puede editar ni borrar                           |
-| Configuración    | Logo, favicon, coordenadas, horarios, contacto y textos, todo administrable       |
-| Catálogo         | Categorías, productos, variantes, imágenes e historial de precios                 |
-| Contenido        | Novedades, carrusel, guías, galería, preguntas frecuentes y testimonios           |
-| Insumos          | Unidades, equivalencias por insumo, proveedores, almacenes e insumos              |
-| Kárdex           | Lotes, movimientos y saldos. El saldo lo mantiene la base, nunca se edita a mano  |
-| Clientes         | Zonas de reparto, clientes, fotos de fachada y **consentimiento** (Ley N.° 29733) |
-| Alertas          | Notificaciones de stock bajo y de vencimiento, generadas por tarea programada     |
-| Vistas públicas  | Una por página del sitio, con las columnas listas y sin metadatos internos        |
+| Bloque           | Qué contiene                                                                                                                                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Roles y perfiles | Los 4 roles y el perfil de cada usuario                                                                                                                                                                |
+| Auditoría        | Quién cambió qué y cuándo. No se puede editar ni borrar                                                                                                                                                |
+| Configuración    | Logo, favicon, coordenadas, horarios, contacto y textos, todo administrable                                                                                                                            |
+| Catálogo         | Categorías, productos, variantes, imágenes e historial de precios                                                                                                                                      |
+| Contenido        | Novedades, carrusel, guías, galería, preguntas frecuentes y testimonios                                                                                                                                |
+| Insumos          | Unidades, equivalencias por insumo, proveedores, almacenes e insumos                                                                                                                                   |
+| Kárdex           | Lotes, movimientos y saldos por insumo y por lote. Cada salida se reparte entre lotes (primero el que vence antes) y el saldo **no puede** quedar negativo. Lo mantiene la base, nunca se edita a mano |
+| Bajas            | Solicitudes de baja: las pide el ingeniero y solo descuentan cuando la administración las aprueba                                                                                                      |
+| Clientes         | Zonas de reparto, clientes, fotos de fachada y **consentimiento** (Ley N.° 29733)                                                                                                                      |
+| Alertas          | Avisos de stock bajo, vencimiento, bajas y promociones por aprobar; recuerdan cuáles salieron ya por correo                                                                                            |
+| Vistas públicas  | Una por página del sitio, con las columnas listas y sin metadatos internos                                                                                                                             |
 
 ### Contenido cargado
 
@@ -656,7 +658,7 @@ maquetas de `DOC/Maquetas/4/`); y enseñarle el panel al propietario con las cue
 bloquea el trabajo técnico. Detalle completo, incluida la sección «Lo que resultó distinto» del
 plan, en `DOC/Plan de Desarrollo 04 - Panel de contenido.md`.
 
-### Fase 5 — en curso: el panel de insumos (27/09/2026)
+### Fase 5 — cerrada el 30/09/2026: el panel de insumos
 
 **El plan.** `DOC/Plan de Desarrollo 05 - Insumos.md`, con las 10 decisiones de Dan del 25/09/2026:
 bajas con solicitud y aprobación; ajuste por conteo y anulación (nunca se borra un movimiento);
@@ -664,27 +666,64 @@ lotes automáticos que salen por vencimiento (FEFO); **el saldo nunca es negativ
 Excel y PDF; correo con Resend apagado hasta que haya dominio; un solo almacén; ingresos y consumos
 de varias líneas con aviso de documento repetido; recetas fuera de F5.
 
-**Qué hay hecho (tareas 1–6, PR #66 a #71).** La base reparte cada movimiento entre lotes y rechaza
-el consumo que no alcanza con una frase que dice cuánto hay. En el panel, sección Insumos:
-Existencias (cuánto hay, en su unidad y en su presentación, con «Bajo el mínimo» y «Por vencer»),
-insumos con sus unidades de compra, proveedores, registrar ingreso (una boleta de varias líneas) y
-consumo del día, la ficha de cada insumo con sus lotes y su kárdex, anular y conteo físico (solo la
-administración; el conteo carga también el inventario inicial), bajas que pide el ingeniero y
-aprueba o rechaza la administración, avisos en el inicio, y los cinco reportes de la ficha 7.8 con
-gráfico y tabla. Migraciones 0033 a 0039, todas en producción.
+**Qué hay hecho, tarea a tarea.**
+
+| Tarea | PR  | Qué deja                                                                                                                        |
+| ----- | --- | ------------------------------------------------------------------------------------------------------------------------------- |
+| T1    | #66 | Kárdex por lotes: reparto FEFO, saldo nunca negativo, ajuste y anulación solo administración (0033, 0034)                       |
+| T2    | #67 | Catálogo de insumos con sus unidades de compra, proveedores y Existencias (0035)                                                |
+| T3    | #68 | Ingresos y consumos de varias líneas en una transacción, aviso de documento repetido (0036)                                     |
+| T4    | #69 | Ficha del insumo con lotes y kárdex, anular, conteo físico — también el inventario inicial (0037)                               |
+| T5    | #70 | Bajas que pide el ingeniero y aprueba o rechaza la administración, con aviso en el inicio (0038)                                |
+| T6    | #71 | Los cinco reportes con gráfico y tabla, con el costo real de cada lote (0039)                                                   |
+| T7    | #73 | Descargar cada reporte en Excel (números que suman) y PDF, con la misma marca «\*» que la pantalla                              |
+| T8    | #74 | Resumen diario y avisos al momento por correo con Resend, apagados sin llaves (0040)                                            |
+| —     | #75 | Pedido de Dan al probarlo: lápiz de editar en cada lista, búsqueda al escribir, sesión de 2 horas                               |
+| T9    | —   | Este cierre: verificación completa, rendimiento, `docs/insumos.md`, la documentación y los arreglos de la revisión final (0041) |
+
+Desde la T7 las tareas las implementó la sesión principal y un subagente hizo solo la revisión
+final (antes, un implementador y un revisor por tarea). Cada revisión encontró algo Importante que
+se arregló con una prueba vista fallar antes del PR.
 
 **Lo que salió en el camino.** La 0035 llegó a medias a producción porque el `db push` se hizo
 mientras un agente tenía el archivo sin terminar en la misma carpeta; la 0036 la repara al empezar,
-comprobado en producción. Desde entonces se trabaja así: PR de la tarea, se para, Dan aplica la
-migración con la carpeta quieta y fusiona, y solo entonces empieza la siguiente. Los reportes marcan
-con «*» lo que no tiene costo registrado en vez de contarlo como S/ 0. Todo lo que cambió respecto
-del texto del plan está en su sección «Lo que resultó distinto».
+comprobado en producción. Desde entonces: PR de la tarea, se para, Dan aplica la migración con la
+carpeta quieta y fusiona, y solo entonces empieza la siguiente. Los reportes marcan con «\*» lo que
+no tiene costo registrado en vez de contarlo como S/ 0. El resumen por correo llega entre las 07:00
+y las 07:59 y no a las 06:15, porque el plan gratuito de Vercel no garantiza el minuto del cron. El
+PR #75 nació de probar el panel como superadmin: editar existía, pero no se veía. Todo lo que cambió
+respecto del texto del plan está en su sección «Lo que resultó distinto».
 
-**Cifras (27/09/2026).** 616 pruebas pgTAP, 351 de Vitest, 490 flujos E2E listados; 30 tablas con
-RLS, 12 vistas, 39 migraciones.
+**Cifras (30/09/2026, sobre `main` @ `e83d35c`).** 622 pruebas pgTAP (36 archivos), 387 de Vitest
+(49), y la **suite E2E completa**: 540 pruebas en 39 archivos, 478 pasan y 62 se saltan a propósito
+(por tamaño de pantalla o por no tener fotos en el entorno), 0 fallos. En esta máquina no cabe de
+una vez: se corrió por tandas contra un mismo build. Los tres guiones de verificación, en verde. Tras
+los arreglos del cierre: 630 pgTAP (37), 389 de Vitest y 548 E2E listadas; se volvieron a correr las
+de insumos y la accesibilidad del panel, en verde.
 
-**Lo que falta.** T7 (exportar los reportes a Excel y PDF), T8 (avisos por correo) y T9 (cierre:
-revisión final de la fase, rendimiento del sitio público y el procedimiento del inventario inicial).
+**Rendimiento (30/09/2026, misma sesión).** Contra `a5e6a4b` (F4 cerrada), builds guardadas y
+medidas intercaladas: `/` mediana **86.5 frente a 85** con 20 pasadas cada una (media 84.6 frente a
+83.8, permutación p = 0.79: sin diferencia), `/productos` 90 frente a 88 y `/contacto` 95 frente a
+95 (5 pasadas). Accesibilidad 100 / 100 / 97 y SEO 100 en las tres. El CSS global pasó de 16 923 a
+16 978 B comprimido: F5 no toca el sitio público. Las cifras absolutas son más bajas que las de F4
+porque esta sesión iba más lenta; por eso se compara siempre en la misma sesión.
+
+**La revisión final de la fase** no encontró nada crítico: la seguridad de las funciones nuevas, la
+RLS y el aislamiento del sitio público están bien. Encontró dos defectos que se ven y se arreglaron
+en el cierre (migración 0041): el kárdex podía enseñar «Queda −15 kg» cuando alguien escribía la
+hora real de un consumo registrado después del ingreso que lo cubría —por decisión de Dan, el
+kárdex sale ahora en el orden en que se registró cada cosa, con la hora escrita al lado—; y las
+cantidades se redondeaban a 2 decimales, lo que dejaba a la persona en un bucle («Solo hay 9.99 kg»
+cuando había 9.985) con los insumos que se usan en gramos. De paso, y por decisión de Dan, **una
+baja puede decir de qué lote sale** (su decisión 3 de F5, que la pantalla no pedía), la etiqueta
+del precio del conteo nombra el insumo, los lotes de la ficha salen en el orden en que se usan y el
+kárdex sin insumo pide elegirlo. Los menores que quedan están al final del plan de F5.
+
+**Comprobado por Dan (30/09/2026):** el Excel y el PDF de existencias se descargan bien desde
+Vercel, así que las fuentes del PDF llegan a la función.
+
+**Lo que falta.** Del negocio, el inventario inicial (procedimiento en `docs/insumos.md`). De Dan,
+poner `CRON_SECRET` en Vercel (Production). Cuando haya dominio, encender el correo.
 
 ### Pendiente del negocio
 
@@ -696,7 +735,8 @@ revisión final de la fase, rendimiento del sitio público y el procedimiento de
 | **Redes sociales**     | Facebook e Instagram están vacíos en la configuración. El pie solo los muestra si se cargan: un icono que no lleva a ningún sitio es peor que no tenerlo. **Ya se cargan desde `/admin/configuracion`**, pestaña Redes; falta que el negocio los dé |
 | **Fotos**              | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px. **Ya se suben desde el panel**, con la cámara del celular                       |
 | **Fotos sin asignar**  | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; **se asignan desde `/admin/contenido/productos`**, disponible desde F4                                       |
-| **Inventario inicial** | Contar el almacén y cargarlo desde **Insumos → Conteo** (administración) antes de registrar compras y consumos reales. Sin eso, Existencias está en cero. La T9 deja el paso a paso en `docs/insumos.md`                                            |
+| **Inventario inicial** | Contar el almacén y cargarlo desde **Insumos → Conteo** (administración) antes de registrar compras y consumos reales. Sin eso, Existencias está en cero. Paso a paso en **`docs/insumos.md`**                                                      |
+| **Correo**             | Apagado a propósito hasta tener dominio. **Falta poner `CRON_SECRET`** en Vercel (Production); `RESEND_API_KEY`, `CORREO_ALERTAS` y `CORREO_REMITENTE` se ponen el día que haya dominio verificado en Resend (`docs/insumos.md`)                    |
 | **Google Business**    | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                                           |
 
 ### Datos por confirmar
@@ -730,19 +770,20 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 
 ## 6. Riesgos vivos
 
-| Riesgo                                     | Estado                                                                                                                                                                                             |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| El cronograma no tiene holgura             | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                 |
-| Supabase se pausa por inactividad          | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                  |
-| Falta de contenido real (fotos, precios)   | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                             |
-| Sin copias automáticas en el plan gratuito | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                     |
-| El respaldo lleva datos personales         | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                          |
-| Vercel Hobby prohíbe uso comercial         | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                   |
-| Usuarios de nivel básico no usan el panel  | 🟡 Panel construido con lenguaje sin jerga, copia local automática y confirmación antes de borrar (F4). Falta la capacitación real con Marcos y Debra, con las cuentas creadas en producción       |
-| Un solo desarrollador y mantenedor         | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                      |
-| El CI no comprueba que las fotos se vean   | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. La decisión de cubrirlo se aplazó durante toda F4; sigue pendiente                                                               |
-| Conectividad móvil de Iquitos              | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                               |
-| Lighthouse: rendimiento por debajo de 90   | 🟢 El umbral pasó a relativo desde F4 (no más de 3 puntos por debajo de `main`, misma sesión). F4 completa contra `ae96d1b` (25/09): `/` 91 frente a 91 con 37 pasadas intercaladas, sin regresión |
+| Riesgo                                                         | Estado                                                                                                                                                                                                                                                       |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| El cronograma no tiene holgura                                 | 🟢 Aliviado: F0, F1 y F2 cerradas antes de tiempo, y F3 adelantada                                                                                                                                                                                           |
+| Supabase se pausa por inactividad                              | 🟢 Controlado: keep-alive cada 3 días, verificado                                                                                                                                                                                                            |
+| Falta de contenido real (fotos, precios)                       | 🟡 Precios resueltos; las fotos siguen siendo el hueco                                                                                                                                                                                                       |
+| Sin copias automáticas en el plan gratuito                     | 🟢 Controlado: respaldo semanal y **restauración ensayada de principio a fin**                                                                                                                                                                               |
+| El respaldo lleva datos personales                             | 🟡 Lo puede descargar cualquiera con lectura del repositorio. Confirmar quién antes de F6                                                                                                                                                                    |
+| Vercel Hobby prohíbe uso comercial                             | 🟡 Sin decidir. Antes de octubre                                                                                                                                                                                                                             |
+| Usuarios de nivel básico no usan el panel                      | 🟡 Panel construido con lenguaje sin jerga, copia local automática y confirmación antes de borrar (F4). Falta la capacitación real con Marcos y Debra, con las cuentas creadas en producción                                                                 |
+| Un solo desarrollador y mantenedor                             | 🟢 Todo versionado, documentado y con pruebas                                                                                                                                                                                                                |
+| El CI no comprueba que las fotos se vean                       | 🟡 Declarado, no cubierto: las imágenes no van en el repositorio. La decisión de cubrirlo se aplazó durante toda F4; sigue pendiente                                                                                                                         |
+| Conectividad móvil de Iquitos                                  | 🟢 Medido, no supuesto: la portada añade 0 KB sobre el suelo del framework y el mapa se carga aparte                                                                                                                                                         |
+| Lighthouse: rendimiento por debajo de 90                       | 🟢 El umbral es relativo desde F4 (no más de 3 puntos por debajo, misma sesión). F5 contra `a5e6a4b` (30/09): `/` 86.5 frente a 85 con 20 pasadas intercaladas, p = 0.79, sin regresión                                                                      |
+| La marca de inactividad la puede alargar quien tenga la sesión | 🟡 Anotado para más adelante (Dan, 30/09/2026). La cookie `pimpos_actividad` no es `httpOnly`: protege de la pantalla desatendida, no de alguien que la reescriba con las herramientas del navegador. Cerrarlo exige renovar la marca solo desde el servidor |
 
 ---
 
@@ -756,6 +797,7 @@ Ninguno bloquea: todos son administrables y se corrigen desde el panel en la Fas
 | `Plan de Desarrollo 03 - Frontend`                | Diseño, sitio público y panel                                          |
 | `Plan de Desarrollo 03.1 - Rediseño visual`       | Fase 3.1, cerrada, con lo que resultó distinto                         |
 | `Plan de Desarrollo 04 - Panel de contenido`      | Fase 4, cerrada, tarea a tarea, con «Lo que resultó distinto» al final |
+| `Plan de Desarrollo 05 - Insumos`                 | Fase 5, cerrada, tarea a tarea, con «Lo que resultó distinto» al final |
 | `Stack Tecnologico - PIMPOS`                      | Versiones y por qué cada una                                           |
 | `Maquetas/`                                       | Las opciones de tipografía y las capturas                              |
 | **Este documento**                                | Resumen de avance. Se actualiza al cerrar cada fase                    |
@@ -764,6 +806,7 @@ Dentro del repositorio:
 
 - `README.md` — cómo levantar, probar, desplegar y restaurar
 - `docs/marca.md` — voz, tono y uso de marca
+- `docs/insumos.md` — cómo se usan los insumos, el inventario inicial y cómo encender el correo
 - `src/lib/datos/` — las lecturas del sitio público, con sus etiquetas de refresco
 - `docs/respaldo-y-restauracion.md` — qué lleva un respaldo, qué no, y cómo se restaura
 - `src/estilos/globals.css` — los tokens de diseño

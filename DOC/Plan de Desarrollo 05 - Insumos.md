@@ -8119,7 +8119,7 @@ números de verdad (se pueden sumar en la hoja) y el PDF usa la tipografía del 
 
 ### Paso 1 — Dependencias
 
-- [ ] `npm view exceljs peerDependencies` y `npm view @react-pdf/renderer peerDependencies`: el
+- [x] `npm view exceljs peerDependencies` y `npm view @react-pdf/renderer peerDependencies`: el
       segundo tiene que admitir `react@^19`. Después: `pnpm add exceljs @react-pdf/renderer`.
 
 > `@react-pdf/renderer` ya está en la lista de paquetes que Next deja fuera del bundle del servidor
@@ -8129,7 +8129,7 @@ números de verdad (se pueden sumar en la hoja) y el PDF usa la tipografía del 
 
 ### Paso 2 — Nombre del archivo y Excel, primero la prueba
 
-- [ ] Crear `src/lib/insumos/nombre-archivo.test.ts`:
+- [x] Crear `src/lib/insumos/nombre-archivo.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8149,7 +8149,7 @@ describe("nombreDeArchivo", () => {
 });
 ```
 
-- [ ] Crear `src/lib/insumos/exportar-excel.test.ts`:
+- [x] Crear `src/lib/insumos/exportar-excel.test.ts`:
 
 ```ts
 import ExcelJS from "exceljs";
@@ -8196,9 +8196,9 @@ describe("reporteAExcel", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/nombre-archivo.test.ts src/lib/insumos/exportar-excel.test.ts` → FALLAN.
+- [x] `pnpm test -- src/lib/insumos/nombre-archivo.test.ts src/lib/insumos/exportar-excel.test.ts` → FALLAN.
 
-- [ ] Crear `src/lib/insumos/nombre-archivo.ts`:
+- [x] Crear `src/lib/insumos/nombre-archivo.ts`:
 
 ```ts
 import type { Periodo } from "./periodo";
@@ -8213,7 +8213,7 @@ export function nombreDeArchivo(
 }
 ```
 
-- [ ] Crear `src/lib/insumos/exportar-excel.ts`:
+- [x] Crear `src/lib/insumos/exportar-excel.ts`:
 
 ```ts
 import ExcelJS from "exceljs";
@@ -8273,11 +8273,11 @@ export async function reporteAExcel(reporte: Reporte): Promise<Buffer> {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/insumos/nombre-archivo.test.ts src/lib/insumos/exportar-excel.test.ts` → PASAN.
+- [x] `pnpm test -- src/lib/insumos/nombre-archivo.test.ts src/lib/insumos/exportar-excel.test.ts` → PASAN.
 
 ### Paso 3 — PDF
 
-- [ ] Crear `src/lib/insumos/exportar-pdf.test.ts`:
+- [x] Crear `src/lib/insumos/exportar-pdf.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8312,9 +8312,9 @@ describe("reporteAPdf", () => {
 > fuentes cargan (si una ruta de fuente está mal, `renderToBuffer` lanza); el contenido se revisa
 > abriéndolo en el paso 6, y el E2E comprueba la descarga.
 
-- [ ] `pnpm test -- src/lib/insumos/exportar-pdf.test.ts` → FALLA.
+- [x] `pnpm test -- src/lib/insumos/exportar-pdf.test.ts` → FALLA.
 
-- [ ] Crear `src/lib/insumos/exportar-pdf.tsx`:
+- [x] Crear `src/lib/insumos/exportar-pdf.tsx`:
 
 ```tsx
 import { join } from "node:path";
@@ -8395,9 +8395,9 @@ export async function reporteAPdf(reporte: Reporte): Promise<Buffer> {
 > transforme; Vite lo hace por defecto con esbuild. Si el entorno de Vitest no es `node`, añadir
 > `// @vitest-environment node` al principio de la prueba.
 
-- [ ] `pnpm test -- src/lib/insumos/exportar-pdf.test.ts` → PASA.
+- [x] `pnpm test -- src/lib/insumos/exportar-pdf.test.ts` → PASA.
 
-- [ ] En `next.config.ts`, para que las TTF viajen con la función en Vercel (se leen en tiempo de
+- [x] En `next.config.ts`, para que las TTF viajen con la función en Vercel (se leen en tiempo de
       ejecución, no en el build como la imagen para compartir):
 
 ```ts
@@ -8408,7 +8408,7 @@ export async function reporteAPdf(reporte: Reporte): Promise<Buffer> {
 
 ### Paso 4 — Las rutas de descarga
 
-- [ ] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/excel/route.ts`:
+- [x] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/excel/route.ts`:
 
 ```ts
 import { exigirAcceso } from "@/lib/auth/sesion";
@@ -8441,7 +8441,7 @@ export async function GET(
 }
 ```
 
-- [ ] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/pdf/route.ts`: el mismo archivo con
+- [x] Crear `src/app/(admin)/admin/insumos/reportes/[reporte]/pdf/route.ts`: el mismo archivo con
       `reporteAPdf`, `"Content-Type": "application/pdf"`, extensión `"pdf"` y
       `RouteContext<"/admin/insumos/reportes/[reporte]/pdf">`:
 
@@ -8478,7 +8478,7 @@ export async function GET(
 > `exigirAcceso` redirige con `redirect()`, que en un route handler funciona igual que en una
 > página. `RouteContext` lo genera `next typegen` (lo encadena `pnpm typecheck`), sin importarlo.
 
-- [ ] En `reportes/[reporte]/page.tsx`, antes de `<TablaReporte>`, los dos botones (con el mismo
+- [x] En `reportes/[reporte]/page.tsx`, antes de `<TablaReporte>`, los dos botones (con el mismo
       periodo e insumo de la pantalla):
 
 ```tsx
@@ -8502,7 +8502,7 @@ export async function GET(
 
 ### Paso 5 — Prueba de navegador
 
-- [ ] Crear `e2e/panel-exportar.spec.ts`:
+- [x] Crear `e2e/panel-exportar.spec.ts`:
 
 ```ts
 import ExcelJS from "exceljs";
@@ -8561,18 +8561,18 @@ test("sin sesión, la descarga manda a ingresar", async ({ page }) => {
 });
 ```
 
-- [ ] `pnpm build` y `pnpm exec playwright test e2e/panel-exportar.spec.ts` → verde.
+- [x] `pnpm build` y `pnpm exec playwright test e2e/panel-exportar.spec.ts` → verde.
 
 ### Paso 6 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] **Abrir** en la vista previa de Vercel un Excel y un PDF de cada reporte: en el PDF, las
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] **Abrir** en la vista previa de Vercel un Excel y un PDF de cada reporte: en el PDF, las
       tildes y la «ñ» se ven (la TTF recortada a latín las incluye) y la tabla no se sale de la
       página; en el Excel, la columna de soles suma con una fórmula escrita a mano. En Vercel, el
       PDF comprueba además que `outputFileTracingIncludes` funcionó (sin él, falla con `ENOENT`).
-- [ ] Comprobar que `exceljs` y `@react-pdf/renderer` no llegan al navegador:
+- [x] Comprobar que `exceljs` y `@react-pdf/renderer` no llegan al navegador:
       `grep -l "exceljs\|react-pdf" .next/static/chunks/*.js` no devuelve nada.
-- [ ] Commit y PR (sin migración):
+- [x] Commit y PR (sin migración):
 
 ```bash
 git add src/lib/insumos "src/app/(admin)/admin/insumos/reportes" next.config.ts package.json \
@@ -8618,7 +8618,7 @@ se cierra la decisión 5 de F4.
 
 ### Paso 1 — La base: recordar qué se envió
 
-- [ ] Crear `supabase/tests/0040_avisos_por_correo.test.sql`:
+- [x] Crear `supabase/tests/0040_avisos_por_correo.test.sql`:
 
 ```sql
 -- Verifica la columna de envío por correo (0040).
@@ -8646,9 +8646,9 @@ select * from finish();
 rollback;
 ```
 
-- [ ] `supabase test db` → FALLA `0040`.
+- [x] `supabase test db` → FALLA `0040`.
 
-- [ ] Crear `supabase/migrations/0040_avisos_por_correo.sql`:
+- [x] Crear `supabase/migrations/0040_avisos_por_correo.sql`:
 
 ```sql
 -- =============================================================================
@@ -8691,12 +8691,12 @@ create trigger notificaciones_proteger_enviada_en
   for each row execute function app.proteger_enviada_en();
 ```
 
-- [ ] `supabase db reset && supabase test db` → todo en verde (también `0015`, `0028`, `0032` y
+- [x] `supabase db reset && supabase test db` → todo en verde (también `0015`, `0028`, `0032` y
       `0038`, que actualizan notificaciones). Después `subir-imagenes.sh` y `pnpm supabase:tipos`.
 
 ### Paso 2 — Configuración y resumen, lógica pura
 
-- [ ] Crear `src/lib/correo/configuracion.test.ts`:
+- [x] Crear `src/lib/correo/configuracion.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8740,7 +8740,7 @@ describe("leerConfiguracionCorreo", () => {
 });
 ```
 
-- [ ] Crear `src/lib/correo/resumen.test.ts`:
+- [x] Crear `src/lib/correo/resumen.test.ts`:
 
 ```ts
 import { describe, expect, it } from "vitest";
@@ -8774,9 +8774,9 @@ describe("armarResumen", () => {
 });
 ```
 
-- [ ] `pnpm test -- src/lib/correo/` → FALLAN.
+- [x] `pnpm test -- src/lib/correo/` → FALLAN.
 
-- [ ] Crear `src/lib/correo/configuracion.ts`:
+- [x] Crear `src/lib/correo/configuracion.ts`:
 
 ```ts
 export type ConfiguracionCorreo =
@@ -8807,7 +8807,7 @@ export function leerConfiguracionCorreo(
 }
 ```
 
-- [ ] Crear `src/lib/correo/resumen.ts`:
+- [x] Crear `src/lib/correo/resumen.ts`:
 
 ```ts
 export type AvisoCorreo = { tipo: string; titulo: string; mensaje: string };
@@ -8845,13 +8845,13 @@ export function armarResumen(avisos: AvisoCorreo[], fecha: string) {
 }
 ```
 
-- [ ] `pnpm test -- src/lib/correo/` → PASAN.
+- [x] `pnpm test -- src/lib/correo/` → PASAN.
 
 ### Paso 3 — El envío
 
-- [ ] `npm view resend peerDependencies` y `pnpm add resend`.
+- [x] `npm view resend peerDependencies` y `pnpm add resend`.
 
-- [ ] Crear `src/lib/correo/enviar.ts`:
+- [x] Crear `src/lib/correo/enviar.ts`:
 
 ```ts
 import "server-only";
@@ -8899,7 +8899,7 @@ export async function enviarCorreo(correo: {
 
 ### Paso 4 — El resumen diario
 
-- [ ] Crear `src/app/api/avisos/diario/route.ts`:
+- [x] Crear `src/app/api/avisos/diario/route.ts`:
 
 ```ts
 import { armarResumen } from "@/lib/correo/resumen";
@@ -8963,7 +8963,7 @@ export async function GET(peticion: Request) {
 > `new Date()` no rompe el build. Si `pnpm build` protesta, poner la lectura de la cabecera antes
 > que cualquier otra cosa (ya lo está) y revisar `node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/route.md`.
 
-- [ ] Crear `vercel.json`:
+- [x] Crear `vercel.json`:
 
 ```json
 {
@@ -8971,7 +8971,7 @@ export async function GET(peticion: Request) {
 }
 ```
 
-- [ ] Añadir a `.env.example`, en la sección de correo:
+- [x] Añadir a `.env.example`, en la sección de correo:
 
 ```bash
 # Apagado mientras falte alguna de las dos: sin dominio, Resend solo entrega a
@@ -8984,7 +8984,7 @@ CORREO_REMITENTE=
 CRON_SECRET=
 ```
 
-- [ ] Probar la ruta a mano contra el build local (sin llaves de Resend: tiene que responder
+- [x] Probar la ruta a mano contra el build local (sin llaves de Resend: tiene que responder
       `{"enviados":0,"motivo":"Falta RESEND_API_KEY"}` si hay avisos, y 401 sin la cabecera):
 
 ```bash
@@ -8995,7 +8995,7 @@ curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/api/avisos/diario
 
 ### Paso 5 — Avisos al momento
 
-- [ ] En `src/lib/acciones/bajas.ts`, envolver `pedirBaja` para avisar **después** de responder
+- [x] En `src/lib/acciones/bajas.ts`, envolver `pedirBaja` para avisar **después** de responder
       (`after` corre cuando la respuesta ya salió, así que un correo lento no hace esperar a nadie):
 
 ```ts
@@ -9041,7 +9041,7 @@ export async function pedirBaja(fd: FormData): Promise<EstadoAccion> {
 }
 ```
 
-- [ ] En `src/lib/acciones/novedades.ts` (importar `after`, `enviarCorreo` y `urlAbsoluta` como
+- [x] En `src/lib/acciones/novedades.ts` (importar `after`, `enviarCorreo` y `urlAbsoluta` como
       arriba), dentro de `guardarNovedad`: cambiar `return ejecutarAccion({` por
       `const resultado = await ejecutarAccion({`; declarar
       `let paraRevision = false;` antes de `ejecutarAccion`; dentro de `hacer`, justo antes de
@@ -9068,13 +9068,13 @@ return resultado;
 
 ### Paso 6 — Cerrar la tarea
 
-- [ ] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
-- [ ] Correr las E2E de bajas y novedades (`e2e/panel-bajas.spec.ts`, `e2e/panel-novedades.spec.ts`):
+- [x] `pnpm typecheck && pnpm lint && pnpm format:check && pnpm test` sin avisos.
+- [x] Correr las E2E de bajas y novedades (`e2e/panel-bajas.spec.ts`, `e2e/panel-novedades.spec.ts`):
       siguen en verde con el correo apagado, y el registro del servidor muestra `[correo] apagado`.
-- [ ] **Para Dan, en la descripción del PR:** añadir en Vercel `CRON_SECRET` (una cadena larga
+- [x] **Para Dan, en la descripción del PR:** añadir en Vercel `CRON_SECRET` (una cadena larga
       aleatoria, `openssl rand -hex 32`) en Production. `RESEND_API_KEY` y `CORREO_ALERTAS` **no** se
       ponen todavía. Aplicar 0040 con `db push` antes de fusionar.
-- [ ] Commit:
+- [x] Commit:
 
 ```bash
 git add supabase/migrations/0040_avisos_por_correo.sql supabase/tests/0040_avisos_por_correo.test.sql \
@@ -9101,14 +9101,14 @@ cargue su **inventario inicial** en producción el primer día.
 
 ### Paso 1 — Verificación completa
 
-- [ ] Base: `supabase db reset && supabase test db`. Anotar el total de pruebas pgTAP y de archivos.
-- [ ] Unitarias: `pnpm test`. Anotar el total.
-- [ ] E2E: `pnpm build` y, con el puerto 3000 libre, `pnpm test:e2e`. Si la memoria de la máquina no
+- [x] Base: `supabase db reset && supabase test db`. Anotar el total de pruebas pgTAP y de archivos.
+- [x] Unitarias: `pnpm test`. Anotar el total.
+- [x] E2E: `pnpm build` y, con el puerto 3000 libre, `pnpm test:e2e`. Si la memoria de la máquina no
       da para la suite entera (pasó en F4), correr por grupos (`e2e/panel-*.spec.ts`,
       `e2e/insumos-*.spec.ts` y el resto) y anotar que se corrió así. Anotar también
       `pnpm exec playwright test --list | tail -1`.
-- [ ] Los tres guiones: `verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`.
-- [ ] Contar lo que hay en la base para `AGENTS.md` (tablas, vistas, políticas, triggers y
+- [x] Los tres guiones: `verificar-fase0.sh`, `verificar-storage.sh`, `verificar-sitio-publico.sh`.
+- [x] Contar lo que hay en la base para `AGENTS.md` (tablas, vistas, políticas, triggers y
       migraciones), con las mismas consultas que se usaron al cerrar F4:
 
 ```sql
@@ -9126,16 +9126,16 @@ select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid
 F5 no toca las rutas públicas, pero el CSS global puede crecer con las clases del panel (pasó en F4:
 13.8 → 16.9 KB). Se mide con el método de `AGENTS.md`, contra el commit en que se cerró F4:
 
-- [ ] Construir `a5e6a4b` (F4 cerrada) y `main` en carpetas separadas, y medir **intercalando**
+- [x] Construir `a5e6a4b` (F4 cerrada) y `main` en carpetas separadas, y medir **intercalando**
       `PASADAS=5 pnpm lighthouse` de cada una, varias rondas, en la misma sesión. Anotar las
       medianas de `/`, `/productos` y `/contacto`, y el tamaño del CSS global comprimido de las dos.
-- [ ] Criterio (decisión 3 de F4, que sigue vigente): la mediana de `/` no baja más de 3 puntos. Si
+- [x] Criterio (decisión 3 de F4, que sigue vigente): la mediana de `/` no baja más de 3 puntos. Si
       baja, mirar primero el CSS global: separar las utilidades del panel en su propia hoja es el
       arreglo ya identificado.
 
 ### Paso 3 — El inventario inicial en producción
 
-- [ ] Crear `docs/insumos.md`:
+- [x] Crear `docs/insumos.md`:
 
 ```markdown
 # Insumos — cómo se usa y cómo se empieza
@@ -9192,10 +9192,10 @@ desde Usuarios; eliminarlo lo impide la base.
 
 ### Paso 4 — Documentación
 
-- [ ] `DOC/Avance del proyecto.md`: F5 ✅ con fecha, qué se construyó (tarea a tarea, con sus PR), las
+- [x] `DOC/Avance del proyecto.md`: F5 ✅ con fecha, qué se construyó (tarea a tarea, con sus PR), las
       cifras del paso 1 y del paso 2, y lo que queda del negocio (inventario inicial, llaves de
       Resend, fotos de insumos si algún día se quieren).
-- [ ] `AGENTS.md`:
+- [x] `AGENTS.md`:
   - la fila F5 de la tabla de estado;
   - «La base hoy» con las cifras nuevas;
   - la tabla de migraciones con 0033–0040, una línea cada una;
@@ -9208,21 +9208,21 @@ desde Usuarios; eliminarlo lo impide la base.
     un 23503 y no un 42501);
   - en «Despliegue», `CRON_SECRET` en la tabla de variables y las tres de Resend como «apagadas a
     propósito».
-- [ ] `DOC/Plan de Desarrollo 00`: marcar F5 como cerrada.
-- [ ] `DOC/Plan de Desarrollo 02` §9: añadir que el kárdex reparte por lotes (FEFO), que hay
+- [x] `DOC/Plan de Desarrollo 00`: marcar F5 como cerrada.
+- [x] `DOC/Plan de Desarrollo 02` §9: añadir que el kárdex reparte por lotes (FEFO), que hay
       `ajuste` y `anulacion`, y que las bajas pasan por `solicitudes_baja`, con referencia a este plan.
-- [ ] `DOC/Plan de Desarrollo 03` §5.2, §5.6 y §6: las rutas de insumos tal como quedaron, los
+- [x] `DOC/Plan de Desarrollo 03` §5.2, §5.6 y §6: las rutas de insumos tal como quedaron, los
       gráficos (dónde están: en Reportes, no en el tablero) y las pruebas nuevas.
-- [ ] Este plan: marcar las casillas y añadir al final una sección «Lo que resultó distinto» con lo
+- [x] Este plan: marcar las casillas y añadir al final una sección «Lo que resultó distinto» con lo
       que cambió al ejecutarlo, como se hizo con el plan 04.
 
 ### Paso 5 — Revisión final y PR
 
-- [ ] Revisión final de la fase entera (skill `superpowers:requesting-code-review`), contra `main`
+- [x] Revisión final de la fase entera (skill `superpowers:requesting-code-review`), contra `main`
       desde el commit de cierre de F4: seguridad de las funciones `security definer` nuevas
       (`registrar_conteo`, `aprobar_baja`, `rechazar_baja`, `app.nombre_de_persona`), que ninguna
       dependencia nueva llegue al sitio público y que ningún texto tenga jerga.
-- [ ] Commit y PR:
+- [x] Commit y PR:
 
 ```bash
 git add docs/insumos.md "DOC/Avance del proyecto.md" AGENTS.md DOC/
@@ -9233,8 +9233,9 @@ git commit -m "docs(f5): cerrar la fase de insumos"
 
 ## Lo que resultó distinto
 
-Se escribe tarea a tarea, al ejecutar. Hasta el 27/09/2026 van las tareas 1–6; cada una con su
-revisión por tarea y la corrección de lo Importante antes del PR.
+Se escribe tarea a tarea, al ejecutar. Las tareas 1–6 tuvieron un implementador y una revisión por
+tarea; desde la 7, la sesión principal implementó y un subagente hizo solo la revisión final de la
+rama. En todas, lo Importante se arregló antes del PR, con una prueba vista fallar primero.
 
 ### Estado de ejecución
 
@@ -9248,8 +9249,9 @@ revisión por tarea y la corrección de lo Importante antes del PR.
 | 5   | #70 | ✅ Fusionada                             | 0038                    |
 | 6   | #71 | ✅ Fusionada                             | 0039                    |
 | 7   | #73 | ✅ Fusionada                             | —                       |
-| 8   | —   | 🟡 PR abierto                            | 0040 (pendiente)        |
-| 9   | —   | ⬜ Cierre, con la revisión final de fase | —                       |
+| 8   | #74 | ✅ Fusionada                             | 0040                    |
+| —   | #75 | ✅ Arreglos del panel (pedido de Dan)    | —                       |
+| 9   | —   | 🟡 PR abierto: cierre y revisión de fase | —                       |
 
 **El ritmo que se acordó durante la ejecución** (Dan, 26/09/2026): al abrir el PR de una tarea se
 para. Dan hace `supabase db push` desde `PIMPOS_SYSTEM`, con la carpeta quieta, y fusiona; solo
@@ -9417,8 +9419,78 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
 - La marca por filtro no tiene prueba automática: solo corre con el correo encendido. pgTAP sí prueba
   que la `service_role` puede escribir `enviada_en`.
 
+### Arreglos del panel (PR #75, 29–30/09/2026)
+
+No estaban en el plan: salieron de que Dan probara el panel como superadmin.
+
+- **Editar no se veía.** La edición existía desde F4 (tarea 3), pero había que saber que el nombre
+  de la fila era un enlace. `ListaAdaptable` pinta un lápiz «Editar …» junto a borrar, en una
+  columna «Acción», en las 11 listas; en insumos lleva al formulario y el nombre a la ficha.
+- **La búsqueda recargaba la página.** `BuscadorEnVivo` filtra al escribir, sin recargar.
+- **La sesión no caducaba por inactividad.** Dos horas sin usar el panel la cierran (cookie
+  `pimpos_actividad`, en hora del servidor). La revisión de la primera versión encontró que un reloj
+  desfasado echaba a la persona en cada ingreso, que el cierre automático usaba una Server Action
+  que el proxy interceptaba y que una sesión sin marca se reanudaba sin contraseña; y al verificar
+  salió que Next le quita al proxy las cabeceras de las precargas, que renovaban la marca. Todo
+  arreglado con pruebas vistas fallar.
+- **Un fallo que parecía intermitente no lo era.** Con el lápiz, preguntas pasó a cuatro botones por
+  fila, y una palabra larga los sacaba de la tarjeta a 375 px; la E2E de reordenar fallaba según el
+  largo del sufijo aleatorio. Se vio corriendo la misma tanda contra `main` y leyendo la traza.
+- **Decisiones de Dan (30/09/2026):** cerrar por inactividad borra los borradores locales (se
+  mantiene la regla de F4); y la marca de actividad, que hoy puede reescribir el navegador, queda
+  **pendiente para más adelante**.
+
+### Tarea 9 — Cierre de la fase
+
+- Se ejecutó igual que la T7 y la T8. La rama es `docs/f5-cierre`.
+- **La suite E2E se corrió entera**, por primera vez desde F3: 540 pruebas en 39 archivos, 478
+  pasan y 62 se saltan a propósito, 0 fallos. No cabe de una vez en esta máquina (memoria, y el
+  límite de 10 minutos de las tareas en segundo plano, que mató el primer intento): se levantó un
+  build a mano y se corrió por tandas, con un worker en los flujos largos.
+- **Rendimiento contra `a5e6a4b`:** `/` 86.5 frente a 85 (20 pasadas intercaladas, p = 0.79),
+  `/productos` 90 frente a 88, `/contacto` 95 frente a 95; CSS global +55 B comprimido. Dentro del
+  criterio de 3 puntos. Las builds se guardaron en `.lighthouse/` y se montaron por turnos con un
+  guion; las cifras absolutas son más bajas que las de F4 porque la sesión iba más lenta.
+- `docs/insumos.md` usa los nombres reales de las pantallas («Contado de …», «Precio por kg (S/),
+  si sobra», «Pedir baja», el aviso «… baja espera tu aprobación» del inicio). Se comprobó que
+  `app.recalcular_saldos()` rehace también los lotes (la 0034 la redefinió), así que el manual puede
+  recomendarla.
+- **La revisión final de la fase** (un subagente, sobre `a5e6a4b..main`) no encontró nada crítico:
+  las funciones `security definer` nuevas fijan `search_path` y comprueban el rol al principio, la
+  RLS de las tablas nuevas es correcta y ninguna dependencia nueva llega al sitio público. Encontró
+  dos Importantes, arreglados en la **0041** con pruebas vistas fallar:
+  - **El kárdex enseñaba saldos negativos** cuando la hora escrita iba hacia atrás (un consumo con su
+    hora real, registrado después del ingreso que lo cubría). La base valida en el orden de
+    registro; el kárdex acumulaba por `ocurrido_en`. **Decisión de Dan:** el kárdex sale en el orden
+    en que se registró, con la hora escrita al lado. La prueba de 0037 que daba por bueno un saldo
+    de −1 se corrigió: codificaba el defecto.
+  - **Las cantidades se redondeaban a 2 decimales** («Solo hay 9.99 kg» con 9.985, y la misma frase
+    al pedir 9.99; «Quedan 0 kg» con 0.004). Ahora hasta 4, los que guarda la base, en
+    `app.formatear_cantidad` y en `formatearCantidad`.
+- **Por decisión de Dan**, también en el cierre: **una baja puede decir de qué lote sale** (su
+  decisión 3; la base lo admitía, la pantalla no lo pedía): «De qué lote», opcional, en los insumos
+  que vencen. Y cuatro menores: el precio del conteo nombra el insumo, los lotes de la ficha salen
+  en orden FEFO, el kárdex sin insumo dice «Elige un insumo para ver su kárdex.», y el Excel y el PDF
+  llevan `server-only`. Cada uno con su prueba, vista fallar contra el código anterior (la de los
+  lotes, además, con una mutación, porque la primera versión tenía una carrera y fallaba por otra
+  cosa).
+- Dan comprobó en Vercel que el Excel y el PDF de existencias bajan bien (casilla de la T7). Queda
+  sin marcar solo el inventario inicial con el negocio. `CRON_SECRET` sigue sin ponerse.
+
 ### Hallazgos menores aplazados a la revisión final (T9)
 
+- **Revisados en el cierre de F5 (30/09/2026).** Se arreglaron: `formatear_cantidad` a 2 decimales
+  (T1, T2), la etiqueta del precio en el conteo y el orden de los lotes de la ficha (T4), «No hay
+  datos» en el kárdex sin insumo (T6), `server-only` en Excel y PDF (T7) y la baja que nombra su lote
+  (T5, decisión 3). Lo demás sigue aplazado, por no tener efecto visible para quien usa la pantalla o
+  necesitar la API; antes de **encender el correo** hay que arreglar lo de T8 (resumen sin enlace ni
+  frase de entrada, avisos al momento sin decir qué insumo). Nuevos de la revisión: la lista de bajas
+  corta en 50 · una baja aprobada y luego anulada sigue diciendo «Aprobada», y no dice quién la
+  pidió · la frase al aprobar una baja que ya no alcanza orienta a quien consume · un choque entre
+  dos registros de varias líneas (40P01) se explica como fallo de conexión · los totales de los
+  reportes se suman en JavaScript · «Por vencer» incluye lo ya vencido · cada fila del kárdex en la
+  ficha es un enlace a la misma página · faltan pruebas negativas de `rechazar_baja` y de
+  `aprobar_baja`/`registrar_conteo` con repartidor · `app.dia_lima` debería ser `stable`.
 - T1: dos ingresos concurrentes al mismo lote ya creado se funden y el segundo pisa el costo · un lote
   creado a mano con costo arbitrario puede entrar en «último costo conocido» (también el de un
   ingreso anulado) · `formatear_cantidad` redondea a 2 decimales («Solo hay 30 kg» con 29.996) ·
@@ -9455,3 +9527,5 @@ entonces empieza la tarea siguiente. Nada de copias ni worktrees para el push. E
   dice a cualquiera qué variable falta · con `reuseExistingServer`, un `next start` viejo en el 3000
   sin el `CRON_SECRET` de prueba hace fallar `avisos-diario.spec.ts` (la trampa del puerto de
   AGENTS.md) · el índice parcial de 0040 no aporta con la tabla tan pequeña.
+- PR #75: el buscador no anuncia a los lectores de pantalla cuántos resultados hay · la marca de
+  actividad no es `httpOnly` (pendiente por decisión de Dan).

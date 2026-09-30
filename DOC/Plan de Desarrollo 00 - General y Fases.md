@@ -174,17 +174,17 @@ de contenido.md` (con su sección final «Lo que resultó distinto») y `Avance 
 
 ## 2. Fases
 
-| Fase     | Nombre                      | Entregable que la cierra                                                                                                               | Depende de |
-| -------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
-| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                                 | —          |
-| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                               | F0         |
-| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                           | F1         |
-| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                        | F2         |
-| **F3.1** | Rediseño visual             | ✅ Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1`  | F3         |
-| **F4**   | Panel: contenido (Módulo 2) | ✅ CRUD de productos, novedades, slides, guías, galería, FAQ y configuración; **usuarios** (movido dentro por decisión del 14/09/2026) | F2, F3     |
-| **F5**   | Panel: insumos (Módulo 3)   | Kárdex operativo, alertas y reportes exportables                                                                                       | F2         |
-| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                            | F2         |
-| **F7**   | Cierre                      | Capacitación, manual, informe final, traspaso de credenciales y **auditoría** (movida desde F4)                                        | F3–F6      |
+| Fase     | Nombre                      | Entregable que la cierra                                                                                                                                                     | Depende de |
+| -------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **F0**   | Preparación de servicios    | ✅ Supabase, GitHub y entorno operativos y verificados                                                                                                                       | —          |
+| **F1**   | Fundación técnica           | ✅ Proyecto Next.js corriendo, sistema de diseño aplicado, autenticación con los 4 roles                                                                                     | F0         |
+| **F2**   | Backend de datos            | ✅ Esquema completo migrado, RLS probada con pgTAP, buckets con políticas, semillas cargadas                                                                                 | F1         |
+| **F3**   | Sitio público (Módulo 1)    | ✅ Desplegado, axe en cero, accesibilidad y SEO medidos. Lo pendiente pasó a F4                                                                                              | F2         |
+| **F3.1** | Rediseño visual             | ✅ Sitio público con el aspecto del prototipo de Stitch, sin datos inventados ni regresiones medidas. Plan: `Plan de Desarrollo 03.1`                                        | F3         |
+| **F4**   | Panel: contenido (Módulo 2) | ✅ CRUD de productos, novedades, slides, guías, galería, FAQ y configuración; **usuarios** (movido dentro por decisión del 14/09/2026)                                       | F2, F3     |
+| **F5**   | Panel: insumos (Módulo 3)   | ✅ Kárdex por lotes, alertas, bajas con aprobación, reportes con Excel y PDF, avisos por correo (apagados sin dominio). Cerrada el 30/09/2026. Plan: `Plan de Desarrollo 05` | F2         |
+| **F6**   | Panel: clientes (Módulo 4)  | Fichas con fotos, zonas, mapa, consentimiento y exportación                                                                                                                  | F2         |
+| **F7**   | Cierre                      | Capacitación, manual, informe final, traspaso de credenciales y **auditoría** (movida desde F4)                                                                              | F3–F6      |
 
 ### 2.1 Por qué este orden
 
