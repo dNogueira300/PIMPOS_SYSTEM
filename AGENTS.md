@@ -711,10 +711,20 @@ mode: "serial" })` solo ordena pruebas **dentro** de un proyecto, no entre los d
   comprobación siguiente corre sobre la lista SIN filtrar y falla al instante, aunque el
   `expect` tenga 20 s. Antes de comprobar, esperar a que la lista quede filtrada (p. ej. cuántos
   lápices «Editar» hay).
-- **Una prueba que muere por tiempo con un cerrojo tomado lo deja huérfano**, y la siguiente que lo
-  pida espera los 15 s que tarda en caducar, dentro de sus propios 30 s: un fallo arrastra a los
-  demás. Si «subir una pregunta» falla por tiempo justo después de otro fallo, repetirla sola
-  antes de buscar la causa en el código.
+- **Next le quita al proxy las cabeceras del router** (`rsc`, `next-router-prefetch`,
+  `next-router-state-tree`…: `FLIGHT_HEADERS` en `server/web/adapter.js`), así que desde
+  `src/proxy.ts` una precarga de `<Link>` no se distingue de una navegación. Pasó con la marca de
+  actividad: las precargas la renovaban y una pestaña quieta no caducaba nunca. Lo que sí llega es
+  `sec-fetch-dest`, que pone el navegador: `document` solo en una carga de página entera.
+- **Un botón más por fila puede sacar los demás de la tarjeta a 375 px.** Con el lápiz, preguntas
+  pasó a cuatro botones (188 px) y, con una palabra larga sin cortes en el texto, el enlace no
+  encogía por debajo de ella (`min-width: auto` de un hijo flex): los botones acababan en x = 544,
+  tapados por la tarjeta de al lado. La E2E de reordenar falló dos de cada tres veces «al azar»
+  —dependía del largo del sufijo aleatorio— y pasaba en `main`; se llegó a atribuir a un cerrojo
+  huérfano. Lo que lo destapó fue correr la misma tanda contra `main` y leer la traza del clic
+  («… intercepts pointer events»). El texto de una fila lleva `min-w-0` y `wrap-anywhere`, y los
+  botones `shrink-0`. **Un fallo que solo sale a veces no es intermitente hasta que `main` pasa la
+  misma tanda y la traza dice otra cosa.**
 - **Las columnas de una vista salen nullables en los tipos generados**, aunque en la tabla sean
   `not null` (`existencias_insumo`). Se normalizan al leer (`?? ""`, `?? false`), nunca con `!`.
 
@@ -767,12 +777,16 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
     son `BuscadorEnVivo`: cambian la dirección con `router.replace` dentro de una transición, tras
     una pausa de 250 ms, sin recargar la página; la base sigue filtrando.
   - **Dos horas sin usar el panel cierran la sesión.** Supabase solo lo ofrece en el plan de pago,
-    así que lo lleva la aplicación con la cookie `pimpos_actividad` (`src/lib/auth/inactividad.ts`):
-    la renuevan el proxy (en cada petición del panel y del ingreso, nunca en el sitio público, para
-    no estorbar a la caché) y el navegador al tocar o escribir (`VigiaInactividad`, como mucho una
-    vez por minuto). El proxy cierra la sesión y lleva a `/ingresar?motivo=inactividad` si la marca
-    tiene más de dos horas; el navegador, con la pestaña quieta, llama a `cerrarSesionPorInactividad`.
-    Entrar la reinicia y salir la borra: una marca vieja no echa a nadie al volver a entrar.
+    así que lo lleva la aplicación con la cookie `pimpos_actividad` (`src/lib/auth/inactividad.ts`),
+    siempre en **hora del servidor**: la escriben el ingreso, el proxy (solo al cargar una página
+    entera del panel, `sec-fetch-dest: document`) y el navegador al tocar o escribir
+    (`VigiaInactividad`, como mucho una vez por minuto, corrigiendo el desfase de su reloj con la
+    marca que acaba de poner el proxy). El proxy la mira en cada petición del panel y del ingreso;
+    con más de dos horas, o **sin marca** (falla cerrado), cierra la sesión y lleva a
+    `/ingresar?motivo=inactividad`. El navegador, con la pestaña quieta o si la marca desaparece
+    (salieron en otra pestaña), navega a `/ingresar` y deja que el proxy cierre: no usa una Server
+    Action, que el proxy interceptaría. Dura 400 días, como las cookies de sesión, y salir la borra;
+    una marca vencida se conserva, así el ingreso sabe decir por qué se cerró.
   - **La sesión se cierra en el acto, no en la próxima hora.** Desactivar a alguien, eliminarlo,
     restablecerle la contraseña o cambiarle el rol borra sus filas de `auth.sessions` (0030 + 0032):
     `app.rol_actual()` devuelve NULL si la `session_id` del JWT ya no existe, y el panel se entera
