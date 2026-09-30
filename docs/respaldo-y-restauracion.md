@@ -113,6 +113,14 @@ viaja cifrada en el volcado y se restaura, pero es lo primero que hay que ver fu
   alerta de stock. De ahí el keep-alive cada 3 días. No es un respaldo, es lo que evita necesitarlo.
 - **Los archivos que suba el negocio desde el panel.** Hoy no hay copia de Storage; cuando el panel
   esté en uso (Fase 4) habrá que decidir si se hace, y con qué.
+- **Las fotos de las fachadas de los clientes (F6).** Viven en el bucket **privado** `clientes` y
+  tampoco van en el volcado. Si algún día se copian, esa copia es dato personal (Ley N.° 29733)
+  igual que el volcado: se guarda cifrada y fuera del repositorio.
+- **Los clientes en el volcado.** Van con su nombre, celular y dirección, y la constancia de los
+  que pidieron borrar sus datos (`supresiones`). El volcado empieza con
+  `SET session_replication_role = replica`, así que el permiso obligatorio (un trigger diferido, 0042) no estorba al cargar `clientes` antes que `consentimientos`; el ensayo con clientes reales
+  queda para el cierre de F6 (tarea 7). **Un respaldo anterior a un borrado a pedido todavía tiene
+  los datos de ese cliente**: al restaurarlo, hay que repetir el borrado.
 - **Un borrado lógico reciente.** `deleted_at` no borra nada, así que un `delete` del panel se
   deshace desde la base sin tocar el respaldo. Conviene mirar eso antes de restaurar: una
   restauración pierde todo lo hecho desde la fecha del volcado.

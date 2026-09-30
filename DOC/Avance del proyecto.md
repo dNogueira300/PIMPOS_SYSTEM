@@ -21,7 +21,7 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 | **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                                                                                   |
 | **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96                                                           |
 | **F5**   | Panel: insumos           | ✅ **Cerrada el 30/09/2026** en lo técnico (PR #66 a #75). Kárdex por lotes, existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes con Excel y PDF, avisos por correo (apagados hasta tener dominio). Falta del negocio: el inventario inicial. Rendimiento contra `a5e6a4b`: `/` 86.5 frente a 85 (p = 0.79) |
-| F6       | Panel: clientes          | ⬜                                                                                                                                                                                                                                                                                                                                                             |
+| **F6**   | Panel: clientes          | 🟡 **En curso.** T1–T6 fusionadas el 30/09/2026 (PR #78 a #81, plan en #77): permiso obligatorio en la base, lo que puede el repartidor, borrar datos a pedido, conservación a los 2 años, lista con mapa, ficha, alta y corrección, zonas y descarga en Excel y PDF. Falta la T7 (cierre)                                                                     |
 | F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                                                                             |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
@@ -722,8 +722,51 @@ kárdex sin insumo pide elegirlo. Los menores que quedan están al final del pla
 **Comprobado por Dan (30/09/2026):** el Excel y el PDF de existencias se descargan bien desde
 Vercel, así que las fuentes del PDF llegan a la función.
 
-**Lo que falta.** Del negocio, el inventario inicial (procedimiento en `docs/insumos.md`). De Dan,
-poner `CRON_SECRET` en Vercel (Production). Cuando haya dominio, encender el correo.
+**Lo que falta.** Del negocio, el inventario inicial (procedimiento en `docs/insumos.md`). Cuando
+haya dominio, encender el correo. (`CRON_SECRET` ya está en Vercel desde el 30/09/2026.)
+
+### Fase 6 — en curso: el panel de clientes
+
+**El plan.** `DOC/Plan de Desarrollo 06 - Clientes.md`. Arriba, lo que ya había decidido el negocio
+en la ficha 8 (datos obligatorios, hasta 3 fotos de la fachada, permiso verbal, quién registra, qué
+consultas) y las **11 decisiones de Dan del 30/09/2026**: punto en el mapa opcional; el repartidor
+ve todo y corrige lo de la puerta; desactivar y, a pedido, borrar de verdad; aviso de conservación a
+los 2 años; el permiso va primero y la base lo exige; exportar solo la administración, sin fotos y
+con registro; la ruta es la lista por zona con su mapa; celular repetido: avisar y dejar seguir; sin
+modo offline; zonas administrables; y las reglas en la base. Y el **texto del permiso** que se le
+lee al cliente, versión `v1-2026-10`.
+
+**Una regla de PR nueva (Dan, 30/09/2026).** Una tarea con migración va sola y se para hasta el
+`db push` y la fusión; una sin migración se junta con la siguiente, dos como mucho.
+
+**Qué hay hecho, tarea a tarea.**
+
+| Tarea   | PR  | Qué deja                                                                                                                                                                                           |
+| ------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T1      | #78 | Reglas en la base (0042): cliente y permiso juntos o nada, lo que puede el repartidor, fotos, zonas, celular normalizado, búsqueda sin tildes y por celular                                        |
+| T2      | #79 | Datos personales (0043): borrar a pedido —también de la auditoría, tachando el contenido— con constancia, lo borrado no se vuelve a llenar, conservación a 2 años, registro de descargas           |
+| T3 + T4 | #80 | Lista con buscador y mapa; Llamar, WhatsApp y Cómo llegar; ficha con fotos por URL firmada; alta en pestañas con aviso de celular repetido y punto opcional; «Corregir» del repartidor; desactivar |
+| T5 + T6 | #81 | Zonas, «Borrar sus datos» con reintento si Storage falla, «Para revisar» con aviso en el inicio, y descarga en Excel y PDF con registro                                                            |
+| T7      | —   | Pendiente: la suite entera, el rendimiento contra el cierre de F5, el ensayo de restauración con clientes, el manual con el negocio y la revisión final                                            |
+
+Las implementó la sesión principal; un subagente revisó cada rama antes del PR. Cada revisión
+encontró algo, y lo Importante se arregló con una prueba vista fallar primero. Lo más serio: un
+nombre de cliente con código HTML se ejecutaba al abrir el globo del mapa de su ficha (un ingeniero
+podía robar la sesión de un administrador); y, en la base, el permiso obligatorio se podía saltar
+marcando al cliente «de ejemplo», y una ficha borrada se podía volver a llenar. Todo eso quedó
+cerrado antes de fusionar. Lo que cambió respecto del texto del plan, y los menores que quedan,
+están en su sección «Lo que resultó distinto».
+
+**Cifras (30/09/2026, hasta la T6).** 695 pruebas pgTAP (39 archivos), 416 de Vitest (56) y 612 E2E
+listadas (43). Cada PR corrió sus E2E, la accesibilidad y el área táctil de todas las rutas del
+panel (167) y las pantallas que comparten sus componentes; la suite entera se corre en la T7.
+
+**Producción.** Migraciones hasta la 0043 aplicadas; **0 clientes todavía**. No se registran clientes
+de prueba en producción: uno borrado dejaría una constancia que no se puede quitar.
+
+**El manual** para el negocio es `docs/clientes.md`: quién hace qué, cómo registrar con el texto del
+permiso, qué hace el repartidor en la puerta, zonas, qué hacer si un cliente pide borrar sus datos,
+los clientes para revisar y cómo descargar la lista.
 
 ### Pendiente del negocio
 
@@ -736,7 +779,8 @@ poner `CRON_SECRET` en Vercel (Production). Cuando haya dominio, encender el cor
 | **Fotos**              | De las 5 fotos de producto entregadas solo 2 corresponden a un item del catálogo. Faltan las de los otros 32, y las que hay están por debajo del mínimo de 1200 px. **Ya se suben desde el panel**, con la cámara del celular                       |
 | **Fotos sin asignar**  | «Hamburguesa mediana» no existe en el catálogo (hay chica, suave y grande), ni «kekito» ni «palitos salados». Están subidas al bucket; **se asignan desde `/admin/contenido/productos`**, disponible desde F4                                       |
 | **Inventario inicial** | Contar el almacén y cargarlo desde **Insumos → Conteo** (administración) antes de registrar compras y consumos reales. Sin eso, Existencias está en cero. Paso a paso en **`docs/insumos.md`**                                                      |
-| **Correo**             | Apagado a propósito hasta tener dominio. **Falta poner `CRON_SECRET`** en Vercel (Production); `RESEND_API_KEY`, `CORREO_ALERTAS` y `CORREO_REMITENTE` se ponen el día que haya dominio verificado en Resend (`docs/insumos.md`)                    |
+| **Correo**             | Apagado a propósito hasta tener dominio. `CRON_SECRET` ya está en Vercel (30/09/2026); `RESEND_API_KEY`, `CORREO_ALERTAS` y `CORREO_REMITENTE` se ponen el día que haya dominio verificado en Resend (`docs/insumos.md`)                            |
+| **Clientes**           | Revisar con el negocio el **texto del permiso** (`docs/clientes.md`), decidir si quieren zonas propias en vez de los cuatro distritos, y registrar a los primeros clientes reales desde el panel                                                    |
 | **Google Business**    | El negocio no lo tiene. Para una panadería local pesa tanto como el sitio                                                                                                                                                                           |
 
 ### Datos por confirmar
