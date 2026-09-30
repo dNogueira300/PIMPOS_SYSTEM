@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
+import { BotonActivoCliente } from "@/components/panel/boton-activo-cliente";
 import { BotonesContacto } from "@/components/panel/botones-contacto";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { exigirAcceso } from "@/lib/auth/sesion";
@@ -37,13 +38,16 @@ async function Contenido({ params }: Pick<Props, "params">) {
         volver={{ ruta: "/admin/clientes", nombre: "Clientes" }}
         accion={
           cliente.borrado ? null : (
-            <Link
-              href={`/admin/clientes/${id}/${encargado ? "editar" : "corregir"}`}
-              className="boton-linea"
-            >
-              <Pencil aria-hidden className="size-5" />
-              {encargado ? "Editar datos" : "Corregir ubicación y fotos"}
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/admin/clientes/${id}/${encargado ? "editar" : "corregir"}`}
+                className="boton-linea"
+              >
+                <Pencil aria-hidden className="size-5" />
+                {encargado ? "Editar datos" : "Corregir ubicación y fotos"}
+              </Link>
+              {encargado ? <BotonActivoCliente id={id} activo={cliente.activo} /> : null}
+            </div>
           )
         }
       />

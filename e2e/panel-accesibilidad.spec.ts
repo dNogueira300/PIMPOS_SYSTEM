@@ -44,6 +44,7 @@ export const RUTAS_DEL_PANEL = [
   "/admin/insumos/reportes/mermas",
   "/admin/insumos/reportes/kardex",
   "/admin/clientes",
+  "/admin/clientes/nuevo",
   "/admin/usuarios",
   "/admin/usuarios/nuevo",
   "/admin/configuracion",

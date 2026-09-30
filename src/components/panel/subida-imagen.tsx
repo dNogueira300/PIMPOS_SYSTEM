@@ -10,7 +10,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
 
 import { useFormularioPanel } from "./formulario-panel";
 
-type Bucket = "productos" | "galeria" | "slides" | "marca";
+type Bucket = "productos" | "galeria" | "slides" | "marca" | "clientes";
 
 type Props = {
   /** `name` del campo oculto que lleva la ruta a la acción. */
@@ -105,7 +105,9 @@ export function SubidaImagen({
     }
   }
 
-  const vista = urlDeImagen(bucket, ruta);
+  // El bucket `clientes` es privado: no hay URL pública que enseñar. La foto
+  // aparece en la lista de `FotosCliente` (por URL firmada) al refrescar.
+  const vista = bucket === "clientes" ? null : urlDeImagen(bucket, ruta);
 
   return (
     <fieldset className="flex flex-col gap-3" data-subida={nombre}>
@@ -121,7 +123,9 @@ export function SubidaImagen({
           data-vista-previa
         />
       ) : (
-        <p className="text-muted-foreground text-sm">Todavía no hay foto.</p>
+        <p className="text-muted-foreground text-sm">
+          {bucket === "clientes" && ruta ? "Foto subida." : "Todavía no hay foto."}
+        </p>
       )}
 
       <div className="flex flex-wrap gap-2">
