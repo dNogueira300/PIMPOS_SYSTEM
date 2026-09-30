@@ -71,7 +71,8 @@ async function InicioConSesion({
         </ul>
         {secciones.length === 0 ? (
           <p className="text-muted-foreground text-sm">
-            Por ahora tu rol no tiene secciones en el panel. Clientes llega pronto.
+            Por ahora tu rol no tiene secciones en el panel. Pide a un administrador que revise tu
+            cuenta.
           </p>
         ) : null}
       </section>

@@ -7,7 +7,8 @@ import { puedeAcceder, type Rol } from "@/lib/auth/roles";
  * verdad, la RLS. Por eso cada sección se filtra con `puedeAcceder`: si un rol
  * pierde acceso a una ruta, pierde también el botón, sin tocar este archivo.
  */
-export type NombreIcono = "inicio" | "contenido" | "insumos" | "usuarios" | "configuracion";
+export type NombreIcono =
+  "inicio" | "contenido" | "insumos" | "clientes" | "usuarios" | "configuracion";
 
 export type SeccionPanel = {
   ruta: string;
@@ -32,7 +33,10 @@ const SECCIONES: readonly SeccionPanel[] = [
   { ruta: "/admin", nombre: "Inicio", icono: "inicio", enBarraInferior: true },
   { ruta: "/admin/contenido", nombre: "Contenido", icono: "contenido", enBarraInferior: true },
   { ruta: "/admin/insumos", nombre: "Insumos", icono: "insumos", enBarraInferior: true },
-  { ruta: "/admin/usuarios", nombre: "Usuarios", icono: "usuarios", enBarraInferior: true },
+  // En el celular, clientes va en la barra (es el módulo del reparto) y
+  // usuarios pasa a «Más»: la barra no lleva más de cuatro botones propios.
+  { ruta: "/admin/clientes", nombre: "Clientes", icono: "clientes", enBarraInferior: true },
+  { ruta: "/admin/usuarios", nombre: "Usuarios", icono: "usuarios", enBarraInferior: false },
   {
     ruta: "/admin/configuracion",
     nombre: "Configuración",

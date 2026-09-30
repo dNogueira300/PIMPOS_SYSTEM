@@ -52,7 +52,7 @@ test("un superadmin entra y ve todas las secciones", async ({ page }) => {
   }
 });
 
-test("un repartidor entra pero por ahora no ve secciones (F6 trae clientes)", async ({ page }) => {
+test("un repartidor entra y solo ve clientes", async ({ page }) => {
   const usuario = await crearUsuario("repartidor");
 
   try {
@@ -62,6 +62,7 @@ test("un repartidor entra pero por ahora no ve secciones (F6 trae clientes)", as
     await page.getByRole("button", { name: "Entrar" }).click();
 
     await expect(page).toHaveURL("/admin");
+    await expect(page.locator('[data-seccion="Clientes"]')).toBeVisible();
     await expect(page.locator('[data-seccion="Contenido"]')).toHaveCount(0);
 
     // Y si escribe la URL a mano, el proxy lo devuelve al tablero.
