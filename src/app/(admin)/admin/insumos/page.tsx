@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { BuscadorEnVivo } from "@/components/panel/buscador-en-vivo";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { EtiquetaInsumo } from "@/components/panel/etiqueta-insumo";
 import { ListaAdaptable } from "@/components/panel/lista-adaptable";
@@ -106,34 +107,24 @@ async function Lista({
         </nav>
       ) : null}
 
-      <form role="search" className="mb-4 flex flex-wrap gap-2">
-        <label className="sr-only" htmlFor="buscar">
-          Buscar insumo
-        </label>
-        <input
-          id="buscar"
-          name="buscar"
-          defaultValue={typeof buscar === "string" ? buscar : ""}
-          placeholder="Buscar insumo"
-          className="border-input bg-card min-h-11 flex-1 rounded-xl border px-3"
-        />
-        <label className="sr-only" htmlFor="ver">
-          Mostrar
-        </label>
-        <select
-          id="ver"
-          name="ver"
-          defaultValue={typeof ver === "string" ? ver : ""}
-          className="border-input bg-card min-h-11 rounded-xl border px-3"
-        >
-          <option value="">Todos</option>
-          <option value="bajo">Bajo el mínimo</option>
-          <option value="vencer">Por vencer</option>
-        </select>
-        <button type="submit" className="boton-linea">
-          Buscar
-        </button>
-      </form>
+      <BuscadorEnVivo
+        nombre="buscar"
+        etiqueta="Buscar insumo"
+        placeholder="Buscar insumo"
+        valor={typeof buscar === "string" ? buscar : ""}
+        filtros={[
+          {
+            nombre: "ver",
+            etiqueta: "Mostrar",
+            valor: typeof ver === "string" ? ver : "",
+            opciones: [
+              { valor: "", nombre: "Todos" },
+              { valor: "bajo", nombre: "Bajo el mínimo" },
+              { valor: "vencer", nombre: "Por vencer" },
+            ],
+          },
+        ]}
+      />
 
       <ListaAdaptable
         etiqueta="Existencias de insumos"
