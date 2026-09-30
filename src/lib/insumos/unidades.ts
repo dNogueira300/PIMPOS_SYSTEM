@@ -13,9 +13,14 @@ export function nombreDeUnidad(codigo: string, cantidad: number): string {
   return /[aeiou]$/.test(codigo) ? `${codigo}s` : `${codigo}es`;
 }
 
-/** Hasta dos decimales y sin ceros de sobra: «12.5», «30». Sin separador de miles. */
+/**
+ * Sin ceros de sobra y con hasta 4 decimales, los que guarda la base: «12.5»,
+ * «30», «9.985». Con 2, un insumo en kg que se consume en gramos se escribía
+ * «9.99» cuando había 9.985 (revisión final de F5; igual que
+ * `app.formatear_cantidad` desde 0041). Sin separador de miles.
+ */
 export function formatearCantidad(n: number): string {
-  return String(Number(n.toFixed(2)));
+  return String(Number(n.toFixed(4)));
 }
 
 /** La unidad de compra más grande del insumo: el saco de la harina, la caja del huevo. */

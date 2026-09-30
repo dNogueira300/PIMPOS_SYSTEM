@@ -119,16 +119,16 @@ select is(
      (select mejorador from ref),
      (now() at time zone 'America/Lima')::date - 1,
      (now() at time zone 'America/Lima')::date - 1)),
-  -1::numeric,
-  'y su saldo parte de lo que había antes del periodo (nada, ese día): 0 - 1'
+  11::numeric,
+  'y su saldo sigue el orden de registro (0041): se registró el último, tras 12 - 3 + 3, así que queda 11'
 );
 select is(
   (select array_agg(saldo order by ocurrido_en)
      from public.kardex_insumo((select mejorador from ref),
                                (now() at time zone 'America/Lima')::date,
                                (now() at time zone 'America/Lima')::date)),
-  array[11, 8, 11]::numeric[],
-  'hoy: parte de -1 (ayer), +12 del inventario, -3 del conteo y +3 de la anulación'
+  array[12, 9, 12]::numeric[],
+  'hoy: +12 del inventario, -3 del conteo y +3 de la anulación, registrados antes que el consumo de ayer'
 );
 select is(
   (select bool_and(anulado) from public.kardex_insumo((select mejorador from ref),
