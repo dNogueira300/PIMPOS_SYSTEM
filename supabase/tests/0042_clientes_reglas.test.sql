@@ -5,7 +5,7 @@
 -- zonas sean de la administración y no se retiren con clientes; y que la
 -- búsqueda encuentre por nombre sin tildes, con errores y por celular.
 begin;
-select plan(26);
+select plan(32);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test',   now(), now()),
@@ -140,6 +140,49 @@ select ok(exists(select 1 from public.buscar_clientes('+51 965 111 222') where i
 select is((select zona from public.buscar_clientes(null, (select belen from ref))), 'Prueba 0042',
   'filtra por zona y dice su nombre');
 reset role;
+
+-- ---------------------------------------------------------------------------
+-- Revisión de la rama: lo que no debe colarse
+-- ---------------------------------------------------------------------------
+set local role authenticated;
+set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "rol": "ingeniero"}';
+-- Un cliente «de ejemplo» no necesita permiso: marcarlo así desde la API se
+-- saltaría la regla. Los datos de ejemplo solo los carga una semilla.
+select throws_ok($$
+  insert into public.clientes (nombre_completo, celular, direccion, es_demo)
+  values ('Colado', '965000002', 'Calle 2', true)
+$$, '42501', 'Los datos de ejemplo solo los carga el sistema.', 'nadie con sesión crea un cliente de ejemplo');
+select throws_ok($$ update public.clientes set es_demo = true where id = (select valor from t where clave = 'maria') $$,
+  '42501', 'Los datos de ejemplo solo los carga el sistema.', 'ni convierte uno real en ejemplo');
+
+-- Un punto es latitud Y longitud: con una sola, el mapa no tiene dónde ponerlo.
+select throws_ok($$ update public.clientes set longitud = null where id = (select valor from t where clave = 'maria') $$,
+  '23514', null, 'un punto no se queda a medias');
+
+-- El celular se guarda normalizado (solo dígitos, como `normalizarCelular`):
+-- el aviso de celular repetido compara por igualdad.
+select throws_ok($$
+  select public.registrar_cliente(
+    jsonb_build_object('nombre_completo', 'Con Espacios', 'celular', '+51 965 111 333',
+      'direccion', 'Calle 3', 'referencia', 'R', 'zona_id', (select belen from ref)), 'v1-2026-10')
+$$, '23514', null, 'un celular con espacios o prefijo no se guarda tal cual');
+
+-- Una zona se retira (activo = false), no se borra: borrarla dejaría a sus
+-- clientes sin zona sin pasar por la regla de arriba.
+set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "rol": "administrador"}';
+select throws_ok($$ delete from public.zonas_reparto where id = (select belen from ref) $$,
+  '42501', null, 'una zona no se borra');
+reset role;
+
+-- Y quitarle la marca de ejemplo a un cliente sin permiso tampoco lo deja
+-- pasar. El salto de verdad necesita dos transacciones (insertarlo como ejemplo
+-- en una, desmarcarlo en otra), que pgTAP no puede hacer: dentro de una sola, el
+-- evento del insert ya mira la fila como queda. Por eso se comprueba que el
+-- trigger también despierta con el update (bit 16 de tgtype).
+select ok(
+  (select (tgtype & 16) <> 0 from pg_trigger
+    where tgname = 'clientes_exige_permiso' and tgrelid = 'public.clientes'::regclass),
+  'el permiso se exige también al desmarcar un cliente de ejemplo');
 
 -- ---------------------------------------------------------------------------
 -- Nada anónimo

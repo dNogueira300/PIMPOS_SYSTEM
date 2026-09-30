@@ -81,10 +81,47 @@ end;
 $$;
 revoke execute on function app.exigir_permiso() from public, anon, authenticated;
 
+-- También al desmarcar `es_demo`: sin esto, un cliente creado «de ejemplo» y
+-- desmarcado en otra transacción quedaba real y sin permiso (revisión de T1).
 create constraint trigger clientes_exige_permiso
-  after insert on public.clientes
+  after insert or update of es_demo on public.clientes
   deferrable initially deferred
   for each row execute function app.exigir_permiso();
+
+-- `es_demo` es de las semillas, que corren sin sesión. Con sesión (cualquier rol,
+-- también la administración) no se marca ni se desmarca: marcar un cliente
+-- como ejemplo lo sacaría de la regla del permiso.
+create or replace function app.proteger_marca_demo()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if auth.uid() is not null and (
+       (tg_op = 'INSERT' and new.es_demo)
+    or (tg_op = 'UPDATE' and new.es_demo is distinct from old.es_demo)
+  ) then
+    raise exception 'Los datos de ejemplo solo los carga el sistema.' using errcode = '42501';
+  end if;
+  return new;
+end;
+$$;
+
+create trigger clientes_marca_demo
+  before insert or update on public.clientes
+  for each row execute function app.proteger_marca_demo();
+
+-- El celular se guarda como lo deja `normalizarCelular` (solo dígitos, sin el
+-- 51): el aviso de celular repetido compara por igualdad, y un número guardado
+-- con espacios o prefijo no lo encontraría. La tabla está vacía en producción.
+alter table public.clientes drop constraint clientes_celular_check;
+alter table public.clientes add constraint clientes_celular_check
+  check (celular ~ '^[0-9]{6,15}$');
+
+-- Un punto es latitud y longitud, o ninguna: con una sola el mapa no tiene
+-- dónde poner el marcador.
+alter table public.clientes add constraint clientes_punto_completo
+  check ((latitud is null) = (longitud is null));
 
 -- -----------------------------------------------------------------------------
 -- 2. Lo que puede el repartidor
@@ -194,6 +231,10 @@ $$;
 create trigger zonas_bloquear_retiro
   before update on public.zonas_reparto
   for each row execute function app.bloquear_retiro_de_zona();
+
+-- Una zona se retira, no se borra: el `on delete set null` de `clientes`
+-- dejaría a sus clientes sin zona sin pasar por la regla de arriba.
+revoke delete on public.zonas_reparto from anon, authenticated;
 
 -- -----------------------------------------------------------------------------
 -- 4. Búsqueda
