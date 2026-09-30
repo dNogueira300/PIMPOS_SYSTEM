@@ -82,7 +82,13 @@ export function ListaAdaptable<F extends { id: string }>({
       <ul aria-label={etiqueta} className="flex flex-col gap-2 md:hidden">
         {filas.map((fila) => (
           <li key={fila.id} className="bg-card flex items-center gap-2 rounded-xl border p-3">
-            <Link href={enlace(fila)} className="flex min-h-11 flex-1 flex-col justify-center">
+            {/* `min-w-0` y `wrap-anywhere`: una palabra larga se corta en vez de
+                empujar los botones fuera de la tarjeta (a 375 px caben cuatro,
+                44 px cada uno, y al texto le queda poco). */}
+            <Link
+              href={enlace(fila)}
+              className="flex min-h-11 min-w-0 flex-1 flex-col justify-center wrap-anywhere"
+            >
               <span className="font-semibold">{principal.celda(fila)}</span>
               <span className="text-muted-foreground flex flex-wrap gap-x-2 text-sm">
                 {resto.map((c) => (
@@ -90,7 +96,9 @@ export function ListaAdaptable<F extends { id: string }>({
                 ))}
               </span>
             </Link>
-            {hayAcciones ? <div className="flex items-center gap-1">{botones(fila)}</div> : null}
+            {hayAcciones ? (
+              <div className="flex shrink-0 items-center gap-1">{botones(fila)}</div>
+            ) : null}
           </li>
         ))}
       </ul>

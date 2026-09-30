@@ -75,3 +75,38 @@ test("insumos: filtra al escribir, sin Enter y sin recargar", async ({ page }) =
     await borrarUsuario(usuario.id);
   }
 });
+
+test("volver a la sección desde el menú vacía también el buscador", async ({ page }) => {
+  const usuario = await entrarComo(page, "ingeniero");
+  try {
+    await page.goto("/admin/insumos?buscar=Sal&ver=bajo");
+    const caja = page.getByRole("searchbox", { name: "Buscar insumo" });
+    await expect(caja).toHaveValue("Sal");
+    await page.getByRole("navigation").getByRole("link", { name: "Insumos", exact: true }).click();
+    await expect(page).toHaveURL(/\/admin\/insumos$/);
+    await expect(caja).toHaveValue("");
+    await expect(page.getByRole("combobox", { name: "Mostrar" })).toHaveValue("");
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("lo elegido antes de que la página termine de cargar también filtra", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    // Un celular lento: el JavaScript llega tres segundos tarde, y la persona
+    // ya eligió la categoría en el HTML que le llegó antes.
+    await page.route("**/_next/static/chunks/**", async (ruta) => {
+      await new Promise((r) => setTimeout(r, 3000));
+      await ruta.continue();
+    });
+    await page.goto("/admin/contenido/productos", { waitUntil: "commit" });
+    const categoria = page.getByRole("combobox", { name: "Categoría" });
+    const valor = await categoria.locator("option").nth(1).getAttribute("value");
+    await categoria.selectOption(valor!);
+    await expect(page).toHaveURL(new RegExp(`[?&]categoria=${valor}`), { timeout: 20_000 });
+    await expect(categoria).toHaveValue(valor!);
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});

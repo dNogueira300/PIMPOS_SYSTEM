@@ -31,7 +31,8 @@ const PAUSA_MS = 250;
  * que se puede recargar o compartir, y la lista la sigue filtrando la base:
  * aquí solo se cambia la dirección con `router.replace`, dentro de una
  * transición para que la lista de antes siga a la vista hasta que llega la
- * nueva. Sin JavaScript es el mismo formulario GET de antes, con Enter.
+ * nueva. Sin JavaScript sigue buscando con Enter en la caja (los desplegables
+ * no, porque ya no hay botón; el panel exige JavaScript de todos modos).
  */
 export function BuscadorEnVivo({ nombre, etiqueta, placeholder, valor, filtros = [] }: Props) {
   const router = useRouter();
@@ -41,6 +42,46 @@ export function BuscadorEnVivo({ nombre, etiqueta, placeholder, valor, filtros =
   const espera = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => () => clearTimeout(espera.current), []);
+
+  // La dirección, tal como la pintó el servidor, y la de la vez anterior.
+  const valoresFiltros = JSON.stringify(filtros.map((f) => f.valor));
+  const anterior = useRef<string | null>(null);
+  useEffect(() => {
+    const controles = formulario.current?.elements;
+    if (!controles) return;
+    const esperados: [string, string][] = [
+      [nombre, valor],
+      ...filtros.map((f): [string, string] => [f.nombre, f.valor]),
+    ];
+    const control = (n: string) => {
+      const c = controles.namedItem(n);
+      return c instanceof HTMLInputElement || c instanceof HTMLSelectElement ? c : null;
+    };
+    const clave = JSON.stringify([valor, valoresFiltros]);
+
+    // Al montar no se toca nada: los controles ya tienen lo que pintó el
+    // servidor o, en un celular lento, lo que alguien eligió antes de que la
+    // página terminara de cargar — reescribirlos aquí se lo borraba (lo cazó
+    // la E2E «productos: la categoría filtra al elegirla»).
+    if (anterior.current === null) {
+      anterior.current = clave;
+      return;
+    }
+    if (anterior.current === clave) return;
+    anterior.current = clave;
+    // La dirección cambió por fuera (pulsar «Insumos» en el menú estando en
+    // `?buscar=sal`): el componente es el mismo y un `defaultValue` no
+    // reescribe lo ya escrito, así que la caja diría «sal» sobre una lista sin
+    // filtrar y la tecla siguiente buscaría «salx». Se ponen al día los
+    // controles que nadie está usando; al que tiene el foco no se le toca.
+    for (const [n, v] of esperados) {
+      const c = control(n);
+      if (c && c !== document.activeElement && c.value !== v) c.value = v;
+    }
+    // `filtros` cambia de identidad en cada render; lo que importa son sus
+    // valores (`valoresFiltros`).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nombre, valor, valoresFiltros]);
 
   function aplicar() {
     clearTimeout(espera.current);

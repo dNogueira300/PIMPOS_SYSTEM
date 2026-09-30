@@ -1,6 +1,8 @@
 import { expect, test } from "@playwright/test";
 
+import { borrarDeLaBase } from "./ayudas/base";
 import { entrarComo } from "./ayudas/sesion";
+import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 /**
@@ -77,5 +79,47 @@ test("el lápiz dice qué edita, para quien usa lector de pantalla", async ({ pa
     await expect(primera).toHaveAccessibleName(/^Editar \S/);
   } finally {
     await borrarUsuario(usuario.id);
+  }
+});
+
+test("a 375 px, una fila con una palabra larga no empuja sus botones fuera de la tarjeta", async ({
+  page,
+}, info) => {
+  test.skip(info.project.name !== "movil", "es un problema del celular");
+  // Preguntas es la lista con más botones por fila (editar, subir, bajar y
+  // borrar): con una palabra que no se puede cortar, el texto no encogía y
+  // los botones se salían de la tarjeta, tapados por la de al lado.
+  const pregunta = `¿Supercalifragilisticoespialidoso${Date.now()}abcdefghij?`;
+  const { apiUrl, serviceRoleKey } = supabaseLocal();
+  const creada = await fetch(`${apiUrl}/rest/v1/faqs`, {
+    method: "POST",
+    headers: {
+      apikey: serviceRoleKey,
+      Authorization: `Bearer ${serviceRoleKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({ pregunta, respuesta: "Prueba de ancho.", estado: "borrador" }),
+  });
+  expect(creada.ok, await creada.text()).toBe(true);
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto("/admin/contenido/preguntas");
+    const fila = page.locator("ul[aria-label] > li").filter({ hasText: pregunta });
+    await expect(fila).toBeVisible();
+    const tarjeta = (await fila.boundingBox())!;
+    for (const boton of await fila.locator("a[aria-label], button").all()) {
+      const caja = (await boton.boundingBox())!;
+      expect(caja.x + caja.width, "el botón queda dentro de su tarjeta").toBeLessThanOrEqual(
+        tarjeta.x + tarjeta.width + 1,
+      );
+    }
+    const desborde = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(desborde, "sin desplazamiento lateral").toBeLessThanOrEqual(0);
+  } finally {
+    await borrarUsuario(usuario.id);
+    await borrarDeLaBase("faqs", "pregunta", pregunta);
   }
 });
