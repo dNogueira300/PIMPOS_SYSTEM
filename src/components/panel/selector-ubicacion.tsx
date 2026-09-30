@@ -103,6 +103,7 @@ export function SelectorUbicacion({
 
   useEffect(() => {
     let cancelado = false;
+    let observador: ResizeObserver | null = null;
     void (async () => {
       const L = await import("leaflet");
       if (cancelado || !contenedor.current || mapa.current) return;
@@ -119,6 +120,11 @@ export function SelectorUbicacion({
         maxZoom: 19,
       }).addTo(instancia);
       mapa.current = instancia;
+      // En un formulario con pestañas el mapa nace dentro de una oculta
+      // (`forceMount`): Leaflet lee tamaño 0, pide una sola tesela y el resto
+      // queda gris. Al hacerse visible, cambia de tamaño y se recalcula.
+      observador = new ResizeObserver(() => instancia.invalidateSize());
+      observador.observe(contenedor.current);
       if (punto) ponerMarcador(punto);
       if (opcional) {
         instancia.on("click", (e) => poner({ lat: e.latlng.lat, lng: e.latlng.lng }));
@@ -126,6 +132,7 @@ export function SelectorUbicacion({
     })();
     return () => {
       cancelado = true;
+      observador?.disconnect();
       mapa.current?.remove();
       mapa.current = null;
       marcador.current = null;

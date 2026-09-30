@@ -167,3 +167,85 @@ test("el ingeniero desactiva y reactiva a un cliente", async ({ page }) => {
     await borrarUsuario(usuario.id);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Revisión de la rama (T3 + T4)
+// ---------------------------------------------------------------------------
+
+test("un nombre con código no se ejecuta en el mapa de la ficha", async ({ page }) => {
+  const marca = Date.now();
+  const nombre = `<img src=x onerror="document.title='XSS-${marca}'"> Cliente ${marca}`;
+  const id = await crearClienteDePrueba({ nombre, latitud: -3.7595, longitud: -73.2516 });
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto(`/admin/clientes/${id}`);
+    const marcador = page.locator(".leaflet-marker-icon").first();
+    await marcador.click();
+    const globo = page.locator(".leaflet-popup-content");
+    await expect(globo).toContainText(`<img src=x onerror=`);
+    await expect(globo.locator("img")).toHaveCount(0);
+    expect(await page.title()).not.toContain("XSS");
+  } finally {
+    await borrarClienteDePrueba(id);
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("el mapa del alta se dibuja entero al abrir su pestaña", async ({ page }) => {
+  const usuario = await entrarComo(page, "ingeniero");
+  try {
+    await page.goto("/admin/clientes/nuevo");
+    // El mapa se crea con la pestaña todavía oculta (lo normal: la persona
+    // rellena los datos primero). Se espera a que exista antes de abrirla.
+    await page
+      .locator("[data-selector-ubicacion].leaflet-container")
+      .waitFor({ state: "attached" });
+    await page.getByRole("tab", { name: "Ubicación y fotos" }).click();
+    // Con el tamaño 0 que Leaflet leyó en la pestaña oculta, pedía UNA sola
+    // tesela y el resto del mapa quedaba gris.
+    await expect
+      .poll(() => page.locator("[data-selector-ubicacion] .leaflet-tile").count())
+      .toBeGreaterThan(3);
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("añadir una foto no deja «cambios sin guardar» en el formulario", async ({ page }) => {
+  const id = await crearClienteDePrueba({ nombre: `Foto Sin Borrador ${Date.now()}` });
+  const usuario = await entrarComo(page, "repartidor");
+  try {
+    await page.goto(`/admin/clientes/${id}/corregir`);
+    // Subir antes de que React hidrate se pierde (AGENTS.md); escribir en un
+    // campo crearía justo la copia local que se quiere evitar. El mapa solo
+    // existe cuando el componente ya se montó.
+    await page.locator("[data-selector-ubicacion].leaflet-container").waitFor();
+    await page
+      .getByLabel(/Elegir de la galería para Añadir una foto de la fachada/)
+      .setInputFiles(await fotoDePrueba(page));
+    await expect(page.getByRole("img", { name: "Fachada de la casa, foto 1" })).toBeVisible();
+    // Más que la pausa de la copia local, por si la hubiera escrito.
+    await page.waitForTimeout(1500);
+    await page.getByRole("link", { name: "Cancelar" }).click();
+    await page.waitForURL(`/admin/clientes/${id}`);
+    await page.goto(`/admin/clientes/${id}/corregir`);
+    await expect(page.getByLabel("Referencia")).toBeVisible();
+    await expect(page.locator("[data-borrador]")).toHaveCount(0);
+  } finally {
+    await borrarClienteDePrueba(id);
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("elegir una zona en la vista Mapa se queda en el mapa", async ({ page }) => {
+  const usuario = await entrarComo(page, "ingeniero");
+  try {
+    await page.goto("/admin/clientes?vista=mapa");
+    await page.getByLabel("Zona").selectOption({ label: "Punchana" });
+    await expect(page).toHaveURL(/zona=.+/);
+    await expect(page).toHaveURL(/vista=mapa/);
+    await expect(page.getByRole("link", { name: "Mapa" })).toHaveAttribute("aria-current", "page");
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});

@@ -5,10 +5,9 @@ import { useEffect, useRef } from "react";
 
 import "leaflet/dist/leaflet.css";
 
-type Punto = { id: string; nombre: string; latitud: number; longitud: number };
+import { escaparHtml } from "@/lib/utilidades/html";
 
-const escapar = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+type Punto = { id: string; nombre: string; latitud: number; longitud: number };
 
 /**
  * Los clientes con punto, cada uno con su marcador; al tocarlo, el nombre y
@@ -44,7 +43,7 @@ export function MapaClientes({ clientes }: { clientes: Punto[] }) {
           alt: c.nombre,
         })
           .bindPopup(
-            `<strong>${escapar(c.nombre)}</strong><br><a href="/admin/clientes/${c.id}">Ver ficha</a>`,
+            `<strong>${escaparHtml(c.nombre)}</strong><br><a href="/admin/clientes/${c.id}">Ver ficha</a>`,
           )
           .addTo(instancia);
       }

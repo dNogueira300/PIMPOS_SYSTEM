@@ -5,6 +5,8 @@ import type { Map as MapaLeaflet } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 
+import { escaparHtml } from "@/lib/utilidades/html";
+
 type Props = {
   lat: number;
   lng: number;
@@ -69,7 +71,9 @@ export function Mapa({ lat, lng, titulo, direccion }: Props) {
 
       L.marker([lat, lng], { icon: marca, title: titulo, alt: titulo })
         .addTo(instancia)
-        .bindPopup(`<strong>${titulo}</strong><br>${direccion}`);
+        // Escapado: en la ficha de un cliente (F6) el título es un nombre que
+        // escribió una persona, y el globo se pinta con innerHTML.
+        .bindPopup(`<strong>${escaparHtml(titulo)}</strong><br>${escaparHtml(direccion)}`);
 
       mapa.current = instancia;
     })();

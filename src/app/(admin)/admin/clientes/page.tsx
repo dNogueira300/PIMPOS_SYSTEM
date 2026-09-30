@@ -73,6 +73,7 @@ async function Contenido({
         etiqueta="Buscar cliente"
         placeholder="Nombre o celular"
         valor={texto}
+        conservar={enMapa ? { vista: "mapa" } : {}}
         filtros={[
           {
             nombre: "zona",

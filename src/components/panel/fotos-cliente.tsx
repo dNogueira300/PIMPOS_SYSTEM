@@ -56,6 +56,7 @@ export function FotosCliente({ clienteId, fotos, puedeQuitar }: Props) {
         <SubidaImagen
           nombre="foto_nueva"
           bucket="clientes"
+          inmediata
           carpeta={id}
           rutaInicial={null}
           etiqueta={`Añadir una foto de la fachada (${fotos.length} de 3)`}

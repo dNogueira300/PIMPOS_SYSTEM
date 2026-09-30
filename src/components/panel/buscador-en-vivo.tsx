@@ -20,6 +20,11 @@ type Props = {
   valor: string;
   /** Desplegables que filtran al elegir, en el mismo formulario. */
   filtros?: readonly Filtro[];
+  /**
+   * Parámetros de la dirección que no son de la búsqueda pero se conservan al
+   * buscar (clientes: `vista=mapa`, para no volver a la lista al elegir zona).
+   */
+  conservar?: Readonly<Record<string, string>>;
 };
 
 /** Lo que se espera entre tecla y tecla antes de pedir la lista nueva. */
@@ -34,7 +39,14 @@ const PAUSA_MS = 250;
  * nueva. Sin JavaScript sigue buscando con Enter en la caja (los desplegables
  * no, porque ya no hay botón; el panel exige JavaScript de todos modos).
  */
-export function BuscadorEnVivo({ nombre, etiqueta, placeholder, valor, filtros = [] }: Props) {
+export function BuscadorEnVivo({
+  nombre,
+  etiqueta,
+  placeholder,
+  valor,
+  filtros = [],
+  conservar = {},
+}: Props) {
   const router = useRouter();
   const ruta = usePathname();
   const [buscando, empezar] = useTransition();
@@ -115,6 +127,9 @@ export function BuscadorEnVivo({ nombre, etiqueta, placeholder, valor, filtros =
       onSubmit={alEnviar}
       className="mb-4 flex flex-wrap gap-2"
     >
+      {Object.entries(conservar).map(([clave, v]) => (
+        <input key={clave} type="hidden" name={clave} value={v} />
+      ))}
       <label className="sr-only" htmlFor={idTexto}>
         {etiqueta}
       </label>
