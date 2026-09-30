@@ -2120,6 +2120,21 @@ export type Database = {
         Returns: string
       }
       aprobar_baja: { Args: { p_id: string }; Returns: string }
+      buscar_clientes: {
+        Args: { p_activos?: boolean; p_texto?: string; p_zona?: string }
+        Returns: {
+          activo: boolean
+          celular: string
+          direccion: string
+          id: string
+          latitud: number
+          longitud: number
+          nombre_completo: string
+          referencia: string
+          zona: string
+          zona_id: string
+        }[]
+      }
       cerrar_sesiones: { Args: { usuario: string }; Returns: undefined }
       guardar_configuracion: {
         Args: { p_confirmadas?: string[]; p_valores: Json }
@@ -2163,6 +2178,10 @@ export type Database = {
       rechazar_baja: {
         Args: { p_comentario: string; p_id: string }
         Returns: undefined
+      }
+      registrar_cliente: {
+        Args: { p_cliente: Json; p_version_texto: string }
+        Returns: string
       }
       registrar_consumo: {
         Args: { p_cabecera: Json; p_lineas: Json }

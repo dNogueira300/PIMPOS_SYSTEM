@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Verificacion de las politicas de Storage (migraciones 0014 y 0032).
+# Verificacion de las politicas de Storage (migraciones 0014, 0032 y 0042).
 #
 #   bash scripts/verificar-storage.sh
 #
@@ -53,9 +53,17 @@ done
 
 # `psql -tAc` con RETURNING imprime el id Y la etiqueta "INSERT 0 1" en la
 # linea siguiente, y eso rompia la URL. Se toma solo la primera linea.
-CLIENTE=$(sql "insert into public.clientes (nombre_completo, celular, direccion)
-               values ('Cliente de prueba storage','965000111','Calle X')
-               returning id;" | head -1 | tr -d '[:space:]')
+# Desde 0042 un cliente sin permiso no llega a guardarse: cliente y permiso van
+# en la MISMA sentencia (el trigger diferido se comprueba al terminarla).
+CLIENTE=$(sql "with c as (
+                 insert into public.clientes (nombre_completo, celular, direccion)
+                 values ('Cliente de prueba storage','965000111','Calle X')
+                 returning id)
+               , k as (
+                 insert into public.consentimientos (cliente_id, registrado_por, texto_version)
+                 select c.id, (select id from auth.users where email like 'storage-%@pimpos.test' limit 1), 'v1-2026-10'
+                   from c)
+               select id from c;" | head -1 | tr -d '[:space:]')
 [ -n "$CLIENTE" ] || { echo "No se pudo crear el cliente de prueba"; exit 1; }
 
 # Sufijo unico por ejecucion: Storage rechaza subir dos veces a la misma ruta,
@@ -117,6 +125,19 @@ firmada=$(curl -s -X POST "$API_URL/storage/v1/object/sign/clientes/$CLIENTE/1.w
 echo "$firmada" | grep -q signedURL \
   && ok "y el repartidor SI obtiene una URL firmada" \
   || fail "no se pudo firmar la URL: $(echo "$firmada" | head -c 150)"
+
+# Borrar la foto es de los encargados (0042, decision 2). Se mira si el archivo
+# SIGUE en el bucket y no el codigo HTTP: sin politica que lo permita, Storage
+# puede responder sin error y simplemente no borrar nada.
+borrar() { # $1 token  $2 ruta dentro del bucket clientes
+  curl -s -o /dev/null -X DELETE "$API_URL/storage/v1/object/clientes/$2"     -H "Authorization: Bearer $1" -H "apikey: $ANON_KEY"
+}
+queda() { sql "select count(*) from storage.objects where bucket_id = 'clientes' and name = '$1';" | tr -d '[:space:]'; }
+
+borrar "${TOKEN[repartidor]}" "$CLIENTE/1.webp"
+[ "$(queda "$CLIENTE/1.webp")" = "1" ] && ok "el repartidor NO borra la foto de la fachada"                                        || fail "el repartidor borro la foto de la fachada"
+borrar "${TOKEN[ingeniero]}" "$CLIENTE/1.webp"
+[ "$(queda "$CLIENTE/1.webp")" = "0" ] && ok "el ingeniero SI la borra"                                        || fail "el ingeniero no pudo borrar la foto"
 
 echo
 echo "== 3. Bucket documentos =="

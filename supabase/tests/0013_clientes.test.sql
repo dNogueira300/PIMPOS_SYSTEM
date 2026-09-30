@@ -186,15 +186,21 @@ set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", 
 select is((select count(*)::int from public.clientes
             where id = 'ffff0000-0000-0000-0000-000000000001'), 1,
   'un repartidor SI lee clientes: es su modulo');
-select lives_ok(
+select throws_ok(
   $$ insert into public.clientes (nombre_completo, celular, direccion)
      values ('Cliente del reparto', '965999888', 'Calle Nueva 1') $$,
-  'y puede registrar uno nuevo en la calle');
+  '42501', null,
+  'pero ya no registra uno nuevo: desde 0042 las altas son de los encargados (decision 2)');
+
+-- Lo registra el ingeniero, con su permiso en la misma transaccion (0042).
+set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "rol": "ingeniero"}';
 select lives_ok(
-  $$ insert into public.consentimientos (cliente_id, registrado_por, texto_version)
-     select id, '44444444-4444-4444-4444-444444444444', 'v1-2026-09'
-       from public.clientes where nombre_completo = 'Cliente del reparto' $$,
-  'y registrar su consentimiento en el momento');
+  $$ select public.registrar_cliente(
+       jsonb_build_object('nombre_completo', 'Cliente del reparto', 'celular', '965999888',
+                          'direccion', 'Calle Nueva 1'),
+       'v1-2026-10') $$,
+  'el ingeniero lo registra junto con su consentimiento');
+set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
 
 -- Pero revocar es una decision, no una correccion de tecleo.
 update public.consentimientos
@@ -266,7 +272,7 @@ select is(
   (select usuario_id from app.auditoria
     where tabla = 'public.clientes' and operacion = 'INSERT'
       and registro_id = (select id from public.clientes where nombre_completo = 'Cliente del reparto')),
-  '44444444-4444-4444-4444-444444444444'::uuid,
+  '33333333-3333-3333-3333-333333333333'::uuid,
   'con quien registro a cada persona'
 );
 
