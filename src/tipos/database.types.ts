@@ -167,6 +167,13 @@ export type Database = {
             referencedRelation: "clientes_con_consentimiento"
             referencedColumns: ["cliente_id"]
           },
+          {
+            foreignKeyName: "cliente_fotos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_para_revisar"
+            referencedColumns: ["id"]
+          },
         ]
       }
       clientes: {
@@ -319,6 +326,13 @@ export type Database = {
             referencedRelation: "clientes_con_consentimiento"
             referencedColumns: ["cliente_id"]
           },
+          {
+            foreignKeyName: "consentimientos_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "clientes_para_revisar"
+            referencedColumns: ["id"]
+          },
         ]
       }
       equivalencias: {
@@ -385,6 +399,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      exportaciones_clientes: {
+        Row: {
+          cantidad: number
+          exportado_en: string
+          exportado_por: string
+          filtro: Json
+          formato: string
+          id: string
+        }
+        Insert: {
+          cantidad: number
+          exportado_en?: string
+          exportado_por?: string
+          filtro?: Json
+          formato: string
+          id?: string
+        }
+        Update: {
+          cantidad?: number
+          exportado_en?: string
+          exportado_por?: string
+          filtro?: Json
+          formato?: string
+          id?: string
+        }
+        Relationships: []
       }
       faqs: {
         Row: {
@@ -1668,6 +1709,52 @@ export type Database = {
           },
         ]
       }
+      supresiones: {
+        Row: {
+          borrado_en: string
+          borrado_por: string
+          cliente_id: string
+          id: string
+          motivo: string
+        }
+        Insert: {
+          borrado_en?: string
+          borrado_por: string
+          cliente_id: string
+          id?: string
+          motivo: string
+        }
+        Update: {
+          borrado_en?: string
+          borrado_por?: string
+          cliente_id?: string
+          id?: string
+          motivo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes_con_consentimiento"
+            referencedColumns: ["cliente_id"]
+          },
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes_para_revisar"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       testimonios: {
         Row: {
           created_at: string
@@ -1845,6 +1932,15 @@ export type Database = {
           nombre_completo?: string | null
           otorgado_en?: never
           tiene_consentimiento?: never
+        }
+        Relationships: []
+      }
+      clientes_para_revisar: {
+        Row: {
+          id: string | null
+          nombre_completo: string | null
+          ultima_actividad: string | null
+          zona: string | null
         }
         Relationships: []
       }
@@ -2120,6 +2216,12 @@ export type Database = {
         Returns: string
       }
       aprobar_baja: { Args: { p_id: string }; Returns: string }
+      borrar_datos_cliente: {
+        Args: { p_id: string; p_motivo: string }
+        Returns: {
+          ruta: string
+        }[]
+      }
       buscar_clientes: {
         Args: { p_activos?: boolean; p_texto?: string; p_zona?: string }
         Returns: {
@@ -2173,6 +2275,14 @@ export type Database = {
           sentido: number
           tipo: string
           unidad: string
+        }[]
+      }
+      permiso_de_cliente: {
+        Args: { p_cliente: string }
+        Returns: {
+          otorgado_en: string
+          registrado_por: string
+          texto_version: string
         }[]
       }
       rechazar_baja: {
