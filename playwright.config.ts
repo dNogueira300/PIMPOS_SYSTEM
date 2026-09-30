@@ -1,5 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
+import { CRON_SECRET_DE_PRUEBA } from "./e2e/ayudas/cron";
 import { supabaseLocal } from "./e2e/ayudas/supabase-local";
 
 const PUERTO = 3000;
@@ -75,6 +76,13 @@ export default defineConfig({
         // URLs absolutas. Tienen que apuntar al servidor de las pruebas para
         // que la prueba pueda pedirlas de verdad.
         NEXT_PUBLIC_SITE_URL: URL_BASE,
+        // El resumen diario (F5, tarea 8) exige este secreto; las pruebas lo mandan.
+        CRON_SECRET: CRON_SECRET_DE_PRUEBA,
+        // Vacías a propósito: una variable del proceso gana a `.env.local`, así
+        // que las pruebas nunca mandan un correo de verdad aunque alguien tenga
+        // su llave de Resend en local.
+        RESEND_API_KEY: "",
+        CORREO_ALERTAS: "",
       };
     })(),
   },

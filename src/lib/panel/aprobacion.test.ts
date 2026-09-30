@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { accionesDisponibles, estadoTras, intencionEfectiva } from "./aprobacion";
+import { accionesDisponibles, estadoTras, intencionEfectiva, vaARevision } from "./aprobacion";
 
 describe("accionesDisponibles", () => {
   it("el ingeniero no ve «Publicar» en una promoción: ve «Enviar a revisión»", () => {
@@ -65,5 +65,28 @@ describe("estadoTras", () => {
     expect(estadoTras("publicar", "en_revision")).toBe("publicado");
     expect(estadoTras("devolver", "en_revision")).toBe("borrador");
     expect(estadoTras("archivar", "publicado")).toBe("archivado");
+  });
+});
+
+describe("vaARevision", () => {
+  it("enviar algo que no estaba en revisión la manda a revisión: hay que avisar", () => {
+    expect(vaARevision("enviar", "borrador")).toBe(true); // nueva, o reenviada tras devolverla
+    expect(vaARevision("enviar", "archivado")).toBe(true);
+  });
+
+  it("guardar una que ya estaba en revisión no avisa otra vez", () => {
+    expect(vaARevision("guardar", "en_revision")).toBe(false);
+    expect(vaARevision("enviar", "en_revision")).toBe(false);
+  });
+
+  it("publicar, devolver, archivar o guardar un borrador no avisan", () => {
+    expect(vaARevision("publicar", "en_revision")).toBe(false);
+    expect(vaARevision("devolver", "en_revision")).toBe(false);
+    expect(vaARevision("archivar", "publicado")).toBe(false);
+    expect(vaARevision("guardar", "borrador")).toBe(false);
+  });
+
+  it("un aviso que el ingeniero «envía» se publica: no pasa por revisión", () => {
+    expect(vaARevision(intencionEfectiva("ingeniero", "aviso", "enviar"), "borrador")).toBe(false);
   });
 });

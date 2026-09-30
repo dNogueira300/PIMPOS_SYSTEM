@@ -91,3 +91,13 @@ export function estadoTras(intencion: Intencion, actual: EstadoPublicacion): Est
       return "archivado";
   }
 }
+
+/**
+ * Si este guardado manda la novedad a revisión y no lo estaba ya: es cuando
+ * se avisa por correo a la administración (F5, tarea 8), la misma condición
+ * con la que la base crea el aviso del panel (0028, 0032). `intencion` es la
+ * efectiva (`intencionEfectiva`): un aviso que el ingeniero «envía» se publica.
+ */
+export function vaARevision(intencion: Intencion, actual: EstadoPublicacion): boolean {
+  return estadoTras(intencion, actual) === "en_revision" && actual !== "en_revision";
+}
