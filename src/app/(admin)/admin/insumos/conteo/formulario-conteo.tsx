@@ -101,7 +101,9 @@ function Lineas({ insumos }: { insumos: InsumoAContar[] }) {
               />
             </label>
             <label className="flex flex-col gap-1 text-sm">
-              <span>Precio por {i.unidad_base} (S/), si sobra</span>
+              <span>
+                Precio por {i.unidad_base} de {i.nombre} (S/), si sobra
+              </span>
               <input
                 className={CLASE_CONTROL}
                 inputMode="decimal"

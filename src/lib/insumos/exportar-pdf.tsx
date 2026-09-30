@@ -1,3 +1,5 @@
+import "server-only";
+
 import { join } from "node:path";
 
 import { Document, Font, Page, renderToBuffer, StyleSheet, Text, View } from "@react-pdf/renderer";

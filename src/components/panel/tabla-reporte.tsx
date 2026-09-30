@@ -35,9 +35,12 @@ function celda(valor: string | number | null, columna: Columna, sinCosto: boolea
 export function TablaReporte({ reporte }: { reporte: Reporte }) {
   const { columnas, filas, total, titulo, sinCosto, hayCostosDesconocidos } = reporte;
   if (filas.length === 0) {
-    return (
-      <p className="bg-card rounded-xl border p-6 text-center">No hay datos en ese periodo.</p>
-    );
+    // El kárdex sin insumo elegido no tiene columnas: no es que no haya datos.
+    const texto =
+      reporte.slug === "kardex" && columnas.length === 0
+        ? "Elige un insumo para ver su kárdex."
+        : "No hay datos en ese periodo.";
+    return <p className="bg-card rounded-xl border p-6 text-center">{texto}</p>;
   }
   const [principal, ...resto] = columnas;
   return (
