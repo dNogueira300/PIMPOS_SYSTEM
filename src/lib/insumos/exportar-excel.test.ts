@@ -1,9 +1,12 @@
 import ExcelJS from "exceljs";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { reporteAExcel } from "./exportar-excel";
 import { AVISO_SIN_COSTO } from "./formato-reporte";
 import type { Reporte } from "./reportes";
+
+// `server-only` lanza fuera de un Server Component; aquí solo estorba.
+vi.mock("server-only", () => ({}));
 
 const reporte: Reporte = {
   slug: "consumo",

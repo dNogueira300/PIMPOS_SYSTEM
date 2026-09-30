@@ -1,3 +1,5 @@
+import "server-only";
+
 import ExcelJS from "exceljs";
 
 import { AVISO_SIN_COSTO, MARCA_SIN_COSTO } from "./formato-reporte";

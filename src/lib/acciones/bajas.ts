@@ -27,6 +27,7 @@ export async function pedirBaja(fd: FormData): Promise<EstadoAccion> {
           insumo_id: linea.insumo_id,
           cantidad: Number(linea.cantidad),
           unidad_id: linea.unidad_id,
+          lote_id: linea.lote_id,
           motivo_baja: d.motivo_baja,
           observacion: d.observacion,
         })

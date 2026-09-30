@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { sumarStock } from "./ayudas/insumos";
+import { sesionDeApi, sumarLote, sumarStock } from "./ayudas/insumos";
 import { entrarComo } from "./ayudas/sesion";
 import { borrarUsuario } from "./ayudas/usuarios";
 
@@ -65,6 +65,56 @@ test("un rechazo llega con su comentario", async ({ browser }) => {
     await expect(paginaIngeniero.locator('[data-aviso="bajas-rechazadas"]')).toBeVisible();
     await paginaIngeniero.goto("/admin/insumos/bajas");
     await expect(paginaIngeniero.getByText("Comentario: Cuéntalo primero").first()).toBeVisible();
+  } finally {
+    await borrarUsuario(ingeniero.id);
+    await borrarUsuario(admin.id);
+  }
+});
+
+test("una baja puede nombrar su lote, y al aprobarla sale de ese y no del que vence primero", async ({
+  browser,
+}) => {
+  // Decisión 3 de Dan: lo dañado puede ser de un lote más nuevo.
+  const marca = Date.now();
+  const primero = await sumarLote("Frutas confitadas", 5, 10, `E2E-A-${marca}`);
+  const despues = await sumarLote("Frutas confitadas", 5, 40, `E2E-B-${marca}`);
+  const saldo = async (lote: string) => {
+    const { data } = await (
+      await sesionDeApi("administrador")
+    )
+      .from("saldos_lote")
+      .select("cantidad_base")
+      .eq("lote_id", lote)
+      .single();
+    return Number(data?.cantidad_base);
+  };
+  const paginaIngeniero = await (await browser.newContext()).newPage();
+  const paginaAdmin = await (await browser.newContext()).newPage();
+  const ingeniero = await entrarComo(paginaIngeniero, "ingeniero");
+  const admin = await entrarComo(paginaAdmin, "administrador");
+  const observacion = `Lote E2E ${marca}`;
+  try {
+    await paginaIngeniero.goto("/admin/insumos/bajas/nueva");
+    await paginaIngeniero.getByLabel("Insumo").selectOption({ label: "Frutas confitadas" });
+    const lote = paginaIngeniero.getByLabel("De qué lote");
+    await expect(lote).toHaveValue("");
+    const opcion = lote.locator("option", { hasText: `lote E2E-B-${marca}` });
+    await lote.selectOption((await opcion.getAttribute("value"))!);
+    await paginaIngeniero.getByLabel("Cantidad").fill("1");
+    await paginaIngeniero.getByLabel("Motivo").selectOption({ label: "Producto dañado" });
+    await paginaIngeniero.getByLabel("Qué pasó").fill(observacion);
+    await paginaIngeniero.getByRole("button", { name: "Guardar" }).click();
+    await paginaIngeniero.waitForURL("/admin/insumos/bajas");
+
+    await paginaAdmin.goto("/admin/insumos/bajas");
+    const tarjeta = paginaAdmin.getByRole("listitem").filter({ hasText: observacion });
+    await tarjeta
+      .getByRole("button", { name: /^Aprobar la baja de 1 kg de Frutas confitadas/ })
+      .click();
+    await expect(tarjeta).toHaveCount(0);
+
+    expect(await saldo(despues), "sale del lote elegido").toBe(4);
+    expect(await saldo(primero), "y no del que vence primero").toBe(5);
   } finally {
     await borrarUsuario(ingeniero.id);
     await borrarUsuario(admin.id);

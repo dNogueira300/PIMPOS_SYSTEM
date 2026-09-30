@@ -525,6 +525,27 @@ Horas en UTC: `5 5 * * *` es 00:05 en Iquitos; `10 11 * * *` es 06:10, justo ant
 
 > Recordatorio: **si el proyecto Supabase se pausa, `pg_cron` no corre.** El keep-alive de la Fase 0 sostiene esto.
 
+### 9.5 Lo que cambió al construir el panel (F5, 25–30/09/2026)
+
+El esquema de F2 se amplió en F5; el detalle está en `Plan de Desarrollo 05 - Insumos.md` y en las
+migraciones 0033–0040. Lo que cambia respecto de lo escrito arriba:
+
+- **El kárdex reparte por lotes (FEFO).** Cada movimiento se reparte entre lotes en
+  `movimiento_lotes`, primero el que vence antes, y el saldo vive también por lote en `saldos_lote`,
+  con `check (cantidad_base >= 0)`: **el saldo no puede quedar negativo**, y un consumo que no
+  alcanza falla con una frase que dice cuánto hay (0034). Cada lote lleva su costo, y los reportes
+  valoran con el costo real de cada uno (0039).
+- **Dos tipos más de movimiento: `ajuste` y `anulacion`** (0033). Un movimiento nunca se borra ni se
+  edita: se anula con otro (`anula_a`) o se corrige con un conteo físico (`registrar_conteo`, 0037),
+  y los dos son solo de la administración. `app.recalcular_saldos()` reconstruye también los lotes.
+- **Las bajas pasan por `solicitudes_baja`** (0038): el ingeniero pide, la administración aprueba
+  (`aprobar_baja`, que registra la baja con `autorizado_por`) o rechaza con comentario. Pedir no
+  descuenta nada.
+- **Ingresos y consumos de varias líneas en una transacción** (`registrar_ingreso`,
+  `registrar_consumo`, 0036), con aviso de documento repetido.
+- **Las alertas** avisan también de bajas y promociones por aprobar, y `notificaciones.enviada_en`
+  recuerda cuáles salieron ya en el resumen por correo (0040), que escribe solo el servidor.
+
 ---
 
 ## 10. Clientes y datos personales (R14, R19)

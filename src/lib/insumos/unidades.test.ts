@@ -24,11 +24,17 @@ describe("nombreDeUnidad", () => {
 });
 
 describe("formatearCantidad", () => {
-  it("sin ceros de sobra y con dos decimales como mucho", () => {
+  it("sin ceros de sobra y con los decimales que guarda la base (4), como mucho", () => {
     expect(formatearCantidad(12.5)).toBe("12.5");
     expect(formatearCantidad(30)).toBe("30");
-    expect(formatearCantidad(0.1234)).toBe("0.12");
+    expect(formatearCantidad(0.1234)).toBe("0.1234");
     expect(formatearCantidad(1500)).toBe("1500");
+    expect(formatearCantidad(2.00004)).toBe("2");
+  });
+
+  it("los gramos se ven: con 2 decimales, 9.985 kg salía «9.99» y 0.004 kg salía «0»", () => {
+    expect(formatearCantidad(9.985)).toBe("9.985");
+    expect(formatearCantidad(0.004)).toBe("0.004");
   });
 });
 

@@ -1,6 +1,7 @@
 import "server-only";
 
-import type { InsumoParaLinea, UnidadDeLinea } from "@/lib/insumos/lineas";
+import type { InsumoParaLinea, LoteDeLinea, UnidadDeLinea } from "@/lib/insumos/lineas";
+import { formatearCantidad } from "@/lib/insumos/unidades";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
 /**
@@ -8,8 +9,11 @@ import { crearClienteServidor } from "@/lib/supabase/servidor";
  * las de sus equivalencias. Así el selector de unidad nunca ofrece una que la
  * base rechazaría por falta de equivalencia.
  */
-export async function insumosParaLineas(): Promise<InsumoParaLinea[]> {
+export async function insumosParaLineas({ conLotes = false }: { conLotes?: boolean } = {}): Promise<
+  InsumoParaLinea[]
+> {
   const supabase = await crearClienteServidor();
+  const lotes = conLotes ? await lotesConExistencias() : new Map<string, LoteDeLinea[]>();
   const { data } = await supabase
     .from("insumos")
     .select(
@@ -26,7 +30,43 @@ export async function insumosParaLineas(): Promise<InsumoParaLinea[]> {
     unidades: [i.base, ...i.equivalencias.map((e) => e.unidad)].filter(
       (u): u is UnidadDeLinea => u !== null,
     ),
+    ...(conLotes && i.es_perecible ? { lotes: lotes.get(i.id) ?? [] } : {}),
   }));
+}
+
+/**
+ * Los lotes con existencias de cada insumo, en el orden en que salen (el que
+ * vence primero, primero): «Vence 12/10/2026 · quedan 3 kg».
+ */
+async function lotesConExistencias(): Promise<Map<string, LoteDeLinea[]>> {
+  const supabase = await crearClienteServidor();
+  const { data } = await supabase
+    .from("saldos_lote")
+    .select(
+      "cantidad_base, lote:lotes_insumo!inner(id, insumo_id, codigo, fecha_vencimiento, llegada, insumo:insumos!inner(unidad:unidades_medida!unidad_base_id(codigo)))",
+    )
+    .gt("cantidad_base", 0);
+
+  const filas = (data ?? [])
+    .filter((f) => f.lote !== null)
+    .sort(
+      (a, b) =>
+        (a.lote.fecha_vencimiento ?? "9999").localeCompare(b.lote.fecha_vencimiento ?? "9999") ||
+        Number(a.lote.llegada) - Number(b.lote.llegada),
+    );
+  const porInsumo = new Map<string, LoteDeLinea[]>();
+  for (const f of filas) {
+    const vence = f.lote.fecha_vencimiento
+      ? `Vence ${f.lote.fecha_vencimiento.split("-").reverse().join("/")}`
+      : "Sin fecha";
+    const codigo = f.lote.codigo ? ` · lote ${f.lote.codigo}` : "";
+    const quedan =
+      `quedan ${formatearCantidad(Number(f.cantidad_base))} ${f.lote.insumo?.unidad?.codigo ?? ""}`.trim();
+    const lista = porInsumo.get(f.lote.insumo_id) ?? [];
+    lista.push({ id: f.lote.id, descripcion: `${vence}${codigo} · ${quedan}` });
+    porInsumo.set(f.lote.insumo_id, lista);
+  }
+  return porInsumo;
 }
 
 export async function proveedoresActivos() {

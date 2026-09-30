@@ -51,7 +51,7 @@ async function Ficha({
         .eq("insumo_id", id),
       supabase
         .from("saldos_lote")
-        .select("cantidad_base, lotes_insumo(codigo, fecha_vencimiento, costo_unitario)")
+        .select("cantidad_base, lotes_insumo(codigo, fecha_vencimiento, costo_unitario, llegada)")
         .eq("insumo_id", id)
         .gt("cantidad_base", 0),
       supabase.rpc("kardex_insumo", {
@@ -68,6 +68,16 @@ async function Ficha({
       .map((e) => ({ codigo: e.unidades_medida!.codigo, factor: Number(e.factor) })),
   );
   const filas = (kardex ?? []).slice().reverse(); // lo más reciente arriba
+  // En el orden en que salen: primero el que vence antes, y entre los que no
+  // vencen, el que llegó primero (como el reparto FEFO de 0034).
+  const lotesEnOrden = (lotes ?? [])
+    .slice()
+    .sort(
+      (a, b) =>
+        (a.lotes_insumo?.fecha_vencimiento ?? "9999").localeCompare(
+          b.lotes_insumo?.fecha_vencimiento ?? "9999",
+        ) || Number(a.lotes_insumo?.llegada ?? 0) - Number(b.lotes_insumo?.llegada ?? 0),
+    );
 
   return (
     <>
@@ -97,13 +107,13 @@ async function Ficha({
         </p>
       </section>
 
-      {lotes && lotes.length > 0 ? (
+      {lotesEnOrden.length > 0 ? (
         <section aria-labelledby="lotes" className="mb-6">
           <h2 id="lotes" className="mb-2 font-semibold">
             Lotes con existencia
           </h2>
           <ul className="flex flex-col gap-2">
-            {lotes.map((l, i) => (
+            {lotesEnOrden.map((l, i) => (
               <li
                 key={i}
                 className="bg-card flex flex-wrap justify-between gap-2 rounded-xl border p-3 text-sm"

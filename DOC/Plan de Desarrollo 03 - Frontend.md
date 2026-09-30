@@ -578,19 +578,24 @@ El panel lo usan personas con **nivel de computadora básico** (ficha 6.5) desde
 
 ### 5.2 Rutas
 
-| Ruta                                                            | Módulo                                                            | Roles                                         |
-| --------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------- |
-| `/admin`                                                        | Dashboard: alertas, atajos, actividad reciente                    | Todos                                         |
-| `/admin/contenido/productos`                                    | Productos, variantes, imágenes                                    | superadmin, admin, ingeniero                  |
-| `/admin/contenido/categorias`                                   | Categorías                                                        | ídem                                          |
-| `/admin/contenido/novedades`                                    | Novedades y promociones **con aprobación**                        | ídem (publicar promo: solo admin/superadmin)  |
-| `/admin/contenido/slides`                                       | Carrusel de portada                                               | ídem                                          |
-| `/admin/contenido/galeria` · `/faq` · `/guias` · `/testimonios` | Resto de contenido                                                | ídem                                          |
-| `/admin/insumos`                                                | Insumos, kárdex, alertas, reportes                                | ídem                                          |
-| `/admin/clientes`                                               | Clientes, fotos, zonas, mapa                                      | + repartidor                                  |
-| `/admin/usuarios`                                               | Usuarios y roles                                                  | superadmin, admin (eliminar: solo superadmin) |
-| `/admin/auditoria`                                              | Historial de cambios                                              | superadmin, admin                             |
-| `/admin/configuracion`                                          | **Logo, favicon, contacto, coordenadas, horarios, redes, textos** | superadmin, admin                             |
+| Ruta                                                                | Módulo                                                                                                        | Roles                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| `/admin`                                                            | Dashboard: alertas, atajos, actividad reciente                                                                | Todos                                         |
+| `/admin/contenido/productos`                                        | Productos, variantes, imágenes                                                                                | superadmin, admin, ingeniero                  |
+| `/admin/contenido/categorias`                                       | Categorías                                                                                                    | ídem                                          |
+| `/admin/contenido/novedades`                                        | Novedades y promociones **con aprobación**                                                                    | ídem (publicar promo: solo admin/superadmin)  |
+| `/admin/contenido/slides`                                           | Carrusel de portada                                                                                           | ídem                                          |
+| `/admin/contenido/galeria` · `/faq` · `/guias` · `/testimonios`     | Resto de contenido                                                                                            | ídem                                          |
+| `/admin/insumos`                                                    | Existencias, buscador, atajos de registro; `nuevo/`, `[id]` (ficha con lotes y kárdex, anular), `[id]/editar` | ídem (anular: solo admin/superadmin)          |
+| `/admin/insumos/ingreso` · `/consumo`                               | Registrar un ingreso (varias líneas) o el consumo del día                                                     | ídem                                          |
+| `/admin/insumos/conteo`                                             | Conteo físico, también el inventario inicial                                                                  | superadmin, admin                             |
+| `/admin/insumos/bajas` · `/bajas/nueva`                             | Pedir bajas (ingeniero) y aprobarlas o rechazarlas (administración)                                           | ídem (aprobar: solo admin/superadmin)         |
+| `/admin/insumos/proveedores`                                        | Proveedores                                                                                                   | ídem                                          |
+| `/admin/insumos/reportes` · `/[reporte]` · `/[reporte]/{excel,pdf}` | Existencias, consumo, compras, mermas y kárdex, con gráfico, tabla y descarga                                 | ídem                                          |
+| `/admin/clientes`                                                   | Clientes, fotos, zonas, mapa                                                                                  | + repartidor                                  |
+| `/admin/usuarios`                                                   | Usuarios y roles                                                                                              | superadmin, admin (eliminar: solo superadmin) |
+| `/admin/auditoria`                                                  | Historial de cambios                                                                                          | superadmin, admin                             |
+| `/admin/configuracion`                                              | **Logo, favicon, contacto, coordenadas, horarios, redes, textos**                                             | superadmin, admin                             |
 
 ### 5.3 Flujo de aprobación de promociones (R10)
 
@@ -641,6 +646,14 @@ Con la skill `dataviz`:
 
 Todos los gráficos con **texto alternativo y tabla de datos accesible** — un gráfico que solo comunica por color no comunica.
 
+**Cómo quedó en F5 (30/09/2026).** El inicio del panel tiene las **tarjetas de aviso** (bajo el
+mínimo, por vencer, bajas y promociones por aprobar) con su enlace; los **gráficos no están en el
+tablero sino en Reportes** (`/admin/insumos/reportes/[reporte]`), junto a la tabla que los hace
+accesibles: `recharts` solo carga ahí, y el gráfico va `aria-hidden` con `accessibilityLayer={false}`
+porque lo que se lee es la tabla. La actividad reciente desde `auditoria` queda para F7, con la
+auditoría. La valorización es el reporte de existencias, que marca con «\*» lo que no tiene costo
+registrado.
+
 ---
 
 ## 6. Pruebas
@@ -655,14 +668,16 @@ Todos los gráficos con **texto alternativo y tabla de datos accesible** — un 
 
 **El panel (F4) tiene su propia capa, además de la del sitio público:**
 
-| Tipo                                  | Qué cubre                                                                                                                                                                                                                                                                                         |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`e2e/panel-accesibilidad.spec.ts`** | axe **y** área táctil (≥ 44 × 44 px) por **cada ruta** del panel, en `RUTAS_DEL_PANEL` (21 rutas al cierre de F4: dashboard, cada módulo de contenido y su `nueva/`, usuarios y su `nuevo/`, configuración). Al añadir una ruta, se añade a la lista                                              |
-| **`e2e/panel-*.spec.ts` por módulo**  | Un flujo completo por módulo — crear, editar, publicar, borrar — desde la interfaz, no llamando a la Server Action directamente. `panel-usuarios.spec.ts` cubre además el primer ingreso con cambio de contraseña obligatorio                                                                     |
-| **`e2e/panel-sesiones.spec.ts`**      | Que desactivar, restablecer la contraseña o cambiar el rol de otra persona le cierre la sesión **en el acto** (dos navegadores: uno actúa, el otro es el afectado), y que cambiar la propia contraseña no cierre nada                                                                             |
-| **Vitest por regla de autorización**  | Cada función pura que decide quién puede hacer qué (`puedeGestionarAcceso`, `puedeRestablecerClave`, `rolesQuePuedeAsignar`) tiene su tabla de verdad completa, no solo casos sueltos                                                                                                             |
-| **pgTAP por migración**               | Cada migración de F4 (`0026`–`0032`) prueba su regla de base, con las pruebas negativas exigiendo el código y el texto exacto del error, no solo «algo falló»                                                                                                                                     |
-| **Carreras entre proyectos**          | Las pruebas que escriben en una fila compartida (`configuracion_sitio`, el orden de `faqs`) se restringen a un solo proyecto de Playwright o usan un cerrojo entre procesos (`e2e/ayudas/cerrojo.ts`) — dos proyectos en paralelo sobre la misma fila se pisan aunque cada uno mida algo distinto |
+| Tipo                                  | Qué cubre                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`e2e/panel-accesibilidad.spec.ts`** | axe **y** área táctil (≥ 44 × 44 px) por **cada ruta** del panel, en `RUTAS_DEL_PANEL` (21 rutas al cierre de F4: dashboard, cada módulo de contenido y su `nueva/`, usuarios y su `nuevo/`, configuración). Al añadir una ruta, se añade a la lista                                                                                                                                                                        |
+| **`e2e/panel-*.spec.ts` por módulo**  | Un flujo completo por módulo — crear, editar, publicar, borrar — desde la interfaz, no llamando a la Server Action directamente. `panel-usuarios.spec.ts` cubre además el primer ingreso con cambio de contraseña obligatorio                                                                                                                                                                                               |
+| **`e2e/panel-sesiones.spec.ts`**      | Que desactivar, restablecer la contraseña o cambiar el rol de otra persona le cierre la sesión **en el acto** (dos navegadores: uno actúa, el otro es el afectado), y que cambiar la propia contraseña no cierre nada                                                                                                                                                                                                       |
+| **Vitest por regla de autorización**  | Cada función pura que decide quién puede hacer qué (`puedeGestionarAcceso`, `puedeRestablecerClave`, `rolesQuePuedeAsignar`) tiene su tabla de verdad completa, no solo casos sueltos                                                                                                                                                                                                                                       |
+| **pgTAP por migración**               | Cada migración de F4 (`0026`–`0032`) prueba su regla de base, con las pruebas negativas exigiendo el código y el texto exacto del error, no solo «algo falló»                                                                                                                                                                                                                                                               |
+| **Insumos (F5)**                      | pgTAP por migración `0033`–`0040` (reparto FEFO, saldo nunca negativo, quién puede ajustar, anular, contar y aprobar bajas, reportes contra cifras calculadas a mano, `enviada_en` solo del servidor); Vitest de unidades, periodos en días de Iquitos, formato de reportes, Excel y correo; E2E de ingresos y consumos, kárdex, bajas, reportes, descargas, resumen diario y concurrencia (`insumos-concurrencia.spec.ts`) |
+| **Arreglos del 29/09/2026**           | `panel-editar` (un lápiz por fila en las 11 listas, y que a 375 px los botones no se salgan de la tarjeta), `panel-busqueda` (filtra al escribir sin recargar) y `panel-inactividad` (2 horas, reloj desfasado, sin marca, otra pestaña)                                                                                                                                                                                    |
+| **Carreras entre proyectos**          | Las pruebas que escriben en una fila compartida (`configuracion_sitio`, el orden de `faqs`) se restringen a un solo proyecto de Playwright o usan un cerrojo entre procesos (`e2e/ayudas/cerrojo.ts`) — dos proyectos en paralelo sobre la misma fila se pisan aunque cada uno mida algo distinto                                                                                                                           |
 
 ---
 
