@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { CascaraPanel } from "@/components/panel/cascara-panel";
+import { VigiaInactividad } from "@/components/panel/vigia-inactividad";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
@@ -34,6 +35,7 @@ async function CascaraConSesion({ children }: { children: React.ReactNode }) {
 
   return (
     <CascaraPanel rol={sesion.rol} nombre={data?.nombre_completo ?? sesion.correo ?? ""}>
+      <VigiaInactividad />
       {children}
     </CascaraPanel>
   );
