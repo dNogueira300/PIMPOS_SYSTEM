@@ -10,7 +10,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
 
 import { useFormularioPanel } from "./formulario-panel";
 
-type Bucket = "productos" | "galeria" | "slides" | "marca";
+type Bucket = "productos" | "galeria" | "slides" | "marca" | "clientes";
 
 type Props = {
   /** `name` del campo oculto que lleva la ruta a la acción. */
@@ -26,6 +26,14 @@ type Props = {
   aceptar?: string;
   /** El límite del bucket (config.toml). Se comprueba ANTES de subir, con un mensaje que se entiende. */
   maximoBytes?: number;
+  /**
+   * La foto se guarda sola al subirla (`alSubir`), no con el «Guardar» del
+   * formulario (fotos de clientes, F6). Entonces no deja rastro en el
+   * formulario: sin campo oculto ni aviso a la copia local, que si no ofrecía
+   * «cambios sin guardar» que no existían y, al recuperarlos, podía pisar la
+   * corrección de otra persona.
+   */
+  inmediata?: boolean;
 };
 
 type Fase = { tipo: "quieta" } | { tipo: "subiendo" } | { tipo: "error"; mensaje: string };
@@ -46,6 +54,7 @@ export function SubidaImagen({
   alSubir,
   aceptar = "image/*",
   maximoBytes = 3 * 1024 * 1024,
+  inmediata = false,
 }: Props) {
   const oculto = useRef<HTMLInputElement>(null);
   const [ruta, setRuta] = useState(rutaInicial ?? "");
@@ -89,9 +98,10 @@ export function SubidaImagen({
         .upload(nueva, listo, { contentType: listo.type || archivo.type, upsert: false });
       if (error) throw error;
 
-      setRuta(nueva);
       await alSubir?.(nueva);
       setFase({ tipo: "quieta" });
+      if (inmediata) return;
+      setRuta(nueva);
       // El campo oculto cambió por código y eso no dispara `input`. Se avisa
       // en la vuelta siguiente del bucle, cuando React ya pintó la ruta nueva:
       // un microtask llegaría antes y la copia local guardaría la vieja.
@@ -105,14 +115,16 @@ export function SubidaImagen({
     }
   }
 
-  const vista = urlDeImagen(bucket, ruta);
+  // El bucket `clientes` es privado: no hay URL pública que enseñar. La foto
+  // aparece en la lista de `FotosCliente` (por URL firmada) al refrescar.
+  const vista = bucket === "clientes" ? null : urlDeImagen(bucket, ruta);
 
   return (
     <fieldset className="flex flex-col gap-3" data-subida={nombre}>
       <legend className="text-sm font-semibold">{etiqueta}</legend>
-      <input ref={oculto} type="hidden" name={nombre} value={ruta} />
+      {inmediata ? null : <input ref={oculto} type="hidden" name={nombre} value={ruta} />}
 
-      {vista ? (
+      {inmediata ? null : vista ? (
         // eslint-disable-next-line @next/next/no-img-element -- vista previa de un archivo recién subido; next/image exigiría declarar el host y optimizar algo que se ve un segundo
         <img
           src={vista}
@@ -146,7 +158,13 @@ export function SubidaImagen({
             capture="environment"
             aria-label={`Tomar foto para ${etiqueta}`}
             className="peer absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
-            onChange={(e) => void elegir(e.currentTarget.files?.[0])}
+            onChange={(e) => {
+              // Una foto inmediata no es un cambio del formulario: el evento no
+              // sube hasta él (su copia local escucha `input` y `change`).
+              if (inmediata) e.stopPropagation();
+              void elegir(e.currentTarget.files?.[0]);
+            }}
+            onInput={inmediata ? (e) => e.stopPropagation() : undefined}
             disabled={fase.tipo === "subiendo"}
           />
           <span
@@ -162,7 +180,13 @@ export function SubidaImagen({
             accept={aceptar}
             aria-label={`Elegir de la galería para ${etiqueta}`}
             className="peer absolute inset-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed"
-            onChange={(e) => void elegir(e.currentTarget.files?.[0])}
+            onChange={(e) => {
+              // Una foto inmediata no es un cambio del formulario: el evento no
+              // sube hasta él (su copia local escucha `input` y `change`).
+              if (inmediata) e.stopPropagation();
+              void elegir(e.currentTarget.files?.[0]);
+            }}
+            onInput={inmediata ? (e) => e.stopPropagation() : undefined}
             disabled={fase.tipo === "subiendo"}
           />
           <span

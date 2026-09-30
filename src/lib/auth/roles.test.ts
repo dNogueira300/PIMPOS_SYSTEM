@@ -102,10 +102,26 @@ describe("puedeAcceder", () => {
   it("el repartidor solo llega a clientes y al tablero", () => {
     expect(puedeAcceder("repartidor", "/admin")).toBe(true);
     expect(puedeAcceder("repartidor", "/admin/clientes")).toBe(true);
-    expect(puedeAcceder("repartidor", "/admin/clientes/nuevo")).toBe(true);
+    // Decisión 2 de F6: el repartidor consulta y corrige; no da altas.
+    expect(puedeAcceder("repartidor", "/admin/clientes/nuevo")).toBe(false);
+    expect(puedeAcceder("repartidor", "/admin/clientes/zonas")).toBe(false);
     // Estas son las que la ficha le niega expresamente.
     expect(puedeAcceder("repartidor", "/admin/insumos")).toBe(false);
     expect(puedeAcceder("repartidor", "/admin/contenido/productos")).toBe(false);
     expect(puedeAcceder("repartidor", "/admin/usuarios")).toBe(false);
+  });
+
+  it("zonas, revisar y exportar clientes son de la administración (decisiones 4, 6 y 10)", () => {
+    for (const ruta of [
+      "/admin/clientes/zonas",
+      "/admin/clientes/revisar",
+      "/admin/clientes/excel",
+      "/admin/clientes/pdf",
+    ]) {
+      expect(puedeAcceder("administrador", ruta), ruta).toBe(true);
+      expect(puedeAcceder("ingeniero", ruta), ruta).toBe(false);
+      expect(puedeAcceder("repartidor", ruta), ruta).toBe(false);
+    }
+    expect(puedeAcceder("ingeniero", "/admin/clientes/nuevo")).toBe(true);
   });
 });

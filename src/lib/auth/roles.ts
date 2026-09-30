@@ -35,7 +35,15 @@ const ACCESO_POR_SECCION: ReadonlyArray<readonly [ruta: string, roles: readonly 
   ["/admin/configuracion", ["superadmin", "administrador"]],
   ["/admin/contenido", ["superadmin", "administrador", "ingeniero"]],
   ["/admin/insumos", ["superadmin", "administrador", "ingeniero"]],
-  // El repartidor solo entra aqui: consulta y registra clientes para el reparto.
+  // Decisiones de F6: el repartidor consulta y corrige, no da altas; zonas,
+  // conservación y exportación son de la administración. El prefijo más largo
+  // gana, así que estas mandan sobre `/admin/clientes`.
+  ["/admin/clientes/nuevo", ["superadmin", "administrador", "ingeniero"]],
+  ["/admin/clientes/zonas", ["superadmin", "administrador"]],
+  ["/admin/clientes/revisar", ["superadmin", "administrador"]],
+  ["/admin/clientes/excel", ["superadmin", "administrador"]],
+  ["/admin/clientes/pdf", ["superadmin", "administrador"]],
+  // El repartidor entra aqui: consulta y corrige clientes para el reparto.
   ["/admin/clientes", ["superadmin", "administrador", "ingeniero", "repartidor"]],
   // El tablero lo ve cualquiera con sesion; cada tarjeta filtra su contenido.
   ["/admin", ["superadmin", "administrador", "ingeniero", "repartidor"]],

@@ -19,9 +19,18 @@ export type Pestana = {
  * desmontado no llega al FormData: se guardaría el producto sin sus precios.
  * Por eso todas llevan `forceMount` y se esconden con CSS.
  */
-export function PestanasFormulario({ pestanas }: { pestanas: readonly Pestana[] }) {
+export function PestanasFormulario({
+  pestanas,
+  inicial,
+}: {
+  pestanas: readonly Pestana[];
+  /** La pestaña con la que abre (F6: tras el alta, «Ubicación y fotos»). */
+  inicial?: string;
+}) {
   const { errores, registrarAlFallar } = useFormularioPanel();
-  const [activa, setActiva] = useState(pestanas[0]?.valor ?? "");
+  const [activa, setActiva] = useState(
+    pestanas.some((p) => p.valor === inicial) ? (inicial ?? "") : (pestanas[0]?.valor ?? ""),
+  );
 
   // Solo registra el aviso; el cambio de pestaña ocurre dentro del envío.
   useEffect(

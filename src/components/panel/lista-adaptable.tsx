@@ -25,6 +25,8 @@ type Props<F extends { id: string }> = {
    * (la miniatura de galería).
    */
   nombreFila?: (fila: F) => string;
+  /** El texto del lápiz: «Editar» por defecto; «Corregir» para el repartidor (F6). */
+  etiquetaEditar?: string;
   /** Lo que se ve cuando no hay nada: qué es y cómo empezar. */
   vacio: ReactNode;
   /** Botones por fila (ordenar, borrar). Van fuera del enlace. */
@@ -44,6 +46,7 @@ export function ListaAdaptable<F extends { id: string }>({
   acciones,
   editar,
   nombreFila,
+  etiquetaEditar = "Editar",
   etiqueta,
 }: Props<F>) {
   if (filas.length === 0) {
@@ -67,7 +70,7 @@ export function ListaAdaptable<F extends { id: string }>({
         // (aunque invisible) confunde a quien busca la fila por su nombre.
         <Link
           href={editar(fila)}
-          aria-label={`Editar ${nombreDe(fila)}`.trim()}
+          aria-label={`${etiquetaEditar} ${nombreDe(fila)}`.trim()}
           className="text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-full"
         >
           <Pencil aria-hidden className="size-5" />

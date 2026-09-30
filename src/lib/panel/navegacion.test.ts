@@ -6,22 +6,23 @@ const nombres = (rol: Parameters<typeof seccionesPara>[0]) =>
   seccionesPara(rol).map((s) => s.nombre);
 
 describe("seccionesPara", () => {
-  it("el administrador ve insumos entre contenido y usuarios", () => {
+  it("el administrador ve clientes después de insumos", () => {
     expect(nombres("administrador")).toEqual([
       "Inicio",
       "Contenido",
       "Insumos",
+      "Clientes",
       "Usuarios",
       "Configuración",
     ]);
   });
 
-  it("el ingeniero ve inicio, contenido e insumos, no usuarios ni configuración", () => {
-    expect(nombres("ingeniero")).toEqual(["Inicio", "Contenido", "Insumos"]);
+  it("el ingeniero ve inicio, contenido, insumos y clientes", () => {
+    expect(nombres("ingeniero")).toEqual(["Inicio", "Contenido", "Insumos", "Clientes"]);
   });
 
-  it("el repartidor solo ve el inicio hasta que existan clientes (F6)", () => {
-    expect(nombres("repartidor")).toEqual(["Inicio"]);
+  it("el repartidor ve el inicio y clientes (F6)", () => {
+    expect(nombres("repartidor")).toEqual(["Inicio", "Clientes"]);
   });
 
   it("la barra inferior nunca lleva más de cuatro botones propios", () => {

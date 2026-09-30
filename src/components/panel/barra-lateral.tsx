@@ -1,6 +1,15 @@
 "use client";
 
-import { ExternalLink, House, LayoutGrid, LogOut, Package, Settings, Users } from "lucide-react";
+import {
+  Contact,
+  ExternalLink,
+  House,
+  LayoutGrid,
+  LogOut,
+  Package,
+  Settings,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,6 +21,7 @@ export const ICONOS: Record<NombreIcono, typeof House> = {
   inicio: House,
   contenido: LayoutGrid,
   insumos: Package,
+  clientes: Contact,
   usuarios: Users,
   configuracion: Settings,
 };
