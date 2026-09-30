@@ -2,8 +2,7 @@ import "server-only";
 
 import ExcelJS from "exceljs";
 
-import { AVISO_SIN_COSTO, MARCA_SIN_COSTO } from "./formato-reporte";
-import type { Reporte } from "./reportes";
+import { AVISO_SIN_COSTO, MARCA_SIN_COSTO, type TablaExportable } from "./formato-reporte";
 
 const SOLES = '"S/" #,##0.00';
 // «General» y no «0.####»: con ese formato Excel escribe «120.» cuando la
@@ -34,7 +33,7 @@ function nombreDeHoja(titulo: string): string {
  * 1 título · 2 periodo · 3 vacía · 4 cabecera · 5… datos · después, el total
  * y, si alguna fila lleva costo parcial, la misma nota que la pantalla.
  */
-export async function reporteAExcel(reporte: Reporte): Promise<Buffer> {
+export async function reporteAExcel(reporte: TablaExportable): Promise<Buffer> {
   const libro = new ExcelJS.Workbook();
   libro.creator = "Panadería Pimpo's";
   const hoja = libro.addWorksheet(nombreDeHoja(reporte.titulo));

@@ -49,6 +49,7 @@ const nextConfig: NextConfig = {
    */
   outputFileTracingIncludes: {
     "/admin/insumos/reportes/[reporte]/pdf": ["./src/recursos/compartir/*.ttf"],
+    "/admin/clientes/pdf": ["./src/recursos/compartir/*.ttf"],
   },
 
   images: {

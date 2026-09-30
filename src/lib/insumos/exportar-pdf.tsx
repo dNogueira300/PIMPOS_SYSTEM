@@ -4,8 +4,12 @@ import { join } from "node:path";
 
 import { Document, Font, Page, renderToBuffer, StyleSheet, Text, View } from "@react-pdf/renderer";
 
-import { AVISO_SIN_COSTO, formatearSoles, textosDeLasFilas } from "./formato-reporte";
-import type { Reporte } from "./reportes";
+import {
+  AVISO_SIN_COSTO,
+  formatearSoles,
+  type TablaExportable,
+  textosDeLasFilas,
+} from "./formato-reporte";
 
 // Las mismas TTF estáticas que usa la imagen para compartir (F3): el PDF no
 // admite woff2 variables, igual que `ImageResponse`. Ver su LICENCIA.md. Se
@@ -49,7 +53,7 @@ const estilos = StyleSheet.create({
  * Un reporte a PDF, con los mismos textos que la pantalla (`textosDeLasFilas`).
  * Más de cinco columnas (el kárdex) van en apaisado para que la tabla quepa.
  */
-export async function reporteAPdf(reporte: Reporte): Promise<Buffer> {
+export async function reporteAPdf(reporte: TablaExportable): Promise<Buffer> {
   const textos = textosDeLasFilas(reporte);
   const estiloDe = (i: number) =>
     reporte.columnas[i]?.tipo === "texto" ? estilos.celda : estilos.numero;
@@ -64,7 +68,7 @@ export async function reporteAPdf(reporte: Reporte): Promise<Buffer> {
         <Text style={estilos.titulo}>{reporte.titulo}</Text>
         <Text style={estilos.subtitulo}>Panadería Pimpo&apos;s · {reporte.subtitulo}</Text>
         {textos.length === 0 ? (
-          <Text style={estilos.vacio}>No hay datos en ese periodo.</Text>
+          <Text style={estilos.vacio}>{reporte.vacio ?? "No hay datos en ese periodo."}</Text>
         ) : (
           <>
             <View style={estilos.cabecera} fixed>
