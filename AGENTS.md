@@ -703,6 +703,28 @@ mode: "serial" })` solo ordena pruebas **dentro** de un proyecto, no entre los d
   el proceso no tiene (`hasOwnProperty`), aunque la del proceso sea `""`. Por eso el servidor de las
   E2E arranca con `RESEND_API_KEY: ""` y `CORREO_ALERTAS: ""` en `playwright.config.ts`: nunca manda
   un correo de verdad, tenga quien tenga su llave en local.
+- **Un texto oculto para lectores de pantalla también lo encuentra `getByText`.** El lápiz de editar
+  llevaba su nombre en un `<span class="sr-only">Editar Harina</span>`, y toda prueba que buscaba la
+  fila con `getByText("Harina")` pasó a encontrar dos elementos y a fallar por modo estricto. Un
+  control con icono lleva su nombre en `aria-label`, que no crea un segundo nodo de texto.
+- **Una violación de modo estricto no se reintenta.** Con un buscador que filtra tras una pausa, la
+  comprobación siguiente corre sobre la lista SIN filtrar y falla al instante, aunque el
+  `expect` tenga 20 s. Antes de comprobar, esperar a que la lista quede filtrada (p. ej. cuántos
+  lápices «Editar» hay).
+- **Next le quita al proxy las cabeceras del router** (`rsc`, `next-router-prefetch`,
+  `next-router-state-tree`…: `FLIGHT_HEADERS` en `server/web/adapter.js`), así que desde
+  `src/proxy.ts` una precarga de `<Link>` no se distingue de una navegación. Pasó con la marca de
+  actividad: las precargas la renovaban y una pestaña quieta no caducaba nunca. Lo que sí llega es
+  `sec-fetch-dest`, que pone el navegador: `document` solo en una carga de página entera.
+- **Un botón más por fila puede sacar los demás de la tarjeta a 375 px.** Con el lápiz, preguntas
+  pasó a cuatro botones (188 px) y, con una palabra larga sin cortes en el texto, el enlace no
+  encogía por debajo de ella (`min-width: auto` de un hijo flex): los botones acababan en x = 544,
+  tapados por la tarjeta de al lado. La E2E de reordenar falló dos de cada tres veces «al azar»
+  —dependía del largo del sufijo aleatorio— y pasaba en `main`; se llegó a atribuir a un cerrojo
+  huérfano. Lo que lo destapó fue correr la misma tanda contra `main` y leer la traza del clic
+  («… intercepts pointer events»). El texto de una fila lleva `min-w-0` y `wrap-anywhere`, y los
+  botones `shrink-0`. **Un fallo que solo sale a veces no es intermitente hasta que `main` pasa la
+  misma tanda y la traza dice otra cosa.**
 - **Las columnas de una vista salen nullables en los tipos generados**, aunque en la tabla sean
   `not null` (`existencias_insumo`). Se normalizan al leer (`?? ""`, `?? false`), nunca con `!`.
 
@@ -748,6 +770,23 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
   `/admin/usuarios`, siempre después de `exigirAcceso`. Hay una prueba de axe y otra de área táctil
   **por cada ruta** del panel (`e2e/panel-accesibilidad.spec.ts`, 21 rutas): al añadir una ruta, se
   añade a `RUTAS_DEL_PANEL`.
+  - **Editar tiene su lápiz, y buscar filtra al escribir** (arreglos del 29/09/2026, pedidos por
+    Dan al probar como superadmin). `ListaAdaptable` recibe `editar` (y `nombreFila` si la columna
+    principal no es texto) y pinta un lápiz «Editar …» junto a borrar, en una columna «Acción»; en
+    insumos el nombre abre la ficha y el lápiz, el formulario. Los buscadores de productos e insumos
+    son `BuscadorEnVivo`: cambian la dirección con `router.replace` dentro de una transición, tras
+    una pausa de 250 ms, sin recargar la página; la base sigue filtrando.
+  - **Dos horas sin usar el panel cierran la sesión.** Supabase solo lo ofrece en el plan de pago,
+    así que lo lleva la aplicación con la cookie `pimpos_actividad` (`src/lib/auth/inactividad.ts`),
+    siempre en **hora del servidor**: la escriben el ingreso, el proxy (solo al cargar una página
+    entera del panel, `sec-fetch-dest: document`) y el navegador al tocar o escribir
+    (`VigiaInactividad`, como mucho una vez por minuto, corrigiendo el desfase de su reloj con la
+    marca que acaba de poner el proxy). El proxy la mira en cada petición del panel y del ingreso;
+    con más de dos horas, o **sin marca** (falla cerrado), cierra la sesión y lleva a
+    `/ingresar?motivo=inactividad`. El navegador, con la pestaña quieta o si la marca desaparece
+    (salieron en otra pestaña), navega a `/ingresar` y deja que el proxy cierre: no usa una Server
+    Action, que el proxy interceptaría. Dura 400 días, como las cookies de sesión, y salir la borra;
+    una marca vencida se conserva, así el ingreso sabe decir por qué se cerró.
   - **La sesión se cierra en el acto, no en la próxima hora.** Desactivar a alguien, eliminarlo,
     restablecerle la contraseña o cambiarle el rol borra sus filas de `auth.sessions` (0030 + 0032):
     `app.rol_actual()` devuelve NULL si la `session_id` del JWT ya no existe, y el panel se entera

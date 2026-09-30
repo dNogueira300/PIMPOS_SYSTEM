@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { COOKIE_ACTIVIDAD, DURACION_MARCA_S, sesionInactiva } from "@/lib/auth/inactividad";
 import type { Rol } from "@/lib/auth/roles";
 import { esRol } from "@/lib/auth/roles";
 import type { Database } from "@/tipos/database.types";
@@ -26,12 +27,26 @@ export async function refrescarSesion(
    * el ingreso y el cambio de contraseña: en el panel lo pregunta
    * `exigirAcceso`, y en el sitio público sería una llamada de red para nada.
    */
-  { comprobarEnServidor }: { comprobarEnServidor: boolean },
+  {
+    comprobarEnServidor,
+    vigilarInactividad,
+  }: {
+    comprobarEnServidor: boolean;
+    /**
+     * Cerrar la sesión tras dos horas sin actividad y renovar la marca
+     * (`src/lib/auth/inactividad.ts`). Solo en el panel y en el ingreso: en el
+     * sitio público una cookie nueva en cada respuesta estorbaría a la caché, y
+     * leer una página pública no es usar el panel.
+     */
+    vigilarInactividad: boolean;
+  },
 ): Promise<{
   respuesta: NextResponse;
   rol: Rol | null;
   haySesion: boolean;
   debeCambiarClave: boolean;
+  /** Se acaba de cerrar por inactividad: el proxy lo dice en el ingreso. */
+  inactiva: boolean;
 }> {
   let respuesta = NextResponse.next({ request: peticion });
 
@@ -70,6 +85,49 @@ export async function refrescarSesion(
     if (abierta !== true) claims = null;
   }
 
+  // Dos horas sin actividad (pedido de Dan, 29/09/2026). Se cierra como una
+  // sesión cerrada en el servidor: se revoca y se borran sus cookies.
+  let inactiva = false;
+  const marca = peticion.cookies.get(COOKIE_ACTIVIDAD)?.value;
+  if (claims && vigilarInactividad) {
+    inactiva = sesionInactiva(marca, Date.now());
+    if (inactiva) {
+      await supabase.auth.signOut({ scope: "local" });
+      claims = null;
+    }
+  } else if (vigilarInactividad && marca !== undefined) {
+    // Ya sin sesión, pero con la marca vencida: la cerró la inactividad en
+    // una petición anterior (una precarga, otra pestaña). Salir la borra, así
+    // que quien cerró sesión a propósito no ve este motivo.
+    inactiva = sesionInactiva(marca, Date.now());
+  }
+
+  // Al final, después de cualquier `setAll`, que vuelve a crear la respuesta.
+  //
+  // Solo con sesión, y solo al cargar una página entera (`sec-fetch-dest:
+  // document`, lo pone el navegador). Las peticiones del router —precargas de
+  // `<Link>`, navegaciones del panel, Server Actions— no la renuevan: Next le
+  // quita al proxy las cabeceras que dirían cuál es una precarga, y una
+  // precarga sale sin que nadie toque nada, así que contaría como actividad de
+  // una pestaña quieta. Las demás nacen de un toque o de una tecla, y esas ya
+  // las renueva el navegador (`VigiaInactividad`). Sin la cabecera (navegador
+  // muy viejo, curl) cuenta como página entera.
+  //
+  // Sin sesión no se borra: una marca vencida que se queda hace que un cierre
+  // que falló (sin red) se vuelva a intentar en la petición siguiente, y
+  // entrar la reescribe (`iniciarSesion`).
+  const esPaginaEntera = (peticion.headers.get("sec-fetch-dest") ?? "document") === "document";
+  if (vigilarInactividad && claims && esPaginaEntera) {
+    respuesta.cookies.set(COOKIE_ACTIVIDAD, String(Date.now()), {
+      path: "/",
+      sameSite: "lax",
+      secure: peticion.nextUrl.protocol === "https:",
+      // La lee y la renueva también el navegador (`VigiaInactividad`).
+      httpOnly: false,
+      maxAge: DURACION_MARCA_S,
+    });
+  }
+
   // El claim `rol` lo inyecta app.custom_access_token() al emitir el token
   // (migracion 0003). JwtPayload lleva indice `[key: string]: any`, asi que se
   // estrecha explicitamente: un valor que no sea uno de los 4 roles es como no
@@ -82,5 +140,5 @@ export async function refrescarSesion(
   const metadatos = claims?.app_metadata as Record<string, unknown> | undefined;
   const debeCambiarClave = metadatos?.debe_cambiar_clave === true;
 
-  return { respuesta, rol, haySesion: claims !== null, debeCambiarClave };
+  return { respuesta, rol, haySesion: claims !== null, debeCambiarClave, inactiva };
 }

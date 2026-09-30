@@ -70,7 +70,8 @@ test("un administrador da de alta a alguien, y ese alguien cambia la contraseña
     expect(copia).not.toContain(clave);
 
     await page.getByRole("link", { name: "Listo, ya la anoté" }).click();
-    await expect(page.getByRole("link", { name: new RegExp(nombre) })).toBeVisible();
+    // `.first()`: desde el 29/09/2026 la fila tiene además su lápiz «Editar …».
+    await expect(page.getByRole("link", { name: new RegExp(nombre) }).first()).toBeVisible();
 
     // Sale el administrador y entra la persona nueva.
     await page.context().clearCookies();

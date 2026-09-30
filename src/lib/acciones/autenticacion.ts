@@ -1,8 +1,10 @@
 "use server";
 
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import * as z from "zod";
 
+import { COOKIE_ACTIVIDAD, DURACION_MARCA_S } from "@/lib/auth/inactividad";
 import { esRol } from "@/lib/auth/roles";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { esquemaIngreso } from "@/lib/validaciones/autenticacion";
@@ -60,6 +62,10 @@ export async function iniciarSesion(
     return { mensaje: mensajeDeError(error.code) };
   }
 
+  // La cuenta de inactividad empieza al entrar: una marca vieja de otra vez
+  // cerraría la sesión en cuanto el proxy la viera.
+  await marcarActividad();
+
   // Se comprueba el rol aqui mismo, con el token recien emitido. Mandar a
   // /admin y dejar que el proxy devuelva a quien no tenga permisos funciona,
   // pero encadena dos redirecciones y el navegador se queda mostrando el
@@ -92,5 +98,18 @@ export async function iniciarSesion(
 export async function cerrarSesion(): Promise<void> {
   const supabase = await crearClienteServidor();
   await supabase.auth.signOut();
+  (await cookies()).delete(COOKIE_ACTIVIDAD);
   redirect("/ingresar");
+}
+
+async function marcarActividad(): Promise<void> {
+  const cabeceras = await headers();
+  const protocolo = cabeceras.get("x-forwarded-proto")?.split(",")[0]?.trim();
+  (await cookies()).set(COOKIE_ACTIVIDAD, String(Date.now()), {
+    path: "/",
+    sameSite: "lax",
+    secure: protocolo === "https" || (cabeceras.get("origin") ?? "").startsWith("https:"),
+    httpOnly: false,
+    maxAge: DURACION_MARCA_S,
+  });
 }

@@ -50,6 +50,7 @@ async function Lista() {
       etiqueta="Guías"
       filas={data}
       enlace={(g) => `${RUTA}/${g.id}`}
+      editar={(g) => `${RUTA}/${g.id}`}
       columnas={[
         { titulo: "Título", celda: (g) => g.titulo, principal: true },
         { titulo: "Estado", celda: (g) => <EtiquetaEstado estado={g.estado} /> },

@@ -54,6 +54,7 @@ async function Lista() {
       etiqueta="Cuentas del panel"
       filas={filas}
       enlace={(u) => `${RUTA}/${u.id}`}
+      editar={(u) => `${RUTA}/${u.id}`}
       columnas={[
         { titulo: "Nombre", celda: (u) => u.nombre_completo, principal: true },
         { titulo: "Correo", celda: (u) => <span className="break-all">{u.correo}</span> },

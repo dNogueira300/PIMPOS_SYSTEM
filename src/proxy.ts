@@ -31,9 +31,25 @@ const RUTAS_DE_ACCESO = new Set(["/ingresar", "/cambiar-clave"]);
 
 export async function proxy(peticion: NextRequest) {
   const ruta = peticion.nextUrl.pathname;
-  const { respuesta, rol, haySesion, debeCambiarClave } = await refrescarSesion(peticion, {
-    comprobarEnServidor: RUTAS_DE_ACCESO.has(ruta),
-  });
+  const { respuesta, rol, haySesion, debeCambiarClave, inactiva } = await refrescarSesion(
+    peticion,
+    {
+      comprobarEnServidor: RUTAS_DE_ACCESO.has(ruta),
+      vigilarInactividad: RUTAS_DE_ACCESO.has(ruta) || esRutaDelPanel(ruta),
+    },
+  );
+
+  // Dos horas sin usar el panel: la sesión ya se cerró en `refrescarSesion`;
+  // aquí se lleva al ingreso diciendo por qué. La redirección es una respuesta
+  // nueva, así que se le pasan las cookies que borraron la sesión.
+  if (inactiva && (esRutaDelPanel(ruta) || ruta === "/cambiar-clave")) {
+    const destino = new URL("/ingresar", peticion.url);
+    destino.searchParams.set("motivo", "inactividad");
+    if (esRutaDelPanel(ruta)) destino.searchParams.set("volver", ruta);
+    const redireccion = NextResponse.redirect(destino);
+    for (const cookie of respuesta.cookies.getAll()) redireccion.cookies.set(cookie);
+    return redireccion;
+  }
 
   // Primer ingreso con contraseña temporal (T6). Sin sesión no hay contraseña
   // que cambiar.

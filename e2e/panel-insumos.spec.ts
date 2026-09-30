@@ -18,8 +18,11 @@ test("el ingeniero crea un insumo con su equivalencia y lo ve en Existencias", a
     await page.getByRole("button", { name: "Guardar" }).click();
 
     await page.waitForURL("/admin/insumos");
+    // Filtra al escribir, sin botón (arreglo del 29/09/2026). Se espera a que
+    // la lista quede en su única fila: sin navegación que esperar, la
+    // comprobación de abajo correría antes de que llegara la lista filtrada.
     await page.getByLabel("Buscar insumo").fill(nombre);
-    await page.getByRole("button", { name: "Buscar" }).click();
+    await expect(page.getByRole("link", { name: /^Editar / })).toHaveCount(1);
     const fila = page.getByRole("list", { name: "Existencias de insumos" }).getByText(nombre);
     const tabla = page.getByRole("table", { name: "Existencias de insumos" }).getByText(nombre);
     await expect(fila.or(tabla)).toBeVisible();

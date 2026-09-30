@@ -2,7 +2,7 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { CLASE_CONTROL } from "@/components/panel/campo";
+import { BuscadorEnVivo } from "@/components/panel/buscador-en-vivo";
 import { ConfirmarBorrado } from "@/components/panel/confirmar-borrado";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { EtiquetaEstado } from "@/components/panel/etiqueta-estado";
@@ -78,38 +78,29 @@ async function Lista({
 
   return (
     <>
-      {/* GET nativo: funciona sin JavaScript y deja la búsqueda en la dirección. */}
-      <form className="mb-4 grid gap-2 sm:grid-cols-[1fr_14rem_auto]" role="search">
-        <label className="sr-only" htmlFor="buscar">
-          Buscar producto
-        </label>
-        <input
-          id="buscar"
-          name="q"
-          defaultValue={buscar}
-          placeholder="Buscar por nombre"
-          className={CLASE_CONTROL}
-        />
-        <label className="sr-only" htmlFor="categoria">
-          Categoría
-        </label>
-        <select id="categoria" name="categoria" defaultValue={filtro} className={CLASE_CONTROL}>
-          <option value="">Todas las categorías</option>
-          {(categorias ?? []).map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.nombre}
-            </option>
-          ))}
-        </select>
-        <button type="submit" className="boton-linea">
-          Buscar
-        </button>
-      </form>
+      <BuscadorEnVivo
+        nombre="q"
+        etiqueta="Buscar producto"
+        placeholder="Buscar por nombre"
+        valor={buscar}
+        filtros={[
+          {
+            nombre: "categoria",
+            etiqueta: "Categoría",
+            valor: filtro,
+            opciones: [
+              { valor: "", nombre: "Todas las categorías" },
+              ...(categorias ?? []).map((c) => ({ valor: c.id, nombre: c.nombre })),
+            ],
+          },
+        ]}
+      />
 
       <ListaAdaptable
         etiqueta="Productos del catálogo"
         filas={filas}
         enlace={(p) => `${RUTA}/${p.id}`}
+        editar={(p) => `${RUTA}/${p.id}`}
         columnas={[
           { titulo: "Nombre", celda: (p) => p.nombre, principal: true },
           { titulo: "Categoría", celda: (p) => p.categoria },

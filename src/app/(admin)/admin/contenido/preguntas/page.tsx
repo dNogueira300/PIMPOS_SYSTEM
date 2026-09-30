@@ -49,6 +49,7 @@ async function Lista() {
       etiqueta="Preguntas frecuentes"
       filas={data}
       enlace={(f) => `${RUTA}/${f.id}`}
+      editar={(f) => `${RUTA}/${f.id}`}
       columnas={[
         { titulo: "Pregunta", celda: (f) => f.pregunta, principal: true },
         { titulo: "Estado", celda: (f) => <EtiquetaEstado estado={f.estado} /> },

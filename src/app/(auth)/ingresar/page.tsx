@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 const MOTIVOS: Readonly<Record<string, string>> = {
   "sin-permisos":
     "Tu cuenta todavía no tiene permisos asignados. Pide a un administrador que la active.",
+  inactividad:
+    "Se cerró tu sesión porque pasaron dos horas sin usar el panel. Vuelve a entrar para seguir.",
 };
 
 /**
