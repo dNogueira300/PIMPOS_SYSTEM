@@ -52,6 +52,7 @@ async function Lista() {
       etiqueta="Novedades y promociones"
       filas={data}
       enlace={(n) => `${RUTA}/${n.id}`}
+      editar={(n) => `${RUTA}/${n.id}`}
       columnas={[
         { titulo: "Título", celda: (n) => n.titulo, principal: true },
         { titulo: "Tipo", celda: (n) => NOMBRE_DE_TIPO[n.tipo] },

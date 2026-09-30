@@ -1,3 +1,4 @@
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
@@ -12,6 +13,18 @@ type Props<F extends { id: string }> = {
   filas: readonly F[];
   columnas: readonly Columna<F>[];
   enlace: (fila: F) => string;
+  /**
+   * A dónde lleva el lápiz «Editar». Casi siempre es lo mismo que `enlace`;
+   * en insumos, el nombre abre la ficha y el lápiz, el formulario. Pulsar el
+   * nombre no se descubría (Dan, 29/09/2026): editar tiene su icono propio.
+   */
+  editar?: (fila: F) => string;
+  /**
+   * El nombre de la fila para el lápiz («Editar Harina»). Por defecto, el
+   * texto de la columna principal; hace falta cuando esa columna no es texto
+   * (la miniatura de galería).
+   */
+  nombreFila?: (fila: F) => string;
   /** Lo que se ve cuando no hay nada: qué es y cómo empezar. */
   vacio: ReactNode;
   /** Botones por fila (ordenar, borrar). Van fuera del enlace. */
@@ -29,6 +42,8 @@ export function ListaAdaptable<F extends { id: string }>({
   enlace,
   vacio,
   acciones,
+  editar,
+  nombreFila,
   etiqueta,
 }: Props<F>) {
   if (filas.length === 0) {
@@ -37,6 +52,30 @@ export function ListaAdaptable<F extends { id: string }>({
 
   const principal = columnas.find((c) => c.principal) ?? columnas[0];
   const resto = columnas.filter((c) => c !== principal);
+  const hayAcciones = Boolean(acciones || editar);
+  const nombreDe = (fila: F): string => {
+    if (nombreFila) return nombreFila(fila);
+    const texto = principal.celda(fila);
+    return typeof texto === "string" || typeof texto === "number" ? String(texto) : "";
+  };
+
+  // Mismo tamaño y forma que el botón de borrar (`ConfirmarBorrado`): 44 px.
+  const botones = (fila: F) => (
+    <>
+      {editar ? (
+        // `aria-label` y no un texto oculto: un segundo «Harina» en la página
+        // (aunque invisible) confunde a quien busca la fila por su nombre.
+        <Link
+          href={editar(fila)}
+          aria-label={`Editar ${nombreDe(fila)}`.trim()}
+          className="text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-full"
+        >
+          <Pencil aria-hidden className="size-5" />
+        </Link>
+      ) : null}
+      {acciones?.(fila)}
+    </>
+  );
 
   return (
     <>
@@ -51,7 +90,7 @@ export function ListaAdaptable<F extends { id: string }>({
                 ))}
               </span>
             </Link>
-            {acciones ? <div className="flex items-center gap-1">{acciones(fila)}</div> : null}
+            {hayAcciones ? <div className="flex items-center gap-1">{botones(fila)}</div> : null}
           </li>
         ))}
       </ul>
@@ -65,9 +104,9 @@ export function ListaAdaptable<F extends { id: string }>({
                 {c.titulo}
               </th>
             ))}
-            {acciones ? (
-              <th scope="col" className="px-4 py-3">
-                <span className="sr-only">Acciones</span>
+            {hayAcciones ? (
+              <th scope="col" className="px-4 py-3 text-right font-semibold">
+                Acción
               </th>
             ) : null}
           </tr>
@@ -89,9 +128,9 @@ export function ListaAdaptable<F extends { id: string }>({
                   )}
                 </td>
               ))}
-              {acciones ? (
+              {hayAcciones ? (
                 <td className="px-4 py-2">
-                  <div className="flex justify-end gap-1">{acciones(fila)}</div>
+                  <div className="flex justify-end gap-1">{botones(fila)}</div>
                 </td>
               ) : null}
             </tr>

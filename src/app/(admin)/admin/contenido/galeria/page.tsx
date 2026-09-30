@@ -51,6 +51,8 @@ async function Lista() {
       etiqueta="Fotos de la galería"
       filas={data}
       enlace={(f) => `${RUTA}/${f.id}`}
+      editar={(f) => `${RUTA}/${f.id}`}
+      nombreFila={(f) => f.titulo ?? f.alt}
       columnas={[
         {
           titulo: "Foto",

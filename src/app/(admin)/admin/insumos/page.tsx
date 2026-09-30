@@ -139,6 +139,7 @@ async function Lista({
         etiqueta="Existencias de insumos"
         filas={filas}
         enlace={(i) => `${RUTA}/${i.id}`}
+        editar={(i) => `${RUTA}/${i.id}/editar`}
         columnas={[
           { titulo: "Insumo", celda: (i) => i.nombre, principal: true },
           {

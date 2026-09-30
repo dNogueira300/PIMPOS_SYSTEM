@@ -49,6 +49,7 @@ async function Lista() {
       etiqueta="Testimonios"
       filas={data}
       enlace={(t) => `${RUTA}/${t.id}`}
+      editar={(t) => `${RUTA}/${t.id}`}
       columnas={[
         { titulo: "Nombre", celda: (t) => t.nombre, principal: true },
         {

@@ -50,6 +50,7 @@ async function Lista() {
       etiqueta="Slides de la portada"
       filas={data}
       enlace={(s) => `${RUTA}/${s.id}`}
+      editar={(s) => `${RUTA}/${s.id}`}
       columnas={[
         { titulo: "Titular", celda: (s) => s.titulo, principal: true },
         { titulo: "Estado", celda: (s) => <EtiquetaEstado estado={s.estado} /> },

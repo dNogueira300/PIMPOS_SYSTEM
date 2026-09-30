@@ -110,6 +110,7 @@ async function Lista({
         etiqueta="Productos del catálogo"
         filas={filas}
         enlace={(p) => `${RUTA}/${p.id}`}
+        editar={(p) => `${RUTA}/${p.id}`}
         columnas={[
           { titulo: "Nombre", celda: (p) => p.nombre, principal: true },
           { titulo: "Categoría", celda: (p) => p.categoria },

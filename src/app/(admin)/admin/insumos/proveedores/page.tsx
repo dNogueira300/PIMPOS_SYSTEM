@@ -48,6 +48,7 @@ async function Lista() {
       etiqueta="Proveedores"
       filas={data}
       enlace={(p) => `${RUTA}/${p.id}`}
+      editar={(p) => `${RUTA}/${p.id}`}
       columnas={[
         { titulo: "Nombre", celda: (p) => p.nombre, principal: true },
         { titulo: "Qué nos vende", celda: (p) => p.observacion ?? "" },
