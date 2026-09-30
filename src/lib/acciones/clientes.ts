@@ -2,9 +2,10 @@
 
 import * as z from "zod";
 
+import { CELULAR_BORRADO } from "@/lib/clientes/borrado";
 import { normalizarCelular } from "@/lib/clientes/contacto";
 import { VERSION_PERMISO } from "@/lib/clientes/permiso";
-import { ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
+import { type ContextoAccion, ejecutarAccion, type EstadoAccion } from "@/lib/panel/accion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import {
@@ -193,7 +194,8 @@ export async function buscarCelularRepetido(
 ): Promise<{ id: string; nombre: string; zona: string | null } | null> {
   await exigirAcceso(TODOS);
   const numero = normalizarCelular(celular);
-  if (numero.length < 6) return null;
+  // El celular de las fichas borradas a pedido (0043) es de todas ellas: no es de nadie.
+  if (numero.length < 6 || numero === CELULAR_BORRADO) return null;
   const supabase = await crearClienteServidor();
   let consulta = supabase
     .from("clientes")
@@ -206,4 +208,118 @@ export async function buscarCelularRepetido(
   return data
     ? { id: data.id, nombre: data.nombre_completo, zona: data.zonas_reparto?.nombre ?? null }
     : null;
+}
+
+const ADMINISTRACION = "/admin/clientes/zonas"; // prefijo solo de superadmin y administrador (roles.ts)
+
+/**
+ * Borra en Storage todo lo que quede en la carpeta del cliente. Por carpeta y
+ * no por la lista de filas: si un intento anterior borró la base y falló aquí,
+ * las filas ya no existen y la carpeta sí. Borrar lo que no está no falla, así
+ * que repetirlo es seguro.
+ */
+async function vaciarCarpeta(
+  supabase: ContextoAccion["supabase"],
+  id: string,
+): Promise<{ quedan: number }> {
+  const listar = () => supabase.storage.from("clientes").list(id, { limit: 100 });
+  const { data, error } = await listar();
+  if (error) {
+    console.error("[clientes] no se pudo listar la carpeta", id, error.message);
+    return { quedan: -1 };
+  }
+  const rutas = (data ?? []).map((f) => `${id}/${f.name}`);
+  if (rutas.length === 0) return { quedan: 0 };
+  await supabase.storage.from("clientes").remove(rutas);
+  // `remove()` no da error cuando la RLS no deja borrar: devuelve una lista
+  // vacía. Lo único fiable es volver a mirar qué quedó en la carpeta.
+  const { data: despues, error: errorDespues } = await listar();
+  if (errorDespues) return { quedan: -1 };
+  const quedan = (despues ?? []).length;
+  if (quedan > 0) console.error("[clientes] fotos sin borrar en la carpeta", id, quedan);
+  return { quedan };
+}
+
+/** Decisión 3: borra de verdad, con motivo. Solo la administración (la base lo exige también). */
+export async function borrarDatosCliente(id: string, motivo: string): Promise<EstadoAccion> {
+  return ejecutarAccion({
+    ruta: ADMINISTRACION,
+    esquema: z.object({
+      id: z.uuid(),
+      motivo: z
+        .string()
+        .trim()
+        .min(3, { error: "Escribe por qué, por ejemplo «lo pidió por WhatsApp»." })
+        .max(300),
+    }),
+    entrada: { id, motivo },
+    entidad: "el cliente",
+    etiquetas: [],
+    mensajeOk: "Datos borrados. Queda solo la constancia de que se borraron.",
+    hacer: async (d, { supabase }) => {
+      const { error } = await supabase.rpc("borrar_datos_cliente", {
+        p_id: d.id,
+        p_motivo: d.motivo,
+      });
+      if (error) return { error };
+      const { quedan } = await vaciarCarpeta(supabase, d.id);
+      if (quedan !== 0) {
+        return {
+          error: null,
+          mensaje:
+            "Datos borrados, pero algunas fotos no se pudieron borrar. Pulsa «Borrar las fotos que quedaron» en la ficha.",
+          extra: { fotosSinBorrar: String(quedan) },
+        };
+      }
+      return { error: null };
+    },
+  });
+}
+
+export async function borrarFotosQueQuedaron(id: string): Promise<EstadoAccion> {
+  return ejecutarAccion({
+    ruta: ADMINISTRACION,
+    esquema: z.object({ id: z.uuid() }),
+    entrada: { id },
+    entidad: "las fotos",
+    etiquetas: [],
+    mensajeOk: "Listo: ya no queda ninguna foto de este cliente.",
+    hacer: async (d, { supabase }) => {
+      const { quedan } = await vaciarCarpeta(supabase, d.id);
+      return quedan === 0
+        ? { error: null }
+        : {
+            error: {
+              code: "P0001",
+              message: "Todavía no se pudieron borrar. Inténtalo en un rato.",
+            },
+          };
+    },
+  });
+}
+
+/**
+ * «Sigue siendo cliente» (decisión 4): renueva la fecha sin cambiar nada. Un
+ * `update` que no cambia ningún valor igual dispara `set_updated_at`, que es lo
+ * que mide `clientes_para_revisar`.
+ */
+export async function seguirComoCliente(id: string): Promise<EstadoAccion> {
+  return ejecutarAccion({
+    ruta: ADMINISTRACION,
+    esquema: z.object({ id: z.uuid() }),
+    entrada: { id },
+    entidad: "el cliente",
+    etiquetas: [],
+    mensajeOk: "Anotado. No vuelve a salir aquí hasta dentro de dos años.",
+    hacer: async (d, { supabase }) => {
+      const { error } = await supabase
+        .from("clientes")
+        .update({ activo: true })
+        .eq("id", d.id)
+        .is("deleted_at", null)
+        .select("id")
+        .single();
+      return { error };
+    },
+  });
 }

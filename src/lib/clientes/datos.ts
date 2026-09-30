@@ -2,6 +2,8 @@ import "server-only";
 
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
+import { NOMBRE_BORRADO } from "./borrado";
+
 /** Las fotos del bucket privado se sirven por URL firmada, 10 minutos (Global Constraints). */
 export const SEGUNDOS_URL_FIRMADA = 600;
 
@@ -25,6 +27,8 @@ export type FichaCliente = ClienteDeLista & {
   fotos: FotoCliente[];
   permiso: { texto_version: string; otorgado_en: string; registrado_por: string } | null;
   borrado: boolean;
+  /** Archivos que siguen en su carpeta de Storage tras borrar sus datos (reintento, T5). */
+  fotosEnCarpeta: number;
 };
 
 const numero = (v: unknown) => (v === null || v === undefined ? null : Number(v));
@@ -45,18 +49,22 @@ export async function buscarClientes(f: {
     console.error("[clientes] buscar:", error.message);
     return null;
   }
-  return data.map((c) => ({
-    id: c.id,
-    nombre_completo: c.nombre_completo,
-    celular: c.celular,
-    direccion: c.direccion,
-    referencia: c.referencia,
-    zona_id: c.zona_id,
-    zona: c.zona,
-    latitud: numero(c.latitud),
-    longitud: numero(c.longitud),
-    activo: c.activo,
-  }));
+  // Un cliente con sus datos borrados a pedido ya no es un cliente al que
+  // repartir: ni en activos ni en desactivados. Su constancia está en su ficha.
+  return data
+    .filter((c) => c.nombre_completo !== NOMBRE_BORRADO)
+    .map((c) => ({
+      id: c.id,
+      nombre_completo: c.nombre_completo,
+      celular: c.celular,
+      direccion: c.direccion,
+      referencia: c.referencia,
+      zona_id: c.zona_id,
+      zona: c.zona,
+      latitud: numero(c.latitud),
+      longitud: numero(c.longitud),
+      activo: c.activo,
+    }));
 }
 
 export async function leerFicha(id: string): Promise<FichaCliente | null> {
@@ -75,6 +83,12 @@ export async function leerFicha(id: string): Promise<FichaCliente | null> {
     supabase.from("supresiones").select("id").eq("cliente_id", id).maybeSingle(),
   ]);
   if (!c) return null;
+  const borrado = Boolean(supresion) || c.nombre_completo === NOMBRE_BORRADO;
+  // Solo en una ficha borrada: si al borrar falló Storage, quedan archivos sin
+  // fila que los enseñe, y la administración tiene que poder reintentarlo.
+  const fotosEnCarpeta = borrado
+    ? ((await supabase.storage.from("clientes").list(id, { limit: 100 })).data?.length ?? 0)
+    : 0;
 
   const rutas = (fotos ?? []).map((f) => f.ruta);
   const { data: firmadas } = rutas.length
@@ -97,7 +111,8 @@ export async function leerFicha(id: string): Promise<FichaCliente | null> {
     fotos: (fotos ?? []).map((f) => ({ ...f, url: urlDe.get(f.ruta) ?? null })),
     permiso: permiso ?? null,
     // La administración ve la constancia; los demás, la ficha tachada por su nombre.
-    borrado: Boolean(supresion) || c.nombre_completo === "Datos borrados a pedido del cliente",
+    borrado,
+    fotosEnCarpeta,
   };
 }
 

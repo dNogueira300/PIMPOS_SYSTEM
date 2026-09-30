@@ -27,6 +27,12 @@ type Props<F extends { id: string }> = {
   nombreFila?: (fila: F) => string;
   /** El texto del lápiz: «Editar» por defecto; «Corregir» para el repartidor (F6). */
   etiquetaEditar?: string;
+  /**
+   * En el celular, los botones van en su propia fila, debajo del nombre. Para
+   * acciones con texto («Sigue siendo cliente»): junto al nombre lo dejaban
+   * en 0 px de ancho a 375 px (F6, T5).
+   */
+  accionesDebajo?: boolean;
   /** Lo que se ve cuando no hay nada: qué es y cómo empezar. */
   vacio: ReactNode;
   /** Botones por fila (ordenar, borrar). Van fuera del enlace. */
@@ -47,6 +53,7 @@ export function ListaAdaptable<F extends { id: string }>({
   editar,
   nombreFila,
   etiquetaEditar = "Editar",
+  accionesDebajo = false,
   etiqueta,
 }: Props<F>) {
   if (filas.length === 0) {
@@ -84,7 +91,10 @@ export function ListaAdaptable<F extends { id: string }>({
     <>
       <ul aria-label={etiqueta} className="flex flex-col gap-2 md:hidden">
         {filas.map((fila) => (
-          <li key={fila.id} className="bg-card flex items-center gap-2 rounded-xl border p-3">
+          <li
+            key={fila.id}
+            className={`bg-card flex items-center gap-2 rounded-xl border p-3 ${accionesDebajo ? "flex-wrap" : ""}`}
+          >
             {/* `min-w-0` y `wrap-anywhere`: una palabra larga se corta en vez de
                 empujar los botones fuera de la tarjeta (a 375 px caben cuatro,
                 44 px cada uno, y al texto le queda poco). */}
@@ -100,7 +110,15 @@ export function ListaAdaptable<F extends { id: string }>({
               </span>
             </Link>
             {hayAcciones ? (
-              <div className="flex shrink-0 items-center gap-1">{botones(fila)}</div>
+              <div
+                className={
+                  accionesDebajo
+                    ? "flex w-full flex-wrap items-center justify-end gap-2"
+                    : "flex shrink-0 items-center gap-1"
+                }
+              >
+                {botones(fila)}
+              </div>
             ) : null}
           </li>
         ))}
