@@ -57,3 +57,41 @@ export async function sumarStock(nombreInsumo: string, cantidadBase: number): Pr
   });
   if (errorAjuste) throw new Error(`No se pudo sumar stock: ${errorAjuste.message}`);
 }
+
+/**
+ * Crea un lote con fecha de vencimiento de un insumo perecible y le suma
+ * existencias con un ajuste de la administración (lo que `sumarStock` no hace).
+ * Devuelve el id del lote. Como `sumarStock`, es una suma relativa.
+ */
+export async function sumarLote(
+  nombreInsumo: string,
+  cantidadBase: number,
+  venceEnDias: number,
+  codigo: string,
+): Promise<string> {
+  const administracion = await sesionDeApi("administrador");
+  const { data: insumo, error } = await administracion
+    .from("insumos")
+    .select("id, unidad_base_id")
+    .eq("nombre", nombreInsumo)
+    .single();
+  if (error) throw new Error(`No se encontró ${nombreInsumo}: ${error.message}`);
+  const vence = new Date(Date.now() + venceEnDias * 86_400_000).toISOString().slice(0, 10);
+  const { data: lote, error: errorLote } = await administracion
+    .from("lotes_insumo")
+    .insert({ insumo_id: insumo.id, fecha_vencimiento: vence, codigo })
+    .select("id")
+    .single();
+  if (errorLote) throw new Error(`No se pudo crear el lote: ${errorLote.message}`);
+  const { error: errorAjuste } = await administracion.from("movimientos_insumo").insert({
+    tipo: "ajuste",
+    sentido: 1,
+    insumo_id: insumo.id,
+    lote_id: lote.id,
+    cantidad: cantidadBase,
+    unidad_id: insumo.unidad_base_id,
+    observacion: "Lote para una prueba E2E",
+  });
+  if (errorAjuste) throw new Error(`No se pudo sumar al lote: ${errorAjuste.message}`);
+  return lote.id;
+}

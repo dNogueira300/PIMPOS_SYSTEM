@@ -17,6 +17,8 @@ export type Linea = {
   precio_unitario?: string;
   fecha_vencimiento?: string;
   codigo_lote?: string;
+  /** Solo en la baja: de qué lote sale. Vacío es «el que vence primero». */
+  lote_id?: string;
 };
 type Fila = Linea & { clave: string };
 
@@ -26,6 +28,7 @@ const nueva = (tipo: Tipo): Fila => ({
   cantidad: "",
   unidad_id: "",
   ...(tipo === "ingreso" ? { precio_unitario: "", fecha_vencimiento: "", codigo_lote: "" } : {}),
+  ...(tipo === "baja" ? { lote_id: "" } : {}),
 });
 
 /**
@@ -81,6 +84,7 @@ export function EditorLineas({
             codigo_lote: f.codigo_lote ?? "",
           }
         : {}),
+      ...(tipo === "baja" ? { lote_id: f.lote_id ?? "" } : {}),
     })),
   );
   const errorDe = (i: number, campo: string) => errores[`lineas.${i}.${campo}`]?.[0];
@@ -118,6 +122,7 @@ export function EditorLineas({
                       // viajarían igual en el JSON de la línea.
                       fecha_vencimiento: "",
                       codigo_lote: "",
+                      lote_id: "",
                     });
                   }}
                 >
@@ -197,6 +202,24 @@ export function EditorLineas({
                   </ControlLinea>
                 ) : null}
               </div>
+            ) : null}
+            {tipo === "baja" && insumo?.lotes && insumo.lotes.length > 0 ? (
+              <ControlLinea etiqueta="De qué lote" error={errorDe(i, "lote_id")}>
+                {(p) => (
+                  <select
+                    {...p}
+                    value={f.lote_id ?? ""}
+                    onChange={(e) => actualizar(f.clave, { lote_id: e.target.value })}
+                  >
+                    <option value="">El que vence primero</option>
+                    {insumo.lotes!.map((l) => (
+                      <option key={l.id} value={l.id}>
+                        {l.descripcion}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </ControlLinea>
             ) : null}
             {!unaSola && filas.length > 1 ? (
               <button

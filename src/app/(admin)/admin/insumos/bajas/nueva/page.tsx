@@ -23,5 +23,5 @@ export default function PedirBaja() {
 
 async function Formulario() {
   await exigirAcceso("/admin/insumos/bajas/nueva");
-  return <FormularioBaja insumos={await insumosParaLineas()} />;
+  return <FormularioBaja insumos={await insumosParaLineas({ conLotes: true })} />;
 }
