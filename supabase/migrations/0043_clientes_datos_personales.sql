@@ -63,6 +63,12 @@ begin
      set revocado_en = now(), revocado_por = auth.uid()
    where k.cliente_id = p_id and k.revocado_en is null;
 
+  -- La nota del permiso es texto libre y puede llevar datos; también la de los
+  -- revocados antes.
+  update public.consentimientos k
+     set observacion = null
+   where k.cliente_id = p_id and k.observacion is not null;
+
   update public.clientes c
      set nombre_completo = 'Datos borrados a pedido del cliente',
          celular         = '000000',
@@ -96,6 +102,104 @@ comment on function public.borrar_datos_cliente(uuid, text) is
   'Borra los datos personales de un cliente a su pedido, también de la auditoría (tachando el contenido), y deja la constancia. Devuelve las rutas de sus fotos para borrar los archivos.';
 revoke execute on function public.borrar_datos_cliente(uuid, text) from public, anon;
 grant execute on function public.borrar_datos_cliente(uuid, text) to authenticated;
+
+-- -----------------------------------------------------------------------------
+-- Lo borrado no se vuelve a llenar. Sin esto, la ficha anonimizada se podía
+-- reactivar y rellenar (y la auditoría guardaría los datos nuevos sin tachar),
+-- y el repartidor podía volver a subirle fotos. Si el cliente vuelve, se le
+-- registra de nuevo, con su permiso. `borrar_datos_cliente` escribe la
+-- constancia AL FINAL, así que sus propios cambios pasan.
+--
+-- `security definer`: `supresiones` solo la lee la administración, y la regla
+-- tiene que ver la constancia también cuando actúa el repartidor.
+-- -----------------------------------------------------------------------------
+create or replace function app.datos_borrados(p_cliente uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (select 1 from public.supresiones s where s.cliente_id = p_cliente);
+$$;
+revoke execute on function app.datos_borrados(uuid) from public, anon;
+grant execute on function app.datos_borrados(uuid) to authenticated;
+
+create or replace function app.proteger_datos_borrados()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+declare
+  v_cliente uuid;
+begin
+  -- Un `if` y no un `case`: PL/pgSQL resuelve los dos lados, y `clientes` no
+  -- tiene `cliente_id`.
+  if tg_table_name = 'clientes' then
+    v_cliente := new.id;
+  else
+    v_cliente := new.cliente_id;
+  end if;
+  if app.datos_borrados(v_cliente) then
+    raise exception 'Los datos de este cliente se borraron a su pedido. Si vuelve, regístralo de nuevo.'
+      using errcode = 'P0001';
+  end if;
+  return new;
+end;
+$$;
+
+create trigger clientes_datos_borrados
+  before update on public.clientes
+  for each row execute function app.proteger_datos_borrados();
+create trigger cliente_fotos_datos_borrados
+  before insert or update on public.cliente_fotos
+  for each row execute function app.proteger_datos_borrados();
+create trigger consentimientos_datos_borrados
+  before insert or update on public.consentimientos
+  for each row execute function app.proteger_datos_borrados();
+
+-- Los archivos, igual: a la carpeta de un cliente borrado no se sube nada. El
+-- borrado (0042) sigue igual, para poder reintentar quitar lo que quedó.
+create or replace function app.carpeta_admite_fotos(p_nombre text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select not exists (
+    select 1 from public.supresiones s
+     where s.cliente_id::text = (storage.foldername(p_nombre))[1]
+  );
+$$;
+revoke execute on function app.carpeta_admite_fotos(text) from public, anon;
+grant execute on function app.carpeta_admite_fotos(text) to authenticated;
+
+drop policy "reparto sube fotos de clientes" on storage.objects;
+create policy "reparto sube fotos de clientes"
+  on storage.objects for insert to authenticated
+  with check (
+    bucket_id = 'clientes'
+    and (select app.es_rol('superadmin', 'administrador', 'ingeniero', 'repartidor'))
+    and app.carpeta_es_cliente_visible(name)
+    and app.carpeta_admite_fotos(name)
+  );
+
+drop policy "reparto reemplaza fotos de clientes" on storage.objects;
+create policy "reparto reemplaza fotos de clientes"
+  on storage.objects for update to authenticated
+  using (
+    bucket_id = 'clientes'
+    and (select app.es_rol('superadmin', 'administrador', 'ingeniero', 'repartidor'))
+    and app.carpeta_es_cliente_visible(name)
+    and app.carpeta_admite_fotos(name)
+  )
+  with check (
+    bucket_id = 'clientes'
+    and (select app.es_rol('superadmin', 'administrador', 'ingeniero', 'repartidor'))
+    and app.carpeta_es_cliente_visible(name)
+    and app.carpeta_admite_fotos(name)
+  );
 
 -- -----------------------------------------------------------------------------
 -- Conservación (decisión 4): nada se borra solo; la administración revisa.

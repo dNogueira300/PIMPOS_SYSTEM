@@ -5,7 +5,7 @@
 -- auditoría; que quede la constancia; que la conservación avise en el borde
 -- de los 2 años; y que cada exportación quede registrada y no se pueda tocar.
 begin;
-select plan(27);
+select plan(33);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test',   now(), now()),
@@ -38,6 +38,11 @@ update public.clientes set direccion = 'Jirón Putumayo 778' where id = (select 
 -- (diferido, 0042) ya se comprobó al registrar. Aquí se resuelve a mano.
 set constraints clientes_exige_permiso immediate;
 set constraints clientes_exige_permiso deferred;
+-- Una nota del permiso es texto libre y puede llevar datos (revisión de T2).
+reset role;
+update public.consentimientos set observacion = 'Autorizó su hija Maria Quispe 987111222'
+ where cliente_id = (select valor from t where clave = 'rosa');
+set local role authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Solo la administración
@@ -94,6 +99,30 @@ select throws_ok($$ select * from public.borrar_datos_cliente((select valor from
   'P0001', 'Los datos de este cliente ya se borraron.', 'no se borra dos veces');
 select is((select count(*)::int from public.supresiones where cliente_id = (select valor from t where clave = 'rosa')),
   1, 'la administración lee las constancias');
+select is((select count(*)::int from public.consentimientos
+            where cliente_id = (select valor from t where clave = 'rosa') and observacion is not null),
+  0, 'ni queda la nota del permiso');
+
+-- Lo borrado no se vuelve a llenar ni a activar: si el cliente vuelve, se le
+-- registra de nuevo, con su permiso.
+select throws_ok($$ update public.clientes set activo = true, nombre_completo = 'Rosa Quispe'
+                     where id = (select valor from t where clave = 'rosa') $$,
+  'P0001', 'Los datos de este cliente se borraron a su pedido. Si vuelve, regístralo de nuevo.',
+  'la administración no reactiva ni rellena a un cliente borrado');
+select throws_ok($$ insert into public.consentimientos (cliente_id, registrado_por, texto_version)
+                     values ((select valor from t where clave = 'rosa'), '22222222-2222-2222-2222-222222222222', 'v1-2026-10') $$,
+  'P0001', null, 'ni le anota un permiso nuevo');
+set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
+select throws_ok($$ update public.clientes set referencia = 'Casa de Rosa, reja verde'
+                     where id = (select valor from t where clave = 'rosa') $$,
+  'P0001', null, 'el repartidor no le corrige la referencia');
+select throws_ok($$ insert into public.cliente_fotos (cliente_id, ruta, orden)
+                     values ((select valor from t where clave = 'rosa'), (select valor from t where clave = 'rosa')::text || '/otra.webp', 1) $$,
+  'P0001', null, 'ni le añade fotos');
+select throws_ok($$ insert into storage.objects (bucket_id, name, owner)
+                     values ('clientes', (select valor from t where clave = 'rosa')::text || '/otra.webp', '44444444-4444-4444-4444-444444444444') $$,
+  '42501', null, 'ni sube el archivo a su carpeta');
+set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "rol": "administrador"}';
 set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", "rol": "ingeniero"}';
 select is((select count(*)::int from public.supresiones), 0, 'el ingeniero no');
 select throws_ok($$ insert into public.supresiones (cliente_id, motivo, borrado_por)
