@@ -82,7 +82,10 @@ reset role;
 select is(
   (select count(*)::int from app.auditoria
     where coalesce(datos_antes::text, '') || coalesce(datos_despues::text, '')
-          ~* '(Rosa Quispe|965444555|Putumayo|Casa amarilla|fachada\.webp)'),
+          -- La foto se busca por SU ruta (lleva su id), no por «fachada.webp»: otro
+          -- cliente puede tener una foto con ese nombre, y el total nunca es de la prueba.
+          ~* ('(Rosa Quispe|965444555|Putumayo|Casa amarilla|'
+              || (select valor from t where clave = 'rosa')::text || '/fachada)')),
   0, 'y NI UN dato suyo en la auditoría: ni nombre, ni celular, ni dirección, ni referencia, ni foto');
 select cmp_ok(
   (select count(*)::int from app.auditoria

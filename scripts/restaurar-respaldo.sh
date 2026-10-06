@@ -88,6 +88,13 @@ end $$;
 -- El volcado trae `auth.users`; si el destino ya tiene usuarios, la carga
 -- chocaria por el correo. El cascade se lleva identidades y sesiones.
 delete from auth.users;
+
+-- Y trae el registro de Auth (`auth.audit_log_entries`: cada alta e ingreso),
+-- que no cuelga de los usuarios y no se va con ellos. Sin vaciarlo, la carga
+-- se cae con `duplicate key ... audit_log_entries_pkey` en cualquier base que
+-- haya tenido un ingreso -- o sea, en produccion. Salio en el ensayo de F6: el
+-- de F2 se hizo sobre una base sin usuarios creados por la API.
+delete from auth.audit_log_entries;
 SQL
 
 echo "2/4  Descartando las filas de storage (son configuracion, no datos)..."
@@ -102,7 +109,17 @@ awk '
 ' "$VOLCADO" > "$FILTRADO"
 
 echo "3/4  Cargando el volcado..."
-psql_ -v ON_ERROR_STOP=1 -q < "$FILTRADO"
+# Desde 0042 un cliente exige su permiso (trigger diferido), y el volcado carga
+# `clientes` antes que `consentimientos`. Con `session_replication_role =
+# replica` los triggers no corren y el orden no importa; `supabase db dump` lo
+# pone en su primera linea. Si un volcado no lo trae, se pone aqui: sin el, la
+# carga se caeria al cerrar la transaccion.
+if grep -qi "session_replication_role *= *replica" "$FILTRADO"; then
+  psql_ -v ON_ERROR_STOP=1 -q < "$FILTRADO"
+else
+  echo "     el volcado no fija session_replication_role: se fija aqui"
+  { echo "set session_replication_role = replica;"; cat "$FILTRADO"; } | psql_ -v ON_ERROR_STOP=1 -q
+fi
 
 echo "4/4  Comprobando..."
 psql_ -tAc "
@@ -110,6 +127,9 @@ select 'productos='   || (select count(*) from public.productos)
     || ' variantes='  || (select count(*) from public.producto_variantes)
     || ' insumos='    || (select count(*) from public.insumos)
     || ' clientes='   || (select count(*) from public.clientes)
+    || ' permisos='   || (select count(*) from public.consentimientos)
+    || ' fotos_cli='  || (select count(*) from public.cliente_fotos)
+    || ' supresiones=' || (select count(*) from public.supresiones)
     || ' galeria='    || (select count(*) from public.galeria)
     || ' config='     || (select count(*) from public.configuracion_sitio)
     || ' roles='      || (select count(*) from public.roles)
@@ -126,6 +146,18 @@ trabajos=$(psql_  -tAc "select count(*) from cron.job;" | tr -d '[:space:]')
 [ "$trabajos"  -gt 0 ] || { echo "  [FALLA] no hay trabajos de cron: falta aplicar las migraciones";     faltan=1; }
 
 echo "  politicas de Storage=$politicas  trabajos de cron=$trabajos"
+
+# La carga va sin triggers, asi que la regla del permiso (0042) no se comprobo
+# al entrar: se comprueba ahora. Un cliente real y vigente sin permiso es un
+# volcado roto o cortado, no algo que restaurar en silencio.
+sin_permiso=$(psql_ -tAc "
+  select count(*) from public.clientes c
+   where not c.es_demo and c.deleted_at is null
+     and not exists (select 1 from public.supresiones s where s.cliente_id = c.id)
+     and not exists (select 1 from public.consentimientos k
+                      where k.cliente_id = c.id and k.revocado_en is null);" | tr -d '[:space:]')
+[ "$sin_permiso" = "0" ] || { echo "  [FALLA] $sin_permiso cliente(s) sin permiso vigente"; faltan=1; }
+echo "  clientes sin permiso vigente=$sin_permiso"
 echo
 if [ "$faltan" -eq 0 ]; then
   echo "RESULTADO: restaurado. Faltan los ARCHIVOS de Storage (ver la cabecera)."
