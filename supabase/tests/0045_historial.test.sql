@@ -60,10 +60,12 @@ select results_eq(
       where correo = 'inge@pimpos.test' $$,
   $$ values ('salida', 'inge@pimpos.test', 'Marcos Prueba'), ('ingreso', 'inge@pimpos.test', 'Marcos Prueba') $$,
   'la administración ve el ingreso y la salida, la más reciente primero, con el nombre');
+-- Se cuenta la fixture, no la etiqueta: la función llama «salida» a todo lo que
+-- no es un ingreso, así que mirar `accion` no vería un alta colada.
 select is(
   (select count(*)::int from public.ingresos_al_sistema(now() - interval '1 day', now())
-    where accion not in ('ingreso', 'salida')),
-  0, 'no salen ni las altas ni los refrescos de sesión');
+    where correo in ('inge@pimpos.test', 'service_role')),
+  2, 'no salen ni las altas ni los refrescos de sesión');
 select is(
   (select count(*)::int from public.ingresos_al_sistema(now() - interval '1 day', now())
     where correo = 'admin@pimpos.test'),

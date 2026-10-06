@@ -41,7 +41,8 @@ $$;
 -- ya puede saber: quién usa el panel. Solo `login` y `logout`: las altas y las
 -- eliminaciones de usuarios ya salen en el historial de cambios (`perfiles`), y
 -- un refresco de sesión no es un ingreso. `payload` es `json`, no `jsonb`.
--- Supabase no anota los intentos fallidos ni la IP (comprobado el 06/10/2026).
+-- Supabase no anota los intentos fallidos (comprobado en local el 06/10/2026), y
+-- la IP, la anote o no el proyecto alojado, esta función no la devuelve.
 -- -----------------------------------------------------------------------------
 create or replace function public.ingresos_al_sistema(
   p_desde   timestamptz,
