@@ -1950,6 +1950,52 @@ export type Database = {
         }
         Relationships: []
       }
+      constancias_de_borrado: {
+        Row: {
+          borrado_en: string | null
+          borrado_por: string | null
+          borrado_por_nombre: string | null
+          cliente_id: string | null
+          id: string | null
+          motivo: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes_con_consentimiento"
+            referencedColumns: ["cliente_id"]
+          },
+          {
+            foreignKeyName: "supresiones_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "clientes_para_revisar"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      descargas_de_clientes: {
+        Row: {
+          cantidad: number | null
+          estado: string | null
+          exportado_en: string | null
+          exportado_por: string | null
+          exportado_por_nombre: string | null
+          formato: string | null
+          id: string | null
+          zona: string | null
+        }
+        Relationships: []
+      }
       existencias_insumo: {
         Row: {
           activo: boolean | null
@@ -2253,6 +2299,16 @@ export type Database = {
       ingreso_registrado: {
         Args: { p_numero: string; p_proveedor: string }
         Returns: string
+      }
+      ingresos_al_sistema: {
+        Args: { p_desde: string; p_hasta: string; p_usuario?: string }
+        Returns: {
+          accion: string
+          correo: string
+          nombre: string
+          ocurrido_en: string
+          usuario_id: string
+        }[]
       }
       kardex_insumo: {
         Args: { p_desde: string; p_hasta: string; p_insumo: string }
