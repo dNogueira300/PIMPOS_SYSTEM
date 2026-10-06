@@ -43,7 +43,7 @@ export function leerFiltros(params: Record<string, unknown>, ahora: Date): Filtr
   const de = texto(params.de);
   const idRegistro = texto(params.registro);
   const registro =
-    idRegistro && UUID.test(idRegistro) && de && de in HIJOS_DE
+    idRegistro && UUID.test(idRegistro) && de && Object.hasOwn(HIJOS_DE, de)
       ? { id: idRegistro, de: de as Dueno }
       : null;
 

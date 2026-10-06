@@ -143,32 +143,39 @@ const FECHA_Y_HORA = new Set([
   "resuelto_en",
 ]);
 const SOLO_FECHA = new Set(["fecha_vencimiento"]);
-/** Campos que guardan el id de otra cosa: se escribe su nombre. */
-const SEÑALA_A = new Set([
-  "categoria_id",
-  "producto_id",
-  "variante_id",
-  "zona_id",
-  "cliente_id",
-  "insumo_id",
-  "unidad_base_id",
-  "unidad_id",
-  "unidad_desde",
-  "unidad_hacia",
-  "proveedor_habitual_id",
-  "proveedor_id",
-  "almacen_id",
-  "aprobada_por",
-  "registrado_por",
-  "revocado_por",
-  "responsable_id",
-  "autorizado_por",
-  "solicitado_por",
-  "resuelto_por",
-]);
+/**
+ * Campos que guardan el id de otra cosa, y en qué tabla está su nombre. Así
+ * cada id se busca solo donde puede estar (`resolverNombres`).
+ */
+const SEÑALA_A: Readonly<Record<string, string>> = {
+  categoria_id: "categorias_producto",
+  producto_id: "productos",
+  variante_id: "producto_variantes",
+  zona_id: "zonas_reparto",
+  cliente_id: "clientes",
+  insumo_id: "insumos",
+  unidad_base_id: "unidades_medida",
+  unidad_id: "unidades_medida",
+  unidad_desde: "unidades_medida",
+  unidad_hacia: "unidades_medida",
+  proveedor_habitual_id: "proveedores",
+  proveedor_id: "proveedores",
+  almacen_id: "almacenes",
+  aprobada_por: "perfiles",
+  registrado_por: "perfiles",
+  revocado_por: "perfiles",
+  responsable_id: "perfiles",
+  autorizado_por: "perfiles",
+  solicitado_por: "perfiles",
+  resuelto_por: "perfiles",
+};
+
+/** La tabla donde está el nombre de lo que este campo señala, o `null` si no señala nada. */
+export const tablaQueSenala = (campo: string): string | null =>
+  Object.hasOwn(SEÑALA_A, campo) ? SEÑALA_A[campo]! : null;
 
 /** Los campos que guardan el id de otra cosa: el redactor busca su nombre. */
-export const senalaAOtro = (campo: string): boolean => SEÑALA_A.has(campo);
+export const senalaAOtro = (campo: string): boolean => tablaQueSenala(campo) !== null;
 
 const PALABRAS: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   estado: {
@@ -212,7 +219,7 @@ export function escribirValor(campo: string, valor: unknown, nombres: Nombres): 
     const [anio, mes, dia] = crudo.slice(0, 10).split("-");
     return anio && mes && dia ? `${dia}/${mes}/${anio}` : crudo;
   }
-  if (SEÑALA_A.has(campo)) return nombres[crudo] ?? "algo que ya no existe";
+  if (senalaAOtro(campo)) return nombres[crudo] ?? "algo que ya no existe";
 
   const palabra = PALABRAS[campo]?.[crudo];
   if (palabra) return palabra;

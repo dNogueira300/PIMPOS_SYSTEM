@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { accion, type Cambio, diferencias, frase, idsReferidos, quien } from "./redactar";
+import {
+  accion,
+  type Cambio,
+  diferencias,
+  frase,
+  fundir,
+  idsPorTabla,
+  idsReferidos,
+  quien,
+} from "./redactar";
 
 const NOMBRES = {
   p1: "Pan francés",
@@ -289,5 +298,109 @@ describe("idsReferidos", () => {
       cambio({ datos_despues: { insumo_id: "i1", unidad_id: "kg", zona_id: "z1", nombre: "x" } }),
     ];
     expect(idsReferidos(filas).sort()).toEqual(["i1", "kg", "z1", "z2"]);
+  });
+});
+
+describe("idsPorTabla", () => {
+  it("reparte cada id a la tabla donde hay que buscar su nombre", () => {
+    const filas = [
+      cambio({ datos_antes: { zona_id: "z1" }, datos_despues: { zona_id: "z2" } }),
+      cambio({
+        datos_despues: { insumo_id: "i1", unidad_id: "kg", registrado_por: "u9", nombre: "x" },
+      }),
+    ];
+    const ids = idsPorTabla(filas);
+    expect(ids.zonas_reparto?.sort()).toEqual(["z1", "z2"]);
+    expect(ids.insumos).toEqual(["i1"]);
+    expect(ids.unidades_medida).toEqual(["kg"]);
+    expect(ids.perfiles).toEqual(["u9"]);
+    expect(Object.keys(ids)).toHaveLength(4);
+  });
+});
+
+describe("fundir", () => {
+  // Lo que deja de verdad un «Guardar» del formulario de producto
+  // (`guardar_producto`, 0027): reescribe el producto, quita la marca de
+  // principal, la vuelve a poner y reescribe cada presentación.
+  const AHORA = "2026-10-06T15:00:00.000Z";
+  const variante = (id: number, antes: object, despues: object, registro = "v1") =>
+    cambio({
+      id,
+      tabla: "public.producto_variantes",
+      registro_id: registro,
+      ocurrido_en: AHORA,
+      datos_antes: { nombre: "Unidad", producto_id: "p1", ...antes },
+      datos_despues: { nombre: "Unidad", producto_id: "p1", ...despues },
+    });
+  const guardado = [
+    variante(14, { precio: 0.2, updated_at: "a" }, { precio: 0.2, updated_at: "b" }, "v2"),
+    variante(
+      13,
+      { es_predeterminada: false, precio: 0.2 },
+      { es_predeterminada: true, precio: 0.25 },
+    ),
+    variante(
+      12,
+      { es_predeterminada: true, precio: 0.2 },
+      { es_predeterminada: false, precio: 0.2 },
+    ),
+    cambio({
+      id: 11,
+      ocurrido_en: AHORA,
+      datos_antes: { nombre: "Pan francés", updated_at: "a" },
+      datos_despues: { nombre: "Pan francés", updated_at: "b" },
+    }),
+  ];
+
+  it("de un guardado de producto queda una línea: el precio que cambió", () => {
+    const lista = fundir(guardado);
+    expect(lista).toHaveLength(1);
+    expect(lista[0]?.id).toBe(13);
+    expect(accion(lista[0]!, NOMBRES)).toBe(
+      "cambió la presentación Unidad de Pan francés: Precio S/ 0.20 → S/ 0.25",
+    );
+  });
+
+  it("no junta cambios de momentos distintos ni toca altas y eliminaciones", () => {
+    const filas = [
+      variante(3, { precio: 0.25 }, { precio: 0.3 }),
+      {
+        ...variante(2, { precio: 0.2 }, { precio: 0.25 }),
+        ocurrido_en: "2026-10-05T15:00:00.000Z",
+      },
+      cambio({ id: 1, operacion: "INSERT", ocurrido_en: AHORA, datos_despues: { nombre: "Pan" } }),
+    ];
+    expect(fundir(filas).map((c) => c.id)).toEqual([3, 2, 1]);
+  });
+
+  it("conserva lo que no cambia de datos pero sí es noticia", () => {
+    const tachada = cambio({
+      id: 5,
+      tabla: "public.clientes",
+      registro_id: "c1",
+      datos_antes: { borrado: true },
+      datos_despues: { borrado: true },
+    });
+    const foto = cambio({
+      id: 4,
+      tabla: "public.cliente_fotos",
+      registro_id: "f1",
+      datos_antes: { cliente_id: "c1", ruta: "c1/a.webp", updated_at: "a" },
+      datos_despues: { cliente_id: "c1", ruta: "c1/a.webp", updated_at: "b" },
+    });
+    expect(fundir([tachada, foto]).map((c) => c.id)).toEqual([5, 4]);
+  });
+
+  it("la configuración no tiene id: no se junta, pero un guardado sin cambio no sale", () => {
+    const fila = (id: number, antes: unknown, despues: unknown) =>
+      cambio({
+        id,
+        tabla: "public.configuracion_sitio",
+        registro_id: null,
+        ocurrido_en: AHORA,
+        datos_antes: { clave: `k${id}`, valor: antes },
+        datos_despues: { clave: `k${id}`, valor: despues },
+      });
+    expect(fundir([fila(2, "a", "b"), fila(1, "x", "x")]).map((c) => c.id)).toEqual([2]);
   });
 });

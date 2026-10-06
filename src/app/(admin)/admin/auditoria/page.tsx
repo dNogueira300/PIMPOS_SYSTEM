@@ -6,12 +6,17 @@ import { FiltrosHistorial } from "@/components/panel/filtros-historial";
 import { ListaDeCambios } from "@/components/panel/lista-de-cambios";
 import { PestanasHistorial } from "@/components/panel/pestanas-historial";
 import { exigirAcceso } from "@/lib/auth/sesion";
-import { infoDeTabla, SECCIONES } from "@/lib/auditoria/catalogo";
+import { type Dueno, HIJOS_DE, SECCIONES } from "@/lib/auditoria/catalogo";
 import { leerCambios, personasDelPanel, resolverNombres } from "@/lib/auditoria/datos";
 import { aParametros, leerFiltros, MAXIMO, POR_PAGINA } from "@/lib/auditoria/filtros";
 import { hoyEnLima } from "@/lib/insumos/periodo";
 
 const RUTA = "/admin/auditoria";
+const COSA: Readonly<Record<Dueno, string>> = {
+  producto: "el producto",
+  insumo: "el insumo",
+  cliente: "el cliente",
+};
 
 export default function Historial({ searchParams }: PageProps<"/admin/auditoria">) {
   return (
@@ -34,25 +39,28 @@ async function Cambios({ searchParams }: Pick<PageProps<"/admin/auditoria">, "se
   const ahora = new Date();
   const filtros = leerFiltros(params, ahora);
   const [resultado, personas] = await Promise.all([leerCambios(filtros), personasDelPanel()]);
-  const nombres = resultado ? await resolverNombres(resultado.cambios) : {};
-  const hoy = hoyEnLima(ahora);
-
-  // «Ver historial» de un registro: se dice de quién es, con su nombre.
-  const propio = filtros.registro
-    ? resultado?.cambios.find((c) => c.registro_id === filtros.registro?.id)
-    : undefined;
-  const deQuien = propio
-    ? infoDeTabla(propio.tabla).referencia(
-        propio.datos_despues ?? propio.datos_antes ?? {},
-        nombres,
+  // «Ver historial» de un registro: se dice de quién es, con su nombre. Se
+  // pide aparte: con muchos movimientos, la fila del propio registro puede no
+  // estar en esta página.
+  const dueno = filtros.registro;
+  const nombres = resultado
+    ? await resolverNombres(
+        resultado.cambios,
+        dueno ? { [HIJOS_DE[dueno.de].tabla.replace(/^public\./, "")]: [dueno.id] } : {},
       )
+    : {};
+  const hoy = hoyEnLima(ahora);
+  const deQuien = dueno
+    ? nombres[dueno.id]
+      ? `${COSA[dueno.de]} ${nombres[dueno.id]}`
+      : `un ${dueno.de}`
     : null;
 
   return (
     <>
       {filtros.registro ? (
         <p className="bg-muted mb-4 rounded-xl p-3 text-sm" data-de-un-registro>
-          Historial de {deQuien ?? "un registro"}, con todo lo que cuelga de él.{" "}
+          Historial de {deQuien}, con todo lo que cuelga de él.{" "}
           <Link href={RUTA} className="underline">
             Ver todo el historial
           </Link>

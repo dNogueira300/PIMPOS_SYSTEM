@@ -1,17 +1,17 @@
 import { createClient } from "@supabase/supabase-js";
 import { expect, test, type Page } from "@playwright/test";
 
-import { borrarDeLaBase } from "./ayudas/base";
+import { borrarDeLaBase, sqlLocal } from "./ayudas/base";
 import { borrarClienteDePrueba, crearClienteDePrueba } from "./ayudas/clientes";
 import { entrarComo } from "./ayudas/sesion";
 import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario, type UsuarioDePrueba } from "./ayudas/usuarios";
 
-// Todas cambian el precio de la misma presentación de la semilla: de una en una.
+// De una en una: comparten la lista del historial y la actividad reciente.
 test.describe.configure({ mode: "serial" });
 
 test.beforeEach(({}, info) => {
-  test.skip(info.project.name !== "movil", "cambia un precio compartido; un proyecto basta");
+  test.skip(info.project.name !== "movil", "no depende del tamaño de pantalla; un proyecto basta");
 });
 
 /** La misma persona que entró al panel, por la API: sus cambios quedan a su nombre. */
@@ -26,26 +26,63 @@ async function apiDe(usuario: UsuarioDePrueba) {
   return cliente;
 }
 
-/** Cambia el precio de una presentación y devuelve cómo dejarla como estaba. */
+/**
+ * Un producto propio de la prueba, guardado dos veces como lo guarda el
+ * formulario del panel (`guardar_producto`, 0027): la segunda le sube el
+ * precio. Ese guardado deja varias filas en el registro —el producto sin
+ * cambios, la marca de presentación principal quitada y vuelta a poner— y el
+ * historial tiene que enseñar una sola línea: el precio.
+ */
 async function cambiarUnPrecio(usuario: UsuarioDePrueba) {
   const api = await apiDe(usuario);
-  const { data: v } = await api
-    .from("producto_variantes")
-    .select("id, nombre, precio, producto_id, productos(nombre)")
+  const { data: categoria } = await api
+    .from("categorias_producto")
+    .select("id")
     .is("deleted_at", null)
-    .order("id")
     .limit(1)
     .single();
-  if (!v) throw new Error("No hay presentaciones en la semilla");
-  const antes = Number(v.precio);
-  const despues = Number((antes + 0.05).toFixed(2));
-  await api.from("producto_variantes").update({ precio: despues }).eq("id", v.id);
+  if (!categoria) throw new Error("No hay categorías en la semilla");
+  const marca = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+  const producto = {
+    categoria_id: categoria.id,
+    nombre: `Pan de prueba ${marca}`,
+    slug: `pan-de-prueba-${marca}`,
+    descripcion: "",
+    destacado: false,
+    // Borrador: no llega al sitio público.
+    estado: "borrador",
+  };
+  const antes = 0.2;
+  const despues = 0.25;
+  const alta = await api.rpc("guardar_producto", {
+    p_producto: producto,
+    p_presentaciones: [{ nombre: "Unidad", precio: antes, unidad_venta: "unidad" }],
+  });
+  if (alta.error) throw new Error(`No se pudo crear el producto: ${alta.error.message}`);
+  const productoId = alta.data as string;
+  const { data: variante } = await api
+    .from("producto_variantes")
+    .select("id")
+    .eq("producto_id", productoId)
+    .single();
+  const cambio = await api.rpc("guardar_producto", {
+    p_producto: { ...producto, id: productoId },
+    p_presentaciones: [
+      { id: variante?.id, nombre: "Unidad", precio: despues, unidad_venta: "unidad" },
+    ],
+  });
+  if (cambio.error) throw new Error(`No se pudo cambiar el precio: ${cambio.error.message}`);
   return {
-    productoId: v.producto_id as string,
+    productoId,
     antes,
     despues,
+    /**
+     * Antes de borrar al usuario: el producto lleva su `created_by`, y con él
+     * vivo `borrarUsuario` falla sin avisar (AGENTS.md, trampas de F6). Las
+     * presentaciones y su historial de precios se van en cascada.
+     */
     restaurar: async () => {
-      await api.from("producto_variantes").update({ precio: antes }).eq("id", v.id);
+      sqlLocal(`delete from public.productos where id = '${productoId}';`);
     },
   };
 }

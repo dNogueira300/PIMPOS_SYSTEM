@@ -1,10 +1,12 @@
 import "server-only";
 
+import type { SupabaseClient } from "@supabase/supabase-js";
+
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
 import { type Datos, HIJOS_DE, type Nombres, tablasVisibles } from "./catalogo";
 import { type Filtros, limitesDelPeriodo } from "./filtros";
-import { type Cambio, idsReferidos } from "./redactar";
+import { type Cambio, fundir, idsPorTabla } from "./redactar";
 
 const COLUMNAS =
   "id, tabla, registro_id, operacion, usuario_id, usuario_correo, usuario_nombre, rol, datos_antes, datos_despues, ocurrido_en";
@@ -98,7 +100,8 @@ export async function leerCambios(
     return null;
   }
   const cambios = (data as FilaDeLaVista[]).map(aCambio).filter((c): c is Cambio => c !== null);
-  return { cambios: cambios.slice(0, f.ver), hayMas: cambios.length > f.ver };
+  // Se juntan después de cortar la página: «Ver más» cuenta filas del registro.
+  return { cambios: fundir(cambios.slice(0, f.ver)), hayMas: cambios.length > f.ver };
 }
 
 /** Un cambio por su número. También los de tablas internas: es el detalle técnico. */
@@ -113,54 +116,71 @@ export async function leerCambio(id: number): Promise<Cambio | null> {
   return data ? aCambio(data as FilaDeLaVista) : null;
 }
 
+/** De qué columna sale el nombre en cada tabla a la que una fila puede señalar. */
+const COLUMNA_DEL_NOMBRE: Readonly<Record<string, string>> = {
+  insumos: "nombre",
+  productos: "nombre",
+  producto_variantes: "nombre",
+  clientes: "nombre_completo",
+  zonas_reparto: "nombre",
+  categorias_producto: "nombre",
+  proveedores: "nombre",
+  unidades_medida: "codigo",
+  almacenes: "nombre",
+  perfiles: "nombre_completo",
+};
+
+/** PostgREST recibe los ids en la dirección: con más de ~200 responde 414. */
+const IDS_POR_CONSULTA = 100;
+
 /**
  * Los nombres de lo que estas filas señalan (un movimiento guarda el id del
- * insumo, no su nombre). Una consulta por tabla, con todos los ids de la
- * página: los uuid no se repiten entre tablas, así que caben en un solo mapa.
- * Lo que ya no existe no sale en el mapa, y el redactor dice «ya no existe».
+ * insumo, no su nombre). Cada id se busca solo en la tabla de su campo, en
+ * tandas, y `ademas` añade ids sueltos (el dueño de un «Ver historial»). Lo
+ * que ya no existe no sale en el mapa, y el redactor dice «ya no existe»; por
+ * eso un fallo de la consulta se deja en el registro: sin él, la lista
+ * afirmaría que todo dejó de existir.
  */
-export async function resolverNombres(cambios: readonly Cambio[]): Promise<Nombres> {
-  const ids = idsReferidos(cambios);
-  if (ids.length === 0) return {};
-  const supabase = await crearClienteServidor();
-  const [
-    insumos,
-    productos,
-    variantes,
-    clientes,
-    zonas,
-    categorias,
-    proveedores,
-    unidades,
-    almacenes,
-    personas,
-  ] = await Promise.all([
-    supabase.from("insumos").select("id, nombre").in("id", ids),
-    supabase.from("productos").select("id, nombre").in("id", ids),
-    supabase.from("producto_variantes").select("id, nombre").in("id", ids),
-    supabase.from("clientes").select("id, nombre:nombre_completo").in("id", ids),
-    supabase.from("zonas_reparto").select("id, nombre").in("id", ids),
-    supabase.from("categorias_producto").select("id, nombre").in("id", ids),
-    supabase.from("proveedores").select("id, nombre").in("id", ids),
-    supabase.from("unidades_medida").select("id, nombre:codigo").in("id", ids),
-    supabase.from("almacenes").select("id, nombre").in("id", ids),
-    supabase.from("perfiles").select("id, nombre:nombre_completo").in("id", ids),
-  ]);
-  const nombres: Record<string, string> = {};
-  for (const { data } of [
-    insumos,
-    productos,
-    variantes,
-    clientes,
-    zonas,
-    categorias,
-    proveedores,
-    unidades,
-    almacenes,
-    personas,
-  ]) {
-    for (const fila of data ?? []) if (fila.nombre) nombres[fila.id] = fila.nombre;
+export async function resolverNombres(
+  cambios: readonly Cambio[],
+  ademas: Readonly<Record<string, readonly string[]>> = {},
+): Promise<Nombres> {
+  const porTabla: Record<string, string[]> = idsPorTabla(cambios);
+  for (const [tabla, ids] of Object.entries(ademas)) {
+    porTabla[tabla] = [...new Set([...(porTabla[tabla] ?? []), ...ids])];
   }
+  const consultas: { tabla: string; columna: string; ids: string[] }[] = [];
+  for (const [tabla, ids] of Object.entries(porTabla)) {
+    const columna = COLUMNA_DEL_NOMBRE[tabla];
+    if (!columna) continue;
+    for (let i = 0; i < ids.length; i += IDS_POR_CONSULTA) {
+      consultas.push({ tabla, columna, ids: ids.slice(i, i + IDS_POR_CONSULTA) });
+    }
+  }
+  if (consultas.length === 0) return {};
+
+  const supabase = await crearClienteServidor();
+  const nombres: Record<string, string> = {};
+  await Promise.all(
+    consultas.map(async ({ tabla, columna, ids }) => {
+      // La tabla y la columna salen de la lista cerrada de arriba, nunca de la
+      // dirección; el cliente tipado no admite un nombre de tabla variable.
+      const { data, error } = await (supabase as unknown as SupabaseClient)
+        .from(tabla)
+        .select(`id, ${columna}`)
+        .in("id", ids);
+      if (error) {
+        console.error(`[historial] nombres de ${tabla}:`, error.message);
+        return;
+      }
+      for (const fila of (data ?? []) as unknown as Record<string, unknown>[]) {
+        const nombre = fila[columna];
+        if (typeof fila.id === "string" && typeof nombre === "string" && nombre) {
+          nombres[fila.id] = nombre;
+        }
+      }
+    }),
+  );
   return nombres;
 }
 

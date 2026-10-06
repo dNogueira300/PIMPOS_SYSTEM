@@ -36,9 +36,14 @@ async function Detalle({ params }: Pick<Props, "params">) {
   const nombres = await resolverNombres([cambio]);
   const info = infoDeTabla(cambio.tabla);
   const lista = diferencias(cambio, nombres);
-  // «Ir a…» solo si el registro sigue ahí: una eliminación no tiene a dónde ir.
-  const ruta =
-    cambio.operacion === "DELETE" ? null : (info.ruta?.(cambio.datos_despues ?? {}) ?? null);
+  // «Ir a…» solo si el registro sigue ahí: una eliminación o un borrado no
+  // tienen a dónde ir, y una ficha con los datos borrados tampoco.
+  const despues = cambio.datos_despues ?? {};
+  const yaNoEsta =
+    cambio.operacion === "DELETE" ||
+    despues.borrado === true ||
+    (despues.deleted_at !== null && despues.deleted_at !== undefined);
+  const ruta = yaNoEsta ? null : (info.ruta?.(despues) ?? null);
   const rol =
     cambio.usuario_id === null
       ? "Automático"

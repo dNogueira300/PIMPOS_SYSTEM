@@ -1,6 +1,13 @@
 import { formatearCantidad, nombreDeUnidad } from "@/lib/insumos/unidades";
 
-import { esDeControl, escribirValor, etiquetaDe, recortar, senalaAOtro } from "./campos";
+import {
+  esDeControl,
+  escribirValor,
+  etiquetaDe,
+  recortar,
+  senalaAOtro,
+  tablaQueSenala,
+} from "./campos";
 import { type Datos, infoDeTabla, type Nombres } from "./catalogo";
 
 /** Una fila de `public.auditoria`, ya sin nulos donde no puede haberlos. */
@@ -170,4 +177,68 @@ export function idsReferidos(cambios: readonly Cambio[]): string[] {
     }
   }
   return [...ids];
+}
+
+/** Los mismos ids, repartidos por la tabla donde hay que buscar su nombre. */
+export function idsPorTabla(cambios: readonly Cambio[]): Record<string, string[]> {
+  const porTabla = new Map<string, Set<string>>();
+  for (const c of cambios) {
+    for (const datos of [c.datos_antes, c.datos_despues]) {
+      for (const [campo, valor] of Object.entries(datos ?? {})) {
+        const tabla = tablaQueSenala(campo);
+        if (!tabla || typeof valor !== "string" || !valor) continue;
+        if (!porTabla.has(tabla)) porTabla.set(tabla, new Set());
+        porTabla.get(tabla)?.add(valor);
+      }
+    }
+  }
+  return Object.fromEntries([...porTabla].map(([tabla, ids]) => [tabla, [...ids]]));
+}
+
+/** Un cambio que no movió ningún dato (solo la fecha de «última vez guardado»). */
+function sinCambioNeto(c: Cambio): boolean {
+  if (c.operacion !== "UPDATE") return false;
+  if (tachado(c.datos_antes) || tachado(c.datos_despues)) return false;
+  // Cambiar una foto sobrescribe el archivo: la fila no cambia y sí es noticia.
+  if (c.tabla === "public.cliente_fotos") return false;
+  const antes = c.datos_antes ?? {};
+  const despues = c.datos_despues ?? {};
+  return ![...new Set([...Object.keys(antes), ...Object.keys(despues)])].some(
+    (campo) => !esDeControl(campo) && distinto(antes[campo], despues[campo]),
+  );
+}
+
+/**
+ * La lista, como la ve una persona. Un «Guardar» del panel reescribe el
+ * registro entero y deja varias filas del mismo instante sobre lo mismo
+ * (`guardar_producto` quita la marca de presentación principal y la vuelve a
+ * poner): se juntan en una, de cómo estaba antes a cómo quedó, y lo que al
+ * final no cambió ningún dato no sale. Recibe las filas de la más reciente a
+ * la más antigua y conserva ese orden; el detalle de un cambio sigue
+ * enseñando cada fila tal cual.
+ */
+export function fundir(cambios: readonly Cambio[]): Cambio[] {
+  const grupos = new Map<string, Cambio[]>();
+  const orden: (Cambio | string)[] = [];
+  for (const c of cambios) {
+    if (c.operacion !== "UPDATE" || c.registro_id === null) {
+      orden.push(c);
+      continue;
+    }
+    const clave = `${c.tabla}|${c.registro_id}|${c.ocurrido_en}|${c.usuario_id}`;
+    if (!grupos.has(clave)) {
+      grupos.set(clave, []);
+      orden.push(clave);
+    }
+    grupos.get(clave)?.push(c);
+  }
+  return orden
+    .map((entrada) => {
+      if (typeof entrada !== "string") return entrada;
+      const filas = [...(grupos.get(entrada) ?? [])].sort((a, b) => a.id - b.id);
+      const primera = filas[0]!;
+      const ultima = filas[filas.length - 1]!;
+      return { ...ultima, datos_antes: primera.datos_antes };
+    })
+    .filter((c) => !sinCambioNeto(c));
 }

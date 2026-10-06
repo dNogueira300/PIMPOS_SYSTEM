@@ -76,4 +76,14 @@ describe("limitesDelPeriodo", () => {
     const cambio = "2026-10-06T04:30:00.000Z";
     expect(cambio >= desde && cambio < hasta).toBe(true);
   });
+
+  it("`de` solo admite los tres dueños, no lo que hereda cualquier objeto", () => {
+    const id = "11111111-1111-4111-8111-111111111111";
+    expect(leerFiltros({ registro: id, de: "constructor" }, new Date()).registro).toBeNull();
+    expect(leerFiltros({ registro: id, de: "toString" }, new Date()).registro).toBeNull();
+    expect(leerFiltros({ registro: id, de: "insumo" }, new Date()).registro).toEqual({
+      id,
+      de: "insumo",
+    });
+  });
 });
