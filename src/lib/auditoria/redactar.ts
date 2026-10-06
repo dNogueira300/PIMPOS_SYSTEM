@@ -138,9 +138,16 @@ export function accion(c: Cambio, nombres: Nombres): string {
   if (tabla === "consentimientos" && cambio("revocado_en") && !vacio(despues.revocado_en)) {
     return `retiró ${cosa}`;
   }
-  if (tabla === "perfiles" && cambio("rol") && antes.activo === false && despues.activo === true) {
+  if (
+    tabla === "perfiles" &&
+    antes.activo === false &&
+    despues.activo === true &&
+    antes.created_at === antes.updated_at
+  ) {
     // El alta de una cuenta son dos pasos: nace desactivada y como repartidor
-    // (0006), y después se le pone su rol. Nunca fue repartidora.
+    // (0006), y después se le pone su rol y se activa. Se reconoce porque
+    // nadie la había tocado todavía, no por el rol: quien entra como
+    // repartidor no cambia de rol, y no por eso «se reactivó».
     const nombre =
       typeof despues.nombre_completo === "string" ? despues.nombre_completo : "una persona";
     return `dio de alta la cuenta de ${nombre} como ${escribirValor("rol", despues.rol, nombres)}`;
@@ -253,4 +260,24 @@ export function fundir(cambios: readonly Cambio[]): Cambio[] {
       return { ...ultima, datos_antes: primera.datos_antes };
     })
     .filter((c) => !sinCambioNeto(c));
+}
+
+/**
+ * De las filas que devolvió la base (hasta `tope`), las `cuantas` primeras
+ * líneas. Se junta ANTES de cortar: un «Guardar» de Configuración deja una
+ * fila por dato, casi todas sin cambio, y cortando primero las cinco de la
+ * actividad reciente se quedaban en ninguna. `hayMas` también es cierto si la
+ * base devolvió su tope: puede quedar algo más abajo aunque aquí no haya salido
+ * ninguna línea.
+ */
+export function enLineas(
+  filas: readonly Cambio[],
+  cuantas: number,
+  tope: number,
+): { cambios: Cambio[]; hayMas: boolean } {
+  const lineas = fundir(filas);
+  return {
+    cambios: lineas.slice(0, cuantas),
+    hayMas: lineas.length > cuantas || filas.length >= tope,
+  };
 }

@@ -71,6 +71,10 @@ describe("campos del historial", () => {
   it("un costo menor a un céntimo no sale como S/ 0.00", () => {
     expect(escribirValor("costo_unitario", 0.0035, {})).toBe("S/ 0.0035");
     expect(escribirValor("costo_unitario", 4.5, {})).toBe("S/ 4.50");
+    // Nunca «S/ 12.»: se quitan los ceros de sobra, no los dos decimales.
+    expect(escribirValor("costo_unitario", 12.00004, {})).toBe("S/ 12.00004");
+    expect(escribirValor("costo_unitario", 12.000001, {})).toBe("S/ 12.000001");
+    expect(escribirValor("costo_unitario", 1234.5678, {})).toBe("S/ 1,234.5678");
     expect(escribirValor("precio", 0.2, {})).toBe("S/ 0.20");
   });
 
@@ -81,6 +85,11 @@ describe("campos del historial", () => {
     expect(escribirValor("anula_a", "6f2321c8-0000-4000-8000-000000000000", {})).toBe(
       "un movimiento anterior",
     );
+  });
+
+  it("una palabra que coincide con algo que todo objeto hereda se escribe tal cual", () => {
+    expect(escribirValor("estado", "toString", {})).toBe("toString");
+    expect(escribirValor("tipo", "constructor", {})).toBe("constructor");
   });
 
   it("recorta lo largo para la lista (Review Focus)", () => {

@@ -6,7 +6,7 @@ import { crearClienteServidor } from "@/lib/supabase/servidor";
 
 import { type Datos, HIJOS_DE, type Nombres, tablasVisibles } from "./catalogo";
 import { type Filtros, limitesDelPeriodo } from "./filtros";
-import { type Cambio, fundir, idsPorTabla } from "./redactar";
+import { type Cambio, enLineas, idsPorTabla } from "./redactar";
 
 const COLUMNAS =
   "id, tabla, registro_id, operacion, usuario_id, usuario_correo, usuario_nombre, rol, datos_antes, datos_despues, ocurrido_en";
@@ -48,6 +48,7 @@ function aCambio(f: FilaDeLaVista): Cambio | null {
 }
 
 const LOTES_EN_EL_HISTORIAL = 100;
+const FILAS_DE_MARGEN = 50;
 
 /**
  * La lista de la pestaña Cambios. `null` si la base no respondió (la página lo
@@ -58,12 +59,15 @@ export async function leerCambios(
   f: Filtros,
 ): Promise<{ cambios: Cambio[]; hayMas: boolean } | null> {
   const supabase = await crearClienteServidor();
+  // Se piden más filas que líneas: un guardado deja varias filas y muchas no
+  // cambian nada (ver `enLineas`). Nunca más de 1000, el tope de PostgREST.
+  const tope = Math.min(f.ver * 4 + FILAS_DE_MARGEN, 1000);
   let consulta = supabase
     .from("auditoria")
     .select(COLUMNAS)
     .order("ocurrido_en", { ascending: false })
     .order("id", { ascending: false })
-    .limit(f.ver + 1);
+    .limit(tope);
 
   if (f.registro) {
     // Lo suyo y lo que cuelga de él (sus presentaciones, sus movimientos, sus
@@ -119,9 +123,8 @@ export async function leerCambios(
     console.error("[historial] cambios:", error.message);
     return null;
   }
-  const cambios = (data as FilaDeLaVista[]).map(aCambio).filter((c): c is Cambio => c !== null);
-  // Se juntan después de cortar la página: «Ver más» cuenta filas del registro.
-  return { cambios: fundir(cambios.slice(0, f.ver)), hayMas: cambios.length > f.ver };
+  const filas = (data as FilaDeLaVista[]).map(aCambio).filter((c): c is Cambio => c !== null);
+  return enLineas(filas, f.ver, tope);
 }
 
 /**

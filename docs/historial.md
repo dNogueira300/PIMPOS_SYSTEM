@@ -34,7 +34,7 @@ Arriba hay cuatro filtros, que se aplican al elegirlos:
 La lista trae 50 líneas; **Ver más** trae otras 50, hasta 500. Si hay más, se acota con los filtros.
 
 **Abrir un cambio** (tocando la línea) enseña solo lo que cambió, con el valor de antes tachado y el
-de después; y, si eso sigue existiendo, un botón **Ir a donde se hizo**. Debajo hay un **Detalle
+de después; y, si no fue un borrado, un botón **Ir a donde se hizo**. Debajo hay un **Detalle
 técnico** cerrado: es para el ingeniero, no hace falta abrirlo.
 
 Tres cosas que conviene saber:

@@ -238,9 +238,13 @@ export function escribirValor(campo: string, valor: unknown, nombres: Nombres): 
   if (DINERO.has(campo)) {
     const n = Number(crudo);
     if (!Number.isFinite(n)) return crudo;
-    // Con dos decimales, 0.0035 saldría «S/ 0.00».
-    const fino = DINERO_FINO.has(campo) && Math.abs(n * 100 - Math.round(n * 100)) > 1e-9;
-    return fino ? `S/ ${n.toFixed(4).replace(/0+$/, "")}` : formatearSoles(n);
+    if (!DINERO_FINO.has(campo)) return formatearSoles(n);
+    // Con dos decimales, 0.0035 saldría «S/ 0.00». Se quitan los ceros de
+    // sobra, nunca los dos decimales de un precio.
+    const [entero = "0", decimales = ""] = Math.abs(n).toFixed(6).split(".");
+    const finos = decimales.replace(/0+$/, "").padEnd(2, "0");
+    if (finos.length === 2) return formatearSoles(n);
+    return `S/ ${n < 0 ? "-" : ""}${Number(entero).toLocaleString("en-US")}.${finos}`;
   }
   if (COORDENADA.has(campo)) {
     const n = Number(crudo);
@@ -261,8 +265,8 @@ export function escribirValor(campo: string, valor: unknown, nombres: Nombres): 
     );
   }
 
-  const palabra = PALABRAS[campo]?.[crudo];
-  if (palabra) return palabra;
+  const palabras = Object.hasOwn(PALABRAS, campo) ? PALABRAS[campo] : undefined;
+  if (palabras && Object.hasOwn(palabras, crudo)) return palabras[crudo]!;
 
   if (typeof valor === "number") return formatearCantidad(valor);
   return crudo;

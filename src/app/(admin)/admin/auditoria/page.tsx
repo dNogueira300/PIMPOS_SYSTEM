@@ -93,34 +93,34 @@ async function Cambios({ searchParams }: Pick<PageProps<"/admin/auditoria">, "se
         <p role="alert">No se pudo cargar el historial. Recarga la página.</p>
       ) : resultado.cambios.length === 0 ? (
         <p className="bg-card rounded-xl border p-6 text-center">
-          No hay cambios con esos filtros. Prueba con un periodo más largo.
+          {resultado.hayMas
+            ? "En lo más reciente no hay cambios que enseñar. Puede haber más abajo."
+            : "No hay cambios con esos filtros. Prueba con un periodo más largo."}
         </p>
       ) : (
-        <>
-          <ListaDeCambios
-            cambios={resultado.cambios}
-            nombres={nombres}
-            etiqueta="Cambios en el panel"
-          />
-          {resultado.hayMas && filtros.ver < MAXIMO ? (
-            <p className="mt-4">
-              <Link
-                href={`${RUTA}?${aParametros(filtros, { ver: filtros.ver + POR_PAGINA })}`}
-                className="boton-linea"
-                scroll={false}
-              >
-                Ver más
-              </Link>
-            </p>
-          ) : null}
-          {resultado.hayMas && filtros.ver >= MAXIMO ? (
-            <p className="text-muted-foreground mt-4 text-sm" data-tope>
-              Se muestran los {MAXIMO} más recientes. Acota el periodo o elige una persona o una
-              sección para ver los demás.
-            </p>
-          ) : null}
-        </>
+        <ListaDeCambios
+          cambios={resultado.cambios}
+          nombres={nombres}
+          etiqueta="Cambios en el panel"
+        />
       )}
+      {resultado?.hayMas && filtros.ver < MAXIMO ? (
+        <p className="mt-4">
+          <Link
+            href={`${RUTA}?${aParametros(filtros, { ver: filtros.ver + POR_PAGINA })}`}
+            className="boton-linea"
+            scroll={false}
+          >
+            Ver más
+          </Link>
+        </p>
+      ) : null}
+      {resultado?.hayMas && filtros.ver >= MAXIMO ? (
+        <p className="text-muted-foreground mt-4 text-sm" data-tope>
+          Se muestran los {MAXIMO} más recientes. Acota el periodo o elige una persona o una sección
+          para ver los demás.
+        </p>
+      ) : null}
     </>
   );
 }

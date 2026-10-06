@@ -70,7 +70,7 @@ preguntar a la base quién entró y quién salió del panel (`ingresos_al_sistem
 de Auth), y las constancias de borrado y las descargas se leen con el nombre de quien las hizo
 (0045).
 
-**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **473 unitarias**
+**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **479 unitarias**
 (60 archivos, Vitest) + **646 E2E listadas en 44 archivos**. La suite E2E se corrió **entera** el
 06/10/2026 sobre la rama del cierre del Historial (646 ejecutadas: 549 pasan y 97 se
 saltan a propósito, por tamaño de pantalla o sin fotos en el entorno; 0 fallos del código —una
@@ -890,6 +890,14 @@ else new.cliente_id end` falla en `clientes` («record "new" has no field "clien
   colaran las altas. Se cuenta la fixture.
 - **Más de unos 200 uuid en un `.in()` dan `414`** (los ids viajan en la dirección de la consulta), y
   un `data ?? []` sin mirar `error` lo convierte en «no existe». Tandas de 100 y el error al registro.
+- **Cortar la página y después juntar deja la página vacía.** Un «Guardar» de Configuración deja
+  unas 27 filas, casi todas sin cambio; con «las 5 más recientes y luego se funden», la actividad
+  reciente del inicio desaparecía entera después de cada guardado. Se piden filas de más, se juntan
+  y **entonces** se corta (`enLineas`). La prueba de navegador no lo veía porque cambiaba un precio
+  justo antes de mirar.
+- **Una cuenta nueva se reconoce porque nadie la tocó, no por el rol.** El alta nace desactivada y
+  como repartidor (0006) y después se activa con su rol: si el rol pedido es repartidor, el rol no
+  cambia y la frase decía «reactivó». La señal es `created_at = updated_at` en la fila de antes.
 - **Next deja siempre un `role="alert"` vacío en la página** (su anunciador de rutas):
   `getByRole("alert")` nunca da cero. Se busca el texto del error.
 - **`supabase.auth.signOut()` cierra todas las sesiones de ese usuario**, también la del navegador de
@@ -1090,7 +1098,8 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0045_historial`                   | Lo que el Historial del panel necesita de la base: `ingresos_al_sistema` (quién entró y quién salió, del registro de Auth; `security definer`, solo administración, sin la IP, como mucho 500 filas; con una guarda que no deja aplicar la migración si no se puede leer ese registro) · vistas `constancias_de_borrado` y `descargas_de_clientes`, con el nombre de quien borró o descargó                                                                                                                                                                                                 |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
-datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
+datos reales; a producción se carga a mano desde el editor SQL, **nunca** con `--include-seed`) y
+`02_demo.sql` (slides, testimonios y
 clientes de ejemplo, `es_demo = true`, nunca llega a producción). Las imágenes las sube
 `seeds/imagenes/subir-imagenes.sh` — **`db reset` vacía los buckets**, hay que volver a correrlo.
 

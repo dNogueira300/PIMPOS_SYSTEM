@@ -3760,6 +3760,20 @@ Dan pidió (06/10/2026) que los menores aplazados de la revisión entraran todos
 - Pruebas: el filtro «hoy» a las 11:30 p. m. de Iquitos, y que la actividad reciente no traiga tablas
   internas.
 
+La revisión final del módulo encontró dos cosas más, arregladas en la misma rama:
+
+- **La actividad reciente desaparecía después de guardar la Configuración**, y la primera página de
+  Cambios podía salir vacía: se cortaba a las filas pedidas y después se juntaban, y un guardado de
+  Configuración deja unas 27 filas casi todas sin cambio. Ahora se piden filas de más, se juntan y
+  entonces se corta (`enLineas`); y «Ver más» sale también cuando lo más reciente no dejó ninguna
+  línea.
+- **Dar de alta a un repartidor se leía «reactivó la cuenta de…»**: la regla del alta miraba que
+  cambiara el rol, y quien entra como repartidor no cambia de rol. El alta se reconoce porque la
+  cuenta no se había tocado (`created_at = updated_at`).
+- De paso: un costo como 12.00004 salía «S/ 12.» (ahora nunca pierde los dos decimales ni el
+  separador de miles), y una palabra como `toString` en un campo con lista de palabras devolvía una
+  función.
+
 **Sin Lighthouse comparativo**, como preveía el plan: de `0c386f6` a la rama, lo único tocado en
 `src/components` son cinco archivos de `src/components/panel/`; nada en `src/estilos`, en
 `src/app/(public)` ni en el layout raíz.
@@ -3777,5 +3791,20 @@ Dan pidió (06/10/2026) que los menores aplazados de la revisión entraran todos
 - **La línea fundida abre el detalle de la última fila del grupo**, que puede enseñar además
   «Presentación principal: No → Sí».
 - **La partición en tandas de `resolverNombres`** no tiene prueba propia.
+- **«Ir a donde se hizo» mira la fila de ese cambio, no cómo está hoy el registro**: un producto
+  borrado después sigue ofreciendo el botón desde un cambio anterior, y lleva a «No encontramos esta
+  página».
+- **Las líneas del reparto entre lotes** («creó el reparto de un movimiento entre lotes») no dicen
+  cuánto ni de qué insumo: son jerga dentro de «Ver historial» de un insumo.
+- **Un valor largo que cambia al final** deja la línea en «cambió …», sin decir qué dato (en la
+  configuración solo hay uno; en otras tablas habría que abrir el detalle).
+- **Los desplegables de filtros** pueden quedar desfasados al pulsar la pestaña «Cambios» o
+  «Ingresos» con filtros puestos (misma ruta, el formulario no se desmonta). Arreglarlo bien pide
+  desplegables controlados.
+- **La comprobación de «sin tablas internas» en la actividad reciente** no puede fallar tal como
+  está: las cinco filas más recientes son las del producto que la propia prueba acaba de guardar.
+- `sinCambioNeto` no descuenta los identificadores que `diferencias` oculta (`lote_id`,
+  `movimiento_id`): un cambio que solo los moviera saldría «guardó … sin cambiar nada». Hoy no existe
+  ninguno.
 - El `grant select` de las dos vistas de 0045 es redundante (inofensivo).
 - `sesionDeApi` (`e2e/ayudas/insumos.ts`) crea un usuario en cada llamada y no lo borra; viene de F5.
