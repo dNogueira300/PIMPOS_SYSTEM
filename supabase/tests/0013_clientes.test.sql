@@ -187,8 +187,11 @@ select is((select count(*)::int from public.clientes
             where id = 'ffff0000-0000-0000-0000-000000000001'), 1,
   'un repartidor SI lee clientes: es su modulo');
 select throws_ok(
-  $$ insert into public.clientes (nombre_completo, celular, direccion)
-     values ('Cliente del reparto', '965999888', 'Calle Nueva 1') $$,
+  -- Con referencia y zona: sin ellas saltaria antes la regla de 0044 (un
+  -- trigger BEFORE corre antes que la RLS) y no se probaria el permiso del rol.
+  $$ insert into public.clientes (nombre_completo, celular, direccion, referencia, zona_id)
+     values ('Cliente del reparto', '965999888', 'Calle Nueva 1', 'Frente al parque',
+             (select id from public.zonas_reparto where nombre = 'Iquitos')) $$,
   '42501', null,
   'pero ya no registra uno nuevo: desde 0042 las altas son de los encargados (decision 2)');
 
@@ -197,7 +200,8 @@ set local request.jwt.claims = '{"sub": "33333333-3333-3333-3333-333333333333", 
 select lives_ok(
   $$ select public.registrar_cliente(
        jsonb_build_object('nombre_completo', 'Cliente del reparto', 'celular', '965999888',
-                          'direccion', 'Calle Nueva 1'),
+                          'direccion', 'Calle Nueva 1', 'referencia', 'Frente al parque',
+                          'zona_id', (select id from public.zonas_reparto where nombre = 'Iquitos')),
        'v1-2026-10') $$,
   'el ingeniero lo registra junto con su consentimiento');
 set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
