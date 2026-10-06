@@ -77,6 +77,16 @@ describe("limitesDelPeriodo", () => {
     expect(cambio >= desde && cambio < hasta).toBe(true);
   });
 
+  it("a las 11:30 p. m. de Iquitos, «hoy» sigue siendo ese día (Review Focus)", () => {
+    // 04:30 UTC del 7 son las 23:30 del 6 en Iquitos.
+    const f = leerFiltros({ cuando: "hoy" }, new Date("2026-10-07T04:30:00.000Z"));
+    expect(f.periodo).toEqual({ desde: "2026-10-06", hasta: "2026-10-06" });
+    expect(limitesDelPeriodo(f.periodo!)).toEqual({
+      desde: "2026-10-06T05:00:00.000Z",
+      hasta: "2026-10-07T05:00:00.000Z",
+    });
+  });
+
   it("`de` solo admite los tres dueños, no lo que hereda cualquier objeto", () => {
     const id = "11111111-1111-4111-8111-111111111111";
     expect(leerFiltros({ registro: id, de: "constructor" }, new Date()).registro).toBeNull();

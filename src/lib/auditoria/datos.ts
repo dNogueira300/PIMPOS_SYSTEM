@@ -47,6 +47,8 @@ function aCambio(f: FilaDeLaVista): Cambio | null {
   };
 }
 
+const LOTES_EN_EL_HISTORIAL = 100;
+
 /**
  * La lista de la pestaña Cambios. `null` si la base no respondió (la página lo
  * dice en vez de enseñar una lista vacía). Pide una fila de más para saber si
@@ -68,9 +70,27 @@ export async function leerCambios(
     // fotos y permisos): ahí sí entran las tablas internas, como los lotes.
     const { campo } = HIJOS_DE[f.registro.de];
     const id = f.registro.id;
-    consulta = consulta.or(
-      `registro_id.eq.${id},datos_despues->>${campo}.eq.${id},datos_antes->>${campo}.eq.${id}`,
-    );
+    const condiciones = [
+      `registro_id.eq.${id}`,
+      `datos_despues->>${campo}.eq.${id}`,
+      `datos_antes->>${campo}.eq.${id}`,
+    ];
+    if (f.registro.de === "insumo") {
+      // El reparto de cada movimiento entre lotes no guarda el insumo, guarda
+      // el lote: se busca por los lotes de este insumo. Los 100 más recientes
+      // (van en la dirección de la consulta); son ids de la base, no de la URL.
+      const { data: lotes, error } = await supabase
+        .from("lotes_insumo")
+        .select("id")
+        .eq("insumo_id", id)
+        .order("llegada", { ascending: false })
+        .limit(LOTES_EN_EL_HISTORIAL);
+      if (error) console.error("[historial] lotes del insumo:", error.message);
+      if (lotes && lotes.length > 0) {
+        condiciones.push(`datos_despues->>lote_id.in.(${lotes.map((l) => l.id).join(",")})`);
+      }
+    }
+    consulta = consulta.or(condiciones.join(","));
   } else {
     consulta = consulta.in("tabla", tablasVisibles(f.seccion ?? undefined));
   }
@@ -104,15 +124,22 @@ export async function leerCambios(
   return { cambios: fundir(cambios.slice(0, f.ver)), hayMas: cambios.length > f.ver };
 }
 
-/** Un cambio por su número. También los de tablas internas: es el detalle técnico. */
-export async function leerCambio(id: number): Promise<Cambio | null> {
+/**
+ * Un cambio por su número. También los de tablas internas: es el detalle
+ * técnico. `null` es «no existe»; `"error"`, que la base no respondió: la
+ * página no puede decir «no encontramos esta página» de algo que sí está.
+ */
+export async function leerCambio(id: number): Promise<Cambio | null | "error"> {
   const supabase = await crearClienteServidor();
   const { data, error } = await supabase
     .from("auditoria")
     .select(COLUMNAS)
     .eq("id", id)
     .maybeSingle();
-  if (error) console.error("[historial] cambio:", error.message);
+  if (error) {
+    console.error("[historial] cambio:", error.message);
+    return "error";
+  }
   return data ? aCambio(data as FilaDeLaVista) : null;
 }
 

@@ -291,6 +291,47 @@ describe("accion", () => {
   });
 });
 
+describe("lo que encontró la revisión de la T2 y la T3", () => {
+  it("dar de alta una cuenta no es «cambiar el rol»", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      registro_id: "u2",
+      datos_antes: { nombre_completo: "debra@pimpos.test", rol: "repartidor", activo: false },
+      datos_despues: { nombre_completo: "Debra", rol: "ingeniero", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("dio de alta la cuenta de Debra como Ingeniero");
+  });
+
+  it("un cambio de rol de una cuenta que ya estaba activa sigue diciendo los dos roles", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      datos_antes: { nombre_completo: "Debra", rol: "ingeniero", activo: true },
+      datos_despues: { nombre_completo: "Debra", rol: "administrador", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió el rol de Debra: Ingeniero → Administrador");
+  });
+
+  it("un valor largo que al cortarlo queda igual a los dos lados no se enseña cortado", () => {
+    const largo = "La panadería abrió en 2004 en la calle Próspero, y desde entonces ";
+    const c = cambio({
+      tabla: "public.configuracion_sitio",
+      registro_id: null,
+      datos_antes: { clave: "historia", valor: `${largo}hornea cada madrugada.` },
+      datos_despues: { clave: "historia", valor: `${largo}hornea cada día.` },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió la historia del negocio, en la configuración");
+  });
+
+  it("los identificadores sin nombre no salen entre los datos de un movimiento", () => {
+    const c = cambio({
+      tabla: "public.movimiento_lotes",
+      operacion: "INSERT",
+      datos_despues: { movimiento_id: "m1", lote_id: "l1", cantidad_base: 5 },
+    });
+    expect(diferencias(c, NOMBRES).map((d) => d.campo)).toEqual(["cantidad_base"]);
+  });
+});
+
 describe("idsReferidos", () => {
   it("junta, sin repetir, los ids a los que apuntan las filas", () => {
     const filas = [

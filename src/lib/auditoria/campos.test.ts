@@ -48,11 +48,39 @@ describe("campos del historial", () => {
   });
 
   it("lo que no es texto se escribe legible, no como [object Object] (Review Focus)", () => {
-    expect(escribirValor("valor", { lunes: ["04:00", "20:00"] }, {})).toBe(
-      '{"lunes":["04:00","20:00"]}',
+    expect(escribirValor("valor", { lunes: ["04:00", "20:00"], martes: [] }, {})).toBe(
+      "lunes: 04:00, 20:00; martes: —",
+    );
+    expect(escribirValor("valor", [{ titulo: "Calidad", abierto: true }], {})).toBe(
+      "titulo: Calidad; abierto: Sí",
     );
     expect(escribirValor("valor", "+51 947 874 820", {})).toBe("+51 947 874 820");
     expect(escribirValor("cantidad", 50, {})).toBe("50");
+  });
+
+  it("una persona que ya no está no es «algo»", () => {
+    expect(escribirValor("registrado_por", "u9", {})).toBe("alguien que ya no tiene cuenta");
+    expect(escribirValor("insumo_id", "i9", {})).toBe("algo que ya no existe");
+  });
+
+  it("un punto del mapa se escribe con la precisión con que se corrige", () => {
+    expect(escribirValor("latitud", -3.749512, {})).toBe("-3.749512");
+    expect(escribirValor("longitud", -73.25, {})).toBe("-73.25");
+  });
+
+  it("un costo menor a un céntimo no sale como S/ 0.00", () => {
+    expect(escribirValor("costo_unitario", 0.0035, {})).toBe("S/ 0.0035");
+    expect(escribirValor("costo_unitario", 4.5, {})).toBe("S/ 4.50");
+    expect(escribirValor("precio", 0.2, {})).toBe("S/ 0.20");
+  });
+
+  it("los datos técnicos de un movimiento se dicen en llano", () => {
+    expect(escribirValor("sentido", 1, {})).toBe("Suma");
+    expect(escribirValor("sentido", -1, {})).toBe("Resta");
+    expect(escribirValor("moneda", "PEN", {})).toBe("Soles");
+    expect(escribirValor("anula_a", "6f2321c8-0000-4000-8000-000000000000", {})).toBe(
+      "un movimiento anterior",
+    );
   });
 
   it("recorta lo largo para la lista (Review Focus)", () => {

@@ -2,6 +2,7 @@ import { formatearCantidad, nombreDeUnidad } from "@/lib/insumos/unidades";
 
 import {
   esDeControl,
+  esIdSinNombre,
   escribirValor,
   etiquetaDe,
   recortar,
@@ -56,7 +57,7 @@ export function diferencias(c: Cambio, nombres: Nombres): Diferencia[] {
   const despues = c.datos_despues ?? {};
   const campos = [...new Set([...Object.keys(antes), ...Object.keys(despues)])];
   return campos
-    .filter((campo) => !esDeControl(campo))
+    .filter((campo) => !esDeControl(campo) && !esIdSinNombre(campo))
     .filter((campo) =>
       c.operacion === "UPDATE"
         ? distinto(antes[campo], despues[campo])
@@ -137,6 +138,13 @@ export function accion(c: Cambio, nombres: Nombres): string {
   if (tabla === "consentimientos" && cambio("revocado_en") && !vacio(despues.revocado_en)) {
     return `retiró ${cosa}`;
   }
+  if (tabla === "perfiles" && cambio("rol") && antes.activo === false && despues.activo === true) {
+    // El alta de una cuenta son dos pasos: nace desactivada y como repartidor
+    // (0006), y después se le pone su rol. Nunca fue repartidora.
+    const nombre =
+      typeof despues.nombre_completo === "string" ? despues.nombre_completo : "una persona";
+    return `dio de alta la cuenta de ${nombre} como ${escribirValor("rol", despues.rol, nombres)}`;
+  }
   if (tabla === "perfiles" && cambio("rol")) {
     const nombre =
       typeof despues.nombre_completo === "string" ? despues.nombre_completo : "una cuenta";
@@ -157,7 +165,11 @@ export function accion(c: Cambio, nombres: Nombres): string {
   }
   if (lista.length === 1) {
     const d = lista[0]!;
-    return `cambió ${cosa}: ${d.etiqueta} ${recortar(d.antes, LARGO_EN_FRASE)} → ${recortar(d.despues, LARGO_EN_FRASE)}`;
+    const antesCorto = recortar(d.antes, LARGO_EN_FRASE);
+    const despuesCorto = recortar(d.despues, LARGO_EN_FRASE);
+    // Un texto largo que cambia al final se vería igual a los dos lados.
+    if (antesCorto === despuesCorto) return `cambió ${cosa}`;
+    return `cambió ${cosa}: ${d.etiqueta} ${antesCorto} → ${despuesCorto}`;
   }
   return `cambió ${cosa} (${lista.length} datos)`;
 }
