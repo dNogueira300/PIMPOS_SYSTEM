@@ -5,8 +5,8 @@ import { Suspense } from "react";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { NOMBRE_DEL_ROL, esRol } from "@/lib/auth/roles";
-import { infoDeTabla } from "@/lib/auditoria/catalogo";
-import { leerCambio, resolverNombres } from "@/lib/auditoria/datos";
+import { destinoDe, infoDeTabla } from "@/lib/auditoria/catalogo";
+import { existeDestino, leerCambio, leerGuardado, resolverNombres } from "@/lib/auditoria/datos";
 import { accion, diferencias, quien } from "@/lib/auditoria/redactar";
 import { formatearFechaLima } from "@/lib/panel/hora-lima";
 
@@ -44,16 +44,23 @@ async function Detalle({ params }: Pick<Props, "params">) {
   }
   if (!cambio) notFound();
 
-  const nombres = await resolverNombres([cambio]);
+  // Un «Guardar» deja varias filas sobre el mismo registro: lo que se enseña
+  // es el guardado entero (lo mismo que dice su línea en la lista). El detalle
+  // técnico, más abajo, sigue siendo el de esta fila.
+  const { cambio: junto, filas } = await leerGuardado(cambio);
+  const nombres = await resolverNombres([junto]);
   const info = infoDeTabla(cambio.tabla);
-  const lista = diferencias(cambio, nombres);
-  // «Ir a…» solo si el registro sigue ahí: una eliminación o un borrado no
-  // tienen a dónde ir, y una ficha con los datos borrados tampoco.
+  const lista = diferencias(junto, nombres);
+  // «Ir a…» solo si el registro sigue ahí: ni tras una eliminación o un
+  // borrado, ni en una ficha con los datos borrados, ni si se borró DESPUÉS de
+  // este cambio (eso se le pregunta a la base).
   const despues = cambio.datos_despues ?? {};
+  const destino = destinoDe(cambio.tabla, despues);
   const yaNoEsta =
     cambio.operacion === "DELETE" ||
     despues.borrado === true ||
-    (despues.deleted_at !== null && despues.deleted_at !== undefined);
+    (despues.deleted_at !== null && despues.deleted_at !== undefined) ||
+    (destino !== null && !(await existeDestino(destino)));
   const ruta = yaNoEsta ? null : (info.ruta?.(despues) ?? null);
   const rol =
     cambio.usuario_id === null
@@ -81,7 +88,7 @@ async function Detalle({ params }: Pick<Props, "params">) {
           Qué pasó
         </h2>
         <p className="text-lg wrap-anywhere" data-frase>
-          <strong className="font-semibold">{quien(cambio)}</strong> {accion(cambio, nombres)}
+          <strong className="font-semibold">{quien(junto)}</strong> {accion(junto, nombres)}
         </p>
         <p className="text-muted-foreground mt-1 text-sm">
           {rol} · {formatearFechaLima(cambio.ocurrido_en)}
@@ -132,6 +139,22 @@ async function Detalle({ params }: Pick<Props, "params">) {
         <dl className="mt-2 grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[10rem_1fr]">
           <dt className="text-muted-foreground">Número</dt>
           <dd>{cambio.id}</dd>
+          {filas.length > 1 ? (
+            <>
+              <dt className="text-muted-foreground">Del mismo guardado</dt>
+              <dd className="flex flex-wrap gap-x-3" data-mismo-guardado>
+                {filas.map((n) =>
+                  n === cambio.id ? (
+                    <span key={n}>{n} (esta)</span>
+                  ) : (
+                    <Link key={n} href={`/admin/auditoria/${n}`} className="underline">
+                      {n}
+                    </Link>
+                  ),
+                )}
+              </dd>
+            </>
+          ) : null}
           <dt className="text-muted-foreground">Tabla</dt>
           <dd>
             {cambio.tabla}

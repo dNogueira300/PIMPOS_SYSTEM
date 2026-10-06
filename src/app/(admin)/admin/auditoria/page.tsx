@@ -68,10 +68,6 @@ async function Cambios({ searchParams }: Pick<PageProps<"/admin/auditoria">, "se
       ) : null}
 
       <FiltrosHistorial
-        // Al pasar de «Ver historial» de un registro a todo el historial la
-        // ruta es la misma y el formulario no se desmontaría: sus
-        // desplegables seguirían diciendo los filtros de antes.
-        key={filtros.registro?.id ?? "todo"}
         personas={personas.map((p) => ({ valor: p.id, nombre: p.nombre }))}
         secciones={filtros.registro ? undefined : SECCIONES}
         conHizo

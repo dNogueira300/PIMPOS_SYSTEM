@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   accion,
+  delMismoGuardado,
   enLineas,
+  enTandas,
   type Cambio,
   diferencias,
   frase,
@@ -518,5 +520,99 @@ describe("enLineas", () => {
     const { cambios, hayMas } = enLineas(guardado, 5, 27);
     expect(cambios).toEqual([]);
     expect(hayMas).toBe(true);
+  });
+});
+
+describe("los menores que quedaban del Historial", () => {
+  it("un texto largo que cambia al final dice al menos qué dato cambió", () => {
+    const largo = "Pan de corteza crujiente, horneado cada madrugada en horno de ";
+    const c = cambio({
+      datos_antes: { nombre: "Pan francés", descripcion: `${largo}leña.` },
+      datos_despues: { nombre: "Pan francés", descripcion: `${largo}ladrillo.` },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió el producto Pan francés (descripción)");
+  });
+
+  it("el reparto de un movimiento entre lotes dice de qué insumo y cuánto", () => {
+    const c = cambio({
+      tabla: "public.movimiento_lotes",
+      registro_id: null,
+      operacion: "INSERT",
+      datos_despues: { movimiento_id: "m1", lote_id: "l1", cantidad_base: 5 },
+    });
+    expect(accion(c, { l1: "Harina" })).toBe(
+      "apuntó en un lote de Harina la parte de un movimiento: 5",
+    );
+    expect(accion(c, {})).toBe(
+      "apuntó en un lote de un insumo que ya no existe la parte de un movimiento: 5",
+    );
+  });
+
+  it("un cambio que solo mueve un identificador sin nombre no es «sin cambiar nada»", () => {
+    const c = cambio({
+      tabla: "public.movimiento_lotes",
+      registro_id: null,
+      datos_antes: { movimiento_id: "m1", lote_id: "l1", cantidad_base: 5 },
+      datos_despues: { movimiento_id: "m1", lote_id: "l2", cantidad_base: 5 },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió el reparto de un movimiento entre lotes");
+  });
+});
+
+describe("delMismoGuardado", () => {
+  const AHORA = "2026-10-06T15:00:00.000Z";
+  const fila = (id: number, antes: object, despues: object, cuando = AHORA) =>
+    cambio({
+      id,
+      tabla: "public.producto_variantes",
+      registro_id: "v1",
+      ocurrido_en: cuando,
+      datos_antes: { nombre: "Unidad", producto_id: "p1", ...antes },
+      datos_despues: { nombre: "Unidad", producto_id: "p1", ...despues },
+    });
+  const quita = fila(
+    12,
+    { es_predeterminada: true, precio: 0.2 },
+    { es_predeterminada: false, precio: 0.2 },
+  );
+  const pone = fila(
+    13,
+    { es_predeterminada: false, precio: 0.2 },
+    { es_predeterminada: true, precio: 0.25 },
+  );
+
+  it("el detalle de una fila de un guardado enseña el guardado entero: solo el precio", () => {
+    for (const abierta of [quita, pone]) {
+      const { cambio: junto, filas } = delMismoGuardado(abierta, [pone, quita]);
+      expect(diferencias(junto, NOMBRES).map((d) => d.campo)).toEqual(["precio"]);
+      expect(junto.id).toBe(abierta.id);
+      expect(filas).toEqual([12, 13]);
+    }
+  });
+
+  it("una fila suelta, o las de otro momento, se quedan como están", () => {
+    const otra = fila(9, { precio: 0.1 }, { precio: 0.2 }, "2026-10-05T15:00:00.000Z");
+    expect(delMismoGuardado(pone, [pone, otra])).toEqual({ cambio: pone, filas: [13] });
+    expect(delMismoGuardado(pone, [])).toEqual({ cambio: pone, filas: [13] });
+  });
+
+  it("si el guardado entero no cambió nada, se enseña la fila tal cual", () => {
+    const vuelve = fila(
+      13,
+      { es_predeterminada: false, precio: 0.2 },
+      { es_predeterminada: true, precio: 0.2 },
+    );
+    expect(delMismoGuardado(vuelve, [vuelve, quita]).cambio).toEqual(vuelve);
+  });
+});
+
+describe("enTandas", () => {
+  it("parte una lista en trozos del tamaño pedido, sin perder ni repetir nada", () => {
+    const ids = Array.from({ length: 250 }, (_, i) => `id${i}`);
+    const tandas = enTandas(ids, 100);
+    expect(tandas.map((t) => t.length)).toEqual([100, 100, 50]);
+    expect(tandas.flat()).toEqual(ids);
+    expect(enTandas([], 100)).toEqual([]);
+    expect(enTandas(["a"], 100)).toEqual([["a"]]);
   });
 });

@@ -1,3 +1,5 @@
+import { tablaQueSenala } from "./campos";
+
 /**
  * Qué es cada tabla auditada, para decirlo en llano en el historial (F7).
  *
@@ -277,3 +279,44 @@ export const HIJOS_DE = {
   cliente: { tabla: "public.clientes", campo: "cliente_id" },
 } as const;
 export type Dueno = keyof typeof HIJOS_DE;
+
+/**
+ * Las tablas que tienen la pantalla de UN registro (`/…/<id>`), que es a donde
+ * lleva «Ir a donde se hizo». Todas llevan `deleted_at`. Lista cerrada: es la
+ * única de la que `existeDestino` acepta un nombre de tabla, y una prueba
+ * comprueba que ninguna ruta del catálogo lleve a una tabla que no esté aquí.
+ */
+export const TABLAS_CON_PANTALLA: readonly string[] = [
+  "productos",
+  "categorias_producto",
+  "novedades",
+  "slides",
+  "faqs",
+  "galeria",
+  "guias",
+  "testimonios",
+  "insumos",
+  "proveedores",
+  "clientes",
+  "zonas_reparto",
+  "perfiles",
+];
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * El registro al que lleva «Ir a donde se hizo», para preguntarle a la base si
+ * sigue existiendo: el propio (un producto) o su dueño (una presentación lleva
+ * a su producto). `null` si lleva a una lista, que siempre existe, o a ninguna
+ * parte.
+ */
+export function destinoDe(tabla: string, d: Datos): { tabla: string; id: string } | null {
+  const id = infoDeTabla(tabla).ruta?.(d)?.split("/").pop() ?? "";
+  if (!UUID.test(id)) return null;
+  if (d.id === id) return { tabla: tabla.replace(/^public\./, ""), id };
+  for (const [campo, valor] of Object.entries(d)) {
+    const señalada = tablaQueSenala(campo);
+    if (valor === id && señalada) return { tabla: señalada, id };
+  }
+  return null;
+}

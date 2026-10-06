@@ -801,12 +801,13 @@ los clientes para revisar y cómo descargar la lista.
 Primera parte de F7. La base anota cada cambio desde F2 (`app.auditoria`, 0007); faltaba la pantalla.
 Plan y spec en `DOC/Plan de Desarrollo 07 - Auditoría.md`; manual en `docs/historial.md`.
 
-| Tarea   | PR  | Qué dejó                                                                                                                                                            |
-| ------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Plan    | #85 | Las 6 decisiones de Dan, el diseño y el plan paso a paso                                                                                                            |
-| T1      | #86 | La base (0045): `ingresos_al_sistema` con su guarda y las vistas `constancias_de_borrado` y `descargas_de_clientes`                                                 |
-| T2 + T3 | #87 | Las frases (`src/lib/auditoria/`), «Historial» en el menú, Cambios con filtros y detalle, Ingresos, Datos borrados, Descargas, actividad reciente y «Ver historial» |
-| T4      | #88 | Los menores de la revisión, la suite entera, el manual y la documentación                                                                                           |
+| Tarea   | PR  | Qué dejó                                                                                                                                                                                          |
+| ------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plan    | #85 | Las 6 decisiones de Dan, el diseño y el plan paso a paso                                                                                                                                          |
+| T1      | #86 | La base (0045): `ingresos_al_sistema` con su guarda y las vistas `constancias_de_borrado` y `descargas_de_clientes`                                                                               |
+| T2 + T3 | #87 | Las frases (`src/lib/auditoria/`), «Historial» en el menú, Cambios con filtros y detalle, Ingresos, Datos borrados, Descargas, actividad reciente y «Ver historial»                               |
+| T4      | #88 | Los menores de la revisión, la suite entera, el manual y la documentación                                                                                                                         |
+| Menores | #89 | Lo que quedó anotado al cerrar: el detalle enseña el guardado entero, «Ir a…» solo si el registro sigue existiendo, filtros que siguen a la dirección, el reparto entre lotes dicho con su insumo |
 
 **Qué es.** `/admin/auditoria`, solo para superadmin y administrador, de solo lectura. Cuatro
 pestañas: **Cambios** (una línea por cambio, en frases: «Marcos cambió la presentación Unidad de Pan

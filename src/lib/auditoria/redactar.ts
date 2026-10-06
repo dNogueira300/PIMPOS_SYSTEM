@@ -117,6 +117,13 @@ export function accion(c: Cambio, nombres: Nombres): string {
 
   if (c.operacion === "INSERT") {
     if (tabla === "movimientos_insumo") return movimiento(datos, nombres);
+    if (tabla === "movimiento_lotes") {
+      // Cada movimiento se reparte entre los lotes del insumo; esta fila es
+      // la parte que le tocó a uno. El lote no tiene nombre: se dice el insumo.
+      const lote = typeof datos.lote_id === "string" ? datos.lote_id : "";
+      const insumo = nombres[lote] ?? "un insumo que ya no existe";
+      return `apuntó en un lote de ${insumo} la parte de un movimiento: ${escribirValor("cantidad_base", datos.cantidad_base, nombres)}`;
+    }
     if (tabla === "solicitudes_baja") {
       const { cuanto, insumo } = cantidadDeInsumo(datos, nombres);
       return `pidió una baja de ${cuanto} de ${insumo}`;
@@ -168,14 +175,22 @@ export function accion(c: Cambio, nombres: Nombres): string {
   const lista = diferencias(c, nombres);
   if (lista.length === 0) {
     // Cambiar una foto sobrescribe el archivo: la fila solo cambia de fecha.
-    return tabla === "cliente_fotos" ? `cambió ${cosa}` : `guardó ${cosa} sin cambiar nada`;
+    // Y si lo único que cambió es un identificador que no se enseña, cambió algo.
+    return tabla === "cliente_fotos" || !sinCambioNeto(c)
+      ? `cambió ${cosa}`
+      : `guardó ${cosa} sin cambiar nada`;
   }
   if (lista.length === 1) {
     const d = lista[0]!;
     const antesCorto = recortar(d.antes, LARGO_EN_FRASE);
     const despuesCorto = recortar(d.despues, LARGO_EN_FRASE);
     // Un texto largo que cambia al final se vería igual a los dos lados.
-    if (antesCorto === despuesCorto) return `cambió ${cosa}`;
+    // En la configuración la cosa ya es el dato; en lo demás se dice cuál fue.
+    if (antesCorto === despuesCorto) {
+      return d.campo === "valor"
+        ? `cambió ${cosa}`
+        : `cambió ${cosa} (${d.etiqueta.toLowerCase()})`;
+    }
     return `cambió ${cosa}: ${d.etiqueta} ${antesCorto} → ${despuesCorto}`;
   }
   return `cambió ${cosa} (${lista.length} datos)`;
@@ -280,4 +295,47 @@ export function enLineas(
     cambios: lineas.slice(0, cuantas),
     hayMas: lineas.length > cuantas || filas.length >= tope,
   };
+}
+
+/**
+ * Para el detalle de un cambio: si la fila es una de las varias que dejó un
+ * mismo «Guardar» sobre ese registro, el cambio de punta a punta (de cómo
+ * estaba antes de la primera a cómo quedó tras la última), con el número de
+ * la fila que se abrió. `filas` son los números de todas, en orden. Si el
+ * guardado entero no movió ningún dato, se enseña la fila tal cual: algo hay
+ * que enseñar de una fila que alguien abrió por su dirección.
+ */
+export function delMismoGuardado(
+  c: Cambio,
+  candidatas: readonly Cambio[],
+): { cambio: Cambio; filas: number[] } {
+  if (c.operacion !== "UPDATE" || c.registro_id === null) return { cambio: c, filas: [c.id] };
+  const porId = new Map<number, Cambio>([[c.id, c]]);
+  for (const otra of candidatas) {
+    if (
+      otra.operacion === "UPDATE" &&
+      otra.tabla === c.tabla &&
+      otra.registro_id === c.registro_id &&
+      otra.ocurrido_en === c.ocurrido_en &&
+      otra.usuario_id === c.usuario_id
+    ) {
+      porId.set(otra.id, otra);
+    }
+  }
+  const grupo = [...porId.values()].sort((a, b) => a.id - b.id);
+  const filas = grupo.map((f) => f.id);
+  if (grupo.length === 1) return { cambio: c, filas };
+  const junto: Cambio = {
+    ...c,
+    datos_antes: grupo[0]!.datos_antes,
+    datos_despues: grupo[grupo.length - 1]!.datos_despues,
+  };
+  return { cambio: sinCambioNeto(junto) ? c : junto, filas };
+}
+
+/** Una lista, en trozos de `tamano`: los ids viajan en la dirección de la consulta. */
+export function enTandas<T>(lista: readonly T[], tamano: number): T[][] {
+  const tandas: T[][] = [];
+  for (let i = 0; i < lista.length; i += tamano) tandas.push(lista.slice(i, i + tamano));
+  return tandas;
 }

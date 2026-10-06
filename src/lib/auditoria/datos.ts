@@ -4,9 +4,15 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
-import { type Datos, HIJOS_DE, type Nombres, tablasVisibles } from "./catalogo";
+import {
+  type Datos,
+  HIJOS_DE,
+  type Nombres,
+  TABLAS_CON_PANTALLA,
+  tablasVisibles,
+} from "./catalogo";
 import { type Filtros, limitesDelPeriodo } from "./filtros";
-import { type Cambio, enLineas, idsPorTabla } from "./redactar";
+import { type Cambio, delMismoGuardado, enLineas, enTandas, idsPorTabla } from "./redactar";
 
 const COLUMNAS =
   "id, tabla, registro_id, operacion, usuario_id, usuario_correo, usuario_nombre, rol, datos_antes, datos_despues, ocurrido_en";
@@ -146,6 +152,54 @@ export async function leerCambio(id: number): Promise<Cambio | null | "error"> {
   return data ? aCambio(data as FilaDeLaVista) : null;
 }
 
+/**
+ * El cambio como lo enseña el detalle: junto con las demás filas que dejó el
+ * mismo «Guardar» sobre ese registro (ver `delMismoGuardado`). Si la consulta
+ * falla, la fila sola: es lo que había antes.
+ */
+export async function leerGuardado(c: Cambio): Promise<{ cambio: Cambio; filas: number[] }> {
+  if (c.operacion !== "UPDATE" || c.registro_id === null) return { cambio: c, filas: [c.id] };
+  const supabase = await crearClienteServidor();
+  const { data, error } = await supabase
+    .from("auditoria")
+    .select(COLUMNAS)
+    .eq("tabla", c.tabla)
+    .eq("registro_id", c.registro_id)
+    .eq("ocurrido_en", c.ocurrido_en)
+    .eq("operacion", "UPDATE")
+    .order("id")
+    .limit(20);
+  if (error) console.error("[historial] guardado:", error.message);
+  const filas = ((data ?? []) as FilaDeLaVista[])
+    .map(aCambio)
+    .filter((f): f is Cambio => f !== null);
+  return delMismoGuardado(c, filas);
+}
+
+/**
+ * ¿Sigue existiendo el registro al que llevaría «Ir a donde se hizo»? Lo que se
+ * borró desde el panel sigue en su tabla con `deleted_at`: eso cuenta como que
+ * ya no está. Si la consulta falla se responde que sí: mejor un botón de más
+ * que esconderlo por un fallo pasajero.
+ */
+export async function existeDestino(destino: { tabla: string; id: string }): Promise<boolean> {
+  // El nombre de la tabla solo se acepta de la lista cerrada del catálogo.
+  if (!TABLAS_CON_PANTALLA.includes(destino.tabla)) return true;
+  const supabase = await crearClienteServidor();
+  const { data, error } = await (supabase as unknown as SupabaseClient)
+    .from(destino.tabla)
+    // Solo lo que hace falta: no se trae la ficha de nadie para saber si existe.
+    .select("id, deleted_at")
+    .eq("id", destino.id)
+    .maybeSingle();
+  if (error) {
+    console.error(`[historial] destino en ${destino.tabla}:`, error.message);
+    return true;
+  }
+  const fila = data as Record<string, unknown> | null;
+  return fila !== null && (fila.deleted_at === null || fila.deleted_at === undefined);
+}
+
 /** De qué columna sale el nombre en cada tabla a la que una fila puede señalar. */
 const COLUMNA_DEL_NOMBRE: Readonly<Record<string, string>> = {
   insumos: "nombre",
@@ -157,6 +211,8 @@ const COLUMNA_DEL_NOMBRE: Readonly<Record<string, string>> = {
   proveedores: "nombre",
   unidades_medida: "codigo",
   almacenes: "nombre",
+  // Un lote no tiene nombre: el suyo es el de su insumo.
+  lotes_insumo: "insumos(nombre)",
   perfiles: "nombre_completo",
 };
 
@@ -183,8 +239,8 @@ export async function resolverNombres(
   for (const [tabla, ids] of Object.entries(porTabla)) {
     const columna = COLUMNA_DEL_NOMBRE[tabla];
     if (!columna) continue;
-    for (let i = 0; i < ids.length; i += IDS_POR_CONSULTA) {
-      consultas.push({ tabla, columna, ids: ids.slice(i, i + IDS_POR_CONSULTA) });
+    for (const tanda of enTandas(ids, IDS_POR_CONSULTA)) {
+      consultas.push({ tabla, columna, ids: tanda });
     }
   }
   if (consultas.length === 0) return {};
@@ -204,7 +260,13 @@ export async function resolverNombres(
         return;
       }
       for (const fila of (data ?? []) as unknown as Record<string, unknown>[]) {
-        const nombre = fila[columna];
+        // `insumos(nombre)` llega como un objeto anidado: `{ insumos: { nombre } }`.
+        const [propia, anidada] = columna.replace(")", "").split("(");
+        const valor = fila[propia ?? columna];
+        const nombre =
+          anidada && valor !== null && typeof valor === "object"
+            ? (valor as Record<string, unknown>)[anidada]
+            : valor;
         if (typeof fila.id === "string" && typeof nombre === "string" && nombre) {
           nombres[fila.id] = nombre;
         }

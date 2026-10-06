@@ -41,7 +41,7 @@ https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen comp
 | F4 Panel contenido | ✅ **Cerrada el 24/09/2026** (PR #61, revisión final incluida). Las 8 tareas: cáscara del panel, categorías, productos con presentaciones/fotos/historial de precios, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios con contraseña temporal y cierre de sesión al instante, configuración y marca. Rendimiento medido el 25/09 contra `ae96d1b`, en la misma sesión: `/` **91 frente a 91** (37 pasadas intercaladas por versión, diferencia no significativa), `/productos` 91 → 95 y `/contacto` 95 → 96 (`PASADAS=5`). Accesibilidad 100/100/97 y SEO 100 en las tres                                                                              |
 | F5 Panel insumos   | ✅ **Cerrada el 30/09/2026** (PR #66 a #75, plan en #65). Kárdex por lotes (FEFO) con costo y sin saldos negativos, catálogo y existencias, ingresos y consumos de varias líneas, ficha con kárdex, anulación y conteo, bajas con aprobación, reportes con gráficos y descarga en Excel y PDF, avisos por correo apagados hasta tener dominio; y, a pedido de Dan, lápiz de editar, búsqueda al escribir y sesión de 2 horas. Rendimiento contra `a5e6a4b`, misma sesión: `/` **86.5 frente a 85** (20 pasadas intercaladas por versión, p = 0.79), `/productos` 90 → 88, `/contacto` 95 → 95. Accesibilidad 100/100/97 y SEO 100                                                       |
 | F6 Panel clientes  | ✅ **Cerrada el 06/10/2026** (PR #78 a #83, plan en #77). Permiso obligatorio en la base y que no se falsea ni se retira solo (0042, 0044), el repartidor ve todo y solo corrige referencia, punto y fotos, borrar a pedido con la auditoría tachada y aviso de conservación a los 2 años (0043), lista con buscador en vivo y mapa, ficha con fotos por URL firmada, alta en pestañas con aviso de celular repetido, zonas, «Para revisar» y descarga en Excel y PDF con registro. Rendimiento contra `371c202`, misma sesión: `/` **91 frente a 92.5** (20 pasadas intercaladas por versión, p = 0.29), `/productos` 95 → 95, `/contacto` 96 → 96. Accesibilidad 100/100/97 y SEO 100 |
-| F7 Cierre          | 🟡 **Historial del panel (auditoría) hecho el 06/10/2026** (PR #86 a #88, plan en #85): `/admin/auditoria`, solo para la administración y de solo lectura, con los cambios en frases («Marcos cambió la presentación Unidad de Pan francés: Precio S/ 0.20 → S/ 0.25»), filtros, detalle de cada cambio, ingresos y salidas, constancias de borrado, descargas, actividad reciente en el inicio y «Ver historial» en producto, insumo y cliente (0045). Sin medición de rendimiento: no toca el sitio público. Falta: capacitación, manual, informe final y traspaso de credenciales                                                                                                    |
+| F7 Cierre          | 🟡 **Historial del panel (auditoría) hecho el 06/10/2026** (PR #86 a #89, plan en #85): `/admin/auditoria`, solo para la administración y de solo lectura, con los cambios en frases («Marcos cambió la presentación Unidad de Pan francés: Precio S/ 0.20 → S/ 0.25»), filtros, detalle de cada cambio, ingresos y salidas, constancias de borrado, descargas, actividad reciente en el inicio y «Ver historial» en producto, insumo y cliente (0045). Sin medición de rendimiento: no toca el sitio público. Falta: capacitación, manual, informe final y traspaso de credenciales                                                                                                    |
 
 **La base hoy** (06/10/2026, con el Historial de F7): 33 tablas (32 en `public` + `app.auditoria`)
 **todas con RLS** (cero sin proteger), 15 vistas **todas con `security_invoker`**, 93 políticas (76 en
@@ -70,12 +70,14 @@ preguntar a la base quién entró y quién salió del panel (`ingresos_al_sistem
 de Auth), y las constancias de borrado y las descargas se leen con el nombre de quien las hizo
 (0045).
 
-**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **479 unitarias**
-(60 archivos, Vitest) + **646 E2E listadas en 44 archivos**. La suite E2E se corrió **entera** el
+**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **492 unitarias**
+(60 archivos, Vitest) + **650 E2E listadas en 44 archivos**. La suite E2E se corrió **entera** el
 06/10/2026 sobre la rama del cierre del Historial (646 ejecutadas: 549 pasan y 97 se
 saltan a propósito, por tamaño de pantalla o sin fotos en el entorno; 0 fallos del código —una
 prueba se repitió porque el Supabase local no respondió al crear su usuario—), en cinco tandas
-contra un mismo build.
+contra un mismo build. Después, con los menores que quedaban (PR #89, 4 pruebas E2E más), se
+repitieron el historial, el kárdex, la administración de clientes y la accesibilidad del historial y
+del inicio.
 En esta máquina la suite no cabe de una vez por la memoria: se corre **por tandas contra un mismo
 build** levantado a mano (`pnpm build` + `pnpm start` con el entorno de `playwright.config.ts`), con
 `--workers=1` en los flujos largos (bajas, novedades, movimientos, contenido) + 3 guiones que prueban lo que
@@ -898,6 +900,21 @@ else new.cliente_id end` falla en `clientes` («record "new" has no field "clien
 - **Una cuenta nueva se reconoce porque nadie la tocó, no por el rol.** El alta nace desactivada y
   como repartidor (0006) y después se activa con su rol: si el rol pedido es repartidor, el rol no
   cambia y la frase decía «reactivó». La señal es `created_at = updated_at` en la fila de antes.
+- **Un formulario con `defaultValue` no se entera de que la dirección cambió.** Entre dos páginas de
+  la misma ruta (pulsar la pestaña «Cambios» con filtros puestos) el formulario no se desmonta, y sus
+  desplegables seguían diciendo los filtros de antes; el siguiente cambio los reenviaba. Una `key`
+  con los filtros quitaría el foco del desplegable en uso: van controlados, y se reajustan cuando
+  cambia lo que llega por las props (ajuste de estado durante el render, sin efecto).
+- **Una lista cerrada sirve para una cosa.** «¿Sigue existiendo el registro?» reutilizó la lista de
+  tablas de las que se saca un nombre, y dejó sin comprobar las seis pantallas de contenido que no
+  dan nombre a nadie (novedades, portada, preguntas, galería, guías, testimonios). Tiene su propia
+  lista (`TABLAS_CON_PANTALLA`), y una prueba recorre el catálogo para que ninguna ruta quede fuera.
+- **Una página que ordena lo que recibe mueve los campos de un formulario controlado.** `leerFiltros`
+  pone «desde» antes que «hasta»; con los controles controlados, escribir primero la fecha de inicio
+  de un rango nuevo las intercambiaba bajo los dedos. Un rango al revés no navega (`aDireccion`).
+- **Una comprobación que no puede fallar no comprueba.** «La actividad reciente no trae tablas
+  internas» miraba cinco filas que eran siempre las del producto que la propia prueba acababa de
+  guardar. Ahora hace antes un ajuste de stock, que deja filas internas como lo último del registro.
 - **Next deja siempre un `role="alert"` vacío en la página** (su anunciador de rutas):
   `getByRole("alert")` nunca da cero. Se busca el texto del error.
 - **`supabase.auth.signOut()` cierra todas las sesiones de ese usuario**, también la del navegador de
@@ -1024,7 +1041,9 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
     acota lo que viene en la dirección; los días son de Iquitos). **Lo desconocido se dice de forma
     genérica**, nunca da un error. `datos.ts` (`server-only`) lee `public.auditoria`, la función
     `ingresos_al_sistema` y las dos vistas de 0045, y busca los nombres a los que cada fila señala,
-    por tabla y en tandas de 100.
+    por tabla y en tandas de 100. El detalle de un cambio enseña el guardado entero
+    (`leerGuardado`) y solo ofrece «Ir a donde se hizo» si el registro sigue existiendo
+    (`destinoDe` + `existeDestino`).
 - `middleware.ts` — refresco de sesión + guardia por rol.
 - Mutaciones por **Server Actions** validadas con Zod; no hay API REST propia salvo webhooks puntuales.
 

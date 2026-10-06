@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import { HIJOS_DE, infoDeTabla, SECCIONES, TABLAS_AUDITADAS, tablasVisibles } from "./catalogo";
+import {
+  destinoDe,
+  TABLAS_CON_PANTALLA,
+  HIJOS_DE,
+  infoDeTabla,
+  SECCIONES,
+  TABLAS_AUDITADAS,
+  tablasVisibles,
+} from "./catalogo";
 
 describe("catálogo de tablas", () => {
   it("cubre las 25 tablas auditadas (la misma lista que fija el pgTAP de 0045)", () => {
@@ -95,5 +103,39 @@ describe("catálogo de tablas", () => {
     expect(info.referencia({ clave: "otra_cosa" }, {})).toBe(
       "el dato «otra_cosa» de la configuración",
     );
+  });
+
+  it("dice a qué registro lleva «Ir a…», para preguntar si sigue existiendo", () => {
+    const P = "11111111-1111-4111-8111-111111111111";
+    const V = "22222222-2222-4222-8222-222222222222";
+    expect(destinoDe("public.productos", { id: P, nombre: "Pan" })).toEqual({
+      tabla: "productos",
+      id: P,
+    });
+    // Una presentación lleva a la pantalla de su producto.
+    expect(destinoDe("public.producto_variantes", { id: V, producto_id: P })).toEqual({
+      tabla: "productos",
+      id: P,
+    });
+    // La configuración y las bajas llevan a una lista, que siempre existe.
+    expect(destinoDe("public.configuracion_sitio", { clave: "telefono" })).toBeNull();
+    expect(destinoDe("public.solicitudes_baja", { id: V, insumo_id: P })).toBeNull();
+    expect(destinoDe("public.tabla_nueva", { id: P })).toBeNull();
+  });
+
+  it("toda tabla que lleva a la pantalla de un registro está en la lista de las que se comprueban", () => {
+    const ID = "11111111-1111-4111-8111-111111111111";
+    // Una fila con su propio id y con el de cualquier dueño posible.
+    const DUENO = "22222222-2222-4222-8222-222222222222";
+    const fila = { id: ID, producto_id: DUENO, insumo_id: DUENO, cliente_id: DUENO };
+    for (const tabla of TABLAS_AUDITADAS) {
+      const destino = destinoDe(`public.${tabla}`, fila);
+      if (destino) expect(TABLAS_CON_PANTALLA, tabla).toContain(destino.tabla);
+    }
+    // Las de contenido, que no dan nombre a nadie pero sí tienen pantalla.
+    for (const tabla of ["novedades", "slides", "faqs", "galeria", "guias", "testimonios"]) {
+      expect(destinoDe(`public.${tabla}`, fila), tabla).toEqual({ tabla, id: ID });
+      expect(TABLAS_CON_PANTALLA).toContain(tabla);
+    }
   });
 });
