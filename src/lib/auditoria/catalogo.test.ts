@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   destinoDe,
+  TABLAS_CON_PANTALLA,
   HIJOS_DE,
   infoDeTabla,
   SECCIONES,
@@ -120,5 +121,21 @@ describe("catálogo de tablas", () => {
     expect(destinoDe("public.configuracion_sitio", { clave: "telefono" })).toBeNull();
     expect(destinoDe("public.solicitudes_baja", { id: V, insumo_id: P })).toBeNull();
     expect(destinoDe("public.tabla_nueva", { id: P })).toBeNull();
+  });
+
+  it("toda tabla que lleva a la pantalla de un registro está en la lista de las que se comprueban", () => {
+    const ID = "11111111-1111-4111-8111-111111111111";
+    // Una fila con su propio id y con el de cualquier dueño posible.
+    const DUENO = "22222222-2222-4222-8222-222222222222";
+    const fila = { id: ID, producto_id: DUENO, insumo_id: DUENO, cliente_id: DUENO };
+    for (const tabla of TABLAS_AUDITADAS) {
+      const destino = destinoDe(`public.${tabla}`, fila);
+      if (destino) expect(TABLAS_CON_PANTALLA, tabla).toContain(destino.tabla);
+    }
+    // Las de contenido, que no dan nombre a nadie pero sí tienen pantalla.
+    for (const tabla of ["novedades", "slides", "faqs", "galeria", "guias", "testimonios"]) {
+      expect(destinoDe(`public.${tabla}`, fila), tabla).toEqual({ tabla, id: ID });
+      expect(TABLAS_CON_PANTALLA).toContain(tabla);
+    }
   });
 });

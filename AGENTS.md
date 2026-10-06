@@ -70,7 +70,7 @@ preguntar a la base quién entró y quién salió del panel (`ingresos_al_sistem
 de Auth), y las constancias de borrado y las descargas se leen con el nombre de quien las hizo
 (0045).
 
-**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **487 unitarias**
+**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **492 unitarias**
 (60 archivos, Vitest) + **650 E2E listadas en 44 archivos**. La suite E2E se corrió **entera** el
 06/10/2026 sobre la rama del cierre del Historial (646 ejecutadas: 549 pasan y 97 se
 saltan a propósito, por tamaño de pantalla o sin fotos en el entorno; 0 fallos del código —una
@@ -905,6 +905,13 @@ else new.cliente_id end` falla en `clientes` («record "new" has no field "clien
   desplegables seguían diciendo los filtros de antes; el siguiente cambio los reenviaba. Una `key`
   con los filtros quitaría el foco del desplegable en uso: van controlados, y se reajustan cuando
   cambia lo que llega por las props (ajuste de estado durante el render, sin efecto).
+- **Una lista cerrada sirve para una cosa.** «¿Sigue existiendo el registro?» reutilizó la lista de
+  tablas de las que se saca un nombre, y dejó sin comprobar las seis pantallas de contenido que no
+  dan nombre a nadie (novedades, portada, preguntas, galería, guías, testimonios). Tiene su propia
+  lista (`TABLAS_CON_PANTALLA`), y una prueba recorre el catálogo para que ninguna ruta quede fuera.
+- **Una página que ordena lo que recibe mueve los campos de un formulario controlado.** `leerFiltros`
+  pone «desde» antes que «hasta»; con los controles controlados, escribir primero la fecha de inicio
+  de un rango nuevo las intercambiaba bajo los dedos. Un rango al revés no navega (`aDireccion`).
 - **Una comprobación que no puede fallar no comprueba.** «La actividad reciente no trae tablas
   internas» miraba cinco filas que eran siempre las del producto que la propia prueba acababa de
   guardar. Ahora hace antes un ajuste de stock, que deja filas internas como lo último del registro.

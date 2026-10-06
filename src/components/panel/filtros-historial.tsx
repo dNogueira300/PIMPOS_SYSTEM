@@ -3,6 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
+import { aDireccion } from "@/lib/auditoria/direccion";
+
 type Opcion = { valor: string; nombre: string };
 
 type Props = {
@@ -59,18 +61,14 @@ export function FiltrosHistorial({
 
   function aplicar(nuevo: Props["valores"]) {
     setElegido(nuevo);
-    // Un rango a medias no se manda: la página caería a «los últimos 7 días»
-    // y el desplegable diría otra cosa.
-    if (nuevo.cuando === "rango" && !(nuevo.desde && nuevo.hasta)) return;
-    const parametros = new URLSearchParams(conservar);
-    if (nuevo.persona) parametros.set("persona", nuevo.persona);
-    if (secciones && nuevo.seccion) parametros.set("seccion", nuevo.seccion);
-    if (conHizo && nuevo.hizo) parametros.set("hizo", nuevo.hizo);
-    parametros.set("cuando", nuevo.cuando);
-    if (nuevo.cuando === "rango") {
-      parametros.set("desde", nuevo.desde);
-      parametros.set("hasta", nuevo.hasta);
-    }
+    const parametros = aDireccion(nuevo, {
+      personas: [...personas.map((p) => p.valor), ...(conSistema ? ["sistema"] : [])],
+      conSeccion: Boolean(secciones),
+      conHizo,
+      conservar,
+    });
+    // `null`: un rango a medias o al revés; se espera a que esté completo.
+    if (!parametros) return;
     empezar(() => router.replace(`${ruta}?${parametros.toString()}`, { scroll: false }));
   }
 

@@ -332,7 +332,6 @@ test("el detalle enseña el guardado entero, y «Ir a…» desaparece si el prod
 }) => {
   const usuario = await entrarComo(page, "administrador");
   const precio = await cambiarUnPrecio(usuario);
-  let borrado = false;
   try {
     await abrirHistorial(page, `?seccion=productos&cuando=hoy&persona=${usuario.id}`);
     await page.getByRole("link", { name: "Prueba administrador cambió la presentación" }).click();
@@ -348,13 +347,13 @@ test("el detalle enseña el guardado entero, y «Ir a…» desaparece si el prod
     await expect(page.locator("[data-mismo-guardado]").getByRole("link")).toHaveCount(1);
     await expect(page.getByRole("link", { name: "Ir a donde se hizo" })).toBeVisible();
 
-    await precio.restaurar();
-    borrado = true;
+    // Borrado como lo hace el panel: la fila sigue en la tabla, con su marca.
+    sqlLocal(`update public.productos set deleted_at = now() where id = '${precio.productoId}';`);
     await page.goto(direccion);
     await expect(page.locator("[data-frase]")).toContainText("cambió la presentación");
     await expect(page.getByRole("link", { name: "Ir a donde se hizo" })).toHaveCount(0);
   } finally {
-    if (!borrado) await precio.restaurar();
+    await precio.restaurar();
     await borrarUsuario(usuario.id);
   }
 });

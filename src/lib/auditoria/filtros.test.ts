@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { aDireccion } from "./direccion";
 import { leerFiltros, limitesDelPeriodo } from "./filtros";
 
 // 6 de octubre de 2026, 10:00 a. m. en Iquitos.
@@ -95,5 +96,54 @@ describe("limitesDelPeriodo", () => {
       id,
       de: "insumo",
     });
+  });
+});
+
+describe("aDireccion", () => {
+  const BASE = {
+    persona: "",
+    seccion: "",
+    hizo: "",
+    cuando: "7",
+    desde: "2026-10-06",
+    hasta: "2026-10-06",
+  };
+  const TODO = { personas: [UUID, "sistema"], conSeccion: true, conHizo: true, conservar: {} };
+
+  it("escribe en la dirección solo lo elegido", () => {
+    const d = aDireccion({ ...BASE, persona: UUID, hizo: "creo" }, TODO);
+    expect(d?.toString()).toBe(`persona=${UUID}&hizo=creo&cuando=7`);
+  });
+
+  it("las fechas solo van con «Entre dos fechas», y conserva lo que no es un filtro", () => {
+    const d = aDireccion(
+      { ...BASE, cuando: "rango", desde: "2026-10-01", hasta: "2026-10-06" },
+      { ...TODO, conservar: { registro: UUID, de: "insumo" } },
+    );
+    expect(d?.toString()).toBe(
+      `registro=${UUID}&de=insumo&cuando=rango&desde=2026-10-01&hasta=2026-10-06`,
+    );
+  });
+
+  it("un rango a medias o al revés no navega: la página lo ordenaría bajo los dedos", () => {
+    expect(
+      aDireccion({ ...BASE, cuando: "rango", desde: "", hasta: "2026-10-06" }, TODO),
+    ).toBeNull();
+    expect(
+      aDireccion({ ...BASE, cuando: "rango", desde: "2026-10-20", hasta: "2026-10-06" }, TODO),
+    ).toBeNull();
+  });
+
+  it("no reenvía una persona que no está entre las opciones, ni filtros que la pestaña no tiene", () => {
+    const d = aDireccion(
+      {
+        ...BASE,
+        persona: "99999999-9999-4999-8999-999999999999",
+        seccion: "insumos",
+        hizo: "creo",
+      },
+      { personas: [UUID], conSeccion: false, conHizo: false, conservar: {} },
+    );
+    expect(d?.toString()).toBe("cuando=7");
   });
 });

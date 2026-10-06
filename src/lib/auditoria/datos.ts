@@ -4,7 +4,13 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
-import { type Datos, HIJOS_DE, type Nombres, tablasVisibles } from "./catalogo";
+import {
+  type Datos,
+  HIJOS_DE,
+  type Nombres,
+  TABLAS_CON_PANTALLA,
+  tablasVisibles,
+} from "./catalogo";
 import { type Filtros, limitesDelPeriodo } from "./filtros";
 import { type Cambio, delMismoGuardado, enLineas, enTandas, idsPorTabla } from "./redactar";
 
@@ -161,6 +167,7 @@ export async function leerGuardado(c: Cambio): Promise<{ cambio: Cambio; filas: 
     .eq("registro_id", c.registro_id)
     .eq("ocurrido_en", c.ocurrido_en)
     .eq("operacion", "UPDATE")
+    .order("id")
     .limit(20);
   if (error) console.error("[historial] guardado:", error.message);
   const filas = ((data ?? []) as FilaDeLaVista[])
@@ -176,11 +183,13 @@ export async function leerGuardado(c: Cambio): Promise<{ cambio: Cambio; filas: 
  * que esconderlo por un fallo pasajero.
  */
 export async function existeDestino(destino: { tabla: string; id: string }): Promise<boolean> {
-  if (!Object.hasOwn(COLUMNA_DEL_NOMBRE, destino.tabla)) return true;
+  // El nombre de la tabla solo se acepta de la lista cerrada del catálogo.
+  if (!TABLAS_CON_PANTALLA.includes(destino.tabla)) return true;
   const supabase = await crearClienteServidor();
   const { data, error } = await (supabase as unknown as SupabaseClient)
     .from(destino.tabla)
-    .select("*")
+    // Solo lo que hace falta: no se trae la ficha de nadie para saber si existe.
+    .select("id, deleted_at")
     .eq("id", destino.id)
     .maybeSingle();
   if (error) {

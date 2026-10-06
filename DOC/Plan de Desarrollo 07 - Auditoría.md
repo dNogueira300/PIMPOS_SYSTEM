@@ -3803,6 +3803,20 @@ Dan pidió (06/10/2026) atacar lo que quedó anotado al cerrar. Sin migración.
   podía fallar); el detalle del guardado entero; «Ir a…» tras borrar el producto; los desplegables
   tras pulsar la pestaña; y el reparto entre lotes en «Ver historial» de un insumo.
 
+La revisión de esa rama encontró, y quedó arreglado antes del PR:
+
+- **«Ir a…» seguía saliendo en seis pantallas de contenido** (novedades, portada, preguntas, galería,
+  guías, testimonios): la comprobación reutilizaba la lista de tablas de las que se saca un nombre.
+  Tiene su propia lista (`TABLAS_CON_PANTALLA`, 13 tablas, todas con `deleted_at`), una prueba que
+  recorre el catálogo, y la E2E borra el producto como lo hace el panel (con su marca), no solo
+  físicamente. De paso, la consulta pide `id, deleted_at`, no la fila entera.
+- **Con los filtros controlados, las fechas de un rango se intercambiaban al escribir**: la página
+  ordena «desde» y «hasta», y el control se reajustaba a eso. Un rango al revés ya no navega. La
+  regla de qué va a la dirección es ahora una función pura con sus pruebas (`aDireccion`, en
+  `direccion.ts`, sin dependencias: la importa un componente de cliente).
+- Una persona que venía en la dirección y no está entre las opciones (una cuenta eliminada) ya no se
+  reenvía con cada filtro; y las filas de un mismo guardado se piden ordenadas.
+
 ## Hallazgos menores que quedan
 
 Lo que queda es lo que no tiene arreglo razonable hoy, con su porqué:
@@ -3822,5 +3836,10 @@ Lo que queda es lo que no tiene arreglo razonable hoy, con su porqué:
 - `sesionDeApi` (`e2e/ayudas/insumos.ts`) crea un usuario en cada llamada y no lo borra. Viene de F5
   y no se puede arreglar borrándolos: los movimientos que registran (`responsable_id`) no se pueden
   borrar, y con ellos vivos el usuario tampoco. Solo afecta a la base local.
+- **La línea del reparto entre lotes no dice la unidad ni si suma o resta**: un ingreso y un consumo
+  se leen igual («…la parte de un movimiento: 10»). La línea del movimiento, justo al lado, sí lo
+  dice; añadirlo aquí pide traer la unidad del insumo y el sentido del movimiento por cada fila.
+- **Con un rango a medias** (una fecha vacía o las dos al revés), cambiar otro filtro tampoco navega
+  hasta completar el rango: los desplegables dicen lo elegido y la lista, lo anterior.
 - La prueba de los desplegables tras pulsar la pestaña no se vio fallar contra el código anterior
   (habría hecho falta otro build); las demás de este apartado sí.
