@@ -31,6 +31,17 @@ async function Detalle({ params }: Pick<Props, "params">) {
   // El número llega de la dirección: lo que no es un entero positivo no existe.
   if (!/^\d{1,15}$/.test(id)) notFound();
   const cambio = await leerCambio(Number(id));
+  if (cambio === "error") {
+    return (
+      <>
+        <EncabezadoPanel
+          titulo="Un cambio"
+          volver={{ ruta: "/admin/auditoria", nombre: "Historial" }}
+        />
+        <p role="alert">No se pudo cargar este cambio. Recarga la página.</p>
+      </>
+    );
+  }
   if (!cambio) notFound();
 
   const nombres = await resolverNombres([cambio]);

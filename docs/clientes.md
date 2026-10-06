@@ -75,7 +75,7 @@ guardados. Para borrarlos (administración):
 
 Se borran su nombre, celular, dirección, referencia, observación, punto en el mapa y fotos, también
 del historial de cambios del sistema. Queda solo la constancia: que se borraron, quién, cuándo y por
-qué. Si vuelve a comprar, se le registra de nuevo, con su permiso.
+qué. La administración la ve en **Historial → Datos borrados** (`docs/historial.md`). Si vuelve a comprar, se le registra de nuevo, con su permiso.
 
 No hay otra forma de «retirar el permiso»: si el cliente ya no quiere que se guarden sus datos, se
 borran. El sistema no deja a un cliente con sus datos guardados y sin permiso.
@@ -97,7 +97,8 @@ Con cada uno:
 
 **Clientes** (vista Lista) → **Descargar Excel** o **Descargar PDF** (administración). Descarga
 todos los clientes de la zona y el estado elegidos —activos o desactivados—, **sin fotos ni
-ubicación**. Cada descarga queda anotada: quién, cuándo, cuántos y de qué zona.
+ubicación**. Cada descarga queda anotada: quién, cuándo, cuántos y de qué zona; se ve en **Historial →
+Descargas**.
 
 El archivo lleva datos personales: se guarda en un sitio con contraseña, no se reenvía por grupos
 de WhatsApp y se borra cuando ya no hace falta.

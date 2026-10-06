@@ -6,7 +6,7 @@ import { crearClienteServidor } from "@/lib/supabase/servidor";
 
 import { type Datos, HIJOS_DE, type Nombres, tablasVisibles } from "./catalogo";
 import { type Filtros, limitesDelPeriodo } from "./filtros";
-import { type Cambio, fundir, idsPorTabla } from "./redactar";
+import { type Cambio, enLineas, idsPorTabla } from "./redactar";
 
 const COLUMNAS =
   "id, tabla, registro_id, operacion, usuario_id, usuario_correo, usuario_nombre, rol, datos_antes, datos_despues, ocurrido_en";
@@ -47,6 +47,9 @@ function aCambio(f: FilaDeLaVista): Cambio | null {
   };
 }
 
+const LOTES_EN_EL_HISTORIAL = 100;
+const FILAS_DE_MARGEN = 50;
+
 /**
  * La lista de la pestaña Cambios. `null` si la base no respondió (la página lo
  * dice en vez de enseñar una lista vacía). Pide una fila de más para saber si
@@ -56,21 +59,42 @@ export async function leerCambios(
   f: Filtros,
 ): Promise<{ cambios: Cambio[]; hayMas: boolean } | null> {
   const supabase = await crearClienteServidor();
+  // Se piden más filas que líneas: un guardado deja varias filas y muchas no
+  // cambian nada (ver `enLineas`). Nunca más de 1000, el tope de PostgREST.
+  const tope = Math.min(f.ver * 4 + FILAS_DE_MARGEN, 1000);
   let consulta = supabase
     .from("auditoria")
     .select(COLUMNAS)
     .order("ocurrido_en", { ascending: false })
     .order("id", { ascending: false })
-    .limit(f.ver + 1);
+    .limit(tope);
 
   if (f.registro) {
     // Lo suyo y lo que cuelga de él (sus presentaciones, sus movimientos, sus
     // fotos y permisos): ahí sí entran las tablas internas, como los lotes.
     const { campo } = HIJOS_DE[f.registro.de];
     const id = f.registro.id;
-    consulta = consulta.or(
-      `registro_id.eq.${id},datos_despues->>${campo}.eq.${id},datos_antes->>${campo}.eq.${id}`,
-    );
+    const condiciones = [
+      `registro_id.eq.${id}`,
+      `datos_despues->>${campo}.eq.${id}`,
+      `datos_antes->>${campo}.eq.${id}`,
+    ];
+    if (f.registro.de === "insumo") {
+      // El reparto de cada movimiento entre lotes no guarda el insumo, guarda
+      // el lote: se busca por los lotes de este insumo. Los 100 más recientes
+      // (van en la dirección de la consulta); son ids de la base, no de la URL.
+      const { data: lotes, error } = await supabase
+        .from("lotes_insumo")
+        .select("id")
+        .eq("insumo_id", id)
+        .order("llegada", { ascending: false })
+        .limit(LOTES_EN_EL_HISTORIAL);
+      if (error) console.error("[historial] lotes del insumo:", error.message);
+      if (lotes && lotes.length > 0) {
+        condiciones.push(`datos_despues->>lote_id.in.(${lotes.map((l) => l.id).join(",")})`);
+      }
+    }
+    consulta = consulta.or(condiciones.join(","));
   } else {
     consulta = consulta.in("tabla", tablasVisibles(f.seccion ?? undefined));
   }
@@ -99,20 +123,26 @@ export async function leerCambios(
     console.error("[historial] cambios:", error.message);
     return null;
   }
-  const cambios = (data as FilaDeLaVista[]).map(aCambio).filter((c): c is Cambio => c !== null);
-  // Se juntan después de cortar la página: «Ver más» cuenta filas del registro.
-  return { cambios: fundir(cambios.slice(0, f.ver)), hayMas: cambios.length > f.ver };
+  const filas = (data as FilaDeLaVista[]).map(aCambio).filter((c): c is Cambio => c !== null);
+  return enLineas(filas, f.ver, tope);
 }
 
-/** Un cambio por su número. También los de tablas internas: es el detalle técnico. */
-export async function leerCambio(id: number): Promise<Cambio | null> {
+/**
+ * Un cambio por su número. También los de tablas internas: es el detalle
+ * técnico. `null` es «no existe»; `"error"`, que la base no respondió: la
+ * página no puede decir «no encontramos esta página» de algo que sí está.
+ */
+export async function leerCambio(id: number): Promise<Cambio | null | "error"> {
   const supabase = await crearClienteServidor();
   const { data, error } = await supabase
     .from("auditoria")
     .select(COLUMNAS)
     .eq("id", id)
     .maybeSingle();
-  if (error) console.error("[historial] cambio:", error.message);
+  if (error) {
+    console.error("[historial] cambio:", error.message);
+    return "error";
+  }
   return data ? aCambio(data as FilaDeLaVista) : null;
 }
 

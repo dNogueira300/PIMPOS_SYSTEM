@@ -59,6 +59,42 @@ const aRuta =
 
 type Entrada = Omit<InfoTabla, "conocida" | "interna"> & { interna?: true };
 
+/** Cada dato de la configuración, como lo llama su formulario. */
+const DATOS_DE_CONFIGURACION: Readonly<Record<string, string>> = {
+  correo: "el correo de contacto",
+  correo_alertas: "el correo de los avisos",
+  dias_aviso_vencimiento: "los días de aviso de vencimiento",
+  telefono: "el teléfono",
+  whatsapp: "el número de WhatsApp",
+  horario_semanal: "el horario de atención",
+  nota_horarios: "la nota del horario",
+  anio_fundacion: "el año de apertura",
+  eslogan: "el eslogan",
+  favicon_url: "el icono de la pestaña",
+  isotipo_url: "el isotipo",
+  logo_alt: "la descripción del logo",
+  logo_url: "el logo",
+  nombre_comercial: "el nombre comercial",
+  razon_social: "la razón social",
+  delivery_costo: "el costo del delivery",
+  delivery_tiempo: "el tiempo del delivery",
+  delivery_zonas: "las zonas del delivery",
+  formas_pago: "las formas de pago",
+  pedido_minimo: "el pedido mínimo",
+  facebook: "el enlace de Facebook",
+  instagram: "el enlace de Instagram",
+  historia: "la historia del negocio",
+  mision: "la misión",
+  valores: "los valores del negocio",
+  vision: "la visión",
+  coordenadas: "el punto del local en el mapa",
+  departamento: "el departamento",
+  direccion: "la dirección del local",
+  distrito: "el distrito",
+  provincia: "la provincia",
+  referencia: "la referencia del local",
+};
+
 const TABLAS: Readonly<Record<string, Entrada>> = {
   // --- Productos ---
   productos: {
@@ -120,7 +156,11 @@ const TABLAS: Readonly<Record<string, Entrada>> = {
     seccion: "configuracion",
     referencia: (d) => {
       const clave = texto(d.clave);
-      return clave ? `el dato «${clave}» de la configuración` : "un dato de la configuración";
+      if (!clave) return "un dato de la configuración";
+      const nombre = Object.hasOwn(DATOS_DE_CONFIGURACION, clave)
+        ? DATOS_DE_CONFIGURACION[clave]
+        : null;
+      return nombre ? `${nombre}, en la configuración` : `el dato «${clave}» de la configuración`;
     },
     ruta: () => "/admin/configuracion",
   },

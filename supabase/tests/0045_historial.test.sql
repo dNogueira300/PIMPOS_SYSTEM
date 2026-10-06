@@ -6,12 +6,14 @@
 -- administración; y que la lista de tablas auditadas sea la que el catálogo de
 -- la aplicación espera (`src/lib/auditoria/catalogo.ts`).
 begin;
-select plan(13);
+select plan(18);
 
 insert into auth.users (id, email, created_at, updated_at) values
+  ('11111111-1111-1111-1111-111111111111', 'dueno@pimpos.test',   now(), now()),
   ('22222222-2222-2222-2222-222222222222', 'admin@pimpos.test',   now(), now()),
   ('33333333-3333-3333-3333-333333333333', 'inge@pimpos.test',    now(), now()),
   ('44444444-4444-4444-4444-444444444444', 'reparto@pimpos.test', now(), now());
+update public.perfiles set rol = 'superadmin', activo = true where id = '11111111-1111-1111-1111-111111111111';
 update public.perfiles set rol = 'administrador', activo = true, nombre_completo = 'Debra Prueba'
  where id = '22222222-2222-2222-2222-222222222222';
 update public.perfiles set rol = 'ingeniero',  activo = true, nombre_completo = 'Marcos Prueba'
@@ -36,7 +38,10 @@ insert into auth.audit_log_entries (instance_id, id, payload, created_at) values
    now() - interval '3 hours'),
   ('00000000-0000-0000-0000-000000000000', gen_random_uuid(),
    '{"action":"login","actor_id":"22222222-2222-2222-2222-222222222222","actor_username":"admin@pimpos.test"}',
-   now() - interval '30 days');
+   now() - interval '30 days'),
+  ('00000000-0000-0000-0000-000000000000', gen_random_uuid(),
+   '{"action":"login","actor_id":"33333333-3333-3333-3333-333333333333","actor_username":"inge@pimpos.test"}',
+   '2020-01-01 12:00+00');
 
 select has_function('public', 'ingresos_al_sistema', array['timestamp with time zone', 'timestamp with time zone', 'uuid'],
   'existe ingresos_al_sistema');
@@ -74,6 +79,16 @@ select is(
   (select count(*)::int from public.ingresos_al_sistema(now() - interval '60 days', now(),
                                                          '22222222-2222-2222-2222-222222222222')),
   1, 'se puede pedir los de una sola persona');
+
+-- Los límites del periodo: desde, incluido; hasta, sin incluir. Con un ingreso
+-- justo en el instante que parte dos periodos, sale en uno y solo en uno.
+set local request.jwt.claims = '{"sub": "11111111-1111-1111-1111-111111111111", "rol": "superadmin"}';
+select is(
+  (select count(*)::int from public.ingresos_al_sistema('2020-01-01 12:00+00', '2020-01-01 13:00+00')),
+  1, 'el superadmin también los ve, y el instante de «desde» entra');
+select is(
+  (select count(*)::int from public.ingresos_al_sistema('2020-01-01 11:00+00', '2020-01-01 12:00+00')),
+  0, 'el instante de «hasta» queda fuera');
 reset role;
 
 select is(has_function_privilege('anon', 'public.ingresos_al_sistema(timestamptz, timestamptz, uuid)', 'EXECUTE'),
@@ -85,7 +100,29 @@ select is(has_function_privilege('anon', 'public.ingresos_al_sistema(timestamptz
 insert into public.exportaciones_clientes (exportado_por, formato, cantidad, filtro)
 values ('22222222-2222-2222-2222-222222222222', 'xlsx', 7, '{"zona": "Belén", "estado": "activos"}');
 
+-- Una constancia de borrado, puesta sin sesión (la escribe `borrar_datos_cliente`).
+set local request.jwt.claims = '{}';
+insert into public.clientes (id, nombre_completo, celular, direccion, referencia, zona_id)
+values ('55555555-5555-5555-5555-555555555555', 'Clienta Prueba', '987000111', 'Calle 1', 'Portón',
+        (select id from public.zonas_reparto order by nombre limit 1));
+insert into public.supresiones (cliente_id, motivo, borrado_por)
+values ('55555555-5555-5555-5555-555555555555', 'Lo pidió por teléfono', '22222222-2222-2222-2222-222222222222');
+
 set local role authenticated;
+set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "rol": "administrador"}';
+select is(
+  (select borrado_por_nombre || ' | ' || motivo from public.constancias_de_borrado
+    where cliente_id = '55555555-5555-5555-5555-555555555555'),
+  'Debra Prueba | Lo pidió por teléfono',
+  'la administración ve la constancia con el nombre de quien borró y el motivo');
+set local request.jwt.claims = '{"sub": "44444444-4444-4444-4444-444444444444", "rol": "repartidor"}';
+select is(
+  (select count(*)::int from public.constancias_de_borrado
+    where cliente_id = '55555555-5555-5555-5555-555555555555'),
+  0, 'el repartidor no ve la constancia, aunque sí ve a los clientes');
+select is(
+  (select count(*)::int from public.descargas_de_clientes where cantidad = 7),
+  0, 'ni la descarga');
 set local request.jwt.claims = '{"sub": "22222222-2222-2222-2222-222222222222", "rol": "administrador"}';
 select is(
   (select exportado_por_nombre || ' | ' || formato || ' | ' || cantidad || ' | ' || zona || ' | ' || estado

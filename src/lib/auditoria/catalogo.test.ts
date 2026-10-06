@@ -82,4 +82,18 @@ describe("catálogo de tablas", () => {
     expect(HIJOS_DE.insumo.campo).toBe("insumo_id");
     expect(HIJOS_DE.cliente.campo).toBe("cliente_id");
   });
+
+  it("un dato de la configuración se nombra como en su formulario, no por su clave", () => {
+    const info = infoDeTabla("public.configuracion_sitio");
+    expect(info.referencia({ clave: "horario_semanal" }, {})).toBe(
+      "el horario de atención, en la configuración",
+    );
+    expect(info.referencia({ clave: "dias_aviso_vencimiento" }, {})).toBe(
+      "los días de aviso de vencimiento, en la configuración",
+    );
+    // Una clave nueva que el catálogo no conoce se dice de forma genérica.
+    expect(info.referencia({ clave: "otra_cosa" }, {})).toBe(
+      "el dato «otra_cosa» de la configuración",
+    );
+  });
 });

@@ -17,6 +17,13 @@ const DE_CONTROL = new Set([
 ]);
 export const esDeControl = (campo: string): boolean => DE_CONTROL.has(campo);
 
+/**
+ * Identificadores que no tienen un nombre que enseñar (un lote, un movimiento):
+ * en la lista de datos serían una ristra de letras. Siguen en «Detalle técnico».
+ */
+const SIN_NOMBRE = new Set(["lote_id", "movimiento_id"]);
+export const esIdSinNombre = (campo: string): boolean => SIN_NOMBRE.has(campo);
+
 const ETIQUETAS: Readonly<Record<string, string>> = {
   nombre: "Nombre",
   nombre_completo: "Nombre",
@@ -143,6 +150,10 @@ const FECHA_Y_HORA = new Set([
   "resuelto_en",
 ]);
 const SOLO_FECHA = new Set(["fecha_vencimiento"]);
+/** Dinero por unidad base (un gramo, un mililitro): puede valer menos de un céntimo. */
+const DINERO_FINO = new Set(["precio_unitario", "costo_unitario"]);
+/** Un punto del mapa: seis decimales son unos 11 cm; con cuatro, corregirlo unos metros no se vería. */
+const COORDENADA = new Set(["latitud", "longitud"]);
 /**
  * Campos que guardan el id de otra cosa, y en qué tabla está su nombre. Así
  * cada id se busca solo donde puede estar (`resolverNombres`).
@@ -197,32 +208,65 @@ const PALABRAS: Readonly<Record<string, Readonly<Record<string, string>>>> = {
     evento: "Evento",
     aviso: "Aviso",
   },
+  sentido: { "1": "Suma", "-1": "Resta" },
+  moneda: { PEN: "Soles", USD: "Dólares" },
   origen_consumo: { produccion: "Producción", retiro_directo: "Retiro directo" },
   modo: { verbal: "De palabra", escrito: "Por escrito", digital: "Digital" },
 };
+
+/** Un objeto o una lista (el horario, los valores del negocio), en texto corrido. */
+function legible(valor: unknown): string {
+  if (valor === null || valor === undefined || valor === "") return "—";
+  if (typeof valor === "boolean") return valor ? "Sí" : "No";
+  if (Array.isArray(valor)) return valor.length === 0 ? "—" : valor.map(legible).join(", ");
+  if (typeof valor === "object") {
+    const partes = Object.entries(valor).map(([clave, v]) => `${clave}: ${legible(v)}`);
+    return partes.length === 0 ? "—" : partes.join("; ");
+  }
+  return String(valor);
+}
 
 /** Un valor del registro, escrito para una persona. Nunca lanza. */
 export function escribirValor(campo: string, valor: unknown, nombres: Nombres): string {
   if (valor === null || valor === undefined) return "—";
   if (typeof valor === "boolean") return valor ? "Sí" : "No";
-  if (typeof valor === "object") return JSON.stringify(valor);
+  if (typeof valor === "object") return legible(valor);
 
   const crudo = String(valor).trim();
   if (crudo === "") return "—";
 
   if (DINERO.has(campo)) {
     const n = Number(crudo);
-    return Number.isFinite(n) ? formatearSoles(n) : crudo;
+    if (!Number.isFinite(n)) return crudo;
+    if (!DINERO_FINO.has(campo)) return formatearSoles(n);
+    // Con dos decimales, 0.0035 saldría «S/ 0.00». Se quitan los ceros de
+    // sobra, nunca los dos decimales de un precio.
+    const [entero = "0", decimales = ""] = Math.abs(n).toFixed(6).split(".");
+    const finos = decimales.replace(/0+$/, "").padEnd(2, "0");
+    if (finos.length === 2) return formatearSoles(n);
+    return `S/ ${n < 0 ? "-" : ""}${Number(entero).toLocaleString("en-US")}.${finos}`;
   }
+  if (COORDENADA.has(campo)) {
+    const n = Number(crudo);
+    return Number.isFinite(n) ? String(Number(n.toFixed(6))) : crudo;
+  }
+  if (campo === "anula_a") return "un movimiento anterior";
   if (FECHA_Y_HORA.has(campo)) return formatearFechaLima(crudo) || crudo;
   if (SOLO_FECHA.has(campo)) {
     const [anio, mes, dia] = crudo.slice(0, 10).split("-");
     return anio && mes && dia ? `${dia}/${mes}/${anio}` : crudo;
   }
-  if (senalaAOtro(campo)) return nombres[crudo] ?? "algo que ya no existe";
+  if (senalaAOtro(campo)) {
+    return (
+      nombres[crudo] ??
+      (tablaQueSenala(campo) === "perfiles"
+        ? "alguien que ya no tiene cuenta"
+        : "algo que ya no existe")
+    );
+  }
 
-  const palabra = PALABRAS[campo]?.[crudo];
-  if (palabra) return palabra;
+  const palabras = Object.hasOwn(PALABRAS, campo) ? PALABRAS[campo] : undefined;
+  if (palabras && Object.hasOwn(palabras, crudo)) return palabras[crudo]!;
 
   if (typeof valor === "number") return formatearCantidad(valor);
   return crudo;

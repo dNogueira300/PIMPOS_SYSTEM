@@ -271,6 +271,23 @@ Un único `app.registrar_auditoria()` se engancha `AFTER INSERT OR UPDATE OR DEL
 
 > **La auditoría solo la lee el SuperAdmin y el Administrador. Nadie la puede modificar ni borrar** — sin política de `UPDATE` ni de `DELETE`, ni siquiera para ellos. Una auditoría editable no sirve de nada.
 
+**Desde F7 (06/10/2026) tiene pantalla**: `/admin/auditoria`, el «Historial» del panel (plan en
+`DOC/Plan de Desarrollo 07 - Auditoría.md`, manual en `docs/historial.md`). El historial de cambios
+lee `public.auditoria` tal cual; la migración **0045** solo añade lo que faltaba alrededor:
+
+- `public.ingresos_al_sistema(p_desde, p_hasta, p_usuario)`: quién entró y quién salió, leído de
+  `auth.audit_log_entries`. `security definer`, comprueba el rol ella misma (solo superadmin y
+  administrador), sin permiso para `anon`, como mucho 500 filas, y solo devuelve fecha, acción,
+  persona y correo. Lleva una guarda como la de 0030: se niega a aplicarse si el rol de la migración
+  no puede leer ese registro. **En el proyecto alojado hay que tener encendido** que Auth escriba su
+  registro en la base (Authentication → Audit Logs); se encendió el 06/10/2026 y antes de ese día no
+  hay ingresos anotados.
+- Las vistas `constancias_de_borrado` y `descargas_de_clientes` (`security_invoker`), que añaden el
+  nombre de la persona a `supresiones` y `exportaciones_clientes` (0043).
+
+Se auditan 25 tablas, y una prueba pgTAP fija la lista: una tabla auditada nueva tiene que recibir su
+frase en `src/lib/auditoria/catalogo.ts`.
+
 ---
 
 ## 6. Configuración del sitio (R21, R5)

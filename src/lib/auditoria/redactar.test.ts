@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   accion,
+  enLineas,
   type Cambio,
   diferencias,
   frase,
@@ -291,6 +292,78 @@ describe("accion", () => {
   });
 });
 
+describe("lo que encontró la revisión de la T2 y la T3", () => {
+  // Una cuenta recién creada: nace desactivada (0006) y nadie la ha tocado.
+  const RECIEN_NACIDA = {
+    activo: false,
+    created_at: "2026-10-06T15:00:00+00:00",
+    updated_at: "2026-10-06T15:00:00+00:00",
+  };
+
+  it("dar de alta una cuenta no es «cambiar el rol»", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      registro_id: "u2",
+      datos_antes: { ...RECIEN_NACIDA, nombre_completo: "debra@pimpos.test", rol: "repartidor" },
+      datos_despues: { nombre_completo: "Debra", rol: "ingeniero", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("dio de alta la cuenta de Debra como Ingeniero");
+  });
+
+  it("dar de alta a un repartidor también es un alta: el rol no cambia, pero la cuenta es nueva", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      datos_antes: { ...RECIEN_NACIDA, nombre_completo: "Luis", rol: "repartidor" },
+      datos_despues: { nombre_completo: "Luis", rol: "repartidor", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("dio de alta la cuenta de Luis como Repartidor");
+  });
+
+  it("volver a activar una cuenta que ya existía es reactivarla", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      datos_antes: {
+        nombre_completo: "Luis",
+        rol: "repartidor",
+        activo: false,
+        created_at: "2026-09-01T10:00:00+00:00",
+        updated_at: "2026-10-01T10:00:00+00:00",
+      },
+      datos_despues: { nombre_completo: "Luis", rol: "repartidor", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("reactivó la cuenta de Luis");
+  });
+
+  it("un cambio de rol de una cuenta que ya estaba activa sigue diciendo los dos roles", () => {
+    const c = cambio({
+      tabla: "public.perfiles",
+      datos_antes: { nombre_completo: "Debra", rol: "ingeniero", activo: true },
+      datos_despues: { nombre_completo: "Debra", rol: "administrador", activo: true },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió el rol de Debra: Ingeniero → Administrador");
+  });
+
+  it("un valor largo que al cortarlo queda igual a los dos lados no se enseña cortado", () => {
+    const largo = "La panadería abrió en 2004 en la calle Próspero, y desde entonces ";
+    const c = cambio({
+      tabla: "public.configuracion_sitio",
+      registro_id: null,
+      datos_antes: { clave: "historia", valor: `${largo}hornea cada madrugada.` },
+      datos_despues: { clave: "historia", valor: `${largo}hornea cada día.` },
+    });
+    expect(accion(c, NOMBRES)).toBe("cambió la historia del negocio, en la configuración");
+  });
+
+  it("los identificadores sin nombre no salen entre los datos de un movimiento", () => {
+    const c = cambio({
+      tabla: "public.movimiento_lotes",
+      operacion: "INSERT",
+      datos_despues: { movimiento_id: "m1", lote_id: "l1", cantidad_base: 5 },
+    });
+    expect(diferencias(c, NOMBRES).map((d) => d.campo)).toEqual(["cantidad_base"]);
+  });
+});
+
 describe("idsReferidos", () => {
   it("junta, sin repetir, los ids a los que apuntan las filas", () => {
     const filas = [
@@ -402,5 +475,48 @@ describe("fundir", () => {
         datos_despues: { clave: `k${id}`, valor: despues },
       });
     expect(fundir([fila(2, "a", "b"), fila(1, "x", "x")]).map((c) => c.id)).toEqual([2]);
+  });
+});
+
+describe("enLineas", () => {
+  // Un «Guardar» de Configuración deja una fila por dato, casi todas sin cambio.
+  const sinCambio = (id: number) =>
+    cambio({
+      id,
+      tabla: "public.configuracion_sitio",
+      registro_id: null,
+      datos_antes: { clave: `k${id}`, valor: "x" },
+      datos_despues: { clave: `k${id}`, valor: "x" },
+    });
+  const precio = cambio({
+    id: 1,
+    tabla: "public.producto_variantes",
+    registro_id: "v1",
+    datos_antes: { nombre: "Unidad", producto_id: "p1", precio: 0.2 },
+    datos_despues: { nombre: "Unidad", producto_id: "p1", precio: 0.25 },
+  });
+  const guardado = Array.from({ length: 27 }, (_, i) => sinCambio(100 - i));
+
+  it("las filas que no cambian nada no se comen las líneas pedidas", () => {
+    const { cambios, hayMas } = enLineas([...guardado, precio], 5, 70);
+    expect(cambios.map((c) => c.id)).toEqual([1]);
+    expect(hayMas).toBe(false);
+  });
+
+  it("corta a las líneas pedidas y avisa de que hay más", () => {
+    const filas = Array.from({ length: 8 }, (_, i) => ({
+      ...precio,
+      id: 50 - i,
+      registro_id: `v${i}`,
+    }));
+    const { cambios, hayMas } = enLineas(filas, 5, 70);
+    expect(cambios).toHaveLength(5);
+    expect(hayMas).toBe(true);
+  });
+
+  it("si la base devolvió el tope de filas, puede haber más aunque aquí no quede ninguna línea", () => {
+    const { cambios, hayMas } = enLineas(guardado, 5, 27);
+    expect(cambios).toEqual([]);
+    expect(hayMas).toBe(true);
   });
 });

@@ -298,6 +298,15 @@ test("el inicio enseña la actividad reciente solo a la administración", async 
     const filas = bloque.getByRole("listitem");
     expect(await filas.count()).toBeGreaterThan(0);
     expect(await filas.count()).toBeLessThanOrEqual(5);
+    // Ninguna es de una tabla interna (lotes, reparto entre lotes, almacenes, roles).
+    const ids = await bloque
+      .locator("[data-cambio]")
+      .evaluateAll((enlaces) => enlaces.map((e) => e.getAttribute("data-cambio")));
+    expect(ids.length).toBeGreaterThan(0);
+    const internas = sqlLocal(
+      `select count(*) from app.auditoria where id in (${ids.join(",")}) and tabla in ('public.movimiento_lotes', 'public.lotes_insumo', 'public.almacenes', 'public.roles');`,
+    ).trim();
+    expect(internas).toBe("0");
     await expect(bloque.getByRole("link", { name: "Ver todo el historial" })).toHaveAttribute(
       "href",
       "/admin/auditoria",

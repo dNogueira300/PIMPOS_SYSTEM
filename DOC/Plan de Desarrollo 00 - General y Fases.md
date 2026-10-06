@@ -161,6 +161,10 @@ panel de contenido; la decisión del 14/09/2026 la sacó para no atrasar el alta
 `app.auditoria` + la vista `public.auditoria` (0007) ya registran cada cambio desde F2 — solo falta
 la pantalla que los muestre, que se construye en F7 junto con el resto del cierre del proyecto.
 
+**Hecho el 06/10/2026**, como primera parte de F7: el «Historial» del panel (PR #85 a #88, migración
+0045, plan en `DOC/Plan de Desarrollo 07 - Auditoría.md`). Queda el resto de la fase: capacitación,
+manual, informe final y traspaso de credenciales.
+
 Siete migraciones nuevas (`0026`–`0032`, detalladas en el doc 02): autoría sellada por trigger,
 `guardar_producto` transaccional, aprobación de promociones con aviso, perfiles protegidos contra
 la autoescalada a superadmin, sesiones cerradas en el acto al desactivar/restablecer/cambiar rol,
