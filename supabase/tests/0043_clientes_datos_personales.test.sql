@@ -151,6 +151,8 @@ alter table public.clientes disable trigger clientes_set_updated_at;
 update public.clientes set updated_at = now() - interval '2 years 1 day' where id = (select valor from t where clave = 'viejo');
 update public.clientes set updated_at = now() - interval '2 years' + interval '1 day' where id = (select valor from t where clave = 'casi');
 alter table public.clientes enable trigger clientes_set_updated_at;
+-- Sin sesión: con ella, un permiso anotado no se puede refechar (0044).
+set local request.jwt.claims = '{}';
 update public.consentimientos set created_at = now() - interval '3 years'
  where cliente_id in (select valor from t where clave in ('viejo', 'casi'));
 
