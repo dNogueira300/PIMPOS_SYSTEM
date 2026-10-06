@@ -3,6 +3,7 @@
 import {
   Contact,
   ExternalLink,
+  History,
   House,
   LayoutGrid,
   LogOut,
@@ -23,6 +24,7 @@ export const ICONOS: Record<NombreIcono, typeof House> = {
   insumos: Package,
   clientes: Contact,
   usuarios: Users,
+  historial: History,
   configuracion: Settings,
 };
 

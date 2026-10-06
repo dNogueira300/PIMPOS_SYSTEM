@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
+import { ListaDeCambios } from "@/components/panel/lista-de-cambios";
+import { resolverNombres, ultimosCambios } from "@/lib/auditoria/datos";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { seccionesPara } from "@/lib/panel/navegacion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
@@ -24,6 +26,9 @@ async function InicioConSesion({
   const sesion = await exigirAcceso("/admin");
   const secciones = seccionesPara(sesion.rol).filter((s) => s.ruta !== "/admin");
   const avisos = await contarAvisos(sesion.rol, sesion.usuarioId);
+  const administracion = sesion.rol === "superadmin" || sesion.rol === "administrador";
+  const recientes = administracion ? await ultimosCambios(5) : [];
+  const nombres = await resolverNombres(recientes);
 
   return (
     <>
@@ -76,6 +81,19 @@ async function InicioConSesion({
           </p>
         ) : null}
       </section>
+      {administracion && recientes.length > 0 ? (
+        <section aria-labelledby="actividad" className="mt-6" data-actividad-reciente>
+          <h2 id="actividad" className="mb-2 font-semibold">
+            Actividad reciente
+          </h2>
+          <ListaDeCambios cambios={recientes} nombres={nombres} etiqueta="Los últimos cambios" />
+          <p className="mt-3">
+            <Link href="/admin/auditoria" className="boton-linea">
+              Ver todo el historial
+            </Link>
+          </p>
+        </section>
+      ) : null}
     </>
   );
 }

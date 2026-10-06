@@ -13,8 +13,15 @@ describe("seccionesPara", () => {
       "Insumos",
       "Clientes",
       "Usuarios",
+      "Historial",
       "Configuración",
     ]);
+  });
+
+  it("el historial es solo de la administración", () => {
+    expect(nombres("superadmin")).toContain("Historial");
+    expect(nombres("ingeniero")).not.toContain("Historial");
+    expect(nombres("repartidor")).not.toContain("Historial");
   });
 
   it("el ingeniero ve inicio, contenido, insumos y clientes", () => {

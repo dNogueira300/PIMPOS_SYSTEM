@@ -5,6 +5,7 @@ import { Suspense } from "react";
 
 import { AnularMovimiento } from "@/components/panel/anular-movimiento";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
+import { EnlaceHistorial } from "@/components/panel/enlace-historial";
 import { EtiquetaInsumo } from "@/components/panel/etiqueta-insumo";
 import { ListaAdaptable } from "@/components/panel/lista-adaptable";
 import { anularMovimiento } from "@/lib/acciones/kardex";
@@ -85,9 +86,12 @@ async function Ficha({
         titulo={insumo.nombre ?? ""}
         volver={{ ruta: "/admin/insumos", nombre: "Insumos" }}
         accion={
-          <Link href={`/admin/insumos/${id}/editar`} className="boton-linea">
-            <Pencil aria-hidden className="size-5" /> Editar datos
-          </Link>
+          <div className="flex flex-wrap gap-2">
+            <Link href={`/admin/insumos/${id}/editar`} className="boton-linea">
+              <Pencil aria-hidden className="size-5" /> Editar datos
+            </Link>
+            {esAdministracion ? <EnlaceHistorial de="insumo" id={id} /> : null}
+          </div>
         }
       />
       <section aria-labelledby="hay" className="tarjeta mb-6 p-4">

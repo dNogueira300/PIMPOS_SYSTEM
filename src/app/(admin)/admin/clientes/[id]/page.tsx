@@ -11,6 +11,7 @@ import {
 } from "@/components/panel/borrar-datos-cliente";
 import { BotonesContacto } from "@/components/panel/botones-contacto";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
+import { EnlaceHistorial } from "@/components/panel/enlace-historial";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { celularParaLeer } from "@/lib/clientes/contacto";
 import { leerFicha } from "@/lib/clientes/datos";
@@ -46,7 +47,11 @@ async function Contenido({ params }: Pick<Props, "params">) {
         }
         volver={{ ruta: "/admin/clientes", nombre: "Clientes" }}
         accion={
-          cliente.borrado ? null : (
+          cliente.borrado ? (
+            administracion ? (
+              <EnlaceHistorial de="cliente" id={id} />
+            ) : null
+          ) : (
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/admin/clientes/${id}/${encargado ? "editar" : "corregir"}`}
@@ -56,6 +61,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
                 {encargado ? "Editar datos" : "Corregir ubicación y fotos"}
               </Link>
               {encargado ? <BotonActivoCliente id={id} activo={cliente.activo} /> : null}
+              {administracion ? <EnlaceHistorial de="cliente" id={id} /> : null}
             </div>
           )
         }
