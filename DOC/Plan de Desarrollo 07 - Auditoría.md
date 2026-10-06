@@ -3778,33 +3778,49 @@ La revisión final del módulo encontró dos cosas más, arregladas en la misma 
 `src/components` son cinco archivos de `src/components/panel/`; nada en `src/estilos`, en
 `src/app/(public)` ni en el layout raíz.
 
+### Después del cierre: los menores que quedaban (PR #89)
+
+Dan pidió (06/10/2026) atacar lo que quedó anotado al cerrar. Sin migración.
+
+- **El detalle de un cambio enseña el guardado entero**, igual que su línea en la lista: si la fila
+  es una de las varias que dejó un mismo «Guardar» sobre ese registro, se juntan
+  (`delMismoGuardado`). El «Detalle técnico» sigue siendo el de esa fila y enlaza a las demás («Del
+  mismo guardado»).
+- **«Ir a donde se hizo» pregunta a la base si el registro sigue ahí** (`destinoDe` +
+  `existeDestino`): ya no sale desde un cambio antiguo de algo que se borró después. Una presentación
+  pregunta por su producto, una foto por su cliente. Si la consulta falla, el botón sale.
+- **El reparto entre lotes se dice con el insumo y la cantidad**: «apuntó en un lote de Sal la parte
+  de un movimiento: 1». Un lote no tiene nombre; se busca el de su insumo.
+- **Un texto largo que cambia al final dice qué dato fue**: «cambió el producto Pan francés
+  (descripción)». En la configuración la cosa ya es el dato.
+- **Los filtros son controles controlados** y se vuelven a poner como diga la dirección cuando esta
+  cambia por otro camino (pulsar una pestaña, «Ver todo el historial»). Con `defaultValue`, al
+  volver a la misma ruta sin filtros los desplegables seguían diciendo los de antes.
+- Un cambio que solo mueve un identificador que no se enseña dice «cambió …», no «guardó … sin
+  cambiar nada».
+- Pruebas: la partición en tandas (`enTandas`); la actividad reciente se mira después de un ajuste
+  de stock, que deja filas de tablas internas como lo último del registro (antes la comprobación no
+  podía fallar); el detalle del guardado entero; «Ir a…» tras borrar el producto; los desplegables
+  tras pulsar la pestaña; y el reparto entre lotes en «Ver historial» de un insumo.
+
 ## Hallazgos menores que quedan
 
+Lo que queda es lo que no tiene arreglo razonable hoy, con su porqué:
+
 - **El filtro por registro no usa índice** (`registro_id` o un campo dentro de `datos_*`): recorre
-  `app.auditoria` entera. No se hizo: exige una migración y seis índices de expresión que encarecen
-  cada escritura del panel, para una consulta que hoy recorre unas mil filas. A revisar si el
-  historial pasa de unas cien mil.
-- **`auth.audit_log_entries` no tiene índice por fecha** y no se puede crear desde las migraciones.
+  `app.auditoria` entera. Exige una migración y seis índices de expresión que encarecen cada
+  escritura del panel, para una consulta que hoy recorre unas mil filas. A revisar si el historial
+  pasa de unas cien mil.
+- **`auth.audit_log_entries` no tiene índice por fecha** y no se puede crear desde las migraciones:
+  la tabla es de la plataforma.
 - **Una cuenta eliminada** sale en Ingresos con su correo y sin nombre, y no se puede elegir en el
-  filtro de personas.
-- **«Ver historial» de un insumo** trae el reparto entre lotes de sus 100 lotes más recientes.
-- **La línea fundida abre el detalle de la última fila del grupo**, que puede enseñar además
-  «Presentación principal: No → Sí».
-- **La partición en tandas de `resolverNombres`** no tiene prueba propia.
-- **«Ir a donde se hizo» mira la fila de ese cambio, no cómo está hoy el registro**: un producto
-  borrado después sigue ofreciendo el botón desde un cambio anterior, y lleva a «No encontramos esta
-  página».
-- **Las líneas del reparto entre lotes** («creó el reparto de un movimiento entre lotes») no dicen
-  cuánto ni de qué insumo: son jerga dentro de «Ver historial» de un insumo.
-- **Un valor largo que cambia al final** deja la línea en «cambió …», sin decir qué dato (en la
-  configuración solo hay uno; en otras tablas habría que abrir el detalle).
-- **Los desplegables de filtros** pueden quedar desfasados al pulsar la pestaña «Cambios» o
-  «Ingresos» con filtros puestos (misma ruta, el formulario no se desmonta). Arreglarlo bien pide
-  desplegables controlados.
-- **La comprobación de «sin tablas internas» en la actividad reciente** no puede fallar tal como
-  está: las cinco filas más recientes son las del producto que la propia prueba acaba de guardar.
-- `sinCambioNeto` no descuenta los identificadores que `diferencias` oculta (`lote_id`,
-  `movimiento_id`): un cambio que solo los moviera saldría «guardó … sin cambiar nada». Hoy no existe
-  ninguno.
-- El `grant select` de las dos vistas de 0045 es redundante (inofensivo).
-- `sesionDeApi` (`e2e/ayudas/insumos.ts`) crea un usuario en cada llamada y no lo borra; viene de F5.
+  filtro de personas: al eliminarla se va su perfil, que es donde estaba el nombre. No es un defecto
+  del historial; el panel desactiva cuentas, casi nunca las elimina.
+- **«Ver historial» de un insumo** trae el reparto entre lotes de sus 100 lotes más recientes: los
+  ids viajan en la dirección de la consulta.
+- El `grant select` de las dos vistas de 0045 es redundante (inofensivo); quitarlo es una migración.
+- `sesionDeApi` (`e2e/ayudas/insumos.ts`) crea un usuario en cada llamada y no lo borra. Viene de F5
+  y no se puede arreglar borrándolos: los movimientos que registran (`responsable_id`) no se pueden
+  borrar, y con ellos vivos el usuario tampoco. Solo afecta a la base local.
+- La prueba de los desplegables tras pulsar la pestaña no se vio fallar contra el código anterior
+  (habría hecho falta otro build); las demás de este apartado sí.

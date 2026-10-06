@@ -34,13 +34,15 @@ Arriba hay cuatro filtros, que se aplican al elegirlos:
 La lista trae 50 líneas; **Ver más** trae otras 50, hasta 500. Si hay más, se acota con los filtros.
 
 **Abrir un cambio** (tocando la línea) enseña solo lo que cambió, con el valor de antes tachado y el
-de después; y, si no fue un borrado, un botón **Ir a donde se hizo**. Debajo hay un **Detalle
+de después; y, si eso sigue existiendo, un botón **Ir a donde se hizo**. Debajo hay un **Detalle
 técnico** cerrado: es para el ingeniero, no hace falta abrirlo.
 
 Tres cosas que conviene saber:
 
 - Al pulsar **Guardar** en un formulario, el historial anota **solo lo que de verdad cambió**. Guardar
   sin cambiar nada no deja ninguna línea.
+- Un texto largo (la historia, la descripción de un producto) no cabe en la línea: dice qué dato
+  cambió, y al abrirla se ve entero.
 - Dar de alta a una persona se lee como «dio de alta la cuenta de Debra como Ingeniero».
 - Un cliente cuyos datos se borraron a su pedido sale como «hizo un cambio en un cliente cuyos datos
   se borraron a pedido», sin ningún dato suyo.
@@ -50,7 +52,8 @@ Tres cosas que conviene saber:
 En la pantalla de un **producto**, en la ficha de un **insumo** y en la ficha de un **cliente** hay
 un botón **Ver historial**. Abre la lista solo con lo de ese registro **y lo que cuelga de él**: las
 presentaciones y fotos del producto; los movimientos y lotes del insumo; las fotos y los permisos
-del cliente.
+del cliente. En un insumo salen también líneas como «apuntó en un lote de Harina la parte de un
+movimiento: 50»: es cómo el sistema repartió ese ingreso o consumo entre los lotes.
 
 ## En el inicio
 
