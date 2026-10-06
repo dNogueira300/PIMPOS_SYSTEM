@@ -3686,3 +3686,96 @@ Fases.md`, `DOC/Plan de Desarrollo 02 - Backend y Base de Datos.md` (§5, audito
       https://pimpos-system-iota.vercel.app, con el superadmin, que Historial carga y que Ingresos
       trae el ingreso que se acaba de hacer (es la única parte que depende de un permiso de la
       plataforma, el de leer `auth.audit_log_entries`).
+
+---
+
+## Lo que resultó distinto
+
+Lo que la ejecución (06/10/2026, PR #86 a #88) cambió del texto de arriba. Donde este apartado y un
+paso del plan no coinciden, manda este: es lo que quedó construido.
+
+### Respecto a la spec
+
+- **Las fechas van como en el resto del panel**, «06/10/2026 16:10» en hora de Iquitos, no en forma
+  relativa («ayer, 4:10 p. m.»): una fecha relativa deja de ser cierta en una página que se queda
+  abierta.
+- **Un guardado es una línea** (decisión 6, «una fila por cambio», afinada). `guardar_producto`
+  reescribe el producto, quita la marca de presentación principal, la vuelve a poner y reescribe cada
+  presentación: cuatro filas para un precio. La lista junta las filas del mismo instante, de la misma
+  persona y sobre el mismo registro (`fundir`, en `redactar.ts`), de cómo estaba antes a cómo quedó,
+  y **no enseña los cambios que al final no movieron ningún dato**. El detalle de un cambio sigue
+  enseñando cada fila tal cual; la línea fundida abre la última del grupo.
+- **Ingresos empieza el 06/10/2026.** En el proyecto alojado el registro de Auth no se escribía en
+  la base; se encendió ese día (Authentication → Audit Logs). Comprobado allí lo que en local no se
+  veía: la salida sí queda anotada.
+- **El reparto de un movimiento entre lotes** entra en «Ver historial» de un insumo buscándolo por
+  los lotes del insumo, los 100 más recientes: esa tabla no guarda el insumo.
+
+### Tarea 1
+
+- La prueba «no salen ni las altas ni los refrescos» miraba la etiqueta (`accion`), y la función
+  llama «salida» a todo lo que no es un ingreso: pasaba también sin el filtro. Cuenta la fixture.
+- La guarda comprueba que el registro de Auth **se puede leer**, no que **se esté escribiendo**: lo
+  segundo se comprobó a mano en producción antes del `db push`, y estaba apagado.
+- En la T4 la prueba pasó de 13 a 18: el superadmin, los dos límites del periodo y el caso positivo
+  de `constancias_de_borrado`.
+
+### Tareas 2 y 3
+
+- **Los nombres se buscan por tabla y en tandas.** El plan mandaba todos los ids a las diez tablas en
+  una sola consulta cada una: con más de unos 200, PostgREST responde `414`, y el error se tragaba,
+  así que la lista afirmaba «un insumo que ya no existe» de cosas que existen. Ahora cada campo sabe
+  en qué tabla está su nombre (`tablaQueSenala`), van de 100 en 100 y un fallo queda en el registro
+  del servidor.
+- **Las pruebas de navegador usan un producto propio**, guardado con `guardar_producto` como lo hace
+  el formulario, y lo borran antes que al usuario. Las del plan cambiaban el precio de un producto de
+  la semilla con la sesión del usuario de prueba: `updated_by` quedaba apuntando a él y
+  `borrarUsuario` fallaba sin avisar.
+- **`role="alert"` no sirve para saber si hay un error en pantalla**: Next deja siempre uno vacío,
+  su anunciador de rutas. La prueba mira el texto.
+- **`signOut()` cierra todas las sesiones del usuario**, también la del navegador de la prueba. Para
+  anotar una salida sin tumbar la sesión, `signOut({ scope: "local" })`.
+- Un bloque JSX del plan salió con un `;` de más: Prettier lo había formateado como sentencia dentro
+  del documento.
+- «Ir a donde se hizo» tampoco sale si el registro lleva `deleted_at` o es una ficha con los datos
+  borrados; `de` se valida con `Object.hasOwn` (`?de=constructor` pasaba); y el nombre del dueño de un
+  «Ver historial» se pide aparte, porque con muchos movimientos su propia fila no cabe en la página.
+
+### Tarea 4
+
+Dan pidió (06/10/2026) que los menores aplazados de la revisión entraran todos:
+
+- Dar de alta una cuenta se dice «dio de alta la cuenta de Debra como Ingeniero», no «cambió el rol
+  de Debra: Repartidor → Ingeniero» (la cuenta nace desactivada y como repartidor, 0006).
+- Las coordenadas se escriben con 6 decimales y el costo por unidad base con hasta 4.
+- En los datos de un cambio ya no salen los identificadores de lote y de movimiento; «Suma o resta»
+  dice Suma o Resta, la moneda dice Soles, y una persona que ya no está es «alguien que ya no tiene
+  cuenta».
+- Cada dato de la configuración se nombra como en su formulario («el horario de atención»), y el
+  horario y los valores se escriben en texto corrido, no como JSON.
+- Un texto largo que cambia al final se veía igual a los dos lados de la flecha: la línea dice solo
+  qué cambió, y el detalle lo enseña entero.
+- Un fallo de la base al abrir un cambio dice «No se pudo cargar», no «No encontramos esta página».
+- Los filtros se vuelven a montar al pasar de «Ver historial» a todo el historial.
+- Pruebas: el filtro «hoy» a las 11:30 p. m. de Iquitos, y que la actividad reciente no traiga tablas
+  internas.
+
+**Sin Lighthouse comparativo**, como preveía el plan: de `0c386f6` a la rama, lo único tocado en
+`src/components` son cinco archivos de `src/components/panel/`; nada en `src/estilos`, en
+`src/app/(public)` ni en el layout raíz.
+
+## Hallazgos menores que quedan
+
+- **El filtro por registro no usa índice** (`registro_id` o un campo dentro de `datos_*`): recorre
+  `app.auditoria` entera. No se hizo: exige una migración y seis índices de expresión que encarecen
+  cada escritura del panel, para una consulta que hoy recorre unas mil filas. A revisar si el
+  historial pasa de unas cien mil.
+- **`auth.audit_log_entries` no tiene índice por fecha** y no se puede crear desde las migraciones.
+- **Una cuenta eliminada** sale en Ingresos con su correo y sin nombre, y no se puede elegir en el
+  filtro de personas.
+- **«Ver historial» de un insumo** trae el reparto entre lotes de sus 100 lotes más recientes.
+- **La línea fundida abre el detalle de la última fila del grupo**, que puede enseñar además
+  «Presentación principal: No → Sí».
+- **La partición en tandas de `resolverNombres`** no tiene prueba propia.
+- El `grant select` de las dos vistas de 0045 es redundante (inofensivo).
+- `sesionDeApi` (`e2e/ayudas/insumos.ts`) crea un usuario en cada llamada y no lo borra; viene de F5.

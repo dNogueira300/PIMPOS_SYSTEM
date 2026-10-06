@@ -787,14 +787,52 @@ puede borrar. Los menores que quedan están al final del plan de F6.
 **Producción.** Migraciones hasta la 0044 aplicadas; **0 clientes todavía**. No se registran clientes
 de prueba en producción: uno borrado dejaría una constancia que no se puede quitar.
 
-**Lo que falta.** Del negocio: revisar el texto del permiso, decidir si quieren zonas propias y si
-las fotos de la fachada —que la ficha 8 pone entre los datos obligatorios y el sistema deja
-opcionales— tienen que exigirse. Para F7: una pantalla para las constancias de borrado y el registro
-de descargas, que hoy solo se leen por SQL.
+**Lo que faltaba, resuelto el 06/10/2026.** Dan decidió por el negocio: el texto del permiso queda
+como está, las zonas quedan como están y las fotos de la fachada son opcionales. La pantalla de las
+constancias de borrado y del registro de descargas llegó con el Historial (F7). Falta solo que el
+negocio registre a sus primeros clientes.
 
 **El manual** para el negocio es `docs/clientes.md`: quién hace qué, cómo registrar con el texto del
 permiso, qué hace el repartidor en la puerta, zonas, qué hacer si un cliente pide borrar sus datos,
 los clientes para revisar y cómo descargar la lista.
+
+## F7 — Historial del panel (auditoría), 06/10/2026
+
+Primera parte de F7. La base anota cada cambio desde F2 (`app.auditoria`, 0007); faltaba la pantalla.
+Plan y spec en `DOC/Plan de Desarrollo 07 - Auditoría.md`; manual en `docs/historial.md`.
+
+| Tarea   | PR  | Qué dejó                                                                                                                                                            |
+| ------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plan    | #85 | Las 6 decisiones de Dan, el diseño y el plan paso a paso                                                                                                            |
+| T1      | #86 | La base (0045): `ingresos_al_sistema` con su guarda y las vistas `constancias_de_borrado` y `descargas_de_clientes`                                                 |
+| T2 + T3 | #87 | Las frases (`src/lib/auditoria/`), «Historial» en el menú, Cambios con filtros y detalle, Ingresos, Datos borrados, Descargas, actividad reciente y «Ver historial» |
+| T4      | #88 | Los menores de la revisión, la suite entera, el manual y la documentación                                                                                           |
+
+**Qué es.** `/admin/auditoria`, solo para superadmin y administrador, de solo lectura. Cuatro
+pestañas: **Cambios** (una línea por cambio, en frases: «Marcos cambió la presentación Unidad de Pan
+francés: Precio S/ 0.20 → S/ 0.25»), **Ingresos** (quién entró y quién salió), **Datos borrados**
+(las constancias de F6) y **Descargas** (de la lista de clientes). En el inicio, la actividad
+reciente; y «Ver historial» en un producto, un insumo y un cliente, con lo que cuelga de cada uno.
+
+**Decisiones de Dan (06/10/2026).** Lista en lenguaje llano con un «Detalle técnico» en cada cambio;
+entra todo (cambios, ingresos, constancias, descargas, actividad reciente y «Ver historial»); de los
+ingresos, solo lo que Supabase ya registra —ni intentos fallidos ni dirección IP—; no se descarga; y
+una fila por cambio, ocultando las tablas internas.
+
+**Lo que enseñó construirlo.**
+
+- **Un «Guardar» no es un cambio.** `guardar_producto` reescribe el producto y quita y vuelve a
+  poner la marca de presentación principal: cuatro filas para un precio. El historial junta las filas
+  del mismo instante sobre el mismo registro y no enseña lo que al final no cambió nada.
+- **Producción no anotaba los ingresos.** La tabla del registro de Auth estaba vacía: en el proyecto
+  alojado hay que encender que Auth lo escriba en la base. La guarda de la migración comprobaba el
+  permiso de lectura, no que hubiera algo que leer. Ingresos empieza el 06/10/2026.
+- **Las revisiones volvieron a encontrar cosas**: una prueba que pasaba contra la función rota, los
+  nombres que fallaban en silencio con más de 200 ids en la dirección de la consulta, y pruebas que
+  dejaban usuarios sin borrar.
+
+**Verificación.** Las cifras, en `AGENTS.md`. El módulo no toca el sitio público (ni una ruta, ni un
+componente, ni el CSS global), así que no hubo medición de rendimiento comparada.
 
 ### Pendiente del negocio
 

@@ -24,8 +24,10 @@ Práctica preprofesional de Dan (FISI-UNAP), ventana set–nov 2026.
 ## Estado
 
 **F0, F1, F2, F3, F3.1, F4, F5 y F6 cerradas** (F6 el 06/10/2026, en lo técnico: falta que el
-negocio cargue su inventario inicial y registre a sus primeros clientes). **Sigue F7 (cierre).** Ver
-«F6 cerrada — lo que dejó», más abajo. El sitio está desplegado (12/09/2026) en
+negocio cargue su inventario inicial y registre a sus primeros clientes). **F7 (cierre) en curso: su
+primera parte, el Historial del panel (auditoría), está hecha (06/10/2026); falta el resto —
+capacitación, manual, informe final y traspaso de credenciales—, que aún no tiene plan.** Ver «F7 en
+curso — cómo retomar», más abajo. El sitio está desplegado (12/09/2026) en
 https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
@@ -39,11 +41,11 @@ https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen comp
 | F4 Panel contenido | ✅ **Cerrada el 24/09/2026** (PR #61, revisión final incluida). Las 8 tareas: cáscara del panel, categorías, productos con presentaciones/fotos/historial de precios, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios con contraseña temporal y cierre de sesión al instante, configuración y marca. Rendimiento medido el 25/09 contra `ae96d1b`, en la misma sesión: `/` **91 frente a 91** (37 pasadas intercaladas por versión, diferencia no significativa), `/productos` 91 → 95 y `/contacto` 95 → 96 (`PASADAS=5`). Accesibilidad 100/100/97 y SEO 100 en las tres                                                                              |
 | F5 Panel insumos   | ✅ **Cerrada el 30/09/2026** (PR #66 a #75, plan en #65). Kárdex por lotes (FEFO) con costo y sin saldos negativos, catálogo y existencias, ingresos y consumos de varias líneas, ficha con kárdex, anulación y conteo, bajas con aprobación, reportes con gráficos y descarga en Excel y PDF, avisos por correo apagados hasta tener dominio; y, a pedido de Dan, lápiz de editar, búsqueda al escribir y sesión de 2 horas. Rendimiento contra `a5e6a4b`, misma sesión: `/` **86.5 frente a 85** (20 pasadas intercaladas por versión, p = 0.79), `/productos` 90 → 88, `/contacto` 95 → 95. Accesibilidad 100/100/97 y SEO 100                                                       |
 | F6 Panel clientes  | ✅ **Cerrada el 06/10/2026** (PR #78 a #83, plan en #77). Permiso obligatorio en la base y que no se falsea ni se retira solo (0042, 0044), el repartidor ve todo y solo corrige referencia, punto y fotos, borrar a pedido con la auditoría tachada y aviso de conservación a los 2 años (0043), lista con buscador en vivo y mapa, ficha con fotos por URL firmada, alta en pestañas con aviso de celular repetido, zonas, «Para revisar» y descarga en Excel y PDF con registro. Rendimiento contra `371c202`, misma sesión: `/` **91 frente a 92.5** (20 pasadas intercaladas por versión, p = 0.29), `/productos` 95 → 95, `/contacto` 96 → 96. Accesibilidad 100/100/97 y SEO 100 |
-| F7                 | ⬜                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| F7 Cierre          | 🟡 **Historial del panel (auditoría) hecho el 06/10/2026** (PR #86 a #88, plan en #85): `/admin/auditoria`, solo para la administración y de solo lectura, con los cambios en frases («Marcos cambió la presentación Unidad de Pan francés: Precio S/ 0.20 → S/ 0.25»), filtros, detalle de cada cambio, ingresos y salidas, constancias de borrado, descargas, actividad reciente en el inicio y «Ver historial» en producto, insumo y cliente (0045). Sin medición de rendimiento: no toca el sitio público. Falta: capacitación, manual, informe final y traspaso de credenciales                                                                                                    |
 
-**La base hoy** (06/10/2026, F6 cerrada): 33 tablas (32 en `public` + `app.auditoria`) **todas
-con RLS** (cero sin proteger), 13 vistas **todas con `security_invoker`**, 93 políticas (76 en
-`public`, 1 en `app`, 16 en `storage`), 92 triggers en `public`, 2 trabajos de `pg_cron`, **44
+**La base hoy** (06/10/2026, con el Historial de F7): 33 tablas (32 en `public` + `app.auditoria`)
+**todas con RLS** (cero sin proteger), 15 vistas **todas con `security_invoker`**, 93 políticas (76 en
+`public`, 1 en `app`, 16 en `storage`), 92 triggers en `public`, 2 trabajos de `pg_cron`, **45
 migraciones**. Cómo se cuenta, para que la próxima cifra sea comparable: `pg_tables` de `public` y
 `app`; `pg_class` de vistas de `public` con `reloptions` buscando `security_invoker=true`;
 `pg_policies` por esquema; `pg_trigger` sin `tgisinternal`, por esquema de la tabla (la cifra de F5,
@@ -63,14 +65,17 @@ longitud o ninguna (0042); borrar los datos de un cliente a su pedido los quita 
 auditoría (tachando el contenido, no las filas), deja la constancia en `supresiones` y la ficha
 borrada ya no se puede volver a llenar (0043); y referencia y zona son obligatorias también por la
 API, ningún cliente activo queda en una zona retirada, y un permiso anotado no se reescribe, no se
-fecha a mano ni se retira dejando al cliente sin ninguno (0044).
+fecha a mano ni se retira dejando al cliente sin ninguno (0044). Desde F7: la administración puede
+preguntar a la base quién entró y quién salió del panel (`ingresos_al_sistema`, que lee el registro
+de Auth), y las constancias de borrado y las descargas se leen con el nombre de quien las hizo
+(0045).
 
-**Verificación** (06/10/2026, F6 cerrada): **716 pgTAP** (40 archivos) + **416 unitarias** (56
-archivos, Vitest) + **614 E2E listadas en 43 archivos**. La suite E2E se corrió **entera** el
-05/10/2026 sobre `main` @ `3d27ea8` (612 entonces: 524 pasan y 88 se saltan a propósito, por tamaño
-de pantalla o sin fotos en el entorno; 0 fallos), en cinco tandas contra un mismo build; tras la
-0044 y los arreglos del cierre, otra vez las de clientes, la accesibilidad del panel y las pantallas
-que comparten `SubidaImagen`.
+**Verificación** (06/10/2026, con el Historial de F7): **734 pgTAP** (41 archivos) + **473 unitarias**
+(60 archivos, Vitest) + **646 E2E listadas en 44 archivos**. La suite E2E se corrió **entera** el
+06/10/2026 sobre la rama del cierre del Historial (646 ejecutadas: 549 pasan y 97 se
+saltan a propósito, por tamaño de pantalla o sin fotos en el entorno; 0 fallos del código —una
+prueba se repitió porque el Supabase local no respondió al crear su usuario—), en cinco tandas
+contra un mismo build.
 En esta máquina la suite no cabe de una vez por la memoria: se corre **por tandas contra un mismo
 build** levantado a mano (`pnpm build` + `pnpm start` con el entorno de `playwright.config.ts`), con
 `--workers=1` en los flujos largos (bajas, novedades, movimientos, contenido) + 3 guiones que prueban lo que
@@ -196,10 +201,8 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   (`v1-2026-10`) queda como está; las zonas quedan como están (los cuatro distritos, administrables);
   y **las fotos de la fachada son opcionales** —la ficha 8 las ponía entre los datos obligatorios; no
   se exigen ni se avisa cuando faltan—. Falta solo que el negocio registre a sus primeros clientes.
-- **Queda para F7 (auditoría):** una pantalla para las constancias de borrado y para el registro de
-  descargas; hoy solo se leen por SQL. La ficha borrada dice que se borró, no quién ni por qué.
-  **F7 empieza por ahí:** la spec del módulo (decisiones de Dan del 06/10/2026 y diseño) está en
-  `DOC/Plan de Desarrollo 07 - Auditoría.md`.
+- **Quedaba para F7 (auditoría), y está hecho:** la pantalla de las constancias de borrado y del
+  registro de descargas (Historial → Datos borrados / Descargas).
 - **Esta máquina se queda sin memoria** con Docker, el build de Next y Playwright a la vez. Supabase
   se levanta solo con lo que usa el proyecto:
   `supabase start -x realtime,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor`
@@ -209,7 +212,23 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   cuando falta memoria: **el build va en primer plano** (cabe en los 10 minutos), y cuando avisa de
   que paró algo hay que comprobarlo —corta el shell que lo lanzó, y sus hijos pueden seguir vivos—.
 
-**El despliegue, en corto** (actualizado el 06/10/2026, F6 cerrada). El sitio vive en
+**F7 en curso — cómo retomar** (06/10/2026).
+
+- **Hecho: el Historial del panel.** Plan y spec en `DOC/Plan de Desarrollo 07 - Auditoría.md`
+  (arriba las 6 decisiones de Dan y el diseño; abajo las 4 tareas y «Lo que resultó distinto»). El
+  manual para el negocio es `docs/historial.md`.
+- **Falta, y no tiene plan todavía:** capacitación, manual, informe final y traspaso de credenciales.
+  Se empieza por un brainstorming con Dan, como el del Historial.
+- **Cómo se trabajó**, igual que F6: la sesión principal implementa (`superpowers:executing-plans`) y
+  un subagente (opus) revisa la rama antes de cada PR. Las dos revisiones encontraron cosas
+  Importantes; no saltársela. La regla de PR sigue: con migración, sola y se para; sin migración, dos
+  tareas como mucho.
+- **En producción, Auth tiene que escribir su registro en la base** (Authentication → Audit Logs):
+  estaba apagado y Dan lo encendió el 06/10/2026. Si un día la pestaña Ingresos sale vacía, mirar eso
+  antes que el código: `select payload->>'action', count(*) from auth.audit_log_entries group by 1`.
+  De antes de ese día no hay ingresos anotados.
+
+**El despliegue, en corto** (actualizado el 06/10/2026, con el Historial de F7). El sitio vive en
 https://pimpos-system-iota.vercel.app, sin dominio todavía. En Vercel hay **cuatro variables**:
 
 | Variable                        | De dónde sale                                                                                                                                                                   |
@@ -235,7 +254,7 @@ dueña). Sin ellas, `enviarCorreo()` lo deja en el registro (`[correo] apagado �
 encienden como dice `docs/insumos.md`. `NEXT_PUBLIC_WHATSAPP` sigue sin leerla nadie: el número sale
 de `configuracion_sitio`.
 
-Producción tiene las migraciones hasta la **0044** aplicadas (Dan, 26/09–06/10/2026), **sin
+Producción tiene las migraciones hasta la **0045** aplicadas (Dan, 26/09–06/10/2026), **sin
 `--include-seed`**. La 0035 llegó a medias (ver las trampas de F5) y la 0036 la repara al empezar;
 comprobado en producción que el trigger que faltaba ya existe. `movimientos_insumo` y
 `lotes_insumo` estaban vacías al aplicar la 0034: el inventario inicial se carga con el conteo
@@ -289,6 +308,8 @@ documentación compartan historial y se revisen en el mismo PR.
   dirección, horario, productos y testimonios inventados (ver su `LEEME.md`)
 - **Panel de contenido (fase 4)** → `04 - Panel de contenido.md`, tarea a tarea, con las 12
   decisiones del 14/09/2026 y las maquetas aprobadas en `DOC/Maquetas/4/`
+- **Historial del panel (auditoría, fase 7)** → `07 - Auditoría.md`, con las decisiones del
+  06/10/2026 y «Lo que resultó distinto»
 - Versiones exactas de librerías y por qué se eligió cada una → `Stack Tecnologico - PIMPOS.md`
 
 ---
@@ -348,7 +369,7 @@ Supabase — la CLI 2.116.0 ya está instalada globalmente, `supabase` funciona 
 ```bash
 supabase start                    # entorno local en Docker (opción A del plan)
 supabase db reset                 # reconstruye desde migraciones + semillas
-supabase test db                  # 716 pruebas pgTAP
+supabase test db                  # 734 pruebas pgTAP
 supabase gen types typescript --local > src/tipos/database.types.ts
 
 # Lo que pgTAP no puede probar. Los tres corren tambien en el CI.
@@ -853,6 +874,31 @@ else new.cliente_id end` falla en `clientes` («record "new" has no field "clien
   buscaba `fachada.webp` y la foto de cualquier otro cliente la tiraba (en local, tras las E2E).
   Busca la ruta de su clienta. Es «el total nunca es suyo», aplicado a un `like`.
 
+**Trampas de F7 (historial):**
+
+- **Una guarda que comprueba el permiso no comprueba que haya datos.** La de 0045 mira que la
+  migración pueda leer `auth.audit_log_entries`; en producción podía, y la tabla estaba vacía porque
+  el proyecto alojado no escribía su registro de Auth en la base. Se vio con una consulta a mano
+  antes del `db push`. Lo que depende de un ajuste de la plataforma se comprueba **en** la plataforma.
+- **Un «Guardar» no es una fila de auditoría, son varias.** `guardar_producto` deja cuatro para un
+  cambio de precio (el producto sin cambios, la marca de presentación principal quitada y vuelta a
+  poner, cada presentación reescrita), y `guardar_configuracion` una por clave enviada. Una prueba que
+  escribe por la API con un `update` suelto no lo ve: la del historial guarda con la misma función
+  que el formulario.
+- **Una etiqueta que la propia función inventa no sirve para probarla.** `ingresos_al_sistema` llama
+  «salida» a todo lo que no es un ingreso, así que «no hay filas con otra acción» pasaba aunque se
+  colaran las altas. Se cuenta la fixture.
+- **Más de unos 200 uuid en un `.in()` dan `414`** (los ids viajan en la dirección de la consulta), y
+  un `data ?? []` sin mirar `error` lo convierte en «no existe». Tandas de 100 y el error al registro.
+- **Next deja siempre un `role="alert"` vacío en la página** (su anunciador de rutas):
+  `getByRole("alert")` nunca da cero. Se busca el texto del error.
+- **`supabase.auth.signOut()` cierra todas las sesiones de ese usuario**, también la del navegador de
+  la prueba. Para una sola: `signOut({ scope: "local" })`.
+- **Prettier formatea los bloques de código de un documento.** Un trozo de JSX suelto en el plan
+  (`{cond ? (…) : null}`) salió convertido en una sentencia, con su `;`.
+- **`in` sobre un objeto acepta lo heredado**: `"constructor" in HIJOS_DE` es verdadero. Para validar
+  una clave que viene de la dirección, `Object.hasOwn`.
+
 ---
 
 ## Arquitectura
@@ -876,8 +922,7 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
     a la petición y tiraría el prerenderizado entero; sin sesión, PostgREST atiende como `anon` y la
     RLS muestra justo lo que ve un visitante.
 - `src/app/(admin)/` — contenido (categorías, productos, novedades, portada, galería, preguntas,
-  guías, testimonios), usuarios, configuración, insumos (F5) y clientes (F6). La auditoría queda
-  para F7.
+  guías, testimonios), usuarios, configuración, insumos (F5), clientes (F6) y el historial (F7).
   Dinámico y siempre autenticado. **Construido en F4** (las 7 tareas de contenido + cierre, cerrada
   el 24/09/2026): la cáscara vive en `src/components/panel/` (barra lateral en escritorio, barra
   inferior fija a 375 px, lista que pasa de tabla a tarjetas nunca a scroll lateral, formulario con
@@ -893,7 +938,7 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
   frente al teclado. `src/lib/supabase/administrador.ts` es el único archivo que lee
   `SUPABASE_SERVICE_ROLE_KEY` (`import "server-only"`), y solo lo usan las páginas y acciones de
   `/admin/usuarios`, siempre después de `exigirAcceso`. Hay una prueba de axe y otra de área táctil
-  **por cada ruta** del panel (`e2e/panel-accesibilidad.spec.ts`, 41 rutas): al añadir una ruta, se
+  **por cada ruta** del panel (`e2e/panel-accesibilidad.spec.ts`, 45 rutas): al añadir una ruta, se
   añade a `RUTAS_DEL_PANEL`.
   - **Editar tiene su lápiz, y buscar filtra al escribir** (arreglos del 29/09/2026, pedidos por
     Dan al probar como superadmin). `ListaAdaptable` recibe `editar` (y `nombreFila` si la columna
@@ -954,6 +999,24 @@ Un solo proyecto Next.js con dos zonas, separadas por route groups:
   - **Correo** (T8): `src/lib/correo/` y `src/app/api/avisos/diario/route.ts`, el único route
     handler fuera del panel. Lo llama el cron de Vercel (`vercel.json`) con `CRON_SECRET`; usa la
     `service_role` porque corre sin sesión, y solo lee avisos y los marca como enviados.
+- `src/app/(admin)/admin/auditoria/` — **F7**, el **Historial**: solo superadmin y administrador, de
+  **solo lectura** (ninguna acción, ningún `service_role`). Cuatro pestañas, cada una con su
+  dirección: **Cambios** (`/admin/auditoria`: una línea por cambio, con filtros por persona, sección,
+  periodo y qué hizo que se aplican al elegir —`FiltrosHistorial`, como `BuscadorEnVivo`—, de 50 en
+  50 hasta 500, y `[id]` con el antes y el después de solo lo que cambió, «Ir a donde se hizo» y un
+  «Detalle técnico» plegado), **Ingresos**, **Datos borrados** y **Descargas**. En el inicio del
+  panel, «Actividad reciente» (los 5 últimos); y `EnlaceHistorial` («Ver historial») en la pantalla
+  de un producto y en las fichas de insumo y de cliente, que abre Cambios con
+  `?registro=<id>&de=producto|insumo|cliente`: lo suyo y lo que cuelga de él.
+  - **Las frases** salen de `src/lib/auditoria/`, lógica pura con Vitest: `catalogo.ts` (qué es cada
+    una de las 25 tablas auditadas, cuáles son internas y a qué pantalla llevan; una prueba pgTAP fija
+    la lista, así que **una tabla auditada nueva tiene que recibir aquí su entrada**), `campos.ts`
+    (el nombre llano de cada campo y cómo se escribe su valor), `redactar.ts` (de una fila, la frase
+    y las diferencias; `fundir` junta las filas que deja un mismo «Guardar») y `filtros.ts` (lee y
+    acota lo que viene en la dirección; los días son de Iquitos). **Lo desconocido se dice de forma
+    genérica**, nunca da un error. `datos.ts` (`server-only`) lee `public.auditoria`, la función
+    `ingresos_al_sistema` y las dos vistas de 0045, y busca los nombres a los que cada fila señala,
+    por tabla y en tandas de 100.
 - `middleware.ts` — refresco de sesión + guardia por rol.
 - Mutaciones por **Server Actions** validadas con Zod; no hay API REST propia salvo webhooks puntuales.
 
@@ -976,7 +1039,7 @@ en el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 44 migraciones** (`supabase/migrations/`), en orden:
+**Las 45 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                            | Contenido                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1024,6 +1087,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0042_clientes_reglas`             | `registrar_cliente` (cliente y permiso juntos) y el trigger **diferido** `clientes_exige_permiso` (también al desmarcar `es_demo`, que solo ponen las semillas) · el repartidor solo corrige referencia y punto, añade o cambia fotos y no borra (ni la fila ni el archivo) · celular solo dígitos y punto completo o ninguno · zonas solo de la administración, no se retiran con clientes activos ni se borran · `buscar_clientes` (sin tildes, con errores de tecleo o por celular)                                                                                                      |
 | `0043_clientes_datos_personales`   | `borrar_datos_cliente` (solo administración, con motivo): borra fotos, revoca el permiso y borra su nota, deja la ficha sin datos y desactivada, tacha el contenido de su auditoría y anota la constancia en `supresiones`; lo borrado ya no se vuelve a llenar ni recibe fotos · `clientes_para_revisar` (2 años sin cambios) · `permiso_de_cliente` · `exportaciones_clientes` (quién, cuándo, cuántos, zona y estado; nadie la corrige)                                                                                                                                                  |
 | `0044_clientes_reglas_finales`     | Lo que encontró la revisión final de F6, para quien tiene sesión: referencia y zona obligatorias y ningún cliente activo en una zona retirada (`clientes_exigir_datos`) · un permiso se fecha al anotarlo, lleva una versión con forma de versión y después solo admite que se retire (`consentimientos_proteger`) · retirar el único permiso de un cliente no llega a guardarse (trigger **diferido** `consentimientos_cliente_con_permiso`; `borrar_datos_cliente` sí pasa) · la anotación de una descarga no se fecha a mano (permiso de `insert` solo sobre formato, cantidad y filtro) |
+| `0045_historial`                   | Lo que el Historial del panel necesita de la base: `ingresos_al_sistema` (quién entró y quién salió, del registro de Auth; `security definer`, solo administración, sin la IP, como mucho 500 filas; con una guarda que no deja aplicar la migración si no se puede leer ese registro) · vistas `constancias_de_borrado` y `descargas_de_clientes`, con el nombre de quien borró o descargó                                                                                                                                                                                                 |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales, a producción con `db push --include-seed`) y `02_demo.sql` (slides, testimonios y
