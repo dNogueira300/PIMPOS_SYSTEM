@@ -1,6 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { expect, test, type Page } from "@playwright/test";
 
+import { borrarDeLaBase } from "./ayudas/base";
+import { borrarClienteDePrueba, crearClienteDePrueba } from "./ayudas/clientes";
 import { entrarComo } from "./ayudas/sesion";
 import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario, type UsuarioDePrueba } from "./ayudas/usuarios";
@@ -144,11 +146,127 @@ test("el ingeniero no ve «Historial» ni llega escribiendo la dirección", asyn
   const usuario = await entrarComo(page, "ingeniero");
   try {
     await expect(page.locator('[data-seccion="Historial"]')).toHaveCount(0);
+    await expect(page.locator("[data-actividad-reciente]")).toHaveCount(0);
+    for (const ruta of [
+      "/admin/auditoria/ingresos",
+      "/admin/auditoria/borrados",
+      "/admin/auditoria/descargas",
+    ]) {
+      await page.goto(ruta);
+      await page.waitForURL("/admin?motivo=sin-acceso");
+    }
     for (const ruta of ["/admin/auditoria", "/admin/auditoria/1"]) {
       await page.goto(ruta);
       await page.waitForURL("/admin?motivo=sin-acceso");
     }
   } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("«Ver historial» desde un producto trae también sus presentaciones", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  const precio = await cambiarUnPrecio(usuario);
+  try {
+    await page.goto(`/admin/contenido/productos/${precio.productoId}`);
+    await page.getByRole("link", { name: "Ver historial" }).click();
+    await page.waitForURL(new RegExp(`registro=${precio.productoId}.*de=producto`));
+    await expect(page.locator("[data-de-un-registro]")).toBeVisible();
+    // El cambio fue en `producto_variantes`, no en `productos`: cuelga de él.
+    await expect(page.getByRole("link", { name: /cambió la presentación/ }).first()).toBeVisible();
+    // Sin filtro de sección: ya es de un solo registro.
+    await expect(page.getByLabel("Sección")).toHaveCount(0);
+  } finally {
+    await precio.restaurar();
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("Ingresos muestra el ingreso que la prueba acaba de hacer", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    // Además del ingreso por el formulario, uno por la API con su salida: la
+    // revisión de la T1 pidió comprobar que la salida también queda anotada.
+    const api = await apiDe(usuario);
+    // `local`: la salida por defecto cierra TODAS las sesiones, también la del navegador.
+    await api.auth.signOut({ scope: "local" });
+    await page.goto(`/admin/auditoria/ingresos?persona=${usuario.id}&cuando=hoy`);
+    const lista = page.getByRole("list", { name: "Ingresos y salidas" });
+    await expect(lista.getByRole("listitem")).toHaveCount(3);
+    await expect(lista.getByText("Prueba administrador entró")).toHaveCount(2);
+    await expect(lista.getByText("Prueba administrador salió")).toHaveCount(1);
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("Datos borrados y Descargas muestran lo que dejan un borrado y una descarga", async ({
+  page,
+}) => {
+  const usuario = await entrarComo(page, "administrador");
+  const cliente = await crearClienteDePrueba({ nombre: `Borrable ${Date.now()}` });
+  const motivo = `Lo pidió por teléfono ${Date.now()}`;
+  try {
+    const api = await apiDe(usuario);
+    const { error } = await api.rpc("borrar_datos_cliente", { p_id: cliente, p_motivo: motivo });
+    expect(error).toBeNull();
+    // La descarga, con la sesión del navegador: queda anotada antes de salir el archivo.
+    const descarga = await page.request.get("/admin/clientes/excel");
+    expect(descarga.status()).toBe(200);
+
+    await page.goto("/admin/auditoria/borrados");
+    const constancia = page.getByRole("listitem").filter({ hasText: motivo });
+    await expect(constancia).toContainText("Prueba administrador borró los datos de un cliente");
+    await expect(constancia.getByRole("link", { name: "Ver la ficha" })).toHaveAttribute(
+      "href",
+      `/admin/clientes/${cliente}`,
+    );
+
+    // Otras pruebas descargan a la vez y todas son de «Prueba administrador»:
+    // la fila se busca por su número.
+    const { data: anotada } = await api
+      .from("exportaciones_clientes")
+      .select("id")
+      .eq("exportado_por", usuario.id)
+      .single();
+    await page.goto("/admin/auditoria/descargas");
+    const fila = page.locator(`[data-descarga="${anotada?.id}"]`);
+    await expect(fila).toContainText("Prueba administrador descargó");
+    await expect(fila).toContainText("Excel");
+    await expect(fila).toContainText("activos");
+
+    // Review Focus: el registro ya no tiene datos. El historial del cliente lo
+    // dice y no enseña ninguno de sus datos.
+    await page.goto(`/admin/clientes/${cliente}`);
+    await page.getByRole("link", { name: "Ver historial" }).click();
+    await expect(
+      page.getByRole("link", { name: /cuyos datos se borraron a pedido/ }).first(),
+    ).toBeVisible();
+    await expect(page.getByText("Jirón Próspero 100")).toHaveCount(0);
+  } finally {
+    // Primero lo que apunta al usuario, al final el usuario (AGENTS.md, trampas de F6).
+    await borrarDeLaBase("exportaciones_clientes", "exportado_por", usuario.id);
+    await borrarClienteDePrueba(cliente);
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("el inicio enseña la actividad reciente solo a la administración", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  const precio = await cambiarUnPrecio(usuario);
+  try {
+    await page.goto("/admin");
+    const bloque = page.locator("[data-actividad-reciente]");
+    await expect(bloque.getByRole("heading", { name: "Actividad reciente" })).toBeVisible();
+    const filas = bloque.getByRole("listitem");
+    expect(await filas.count()).toBeGreaterThan(0);
+    expect(await filas.count()).toBeLessThanOrEqual(5);
+    await expect(bloque.getByRole("link", { name: "Ver todo el historial" })).toHaveAttribute(
+      "href",
+      "/admin/auditoria",
+    );
+  } finally {
+    await precio.restaurar();
     await borrarUsuario(usuario.id);
   }
 });

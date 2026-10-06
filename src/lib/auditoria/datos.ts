@@ -173,3 +173,123 @@ export async function personasDelPanel(): Promise<{ id: string; nombre: string }
     .order("nombre_completo");
   return (data ?? []).map((p) => ({ id: p.id, nombre: p.nombre_completo ?? "Sin nombre" }));
 }
+
+export type Ingreso = {
+  ocurrido_en: string;
+  accion: "ingreso" | "salida";
+  usuario_id: string | null;
+  quien: string;
+};
+
+/** Sin periodo («Siempre»), la función igual pide dos instantes. */
+const SIEMPRE = { desde: "2000-01-01T00:00:00.000Z", hasta: "2100-01-01T00:00:00.000Z" };
+
+/** Quién entró y quién salió. La función (0045) devuelve como mucho 500, lo más reciente primero. */
+export async function leerIngresos(f: Filtros): Promise<Ingreso[] | null> {
+  const supabase = await crearClienteServidor();
+  const { desde, hasta } = f.periodo ? limitesDelPeriodo(f.periodo) : SIEMPRE;
+  const { data, error } = await supabase.rpc("ingresos_al_sistema", {
+    p_desde: desde,
+    p_hasta: hasta,
+    // «El sistema» no entra ni sale: ese filtro aquí no existe.
+    ...(f.persona && f.persona !== "sistema" ? { p_usuario: f.persona } : {}),
+  });
+  if (error) {
+    console.error("[historial] ingresos:", error.message);
+    return null;
+  }
+  return (data ?? []).map((i) => ({
+    ocurrido_en: i.ocurrido_en,
+    accion: i.accion === "salida" ? "salida" : "ingreso",
+    usuario_id: i.usuario_id,
+    quien: i.nombre?.trim() || i.correo?.trim() || "Alguien que ya no tiene cuenta",
+  }));
+}
+
+export type Constancia = {
+  id: string;
+  cliente_id: string;
+  borrado_en: string;
+  motivo: string;
+  quien: string;
+};
+
+/** Las constancias de borrado de datos de clientes. Son pocas: van todas, hasta 200. */
+export async function leerConstancias(): Promise<Constancia[] | null> {
+  const supabase = await crearClienteServidor();
+  const { data, error } = await supabase
+    .from("constancias_de_borrado")
+    .select("id, cliente_id, borrado_en, motivo, borrado_por_nombre")
+    .order("borrado_en", { ascending: false })
+    .limit(200);
+  if (error) {
+    console.error("[historial] constancias:", error.message);
+    return null;
+  }
+  return (data ?? []).flatMap((c) =>
+    c.id && c.cliente_id && c.borrado_en
+      ? [
+          {
+            id: c.id,
+            cliente_id: c.cliente_id,
+            borrado_en: c.borrado_en,
+            motivo: c.motivo ?? "",
+            quien: c.borrado_por_nombre?.trim() || "Alguien que ya no tiene cuenta",
+          },
+        ]
+      : [],
+  );
+}
+
+export type Descarga = {
+  id: string;
+  exportado_en: string;
+  quien: string;
+  formato: string;
+  cantidad: number;
+  zona: string | null;
+  estado: string | null;
+};
+
+/** Las descargas de la lista de clientes. Hasta 200, lo más reciente primero. */
+export async function leerDescargas(): Promise<Descarga[] | null> {
+  const supabase = await crearClienteServidor();
+  const { data, error } = await supabase
+    .from("descargas_de_clientes")
+    .select("id, exportado_en, exportado_por_nombre, formato, cantidad, zona, estado")
+    .order("exportado_en", { ascending: false })
+    .limit(200);
+  if (error) {
+    console.error("[historial] descargas:", error.message);
+    return null;
+  }
+  return (data ?? []).flatMap((d) =>
+    d.id && d.exportado_en
+      ? [
+          {
+            id: d.id,
+            exportado_en: d.exportado_en,
+            quien: d.exportado_por_nombre?.trim() || "Alguien que ya no tiene cuenta",
+            formato: d.formato ?? "",
+            cantidad: d.cantidad ?? 0,
+            zona: d.zona,
+            estado: d.estado,
+          },
+        ]
+      : [],
+  );
+}
+
+/** Los últimos cambios, sin tablas internas, para el inicio del panel. */
+export async function ultimosCambios(cuantos: number): Promise<Cambio[]> {
+  const resultado = await leerCambios({
+    persona: null,
+    seccion: null,
+    hizo: null,
+    cuando: "todo",
+    periodo: null,
+    registro: null,
+    ver: cuantos,
+  });
+  return resultado?.cambios ?? [];
+}

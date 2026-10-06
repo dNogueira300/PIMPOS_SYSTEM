@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
+import { EnlaceHistorial } from "@/components/panel/enlace-historial";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
@@ -19,7 +20,7 @@ export default function EditarProducto({ params }: PageProps<"/admin/contenido/p
 
 async function Editor({ params }: { params: Params }) {
   const { id } = await params;
-  await exigirAcceso("/admin/contenido/productos");
+  const sesion = await exigirAcceso("/admin/contenido/productos");
   const supabase = await crearClienteServidor();
 
   const [{ data: producto }, { data: categorias }] = await Promise.all([
@@ -61,6 +62,11 @@ async function Editor({ params }: { params: Params }) {
       <EncabezadoPanel
         titulo={producto.nombre}
         volver={{ ruta: "/admin/contenido/productos", nombre: "Productos" }}
+        accion={
+          sesion.rol === "superadmin" || sesion.rol === "administrador" ? (
+            <EnlaceHistorial de="producto" id={producto.id} />
+          ) : null
+        }
       />
       <FormularioProducto producto={editable} categorias={categorias ?? []} />
     </>
