@@ -192,11 +192,14 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
 - **Producción tiene 0 clientes** (06/10/2026): las reglas de 0042 a 0044 no chocaron con nada. El
   primer cliente real lo registra el negocio; **no** se registran clientes de prueba en producción
   (uno borrado dejaría una constancia en `supresiones` que no se puede quitar).
-- **Pendiente del negocio:** revisar el texto del permiso (`docs/clientes.md`), decidir si quieren
-  zonas propias en vez de los cuatro distritos y si las fotos de la fachada —que la ficha 8 pone
-  entre los datos obligatorios y el sistema deja opcionales— tienen que exigirse o avisarse.
+- **Lo que quedaba del negocio, resuelto por Dan el 06/10/2026:** el texto del permiso
+  (`v1-2026-10`) queda como está; las zonas quedan como están (los cuatro distritos, administrables);
+  y **las fotos de la fachada son opcionales** —la ficha 8 las ponía entre los datos obligatorios; no
+  se exigen ni se avisa cuando faltan—. Falta solo que el negocio registre a sus primeros clientes.
 - **Queda para F7 (auditoría):** una pantalla para las constancias de borrado y para el registro de
   descargas; hoy solo se leen por SQL. La ficha borrada dice que se borró, no quién ni por qué.
+  **F7 empieza por ahí:** la spec del módulo (decisiones de Dan del 06/10/2026 y diseño) está en
+  `DOC/Plan de Desarrollo 07 - Auditoría.md`.
 - **Esta máquina se queda sin memoria** con Docker, el build de Next y Playwright a la vez. Supabase
   se levanta solo con lo que usa el proyecto:
   `supabase start -x realtime,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor`
