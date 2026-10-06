@@ -85,16 +85,31 @@ begin
   end if;
 end $$;
 
--- El volcado trae `auth.users`; si el destino ya tiene usuarios, la carga
--- chocaria por el correo. El cascade se lleva identidades y sesiones.
-delete from auth.users;
-
--- Y trae el registro de Auth (`auth.audit_log_entries`: cada alta e ingreso),
--- que no cuelga de los usuarios y no se va con ellos. Sin vaciarlo, la carga
--- se cae con `duplicate key ... audit_log_entries_pkey` en cualquier base que
--- haya tenido un ingreso -- o sea, en produccion. Salio en el ensayo de F6: el
--- de F2 se hizo sobre una base sin usuarios creados por la API.
-delete from auth.audit_log_entries;
+-- El volcado trae TODO lo de Auth: usuarios, identidades, sesiones, tokens y su
+-- registro (`audit_log_entries`). Hay que vaciarlo entero antes de cargar.
+--
+-- No vale `delete from auth.users` y fiarse del cascade: con
+-- `session_replication_role = replica` los triggers de las llaves foraneas no
+-- corren, asi que las identidades y las sesiones se quedan, y la carga se cae
+-- con `duplicate key ... identities_pkey` -- en cualquier base con un usuario
+-- creado desde el panel, o sea en produccion. Salio en el ensayo de F6: el de
+-- F2 se hizo sobre una base sin usuarios de verdad.
+--
+-- Se vacian todas las tablas de `auth` menos `schema_migrations`, que es de la
+-- plataforma (que version de Auth esta instalada) y no viene en el volcado.
+do $$
+declare
+  v_tabla text;
+begin
+  for v_tabla in
+    select c.relname
+      from pg_class c
+      join pg_namespace n on n.oid = c.relnamespace
+     where n.nspname = 'auth' and c.relkind = 'r' and c.relname <> 'schema_migrations'
+  loop
+    execute format('delete from auth.%I', v_tabla);
+  end loop;
+end $$;
 SQL
 
 echo "2/4  Descartando las filas de storage (son configuracion, no datos)..."
