@@ -48,6 +48,7 @@ export const RUTAS_DEL_PANEL = [
   "/admin/clientes/zonas",
   "/admin/clientes/zonas/nueva",
   "/admin/clientes/revisar",
+  "/admin/auditoria",
   "/admin/usuarios",
   "/admin/usuarios/nuevo",
   "/admin/configuracion",
