@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { agregarFotoCliente, quitarFotoCliente } from "@/lib/acciones/clientes";
+import { agregarFotoCliente, cambiarFotoCliente, quitarFotoCliente } from "@/lib/acciones/clientes";
 import type { FotoCliente } from "@/lib/clientes/datos";
 
 import { ConfirmarBorrado } from "./confirmar-borrado";
@@ -41,6 +41,31 @@ export function FotosCliente({ clienteId, fotos, puedeQuitar }: Props) {
                   className="aspect-[4/3] w-full rounded-lg object-cover"
                 />
               ) : null}
+              {/* Cambiar sobrescribe el mismo archivo: lo puede hacer también el
+                  repartidor, que añade y cambia fotos pero no las borra. Solo
+                  para las `.webp`, que es lo que sube el panel: el archivo
+                  nuevo siempre lo es, y no se le pone otra extensión. */}
+              {f.ruta.endsWith(".webp") ? (
+                <SubidaImagen
+                  nombre={`foto_cambio_${f.orden}`}
+                  bucket="clientes"
+                  inmediata
+                  rutaFija={f.ruta}
+                  carpeta={id}
+                  rutaInicial={null}
+                  etiqueta={`Cambiar la foto ${f.orden}`}
+                  aceptar="image/*"
+                  maximoBytes={2 * 1024 * 1024}
+                  alSubir={async () => {
+                    const r = await cambiarFotoCliente(f.id);
+                    if (r.estado === "ok") {
+                      toast.success(r.mensaje);
+                      router.refresh();
+                    }
+                    if (r.estado === "error") toast.error(r.mensaje);
+                  }}
+                />
+              ) : null}
               {puedeQuitar ? (
                 <ConfirmarBorrado
                   nombre={`la foto ${f.orden}`}
@@ -73,7 +98,8 @@ export function FotosCliente({ clienteId, fotos, puedeQuitar }: Props) {
         />
       ) : (
         <p className="text-muted-foreground text-sm">
-          Ya tiene 3 fotos. Quita una para añadir otra.
+          Ya tiene 3 fotos.{" "}
+          {puedeQuitar ? "Cambia una o quítala para añadir otra." : "Puedes cambiar cualquiera."}
         </p>
       )}
     </div>

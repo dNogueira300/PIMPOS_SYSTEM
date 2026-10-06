@@ -156,6 +156,32 @@ export async function agregarFotoCliente(id: string, ruta: string): Promise<Esta
   });
 }
 
+/**
+ * «Cambiar» una foto (decisión 2): el archivo ya se sobrescribió en su misma
+ * ruta; aquí se toca su fila para que quede quién la cambió y cuándo (la
+ * auditoría y la fecha de actividad del cliente salen de ahí). Si los datos del
+ * cliente se borraron, la base lo rechaza (0043).
+ */
+export async function cambiarFotoCliente(fotoId: string): Promise<EstadoAccion> {
+  return ejecutarAccion({
+    ruta: TODOS,
+    esquema: z.object({ id: z.uuid() }),
+    entrada: { id: fotoId },
+    entidad: "la foto",
+    etiquetas: [],
+    mensajeOk: "Foto cambiada.",
+    hacer: async ({ id }, { supabase }) => {
+      const { error } = await supabase
+        .from("cliente_fotos")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", id)
+        .select("id")
+        .single();
+      return { error };
+    },
+  });
+}
+
 export async function quitarFotoCliente(fotoId: string): Promise<EstadoAccion> {
   return ejecutarAccion({
     ruta: ENCARGADOS,
