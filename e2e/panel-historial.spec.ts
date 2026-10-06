@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 import { borrarDeLaBase, sqlLocal } from "./ayudas/base";
 import { borrarClienteDePrueba, crearClienteDePrueba } from "./ayudas/clientes";
+import { sumarStock } from "./ayudas/insumos";
 import { entrarComo } from "./ayudas/sesion";
 import { supabaseLocal } from "./ayudas/supabase-local";
 import { borrarUsuario, type UsuarioDePrueba } from "./ayudas/usuarios";
@@ -151,6 +152,12 @@ test("los filtros se aplican al elegir, sin recargar la página", async ({ page 
     expect(
       await page.evaluate(() => (window as unknown as { sinRecargar?: boolean }).sinRecargar),
     ).toBe(true);
+    // Pulsar la pestaña vuelve a la dirección sin filtros, y los desplegables
+    // tienen que decir lo mismo (el formulario no se desmonta: es la misma ruta).
+    await page.getByRole("link", { name: "Cambios", exact: true }).click();
+    await expect(page).toHaveURL(/\/admin\/auditoria$/);
+    await expect(page.getByLabel("Persona")).toHaveValue("");
+    await expect(page.getByLabel("Qué hizo")).toHaveValue("");
   } finally {
     await precio.restaurar();
     await borrarUsuario(usuario.id);
@@ -292,6 +299,9 @@ test("el inicio enseña la actividad reciente solo a la administración", async 
   const usuario = await entrarComo(page, "administrador");
   const precio = await cambiarUnPrecio(usuario);
   try {
+    // Un ajuste de stock deja, lo último del registro, filas de tablas
+    // internas (el lote y el reparto entre lotes): no pueden salir aquí.
+    await sumarStock("Sal", 1);
     await page.goto("/admin");
     const bloque = page.locator("[data-actividad-reciente]");
     await expect(bloque.getByRole("heading", { name: "Actividad reciente" })).toBeVisible();
@@ -313,6 +323,58 @@ test("el inicio enseña la actividad reciente solo a la administración", async 
     );
   } finally {
     await precio.restaurar();
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("el detalle enseña el guardado entero, y «Ir a…» desaparece si el producto se borró después", async ({
+  page,
+}) => {
+  const usuario = await entrarComo(page, "administrador");
+  const precio = await cambiarUnPrecio(usuario);
+  let borrado = false;
+  try {
+    await abrirHistorial(page, `?seccion=productos&cuando=hoy&persona=${usuario.id}`);
+    await page.getByRole("link", { name: "Prueba administrador cambió la presentación" }).click();
+    await page.waitForURL(/\/admin\/auditoria\/\d+$/);
+    const direccion = page.url();
+
+    // El guardado dejó dos filas sobre la presentación (quitar y volver a
+    // poner la marca de principal): el detalle enseña solo el precio.
+    const diferencias = page.locator("[data-diferencias]");
+    await expect(diferencias).toContainText("Precio");
+    await expect(diferencias).not.toContainText("Presentación principal");
+    await page.locator("[data-detalle-tecnico]").getByText("Detalle técnico").click();
+    await expect(page.locator("[data-mismo-guardado]").getByRole("link")).toHaveCount(1);
+    await expect(page.getByRole("link", { name: "Ir a donde se hizo" })).toBeVisible();
+
+    await precio.restaurar();
+    borrado = true;
+    await page.goto(direccion);
+    await expect(page.locator("[data-frase]")).toContainText("cambió la presentación");
+    await expect(page.getByRole("link", { name: "Ir a donde se hizo" })).toHaveCount(0);
+  } finally {
+    if (!borrado) await precio.restaurar();
+    await borrarUsuario(usuario.id);
+  }
+});
+
+test("«Ver historial» de un insumo trae el reparto entre lotes, dicho con el nombre del insumo", async ({
+  page,
+}) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await sumarStock("Sal", 1);
+    const insumo = sqlLocal("select id from public.insumos where nombre = 'Sal';").trim();
+    await page.goto(`/admin/insumos/${insumo}`);
+    await page.getByRole("link", { name: "Ver historial" }).click();
+    await expect(page.locator("[data-de-un-registro]")).toContainText("el insumo Sal");
+    await expect(
+      page
+        .getByRole("link", { name: /apuntó en un lote de Sal la parte de un movimiento/ })
+        .first(),
+    ).toBeVisible();
+  } finally {
     await borrarUsuario(usuario.id);
   }
 });

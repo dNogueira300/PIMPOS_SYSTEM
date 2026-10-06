@@ -172,6 +172,8 @@ const SEÑALA_A: Readonly<Record<string, string>> = {
   proveedor_habitual_id: "proveedores",
   proveedor_id: "proveedores",
   almacen_id: "almacenes",
+  // De un lote se enseña el insumo: un lote no tiene nombre propio.
+  lote_id: "lotes_insumo",
   aprobada_por: "perfiles",
   registrado_por: "perfiles",
   revocado_por: "perfiles",

@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { HIJOS_DE, infoDeTabla, SECCIONES, TABLAS_AUDITADAS, tablasVisibles } from "./catalogo";
+import {
+  destinoDe,
+  HIJOS_DE,
+  infoDeTabla,
+  SECCIONES,
+  TABLAS_AUDITADAS,
+  tablasVisibles,
+} from "./catalogo";
 
 describe("catálogo de tablas", () => {
   it("cubre las 25 tablas auditadas (la misma lista que fija el pgTAP de 0045)", () => {
@@ -95,5 +102,23 @@ describe("catálogo de tablas", () => {
     expect(info.referencia({ clave: "otra_cosa" }, {})).toBe(
       "el dato «otra_cosa» de la configuración",
     );
+  });
+
+  it("dice a qué registro lleva «Ir a…», para preguntar si sigue existiendo", () => {
+    const P = "11111111-1111-4111-8111-111111111111";
+    const V = "22222222-2222-4222-8222-222222222222";
+    expect(destinoDe("public.productos", { id: P, nombre: "Pan" })).toEqual({
+      tabla: "productos",
+      id: P,
+    });
+    // Una presentación lleva a la pantalla de su producto.
+    expect(destinoDe("public.producto_variantes", { id: V, producto_id: P })).toEqual({
+      tabla: "productos",
+      id: P,
+    });
+    // La configuración y las bajas llevan a una lista, que siempre existe.
+    expect(destinoDe("public.configuracion_sitio", { clave: "telefono" })).toBeNull();
+    expect(destinoDe("public.solicitudes_baja", { id: V, insumo_id: P })).toBeNull();
+    expect(destinoDe("public.tabla_nueva", { id: P })).toBeNull();
   });
 });

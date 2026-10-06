@@ -1,3 +1,5 @@
+import { tablaQueSenala } from "./campos";
+
 /**
  * Qué es cada tabla auditada, para decirlo en llano en el historial (F7).
  *
@@ -277,3 +279,22 @@ export const HIJOS_DE = {
   cliente: { tabla: "public.clientes", campo: "cliente_id" },
 } as const;
 export type Dueno = keyof typeof HIJOS_DE;
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * El registro al que lleva «Ir a donde se hizo», para preguntarle a la base si
+ * sigue existiendo: el propio (un producto) o su dueño (una presentación lleva
+ * a su producto). `null` si lleva a una lista, que siempre existe, o a ninguna
+ * parte.
+ */
+export function destinoDe(tabla: string, d: Datos): { tabla: string; id: string } | null {
+  const id = infoDeTabla(tabla).ruta?.(d)?.split("/").pop() ?? "";
+  if (!UUID.test(id)) return null;
+  if (d.id === id) return { tabla: tabla.replace(/^public\./, ""), id };
+  for (const [campo, valor] of Object.entries(d)) {
+    const señalada = tablaQueSenala(campo);
+    if (valor === id && señalada) return { tabla: señalada, id };
+  }
+  return null;
+}
