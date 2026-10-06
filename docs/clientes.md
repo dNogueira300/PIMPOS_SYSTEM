@@ -6,19 +6,19 @@ cosas que el sistema no deja hacer aunque se pidan, y quedan dichas aquí.
 
 ## Quién hace qué
 
-| Qué                                             | Administración | Ingeniero | Repartidor |
-| ----------------------------------------------- | :------------: | :-------: | :--------: |
-| Ver y buscar a todos los clientes, y su mapa    |       ✅       |    ✅     |     ✅     |
-| Llamar, escribir por WhatsApp, ver cómo llegar  |       ✅       |    ✅     |     ✅     |
-| Registrar un cliente nuevo                      |       ✅       |    ✅     |     —      |
-| Editar sus datos                                |       ✅       |    ✅     |     —      |
-| Corregir la referencia, el punto y añadir fotos |       ✅       |    ✅     |     ✅     |
-| Quitar una foto                                 |       ✅       |    ✅     |     —      |
-| Desactivar o reactivar                          |       ✅       |    ✅     |     —      |
-| Zonas                                           |       ✅       |     —     |     —      |
-| Borrar sus datos (cuando el cliente lo pide)    |       ✅       |     —     |     —      |
-| Clientes para revisar (dos años sin cambios)    |       ✅       |     —     |     —      |
-| Descargar la lista en Excel o PDF               |       ✅       |     —     |     —      |
+| Qué                                                        | Administración | Ingeniero | Repartidor |
+| ---------------------------------------------------------- | :------------: | :-------: | :--------: |
+| Ver y buscar a todos los clientes, y su mapa               |       ✅       |    ✅     |     ✅     |
+| Llamar, escribir por WhatsApp, ver cómo llegar             |       ✅       |    ✅     |     ✅     |
+| Registrar un cliente nuevo                                 |       ✅       |    ✅     |     —      |
+| Editar sus datos                                           |       ✅       |    ✅     |     —      |
+| Corregir la referencia, el punto, y añadir o cambiar fotos |       ✅       |    ✅     |     ✅     |
+| Quitar una foto                                            |       ✅       |    ✅     |     —      |
+| Desactivar o reactivar                                     |       ✅       |    ✅     |     —      |
+| Zonas                                                      |       ✅       |     —     |     —      |
+| Borrar sus datos (cuando el cliente lo pide)               |       ✅       |     —     |     —      |
+| Clientes para revisar (dos años sin cambios)               |       ✅       |     —     |     —      |
+| Descargar la lista en Excel o PDF                          |       ✅       |     —     |     —      |
 
 ## Registrar a un cliente
 
@@ -53,11 +53,15 @@ la lista enseña a los clientes de la zona elegida, y debajo dice cuántos no ti
 Si la referencia estaba mal, el punto no coincide o falta la foto de la fachada: en su ficha,
 **Corregir ubicación y fotos**. El nombre, el celular y la dirección los cambia un encargado.
 
+Si una foto salió mal o la fachada cambió, debajo de cada foto está **Cambiar la foto**: se toma otra
+y reemplaza a la anterior. Quitar una foto sin poner otra lo hace un encargado.
+
 ## Zonas
 
 **Clientes → Zonas** (administración): crear, renombrar, ordenar con las flechas y **Retirar** una
 zona que ya no se usa. Una zona con clientes activos no se puede retirar: primero hay que pasarlos a
-otra zona. Las zonas no se borran; una retirada se puede volver a **Activar**.
+otra zona. Las zonas no se borran; una retirada se puede volver a **Activar**. Y al revés: un
+cliente desactivado no se puede **Reactivar** si su zona está retirada; antes hay que pasarlo a otra.
 
 ## Si un cliente pide que borren sus datos
 
@@ -72,6 +76,9 @@ guardados. Para borrarlos (administración):
 Se borran su nombre, celular, dirección, referencia, observación, punto en el mapa y fotos, también
 del historial de cambios del sistema. Queda solo la constancia: que se borraron, quién, cuándo y por
 qué. Si vuelve a comprar, se le registra de nuevo, con su permiso.
+
+No hay otra forma de «retirar el permiso»: si el cliente ya no quiere que se guarden sus datos, se
+borran. El sistema no deja a un cliente con sus datos guardados y sin permiso.
 
 Si al terminar la ficha dice que **quedan fotos** guardadas (pasa si falló la conexión justo en ese
 momento), pulsar **Borrar las fotos que quedaron** hasta que desaparezca el aviso.

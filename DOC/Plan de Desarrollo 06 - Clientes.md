@@ -5102,7 +5102,7 @@ meta `clientes` antes que `consentimientos` fuera de réplica fallaría al cerra
 
 ## Lo que resultó distinto
 
-Escrito al fusionar la T6 (30/09/2026). Cada tarea se implementó en la sesión principal y una
+Escrito al fusionar la T6 (30/09/2026) y completado al cerrar la fase (06/10/2026). Cada tarea se implementó en la sesión principal y una
 revisión de la rama con un subagente (opus) antes del PR; lo Importante de cada revisión se arregló
 con su prueba vista fallar primero. El registro completo está en
 `.superpowers/sdd/Plan de Desarrollo 06 - Clientes/progress.md` (fuera de git).
@@ -5166,16 +5166,49 @@ cierre, no por escribir.
   política de borrado); la descarga se cortaba en 1000 clientes (tope de PostgREST: `leerTodas`); y
   «Sigue siendo cliente» reactivaba a quien otra persona acababa de desactivar.
 
-### Hallazgos menores aplazados (para la revisión final de la T7)
+### Tarea 7 — Cierre (PR #83 y el de cierre)
+
+- **La documentación se adelantó** (PR #82, a pedido de Dan): en el cierre solo hubo que ponerle las
+  cifras finales.
+- **La suite entera**, el 05/10/2026 sobre `main` @ `3d27ea8`: 695 pgTAP, 416 de Vitest y 612 E2E
+  (524 pasan, 88 se saltan a propósito, 0 fallos), en cinco tandas contra un mismo build.
+- **Rendimiento**, F5 (`371c202`) frente a F6, intercaladas en la misma sesión: `/` 91 frente a 92.5
+  (20 pasadas por versión, p = 0.29), `/productos` 95 y 95, `/contacto` 96 y 96. El CSS global no
+  creció (19 572 → 19 398 B comprimido).
+- **El ensayo de restauración** salió bien en lo que el plan temía —el volcado fija
+  `session_replication_role = replica`, así que cargar `clientes` antes que `consentimientos` no
+  estorba— y mal en lo que nadie esperaba: **el guion no habría restaurado producción**. No vaciaba
+  el registro de Auth, y su `delete from auth.users` no arrastra identidades ni sesiones con los
+  triggers apagados. El ensayo de F2 no lo vio porque su base no tenía usuarios creados por la API.
+  El guion vacía ahora todo `auth` menos `schema_migrations`, y comprueba al final que ningún
+  cliente real quede sin permiso.
+- **Una prueba de 0043 buscaba `fachada.webp` en toda la auditoría** y la tiraba la foto de
+  cualquier otro cliente; busca la ruta de su clienta.
+- **La revisión final de la fase** (sin críticos) exigió una migración más, la **0044**, sola en el
+  PR #83: lo que se cumplía en el panel pero se podía saltar por la API.
+  - Referencia y zona eran obligatorias solo en el formulario, y el repartidor podía dejar la
+    referencia en blanco.
+  - Un cliente podía quedar activo en una zona retirada (desactivarlo, retirar la zona, reactivarlo).
+  - Un permiso se podía fechar a mano, anotar con una versión inventada o pasar a otro cliente; y un
+    cliente podía quedarse sin permiso si se lo retiraban después de registrado. Ahora retirar el
+    único no se guarda: para eso está «Borrar sus datos».
+  - La anotación de una descarga se podía fechar a mano.
+- **Una promesa de la decisión 2 sin cumplir:** el repartidor «añade o cambia fotos», y solo añadía.
+  Cada foto tiene ahora «Cambiar», que sobrescribe el mismo archivo (el repartidor no puede borrar).
+- **Dos pruebas viejas cambiaron en cómo preparan sus datos**, no en lo que prueban: la de 0013 da
+  referencia y zona al alta del repartidor (si no, saltaba antes la regla nueva y no la del rol), y
+  la de 0043 envejece un permiso sin sesión.
+
+### Hallazgos menores que quedan
 
 Ya resueltos por una tarea posterior: el aviso de los 200 (T3), el celular `000000` de las fichas
 borradas (T5), el filtro de la descarga sin el texto buscado (T6), el motivo sin datos personales
-(T5) y el `remove()` que no avisa (T5).
+(T5), el `remove()` que no avisa (T5), el permiso que se podía pasar a otro cliente (0044) y «cambiar
+foto» del repartidor (cierre).
 
 Siguen abiertos:
 
-- **Base:** un administrador puede cambiar el `cliente_id` de un permiso (su política de edición
-  cubre todas las columnas); el repartidor puede cambiar `created_at` de un cliente y el cliente o la
+- **Base:** el repartidor puede cambiar `created_at` de un cliente y el cliente o la
   ruta de una foto; `registrar_cliente` con una coordenada `''` da un error sin traducir (el panel
   manda `null`); `%` y `_` actúan como comodines en el buscador (inofensivo); el tachado de la
   auditoría depende de que el dueño tenga `BYPASSRLS` y, si le faltara, no tacharía ni avisaría (una
@@ -5184,8 +5217,9 @@ Siguen abiertos:
   (se desactiva, como con `consentimientos`).
 - **Fotos:** si la foto se sube y su fila no llega a guardarse (carrera de tres fotos, o un `23505`
   que sale con el mensaje de «nombre repetido»), el archivo queda huérfano; `agregarFotoCliente` no
-  comprueba que la ruta sea de la carpeta del cliente; y «cambiar foto» del repartidor tendrá que ser
-  sobrescribir la misma ruta, porque ya no puede borrar.
+  comprueba que la ruta sea de la carpeta del cliente; los archivos que quedan tras un borrado
+  fallido siguen legibles hasta el reintento, y `vaciarCarpeta` no baja a subcarpetas; y «Cambiar»
+  solo se ofrece para las fotos `.webp`, que son las que sube el panel.
 - **Pantallas:** `leerFicha` y `zonasActivas` callan el error (pasar por `avisarDeConsulta`); la copia
   local guarda marcada la casilla del permiso; «1 cliente no tiene punto…: están» en singular; la
   decisión 8 pedía un botón «registrar igual» y el aviso dice «puedes seguir»; el `42501` del trigger
@@ -5198,3 +5232,11 @@ Siguen abiertos:
   falla después de anotar la descarga, queda anotada sin archivo; y una zona con nombre sin letras deja
   `pimpos-clientes--<fecha>`.
 - **Guion:** espacios sobrantes en tres líneas de `verificar-storage.sh`, de antes de F6.
+- **De la revisión final:** una petición `HEAD` a la descarga puede anotarla sin entregar archivo
+  (sin comprobar); una ficha borrada se reconoce por su nombre literal en tres sitios sin una prueba
+  que los ate; un borrador local en otro navegador puede sobrevivir al borrado hasta que se cierre
+  esa sesión; el texto del permiso dice «sin que su ficha se use» y el sistema mide «sin cambios»; el
+  repartidor ve a los desactivados por la API (la página se los oculta); la ficha borrada no enseña
+  quién, cuándo ni por qué, y el registro de descargas no tiene pantalla (F7, auditoría).
+- **Del negocio:** la ficha 8 pone las fotos de la fachada entre los datos obligatorios y el sistema
+  las deja opcionales; y la decisión 8 pedía un botón «registrar igual».

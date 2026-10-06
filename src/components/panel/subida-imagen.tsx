@@ -34,6 +34,13 @@ type Props = {
    * corrección de otra persona.
    */
   inmediata?: boolean;
+  /**
+   * Sobrescribe ESTE archivo en vez de crear uno nuevo («Cambiar» la foto de un
+   * cliente, F6 decisión 2). El repartidor puede reemplazar un archivo del
+   * bucket privado, pero no borrarlo: subir otro y quitar el viejo le dejaría
+   * la foto anterior guardada para siempre.
+   */
+  rutaFija?: string;
 };
 
 type Fase = { tipo: "quieta" } | { tipo: "subiendo" } | { tipo: "error"; mensaje: string };
@@ -55,6 +62,7 @@ export function SubidaImagen({
   aceptar = "image/*",
   maximoBytes = 3 * 1024 * 1024,
   inmediata = false,
+  rutaFija,
 }: Props) {
   const oculto = useRef<HTMLInputElement>(null);
   const [ruta, setRuta] = useState(rutaInicial ?? "");
@@ -91,11 +99,14 @@ export function SubidaImagen({
         return;
       }
       const extension = comprimir ? "webp" : (archivo.name.split(".").pop() ?? "png").toLowerCase();
-      const nueva = rutaDeSubida(carpeta, crypto.randomUUID(), extension);
+      const nueva = rutaFija ?? rutaDeSubida(carpeta, crypto.randomUUID(), extension);
 
       const { error } = await crearClienteNavegador()
         .storage.from(bucket)
-        .upload(nueva, listo, { contentType: listo.type || archivo.type, upsert: false });
+        .upload(nueva, listo, {
+          contentType: listo.type || archivo.type,
+          upsert: Boolean(rutaFija),
+        });
       if (error) throw error;
 
       await alSubir?.(nueva);

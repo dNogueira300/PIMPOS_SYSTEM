@@ -249,3 +249,46 @@ test("elegir una zona en la vista Mapa se queda en el mapa", async ({ page }) =>
     await borrarUsuario(usuario.id);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Revisión final de la fase: decisión 2, «añade o cambia fotos»
+// ---------------------------------------------------------------------------
+
+test("el repartidor cambia una foto de la fachada sin poder borrarla", async ({ page }) => {
+  const marca = Date.now();
+  const id = await crearClienteDePrueba({ nombre: `Cambiar Foto ${marca}` });
+  // La foto de antes: 26 bytes, subida como lo haría el panel.
+  const ingeniero = await sesionDeApi("ingeniero");
+  const ruta = `${id}/fachada-${marca}.webp`;
+  const chica = Buffer.from("UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==", "base64");
+  await ingeniero.storage.from("clientes").upload(ruta, chica, { contentType: "image/webp" });
+  await ingeniero.from("cliente_fotos").insert({ cliente_id: id, ruta, orden: 1 });
+
+  const usuario = await entrarComo(page, "repartidor");
+  try {
+    await page.goto(`/admin/clientes/${id}/corregir`);
+    await page.locator("[data-selector-ubicacion].leaflet-container").waitFor();
+    const cambiar = page.getByLabel(/Elegir de la galería para Cambiar la foto 1/);
+    await expect(cambiar).toBeAttached({ timeout: 8000 });
+    await cambiar.setInputFiles(await fotoDePrueba(page));
+    await expect(page.getByText("Foto cambiada.")).toBeVisible();
+
+    // El mismo archivo, con otro contenido: ni uno más en la carpeta, ni otra fila.
+    const { data: archivos } = await ingeniero.storage.from("clientes").list(id);
+    expect((archivos ?? []).map((a) => a.name)).toEqual([`fachada-${marca}.webp`]);
+    expect(Number(archivos?.[0]?.metadata?.size ?? 0)).toBeGreaterThan(chica.length);
+    const { data: filas } = await ingeniero
+      .from("cliente_fotos")
+      .select("ruta")
+      .eq("cliente_id", id);
+    expect(filas).toEqual([{ ruta }]);
+    // Y la copia local no se entera: cambiar una foto no es un cambio del formulario.
+    await page.waitForTimeout(1500);
+    await page.goto(`/admin/clientes/${id}/corregir`);
+    await expect(page.getByLabel("Referencia")).toBeVisible();
+    await expect(page.locator("[data-borrador]")).toHaveCount(0);
+  } finally {
+    await borrarClienteDePrueba(id);
+    await borrarUsuario(usuario.id);
+  }
+});

@@ -84,10 +84,17 @@ esas inserciones. El volcado trae también esas filas, así que la carga muere e
 ERROR: duplicate key value violates unique constraint "auditoria_pkey"
 ```
 
-`scripts/restaurar-respaldo.sh` vacía `public`, `app` y los usuarios antes de cargar, descarta las
+`scripts/restaurar-respaldo.sh` vacía `public`, `app` y **todo lo de Auth** (usuarios, identidades,
+sesiones y su registro: el volcado lo trae entero) antes de cargar, descarta las
 filas de `storage.buckets` (un bucket es configuración, no un dato, y ya existe en el destino) y
 comprueba al terminar que las políticas de Storage y los trabajos de cron siguen en pie. Si faltan,
-avisa: significa que la base no tenía las migraciones aplicadas antes de empezar.
+avisa: significa que la base no tenía las migraciones aplicadas antes de empezar. Comprueba también
+que ningún cliente real quede sin su permiso.
+
+Hasta el 06/10/2026 el guion solo borraba `auth.users`, y con usuarios creados desde el panel la
+carga se caía con `duplicate key … identities_pkey` (o `audit_log_entries_pkey`): con los triggers
+apagados, borrar un usuario no se lleva sus identidades. Lo encontró el ensayo del cierre de F6; el
+de F2 se había hecho sobre una base sin usuarios de verdad.
 
 Pide confirmación escribiendo `RESTAURAR`. Borra datos: esa es la idea.
 
@@ -118,8 +125,10 @@ viaja cifrada en el volcado y se restaura, pero es lo primero que hay que ver fu
   igual que el volcado: se guarda cifrada y fuera del repositorio.
 - **Los clientes en el volcado.** Van con su nombre, celular y dirección, y la constancia de los
   que pidieron borrar sus datos (`supresiones`). El volcado empieza con
-  `SET session_replication_role = replica`, así que el permiso obligatorio (un trigger diferido, 0042) no estorba al cargar `clientes` antes que `consentimientos`; el ensayo con clientes reales
-  queda para el cierre de F6 (tarea 7). **Un respaldo anterior a un borrado a pedido todavía tiene
+  `SET session_replication_role = replica`, así que el permiso obligatorio (un trigger diferido, 0042) no estorba al cargar `clientes` antes que `consentimientos`. Ensayado el 05/10/2026 al cerrar
+  F6, con una clienta con permiso y foto y otra con los datos borrados: mismas cuentas antes y
+  después, y las pruebas de la base en verde sobre la base restaurada. El guion comprueba al final
+  que ningún cliente real quede sin permiso. **Un respaldo anterior a un borrado a pedido todavía tiene
   los datos de ese cliente**: al restaurarlo, hay que repetir el borrado.
 - **Un borrado lógico reciente.** `deleted_at` no borra nada, así que un `delete` del panel se
   deshace desde la base sin tocar el respaldo. Conviene mirar eso antes de restaurar: una

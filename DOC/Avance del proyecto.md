@@ -12,17 +12,17 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 ## 1. Dónde estamos
 
-| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                                                                                                                         |
-| -------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                                                                                                            |
-| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                                                                                                            |
-| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                                                                                                            |
-| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                                                                                     |
-| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                                                                                   |
-| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96                                                           |
-| **F5**   | Panel: insumos           | ✅ **Cerrada el 30/09/2026** en lo técnico (PR #66 a #75). Kárdex por lotes, existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes con Excel y PDF, avisos por correo (apagados hasta tener dominio). Falta del negocio: el inventario inicial. Rendimiento contra `a5e6a4b`: `/` 86.5 frente a 85 (p = 0.79) |
-| **F6**   | Panel: clientes          | 🟡 **En curso.** T1–T6 fusionadas el 30/09/2026 (PR #78 a #81, plan en #77): permiso obligatorio en la base, lo que puede el repartidor, borrar datos a pedido, conservación a los 2 años, lista con mapa, ficha, alta y corrección, zonas y descarga en Excel y PDF. Falta la T7 (cierre)                                                                     |
-| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                                                                             |
+| Fase     | Nombre                   | Estado                                                                                                                                                                                                                                                                                                                                                                                                 |
+| -------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **F0**   | Preparación de servicios | ✅ Cerrada el 06/09                                                                                                                                                                                                                                                                                                                                                                                    |
+| **F1**   | Fundación técnica        | ✅ Cerrada el 07/09                                                                                                                                                                                                                                                                                                                                                                                    |
+| **F2**   | Backend de datos         | ✅ Cerrada el 08/09                                                                                                                                                                                                                                                                                                                                                                                    |
+| **F3**   | Sitio público            | ✅ **Cerrada el 12/09.** axe en cero y en el CI; Lighthouse accesibilidad y SEO ✅. El rendimiento y lo que depende del negocio pasan a F4                                                                                                                                                                                                                                                             |
+| **F3.1** | Rediseño visual          | ✅ **Cerrada el 14/09.** El aspecto del prototipo de Stitch con el azul del logo, sin un solo dato del prototipo. Rendimiento dentro del límite, axe en cero                                                                                                                                                                                                                                           |
+| **F4**   | Panel: contenido         | ✅ **Cerrada el 24/09/2026.** Las 8 tareas: cáscara, categorías, productos, novedades con aprobación, portada/galería/preguntas/guías/testimonios, usuarios, configuración/marca. Rendimiento contra `ae96d1b`, 25/09: `/` 91 frente a 91 (sin regresión), `/productos` 91 → 95, `/contacto` 95 → 96                                                                                                   |
+| **F5**   | Panel: insumos           | ✅ **Cerrada el 30/09/2026** en lo técnico (PR #66 a #75). Kárdex por lotes, existencias, ingresos y consumos, ficha con kárdex, conteo y anulación, bajas con aprobación, reportes con Excel y PDF, avisos por correo (apagados hasta tener dominio). Falta del negocio: el inventario inicial. Rendimiento contra `a5e6a4b`: `/` 86.5 frente a 85 (p = 0.79)                                         |
+| **F6**   | Panel: clientes          | ✅ **Cerrada el 06/10/2026** en lo técnico (PR #78 a #83). Permiso obligatorio en la base, lo que puede el repartidor, borrar datos a pedido, conservación a los 2 años, lista con mapa, ficha, alta y corrección, zonas y descarga en Excel y PDF. Falta del negocio: revisar el texto del permiso y registrar a los primeros clientes. Rendimiento contra `371c202`: `/` 91 frente a 92.5 (p = 0.29) |
+| F7       | Cierre                   | ⬜                                                                                                                                                                                                                                                                                                                                                                                                     |
 
 **Adelanto respecto al cronograma.** El plan (doc 00 §3) daba la semana 1 a F0, la 2 a F1, la 3 a
 F2 y la 4 a F3. Las tres primeras están cerradas y F3 tiene ya sus ocho secciones en pie, leyendo
@@ -725,7 +725,7 @@ Vercel, así que las fuentes del PDF llegan a la función.
 **Lo que falta.** Del negocio, el inventario inicial (procedimiento en `docs/insumos.md`). Cuando
 haya dominio, encender el correo. (`CRON_SECRET` ya está en Vercel desde el 30/09/2026.)
 
-### Fase 6 — en curso: el panel de clientes
+### Fase 6 — cerrada el 06/10/2026: el panel de clientes
 
 **El plan.** `DOC/Plan de Desarrollo 06 - Clientes.md`. Arriba, lo que ya había decidido el negocio
 en la ficha 8 (datos obligatorios, hasta 3 fotos de la fachada, permiso verbal, quién registra, qué
@@ -741,13 +741,14 @@ lee al cliente, versión `v1-2026-10`.
 
 **Qué hay hecho, tarea a tarea.**
 
-| Tarea   | PR  | Qué deja                                                                                                                                                                                           |
-| ------- | --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T1      | #78 | Reglas en la base (0042): cliente y permiso juntos o nada, lo que puede el repartidor, fotos, zonas, celular normalizado, búsqueda sin tildes y por celular                                        |
-| T2      | #79 | Datos personales (0043): borrar a pedido —también de la auditoría, tachando el contenido— con constancia, lo borrado no se vuelve a llenar, conservación a 2 años, registro de descargas           |
-| T3 + T4 | #80 | Lista con buscador y mapa; Llamar, WhatsApp y Cómo llegar; ficha con fotos por URL firmada; alta en pestañas con aviso de celular repetido y punto opcional; «Corregir» del repartidor; desactivar |
-| T5 + T6 | #81 | Zonas, «Borrar sus datos» con reintento si Storage falla, «Para revisar» con aviso en el inicio, y descarga en Excel y PDF con registro                                                            |
-| T7      | —   | Pendiente: la suite entera, el rendimiento contra el cierre de F5, el ensayo de restauración con clientes, el manual con el negocio y la revisión final                                            |
+| Tarea   | PR  | Qué deja                                                                                                                                                                                                      |
+| ------- | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T1      | #78 | Reglas en la base (0042): cliente y permiso juntos o nada, lo que puede el repartidor, fotos, zonas, celular normalizado, búsqueda sin tildes y por celular                                                   |
+| T2      | #79 | Datos personales (0043): borrar a pedido —también de la auditoría, tachando el contenido— con constancia, lo borrado no se vuelve a llenar, conservación a 2 años, registro de descargas                      |
+| T3 + T4 | #80 | Lista con buscador y mapa; Llamar, WhatsApp y Cómo llegar; ficha con fotos por URL firmada; alta en pestañas con aviso de celular repetido y punto opcional; «Corregir» del repartidor; desactivar            |
+| T5 + T6 | #81 | Zonas, «Borrar sus datos» con reintento si Storage falla, «Para revisar» con aviso en el inicio, y descarga en Excel y PDF con registro                                                                       |
+| —       | #83 | Reglas finales en la base (0044), de la revisión final: referencia y zona obligatorias, ningún cliente activo en una zona retirada, y un permiso que no se falsea ni se retira dejando al cliente sin ninguno |
+| T7      | —   | Este cierre: la suite entera, el rendimiento, el ensayo de restauración con clientes, «Cambiar» una foto y la documentación                                                                                   |
 
 Las implementó la sesión principal; un subagente revisó cada rama antes del PR. Cada revisión
 encontró algo, y lo Importante se arregló con una prueba vista fallar primero. Lo más serio: un
@@ -757,12 +758,39 @@ marcando al cliente «de ejemplo», y una ficha borrada se podía volver a llena
 cerrado antes de fusionar. Lo que cambió respecto del texto del plan, y los menores que quedan,
 están en su sección «Lo que resultó distinto».
 
-**Cifras (30/09/2026, hasta la T6).** 695 pruebas pgTAP (39 archivos), 416 de Vitest (56) y 612 E2E
-listadas (43). Cada PR corrió sus E2E, la accesibilidad y el área táctil de todas las rutas del
-panel (167) y las pantallas que comparten sus componentes; la suite entera se corre en la T7.
+**Cifras (06/10/2026).** 716 pruebas pgTAP (40 archivos), 416 de Vitest (56) y 614 E2E listadas
+(43). La **suite E2E completa** se corrió el 05/10 sobre `main` @ `3d27ea8`: 612 pruebas, 524 pasan
+y 88 se saltan a propósito, 0 fallos, en cinco tandas contra un mismo build. Tras la 0044 y los
+arreglos del cierre se volvieron a correr las de clientes, la accesibilidad del panel y las pantallas
+que comparten la subida de fotos, en verde. Los tres guiones de verificación, en verde.
 
-**Producción.** Migraciones hasta la 0043 aplicadas; **0 clientes todavía**. No se registran clientes
+**Rendimiento (05/10/2026, misma sesión).** Contra `371c202` (F5 cerrada), builds guardadas y
+medidas intercaladas: `/` mediana **91 frente a 92.5** con 20 pasadas cada una (media 92.1 frente a
+93.05, permutación p = 0.29: sin diferencia), `/productos` 95 frente a 95 y `/contacto` 96 frente a
+96 (5 pasadas). Accesibilidad 100 / 100 / 97 y SEO 100 en las tres. El CSS global pasó de 19 572 a
+19 398 B comprimido: F6 no toca el sitio público.
+
+**El ensayo de restauración**, esta vez con clientes: una con permiso y foto y otra con los datos
+borrados a pedido. Restaura con las mismas cuentas y las 695 pruebas de la base pasan sobre la base
+restaurada; el volcado no guarda ni un dato de la clienta borrada. Y encontró que **el guion de
+restauración no habría funcionado en producción**: no vaciaba el registro de Auth ni las identidades
+de los usuarios (el ensayo de F2 se hizo sobre una base sin usuarios de verdad). Arreglado, y el
+guion comprueba ahora que ningún cliente real quede sin permiso.
+
+**La revisión final de la fase** no encontró nada crítico: desde el panel todas las reglas se
+cumplían. Encontró que cuatro se podían saltar por la API, porque vivían solo en el formulario o
+solo se comprobaban al registrar; las cierra la migración 0044 (PR #83). Y una promesa sin cumplir
+de la decisión 2: el repartidor añadía fotos pero no podía **cambiarlas** —con tres, no podía hacer
+nada—. Ahora cada foto tiene «Cambiar», que sobrescribe el mismo archivo, porque el repartidor no
+puede borrar. Los menores que quedan están al final del plan de F6.
+
+**Producción.** Migraciones hasta la 0044 aplicadas; **0 clientes todavía**. No se registran clientes
 de prueba en producción: uno borrado dejaría una constancia que no se puede quitar.
+
+**Lo que falta.** Del negocio: revisar el texto del permiso, decidir si quieren zonas propias y si
+las fotos de la fachada —que la ficha 8 pone entre los datos obligatorios y el sistema deja
+opcionales— tienen que exigirse. Para F7: una pantalla para las constancias de borrado y el registro
+de descargas, que hoy solo se leen por SQL.
 
 **El manual** para el negocio es `docs/clientes.md`: quién hace qué, cómo registrar con el texto del
 permiso, qué hace el repartidor en la puerta, zonas, qué hacer si un cliente pide borrar sus datos,
