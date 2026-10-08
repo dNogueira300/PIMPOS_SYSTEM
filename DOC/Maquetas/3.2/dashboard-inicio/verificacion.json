@@ -1,0 +1,166 @@
+{
+  "kind": "maqueta estática, no regresión de producto",
+  "base": "429a25d",
+  "records": [
+    {
+      "width": 375,
+      "overflow": false,
+      "fontLoaded": true,
+      "brokenImages": 0,
+      "notices": [
+        {
+          "label": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "label": "20 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "label": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "sections": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "changes": 5,
+      "blue": [],
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "width": 390,
+      "overflow": false,
+      "fontLoaded": true,
+      "brokenImages": 0,
+      "notices": [
+        {
+          "label": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "label": "20 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "label": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "sections": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "changes": 5,
+      "blue": [],
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "width": 768,
+      "overflow": false,
+      "fontLoaded": true,
+      "brokenImages": 0,
+      "notices": [
+        {
+          "label": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "label": "20 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "label": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "sections": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "changes": 5,
+      "blue": [],
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "width": 1024,
+      "overflow": false,
+      "fontLoaded": true,
+      "brokenImages": 0,
+      "notices": [
+        {
+          "label": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "label": "20 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "label": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "sections": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "changes": 5,
+      "blue": [],
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "width": 1440,
+      "overflow": false,
+      "fontLoaded": true,
+      "brokenImages": 0,
+      "notices": [
+        {
+          "label": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "label": "20 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "label": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "sections": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "changes": 5,
+      "blue": [],
+      "smallControls": [],
+      "axe": []
+    }
+  ]
+}

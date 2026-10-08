@@ -1238,8 +1238,14 @@ Las reglas visuales que siguen documentan la implementación vigente; no obligan
 La dirección A fue elegida el 07/10/2026. Su primer bloque (T1/T2) está implementado en la rama
 `feat/rediseno-acceso-panel`, verificado localmente y en el PR #90, fusionado por Dan el 08/10/2026
 (main `c1f9582`). Incluye tokens globales, login circular/ondulado centrado en móvil, marca del panel
-y controles compartidos. El segundo bloque (T3/T4) está implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`,
-desde ese main, reutilizando el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. T5–T7 siguen pendientes.
+y controles compartidos. El segundo bloque (T3/T4) fue fusionado por Dan en PR #91 el 08/10/2026,
+main `429a25d`. Dan acepta lo implementado y pide mejorar el inicio administrativo como dashboard,
+sin cambiar funcionalidad, dentro de la próxima entrega. El plan incorpora T4.1: PR 3 será T4.1 + T5
+(dashboard y estructura pública/portada); PR 4, T6; PR 5, T7. Se reutiliza `PIMPOS_REDISENO_BLOQUE1`
+en `feat/rediseno-portada-dashboard` desde ese main. La propuesta visual está en
+`DOC/Maquetas/3.2/dashboard-inicio/index.html`, pendiente de revisión de Dan; no se ha implementado.
+Solo reorganiza avisos existentes, accesos por rol y los cinco cambios recientes. No añade métricas,
+gráficos, acciones, consultas ni funciones. T4.1 y T5–T7 siguen pendientes.
 
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
 el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.
@@ -1263,7 +1269,7 @@ tapiz con menor intensidad:** opacidad del trazo de 16 % a 11 %. Solo público; 
 El registro `comparacion.json` conserva paridad de controles y 212 barridos de estilos visibles sin
 azul. No confundir ese alcance con regresión funcional o accesibilidad completa. B y los bocetos
 anteriores son históricos, no la dirección vigente. El plan está en
-`DOC/Plan de Desarrollo 03.2 - Rediseño integral UI UX.md`: cuatro entregas, empezando por login y
+`DOC/Plan de Desarrollo 03.2 - Rediseño integral UI UX.md`: cinco entregas tras el ajuste del dashboard, empezando por login y
 cáscara del panel, después sus módulos, sitio público y cierre transversal. Conserva toda
 funcionalidad. Plan redactado el 07/10/2026; bloque 1 implementado y verificado localmente el 08/10.
 Resultados: `DOC/Verificacion rediseño 03.2 - Bloque 1.md`. Capturas del build, no maquetas con CSS

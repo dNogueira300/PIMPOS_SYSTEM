@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pimpo’s — propuesta de dashboard</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f7f5f0;
+        color: #28251f;
+        font:
+          15px/1.5 system-ui,
+          sans-serif;
+      }
+      header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #d9d4ca;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      p {
+        margin: 8px 0 16px;
+        color: #59554e;
+        max-width: 90ch;
+      }
+      .controls {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      label {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      select {
+        font: inherit;
+        color: #28251f;
+        background: white;
+        border: 1px solid #837b70;
+        border-radius: 6px;
+        min-height: 44px;
+        padding: 8px 12px;
+      }
+      select:focus-visible {
+        outline: 2px solid #953e2c;
+        outline-offset: 3px;
+      }
+      .stage {
+        padding: 20px 24px;
+        overflow: auto;
+      }
+      .frames {
+        display: grid;
+        gap: 24px;
+        width: max-content;
+      }
+      .comparison .frames {
+        grid-template-columns: repeat(2, max-content);
+      }
+      h2 {
+        font-size: 16px;
+        margin: 0 0 10px;
+      }
+      .frame {
+        background: white;
+        border: 1px solid #d9d4ca;
+        border-radius: 6px;
+        overflow: hidden;
+        width: 1440px;
+      }
+      iframe {
+        display: block;
+        width: 100%;
+        height: 1000px;
+        border: 0;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      aside {
+        font-size: 13px;
+        color: #59554e;
+        padding: 0 24px 20px;
+      }
+      button {
+        font: inherit;
+        min-height: 44px;
+        border: 1px solid #837b70;
+        background: white;
+        color: #28251f;
+        border-radius: 6px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 2px solid #953e2c;
+        outline-offset: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Inicio del panel — propuesta de dashboard</h1>
+      <p>
+        Maqueta para revisar. Mismos avisos, seis accesos y cinco cambios que la captura del bloque
+        2. Sus cifras son datos locales de prueba; los enlaces y botones no ejecutan acciones.
+      </p>
+      <div class="controls">
+        <label
+          >Tamaño<select id="width">
+            <option value="1440">Escritorio · 1440 px</option>
+            <option value="1024">1024 px</option>
+            <option value="768">768 px</option>
+            <option value="390">Móvil · 390 px</option>
+            <option value="375">375 px</option>
+          </select></label
+        ><label
+          >Vista<select id="mode">
+            <option value="proposal">Propuesta</option>
+            <option value="comparison">Actual y propuesta</option>
+          </select></label
+        ><button id="fit" type="button">Ajustar a la ventana</button>
+      </div>
+    </header>
+    <div class="stage">
+      <div class="frames">
+        <section id="before" hidden>
+          <h2>Actual · PR #91 fusionado</h2>
+          <div class="frame">
+            <img
+              id="base"
+              src="../bloque2/t3/inicio-administrador-1440.png"
+              alt="Inicio administrativo actual, captura local del bloque 2"
+            />
+          </div>
+        </section>
+        <section>
+          <h2>Propuesta · dashboard con la identidad A</h2>
+          <div class="frame">
+            <iframe
+              id="proposal"
+              title="Propuesta del inicio administrativo"
+              src="propuesta.html"
+            ></iframe>
+          </div>
+        </section>
+      </div>
+    </div>
+    <aside>
+      A 390 y 1440 px, la comparación usa capturas del mismo estado local. A 375, 768 y 1024 px, el
+      lado actual muestra la captura móvil/escritorio más cercana: no constituye una comparación
+      exacta a esos anchos.
+    </aside>
+    <script>
+      const width = document.querySelector("#width"),
+        mode = document.querySelector("#mode");
+      function update() {
+        const w = Number(width.value);
+        document.querySelectorAll(".frame").forEach((f) => (f.style.width = w + "px"));
+        document.querySelector("#proposal").style.height = (w < 768 ? 844 : 1000) + "px";
+        document.querySelector("#base").src =
+          "../bloque2/t3/inicio-administrador-" + (w < 768 ? 390 : 1440) + ".png";
+        document.querySelector("#before").hidden = mode.value !== "comparison";
+        document.body.classList.toggle("comparison", mode.value === "comparison");
+      }
+      const params = new URLSearchParams(location.search);
+      if ([...width.options].some((o) => o.value === params.get("width")))
+        width.value = params.get("width");
+      if (params.get("compare") === "1") mode.value = "comparison";
+      width.addEventListener("change", update);
+      mode.addEventListener("change", update);
+      document.querySelector("#fit").addEventListener("click", () => {
+        const available = window.innerWidth - 48;
+        width.value =
+          available >= 1440
+            ? "1440"
+            : available >= 1024
+              ? "1024"
+              : available >= 768
+                ? "768"
+                : available >= 390
+                  ? "390"
+                  : "375";
+        update();
+      });
+      update();
+    </script>
+  </body>
+</html>

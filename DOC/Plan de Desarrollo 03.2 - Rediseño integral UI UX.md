@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`, base `c1f9582`; preparado para PR 2 en borrador y revisión de Dan. T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. No fusionar el segundo bloque sin revisión de Dan.
+**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) fusionado por Dan en PR #91 el mismo día, main `429a25d`. Dan acepta lo implementado y pide incorporar un inicio administrativo con composición de dashboard en la siguiente entrega. Se añade T4.1, sin alterar la numeración ni los contratos de T5–T7. Próximo bloque: T4.1 + T5, en `feat/rediseno-portada-dashboard`, desde ese main. Maqueta de T4.1 preparada para revisión visual en `DOC/Maquetas/3.2/dashboard-inicio/`; aún no implementada ni aprobada. T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`.
 
 ## Restricciones globales
 
@@ -58,12 +58,13 @@ El tapiz no se coloca en login, panel, cabecera, fotos ni bloques sólidos de ll
 
 ## Organización y revisión de entregas
 
-| Entrega | Tareas  | Resultado verificable                                                         |
-| ------- | ------- | ----------------------------------------------------------------------------- |
-| PR 1    | T1 + T2 | Identidad, login y estructura del panel, con controles compartidos coherentes |
-| PR 2    | T3 + T4 | Módulos completos del panel, incluyendo detalles, formularios y permisos      |
-| PR 3    | T5 + T6 | Sitio público completo con tapiz aprobado y catálogo funcional                |
-| PR 4    | T7      | Regresión final, comparación visual, accesibilidad y rendimiento              |
+| Entrega | Tareas    | Resultado verificable                                                           |
+| ------- | --------- | ------------------------------------------------------------------------------- |
+| PR 1    | T1 + T2   | Identidad, login y estructura del panel, con controles compartidos coherentes   |
+| PR 2    | T3 + T4   | Módulos completos del panel, incluyendo detalles, formularios y permisos        |
+| PR 3    | T4.1 + T5 | Inicio del panel como dashboard y estructura pública/portada con tapiz aprobado |
+| PR 4    | T6        | Catálogo, detalles y páginas públicas restantes                                 |
+| PR 5    | T7        | Regresión final, comparación visual, accesibilidad y rendimiento                |
 
 Máximo dos tareas sin migración por PR. Cada tarea tiene su propia comprobación; cada PR, revisión independiente. Arreglar hallazgos importantes y parar al abrir el PR hasta la revisión/fusión de Dan. No preparar la siguiente entrega dejando archivos sin commit en la rama anterior. Commits convencionales en español, sin atribución de IA. No abrir un PR vacío solo para cumplir la tabla: la entrega de cierre incorpora evidencias, documentación y correcciones que resulten necesarias.
 
@@ -198,6 +199,24 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 
 **Resultado local de T4:** 91 capturas sin incidencias; suites requeridas aprobadas. Revisión independiente sin Critical/Important, con M1 de corte de unidades a 768 px diferido a T7. La casilla final conserva pendiente el teclado móvil físico, el zoom nativo y la apertura/revisión del PR; ver `DOC/Verificacion rediseño 03.2 - Bloque 2.md`.
 
+## T4.1 — Inicio administrativo como dashboard
+
+**Solicitud de Dan, 08/10/2026, después de fusionar PR #91:** mejorar la composición del inicio del panel y hacerlo tipo dashboard dentro de la próxima entrega. Se conserva la identidad A y toda funcionalidad. La modificación de alcance divide el sitio público entre PR 3 y PR 4 para respetar el máximo de dos tareas por PR; el cierre pasa a PR 5.
+
+**Archivos:** `src/app/(admin)/admin/page.tsx`; componente de presentación local de inicio si facilita la composición. No modificar `contarAvisos`, `ultimosCambios`, `resolverNombres`, `seccionesPara`, autenticación ni consultas para conseguir el diseño. No cambiar el aspecto de todas las listas de historial por una corrección exclusiva del inicio.
+
+**Interfaces:** mismos `avisos`, `secciones`, `recientes`, `nombres`, sesión y `motivo`; mismos enlaces, parámetros, orden de avisos y límites de cinco cambios. Conservar `data-aviso`, `data-seccion`, `data-actividad-reciente`, `data-cambio`, nombres accesibles y condiciones por rol. Si se destacan las cantidades de los avisos, usar el texto existente sin añadir cuentas o cambiar su significado; si no admite separación segura, mostrarlo íntegro.
+
+**Diseño propuesto:** «Para revisar» con cantidades destacadas y tarjetas enlazadas; «Tus secciones» con iconos existentes y ayudas de lectura; actividad reciente en una columna contigua en escritorio. En móvil, apilar avisos, secciones y actividad, con espacios de seguridad para la barra inferior. Radios de 6 px, Jakarta, crema y terracota; sin tapiz en el panel. La maqueta usa el mismo estado local del inicio administrativo capturado en el bloque 2, no datos inventados de ventas, producción o rendimiento.
+
+- [ ] Revisar con Dan la maqueta comparable `DOC/Maquetas/3.2/dashboard-inicio/index.html` antes de implementar la nueva composición. Aprobación de PR #91 no equivale a aprobación de esta maqueta posterior.
+- [ ] Conservar capturas de la base `429a25d`; comprobar avisos presentes/ausentes, historial presente/ausente, `motivo=sin-acceso` y roles administrador, ingeniero y repartidor. No mostrar secciones ni actividad restringidas para llenar espacios del dashboard.
+- [ ] Aplicar el diseño a la presentación. Mantener el encabezado «Inicio», todos los destinos y textos de aviso, la actividad dinámica y «Ver todo el historial» bajo las mismas condiciones. No añadir métricas, gráficos, filtros, acciones ni consultas.
+- [ ] Ejecutar `panel-cascara.spec.ts`, `panel-historial.spec.ts`, `panel-accesibilidad.spec.ts` y las pruebas de avisos de `panel-insumos.spec.ts`, `panel-bajas.spec.ts`, `panel-novedades.spec.ts` y `panel-clientes-administracion.spec.ts` con un trabajador. Usar los casos existentes por rol; añadir una comprobación únicamente si queda un riesgo observable sin cobertura.
+- [ ] Capturar el build a 375/390/768/1024/1440, revisar contraste, teclado/foco, enlaces, texto largo, zoom y ausencia de azul/desbordamientos. Mantener pendiente explícito cualquier control físico no realizado. Typecheck/lint y commit propio de T4.1; revisión independiente conjunta con T5 antes de PR 3.
+
+**Fuera del alcance:** ventas, ingresos, totales de clientes/productos, tendencias o gráficos nuevos; acciones directas nuevas de alta/registro; cambios de permisos o resumen de auditoría distinto del existente.
+
 ## T5 — Estructura pública y portada
 
 **Archivos:** `src/components/publico/{cascara-publica,cabecera,pie,carrusel-portada,portada-movil,estado-ahora,barra-aviso,boton-whatsapp,enlace-whatsapp}.tsx`, `src/app/(public)/page.tsx`, `src/estilos/globals.css`; crear `public/marca/tapiz-panaderia.svg` copiando el aprobado.
@@ -251,7 +270,7 @@ className = "mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:
 - [ ] Mantener mapa, contacto, guías, preguntas, testimonios y novedades condicionales. Dar el mismo tratamiento tipográfico a vacíos, error, carga y 404; preservar mensajes, enlaces de recuperación y límites de error.
 - [ ] Revisar que cabecera/pie/tapiz cubran la página entera sin uniones de estilos anteriores. Confirmar que imágenes mantienen proporciones, foco de recorte configurable y carga optimizada. Conservar títulos, descripciones, canónicas, sitemap y datos estructurados.
 - [ ] Ejecutar E2E `presentaciones`, `pedido`, `pizarra`, `presupuesto`, `secciones`, `testimonios`, `mapa`, `errores`, `seo`, `accesibilidad` (archivos `.spec.ts`). Mantener comprobaciones de precio, mensaje WhatsApp y query params.
-- [ ] Comparar catálogo contra A y capturar detalle/estados a 390/1440; revisar tamaños intermedios y zoom. Commit de T6, revisión independiente y PR 3.
+- [ ] Comparar catálogo contra A y capturar detalle/estados a 390/1440; revisar tamaños intermedios y zoom. Commit de T6, revisión independiente y PR 4.
 
 ## T7 — Cierre y evidencia del sistema completo
 
@@ -269,7 +288,7 @@ rg -n 'blue-|sky-|cyan-|pimpos-azul|#12306[eE]|#0060[aA]8' src
 - [ ] Comprobar axe público/panel, navegación completa con teclado, foco tras cerrar diálogos, 200 % zoom, reduced motion e impresión. Las correcciones visuales no justifican bajar umbrales ni eliminar reglas de axe.
 - [ ] Medir Lighthouse de `/`, `/productos` y `/contacto` contra el commit base en la misma máquina, sesión y condiciones; seguir `scripts/medir-lighthouse.mjs` y los umbrales vigentes. Exigir diferencia mediana no peor de 3 puntos y analizar variabilidad antes de atribuirla al cambio. Revisar LCP/CLS, fuentes e imágenes; si falla, corregir antes del cierre.
 - [ ] Confirmar diff sin cambios funcionales ni de base. No exigir nuevas pruebas SQL para CSS; conservar el resultado del CI requerido por el repositorio. Cualquier alteración accidental de consulta, autorización o cálculo se revierte, no se convierte en alcance nuevo.
-- [ ] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 4. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
+- [ ] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 5. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
 
 ## Protocolo de verificación por tarea
 
