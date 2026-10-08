@@ -10,7 +10,7 @@ import { formatearSoles } from "@/lib/insumos/formato-reporte";
  * pantalla (`aria-hidden`): la tabla de al lado dice lo mismo con números.
  *
  * Sigue la skill `dataviz`: una sola serie no necesita leyenda (el título ya
- * la nombra) ni una paleta categórica — la barra usa el único azul primario
+ * la nombra) ni una paleta categórica — la barra usa el terracota primario
  * del sistema (`--primary`). Como son como mucho diez barras (`primeros()` en
  * `reportes.ts`), la etiqueta de valor en cada una es una etiqueta directa
  * selectiva, no "un número en cada punto" de una serie densa; va en el color
@@ -56,7 +56,7 @@ export function GraficoBarras({
               contentStyle={{
                 background: "var(--card)",
                 border: "1px solid var(--border)",
-                borderRadius: 8,
+                borderRadius: 6,
                 fontSize: 12,
               }}
             />

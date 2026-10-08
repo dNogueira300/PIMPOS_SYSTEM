@@ -12,7 +12,7 @@ type Props = {
 };
 
 const CIRCULO =
-  "text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-full";
+  "text-primary hover:bg-primary/10 inline-flex size-11 items-center justify-center rounded-md";
 
 /** Decisión 7: la ruta de reparto es la lista con estos tres botones. */
 export function BotonesContacto({ nombre, celular, latitud, longitud, grande = false }: Props) {

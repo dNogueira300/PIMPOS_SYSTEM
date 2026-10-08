@@ -40,14 +40,17 @@ export function TablaReporte({ reporte }: { reporte: Reporte }) {
       reporte.slug === "kardex" && columnas.length === 0
         ? "Elige un insumo para ver su kárdex."
         : "No hay datos en ese periodo.";
-    return <p className="bg-card rounded-xl border p-6 text-center">{texto}</p>;
+    return <p className="bg-card rounded-md border p-6 text-center">{texto}</p>;
   }
   const [principal, ...resto] = columnas;
   return (
     <>
-      <ul aria-label={titulo} className="flex flex-col gap-2 md:hidden">
+      <ul
+        aria-label={titulo}
+        className="border-border bg-card divide-border divide-y rounded-md border md:hidden"
+      >
         {filas.map((f, i) => (
-          <li key={i} className="bg-card rounded-xl border p-3 text-sm">
+          <li key={i} className="p-4 text-sm wrap-anywhere">
             <p className="font-semibold">
               {celda(f[principal!.clave] ?? null, principal!, sinCosto[i] ?? false)}
             </p>
@@ -62,7 +65,7 @@ export function TablaReporte({ reporte }: { reporte: Reporte }) {
           </li>
         ))}
       </ul>
-      <table className="bg-card hidden w-full rounded-xl border text-sm md:table">
+      <table className="bg-card hidden w-full rounded-md border text-sm md:table">
         <caption className="sr-only">{titulo}</caption>
         <thead>
           <tr>
@@ -79,11 +82,11 @@ export function TablaReporte({ reporte }: { reporte: Reporte }) {
         </thead>
         <tbody>
           {filas.map((f, i) => (
-            <tr key={i} className="border-t">
+            <tr key={i} className="border-border even:bg-muted/40 hover:bg-muted/60 border-t">
               {columnas.map((c) => (
                 <td
                   key={c.clave}
-                  className={`p-2 ${c.tipo === "texto" ? "" : "text-right tabular-nums"}`}
+                  className={`p-3 wrap-anywhere ${c.tipo === "texto" ? "" : "text-right tabular-nums"}`}
                 >
                   {celda(f[c.clave] ?? null, c, sinCosto[i] ?? false)}
                 </td>

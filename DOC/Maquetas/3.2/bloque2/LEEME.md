@@ -4,6 +4,12 @@ La galería `index.html` compara las capturas del build real con la maqueta A ap
 y con la base `c1f9582`. El inventario identifica 58 páginas; los manifiestos relacionan
 cada captura con su ruta, rol, ancho, controles, imágenes, geometría y resultado de axe.
 
+Resultado local final: 89 capturas T3 + 91 T4; cero rutas omitidas, desbordamientos,
+infracciones de axe, azul de interfaz o imágenes pendientes. Los diálogos T4 usan el
+viewport real para evitar el desplazamiento de elementos fijos al capturar una página larga.
+Los colores de las teselas cartográficas se conservan. Resultados y límites completos
+en `../../../Verificacion rediseño 03.2 - Bloque 2.md`; salidas de comprobaciones en `pruebas/`.
+
 `base/` contiene 18 capturas seleccionadas de la ejecución inicial autenticada.
 Su manifiesto original registra 28 capturas y la limpieza de sus tres cuentas; las otras
 diez no se duplican aquí. A permanece en `../../comparacion-redisenio/pantallas/`.

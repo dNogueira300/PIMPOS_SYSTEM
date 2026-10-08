@@ -107,7 +107,7 @@ export function BorrarFotosQueQuedaron({ id, cuantas }: { id: string; cuantas: n
   const router = useRouter();
   const [pendiente, iniciar] = useTransition();
   return (
-    <div role="status" className="bg-alerta/15 mt-4 flex flex-col gap-3 rounded-xl p-4 text-sm">
+    <div role="status" className="bg-alerta/15 mt-4 flex flex-col gap-3 rounded-md p-4 text-sm">
       <p>
         {cuantas === 1
           ? "Queda 1 foto de su casa guardada en el sistema."

@@ -172,8 +172,12 @@ async function shot(page, name, requested, role, width, options = {}) {
     name.startsWith("clientes-mapa");
   if (mapRequested)
     await page.locator(".leaflet-container:visible").first().waitFor({ state: "visible" });
-  for (const map of await page.locator(".leaflet-container:visible").all())
-    await map.locator(".leaflet-pane").first().waitFor({ state: "visible" });
+  for (const map of await page.locator(".leaflet-container:visible").all()) {
+    // Los panes son contenedores absolutos sin dimensiones propias. La
+    // atribución visible y las teselas insertadas confirman la inicialización.
+    await map.locator(".leaflet-control-attribution").waitFor({ state: "visible" });
+    await map.locator(".leaflet-tile").first().waitFor({ state: "attached" });
+  }
   await page.waitForFunction(() =>
     [...document.querySelectorAll(".leaflet-container img")]
       .filter((i) => i.getClientRects().length)
@@ -189,11 +193,10 @@ async function shot(page, name, requested, role, width, options = {}) {
     height: innerHeight,
     scrollWidth: document.documentElement.scrollWidth,
     h1: document.querySelector("main h1")?.textContent,
-    controls: [
-      ...document.querySelectorAll(
-        "main input:not([type=hidden]),main textarea,main select,main button,main a",
-      ),
-    ]
+    controls: [...document.querySelectorAll("main,[role=dialog],[role=alertdialog]")]
+      .flatMap((container) => [
+        ...container.querySelectorAll("input:not([type=hidden]),textarea,select,button,a"),
+      ])
       .filter((e) => e.getClientRects().length)
       .map((e) => ({
         name: e.getAttribute("name") ?? e.getAttribute("aria-label") ?? e.textContent,
@@ -203,7 +206,9 @@ async function shot(page, name, requested, role, width, options = {}) {
     images: [...document.images]
       .filter((i) => i.getClientRects().length)
       .map((i) => ({ alt: i.alt, loaded: i.complete && i.naturalWidth > 0 })),
-    blueStyles: [...document.querySelectorAll("main *,aside *,header *,[role=dialog] *")]
+    blueStyles: [
+      ...document.querySelectorAll("main *,aside *,header *,[role=dialog] *,[role=alertdialog] *"),
+    ]
       .filter((e) => e.getClientRects().length)
       .flatMap((e) =>
         ["color", "backgroundColor", "borderTopColor", "outlineColor", "fill", "stroke"].flatMap(
@@ -217,13 +222,15 @@ async function shot(page, name, requested, role, width, options = {}) {
         ),
       ),
   }));
-  await page.screenshot({ path: path.join(out, name + ".png"), fullPage: true });
+  const fullPage = options.fullPage ?? true;
+  await page.screenshot({ path: path.join(out, name + ".png"), fullPage });
   const axe = await new AxeBuilder({ page }).analyze();
   const item = {
     name,
     requested,
     role,
     ...measured,
+    fullPage,
     axe: axe.violations.map((v) => ({ id: v.id, targets: v.nodes.map((n) => n.target) })),
     note: options.note,
   };
@@ -400,7 +407,11 @@ async function specialT4(page, role) {
         `/admin/clientes/${clientId}`,
         role,
         width,
-        { current: true, note: "Diálogo cancelado; no se borra ningún cliente." },
+        {
+          current: true,
+          fullPage: false,
+          note: "Diálogo en el viewport real y cancelado; no se borra ningún cliente.",
+        },
       );
       await page.getByRole("button", { name: "No, dejarlo", exact: true }).click();
     }

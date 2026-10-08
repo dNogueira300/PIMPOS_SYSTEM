@@ -182,9 +182,9 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 
 **Interfaces:** mismos formularios, consultas y callbacks. Las series del gráfico conservan valores/etiquetas; solo cambian colores con contraste y leyenda inequívoca. No tocar FEFO, redondeos, lotes, cálculos, coordenadas, consentimiento, URLs firmadas ni exportadores.
 
-- [ ] Capturar y aplicar A a catálogo de insumos, ficha/kárdex, alta/edición, ingreso, consumo, conteo, bajas/aprobación, proveedores y cada reporte existente. Revisar varias líneas de movimiento y errores por cantidad.
-- [ ] Capturar y aplicar A a lista/mapa de clientes, alta, ficha, edición, corrección por repartidor, zonas y Para revisar. Conservar selector de ubicación, carga de fotos, advertencias de duplicados y permiso obligatorio.
-- [ ] Mantener tablas semánticas o la lista adaptable existente. Para desbordamiento de una tabla ancha, usar su contenedor local y conservar encabezados; no producir scroll horizontal de toda la página:
+- [x] Capturar y aplicar A a catálogo de insumos, ficha/kárdex, alta/edición, ingreso, consumo, conteo, bajas/aprobación, proveedores y cada reporte existente. Revisar varias líneas de movimiento y errores por cantidad.
+- [x] Capturar y aplicar A a lista/mapa de clientes, alta, ficha, edición, corrección por repartidor, zonas y Para revisar. Conservar selector de ubicación, carga de fotos, advertencias de duplicados y permiso obligatorio.
+- [x] Mantener tablas semánticas o la lista adaptable existente. Para desbordamiento de una tabla ancha, usar su contenedor local y conservar encabezados; no producir scroll horizontal de toda la página:
 
 ```tsx
 <div className="max-w-full overflow-x-auto">
@@ -192,8 +192,8 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 </div>
 ```
 
-- [ ] Probar que el repartidor conserva exactamente sus campos de corrección y el administrador sus acciones; guardar, volver a abrir y comparar datos en las suites existentes. Verificar menú Más y todas las pestañas, no solo la primera del prototipo.
-- [ ] Ejecutar E2E `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`, `panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`, `panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`, `panel-accesibilidad` (archivos `.spec.ts`), por tandas de un trabajador.
+- [x] Probar que el repartidor conserva exactamente sus campos de corrección y el administrador sus acciones; guardar, volver a abrir y comparar datos en las suites existentes. Verificar menú Más y todas las pestañas, no solo la primera del prototipo.
+- [x] Ejecutar E2E `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`, `panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`, `panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`, `panel-accesibilidad` (archivos `.spec.ts`), por tandas de un trabajador.
 - [ ] Comparar A de insumos/ingreso/cliente-nuevo y añadir mapa/ficha, diálogo de borrado, reporte y estados de error. Revisar manualmente teclado móvil al final del formulario. Commit de T4, revisión independiente y PR 2.
 
 ## T5 — Estructura pública y portada

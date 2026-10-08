@@ -7,12 +7,12 @@ export default function Reportes() {
   return (
     <>
       <EncabezadoPanel titulo="Reportes" volver={{ ruta: "/admin/insumos", nombre: "Insumos" }} />
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className="border-border grid gap-0 border-t sm:grid-cols-2">
         {Object.entries(REPORTES).map(([slug, r]) => (
           <li key={slug}>
             <Link
               href={`/admin/insumos/reportes/${slug}`}
-              className="tarjeta flex min-h-20 flex-col justify-center p-4"
+              className="border-border hover:bg-muted flex min-h-20 flex-col justify-center border-b px-3 py-5"
             >
               <span className="font-semibold">{r.titulo}</span>
               <span className="text-muted-foreground text-sm">{r.descripcion}</span>

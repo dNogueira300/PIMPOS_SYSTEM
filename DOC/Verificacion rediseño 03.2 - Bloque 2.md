@@ -2,7 +2,8 @@
 
 Fecha: 08/10/2026. Base: `c1f9582` (PR #90 fusionado por Dan).
 Rama: `feat/rediseno-modulos-panel`. Checkout aislado: `PIMPOS_REDISENO_BLOQUE1`.
-Alcance: T3 + T4; T5–T7 siguen pendientes. Estado: implementación y verificación en curso.
+Alcance: T3 + T4; T5–T7 siguen pendientes. Estado: implementación y verificación local
+completadas; revisión independiente y PR pendientes.
 
 ## Resultado
 
@@ -18,20 +19,29 @@ locales se restauran con el mecanismo existente y los errores abren su pestaña 
 
 ## Comprobaciones
 
-| Comprobación                              | Resultado                                                           |
-| ----------------------------------------- | ------------------------------------------------------------------- |
-| T3: build de producción y tipos           | Aprobados; 113 páginas estáticas                                    |
-| T3: ESLint completo                       | Aprobado sin advertencias                                           |
-| T3: ocho suites E2E, un trabajador        | 254 aprobadas, 14 omisiones previstas, 0 fallos (10,7 minutos)      |
-| T3: evidencia autenticada                 | 89 capturas; 0 overflow, axe, azul, imágenes pendientes u omisiones |
-| T4: build, tipos, regresiones y evidencia | Pendientes                                                          |
-| Revisión independiente de la rama         | Pendiente                                                           |
-| Vista previa Vercel                       | Pendiente                                                           |
+| Comprobación                       | Resultado                                                           |
+| ---------------------------------- | ------------------------------------------------------------------- |
+| T3: build de producción y tipos    | Aprobados; 113 páginas estáticas                                    |
+| T3: ESLint completo                | Aprobado sin advertencias                                           |
+| T3: ocho suites E2E, un trabajador | 254 aprobadas, 14 omisiones previstas, 0 fallos (10,7 minutos)      |
+| T3: evidencia autenticada          | 89 capturas; 0 overflow, axe, azul, imágenes pendientes u omisiones |
+| T4: build y tipos                  | Aprobados; `next typegen` y `tsc --noEmit` también pasan            |
+| T4: siete suites de insumos        | 24 aprobadas, 20 omisiones previstas, 0 fallos (1,1 minutos)        |
+| T4: clientes y accesibilidad       | 206 aprobadas, 24 omisiones previstas, 0 fallos (9,5 minutos)       |
+| T4: evidencia autenticada          | 91 capturas; 0 overflow, axe, azul, imágenes pendientes u omisiones |
+| Revisión independiente de la rama  | Pendiente                                                           |
+| Vista previa Vercel                | Pendiente                                                           |
 
 Suites T3: `panel-contenido`, `panel-categorias`, `panel-productos`, `panel-novedades`,
 `panel-configuracion`, `panel-usuarios`, `panel-historial`, `panel-accesibilidad`.
 Las omisiones corresponden a condiciones declaradas por las suites; no se agregan omisiones,
 se reducen expectativas ni se excluyen reglas de axe durante este bloque.
+
+Suites T4: `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`,
+`panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`,
+`panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`
+y `panel-accesibilidad`. Las omisiones evitan repetir en escritorio los flujos que escriben
+en la base compartida y los casos declarados por la suite; los archivos se ejecutaron completos.
 
 La comparación del AST de 45 archivos TSX contra la base identifica cuatro diferencias
 fuera de atributos de presentación: radio de la constante de botones de contacto, radio
@@ -71,6 +81,16 @@ T3: 89 capturas finales del build, incluidos anchos 375/768/1024 y estados de er
 vacío, marca, horarios, varias unidades e Historial extenso. La limpieza final eliminó
 las dos cuentas, un producto y una novedad temporales; cero errores de limpieza.
 
+T4: 91 capturas finales, incluidos los cinco reportes, mapas y ficha, formulario de varias
+líneas, error, permiso, corrección del repartidor y borrado cancelado. Los diálogos se
+capturan en el viewport real; `fullPage` queda registrado en el manifiesto. Las métricas
+incluyen también controles y colores de portales. La limpieza final eliminó las tres
+cuentas y un cliente temporales; cero errores. Total: 180 capturas finales, sin rutas omitidas.
+
+Se revisaron visualmente las composiciones de inicio, Historial, configuración, nuevo
+producto, insumos, ingreso y nuevo cliente frente a A, así como detalles y diálogos.
+La cartografía conserva sus colores propios; el crédito y sus enlaces mantienen sus destinos.
+
 El guion `scripts/capturar-modulos-redisenio.cjs` rechaza una API que no sea `127.0.0.1`.
 Las cuentas y registros temporales tienen limpieza al terminar, con recuentos y errores
 explícitos. La auditoría de esas operaciones locales se conserva. No se utiliza producción
@@ -95,6 +115,10 @@ Altura reducida y zoom CSS son evidencia complementaria y no sustituyen esas com
 7. Esperar DOM, contenido, fuentes e imágenes para capturar, en lugar de `networkidle`.
    El formulario estaba disponible mientras seguían solicitudes abiertas. Coste: condiciones
    explícitas de preparación y revisión visual; las suites funcionales no cambian.
+8. Ejecutar las herramientas locales equivalentes directamente. Corepack no resolvió pnpm
+   dentro del sandbox y, fuera, pnpm intentó sincronizar las dependencias enlazadas antes
+   de comprobar tipos; se detuvo solo ese proceso. Coste: no se invoca literalmente pnpm;
+   se ejecutan `next typegen`, `tsc`, ESLint, Prettier y Vitest, y CI conserva sus comandos.
 
 ## Revisión independiente
 

@@ -63,7 +63,7 @@ export function MapaClientes({ clientes }: { clientes: Punto[] }) {
   return (
     <div
       ref={contenedor}
-      className="isolate h-[60vh] min-h-72 w-full overflow-hidden rounded-xl border"
+      className="isolate h-[60vh] min-h-72 w-full overflow-hidden rounded-md border"
       data-mapa-clientes
       role="region"
       aria-label="Mapa de clientes"

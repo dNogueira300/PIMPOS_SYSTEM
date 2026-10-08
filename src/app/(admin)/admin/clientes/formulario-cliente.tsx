@@ -82,7 +82,7 @@ export function FormularioCliente({ cliente, zonas, textoPermiso, pestana }: Pro
                 {repetido ? (
                   <p
                     role="status"
-                    className="bg-muted rounded-xl p-3 text-sm"
+                    className="bg-muted rounded-md p-3 text-sm"
                     data-celular-repetido
                   >
                     Este celular ya es de {repetido.nombre}
@@ -159,7 +159,7 @@ export function FormularioCliente({ cliente, zonas, textoPermiso, pestana }: Pro
             ) : (
               <>
                 <p
-                  className="bg-card rounded-xl border p-4 text-lg leading-relaxed"
+                  className="bg-card rounded-md border p-4 text-lg leading-relaxed"
                   data-texto-permiso
                 >
                   {textoPermiso}

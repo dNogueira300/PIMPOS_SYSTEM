@@ -1,0 +1,59 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:2108) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 44 tests using 1 worker
+
+(node:8472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda (809ms)
+  ok  2 [movil] › e2e\panel-bajas.spec.ts:21:5 › el ingeniero pide, el administrador aprueba y el saldo baja (5.7s)
+  ok  3 [movil] › e2e\panel-bajas.spec.ts:48:5 › un rechazo llega con su comentario (4.1s)
+  ok  4 [movil] › e2e\panel-bajas.spec.ts:74:5 › una baja puede nombrar su lote, y al aprobarla sale de ese y no del que vence primero (4.5s)
+  ok  5 [movil] › e2e\panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla (2.7s)
+  ok  6 [movil] › e2e\panel-exportar.spec.ts:39:5 › el PDF se descarga (2.3s)
+  ok  7 [movil] › e2e\panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla (2.4s)
+  ok  8 [movil] › e2e\panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo (1.8s)
+  ok  9 [movil] › e2e\panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar (244ms)
+  ok 10 [movil] › e2e\panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos (1.2s)
+  ok 11 [movil] › e2e\panel-insumos.spec.ts:7:5 › el ingeniero crea un insumo con su equivalencia y lo ve en Existencias (3.1s)
+  ok 12 [movil] › e2e\panel-insumos.spec.ts:48:5 › el repartidor no ve la sección de insumos (1.1s)
+  ok 13 [movil] › e2e\panel-kardex.spec.ts:11:5 › el administrador cuenta, ve el ajuste en el kárdex y lo anula (4.1s)
+  ok 14 [movil] › e2e\panel-kardex.spec.ts:38:5 › el ingeniero no ve Conteo ni Anular (2.2s)
+  ok 15 [movil] › e2e\panel-kardex.spec.ts:50:5 › en el conteo, cada precio dice de qué insumo es (1.6s)
+  ok 16 [movil] › e2e\panel-kardex.spec.ts:61:5 › la ficha enseña primero el lote que sale primero (el que vence antes) (2.8s)
+  ok 17 [movil] › e2e\panel-kardex.spec.ts:90:5 › el kárdex sin insumo pide elegirlo (1.7s)
+  ok 18 [movil] › e2e\panel-movimientos.spec.ts:24:5 › un ingreso de dos líneas sube el saldo y un consumo lo baja (4.3s)
+  ok 19 [movil] › e2e\panel-movimientos.spec.ts:78:5 › cambiar de un insumo perecible a uno que no vence no deja fecha en el lote (2.5s)
+  ok 20 [movil] › e2e\panel-movimientos.spec.ts:129:5 › un consumo que no alcanza dice cuánto hay (1.8s)
+  ok 21 [movil] › e2e\panel-reportes.spec.ts:11:5 › un consumo de hoy aparece en el reporte con su costo (3.1s)
+  ok 22 [movil] › e2e\panel-reportes.spec.ts:64:5 › existencias enseña el valor del almacén (2.0s)
+(node:8592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  23 [escritorio] › e2e\insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda
+  -  24 [escritorio] › e2e\panel-bajas.spec.ts:21:5 › el ingeniero pide, el administrador aprueba y el saldo baja
+  -  25 [escritorio] › e2e\panel-bajas.spec.ts:48:5 › un rechazo llega con su comentario
+  -  26 [escritorio] › e2e\panel-bajas.spec.ts:74:5 › una baja puede nombrar su lote, y al aprobarla sale de ese y no del que vence primero
+  -  27 [escritorio] › e2e\panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla
+  -  28 [escritorio] › e2e\panel-exportar.spec.ts:39:5 › el PDF se descarga
+  -  29 [escritorio] › e2e\panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla
+  -  30 [escritorio] › e2e\panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo
+  -  31 [escritorio] › e2e\panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar
+  -  32 [escritorio] › e2e\panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos
+  ok 33 [escritorio] › e2e\panel-insumos.spec.ts:7:5 › el ingeniero crea un insumo con su equivalencia y lo ve en Existencias (3.2s)
+  ok 34 [escritorio] › e2e\panel-insumos.spec.ts:48:5 › el repartidor no ve la sección de insumos (1.2s)
+  -  35 [escritorio] › e2e\panel-kardex.spec.ts:11:5 › el administrador cuenta, ve el ajuste en el kárdex y lo anula
+  -  36 [escritorio] › e2e\panel-kardex.spec.ts:38:5 › el ingeniero no ve Conteo ni Anular
+  -  37 [escritorio] › e2e\panel-kardex.spec.ts:50:5 › en el conteo, cada precio dice de qué insumo es
+  -  38 [escritorio] › e2e\panel-kardex.spec.ts:61:5 › la ficha enseña primero el lote que sale primero (el que vence antes)
+  -  39 [escritorio] › e2e\panel-kardex.spec.ts:90:5 › el kárdex sin insumo pide elegirlo
+  -  40 [escritorio] › e2e\panel-movimientos.spec.ts:24:5 › un ingreso de dos líneas sube el saldo y un consumo lo baja
+  -  41 [escritorio] › e2e\panel-movimientos.spec.ts:78:5 › cambiar de un insumo perecible a uno que no vence no deja fecha en el lote
+  -  42 [escritorio] › e2e\panel-movimientos.spec.ts:129:5 › un consumo que no alcanza dice cuánto hay
+  -  43 [escritorio] › e2e\panel-reportes.spec.ts:11:5 › un consumo de hoy aparece en el reporte con su costo
+  -  44 [escritorio] › e2e\panel-reportes.spec.ts:64:5 › existencias enseña el valor del almacén
+
+  20 skipped
+  24 passed (1.1m)

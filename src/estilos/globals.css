@@ -695,11 +695,33 @@
    esta en ninguna, y una regla dentro de `@layer` pierde contra cualquier regla
    sin capa, tenga la especificidad que tenga.
    ============================================================================= */
+.leaflet-container {
+  border-radius: var(--radius);
+}
+
 .leaflet-container .leaflet-control-zoom.leaflet-bar a {
   width: var(--area-tactil-min);
   height: var(--area-tactil-min);
   line-height: var(--area-tactil-min);
   font-size: 1.375rem;
+}
+
+/* Leaflet aporta enlaces azules fuera de las capas de Tailwind. La ficha y
+   la atribución conservan sus destinos, con la identidad y el foco de A. */
+.leaflet-container .leaflet-popup-content a,
+.leaflet-container .leaflet-control-attribution a {
+  color: var(--primary);
+}
+
+.leaflet-container a:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Se conserva el crédito enlazado a Leaflet; solo se oculta su SVG decorativo.
+   Leaflet fuerza display:inline !important en ese SVG. */
+.leaflet-container .leaflet-attribution-flag {
+  display: none !important;
 }
 
 /* La validación por teclado debe ser legible desde que aparece el aviso.

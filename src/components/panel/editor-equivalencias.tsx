@@ -63,7 +63,10 @@ export function EditorEquivalencias({
       </p>
       <input ref={oculto} type="hidden" name="equivalencias" value={valor} />
       {filas.map((f, i) => (
-        <div key={f.clave} className="flex flex-wrap items-end gap-2">
+        <div
+          key={f.clave}
+          className="bg-muted/40 border-border flex min-w-0 flex-wrap items-end gap-3 rounded-md border p-4"
+        >
           <label className="flex flex-col gap-1 text-sm">
             <span>Unidad {i + 1}</span>
             <select

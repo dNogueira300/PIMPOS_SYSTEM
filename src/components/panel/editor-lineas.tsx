@@ -99,7 +99,7 @@ export function EditorLineas({
         return (
           <div
             key={f.clave}
-            className="bg-card flex flex-col gap-3 rounded-xl border p-3"
+            className="bg-muted/40 border-border flex min-w-0 flex-col gap-3 rounded-md border p-4"
             data-linea={n}
           >
             <ControlLinea
