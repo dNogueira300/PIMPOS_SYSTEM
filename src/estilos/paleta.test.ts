@@ -15,7 +15,7 @@ import { AA, aCanales, contraste } from "@/lib/utilidades/contraste";
  * lector de pantalla meses despues.
  *
  * Desde la fase 3.1 (plan 03.1, tarea 2) la paleta es la del prototipo de
- * Stitch con el azul institucional. Las parejas nuevas —verde de WhatsApp,
+ * Stitch con el terracota de la dirección A. Las parejas nuevas —verde de WhatsApp,
  * terracota de la barra de aviso, franja durazno, el velo del hero— se suman a
  * las de F1, que se conservan: el tema oscuro y los colores de estado siguen
  * existiendo aunque la portada no los enseñe.
@@ -46,10 +46,10 @@ function mezclar(frente: string, fondo: string, alfa: number): string {
 }
 
 const c = {
-  azul900: primitivo("azul-900"),
-  azul800: primitivo("azul-800"),
-  azul600: primitivo("azul-600"),
-  azul200: primitivo("azul-200"),
+  accion800: primitivo("accion-800"),
+  accion900: primitivo("accion-900"),
+  foco700: primitivo("foco-700"),
+  accion200: primitivo("accion-200"),
   crema0: primitivo("crema-0"),
   crema50: primitivo("crema-50"),
   crema100: primitivo("crema-100"),
@@ -89,11 +89,11 @@ const PARES_CLARO: Par[] = [
   [c.tinta900, c.crema0, AA.texto, "texto sobre tarjetas y diálogos"],
   [c.tinta600, c.crema50, AA.texto, "texto secundario (muted-foreground) sobre el fondo"],
   [c.tinta600, c.crema100, AA.texto, "texto secundario sobre sección alterna"],
-  [c.azul900, c.crema50, AA.texto, "títulos y enlaces institucionales"],
-  [c.azul900, c.crema200, AA.texto, "títulos sobre sección apagada"],
-  [c.crema50, c.azul900, AA.texto, "texto sobre el botón azul"],
-  [c.crema50, c.azul800, AA.texto, "texto sobre el botón azul al pasar"],
-  [c.crema50, c.azul600, AA.texto, "texto sobre el azul de fachada"],
+  [c.accion800, c.crema50, AA.texto, "títulos y enlaces institucionales"],
+  [c.accion800, c.crema200, AA.texto, "títulos sobre sección apagada"],
+  [c.crema50, c.accion800, AA.texto, "texto sobre el botón principal"],
+  [c.crema50, c.accion900, AA.texto, "texto sobre el botón principal al pasar"],
+  [c.crema50, c.foco700, AA.texto, "texto sobre el foco terracota"],
   [c.tinta900, c.dorado500, AA.texto, "texto sobre un fondo dorado claro"],
   [c.crema50, c.dorado800, AA.texto, "texto sobre el botón marrón"],
   [c.crema50, c.dorado900, AA.texto, "texto sobre el botón marrón al pasar"],
@@ -105,7 +105,7 @@ const PARES_CLARO: Par[] = [
   [c.crema50, c.terracota800, AA.texto, "texto de la barra de aviso"],
   [c.tinta900, c.dorado300, AA.texto, "texto de la franja de confianza"],
   [mezclar(c.tinta900, c.dorado300, 0.8), c.dorado300, AA.texto, "detalle de la franja al 80 %"],
-  [c.azul900, VELO_SOBRE_NEGRO, AA.texto, "titular del hero sobre el velo, peor caso"],
+  [c.accion800, VELO_SOBRE_NEGRO, AA.texto, "titular del hero sobre el velo, peor caso"],
   [c.tinta600, VELO_SOBRE_NEGRO, AA.texto, "subtítulo del hero sobre el velo, peor caso"],
   [
     c.crema50,
@@ -117,15 +117,15 @@ const PARES_CLARO: Par[] = [
   [c.exito600, c.crema50, AA.texto, "mensajes de éxito"],
   [c.alerta600, c.crema50, AA.texto, "avisos de stock y vencimiento"],
   [c.tinta500, c.crema0, AA.interfaz, "bordes de campos y controles"],
-  [c.azul600, c.crema50, AA.interfaz, "anillo de foco"],
+  [c.foco700, c.crema50, AA.interfaz, "anillo de foco"],
 ];
 
 const PARES_OSCURO: Par[] = [
   [c.crema50, c.noche900, AA.texto, "texto principal sobre fondo oscuro"],
   [c.crema50, c.noche700, AA.texto, "texto sobre tarjeta oscura"],
   [c.noche200, c.noche900, AA.texto, "texto secundario en oscuro"],
-  [c.azul200, c.noche900, AA.texto, "enlaces en oscuro"],
-  [c.noche900, c.azul200, AA.texto, "texto sobre el botón primario en oscuro"],
+  [c.accion200, c.noche900, AA.texto, "enlaces en oscuro"],
+  [c.noche900, c.accion200, AA.texto, "texto sobre el botón primario en oscuro"],
   [c.dorado300, c.noche900, AA.texto, "el dorado en oscuro"],
   [c.peligro300, c.noche900, AA.texto, "errores en oscuro"],
   [c.exito300, c.noche900, AA.texto, "éxitos en oscuro"],
@@ -166,9 +166,9 @@ describe("reglas de uso del dorado", () => {
     expect(contraste(c.dorado800, c.dorado300)).toBeLessThan(AA.texto);
   });
 
-  it("y un botón marrón NO se distingue de un bloque azul", () => {
+  it("y un botón marrón NO se distingue de un bloque primario", () => {
     // 1.94: por eso ningun boton secundario va sobre fondo azul (plan 03.1).
-    expect(contraste(c.dorado800, c.azul900)).toBeLessThan(AA.interfaz);
+    expect(contraste(c.dorado800, c.accion800)).toBeLessThan(AA.interfaz);
   });
 });
 

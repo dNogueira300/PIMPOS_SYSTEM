@@ -16,22 +16,23 @@
    Ningun componente usa estos tokens directamente. Para eso esta la capa 2.
    ============================================================================= */
 :root {
-  /* Azul institucional. Es el primario de todo el sitio (decision de Dan,
-     13/09/2026): el prototipo de Stitch traia #174a68 y se sustituye por el del
-     logo. */
-  --pimpos-azul-900: #12306e; /* Texto "PANADERIA PASTELERIA Y BODEGA" */
-  --pimpos-azul-800: #1d3f86; /* Hover del boton azul: 9.51 con crema */
-  --pimpos-azul-600: #0060a8; /* Fachada del local; foco visible */
-  --pimpos-azul-200: #9fc2f0; /* Derivado, para el tema oscuro */
+  /* Dirección A aprobada: acciones terracota y foco del mismo tono. */
+  --pimpos-accion-800: #953e2c;
+  --pimpos-accion-900: #773020;
+  --pimpos-foco-700: #953e2c;
+  --pimpos-accion-200: #eac8ba;
+  --pimpos-borde-200: #d9d4ca;
+  --pimpos-lateral-100: #eee9df;
+  --pimpos-grafico-600: #b4762c;
 
   /* Superficies crema en capas, del prototipo de Stitch. El fondo nunca es
      blanco puro; el blanco se reserva a lo que flota encima (tarjetas, campos
      de formulario). */
   --pimpos-crema-0: #ffffff; /* Tarjeta elevada, campo de formulario */
-  --pimpos-crema-50: #fff9ee; /* Fondo de pagina */
-  --pimpos-crema-100: #faf3e6; /* Seccion alterna */
-  --pimpos-crema-200: #f4ede0; /* Seccion apagada, tarjeta sobre seccion */
-  --pimpos-crema-300: #eee7db; /* Hover de superficies */
+  --pimpos-crema-50: #f7f5f0; /* Fondo de pagina */
+  --pimpos-crema-100: #eeeae2; /* Seccion alterna */
+  --pimpos-crema-200: #eeeae2; /* Seccion apagada, tarjeta sobre seccion */
+  --pimpos-crema-300: #e9e3da; /* Hover de superficies */
 
   /* Dorados. Cuatro valores y cada uno con un solo papel, medidos en
      src/estilos/paleta.test.ts:
@@ -53,9 +54,9 @@
   --pimpos-verde-800: #234735; /* Hover de WhatsApp */
 
   /* Tintas */
-  --pimpos-tinta-900: #1e1b14; /* Texto principal: 16.40 sobre el fondo */
-  --pimpos-tinta-600: #41474d; /* Texto secundario: 8.97 sobre el fondo */
-  --pimpos-tinta-500: #8a6b4f; /* Borde de campos: 4.89 sobre blanco */
+  --pimpos-tinta-900: #28251f; /* Texto principal: 16.40 sobre el fondo */
+  --pimpos-tinta-600: #59554e; /* Texto secundario: 8.97 sobre el fondo */
+  --pimpos-tinta-500: #837b70; /* Borde de campos: 4.89 sobre blanco */
   --pimpos-cafe-600: #6b3e26; /* Solo bordes tenues y sombras, nunca texto */
 
   /* Fondos del tema oscuro */
@@ -72,17 +73,11 @@
   --pimpos-peligro-300: #f2a9a2;
 
   /* Escala de 4 px y ancho maximo de contenido (doc 03 §3.3) */
-  --radius: 1rem; /* 16 px: el radio de las tarjetas del prototipo */
+  --radius: 0.375rem; /* Superficies de 6 px; controles de 5 px. */
   --ancho-contenido: 75rem; /* 1200 px */
 
-  /* Tipografia: Playfair Display para titulos y Plus Jakarta Sans para texto,
-     elegidas por Dan el 13/09/2026 sobre el prototipo de Stitch (plan 03.1).
-     Sustituyen a Fraunces + Inter.
-     `--fuente-titulo` y `--fuente-texto` las publica next/font desde
-     src/estilos/fuentes.ts, con su propia familia de reserva ya incluida.
-     El segundo valor de cada var() cubre el caso de que esas clases no esten
-     puestas -- por ejemplo en un fragmento renderizado fuera del layout. */
-  --pimpos-fuente-titulo: var(--fuente-titulo, Georgia, "Times New Roman", serif);
+  /* Una sola familia local para texto y títulos, según la dirección A. */
+  --pimpos-fuente-titulo: var(--fuente-texto, system-ui, "Segoe UI", Roboto, sans-serif);
   --pimpos-fuente-texto: var(--fuente-texto, system-ui, "Segoe UI", Roboto, sans-serif);
 }
 
@@ -101,9 +96,10 @@
   --popover: var(--pimpos-crema-0);
   --popover-foreground: var(--pimpos-tinta-900);
 
-  /* Azul institucional: navegacion, titulares y acciones por defecto. */
-  --primary: var(--pimpos-azul-900);
-  --primary-foreground: var(--pimpos-crema-50);
+  /* Acciones y enlaces terracota; títulos del panel en tinta. */
+  --primary: var(--pimpos-accion-800);
+  --primary-hover: var(--pimpos-accion-900);
+  --primary-foreground: var(--pimpos-crema-0);
 
   --secondary: var(--pimpos-crema-200);
   --secondary-foreground: var(--pimpos-tinta-900);
@@ -124,26 +120,26 @@
   /* Dos bordes distintos, y no es capricho: el decorativo es casi invisible,
      como papel prensado (prototipo); el de un campo de formulario tiene que
      llegar a 3:1, que es lo que exige WCAG 1.4.11 a un control. */
-  --border: color-mix(in srgb, var(--pimpos-cafe-600) 12%, transparent);
+  --border: var(--pimpos-borde-200);
   --input: var(--pimpos-tinta-500);
-  --ring: var(--pimpos-azul-600);
+  --ring: var(--pimpos-foco-700);
 
   /* Graficos del panel de insumos (F5). Cinco tonos distinguibles entre si y
      legibles sobre crema. */
-  --chart-1: var(--pimpos-azul-900);
+  --chart-1: var(--pimpos-accion-800);
   --chart-2: var(--pimpos-dorado-800);
-  --chart-3: var(--pimpos-azul-600);
+  --chart-3: var(--pimpos-grafico-600);
   --chart-4: var(--pimpos-exito-600);
   --chart-5: var(--pimpos-terracota-800);
 
-  --sidebar: var(--pimpos-crema-100);
+  --sidebar: var(--pimpos-lateral-100);
   --sidebar-foreground: var(--pimpos-tinta-900);
-  --sidebar-primary: var(--pimpos-azul-900);
+  --sidebar-primary: var(--pimpos-accion-800);
   --sidebar-primary-foreground: var(--pimpos-crema-50);
   --sidebar-accent: var(--pimpos-crema-300);
   --sidebar-accent-foreground: var(--pimpos-tinta-900);
-  --sidebar-border: color-mix(in srgb, var(--pimpos-cafe-600) 12%, transparent);
-  --sidebar-ring: var(--pimpos-azul-600);
+  --sidebar-border: var(--pimpos-borde-200);
+  --sidebar-ring: var(--pimpos-foco-700);
 
   --font-sans: var(--pimpos-fuente-texto);
   --font-heading: var(--pimpos-fuente-titulo);
@@ -163,7 +159,7 @@
   --popover: var(--pimpos-noche-700);
   --popover-foreground: var(--pimpos-crema-50);
 
-  --primary: var(--pimpos-azul-200);
+  --primary: var(--pimpos-accion-200);
   --primary-foreground: var(--pimpos-noche-900);
 
   --secondary: var(--pimpos-noche-700);
@@ -181,9 +177,9 @@
 
   --border: var(--pimpos-noche-500);
   --input: var(--pimpos-noche-500);
-  --ring: var(--pimpos-azul-200);
+  --ring: var(--pimpos-accion-200);
 
-  --chart-1: var(--pimpos-azul-200);
+  --chart-1: var(--pimpos-accion-200);
   --chart-2: var(--pimpos-dorado-300);
   --chart-3: var(--pimpos-exito-300);
   --chart-4: var(--pimpos-noche-200);
@@ -191,12 +187,12 @@
 
   --sidebar: var(--pimpos-noche-700);
   --sidebar-foreground: var(--pimpos-crema-50);
-  --sidebar-primary: var(--pimpos-azul-200);
+  --sidebar-primary: var(--pimpos-accion-200);
   --sidebar-primary-foreground: var(--pimpos-noche-900);
   --sidebar-accent: var(--pimpos-noche-900);
   --sidebar-accent-foreground: var(--pimpos-crema-50);
   --sidebar-border: var(--pimpos-noche-500);
-  --sidebar-ring: var(--pimpos-azul-200);
+  --sidebar-ring: var(--pimpos-accion-200);
 }
 
 /* =============================================================================
@@ -205,15 +201,11 @@
    Existen para poder ajustar una pieza sin mover el resto del sistema.
    ============================================================================= */
 :root {
-  /* Llamada a la accion principal: pildora azul institucional (prototipo de
-     Stitch). Estuvo dorada hasta la tarea 3 del plan 03.1 porque habia botones
-     de pedir sobre fondo azul que se habrian vuelto invisibles; en esta misma
-     tarea esos botones pasan a verde WhatsApp o a borde crema. Crema sobre
-     azul: 11.97; al pasar, sobre azul-800: 9.51. */
-  --cta-fondo: var(--pimpos-azul-900);
-  --cta-texto: var(--pimpos-crema-50);
-  --cta-fondo-hover: var(--pimpos-azul-800);
-  --cta-texto-hover: var(--pimpos-crema-50);
+  /* Acción principal compartida por formularios y llamadas públicas. */
+  --cta-fondo: var(--pimpos-accion-800);
+  --cta-texto: var(--pimpos-crema-0);
+  --cta-fondo-hover: var(--pimpos-accion-900);
+  --cta-texto-hover: var(--pimpos-crema-0);
 
   /* Accion secundaria del prototipo: pildora marron dorado. Nunca sobre azul
      (1.94). La usan las tareas 3 a 8. */
@@ -258,8 +250,8 @@
   --sello-texto: var(--pimpos-dorado-800);
 
   /* Sombras calidas del prototipo: cafe y azul muy diluidos, nunca negro. */
-  --sombra-1: 0 2px 6px -1px rgb(107 62 38 / 0.05), 0 1px 3px -1px rgb(18 48 110 / 0.04);
-  --sombra-2: 0 10px 24px -4px rgb(107 62 38 / 0.08), 0 4px 8px -2px rgb(18 48 110 / 0.03);
+  --sombra-1: 0 2px 6px -1px rgb(107 62 38 / 0.05), 0 1px 3px -1px rgb(107 62 38 / 0.04);
+  --sombra-2: 0 10px 24px -4px rgb(107 62 38 / 0.08), 0 4px 8px -2px rgb(107 62 38 / 0.03);
   --sombra-3: 0 20px 40px -8px rgb(30 27 20 / 0.16);
 
   /* Opacidad minima del velo crema del hero de escritorio (tarea 5). La fija
@@ -272,15 +264,10 @@
      "hecho". */
   --area-tactil-min: 2.75rem;
 
-  /* Barra lateral del panel (F4): resalte del item activo, su hover y el
-     borde que separa el pie de la barra. La barra es `bg-primary` con
-     `text-primary-foreground` (crema sobre azul institucional, 11.97), asi
-     que el "blanco" de estos lavados es en realidad ese mismo texto, mas
-     translucido -- no un primitivo nuevo. Al ir por debajo del texto, no le
-     baja el contraste: solo tine el fondo azul. */
-  --panel-lateral-activo: color-mix(in srgb, var(--primary-foreground) 15%, transparent);
-  --panel-lateral-hover: color-mix(in srgb, var(--primary-foreground) 10%, transparent);
-  --panel-lateral-borde: color-mix(in srgb, var(--primary-foreground) 20%, transparent);
+  /* Lateral claro: selección sólida, hover neutro y borde discreto. */
+  --panel-lateral-activo: var(--primary);
+  --panel-lateral-hover: var(--accent);
+  --panel-lateral-borde: var(--border);
 }
 
 /* =============================================================================
@@ -355,10 +342,10 @@
   --shadow-flotante: var(--sombra-3);
   --radius-pildora: 9999px;
 
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: 4px;
+  --radius-md: 5px;
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-xl: var(--radius);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
@@ -437,11 +424,11 @@
      Estaban repetidos como tiras de utilidades en seis sitios, y con ellos la
      posibilidad de que una copia se quedara sin area tactil o sin foco visible.
      Viven aqui una sola vez, con una base comun: 48 px de alto, que dejan
-     margen sobre los 44 del minimo tactil, y radio de pildora.
+     margen sobre los 44 del minimo tactil, y radio de 5 px.
 
      Cuatro variantes, cada una con un papel:
-     - .boton-cta: la accion principal, azul institucional.
-     - .boton-secundario: marron dorado. Nunca sobre un bloque azul (1.94).
+     - .boton-cta: la accion principal, terracota.
+     - .boton-secundario: marron dorado; sobre superficies claras.
      - .boton-whatsapp: verde, para todo lo que abre el chat de pedidos.
      - .boton-linea: de borde, para la segunda opcion junto a otra.
 
@@ -456,7 +443,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 9999px;
+    border-radius: 5px;
     padding-inline: 1.5rem;
     font-weight: 600;
     font-size: 0.9375rem;
@@ -663,6 +650,19 @@
 
   html {
     @apply font-sans;
+    color-scheme: light;
+    accent-color: var(--primary);
+    caret-color: var(--primary);
+  }
+
+  ::selection {
+    background: var(--pimpos-accion-200);
+    color: var(--foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
   }
 
   h1,

@@ -54,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  // Las clases de `next/font` publican `--fuente-titulo` y `--fuente-texto`,
+  // La clase de `next/font` publica `--fuente-texto` para títulos y texto,
   // que es lo que consume la capa de primitivos de globals.css.
   return (
     <html lang="es-PE" className={clasesDeFuentes}>

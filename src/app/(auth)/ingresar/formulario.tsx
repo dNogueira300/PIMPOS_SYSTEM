@@ -37,7 +37,7 @@ export function FormularioIngreso({ volver }: { volver: string | null }) {
           required
           aria-describedby={estado.errores?.correo ? "error-correo" : undefined}
           aria-invalid={estado.errores?.correo ? true : undefined}
-          className="border-input min-h-11 rounded-md border px-3 py-2 text-base"
+          className="border-input bg-card focus-visible:outline-ring min-h-12 rounded-md border px-3 py-2 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
         />
         {estado.errores?.correo ? (
           <p id="error-correo" className="text-destructive text-sm">
@@ -58,7 +58,7 @@ export function FormularioIngreso({ volver }: { volver: string | null }) {
           required
           aria-describedby={estado.errores?.clave ? "error-clave" : undefined}
           aria-invalid={estado.errores?.clave ? true : undefined}
-          className="border-input min-h-11 rounded-md border px-3 py-2 text-base"
+          className="border-input bg-card focus-visible:outline-ring min-h-12 rounded-md border px-3 py-2 text-base focus-visible:outline-2 focus-visible:outline-offset-2"
         />
         {estado.errores?.clave ? (
           <p id="error-clave" className="text-destructive text-sm">
@@ -78,7 +78,7 @@ export function FormularioIngreso({ volver }: { volver: string | null }) {
         </p>
       ) : null}
 
-      <Button type="submit" disabled={enviando} className="min-h-11 w-full">
+      <Button type="submit" disabled={enviando} className="min-h-12 w-full">
         {enviando ? "Entrando…" : "Entrar"}
       </Button>
     </form>
