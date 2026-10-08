@@ -1224,11 +1224,55 @@ Una tarea no está hecha hasta que:
 
 ## Diseño
 
+**Decisión de Dan del 06/10/2026 — nuevo rediseño, dirección aprobada el 07/10.** Las restricciones
+estéticas de F3.1 dejan de ser obligatorias: se pueden sustituir estilo, paleta, tipografía,
+composición, radios y movimiento del sitio público y del panel. El Pan de la Chola, Pan Atelier y
+Kalatanta son referencias positivas para explorar, no antirreferencias estéticas. Una presentación
+contemporánea o cuidada no cambia por sí sola el posicionamiento ni los datos del negocio.
+**No se cambia ninguna funcionalidad:** conservar todas las rutas, acciones, flujos, campos,
+validaciones, permisos, consultas, cálculos, borradores, estados y comportamiento actual, incluido
+el carrusel, las descargas y el Historial. Tampoco se añaden funcionalidades durante el rediseño.
+La libertad estética no elimina accesibilidad, rendimiento, seguridad ni veracidad del contenido.
+El análisis y la base para el próximo plan están en `DOC/Analisis UI UX - Rediseno integral.md`.
+Las reglas visuales que siguen documentan la implementación vigente; no obligan al nuevo diseño.
+La dirección A fue elegida el 07/10/2026. Su primer bloque (T1/T2) está implementado en la rama
+`feat/rediseno-acceso-panel`, verificado localmente y pendiente de revisión de PR; no fusionado ni
+desplegado en producción. Incluye tokens globales, login circular, marca del panel y controles
+compartidos. T3–T7 siguen pendientes.
+
+**Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
+el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.
+La evidencia autenticada local (28 capturas, tres roles) y las maquetas A/B (10 pantallas en
+escritorio/móvil, comparables contra su base local) están en
+`DOC/Maquetas/comparacion-redisenio/index.html`; alcance y límites en su `LEEME.md`.
+En esa exploración no se modificó `src` ni se desplegó el rediseño. Las cuentas temporales se eliminaron, conservando
+la auditoría local. **Dan eligió A** y añadió dos requisitos: usar exclusivamente
+`DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png` como fuente de logo en todas las
+superficies, y **eliminar el azul de toda la interfaz**. Los derivados WebP con transparencia están
+en `DOC/Maquetas/comparacion-redisenio/assets/` (256/512/768 px; original intacto). A revisada
+incluye 20 capturas, logo en público/login/panel y tokens heredados de CTA, hover y foco terracota.
+Dan precisó después que el fondo que contiene el logo del login debe ser **circular**, en escritorio
+y móvil; ese ajuste ya está reflejado en la maqueta A.
+En la portada móvil, Dan pidió mayor contraste del indicador «Abierto ahora» y de WhatsApp sobre
+terracota: punto verde claro y botón verde claro con texto/icono verde oscuro, solo en esa portada.
+Dan aprobó quitar la ilustración del horno de la portada, conservando «Aquí el día empieza…» en
+una sección compacta. Pidió probar un tapiz de iconografías de panes con tamaños irregulares:
+la maqueta pública incluye un patrón SVG tenue y una comparación con fondo liso. **Dan aprobó el
+tapiz con menor intensidad:** opacidad del trazo de 16 % a 11 %. Solo público; no panel ni login.
+El registro `comparacion.json` conserva paridad de controles y 212 barridos de estilos visibles sin
+azul. No confundir ese alcance con regresión funcional o accesibilidad completa. B y los bocetos
+anteriores son históricos, no la dirección vigente. El plan está en
+`DOC/Plan de Desarrollo 03.2 - Rediseño integral UI UX.md`: cuatro entregas, empezando por login y
+cáscara del panel, después sus módulos, sitio público y cierre transversal. Conserva toda
+funcionalidad. Plan redactado el 07/10/2026; bloque 1 implementado y verificado localmente el 08/10.
+Resultados: `DOC/Verificacion rediseño 03.2 - Bloque 1.md`. Capturas del build, no maquetas con CSS
+inyectado, en `DOC/Maquetas/3.2/bloque1/`. Pendiente revisión de vista previa, teclado físico y zoom nativo.
+
 Estilo declarado: **tradicional / artesanal**, no minimalista ni "premium". Pimpo's es un negocio
 de barrio abierto en 2004, con precios desde S/ 0.10 y delivery propio: el precio se muestra con
 orgullo y el delivery es titular, no nota al pie.
 
-**Desde la fase 3.1, el lenguaje «artisan editorial» del prototipo de Stitch** (`DOC/Maquetas/Stitch/`),
+**Referencia histórica de la fase 3.1, sustituida por 03.2 en la rama de rediseño:** el lenguaje «artisan editorial» del prototipo de Stitch (`DOC/Maquetas/Stitch/`),
 con el azul del logo y ningún dato del prototipo. Lo que hay que saber antes de tocar la interfaz:
 
 - **Paleta** (valores y contrastes medidos en `docs/marca.md` §8): azul `#12306E` para titulares y

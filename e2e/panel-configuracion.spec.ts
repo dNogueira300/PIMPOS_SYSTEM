@@ -197,3 +197,60 @@ test("el sitio anuncia el favicon de la configuración", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator('link[rel="icon"]').first()).toHaveAttribute("href", /favicon/);
 });
+
+test("guardar la marca actualiza el logo del panel y del acceso sin redesplegar", async ({
+  page,
+  browser,
+}, info) => {
+  test.skip(info.project.name !== "movil", "escribe el logo compartido; una sola ejecución");
+  const antes = await leerAjuste("logo_url");
+  const usuario = await entrarComo(page, "administrador");
+  const visitante = await browser.newContext();
+  let subida: string | null = null;
+  try {
+    await page.goto("/admin/configuracion");
+    await page.getByRole("tab", { name: "Marca" }).click();
+    const control = page.locator('[data-subida="logo_url"]');
+    await control
+      .getByLabel(/Elegir de la galería para Logo completo/)
+      .setInputFiles(await fotoDePrueba(page));
+    const vista = control.locator("[data-vista-previa]");
+    await expect(vista).toHaveAttribute("src", /\/marca\/logo\/.+\.png$/);
+    const src = (await vista.getAttribute("src"))!;
+    subida = src.split("/marca/")[1];
+    await page.getByRole("button", { name: "Guardar", exact: true }).click();
+    await expect(page.getByText(/Guardado/).first()).toBeVisible();
+    await page.goto("/admin");
+    const marcaPanel = page.locator('img[alt="Panadería Pimpo\'s"]:visible');
+    await expect(marcaPanel).toHaveAttribute("src", src);
+    await expect
+      .poll(() => marcaPanel.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0);
+
+    const acceso = await visitante.newPage();
+    await acceso.goto(new URL("/ingresar", page.url()).href);
+    const marcaAcceso = acceso.getByRole("img", { name: "Panadería Pimpo's" });
+    await expect(marcaAcceso).toHaveAttribute("src", src);
+    await expect
+      .poll(() => marcaAcceso.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0);
+  } finally {
+    try {
+      await restaurarAjuste("logo_url", antes);
+      // Leer la fila restaurada y guardar por la UI también invalida la caché de marca.
+      await page.goto("/admin/configuracion");
+      await page.getByRole("button", { name: "Guardar", exact: true }).click();
+      await expect(page.getByText(/Guardado/).first()).toBeVisible();
+    } finally {
+      await visitante.close();
+      if (subida) {
+        const { apiUrl, serviceRoleKey } = supabaseLocal();
+        await fetch(`${apiUrl}/storage/v1/object/marca/${subida}`, {
+          method: "DELETE",
+          headers: { apikey: serviceRoleKey, Authorization: `Bearer ${serviceRoleKey}` },
+        });
+      }
+      await borrarUsuario(usuario.id);
+    }
+  }
+});

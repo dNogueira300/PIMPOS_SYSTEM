@@ -8,6 +8,12 @@
 Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
 hay que leer para ponerse al día sin recorrer el historial de commits.
 
+**Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
+(identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
+verificación y entrega en curso. Se conserva toda funcionalidad. Ver
+`Verificacion rediseño 03.2 - Bloque 1.md`; el resto de 03.2 queda pendiente. El estado de auditoría
+y F7 está actualizado en `AGENTS.md`.
+
 ---
 
 ## 1. Dónde estamos

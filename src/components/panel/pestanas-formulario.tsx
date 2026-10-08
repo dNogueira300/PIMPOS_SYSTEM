@@ -45,8 +45,13 @@ export function PestanasFormulario({
   return (
     <Tabs value={activa} onValueChange={setActiva}>
       <TabsList
-        className="grid w-full"
-        style={{ gridTemplateColumns: `repeat(${pestanas.length}, minmax(0, 1fr))` }}
+        className="grid w-full grid-cols-[repeat(var(--columnas-movil),minmax(0,1fr))] md:grid-cols-[repeat(var(--columnas),minmax(0,1fr))]"
+        style={
+          {
+            "--columnas": pestanas.length,
+            "--columnas-movil": Math.min(3, pestanas.length),
+          } as React.CSSProperties
+        }
       >
         {pestanas.map((p) => {
           const conError = p.campos.some((c) => errores[c]?.length);
@@ -55,7 +60,7 @@ export function PestanasFormulario({
               key={p.valor}
               value={p.valor}
               data-con-error={conError || undefined}
-              className="data-[con-error]:text-destructive min-h-11"
+              className="data-[con-error]:bg-destructive/10 data-[con-error]:text-destructive data-[con-error]:hover:text-destructive min-h-11 min-w-0 text-[13px] leading-snug whitespace-normal md:text-sm"
             >
               {p.titulo}
               {conError ? (

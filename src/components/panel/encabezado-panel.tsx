@@ -23,7 +23,9 @@ export function EncabezadoPanel({ titulo, volver, accion, descripcion }: Props) 
         </Link>
       ) : null}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-heading text-primary text-2xl md:text-3xl">{titulo}</h1>
+        <h1 className="text-foreground text-[27px] leading-tight font-semibold tracking-[-0.035em] md:text-[32px]">
+          {titulo}
+        </h1>
         {accion}
       </div>
       {descripcion ? (
