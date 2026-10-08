@@ -1,0 +1,624 @@
+{
+  "screens": [
+    {
+      "name": "login-375-667",
+      "width": 375,
+      "height": 667,
+      "scrollWidth": 375,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 32,
+        "y": 247.25,
+        "width": 311,
+        "height": 20,
+        "top": 247.25,
+        "right": 343,
+        "bottom": 267.25,
+        "left": 32
+      },
+      "wave": {
+        "x": 0,
+        "y": 284.25,
+        "width": 375,
+        "height": 64,
+        "top": 284.25,
+        "right": 375,
+        "bottom": 348.25,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 160,
+        "height": 160,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 32,
+            "y": 401.25,
+            "width": 311,
+            "height": 48,
+            "top": 401.25,
+            "right": 343,
+            "bottom": 449.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 32,
+            "y": 491.25,
+            "width": 311,
+            "height": 48,
+            "top": 491.25,
+            "right": 343,
+            "bottom": 539.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 32,
+            "y": 555.25,
+            "width": 311,
+            "height": 48,
+            "top": 555.25,
+            "right": 343,
+            "bottom": 603.25,
+            "left": 32
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "login-390-844",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 32,
+        "y": 247.25,
+        "width": 326,
+        "height": 20,
+        "top": 247.25,
+        "right": 358,
+        "bottom": 267.25,
+        "left": 32
+      },
+      "wave": {
+        "x": 0,
+        "y": 284.25,
+        "width": 390,
+        "height": 64,
+        "top": 284.25,
+        "right": 390,
+        "bottom": 348.25,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 160,
+        "height": 160,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 32,
+            "y": 401.25,
+            "width": 326,
+            "height": 48,
+            "top": 401.25,
+            "right": 358,
+            "bottom": 449.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 32,
+            "y": 491.25,
+            "width": 326,
+            "height": 48,
+            "top": 491.25,
+            "right": 358,
+            "bottom": 539.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 32,
+            "y": 555.25,
+            "width": 326,
+            "height": 48,
+            "top": 555.25,
+            "right": 358,
+            "bottom": 603.25,
+            "left": 32
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "login-390-500",
+      "width": 390,
+      "height": 500,
+      "scrollWidth": 390,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 32,
+        "y": 247.25,
+        "width": 326,
+        "height": 20,
+        "top": 247.25,
+        "right": 358,
+        "bottom": 267.25,
+        "left": 32
+      },
+      "wave": {
+        "x": 0,
+        "y": 284.25,
+        "width": 390,
+        "height": 64,
+        "top": 284.25,
+        "right": 390,
+        "bottom": 348.25,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 160,
+        "height": 160,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 32,
+            "y": 401.25,
+            "width": 326,
+            "height": 48,
+            "top": 401.25,
+            "right": 358,
+            "bottom": 449.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 32,
+            "y": 491.25,
+            "width": 326,
+            "height": 48,
+            "top": 491.25,
+            "right": 358,
+            "bottom": 539.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 32,
+            "y": 555.25,
+            "width": 326,
+            "height": 48,
+            "top": 555.25,
+            "right": 358,
+            "bottom": 603.25,
+            "left": 32
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "login-768-900",
+      "width": 768,
+      "height": 900,
+      "scrollWidth": 768,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 382.546875,
+        "y": 329.625,
+        "width": 325.453125,
+        "height": 20,
+        "top": 329.625,
+        "right": 708,
+        "bottom": 349.625,
+        "left": 382.546875
+      },
+      "wave": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "waveVisible": false,
+      "logo": {
+        "loaded": true,
+        "width": 184.3125,
+        "height": 184.3125,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 382.546875,
+            "y": 403.625,
+            "width": 325.453125,
+            "height": 48,
+            "top": 403.625,
+            "right": 708,
+            "bottom": 451.625,
+            "left": 382.546875
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 382.546875,
+            "y": 493.625,
+            "width": 325.453125,
+            "height": 48,
+            "top": 493.625,
+            "right": 708,
+            "bottom": 541.625,
+            "left": 382.546875
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 382.546875,
+            "y": 557.625,
+            "width": 325.453125,
+            "height": 48,
+            "top": 557.625,
+            "right": 708,
+            "bottom": 605.625,
+            "left": 382.546875
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "login-1440-1000",
+      "width": 1440,
+      "height": 1000,
+      "scrollWidth": 1440,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 842.390625,
+        "y": 379.625,
+        "width": 360,
+        "height": 20,
+        "top": 379.625,
+        "right": 1202.390625,
+        "bottom": 399.625,
+        "left": 842.390625
+      },
+      "wave": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0,
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      },
+      "waveVisible": false,
+      "logo": {
+        "loaded": true,
+        "width": 345.59375,
+        "height": 345.59375,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 842.390625,
+            "y": 453.625,
+            "width": 360,
+            "height": 48,
+            "top": 453.625,
+            "right": 1202.390625,
+            "bottom": 501.625,
+            "left": 842.390625
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 842.390625,
+            "y": 543.625,
+            "width": 360,
+            "height": 48,
+            "top": 543.625,
+            "right": 1202.390625,
+            "bottom": 591.625,
+            "left": 842.390625
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 842.390625,
+            "y": 607.625,
+            "width": 360,
+            "height": 48,
+            "top": 607.625,
+            "right": 1202.390625,
+            "bottom": 655.625,
+            "left": 842.390625
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "error-375",
+      "width": 375,
+      "height": 667,
+      "scrollWidth": 375,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 32,
+        "y": 247.25,
+        "width": 311,
+        "height": 20,
+        "top": 247.25,
+        "right": 343,
+        "bottom": 267.25,
+        "left": 32
+      },
+      "wave": {
+        "x": 0,
+        "y": 284.25,
+        "width": 375,
+        "height": 64,
+        "top": 284.25,
+        "right": 375,
+        "bottom": 348.25,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 160,
+        "height": 160,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 32,
+            "y": 401.25,
+            "width": 311,
+            "height": 48,
+            "top": 401.25,
+            "right": 343,
+            "bottom": 449.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 32,
+            "y": 517.25,
+            "width": 311,
+            "height": 48,
+            "top": 517.25,
+            "right": 343,
+            "bottom": 565.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 32,
+            "y": 607.25,
+            "width": 311,
+            "height": 48,
+            "top": 607.25,
+            "right": 343,
+            "bottom": 655.25,
+            "left": 32
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "inactividad-390",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 32,
+        "y": 247.25,
+        "width": 326,
+        "height": 20,
+        "top": 247.25,
+        "right": 358,
+        "bottom": 267.25,
+        "left": 32
+      },
+      "wave": {
+        "x": 0,
+        "y": 284.25,
+        "width": 390,
+        "height": 64,
+        "top": 284.25,
+        "right": 390,
+        "bottom": 348.25,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 160,
+        "height": 160,
+        "radius": "3.35544e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 32,
+            "y": 493.25,
+            "width": 326,
+            "height": 48,
+            "top": 493.25,
+            "right": 358,
+            "bottom": 541.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 32,
+            "y": 583.25,
+            "width": 326,
+            "height": 48,
+            "top": 583.25,
+            "right": 358,
+            "bottom": 631.25,
+            "left": 32
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 32,
+            "y": 647.25,
+            "width": 326,
+            "height": 48,
+            "top": 647.25,
+            "right": 358,
+            "bottom": 695.25,
+            "left": 32
+          }
+        }
+      ],
+      "axe": []
+    },
+    {
+      "name": "zoom-css-200-390",
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "title": "Panadería Pimpo's",
+      "subtitle": {
+        "x": 64,
+        "y": 499,
+        "width": 262,
+        "height": 40,
+        "top": 499,
+        "right": 326,
+        "bottom": 539,
+        "left": 64
+      },
+      "wave": {
+        "x": 0,
+        "y": 573,
+        "width": 390,
+        "height": 128,
+        "top": 573,
+        "right": 390,
+        "bottom": 701,
+        "left": 0
+      },
+      "waveVisible": true,
+      "logo": {
+        "loaded": true,
+        "width": 262,
+        "height": 262,
+        "radius": "1.67772e+07px"
+      },
+      "controls": [
+        {
+          "name": "correo",
+          "rect": {
+            "x": 64,
+            "y": 807,
+            "width": 262,
+            "height": 96,
+            "top": 807,
+            "right": 326,
+            "bottom": 903,
+            "left": 64
+          }
+        },
+        {
+          "name": "clave",
+          "rect": {
+            "x": 64,
+            "y": 987,
+            "width": 262,
+            "height": 96,
+            "top": 987,
+            "right": 326,
+            "bottom": 1083,
+            "left": 64
+          }
+        },
+        {
+          "name": "Entrar",
+          "rect": {
+            "x": 64,
+            "y": 1115,
+            "width": 262,
+            "height": 96,
+            "top": 1115,
+            "right": 326,
+            "bottom": 1211,
+            "left": 64
+          }
+        }
+      ],
+      "axe": []
+    }
+  ],
+  "desktopComparison": {
+    "width": 1440,
+    "height": 1000,
+    "changedPixels": 12596,
+    "bounds": {
+      "left": 130,
+      "top": 327,
+      "right": 1201,
+      "bottom": 672
+    }
+  },
+  "note": "Zoom CSS es simulación; teclado físico y zoom nativo en formulario largo siguen pendientes. No se crean usuarios ni se modifica configuración."
+}

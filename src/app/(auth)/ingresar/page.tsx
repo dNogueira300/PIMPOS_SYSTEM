@@ -25,12 +25,17 @@ const MOTIVOS: Readonly<Record<string, string>> = {
  */
 export default function Ingresar(props: PageProps<"/ingresar">) {
   return (
-    <CascaraAcceso>
-      <div className="flex flex-col gap-1 text-center md:text-left">
-        <h1 className="text-[25px] leading-tight font-semibold">Panadería Pimpo&apos;s</h1>
-        <p className="text-muted-foreground text-sm">Panel de gestión</p>
-      </div>
-
+    <CascaraAcceso
+      movilOndulado
+      cabecera={
+        <div className="flex flex-col gap-1">
+          <h1 className="text-[25px] leading-tight font-semibold">Panadería Pimpo&apos;s</h1>
+          <p className="text-primary-foreground/85 md:text-muted-foreground text-sm">
+            Panel de gestión
+          </p>
+        </div>
+      }
+    >
       <Suspense fallback={<p className="text-muted-foreground text-sm">Cargando...</p>}>
         <Formulario searchParams={props.searchParams} />
       </Suspense>

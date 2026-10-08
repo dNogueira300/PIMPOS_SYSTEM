@@ -86,6 +86,41 @@ computado: lados iguales de 160 y 345.59375 px respectivamente, con `rounded-ful
 se revisó visualmente a ambos tamaños. Queda la revisión en un dispositivo con teclado físico y
 zoom nativo del navegador.
 
+## Ajuste posterior del login móvil — 08/10/2026
+
+Dan pidió adaptar una referencia adjunta antes de pasar al siguiente bloque: cabecera orgánica
+con transición ondulada al formulario. Se aplicó terracota/crema, Jakarta y el logo original circular,
+con los mismos títulos, campos y botón. La onda y las formas son decorativas, sin foco ni animación.
+La composición de escritorio conserva sus dos columnas. No cambian acciones de autenticación,
+retornos, validación, permisos ni comportamiento de sesión; tampoco se añaden controles.
+
+El cambio de producto se limita a `CascaraAcceso` y la composición de `/ingresar`. La variante es
+optativa: cambiar la clave mantiene su composición. La cabecera ocupa su altura natural, para
+conservar el texto por encima de la onda cuando crece o se divide en varias líneas.
+
+Build Turbopack y tipos aprobados (113 páginas); las ocho vistas del build final, incluidos error,
+inactividad, altura reducida y zoom CSS al 200 %, registran cero violaciones de axe sin desactivar
+reglas, controles visibles y cero desbordamiento horizontal. Evidencia y límites en
+`Maquetas/3.2/bloque1/login-movil-ondulado/`. Esperar los campos y Entrar visibles evita capturar
+el fallback de Suspense. La comparación de escritorio registra 12596 píxeles distintos (0.875 %),
+sin afirmar igualdad exacta.
+
+La revisión independiente detectó inicialmente que el subtítulo se cruzaba con la onda; la medición
+vio el solapamiento antes del arreglo. Se sustituyó la cabecera de altura fija por flujo normal
+con espacio reservado para la onda. Después detectó evidencia con controles todavía a 0×0:
+se repitieron las capturas esperando el formulario. La comprobación al 200 % mostró un ancho mínimo
+implícito de cuadrícula que desbordaba; se corrigió con `minmax(0,1fr)` y se repitió la misma
+medición sin ocultar overflow. Las ocho capturas finales pasan esas comprobaciones.
+
+Revisión independiente final: los hallazgos importantes quedan cerrados y no hay nuevos problemas
+materiales. Subtítulo separado de la onda por 17 px normales y 34 px con zoom CSS. ESLint completo
+sin advertencias y Prettier completo aprobado. E2E del build final: `autenticacion`, `identidad-panel` y `panel-sesiones`,
+**32 aprobadas, cero omisiones y cero fallos** (un trabajador, móvil y escritorio, 1.8 minutos).
+
+La validación funcional y el CI anteriores corresponden al commit `39793cc`; no se atribuyen a este
+ajuste posterior. Los resultados actuales se registran en el PR #90. Siguen pendientes el teclado
+físico móvil y el zoom nativo en un formulario largo; el PR continúa en borrador y T3–T7 pendientes.
+
 ## Decisiones de ejecución y límites
 
 1. Se creó un worktree Git en la carpeta hermana porque la herramienta de la app no reconocía el

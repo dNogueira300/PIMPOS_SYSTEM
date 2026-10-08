@@ -1269,6 +1269,13 @@ Resultados: `DOC/Verificacion rediseño 03.2 - Bloque 1.md`. Capturas del build,
 inyectado, en `DOC/Maquetas/3.2/bloque1/`. Login de vista previa Vercel revisado a 390 px y escritorio;
 pendiente teclado móvil físico y zoom nativo en formulario largo. Resultado actual de CI en PR #90.
 
+**Ajuste de Dan del 08/10/2026, antes de T3:** adaptar el login móvil a la referencia adjunta,
+con cabecera orgánica, onda hacia el formulario y formas decorativas. Se conserva la paleta A
+terracota/crema, el logo circular, Jakarta, los títulos y el formulario existentes. Sin nuevas
+acciones ni animaciones decorativas. Implementado en el mismo PR #90; evidencia actual en
+`DOC/Maquetas/3.2/bloque1/login-movil-ondulado/`. Las capturas móviles anteriores del bloque 1
+documentan la composición sustituida, no el último login móvil. Escritorio conserva sus dos columnas.
+
 Estilo declarado: **tradicional / artesanal**, no minimalista ni "premium". Pimpo's es un negocio
 de barrio abierto en 2004, con precios desde S/ 0.10 y delivery propio: el precio se muestra con
 orgullo y el delivery es titular, no nota al pie.

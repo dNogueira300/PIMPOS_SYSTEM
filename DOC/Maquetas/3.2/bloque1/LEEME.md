@@ -26,3 +26,7 @@ Comparar `login-1440.png`, `login-390.png`, `inicio-1440.png` e `inicio-390.png`
 tokens y controles compartidos; su composición específica se completa en T3/T4.
 
 Resultados completos en `../../../Verificacion rediseño 03.2 - Bloque 1.md`.
+
+El ajuste posterior del login móvil solicitado el 08/10 está en `login-movil-ondulado/`:
+referencia de Dan, ocho capturas del build final y manifiesto. Ese subdirectorio sustituye las
+capturas móviles de login de esta carpeta; las demás pantallas conservan su alcance original.
