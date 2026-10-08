@@ -1,0 +1,711 @@
+[
+  {
+    "name": "chola",
+    "url": "https://elpandelachola.com/",
+    "status": 200,
+    "desktop": {
+      "title": "El Pan de la Chola",
+      "text": " Esta web usa Cookies para brindarte una mejor experiencia\n\nACEPTAR\nCERRAR\nPEDIDOS CONÓCENOS\n0\n\nCONOCE MÁS DE NOSOTROS\n\nCONCEPTO\n\nLOCALES\n\nCONTÁCTANOS\n\nEL PAN DE LA CHOLA\n\nDESTACADOS\n\nBaguette\n\nCajita de Café. Blend El Pan de la Chola. En grano o molido.\n\nFocaccia\n\nContáctanos\n\nGranola\n\nAjí Chola\n\nBaguette\n\nCajita de Café. Blend El Pan de la Chola. En grano o molido.\n\nFocaccia\n\nContáctanos\n\nGranola\n\nAjí Chola\n\nHACEMOS PAN\n\nRespetamos los procesos de fermentación natural de las masas y el uso de harinas y cereales locales, algunos de los cuales molemos en nuestro obrador con un molino tradicional de piedra.\n\nPROMOCIONES, PRODUCTOS Y MÁS\n\nSUSCRÍBETE\n\nEL PAN DE LA CHOLA\n\nMiraflores - San Isidro - La Molina - Surco - Centro Histórico\nLima, Perú\n(+51) 914 680 244 (solo Whatsapp) • info@elpandelachola.com\n\nTÉRMINOS Y CONDICIONES\nCOOKIES\nPOLÍTICAS DE PRIVACIDAD\nLIBRO DE RECLAMACIONES\n ",
+      "typography": [
+        {
+          "text": "",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Pedidos",
+          "font": "\"Roboto Mono\", monospace",
+          "size": "16px",
+          "color": "rgb(250, 250, 250)"
+        },
+        {
+          "text": "Conócenos",
+          "font": "\"Roboto Mono\", monospace",
+          "size": "16px",
+          "color": "rgb(250, 250, 250)"
+        },
+        {
+          "text": "",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "CONCEPTO",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "LOCALES",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "CONTÁCTANOS",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "PEDIDOS",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "CONCEPTO",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "LOCALES",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "CONTÁCTANOS",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "",
+          "font": "\"Times New Roman\"",
+          "size": "16px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Inicia sesión / Regístrate",
+          "font": "\"Roboto Mono\", monospace",
+          "size": "12px",
+          "color": "rgb(12, 12, 11)"
+        },
+        {
+          "text": "Choice Billing Address",
+          "font": "\"Times New Roman\"",
+          "size": "20px",
+          "color": "rgb(255, 255, 255)"
+        }
+      ],
+      "backgrounds": [
+        {
+          "tag": "BODY",
+          "background": "rgb(250, 250, 250)"
+        },
+        {
+          "tag": "HEADER",
+          "background": "rgb(12, 12, 11)"
+        },
+        {
+          "tag": "FOOTER",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "images": [
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "🍪",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "Baguette - copia",
+          "loaded": true
+        },
+        {
+          "alt": "Blend 2",
+          "loaded": true
+        },
+        {
+          "alt": "Focaccia 1",
+          "loaded": true
+        },
+        {
+          "alt": "elpandela chola web.jpg",
+          "loaded": true
+        },
+        {
+          "alt": "Granola 200gr",
+          "loaded": true
+        },
+        {
+          "alt": "WhatsApp Image 2024-10-06 at 3.48.18 PM",
+          "loaded": true
+        },
+        {
+          "alt": "Baguette - copia",
+          "loaded": true
+        },
+        {
+          "alt": "Blend 2",
+          "loaded": true
+        },
+        {
+          "alt": "Focaccia 1",
+          "loaded": true
+        },
+        {
+          "alt": "elpandela chola web.jpg",
+          "loaded": true
+        },
+        {
+          "alt": "Granola 200gr",
+          "loaded": true
+        },
+        {
+          "alt": "WhatsApp Image 2024-10-06 at 3.48.18 PM",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        }
+      ]
+    },
+    "mobile": {
+      "width": 375,
+      "scrollWidth": 375
+    }
+  },
+  {
+    "name": "atelier",
+    "url": "https://www.panatelier.com.pe/",
+    "status": 200,
+    "desktop": {
+      "title": "",
+      "text": "",
+      "typography": [],
+      "backgrounds": [
+        {
+          "tag": "BODY",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "images": []
+    },
+    "mobile": {
+      "width": 375,
+      "scrollWidth": 375
+    }
+  },
+  {
+    "name": "kalatanta",
+    "url": "https://kalatanta.pe/",
+    "status": 200,
+    "desktop": {
+      "title": "Kalatanta",
+      "text": "Ir al contenido\nINICIO\nCONTACTANOS\nMI CUENTA\nPRENSA\nNOSOTROS\nCERTIFICACIONES\nTIENDA\nNo products in the cart.\n0\nCart\nSearch\nSearch\nBIENVENIDOS A\nKALATANTA\nPanadería Artesanal\nHAZ TU PEDIDO DE PAN AQUÍ\nNuestros Servicios\nLo Mejor De Nosotros\nPANADERIA\n\nLo mejor de nuestros panes artesanales\n\nPASTELERIA\n\nLo mejor de nuestros postres \n\nTALLERES\n\nMuy Pronto\n\nNuestra Historia\nUna Historia De Amor Y Sacrificio\n\nHace 10 años mi esposo Andrés Ugaz y yo, Gabriela Wuest; abrimos una planta de panadería artesanal en el Callao, pensando en desarrollar y abastecer de panes artesanales a destacados restaurantes y hoteles de la ciudad.\n\nPero nuestro proyecto necesitaba de la incursión de todo el Callao. No solo producir el mejor pan para restaurantes de lujo de Lima sino también capacitar en panadería a jóvenes chalacos en riesgo social. \n\nActualmente todos sus trabajadores y transportistas son chalacos, más de 12 familias forman parte de este emprendimiento. Tras el confinamiento y la reactivación en esta pandemia, por primera vez han abierto sus puertas para vender pan al barrio y a las familias de los distritos aledaños, con lo que se permitió que todos puedan mantener su trabajo.\n\n“Es un sueño familiar que originalmente se dedicó al diseño y preparación de panes para restaurantes y hoteles de la capital. La pandemia nos permitió llegar a los hogares de Lima y el Callao, con nuestros panes a base de masa madre e insumos peruanos”\n\nPara felicidad de todos, Kala Tanta ha recuperado recetas como el pan tolete, el pan francés de piso, las chaplas de Ayacucho, el Tres Puntas de Arequipa, las Cachangas de Piura, las Marraquetas de Tacna los panes estilo Chancay,las Wawas; entre más de 30 variedades de panes de siempre. \n\nGabriela Wuest – Andrés Ugaz\n\nTESTIMONIOS\nLo Que Dicen Los Clientes De Nosotros\n“ Vestibulum varius, velit sit amet tempor efficitur, ligula mi lvacinia libero, et vehicula dui nisi eget purus. posuere id lorem ac, interdum egestas neque. Morbi pharetra felis mauri Quisque in semper magna, in tincidunt lorem. Praesent dictum semper tortor eu consequat. Nulla sit amet tristique mauris, id blandit turpis ”\nJONT NICOLIN KOOK\n“ Vestibulum varius, velit sit amet tempor efficitur, ligula mi lvacinia libero, et vehicula dui nisi eget purus. posuere id lorem ac, interdum egestas neque. Morbi pharetra felis mauri Quisque in semper magna, in tincidunt lorem. Praesent dictum semper tortor eu consequat. Nulla sit amet tristique mauris, id blandit turpis ”\nJONT NICOLIN KOOK\n“ Vestibulum varius, velit sit amet tempor efficitur, ligula mi lvacinia libero, et vehicula dui nisi eget purus. posuere id lorem ac, interdum egestas neque. Morbi pharetra felis mauri Quisque in semper magna, in tincidunt lorem. Praesent dictum semper tortor eu consequat. Nulla sit amet tristique mauris, id blandit turpis ”\nJONT NICOLIN KOOK\n“ Vestibulum varius, velit sit amet tempor efficitur, ligula mi lvacinia libero, et vehicula dui nisi eget purus. posuere id lorem ac, interdum egestas neque. Morbi pharetra felis mauri Quisque in semper magna, in tincidunt lorem. Praesent dictum semper tortor eu consequat. Nulla sit amet tristique mauris, id blandit turpis ”\nJONT NICOLIN KOOK\n“ Vestibulum varius, velit sit amet tempor efficitur, ligula mi lvacinia libero, et vehicula dui nisi eget purus. posuere id lorem ac, interdum egestas neque. Morbi pharetra felis mauri Quisque in semper magna, in tincidunt lorem. Praesent dictum semper tortor eu consequat. Nulla sit amet tristique mauris, id blandit turpis ”\nJONT NICOLIN KOOK\nPedidos Especiales\nHechos A Tu Medida\nMini Box Lonchesito\n\nMInis\n\nBox Selección # 1\n\n(02 cachitos de mantequilla, 4 pan brioche camote junior, 4 colizas, 2 cachangas y 1 campesino multigranos 450 grs.).\n\nBox Dulce Compartir\n\n(01 corazón de naranja confitada, 04 panes cuñapé, 02 cachitos de mantequilla, 08 mini brioche cacao, 06 galletas corazón, 04 chancays y 01 mermelada artesanal).\n\nLo Más Pedido De La Semana\nPan blanco de masa madre\nKeke de Naranja\nKeke Navideño\nPack 2 – masas de pizza\nPack 1 – masas de pizza\nPan Molido\nTostadas\nPan Cuñapé\nHorarios de Atención\n\"Todos los pedidos son con dos días de anticipación\"\n\nContactanos:\n\n+51 923 689 671\n\nHorarios:\n\nLunes a Viernes:\n\n7:00 am. a 3:00 pm.\n\nSabados:\n\n07:00 am. –  1:00 pm\n\nIngresa al catálogo\nNOTICIAS & BLOG\nEnteraté De Nuestros Avances\nHello world!\nADMIN  ABRIL 10, 2024\n\nWelcome to WordPress. This is your first post. Edit or delete it, then start writing!\n\nREAD MORE\nPan Campesino de semillas\nADMIN  FEBRERO 24, 2024\n\nEl nuevo pan de semillas que alegrara tus mañanas con un desayuno saludable.\n\nREAD MORE\nLATEST NEWS\n\nAliquam faucibus nec, tempor semper tortor. Duis eget orci risus. Pellentesque nec dui sed facilisis condimentum justo nec, tempor semper tortor. Duis eget orci risus. Pellentesque nec dui sed nulla tempor semper tortor. Duis eget orci risus. Pellentesque nec dui sed facilisis\n\nReserva tu pedido con anticipación de 2 días\nEnvia Tu Información Para Realizar Tu Pedido\nNombres\nCorreo\nTelefono\nFecha\nHora\nMensaje\nMAKE RESERVATION\nCONTACTANOS\n\nAv. Miguel Grau 279 – Callao\n\nEmail: asistente.gerencia@kalatanta.pe\nMovil: + 51 923 689 671\nGALLERY\nPostres Artesanales\n48\nCestas Regionales\n6\nAños de Experiencia\n10\nPanes Artesanales\n28\nCONTACTANOS\n\nAV. MIGUEL GRAU 279, LA PUNTA-CALLAO\n\nCorreo: asistente.gerencia@kalatanta.pe\nTelef: + 51 923 689 671\nHACERCA DE:\n\"Pan con Alma y Tradición, Hecho a Mano con Amor, Sabores que Te Enamoran.\"\nANDRÉS UGAZ\nMAESTRO PANADERO\nFacebook-f\n \nTwitter\n \nYoutube\n \nGoogle-plus-g\n \nBehance\n\nCopyright © 2020 Bakery – Design by ArrowHitech – All Rights Reserved\n\n0\nTú carrito\nTú carro esta vacio\nRegresa a la tienda\nSeguir comprando",
+      "typography": [
+        {
+          "text": "Inicio",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(198, 141, 122)"
+        },
+        {
+          "text": "Contactanos",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Mi Cuenta",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Prensa",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Inicio",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Contactanos",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Mi Cuenta",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Prensa",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Inicio",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Contactanos",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Mi Cuenta",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Prensa",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Nosotros",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Certificaciones",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Tienda",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Nosotros",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Certificaciones",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Tienda",
+          "font": "Oswald, sans-serif",
+          "size": "16px",
+          "color": "rgb(51, 55, 61)"
+        },
+        {
+          "text": "Nosotros",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Certificaciones",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Tienda",
+          "font": "Oswald, sans-serif",
+          "size": "14px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "KALATANTA",
+          "font": "Oswald, sans-serif",
+          "size": "72px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Nuestros Servicios",
+          "font": "Oswald, sans-serif",
+          "size": "36px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "panaderia",
+          "font": "Oswald, sans-serif",
+          "size": "18px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "pasteleria",
+          "font": "Oswald, sans-serif",
+          "size": "18px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "talleres",
+          "font": "Oswald, sans-serif",
+          "size": "18px",
+          "color": "rgb(0, 0, 0)"
+        },
+        {
+          "text": "Nuestra Historia",
+          "font": "Oswald, sans-serif",
+          "size": "36px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "TESTIMONIOS",
+          "font": "Oswald, sans-serif",
+          "size": "36px",
+          "color": "rgb(126, 90, 78)"
+        },
+        {
+          "text": "Pedidos Especiales",
+          "font": "Oswald, sans-serif",
+          "size": "36px",
+          "color": "rgb(255, 255, 255)"
+        },
+        {
+          "text": "Lo más pedido de la semana",
+          "font": "Italianno, sans-serif",
+          "size": "30px",
+          "color": "rgb(0, 0, 0)"
+        }
+      ],
+      "backgrounds": [
+        {
+          "tag": "BODY",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgb(126, 90, 78)"
+        },
+        {
+          "tag": "SECTION",
+          "background": "rgba(0, 0, 0, 0)"
+        }
+      ],
+      "images": [
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "panaeria1",
+          "loaded": true
+        },
+        {
+          "alt": "pasteleria",
+          "loaded": true
+        },
+        {
+          "alt": "red social",
+          "loaded": true
+        },
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "JONT NICOLIN KOOK",
+          "loaded": true
+        },
+        {
+          "alt": "JONT NICOLIN KOOK",
+          "loaded": true
+        },
+        {
+          "alt": "JONT NICOLIN KOOK",
+          "loaded": true
+        },
+        {
+          "alt": "JONT NICOLIN KOOK",
+          "loaded": true
+        },
+        {
+          "alt": "JONT NICOLIN KOOK",
+          "loaded": true
+        },
+        {
+          "alt": "Mini Box Lonchesito",
+          "loaded": true
+        },
+        {
+          "alt": "Box Selección # 1",
+          "loaded": true
+        },
+        {
+          "alt": "Box Dulce Compartir",
+          "loaded": true
+        },
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        },
+        {
+          "alt": "Pan blanco de masa madre",
+          "loaded": true
+        },
+        {
+          "alt": "Keke de Naranja",
+          "loaded": true
+        },
+        {
+          "alt": "Keke Navideño",
+          "loaded": true
+        },
+        {
+          "alt": "Pack 2  - masas de pizza",
+          "loaded": true
+        },
+        {
+          "alt": "Pack 1 - masas de pizza",
+          "loaded": true
+        },
+        {
+          "alt": "Pan Molido",
+          "loaded": true
+        },
+        {
+          "alt": "Tostadas",
+          "loaded": true
+        },
+        {
+          "alt": "Pan Cuñapé",
+          "loaded": true
+        },
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "campesino de semillas",
+          "loaded": true
+        },
+        {
+          "alt": "familia kala tanta",
+          "loaded": true
+        },
+        {
+          "alt": "logo",
+          "loaded": true
+        },
+        {
+          "alt": "",
+          "loaded": true
+        }
+      ]
+    },
+    "mobile": {
+      "width": 375,
+      "scrollWidth": 441
+    }
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "approved": false,
+  "method": "image_gen, con logo y fotografía reales como referencias",
+  "purpose": "Explorar composición de portada y acceso; no especificar funcionalidades ni contenido comercial",
+  "promptRecord": "Resumen de dirección. Los prompts literales no se conservaron al reanudar la sesión.",
+  "images": [
+    {
+      "file": "publico-a.png",
+      "source": "exec-501dc788-6b94-459c-bb75-03f6beb065eb.png",
+      "direction": "Bloque terracota a la izquierda, foto sin velo a la derecha; logo y navegación pública"
+    },
+    {
+      "file": "publico-b.png",
+      "source": "exec-a42325d4-9a92-457b-bc4b-9143e88466da.png",
+      "direction": "Foto a la izquierda, bloque azul a la derecha; serif pública y marca original"
+    },
+    {
+      "file": "login-a.png",
+      "source": "exec-c6fc1225-0f7b-44d8-ab36-e454ac5bdef6.png",
+      "direction": "Login dividido, gran logo sobre terracota y formulario Correo, Contraseña, Entrar"
+    },
+    {
+      "file": "login-b.png",
+      "source": "exec-4d2e802c-6df6-4a86-8e81-f88637576cfb.png",
+      "direction": "Login centrado con logo, línea azul y campos de acceso existentes"
+    }
+  ]
+}
