@@ -90,7 +90,9 @@ zoom nativo del navegador.
 
 Dan pidió adaptar una referencia adjunta antes de pasar al siguiente bloque: cabecera orgánica
 con transición ondulada al formulario. Se aplicó terracota/crema, Jakarta y el logo original circular,
-con los mismos títulos, campos y botón. La onda y las formas son decorativas, sin foco ni animación.
+con los mismos títulos, campos y botón. En su ajuste posterior, Dan pidió centrar el logo y los títulos
+en móvil: quedan alineados al centro de la pantalla; el formulario conserva su alineación.
+La onda y las formas son decorativas, sin foco ni animación.
 La composición de escritorio conserva sus dos columnas. No cambian acciones de autenticación,
 retornos, validación, permisos ni comportamiento de sesión; tampoco se añaden controles.
 
@@ -116,6 +118,9 @@ Revisión independiente final: los hallazgos importantes quedan cerrados y no ha
 materiales. Subtítulo separado de la onda por 17 px normales y 34 px con zoom CSS. ESLint completo
 sin advertencias y Prettier completo aprobado. E2E del build final: `autenticacion`, `identidad-panel` y `panel-sesiones`,
 **32 aprobadas, cero omisiones y cero fallos** (un trabajador, móvil y escritorio, 1.8 minutos).
+Esta ejecución corresponde al diseño ondulado anterior al ajuste final de alineación; el centrado
+no cambia estructura ni formulario. Sus capturas se repiten con el build final y verifican también
+el centro del logo y la alineación de títulos en móvil. El CI del PR comprueba el último commit.
 
 La validación funcional y el CI anteriores corresponden al commit `39793cc`; no se atribuyen a este
 ajuste posterior. Los resultados actuales se registran en el PR #90. Siguen pendientes el teclado

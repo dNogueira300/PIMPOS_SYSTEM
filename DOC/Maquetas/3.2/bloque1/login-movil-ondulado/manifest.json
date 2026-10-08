@@ -31,8 +31,10 @@
         "loaded": true,
         "width": 160,
         "height": 160,
+        "center": 187.5,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",
@@ -107,8 +109,10 @@
         "loaded": true,
         "width": 160,
         "height": 160,
+        "center": 195,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",
@@ -183,8 +187,10 @@
         "loaded": true,
         "width": 160,
         "height": 160,
+        "center": 195,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",
@@ -259,8 +265,10 @@
         "loaded": true,
         "width": 184.3125,
         "height": 184.3125,
+        "center": 161.265625,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "left",
       "controls": [
         {
           "name": "correo",
@@ -335,8 +343,10 @@
         "loaded": true,
         "width": 345.59375,
         "height": 345.59375,
+        "center": 302.390625,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "left",
       "controls": [
         {
           "name": "correo",
@@ -411,8 +421,10 @@
         "loaded": true,
         "width": 160,
         "height": 160,
+        "center": 187.5,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",
@@ -487,8 +499,10 @@
         "loaded": true,
         "width": 160,
         "height": 160,
+        "center": 195,
         "radius": "3.35544e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",
@@ -563,8 +577,10 @@
         "loaded": true,
         "width": 262,
         "height": 262,
+        "center": 195,
         "radius": "1.67772e+07px"
       },
+      "titleAlign": "center",
       "controls": [
         {
           "name": "correo",

@@ -1,7 +1,8 @@
 # Login móvil ondulado — 08/10/2026
 
 Adaptación de `referencia.png`, adjuntada por Dan: cabecera terracota con formas orgánicas
-tenues, logo circular original y separación ondulada sobre fondo crema. Conserva Jakarta,
+tenues, logo circular original y separación ondulada sobre fondo crema. Logo y títulos centrados
+horizontalmente en móvil, según el ajuste posterior de Dan. Conserva Jakarta,
 «Panadería Pimpo's», «Panel de gestión», Correo, Contraseña y Entrar. No incorpora los controles
 de registro ni recuperación de la referencia; no cambia el comportamiento del acceso.
 
@@ -23,6 +24,7 @@ solo `zoom-css-200-390.png` aplica `body.style.zoom = '2'` para simular aumento 
 `manifest.json` registra tamaños, imagen cargada, círculo, geometría de subtítulo/onda, controles
 y axe sin reglas desactivadas. Las ocho vistas tienen controles visibles, cero violaciones de axe,
 cero desbordamiento horizontal y ningún solapamiento entre el subtítulo y la onda.
+En las vistas móviles, el centro del logo coincide con el de la pantalla y el título usa alineación centrada.
 
 La comparación con `../login-1440.png` registra 12596 píxeles distintos de 1440000 (0.875 %):
 se conserva la composición de escritorio, sin afirmar igualdad píxel a píxel. La onda y las formas

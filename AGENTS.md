@@ -1271,7 +1271,8 @@ pendiente teclado móvil físico y zoom nativo en formulario largo. Resultado ac
 
 **Ajuste de Dan del 08/10/2026, antes de T3:** adaptar el login móvil a la referencia adjunta,
 con cabecera orgánica, onda hacia el formulario y formas decorativas. Se conserva la paleta A
-terracota/crema, el logo circular, Jakarta, los títulos y el formulario existentes. Sin nuevas
+terracota/crema, el logo circular, Jakarta, los títulos y el formulario existentes. Dan pidió después
+centrar horizontalmente el logo y los títulos en móvil; el formulario conserva su alineación. Sin nuevas
 acciones ni animaciones decorativas. Implementado en el mismo PR #90; evidencia actual en
 `DOC/Maquetas/3.2/bloque1/login-movil-ondulado/`. Las capturas móviles anteriores del bloque 1
 documentan la composición sustituida, no el último login móvil. Escritorio conserva sus dos columnas.

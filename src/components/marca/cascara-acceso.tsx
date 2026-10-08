@@ -30,7 +30,7 @@ export async function CascaraAcceso({
     return (
       <div className="bg-background min-h-dvh">
         <main className="grid min-h-dvh w-full grid-cols-[minmax(0,1fr)] content-start md:grid-cols-[42%_minmax(0,1fr)] md:grid-rows-[1fr_auto_auto_1fr] md:content-normal">
-          <div className="bg-primary relative isolate flex items-start overflow-hidden px-8 pt-8 md:col-start-1 md:row-span-4 md:row-start-1 md:items-center md:justify-center md:px-0 md:py-10">
+          <div className="bg-primary relative isolate flex items-start justify-center overflow-hidden px-8 pt-8 md:col-start-1 md:row-span-4 md:row-start-1 md:items-center md:px-0 md:py-10">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 -z-10 md:hidden"
@@ -41,7 +41,7 @@ export async function CascaraAcceso({
             </div>
             {logo}
           </div>
-          <div className="bg-primary text-primary-foreground md:text-foreground relative px-8 pt-5 pb-20 md:col-start-2 md:row-start-2 md:w-[calc(100%_-_40px)] md:max-w-[440px] md:justify-self-center md:bg-transparent md:px-10 md:pt-10 md:pb-0">
+          <div className="bg-primary text-primary-foreground md:text-foreground relative px-8 pt-5 pb-20 text-center md:col-start-2 md:row-start-2 md:w-[calc(100%_-_40px)] md:max-w-[440px] md:justify-self-center md:bg-transparent md:px-10 md:pt-10 md:pb-0 md:text-left">
             {cabecera}
             <svg
               aria-hidden="true"
