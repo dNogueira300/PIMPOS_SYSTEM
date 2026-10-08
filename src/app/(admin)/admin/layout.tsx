@@ -5,6 +5,8 @@ import { CascaraPanel } from "@/components/panel/cascara-panel";
 import { VigiaInactividad } from "@/components/panel/vigia-inactividad";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
+import { obtenerConfiguracion } from "@/lib/datos/configuracion";
+import { urlDeImagen } from "@/lib/supabase/publico";
 
 export const metadata: Metadata = {
   title: "Panel",
@@ -26,6 +28,7 @@ export default function LayoutPanel({ children }: LayoutProps<"/admin">) {
 
 async function CascaraConSesion({ children }: { children: React.ReactNode }) {
   const sesion = await exigirAcceso("/admin");
+  const config = await obtenerConfiguracion();
   const supabase = await crearClienteServidor();
   const { data } = await supabase
     .from("perfiles")
@@ -34,7 +37,12 @@ async function CascaraConSesion({ children }: { children: React.ReactNode }) {
     .single();
 
   return (
-    <CascaraPanel rol={sesion.rol} nombre={data?.nombre_completo ?? sesion.correo ?? ""}>
+    <CascaraPanel
+      rol={sesion.rol}
+      nombre={data?.nombre_completo ?? sesion.correo ?? ""}
+      logoSrc={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
+      logoAlt={config.logo_alt}
+    >
       <VigiaInactividad />
       {children}
     </CascaraPanel>

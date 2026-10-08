@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { CascaraAcceso } from "@/components/marca/cascara-acceso";
+
 import { FormularioIngreso } from "./formulario";
 
 export const metadata: Metadata = {
@@ -23,16 +25,21 @@ const MOTIVOS: Readonly<Record<string, string>> = {
  */
 export default function Ingresar(props: PageProps<"/ingresar">) {
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-sm flex-col justify-center gap-6 px-6 py-12">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold">Panadería Pimpo&apos;s</h1>
-        <p className="text-muted-foreground text-sm">Panel de gestión</p>
-      </div>
-
+    <CascaraAcceso
+      movilOndulado
+      cabecera={
+        <div className="flex flex-col gap-1">
+          <h1 className="text-[25px] leading-tight font-semibold">Panadería Pimpo&apos;s</h1>
+          <p className="text-primary-foreground/85 md:text-muted-foreground text-sm">
+            Panel de gestión
+          </p>
+        </div>
+      }
+    >
       <Suspense fallback={<p className="text-muted-foreground text-sm">Cargando...</p>}>
         <Formulario searchParams={props.searchParams} />
       </Suspense>
-    </main>
+    </CascaraAcceso>
   );
 }
 

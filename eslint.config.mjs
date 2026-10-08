@@ -20,6 +20,7 @@ export default defineConfig([
   prettier,
 
   globalIgnores([
+    ".superpowers/**",
     ".next/**",
     "out/**",
     "build/**",

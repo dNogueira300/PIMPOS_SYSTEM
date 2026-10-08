@@ -1,0 +1,35 @@
+{
+  "source": "DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png",
+  "sourceSha256": "ae90087ee7b28e620d24318da6776c70a8a6c81315648cfdf7a2eb7dadbded53",
+  "sourceBytes": 1292753,
+  "sourceWidth": 1536,
+  "sourceHeight": 1024,
+  "originalModified": false,
+  "method": "Sharp resize + WebP quality 94, alphaQuality 100; artwork and transparency preserved",
+  "variants": [
+    {
+      "file": "logo-256.webp",
+      "width": 256,
+      "height": 171,
+      "hasAlpha": true,
+      "bytes": 18356,
+      "savingPercent": 98.6
+    },
+    {
+      "file": "logo-512.webp",
+      "width": 512,
+      "height": 341,
+      "hasAlpha": true,
+      "bytes": 43978,
+      "savingPercent": 96.6
+    },
+    {
+      "file": "logo-768.webp",
+      "width": 768,
+      "height": 512,
+      "hasAlpha": true,
+      "bytes": 72284,
+      "savingPercent": 94.4
+    }
+  ]
+}

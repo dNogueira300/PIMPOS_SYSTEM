@@ -1,7 +1,41 @@
 # Marca — Panadería Pimpo's
 
+> **Elección de Dan, 07/10/2026:** dirección A (terracota/neutros cálidos), sin azul en la interfaz.
+> El logo para todas las superficies proviene de `DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png`.
+> Derivados WebP 256/512/768 px, conservando transparencia y original, en
+> `DOC/Maquetas/comparacion-redisenio/assets/`. La maqueta revisada es la referencia de dirección;
+> el bloque 1 ya aplica esa identidad en la rama `feat/rediseno-acceso-panel`, pendiente de fusión.
+> Las decisiones visuales históricas siguientes
+> no deben reintroducir azul ni el logo anterior en el nuevo diseño.
+
+> **Actualización de alcance, 06/10/2026 (Dan).** Para el próximo rediseño dejan de ser
+> obligatorias las prohibiciones estéticas de minimalismo, acabado premium y estilo contemporáneo,
+> así como la paleta y tipografías de F3.1. Las tres webs de referencia sí pueden orientar el nuevo
+> lenguaje visual. Los apartados visuales inferiores describen la versión vigente y decisiones
+> históricas. Se mantienen los hechos, textos oficiales, precios, identidad del negocio y todas las
+> funcionalidades. La composición pública y los módulos específicos siguen pendientes. Ver
+> `../DOC/Analisis UI UX - Rediseno integral.md` y `../AGENTS.md`, sección Diseño.
+
 Voz, tono y uso de marca. Todo lo de aquí sale de la **ficha de levantamiento** (secciones 1.8, 1.10,
 1.11, 2.1–2.7 y 5.x); nada está inventado. Cuando algo no estaba en la ficha, se dice explícitamente.
+
+## Identidad implementada en 03.2, bloque 1
+
+| Uso                                       | Valor                                                                               |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- |
+| Fondo / tinta / texto secundario          | `#F7F5F0` / `#28251F` / `#59554E`                                                   |
+| Acción / hover / texto sobre acción       | `#953E2C` / `#773020` / `#FFFFFF`                                                   |
+| Fondo secundario / borde / borde de campo | `#EEEAE2` / `#D9D4CA` / `#837B70`                                                   |
+| Tipografía de interfaz, incluidos títulos | Plus Jakarta Sans local                                                             |
+| Controles                                 | Radios de 5–6 px, foco terracota, área principal mínima de 44 px                    |
+| Logo de acceso                            | WebP transparente dentro de un círculo claro; 160 px móvil, hasta 350 px escritorio |
+
+Los WebP de 256/512/768 px están en `public/marca/`; el mayor conserva la ruta `logo.webp`.
+El logo administrable mantiene prioridad sobre la imagen de reserva. Panel y acceso comparten
+`LogoMarca`, con resolución de configuración en el servidor. El lateral es claro y la selección
+terracota. Los avisos informativos usan neutros; peligro y éxito conservan su significado.
+Los tokens globales también afectan al público, cuya composición se completará en T5/T6.
+El tapiz aprobado no corresponde al panel ni al login. Los apartados de F3.1 siguientes son históricos.
 
 **Para qué sirve:** cualquier texto que vea un cliente o el personal —un título de portada, el
 mensaje de un error, el rótulo de un botón, un pie de correo— se escribe con este documento al lado.

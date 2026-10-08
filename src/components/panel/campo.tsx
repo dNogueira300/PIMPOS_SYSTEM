@@ -22,7 +22,7 @@ type Props = {
 
 /** Clase de los controles nativos del panel: 44 px, borde de 3:1, foco visible. */
 export const CLASE_CONTROL =
-  "min-h-11 w-full rounded-lg border border-input bg-card px-3 py-2 text-base aria-invalid:border-destructive aria-invalid:border-2 focus-visible:outline-2 focus-visible:outline-ring";
+  "min-h-11 w-full rounded-md border border-input bg-card px-3 py-2 text-base aria-invalid:border-destructive aria-invalid:border-2 focus-visible:outline-2 focus-visible:outline-ring";
 
 export function Campo({ nombre, etiqueta, ayuda, opcional, children }: Props) {
   const id = useId();

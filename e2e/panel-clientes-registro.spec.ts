@@ -180,7 +180,9 @@ test("un nombre con código no se ejecuta en el mapa de la ficha", async ({ page
   try {
     await page.goto(`/admin/clientes/${id}`);
     const marcador = page.locator(".leaflet-marker-icon").first();
-    await marcador.click();
+    // Esta batería es móvil. Una pulsación táctil evita el salto de foco que
+    // Leaflet provoca al simular un mouse junto a la barra inferior fija.
+    await marcador.tap();
     const globo = page.locator(".leaflet-popup-content");
     await expect(globo).toContainText(`<img src=x onerror=`);
     await expect(globo.locator("img")).toHaveCount(0);

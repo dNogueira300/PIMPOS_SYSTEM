@@ -1,0 +1,123 @@
+[
+  {
+    "name": "pestana-hover-390",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/configuracion",
+    "width": 390,
+    "height": 900,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "horario-error-390",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/configuracion",
+    "width": 390,
+    "height": 900,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "dialogo-390",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/contenido/productos",
+    "width": 390,
+    "height": 900,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "pestana-hover-1440",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/configuracion",
+    "width": 1440,
+    "height": 900,
+    "scrollWidth": 1440,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "horario-error-1440",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/configuracion",
+    "width": 1440,
+    "height": 900,
+    "scrollWidth": 1440,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "dialogo-1440",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/contenido/productos",
+    "width": 1440,
+    "height": 900,
+    "scrollWidth": 1440,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "mas-390",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin",
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "lista-vacia-390",
+    "note": "Build real; sin inyección de estilos",
+    "path": "/admin/contenido/productos",
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "guardando-390",
+    "note": "POST interceptado y abortado; ninguna categoría creada",
+    "path": "/admin/contenido/categorias/nueva",
+    "width": 390,
+    "height": 844,
+    "scrollWidth": 390,
+    "focus": null,
+    "disabled": ["Guardando…"],
+    "blueStyles": []
+  },
+  {
+    "name": "formulario-viewport-bajo-390",
+    "note": "Altura reducida y campo enfocado; simulación, no teclado físico",
+    "path": "/admin/clientes/nuevo",
+    "width": 390,
+    "height": 500,
+    "scrollWidth": 390,
+    "focus": "nombre_completo",
+    "disabled": [],
+    "blueStyles": []
+  },
+  {
+    "name": "formulario-zoom-css-200",
+    "note": "Zoom CSS al 200%; no equivale a zoom nativo del navegador",
+    "path": "/admin/clientes/nuevo",
+    "width": 1440,
+    "height": 1000,
+    "scrollWidth": 1440,
+    "focus": "nombre_completo",
+    "disabled": [],
+    "blueStyles": []
+  }
+]

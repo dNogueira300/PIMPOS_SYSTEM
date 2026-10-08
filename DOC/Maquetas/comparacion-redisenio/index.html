@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pimpo’s · Comparación del rediseño</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f3f1ec;
+        color: #242b32;
+        font:
+          15px/1.55 system-ui,
+          sans-serif;
+      }
+      header,
+      main,
+      footer {
+        max-width: 1680px;
+        margin: auto;
+        padding: 28px 36px;
+      }
+      header {
+        border-bottom: 1px solid #d2cfc8;
+        display: flex;
+        justify-content: space-between;
+        gap: 28px;
+        align-items: flex-start;
+      }
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #716354;
+      }
+      h1 {
+        font-size: clamp(28px, 3vw, 42px);
+        line-height: 1.12;
+        letter-spacing: -0.045em;
+        margin: 10px 0 12px;
+      }
+      h2 {
+        font-size: 23px;
+        letter-spacing: -0.025em;
+        margin: 0 0 12px;
+      }
+      p {
+        margin: 0 0 12px;
+        max-width: 85ch;
+      }
+      .status {
+        border: 1px solid #b8c8bb;
+        color: #275535;
+        background: #eaf1eb;
+        padding: 7px 12px;
+        border-radius: 5px;
+        white-space: nowrap;
+        font-size: 13px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        align-items: end;
+        margin: 20px 0;
+      }
+      .controls label {
+        display: grid;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+      select,
+      button {
+        font: inherit;
+        min-height: 44px;
+        border: 1px solid #88919a;
+        border-radius: 5px;
+        background: #fff;
+        color: #242b32;
+        padding: 9px 12px;
+      }
+      button {
+        cursor: pointer;
+      }
+      button[aria-pressed="true"] {
+        background: #953e2c;
+        color: white;
+      }
+      .directions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin: 8px 0 24px;
+      }
+      .direction {
+        border-top: 3px solid #953e2c;
+        padding-top: 12px;
+      }
+      .direction.b {
+        border-color: #953e2c;
+      }
+      .direction strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .direction p {
+        font-size: 14px;
+        color: #505961;
+      }
+      .board {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+      .frame {
+        margin: 0;
+        min-width: 0;
+      }
+      .frame figcaption {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      .viewport {
+        background: #e5e3de;
+        border: 1px solid #c8c7c1;
+        max-height: 75vh;
+        overflow: auto;
+        scrollbar-gutter: stable;
+      }
+      .viewport img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .board.mobile {
+        max-width: 860px;
+        margin: auto;
+      }
+      .board.mobile .viewport {
+        max-height: 844px;
+      }
+      .frame a {
+        color: #953e2c;
+        font-size: 12px;
+        text-underline-offset: 3px;
+      }
+      .note {
+        padding: 14px 18px;
+        background: #fff;
+        border-left: 3px solid #b48a54;
+        margin: 18px 0 28px;
+        color: #4e555c;
+        font-size: 13px;
+      }
+      .details {
+        margin: 36px 0;
+        border-top: 1px solid #ccc;
+        padding-top: 24px;
+      }
+      .details summary {
+        font-weight: 650;
+        cursor: pointer;
+        min-height: 44px;
+      }
+      .concepts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 18px;
+      }
+      .concepts img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .concepts figure {
+        margin: 0;
+      }
+      .concepts figcaption {
+        font-size: 13px;
+        padding: 8px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+      }
+      a {
+        color: #953e2c;
+      }
+      footer {
+        font-size: 12px;
+        color: #59616a;
+        padding-top: 0;
+      }
+      #screen-note {
+        min-height: 24px;
+      }
+      button:focus-visible,
+      a:focus-visible,
+      select:focus-visible,
+      summary:focus-visible,
+      .viewport:focus-visible {
+        outline: 3px solid #953e2c;
+        outline-offset: 3px;
+      }
+      @media (max-width: 720px) {
+        header,
+        main,
+        footer {
+          padding: 20px 16px;
+        }
+        header {
+          display: block;
+        }
+        .status {
+          display: inline-block;
+          margin-top: 8px;
+        }
+        .directions,
+        .board,
+        .concepts {
+          grid-template-columns: 1fr;
+        }
+        .controls {
+          gap: 12px;
+        }
+        .controls label {
+          flex: 1;
+          min-width: 140px;
+        }
+        select {
+          width: 100%;
+        }
+        .viewport {
+          max-height: 70vh;
+        }
+        .direction {
+          padding-top: 8px;
+        }
+        .directions {
+          gap: 12px;
+        }
+        .frame figcaption {
+          font-size: 13px;
+        }
+      }
+      .board.single {
+        grid-template-columns: 1fr;
+      }
+      .board.single.mobile {
+        max-width: 390px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <div class="eyebrow">Panadería Pimpo’s · Exploración visual · 07 oct 2026</div>
+        <h1>Maqueta A · Cálida y directa</h1>
+        <p>
+          Dirección elegida: terracota, fondo cálido y títulos sans. Logo actualizado en el acceso,
+          el sitio público y el panel; controles sin el azul heredado.
+        </p>
+      </div>
+      <div class="status">A elegida · Ajustes del 07/10</div>
+    </header>
+    <main>
+      <div class="directions">
+        <div class="direction">
+          <strong>A · Cálida y directa</strong>
+          <p>
+            Terracota, fondo cálido y títulos sans. Login dividido, navegación lateral clara y
+            accesos con menos cajas.
+          </p>
+        </div>
+        <div class="direction b">
+          <strong>Logo indicado por Dan</strong>
+          <p>
+            Versiones WebP de 18, 44 y 72 KB, con transparencia. El archivo original permanece
+            intacto.
+          </p>
+        </div>
+      </div>
+      <div class="controls">
+        <label
+          >Pantalla<select id="screen">
+            <option value="login">01 · Login</option>
+            <option value="publico">02 · Portada pública</option>
+            <option value="catalogo">03 · Catálogo público</option>
+            <option value="inicio">04 · Inicio del panel</option>
+            <option value="insumos">05 · Insumos</option>
+            <option value="ingreso">06 · Registrar ingreso</option>
+            <option value="cliente-nuevo">07 · Nuevo cliente</option>
+            <option value="historial">08 · Historial</option>
+            <option value="configuracion">09 · Configuración</option>
+            <option value="producto-nuevo">10 · Nuevo producto</option>
+          </select></label
+        >
+        <label
+          >Tamaño<select id="width">
+            <option value="1440">Escritorio · 1440 px</option>
+            <option value="390">Móvil · 390 px</option>
+          </select></label
+        >
+        <label
+          >Comparación<select id="mode">
+            <option value="a">A ajustada</option>
+            <option value="a-liso,a">Fondo liso frente a tapiz</option>
+            <option value="actual,a">Actual frente a A</option>
+            <option value="a-inicial,a">A anterior frente a A ajustada</option>
+          </select></label
+        >
+        <button id="sync" type="button" aria-pressed="true">Desplazamiento sincronizado</button>
+      </div>
+      <p id="screen-note" aria-live="polite"></p>
+      <div class="board" id="board">
+        <figure class="frame">
+          <figcaption>
+            <strong id="left-title">A · Cálida y directa</strong
+            ><a id="left-link" target="_blank" rel="noopener">Abrir a tamaño real ↗</a>
+          </figcaption>
+          <div
+            class="viewport"
+            id="left-viewport"
+            tabindex="0"
+            aria-label="Captura izquierda, desplazable"
+          >
+            <img id="left-image" alt="" />
+          </div>
+        </figure>
+        <figure class="frame">
+          <figcaption>
+            <strong id="right-title">B · Azul de marca</strong
+            ><a id="right-link" target="_blank" rel="noopener">Abrir a tamaño real ↗</a>
+          </figcaption>
+          <div
+            class="viewport"
+            id="right-viewport"
+            tabindex="0"
+            aria-label="Captura derecha, desplazable"
+          >
+            <img id="right-image" alt="" />
+          </div>
+        </figure>
+      </div>
+      <div class="note">
+        Son capturas comparables de pantallas reales con estilos temporales. Los controles dentro de
+        las imágenes no son interactivos. La navegación inferior aparece en la posición de la
+        primera vista en las capturas completas. El código del producto y sus funcionalidades no se
+        han modificado.
+      </div>
+      <details class="details">
+        <summary>Evidencia autenticada y alcance de la comparación</summary>
+        <p>
+          28 capturas de la interfaz actual: login y panel con administración, ingeniería y reparto,
+          en escritorio y móvil. Las propuestas A/B añaden 40 capturas en 10 pantallas y 20 bases
+          comparables. Las cuentas temporales se crearon y eliminaron únicamente en Supabase local.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Incluido</th>
+              <th>Alcance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Identidad</td>
+              <td>
+                Logo original en login, barra lateral y cabecera móvil. Sin redibujar la marca.
+              </td>
+            </tr>
+            <tr>
+              <td>Carrusel</td>
+              <td>
+                Velo blanco retirado en ambas propuestas; texto sobre un bloque sólido. Se conservan
+                diapositivas, enlaces, flechas y puntos.
+              </td>
+            </tr>
+            <tr>
+              <td>Paridad</td>
+              <td>
+                Campos, etiquetas, botones y destinos de enlaces comparados automáticamente
+                antes/después. No equivale a una prueba E2E de toda la aplicación.
+              </td>
+            </tr>
+            <tr>
+              <td>Datos y fotos</td>
+              <td>
+                Panel con datos de la copia local. En portada, las imágenes que no cargaban se
+                sustituyeron en el navegador por archivos reales de fachada/horno, igual en Actual,
+                A y B. No representa el catálogo publicado en producción.
+              </td>
+            </tr>
+            <tr>
+              <td>Por validar al implementar</td>
+              <td>
+                Estados de error, diálogos, pestañas secundarias, detalle/edición, reportes,
+                navegación completa por teclado, contraste integral y rendimiento.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 16px">
+          <a href="LEEME.md">Leer decisiones y límites</a> ·
+          <a href="evidencia/manifest.json">Registro de evidencia</a> ·
+          <a href="comparacion.json">Registro de paridad visual</a>
+        </p>
+      </details>
+      <section class="details">
+        <h2>Dirección elegida</h2>
+        <p>
+          Dan eligió A y pidió usar Diseño/logo.png y retirar el azul de toda la interfaz. La
+          siguiente etapa convierte esta dirección en tokens, componentes y un plan por entregas con
+          comprobación de paridad funcional. Las fotografías conservan sus colores reales.
+        </p>
+      </section>
+    </main>
+    <footer>Maqueta A elegida · Ajustes locales · Sin despliegue ni cambios funcionales</footer>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const names = {
+        a: "A ajustada · Logo nuevo y controles terracota",
+        "a-liso": "A · Fondo liso, sin ilustración del horno",
+        "a-inicial": "A anterior · Antes de los ajustes",
+        b: "B · Azul de marca",
+        actual: "Actual · Base local",
+      };
+      const notes = {
+        login:
+          "El rediseño empieza aquí: logo original y los mismos campos Correo, Contraseña y Entrar.",
+        publico:
+          "Tapiz de panadería aprobado, con intensidad reducida. Ilustración del horno retirada; se conserva el texto. Compara con el fondo liso.",
+        catalogo: "Categorías, precios y acciones existentes; datos de la copia local.",
+        inicio:
+          "Identidad visible, jerarquía más clara y los mismos avisos, secciones e historial.",
+        insumos: "Mismas búsquedas, acciones y existencias; más claridad en las filas.",
+        ingreso:
+          "Mismos campos, líneas de insumos y botones. No se ha registrado ningún movimiento.",
+        "cliente-nuevo":
+          "Primera pestaña del formulario real. El resto de pestañas se conserva; no se ha guardado un cliente.",
+        historial:
+          "Historial real de la copia local, incluidas las cuentas temporales de esta exploración.",
+        configuracion: "Primera pestaña de la configuración real. No se han guardado cambios.",
+        "producto-nuevo": "Primera pestaña del alta real. No se ha creado ningún producto.",
+      };
+      let syncing = false;
+      function render() {
+        const wallpaperAvailable = ["publico", "catalogo"].includes($("screen").value);
+        $("mode").querySelector('option[value="a-liso,a"]').disabled = !wallpaperAvailable;
+        if (!wallpaperAvailable && $("mode").value === "a-liso,a") $("mode").value = "a";
+        const screen = $("screen").value,
+          width = $("width").value,
+          variants = $("mode").value.split(",");
+        $("board").classList.toggle("mobile", width === "390");
+        $("board").classList.toggle("single", variants.length === 1);
+        $("right-viewport").closest("figure").hidden = variants.length === 1;
+        $("sync").hidden = variants.length === 1;
+        ["left", "right"].forEach((side, i) => {
+          if (!variants[i]) return;
+          const src = `pantallas/${screen}-${width}-${variants[i]}.png`;
+          $(`${side}-image`).src = src;
+          $(`${side}-image`).alt =
+            `${$("screen").selectedOptions[0].textContent}, ${names[variants[i]]}, ${width} píxeles`;
+          $(`${side}-title`).textContent =
+            variants[i] === "a" && wallpaperAvailable
+              ? "A · Tapiz de panadería tenue"
+              : names[variants[i]];
+          $(`${side}-link`).href = src;
+          $(`${side}-viewport`).scrollTop = 0;
+        });
+        $("screen-note").textContent = notes[screen];
+      }
+      ["screen", "width", "mode"].forEach((id) => $(id).addEventListener("change", render));
+      $("sync").addEventListener("click", () => {
+        const enabled = $("sync").getAttribute("aria-pressed") === "true";
+        $("sync").setAttribute("aria-pressed", String(!enabled));
+      });
+      ["left", "right"].forEach((side, i) => {
+        $(`${side}-viewport`).addEventListener("scroll", () => {
+          if (syncing || $("sync").getAttribute("aria-pressed") !== "true") return;
+          syncing = true;
+          const a = $(`${side}-viewport`),
+            b = $(`${i ? "left" : "right"}-viewport`);
+          const ratio = a.scrollTop / Math.max(1, a.scrollHeight - a.clientHeight);
+          b.scrollTop = ratio * (b.scrollHeight - b.clientHeight);
+          requestAnimationFrame(() => (syncing = false));
+        });
+      });
+      const initialView = new URLSearchParams(location.search);
+      for (const id of ["screen", "width", "mode"]) {
+        const value = initialView.get(id);
+        if ([...$(id).options].some((option) => option.value === value)) $(id).value = value;
+      }
+      render();
+    </script>
+  </body>
+</html>

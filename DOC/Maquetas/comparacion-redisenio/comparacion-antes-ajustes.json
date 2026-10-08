@@ -1,0 +1,526 @@
+[
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [
+      {
+        "alt": "Horno de la panadería durante la producción",
+        "file": "horno1.webp"
+      },
+      {
+        "alt": "Fachada de Panadería Pimpo's con su toldo azul",
+        "file": "fachada1.webp"
+      }
+    ],
+    "scrollWidth": 1440,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [
+      {
+        "alt": "Horno de la panadería durante la producción",
+        "file": "horno1.webp"
+      },
+      {
+        "alt": "Fachada de Panadería Pimpo's con su toldo azul",
+        "file": "fachada1.webp"
+      }
+    ],
+    "scrollWidth": 1440,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [
+      {
+        "alt": "Fachada de Panadería Pimpo's",
+        "file": "fachada1.webp"
+      },
+      {
+        "alt": "Horno de la panadería durante la producción",
+        "file": "horno1.webp"
+      },
+      {
+        "alt": "Fachada de Panadería Pimpo's con su toldo azul",
+        "file": "fachada1.webp"
+      }
+    ],
+    "scrollWidth": 390,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [
+      {
+        "alt": "Fachada de Panadería Pimpo's",
+        "file": "fachada1.webp"
+      },
+      {
+        "alt": "Horno de la panadería durante la producción",
+        "file": "horno1.webp"
+      },
+      {
+        "alt": "Fachada de Panadería Pimpo's con su toldo azul",
+        "file": "fachada1.webp"
+      }
+    ],
+    "scrollWidth": 390,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": false,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 1440,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 390,
+    "direction": "b",
+    "controlsUnchanged": true,
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  }
+]

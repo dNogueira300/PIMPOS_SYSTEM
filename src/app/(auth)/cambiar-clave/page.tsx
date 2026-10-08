@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { Toaster } from "@/components/ui/sonner";
+import { CascaraAcceso } from "@/components/marca/cascara-acceso";
 
 import { FormularioCambioClave } from "./formulario";
 
@@ -16,9 +17,11 @@ export const metadata: Metadata = {
  */
 export default function CambiarClave() {
   return (
-    <main className="mx-auto flex min-h-dvh w-full max-w-sm flex-col justify-center gap-6 px-4 py-10">
-      <div>
-        <h1 className="font-heading text-primary text-3xl">Cambia tu contraseña</h1>
+    <CascaraAcceso>
+      <div className="text-center md:text-left">
+        <h1 className="text-foreground text-[25px] leading-tight font-semibold">
+          Cambia tu contraseña
+        </h1>
         <p className="text-muted-foreground mt-2">
           Elige una contraseña que solo sepas tú. Si entraste con una temporal, desde ahora deja de
           servir.
@@ -31,6 +34,6 @@ export default function CambiarClave() {
       </Suspense>
       {/* El <Toaster> del panel vive en su cáscara, que no envuelve a (auth). */}
       <Toaster position="top-center" richColors />
-    </main>
+    </CascaraAcceso>
   );
 }

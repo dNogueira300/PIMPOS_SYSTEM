@@ -1,0 +1,1130 @@
+[
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "inicio",
+    "route": "/admin",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "insumos",
+    "route": "/admin/insumos",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "ingreso",
+    "route": "/admin/insumos/ingreso",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "cliente-nuevo",
+    "route": "/admin/clientes/nuevo",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "historial",
+    "route": "/admin/auditoria",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "configuracion",
+    "route": "/admin/configuracion",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "producto-nuevo",
+    "route": "/admin/contenido/productos/nuevo",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "login",
+    "route": "/ingresar",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-12",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-13",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-14",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-15",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-16",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-17",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-18",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-19",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "publico",
+    "route": "/",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-12",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-13",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-14",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-15",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-16",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-17",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 1440,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-12",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-13",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 1440,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  },
+  {
+    "name": "catalogo",
+    "route": "/productos",
+    "width": 390,
+    "direction": "a",
+    "controlsUnchanged": true,
+    "paletteChecks": [
+      {
+        "state": "normal",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-1",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-2",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-3",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-4",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-5",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-6",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-7",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-8",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-9",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-10",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-11",
+        "blueValues": []
+      },
+      {
+        "state": "hover-focus-12",
+        "blueValues": []
+      }
+    ],
+    "photoSubstitutions": [],
+    "scrollWidth": 390,
+    "logoVisible": true,
+    "veilHidden": true,
+    "brokenVisibleImages": []
+  }
+]

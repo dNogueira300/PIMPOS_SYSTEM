@@ -99,17 +99,20 @@ test("la barra de aviso dice la hora y las zonas que hay en la base", async ({ p
   await expect(page.getByText(/Lunes a Domingo/i)).toHaveCount(0);
 });
 
-test("la cabecera es clara y la sección activa va en píldora azul", async ({ page, isMobile }) => {
+test("la cabecera usa el fondo cálido y la sección activa terracota", async ({
+  page,
+  isMobile,
+}) => {
   test.skip(isMobile, "La navegación en línea es de escritorio.");
   await page.goto("/productos");
 
   const cabecera = page.getByRole("banner");
-  // Crema, no el azul de antes (plan 03.1, tarea 4).
-  await expect(cabecera).toHaveCSS("background-color", "rgb(255, 249, 238)");
+  // Tokens globales de la dirección A (plan 03.2, bloque 1).
+  await expect(cabecera).toHaveCSS("background-color", "rgb(247, 245, 240)");
 
   const activa = cabecera.getByRole("link", { name: "Productos" });
   await expect(activa).toHaveAttribute("aria-current", "page");
-  await expect(activa).toHaveCSS("background-color", "rgb(18, 48, 110)");
+  await expect(activa).toHaveCSS("background-color", "rgb(149, 62, 44)");
 });
 
 test("la cabecera cabe sin desbordar en los anchos intermedios", async ({ page, isMobile }) => {

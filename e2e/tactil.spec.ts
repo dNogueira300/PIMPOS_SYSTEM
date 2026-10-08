@@ -126,7 +126,9 @@ test("el boton flotante se aparta mientras el de la pagina esta a la vista", asy
   await expect(flotante).toHaveCSS("opacity", "1");
 });
 
-test("los botones son píldoras de al menos 48 px de alto", async ({ page }) => {
+test("los botones mantienen 48 px de alto y el radio discreto de la dirección A", async ({
+  page,
+}) => {
   await page.goto("/");
   // El primer botón VISIBLE de cualquiera de las cuatro variantes, no el primer
   // `.boton-cta`: en el celular ese es el del carrusel, que ahí está oculto, y
@@ -148,9 +150,8 @@ test("los botones son píldoras de al menos 48 px de alto", async ({ page }) => 
     };
   });
 
-  // 48 px y no 44: el prototipo de Stitch los hace así (plan 03.1) y el margen
-  // sobre el mínimo táctil es a propósito. Es píldora cuando el radio llega al
-  // menos a la mitad del alto.
+  // Se conserva el área táctil de 48 px; A reduce el radio a 5–6 px.
   expect(alto).toBeGreaterThanOrEqual(48);
-  expect(radio).toBeGreaterThanOrEqual(alto / 2);
+  expect(radio).toBeGreaterThanOrEqual(5);
+  expect(radio).toBeLessThanOrEqual(6);
 });

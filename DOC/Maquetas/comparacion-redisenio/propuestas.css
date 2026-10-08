@@ -1,0 +1,452 @@
+/* Exploration only. Injected into the browser by capturar-maquetas-redisenio.cjs.
+   No production component, data, action or permission is modified. */
+html[data-propuesta] {
+  /* Remap the legacy primitives as well as semantic tokens: CTA tokens still
+     reference these names in the existing build. A must contain no blue UI. */
+  --pimpos-azul-900: #953e2c;
+  --pimpos-azul-800: #773020;
+  --pimpos-azul-600: #953e2c;
+  --pimpos-azul-200: #eac8ba;
+  --cta-fondo: #953e2c;
+  --cta-fondo-hover: #773020;
+  --cta-texto: #ffffff;
+  --cta-texto-hover: #ffffff;
+  --sidebar-primary: #953e2c;
+  --sidebar-ring: #953e2c;
+  --chart-1: #953e2c;
+  --chart-3: #b4762c;
+  --sombra-1: 0 2px 6px -1px rgb(107 62 38 / 0.05), 0 1px 3px -1px rgb(107 62 38 / 0.04);
+  --sombra-2: 0 10px 24px -4px rgb(107 62 38 / 0.08), 0 4px 8px -2px rgb(107 62 38 / 0.03);
+  --background: #f7f5f0;
+  --foreground: #28251f;
+  --card: #fff;
+  --card-foreground: #28251f;
+  --primary: #953e2c;
+  --primary-foreground: #fff;
+  --muted: #eeeae2;
+  --muted-foreground: #59554e;
+  --accent: #e9e3da;
+  --border: #d9d4ca;
+  --input: #837b70;
+  --ring: #953e2c;
+  --radius: 0.4rem;
+  --pimpos-fuente-titulo: var(--fuente-texto, Arial, sans-serif);
+  --font-heading: var(--fuente-texto, Arial, sans-serif);
+}
+html[data-propuesta="a"] {
+  color-scheme: light;
+  accent-color: #953e2c;
+  caret-color: #953e2c;
+}
+html[data-propuesta="a"] ::selection {
+  background: #eac8ba;
+  color: #28251f;
+}
+html[data-propuesta="a"] :focus-visible {
+  outline-color: #953e2c;
+}
+html[data-propuesta="a"] .propuesta-logo-publico {
+  width: 72px !important;
+  height: 48px !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  overflow: visible;
+}
+html[data-propuesta="a"] .propuesta-logo-publico img {
+  width: 72px !important;
+  height: 48px !important;
+  object-fit: contain;
+  margin: 0;
+}
+html[data-propuesta="a"] footer .propuesta-logo {
+  margin: 0 0 8px;
+  width: 160px;
+}
+html[data-propuesta="a"][data-superficie="login"] .propuesta-logo {
+  background: #f7f5f0;
+  border-radius: 50%;
+  height: min(24vw, 350px);
+  aspect-ratio: 1;
+  padding: 16px;
+}
+html[data-propuesta="b"] {
+  --background: #f4f6f8;
+  --foreground: #19283c;
+  --card-foreground: #19283c;
+  --primary: #12306e;
+  --muted: #eaf0f5;
+  --muted-foreground: #506076;
+  --accent: #e2eaf3;
+  --border: #d2dbe6;
+  --input: #6d7d93;
+  --ring: #12306e;
+}
+html[data-propuesta] body {
+  background: var(--background);
+  color: var(--foreground);
+}
+html[data-propuesta] :is(h1, h2, h3, .font-heading) {
+  font-family: var(--fuente-texto, Arial, sans-serif);
+  letter-spacing: -0.035em;
+}
+html[data-propuesta] :is(input, select, textarea) {
+  border-radius: 5px !important;
+  background: #fff !important;
+}
+html[data-propuesta] :is(.rounded-xl, .rounded-lg, .rounded-md) {
+  border-radius: 6px;
+}
+html[data-propuesta] :is(.boton-cta, .boton-linea, .boton-whatsapp, [data-slot="button"]) {
+  border-radius: 5px;
+  box-shadow: none;
+}
+html[data-propuesta] .shadow-suave {
+  box-shadow: none;
+}
+/* Panel: clear hierarchy, stable 44px targets, real logo at both breakpoints. */
+html[data-propuesta][data-superficie="panel"] aside {
+  border-right: 1px solid var(--border);
+  background: #eee9df;
+  color: #28251f;
+  padding: 24px 16px;
+}
+html[data-propuesta="b"][data-superficie="panel"] aside {
+  background: #12306e;
+  color: #fff;
+  border: 0;
+}
+html[data-propuesta][data-superficie="panel"] aside > p {
+  padding: 0 0 24px;
+  font-family: var(--fuente-texto);
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.propuesta-logo {
+  width: 128px;
+  height: auto;
+  display: block;
+  margin: 0 auto 12px;
+  object-fit: contain;
+}
+html[data-propuesta="b"] aside .propuesta-logo {
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  width: 136px;
+}
+html[data-propuesta] aside nav a {
+  border-radius: 4px;
+  min-height: 46px;
+  opacity: 1;
+}
+html[data-propuesta="a"] aside nav a[aria-current="page"] {
+  background: #953e2c;
+  color: #fff;
+}
+html[data-propuesta="b"] aside nav a[aria-current="page"] {
+  background: #fff;
+  color: #12306e;
+}
+html[data-propuesta][data-superficie="panel"] main#contenido {
+  max-width: 1240px;
+  padding: 40px 48px;
+}
+html[data-propuesta][data-superficie="panel"] main h1 {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 750;
+  color: var(--foreground);
+}
+html[data-propuesta][data-superficie="panel"] main h2 {
+  font-size: 20px;
+  color: var(--foreground);
+}
+html[data-propuesta][data-superficie="panel"] main :is(a, button).rounded-full {
+  border-radius: 5px;
+}
+html[data-propuesta][data-superficie="panel"] table {
+  border-collapse: collapse;
+}
+html[data-propuesta][data-superficie="panel"] th {
+  font-size: 12px;
+  padding: 12px 16px;
+  letter-spacing: 0.025em;
+}
+html[data-propuesta][data-superficie="panel"] td {
+  font-variant-numeric: tabular-nums;
+}
+html[data-propuesta][data-superficie="panel"] tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--muted) 40%, white);
+}
+html[data-propuesta][data-superficie="panel"] main form {
+  max-width: 100%;
+}
+html[data-propuesta][data-superficie="panel"] [role="tablist"] {
+  height: auto;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 5px;
+}
+html[data-propuesta][data-superficie="panel"] [role="tab"] {
+  min-height: 44px;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+html[data-propuesta][data-superficie="panel"] [role="tab"][data-state="active"] {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: none;
+}
+html[data-propuesta][data-superficie="panel"] main input:not([type="checkbox"]):not([type="radio"]),
+html[data-propuesta][data-superficie="panel"] main select {
+  min-height: 44px;
+}
+html[data-propuesta="a"][data-superficie="panel"] main .propuesta-secciones {
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+html[data-propuesta="a"][data-superficie="panel"] main .propuesta-secciones a {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 22px 12px;
+  box-shadow: none;
+}
+.propuesta-marca-movil {
+  display: none;
+}
+/* Login: A is a split composition; B is a centered access card. */
+html[data-propuesta][data-superficie="login"] main {
+  max-width: 440px;
+  padding: 40px;
+  gap: 28px;
+  min-height: auto;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+html[data-propuesta][data-superficie="login"] body {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+}
+html[data-propuesta][data-superficie="login"] h1 {
+  font-size: 25px;
+  line-height: 1.25;
+}
+html[data-propuesta][data-superficie="login"] .propuesta-logo {
+  width: 160px;
+  margin: 0 auto 24px;
+}
+html[data-propuesta][data-superficie="login"] main > div:first-child {
+  text-align: center;
+}
+html[data-propuesta][data-superficie="login"] :is(input, button[type="submit"]) {
+  min-height: 48px;
+}
+html[data-propuesta="b"][data-superficie="login"] main {
+  border-top: 5px solid #12306e;
+}
+html[data-propuesta="a"][data-superficie="login"] body {
+  background: linear-gradient(90deg, #953e2c 0 42%, #f7f5f0 42%);
+  padding-left: 42%;
+}
+html[data-propuesta="a"][data-superficie="login"] main {
+  border: 0;
+  background: transparent;
+}
+html[data-propuesta="a"][data-superficie="login"] .propuesta-logo {
+  position: fixed;
+  left: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24%;
+  max-width: 350px;
+  margin: 0;
+}
+html[data-propuesta="a"][data-superficie="login"] main > div:first-child {
+  text-align: left;
+}
+/* Public: preserve all slide images, text and controls; move text off the photo. */
+html[data-propuesta="a"][data-superficie="publico"][data-tapiz="on"] main {
+  background-image: url("/__mock-assets/tapiz-panaderia.svg");
+  background-repeat: repeat;
+  background-size: 680px 600px;
+}
+html[data-propuesta="a"][data-superficie="publico"] [aria-labelledby="titulo-madrugada"] {
+  display: block;
+}
+html[data-propuesta="a"][data-superficie="publico"] [aria-labelledby="titulo-madrugada"] > div {
+  max-width: 48rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 0;
+}
+@media (max-width: 639px) {
+  html[data-propuesta="a"][data-superficie="publico"][data-tapiz="on"] main {
+    background-size: 510px 450px;
+  }
+}
+html[data-propuesta][data-superficie="publico"] .velo-hero {
+  display: none !important;
+}
+html[data-propuesta][data-superficie="publico"] [aria-roledescription="diapositiva"] > div {
+  aspect-ratio: auto;
+  height: 520px;
+  background: var(--primary);
+}
+html[data-propuesta][data-superficie="publico"] [aria-roledescription="diapositiva"] > div > img {
+  width: 56% !important;
+  left: 44% !important;
+}
+html[data-propuesta][data-superficie="publico"]
+  [aria-roledescription="diapositiva"]
+  > div
+  > div:last-child {
+  width: 44%;
+  padding: 32px 36px;
+}
+html[data-propuesta][data-superficie="publico"] [data-texto-hero] :is(h2, p) {
+  color: #fff;
+}
+html[data-propuesta][data-superficie="publico"] [data-texto-hero] h2 {
+  font-size: clamp(30px, 3.4vw, 52px);
+  line-height: 1.07;
+}
+html[data-propuesta][data-superficie="publico"] [data-texto-hero] a {
+  background: #fff;
+  color: var(--primary);
+  border-radius: 5px;
+}
+html[data-propuesta="b"][data-superficie="publico"]
+  [aria-roledescription="diapositiva"]
+  > div
+  > img {
+  left: 0 !important;
+}
+html[data-propuesta="b"][data-superficie="publico"]
+  [aria-roledescription="diapositiva"]
+  > div
+  > div:last-child {
+  left: 56%;
+}
+html[data-propuesta="b"][data-superficie="publico"] :is(h1, h2, h3, .font-heading) {
+  font-family: var(--fuente-titulo, Georgia, serif);
+  letter-spacing: -0.025em;
+}
+html[data-propuesta][data-superficie="publico"] .tarjeta {
+  border-radius: 6px;
+  box-shadow: none;
+}
+@media (max-width: 767px) {
+  html[data-propuesta][data-superficie="panel"] main#contenido {
+    padding: 20px 16px;
+  }
+  html[data-propuesta][data-superficie="panel"] main h1 {
+    font-size: 27px;
+  }
+  html[data-propuesta][data-superficie="panel"] [role="tablist"] {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: 100%;
+  }
+  html[data-propuesta][data-superficie="panel"] [role="tab"] {
+    min-width: 0;
+    width: 100%;
+    white-space: normal;
+    font-size: 13px;
+    line-height: 1.35;
+    padding: 8px 6px;
+  }
+  .propuesta-marca-movil {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 78px;
+    padding: 10px 16px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    color: var(--foreground);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .propuesta-marca-movil img {
+    width: 70px;
+    height: 56px;
+    object-fit: contain;
+    margin: 0;
+  }
+  html[data-propuesta][data-superficie="panel"] ul[aria-label] {
+    gap: 0;
+  }
+  html[data-propuesta][data-superficie="panel"] ul[aria-label] > li {
+    border-radius: 0;
+    border-width: 0 0 1px;
+    padding: 16px 12px;
+  }
+  html[data-propuesta][data-superficie="login"] body {
+    padding: 24px 20px;
+    background: var(--background);
+  }
+  html[data-propuesta][data-superficie="login"] main {
+    padding: 28px 24px;
+    width: 100%;
+  }
+  html[data-propuesta="a"][data-superficie="login"] main {
+    border: 1px solid var(--border);
+    border-top: 5px solid var(--primary);
+    background: #fff;
+  }
+  html[data-propuesta="a"][data-superficie="login"] .propuesta-logo {
+    position: static;
+    transform: none;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 24px;
+  }
+  html[data-propuesta="a"][data-superficie="login"] main > div:first-child {
+    text-align: center;
+  }
+  html[data-propuesta][data-superficie="publico"] [data-portada-movil] > div:first-child {
+    aspect-ratio: 16/9;
+  }
+  html[data-propuesta][data-superficie="publico"] [data-portada-movil] > div:last-child {
+    padding: 24px 20px;
+    background: var(--primary);
+    color: #fff;
+  }
+  html[data-propuesta][data-superficie="publico"] [data-portada-movil] > div:last-child > p {
+    color: #fff;
+  }
+  html[data-propuesta][data-superficie="publico"] [data-portada-movil] .boton-linea {
+    background: #fff;
+    color: var(--primary);
+  }
+  html[data-propuesta][data-superficie="publico"] [data-portada-movil] .text-muted-foreground {
+    color: #fff;
+  }
+  /* Only the mobile hero: light green distinguishes these elements on terracotta. */
+  html[data-propuesta="a"][data-superficie="publico"] [data-portada-movil] .boton-whatsapp {
+    --whatsapp-fondo: #e7f2df;
+    --whatsapp-texto: #234735;
+    --whatsapp-fondo-hover: #d3e8c5;
+  }
+  html[data-propuesta="a"][data-superficie="publico"]
+    [data-portada-movil]
+    .boton-whatsapp:focus-visible {
+    outline-color: #fff;
+    outline-offset: 4px;
+  }
+  html[data-propuesta="a"][data-superficie="publico"]
+    [data-portada-movil]
+    [data-estado="abierto"]
+    span[aria-hidden] {
+    background: #b9e39f;
+    width: 10px;
+    height: 10px;
+  }
+}

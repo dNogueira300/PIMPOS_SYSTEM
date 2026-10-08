@@ -1,0 +1,636 @@
+[
+  {
+    "name": "login",
+    "role": "sin-sesion",
+    "requested": "/ingresar",
+    "title": "Ingresar · Panadería Pimpo's",
+    "path": "/ingresar",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Panadería Pimpo's",
+    "images": [],
+    "labels": ["Correo", "Contraseña"]
+  },
+  {
+    "name": "login",
+    "role": "sin-sesion",
+    "requested": "/ingresar",
+    "title": "Ingresar · Panadería Pimpo's",
+    "path": "/ingresar",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Panadería Pimpo's",
+    "images": [],
+    "labels": ["Correo", "Contraseña"]
+  },
+  {
+    "name": "inicio",
+    "role": "administrador",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "inicio",
+    "role": "administrador",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "insumos",
+    "role": "administrador",
+    "requested": "/admin/insumos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Insumos",
+    "images": [],
+    "labels": ["Buscar insumo", "Mostrar"]
+  },
+  {
+    "name": "insumos",
+    "role": "administrador",
+    "requested": "/admin/insumos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Insumos",
+    "images": [],
+    "labels": ["Buscar insumo", "Mostrar"]
+  },
+  {
+    "name": "ingreso",
+    "role": "administrador",
+    "requested": "/admin/insumos/ingreso",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos/ingreso",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Registrar ingreso",
+    "images": [],
+    "labels": [
+      "Proveedor",
+      "Documento",
+      "Número",
+      "Fecha y hora (opcional)",
+      "Insumo 1Elige…AceiteAjonjolíAzúcarBolsa blancosito 12x17Bolsa blancosito 14x20Bolsa en rollo 10x15Bolsa en rollo 12x17Bolsa en rollo 14x20Bolsa en rollo 8x12Bolsa panadera 18x26Bolsa panadera 20x30ColoranteConcurrencia 1791307071023Frutas confitadasHarinaHuevoLeche en polvoLevaduraMantecaMantequillaMejoradorSalVainilla",
+      "Cantidad 1",
+      "Unidad 1",
+      "Precio unitario 1 (S/)",
+      "Observación",
+      "Es otro documento aunque el número se repita"
+    ]
+  },
+  {
+    "name": "ingreso",
+    "role": "administrador",
+    "requested": "/admin/insumos/ingreso",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos/ingreso",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Registrar ingreso",
+    "images": [],
+    "labels": [
+      "Proveedor",
+      "Documento",
+      "Número",
+      "Fecha y hora (opcional)",
+      "Insumo 1Elige…AceiteAjonjolíAzúcarBolsa blancosito 12x17Bolsa blancosito 14x20Bolsa en rollo 10x15Bolsa en rollo 12x17Bolsa en rollo 14x20Bolsa en rollo 8x12Bolsa panadera 18x26Bolsa panadera 20x30ColoranteConcurrencia 1791307071023Frutas confitadasHarinaHuevoLeche en polvoLevaduraMantecaMantequillaMejoradorSalVainilla",
+      "Cantidad 1",
+      "Unidad 1",
+      "Precio unitario 1 (S/)",
+      "Observación",
+      "Es otro documento aunque el número se repita"
+    ]
+  },
+  {
+    "name": "clientes",
+    "role": "administrador",
+    "requested": "/admin/clientes",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Clientes",
+    "images": [],
+    "labels": ["Buscar cliente", "Zona", "Mostrar"]
+  },
+  {
+    "name": "clientes",
+    "role": "administrador",
+    "requested": "/admin/clientes",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Clientes",
+    "images": [],
+    "labels": ["Buscar cliente", "Zona", "Mostrar"]
+  },
+  {
+    "name": "cliente-nuevo",
+    "role": "administrador",
+    "requested": "/admin/clientes/nuevo",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes/nuevo",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Nuevo cliente",
+    "images": [
+      {
+        "alt": "",
+        "src": "/14/4858/8363.png",
+        "loaded": true
+      }
+    ],
+    "labels": [
+      "Nombre y apellido",
+      "Celular",
+      "Dirección",
+      "Referencia",
+      "Zona",
+      "Observación (opcional)",
+      "Se lo leí y aceptó"
+    ]
+  },
+  {
+    "name": "cliente-nuevo",
+    "role": "administrador",
+    "requested": "/admin/clientes/nuevo",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes/nuevo",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Nuevo cliente",
+    "images": [
+      {
+        "alt": "",
+        "src": "/14/4858/8363.png",
+        "loaded": true
+      }
+    ],
+    "labels": [
+      "Nombre y apellido",
+      "Celular",
+      "Dirección",
+      "Referencia",
+      "Zona",
+      "Observación (opcional)",
+      "Se lo leí y aceptó"
+    ]
+  },
+  {
+    "name": "historial",
+    "role": "administrador",
+    "requested": "/admin/auditoria",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/auditoria",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Historial",
+    "images": [],
+    "labels": [
+      "PersonaTodasDiseño local administradore2e-superadmin-1791306809574-74vzfqPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroEl sistema",
+      "SecciónTodasProductosNovedades y portadaContenido del sitioConfiguraciónInsumosClientesUsuarios",
+      "Qué hizoTodoCreóCambióBorró",
+      "CuándoHoyÚltimos 7 díasÚltimos 30 díasEntre dos fechasSiempre"
+    ]
+  },
+  {
+    "name": "historial",
+    "role": "administrador",
+    "requested": "/admin/auditoria",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/auditoria",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Historial",
+    "images": [],
+    "labels": [
+      "PersonaTodasDiseño local administradore2e-superadmin-1791306809574-74vzfqPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba administradorPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroPrueba ingenieroEl sistema",
+      "SecciónTodasProductosNovedades y portadaContenido del sitioConfiguraciónInsumosClientesUsuarios",
+      "Qué hizoTodoCreóCambióBorró",
+      "CuándoHoyÚltimos 7 díasÚltimos 30 díasEntre dos fechasSiempre"
+    ]
+  },
+  {
+    "name": "configuracion",
+    "role": "administrador",
+    "requested": "/admin/configuracion",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/configuracion",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Configuración",
+    "images": [
+      {
+        "alt": "",
+        "src": "/17/38865/66905.png",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/isotipo.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/logo.webp",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      }
+    ],
+    "labels": [
+      "WhatsApp de pedidos",
+      "Teléfono fijo",
+      "Este dato ya está confirmado con el negocio",
+      "Correo de contacto",
+      "Correo para avisos de insumos",
+      "Días de aviso antes de vencer",
+      "Dirección",
+      "Referencia",
+      "Distrito",
+      "Provincia",
+      "Departamento",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Aclaración del horario",
+      "Zonas de reparto (una por línea)",
+      "Costo del delivery (S/)",
+      "Este dato ya está confirmado con el negocio",
+      "Pedido mínimo (S/)",
+      "Este dato ya está confirmado con el negocio",
+      "Tiempo de entrega",
+      "Este dato ya está confirmado con el negocio",
+      "Formas de pago (una por línea)",
+      "Este dato ya está confirmado con el negocio",
+      "Facebook",
+      "Instagram",
+      "Nombre del negocio",
+      "Razón social",
+      "Eslogan",
+      "Texto del logo para quien no lo ve"
+    ]
+  },
+  {
+    "name": "configuracion",
+    "role": "administrador",
+    "requested": "/admin/configuracion",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/configuracion",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Configuración",
+    "images": [
+      {
+        "alt": "",
+        "src": "/17/38865/66905.png",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/isotipo.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/logo.webp",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      },
+      {
+        "alt": "",
+        "src": "/marca/favicon.svg",
+        "loaded": true
+      }
+    ],
+    "labels": [
+      "WhatsApp de pedidos",
+      "Teléfono fijo",
+      "Este dato ya está confirmado con el negocio",
+      "Correo de contacto",
+      "Correo para avisos de insumos",
+      "Días de aviso antes de vencer",
+      "Dirección",
+      "Referencia",
+      "Distrito",
+      "Provincia",
+      "Departamento",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Turno 1: abre",
+      "cierra",
+      "Turno 2: abre",
+      "cierra",
+      "Cerrado",
+      "Aclaración del horario",
+      "Zonas de reparto (una por línea)",
+      "Costo del delivery (S/)",
+      "Este dato ya está confirmado con el negocio",
+      "Pedido mínimo (S/)",
+      "Este dato ya está confirmado con el negocio",
+      "Tiempo de entrega",
+      "Este dato ya está confirmado con el negocio",
+      "Formas de pago (una por línea)",
+      "Este dato ya está confirmado con el negocio",
+      "Facebook",
+      "Instagram",
+      "Nombre del negocio",
+      "Razón social",
+      "Eslogan",
+      "Texto del logo para quien no lo ve"
+    ]
+  },
+  {
+    "name": "productos",
+    "role": "administrador",
+    "requested": "/admin/contenido/productos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/contenido/productos",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Productos",
+    "images": [],
+    "labels": ["Buscar producto", "Categoría"]
+  },
+  {
+    "name": "productos",
+    "role": "administrador",
+    "requested": "/admin/contenido/productos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/contenido/productos",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Productos",
+    "images": [],
+    "labels": ["Buscar producto", "Categoría"]
+  },
+  {
+    "name": "producto-nuevo",
+    "role": "administrador",
+    "requested": "/admin/contenido/productos/nuevo",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/contenido/productos/nuevo",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Nuevo producto",
+    "images": [],
+    "labels": [
+      "Nombre",
+      "Categoría",
+      "Descripción (opcional)",
+      "PublicadoSe ve en el sitio",
+      "Destacado en la portadaSale en la portada solo si tiene foto",
+      "Presentación 1",
+      "Precio (S/)",
+      "Se vende porUnidadDocenaKiloBolsaPaqueteBotella"
+    ]
+  },
+  {
+    "name": "producto-nuevo",
+    "role": "administrador",
+    "requested": "/admin/contenido/productos/nuevo",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/contenido/productos/nuevo",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Nuevo producto",
+    "images": [],
+    "labels": [
+      "Nombre",
+      "Categoría",
+      "Descripción (opcional)",
+      "PublicadoSe ve en el sitio",
+      "Destacado en la portadaSale en la portada solo si tiene foto",
+      "Presentación 1",
+      "Precio (S/)",
+      "Se vende porUnidadDocenaKiloBolsaPaqueteBotella"
+    ]
+  },
+  {
+    "name": "inicio-ingeniero",
+    "role": "ingeniero",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "inicio-ingeniero",
+    "role": "ingeniero",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "insumos-ingeniero",
+    "role": "ingeniero",
+    "requested": "/admin/insumos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Insumos",
+    "images": [],
+    "labels": ["Buscar insumo", "Mostrar"]
+  },
+  {
+    "name": "insumos-ingeniero",
+    "role": "ingeniero",
+    "requested": "/admin/insumos",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/insumos",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Insumos",
+    "images": [],
+    "labels": ["Buscar insumo", "Mostrar"]
+  },
+  {
+    "name": "inicio-repartidor",
+    "role": "repartidor",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "inicio-repartidor",
+    "role": "repartidor",
+    "requested": "/admin",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Inicio",
+    "images": [],
+    "labels": []
+  },
+  {
+    "name": "clientes-repartidor",
+    "role": "repartidor",
+    "requested": "/admin/clientes",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "h1": "Clientes",
+    "images": [],
+    "labels": ["Buscar cliente", "Zona"]
+  },
+  {
+    "name": "clientes-repartidor",
+    "role": "repartidor",
+    "requested": "/admin/clientes",
+    "title": "Panel · Panadería Pimpo's",
+    "path": "/admin/clientes",
+    "width": 390,
+    "scrollWidth": 390,
+    "h1": "Clientes",
+    "images": [],
+    "labels": ["Buscar cliente", "Zona"]
+  }
+]

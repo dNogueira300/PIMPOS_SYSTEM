@@ -89,11 +89,11 @@ export function ListaAdaptable<F extends { id: string }>({
 
   return (
     <>
-      <ul aria-label={etiqueta} className="flex flex-col gap-2 md:hidden">
+      <ul aria-label={etiqueta} className="flex flex-col md:hidden">
         {filas.map((fila) => (
           <li
             key={fila.id}
-            className={`bg-card flex items-center gap-2 rounded-xl border p-3 ${accionesDebajo ? "flex-wrap" : ""}`}
+            className={`bg-card flex items-center gap-2 border-b px-3 py-4 ${accionesDebajo ? "flex-wrap" : ""}`}
           >
             {/* `min-w-0` y `wrap-anywhere`: una palabra larga se corta en vez de
                 empujar los botones fuera de la tarjeta (a 375 px caben cuatro,
@@ -129,7 +129,11 @@ export function ListaAdaptable<F extends { id: string }>({
         <thead className="bg-muted text-left">
           <tr>
             {columnas.map((c) => (
-              <th key={c.titulo} scope="col" className="px-4 py-3 font-semibold">
+              <th
+                key={c.titulo}
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold tracking-wide"
+              >
                 {c.titulo}
               </th>
             ))}
@@ -142,9 +146,9 @@ export function ListaAdaptable<F extends { id: string }>({
         </thead>
         <tbody>
           {filas.map((fila) => (
-            <tr key={fila.id} className="border-t">
+            <tr key={fila.id} className="even:bg-muted/40 border-t">
               {columnas.map((c) => (
-                <td key={c.titulo} className="px-4 py-2">
+                <td key={c.titulo} className="px-4 py-2 tabular-nums">
                   {c === principal ? (
                     <Link
                       href={enlace(fila)}
@@ -158,7 +162,7 @@ export function ListaAdaptable<F extends { id: string }>({
                 </td>
               ))}
               {hayAcciones ? (
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 tabular-nums">
                   {/* `flex-wrap`: con botones de texto al lado («Para revisar», F6), el
                       lápiz encogía por debajo de 44 px en vez de bajar de línea. */}
                   <div className="flex flex-wrap items-center justify-end gap-1">

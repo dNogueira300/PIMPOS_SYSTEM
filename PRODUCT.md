@@ -40,6 +40,20 @@ Ese es el criterio para resolver cualquier duda.
 
 ## Visual Language
 
+**Dirección elegida el 07/10/2026:** maqueta A, terracota y neutros cálidos, sin azul en la interfaz.
+El logo fuente es `DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png`; usar sus derivados
+optimizados con transparencia en público, login y panel. Galería revisada en
+`DOC/Maquetas/comparacion-redisenio/index.html`. El primer bloque está implementado en la rama
+`feat/rediseno-acceso-panel`: tokens terracota, Jakarta también en títulos, login con logo circular,
+marca en el panel y controles compartidos. Todavía no está fusionado ni desplegado en producción.
+La composición pública y los ajustes específicos de módulos quedan para los bloques siguientes.
+Se mantienen todas las funcionalidades.
+
+**Rediseño abierto el 06/10/2026 por Dan.** La descripción siguiente corresponde a la interfaz
+anterior a 03.2, no a una restricción para el nuevo diseño. Se pueden reemplazar estilo, tipografía, paleta
+y composición, tanto en el público como en el panel. **Todas las funcionalidades y sus flujos se
+conservan exactamente.** Ver `DOC/Analisis UI UX - Rediseno integral.md` y la decisión en `AGENTS.md`.
+
 Desde la fase 3.1 (14/09/2026), el lenguaje **«artisan editorial»** del prototipo de Google Stitch
 que eligió Dan: titulares en **Playfair Display** y texto en **Plus Jakarta Sans**, superficies crema
 en capas con tarjetas blancas, bordes muy tenues y sombras cálidas, botones en píldora y sellos cortos
@@ -53,20 +67,18 @@ lea como plantilla. Paleta y contrastes en `docs/marca.md` §8; el porqué de ca
 
 ## Anti-references
 
-- **El tono «premium» de las panaderías de gama alta de Lima** —El Pan de la Chola, Pan Atelier,
-  Kalatanta—, que son las referencias que dio el propietario (ficha 5.7). De ellas se toma la
-  estructura (contención y espaciado; un titular que afirma algo del negocio; el esqueleto de
-  secciones), **nunca el tono**: nada de «artesanal de autor», «masa madre de cultivo propio» ni
-  «experiencia sensorial».
-- **El minimalismo sobrio.** El estilo declarado es tradicional / artesanal, marcado expresamente
-  frente a «moderno o minimalista», «elegante o premium» y «rústico o campestre» (ficha 2.6). El logo
-  tiene un bebé chef: un diseño demasiado austero pelearía con la marca.
+- **Presentar como propios atributos ajenos no verificados**, por ejemplo masa madre o procesos
+  del obrador de otra panadería. Esto limita las afirmaciones, no la calidad ni el estilo visual.
+- **Copiar literalmente una referencia.** El Pan de la Chola, Pan Atelier y Kalatanta pasan a ser
+  referencias positivas por decisión de Dan (06/10/2026). Se puede explorar sobriedad y un acabado
+  contemporáneo, manteniendo reconocible a Pimpo's y conservando sus funciones.
 - **Esconder el precio** detrás de «consultar precio», o relegar el delivery a una nota al pie.
 - **Promesas que no se pueden verificar** («los mejores panes del Perú»).
 
 ## Design Principles
 
-1. **¿Se parece a entrar a la tienda?** Cercanía y calidez antes que sofisticación.
+1. **Cercanía y calidez con una ejecución cuidada.** La sofisticación visual está permitida; la
+   identidad y los datos del negocio siguen siendo reales.
 2. **El precio y el delivery van de titular.** Hay pan a S/ 0.10 y reparto propio a toda la ciudad:
    son los dos argumentos de venta, y se muestran con orgullo.
 3. **Verificable o no se publica.** Cada mensaje lleva su prueba en la ficha; los datos salen de la

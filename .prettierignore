@@ -1,5 +1,6 @@
 # Generado o de terceros: no se formatea.
 node_modules
+.superpowers
 .next
 out
 build
