@@ -26,7 +26,7 @@ export function FormularioGuia({ guia }: { guia: GuiaEditable | null }) {
       destino={() => VOLVER}
     >
       <input type="hidden" name="id" value={guia?.id ?? ""} />
-      <div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <div className="bg-card flex flex-col gap-4 rounded-md border p-4">
         <Campo nombre="titulo" etiqueta="Título">
           {(p) => <input {...p} defaultValue={guia?.titulo ?? ""} />}
         </Campo>

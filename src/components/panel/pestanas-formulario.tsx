@@ -81,7 +81,7 @@ export function PestanasFormulario({
           key={p.valor}
           value={p.valor}
           forceMount
-          className="bg-card mt-3 flex flex-col gap-4 rounded-xl border p-4 data-[state=inactive]:hidden"
+          className="bg-card border-border mt-4 flex min-w-0 flex-col gap-5 rounded-md border p-4 data-[state=inactive]:hidden md:p-6"
         >
           {p.contenido}
         </TabsContent>

@@ -51,7 +51,7 @@ export function FormularioUsuario({ usuario, rolesAsignables }: Props) {
           })}
     >
       <input type="hidden" name="id" value={usuario?.id ?? ""} />
-      <div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <div className="bg-card flex flex-col gap-4 rounded-md border p-4">
         <Campo nombre="nombre_completo" etiqueta="Nombre y apellido">
           {(p) => <input {...p} defaultValue={usuario?.nombre_completo ?? ""} autoComplete="off" />}
         </Campo>

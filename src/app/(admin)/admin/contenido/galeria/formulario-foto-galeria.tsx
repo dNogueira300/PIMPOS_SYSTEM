@@ -33,7 +33,7 @@ export function FormularioFotoGaleria({ foto }: { foto: FotoGaleriaEditable | nu
       destino={() => VOLVER}
     >
       <input type="hidden" name="id" value={foto?.id ?? ""} />
-      <div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <div className="bg-card flex flex-col gap-4 rounded-md border p-4">
         <SubidaImagen
           nombre="ruta"
           bucket="galeria"

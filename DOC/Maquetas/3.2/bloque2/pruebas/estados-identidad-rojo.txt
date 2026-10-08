@@ -1,0 +1,493 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:26496) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:24756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible (2.9s)
+(node:24420) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [movil] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste (3.7s)
+(node:9888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [movil] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible (2.5s)
+(node:15136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 [escritorio] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible (2.8s)
+(node:25724) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 [escritorio] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste (3.4s)
+(node:21312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 [escritorio] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible (2.5s)
+
+
+  1) [movil] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 47
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure ARIA attributes are not prohibited for an element's role",
+    +     "help": "Elements must only use permitted ARIA attributes",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=playwright",
+    +     "id": "aria-prohibited-attr",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [],
+    +         "failureSummary": "Fix all of the following:
+    +   aria-label attribute cannot be used on a div with no valid role attribute.",
+    +         "html": "<div class=\"flex flex-wrap gap-4\" aria-label=\"Así se verá el icono de la pestaña\">",
+    +         "impact": "serious",
+    +         "none": Array [
+    +           Object {
+    +             "data": Object {
+    +               "messageKey": "noRoleSingular",
+    +               "nodeName": "div",
+    +               "prohibited": Array [
+    +                 "aria-label",
+    +               ],
+    +               "role": null,
+    +             },
+    +             "id": "aria-prohibited-attr",
+    +             "impact": "serious",
+    +             "message": "aria-label attribute cannot be used on a div with no valid role attribute.",
+    +             "relatedNodes": Array [],
+    +           },
+    +         ],
+    +         "target": Array [
+    +           ".gap-4.flex-wrap",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.aria",
+    +       "wcag2a",
+    +       "wcag412",
+    +       "EN-301-549",
+    +       "EN-9.4.1.2",
+    +       "RGAAv4",
+    +       "RGAA-7.1.1",
+    +     ],
+    +   },
+    + ]
+
+      13 |     await expect(page.locator('[aria-label="Así se verá el icono de la pestaña"]')).toBeVisible();
+      14 |     const resultado = await new AxeBuilder({ page }).analyze();
+    > 15 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      16 |   } finally {
+      17 |     await borrarUsuario(usuario.id);
+      18 |   }
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:15:34
+
+    Error Context: test-results\panel-estados-identidad-la-7b593--tiene-agrupación-accesible-movil\error-context.md
+
+  2) [movil] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 58
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#fdbd73",
+    +               "contrastRatio": 4.22,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#953e2c",
+    +               "fontSize": "11.3pt (15px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 4.22 (foreground color: #953e2c, background color: #fdbd73, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<div role=\"status\" class=\"bg-franja text-franja-foreground mb-4 rounded-md p-4 text-sm\" data-borrador=\"true\">",
+    +                 "target": Array [
+    +                   ".bg-franja",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 4.22 (foreground color: #953e2c, background color: #fdbd73, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button type=\"button\" class=\"boton-linea\">Descartar</button>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           ".mt-3 > .boton-linea[type=\"button\"]",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      30 |     await expect(page.locator("[data-borrador]")).toBeVisible();
+      31 |     const resultado = await new AxeBuilder({ page }).include("[data-borrador]").analyze();
+    > 32 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      33 |     await page.getByRole("button", { name: "Descartar", exact: true }).click();
+      34 |     await expect(page.locator("[data-borrador]")).toHaveCount(0);
+      35 |   } finally {
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:32:34
+
+    Error Context: test-results\panel-estados-identidad-el-fae07-r-y-descartar-con-contraste-movil\error-context.md
+
+  3) [movil] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 64
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#fff5f5",
+    +               "contrastRatio": 3.18,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#ef5757",
+    +               "fontSize": "9.8pt (13px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 3.18 (foreground color: #ef5757, background color: #fff5f5, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<li tabindex=\"0\" class=\"cn-toast\" data-sonner-toast=\"\" data-rich-colors=\"true\" data-styled=\"true\" data-mounted=\"true\" data-promise=\"false\" data-swiped=\"false\" data-removed=\"false\" data-visible=\"true\" data-y-position=\"top\" data-x-position=\"center\" data-index=\"0\" data-front=\"true\" ...>",
+    +                 "target": Array [
+    +                   ".cn-toast",
+    +                 ],
+    +               },
+    +               Object {
+    +                 "html": "<header class=\"bg-card border-border flex min-h-[78px] items-center gap-3.5 border-b px-4 py-2.5 text-[13px] font-semibold md:hidden\">",
+    +                 "target": Array [
+    +                   ".min-h-\\[78px\\]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 3.18 (foreground color: #ef5757, background color: #fff5f5, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<div data-title=\"\" class=\"\">Revisa los campos marcados en rojo.</div>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "div[data-title=\"\"]",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      47 |     ).toBeVisible();
+      48 |     const resultado = await new AxeBuilder({ page }).include("[data-sonner-toaster]").analyze();
+    > 49 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      50 |     await expect(page.getByText("Escribe el nombre del producto.", { exact: true })).toBeVisible();
+      51 |   } finally {
+      52 |     await borrarUsuario(usuario.id);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:49:34
+
+    Error Context: test-results\panel-estados-identidad-el-01131-n-del-formulario-es-legible-movil\error-context.md
+
+  4) [escritorio] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 47
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure ARIA attributes are not prohibited for an element's role",
+    +     "help": "Elements must only use permitted ARIA attributes",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=playwright",
+    +     "id": "aria-prohibited-attr",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [],
+    +         "failureSummary": "Fix all of the following:
+    +   aria-label attribute cannot be used on a div with no valid role attribute.",
+    +         "html": "<div class=\"flex flex-wrap gap-4\" aria-label=\"Así se verá el icono de la pestaña\">",
+    +         "impact": "serious",
+    +         "none": Array [
+    +           Object {
+    +             "data": Object {
+    +               "messageKey": "noRoleSingular",
+    +               "nodeName": "div",
+    +               "prohibited": Array [
+    +                 "aria-label",
+    +               ],
+    +               "role": null,
+    +             },
+    +             "id": "aria-prohibited-attr",
+    +             "impact": "serious",
+    +             "message": "aria-label attribute cannot be used on a div with no valid role attribute.",
+    +             "relatedNodes": Array [],
+    +           },
+    +         ],
+    +         "target": Array [
+    +           ".gap-4.flex-wrap",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.aria",
+    +       "wcag2a",
+    +       "wcag412",
+    +       "EN-301-549",
+    +       "EN-9.4.1.2",
+    +       "RGAAv4",
+    +       "RGAA-7.1.1",
+    +     ],
+    +   },
+    + ]
+
+      13 |     await expect(page.locator('[aria-label="Así se verá el icono de la pestaña"]')).toBeVisible();
+      14 |     const resultado = await new AxeBuilder({ page }).analyze();
+    > 15 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      16 |   } finally {
+      17 |     await borrarUsuario(usuario.id);
+      18 |   }
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:15:34
+
+    Error Context: test-results\panel-estados-identidad-la-7b593--tiene-agrupación-accesible-escritorio\error-context.md
+
+  5) [escritorio] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 58
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#fdbd73",
+    +               "contrastRatio": 4.22,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#953e2c",
+    +               "fontSize": "11.3pt (15px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 4.22 (foreground color: #953e2c, background color: #fdbd73, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<div role=\"status\" class=\"bg-franja text-franja-foreground mb-4 rounded-md p-4 text-sm\" data-borrador=\"true\">",
+    +                 "target": Array [
+    +                   ".bg-franja",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 4.22 (foreground color: #953e2c, background color: #fdbd73, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<button type=\"button\" class=\"boton-linea\">Descartar</button>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           ".mt-3 > .boton-linea[type=\"button\"]",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      30 |     await expect(page.locator("[data-borrador]")).toBeVisible();
+      31 |     const resultado = await new AxeBuilder({ page }).include("[data-borrador]").analyze();
+    > 32 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      33 |     await page.getByRole("button", { name: "Descartar", exact: true }).click();
+      34 |     await expect(page.locator("[data-borrador]")).toHaveCount(0);
+      35 |   } finally {
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:32:34
+
+    Error Context: test-results\panel-estados-identidad-el-fae07-r-y-descartar-con-contraste-escritorio\error-context.md
+
+  6) [escritorio] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 64
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#fff0f0",
+    +               "contrastRatio": 4.34,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#e60101",
+    +               "fontSize": "9.8pt (13px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 4.34 (foreground color: #e60101, background color: #fff0f0, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<li tabindex=\"0\" class=\"cn-toast\" data-sonner-toast=\"\" data-rich-colors=\"true\" data-styled=\"true\" data-mounted=\"true\" data-promise=\"false\" data-swiped=\"false\" data-removed=\"false\" data-visible=\"true\" data-y-position=\"top\" data-x-position=\"center\" data-index=\"0\" data-front=\"true\" ...>",
+    +                 "target": Array [
+    +                   ".cn-toast",
+    +                 ],
+    +               },
+    +               Object {
+    +                 "html": "<div class=\"bg-background min-h-dvh md:grid md:grid-cols-[15rem_minmax(0,1fr)]\">",
+    +                 "target": Array [
+    +                   ".bg-background",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 4.34 (foreground color: #e60101, background color: #fff0f0, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<div data-title=\"\" class=\"\">Revisa los campos marcados en rojo.</div>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "div[data-title=\"\"]",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      47 |     ).toBeVisible();
+      48 |     const resultado = await new AxeBuilder({ page }).include("[data-sonner-toaster]").analyze();
+    > 49 |     expect(resultado.violations).toEqual([]);
+         |                                  ^
+      50 |     await expect(page.getByText("Escribe el nombre del producto.", { exact: true })).toBeVisible();
+      51 |   } finally {
+      52 |     await borrarUsuario(usuario.id);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-estados-identidad.spec.ts:49:34
+
+    Error Context: test-results\panel-estados-identidad-el-01131-n-del-formulario-es-legible-escritorio\error-context.md
+
+  6 failed
+    [movil] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+    [movil] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste
+    [movil] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible
+    [escritorio] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+    [escritorio] › e2e\panel-estados-identidad.spec.ts:21:5 › el aviso de copia local permite leer y descartar con contraste
+    [escritorio] › e2e\panel-estados-identidad.spec.ts:40:5 › el aviso de validación del formulario es legible

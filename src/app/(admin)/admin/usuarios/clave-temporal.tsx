@@ -25,7 +25,7 @@ export function ClaveTemporal({ correo, clave }: { correo: string; clave: string
   return (
     <section
       aria-labelledby="clave-titulo"
-      className="bg-card mt-4 flex flex-col gap-4 rounded-xl border p-5"
+      className="bg-card mt-4 flex flex-col gap-4 rounded-md border p-5"
       data-clave-temporal
     >
       {/* El foco salta aquí para que un lector de pantalla lo anuncie. */}

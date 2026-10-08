@@ -30,7 +30,7 @@ async function Lista() {
   }
   if (constancias.length === 0) {
     return (
-      <p className="bg-card rounded-xl border p-6 text-center">
+      <p className="bg-card rounded-md border p-6 text-center">
         Ningún cliente ha pedido que se borren sus datos.
       </p>
     );
@@ -38,7 +38,7 @@ async function Lista() {
   return (
     <ul aria-label="Constancias de borrado" className="flex flex-col gap-2">
       {constancias.map((c) => (
-        <li key={c.id} className="bg-card flex flex-col gap-1 rounded-xl border p-3 wrap-anywhere">
+        <li key={c.id} className="bg-card flex flex-col gap-1 rounded-md border p-3 wrap-anywhere">
           <span>
             <strong className="font-semibold">{c.quien}</strong> borró los datos de un cliente
           </span>

@@ -59,7 +59,7 @@ async function Cambios({ searchParams }: Pick<PageProps<"/admin/auditoria">, "se
   return (
     <>
       {filtros.registro ? (
-        <p className="bg-muted mb-4 rounded-xl p-3 text-sm" data-de-un-registro>
+        <p className="bg-muted mb-4 rounded-md p-3 text-sm" data-de-un-registro>
           Historial de {deQuien}, con todo lo que cuelga de él.{" "}
           <Link href={RUTA} className="underline">
             Ver todo el historial
@@ -88,7 +88,7 @@ async function Cambios({ searchParams }: Pick<PageProps<"/admin/auditoria">, "se
       {resultado === null ? (
         <p role="alert">No se pudo cargar el historial. Recarga la página.</p>
       ) : resultado.cambios.length === 0 ? (
-        <p className="bg-card rounded-xl border p-6 text-center">
+        <p className="bg-card rounded-md border p-6 text-center">
           {resultado.hayMas
             ? "En lo más reciente no hay cambios que enseñar. Puede haber más abajo."
             : "No hay cambios con esos filtros. Prueba con un periodo más largo."}

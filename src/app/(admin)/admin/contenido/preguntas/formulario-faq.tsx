@@ -20,7 +20,7 @@ export function FormularioFaq({ faq }: { faq: FaqEditable | null }) {
       destino={() => VOLVER}
     >
       <input type="hidden" name="id" value={faq?.id ?? ""} />
-      <div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <div className="bg-card flex flex-col gap-4 rounded-md border p-4">
         <Campo nombre="pregunta" etiqueta="Pregunta">
           {(p) => <input {...p} defaultValue={faq?.pregunta ?? ""} />}
         </Campo>

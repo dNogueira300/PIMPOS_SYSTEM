@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pimpo’s — evidencia del bloque 2</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f8f6f0;
+        color: #29261f;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+      }
+      header {
+        padding: 24px;
+        border-bottom: 1px solid #d8d2c7;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      select,
+      button {
+        min-height: 44px;
+        font: inherit;
+        border: 1px solid #8c8074;
+        border-radius: 6px;
+        padding: 8px 12px;
+        background: white;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      :focus-visible {
+        outline: 2px solid #943e2b;
+        outline-offset: 3px;
+      }
+      main {
+        padding: 24px;
+      }
+      .comparison {
+        display: flex;
+        align-items: start;
+        gap: 24px;
+        overflow-x: auto;
+      }
+      figure {
+        flex: 0 0 min(100%, 520px);
+        margin: 0;
+      }
+      figcaption {
+        padding-bottom: 12px;
+        font-weight: 600;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid #d8d2c7;
+      }
+      .missing {
+        padding: 24px;
+        border: 1px dashed #8c8074;
+      }
+      a {
+        color: #943e2b;
+      }
+      #status {
+        font-size: 14px;
+      }
+      @media (max-width: 600px) {
+        header,
+        main {
+          padding: 16px;
+        }
+        .comparison {
+          gap: 16px;
+        }
+        figure {
+          flex-basis: 100%;
+        }
+        select {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Pimpo’s · Rediseño del panel</h1>
+      <p>
+        Bloque 2: contenido, Historial, insumos y clientes. Capturas autenticadas del build local.
+      </p>
+      <p>
+        La base conserva el bloque 1 fusionado; A es la dirección aprobada. Los datos locales pueden
+        variar entre capturas.
+      </p>
+      <div class="controls">
+        <label>Pantalla<select id="screen"></select></label>
+        <label
+          >Comparar con<select id="compare">
+            <option value="a">Maqueta A aprobada</option>
+            <option value="base">Base c1f9582</option>
+            <option value="none">Solo implementación</option>
+          </select></label
+        >
+        <button id="previous" type="button">Anterior</button>
+        <button id="next" type="button">Siguiente</button>
+      </div>
+      <p id="status" role="status">Cargando manifiestos…</p>
+    </header>
+    <main>
+      <div class="comparison">
+        <figure id="reference">
+          <figcaption id="reference-label">Referencia</figcaption>
+          <div id="reference-content"></div>
+        </figure>
+        <figure>
+          <figcaption>Implementación · <a id="original">Abrir captura completa</a></figcaption>
+          <img id="actual" alt="Captura autenticada de la pantalla seleccionada" />
+        </figure>
+      </div>
+    </main>
+    <script>
+      const screen = document.querySelector("#screen");
+      const compare = document.querySelector("#compare");
+      const status = document.querySelector("#status");
+      let shots = [];
+      const aliases = {
+        inicio: "inicio",
+        auditoria: "historial",
+        configuracion: "configuracion",
+        "contenido-productos-nuevo": "producto-nuevo",
+        "contenido-productos": "productos",
+        insumos: "insumos",
+        "insumos-ingreso": "ingreso",
+        "clientes-nuevo": "cliente-nuevo",
+        clientes: "clientes",
+      };
+      function update() {
+        const shot = shots[screen.selectedIndex];
+        if (!shot) return;
+        const url = `${shot.mode}/${shot.name}.png`;
+        document.querySelector("#actual").src = url;
+        document.querySelector("#original").href = url;
+        const issues = [
+          shot.scrollWidth > shot.width ? "desbordamiento" : "",
+          shot.axe.length ? `${shot.axe.length} infracciones axe` : "",
+          shot.blueStyles.length ? "azul detectado" : "",
+        ].filter(Boolean);
+        status.textContent = `${shot.role} · ${shot.route} · ${shot.width} px · ${issues.length ? issues.join(", ") : "sin desbordamiento, axe ni azul detectado"}${shot.note ? " · " + shot.note : ""}`;
+        const ref = document.querySelector("#reference");
+        ref.hidden = compare.value === "none";
+        const content = document.querySelector("#reference-content");
+        content.replaceChildren();
+        if (ref.hidden) return;
+        const key = shot.name.replace(/-administrador-(390|1440)$/, "");
+        const alias = aliases[key];
+        const width = shot.width;
+        const known =
+          alias &&
+          [390, 1440].includes(width) &&
+          (compare.value === "base" || !["clientes", "productos"].includes(alias));
+        document.querySelector("#reference-label").textContent =
+          compare.value === "a" ? "Maqueta A aprobada" : "Base c1f9582 · bloque 1 fusionado";
+        if (!known) {
+          const message = document.createElement("p");
+          message.className = "missing";
+          message.textContent =
+            "Esta pantalla o estado amplía la evidencia original: no tenía una referencia equivalente.";
+          content.append(message);
+          return;
+        }
+        const image = document.createElement("img");
+        image.alt = "Referencia comparable de la pantalla seleccionada";
+        image.src =
+          compare.value === "base"
+            ? `base/${alias}-${width}.png`
+            : `../../comparacion-redisenio/pantallas/${alias}-${width}-a.png`;
+        content.append(image);
+      }
+      screen.addEventListener("change", update);
+      compare.addEventListener("change", update);
+      document.querySelector("#previous").addEventListener("click", () => {
+        screen.selectedIndex = (screen.selectedIndex - 1 + shots.length) % shots.length;
+        update();
+      });
+      document.querySelector("#next").addEventListener("click", () => {
+        screen.selectedIndex = (screen.selectedIndex + 1) % shots.length;
+        update();
+      });
+      Promise.all(
+        ["t3", "t4"].map(async (mode) => {
+          const response = await fetch(`${mode}/manifest.json`);
+          if (!response.ok) return [];
+          const result = await response.json();
+          return result.records.map((shot) => ({ ...shot, mode }));
+        }),
+      )
+        .then((results) => {
+          shots = results.flat();
+          for (const shot of shots) {
+            const option = document.createElement("option");
+            option.textContent = `${shot.mode.toUpperCase()} · ${shot.name}`;
+            screen.append(option);
+          }
+          if (shots.length) update();
+          else status.textContent = "Aún no hay capturas disponibles.";
+        })
+        .catch(() => {
+          status.textContent =
+            "Abre esta galería desde un servidor HTTP local para cargar los manifiestos.";
+        });
+    </script>
+  </body>
+</html>

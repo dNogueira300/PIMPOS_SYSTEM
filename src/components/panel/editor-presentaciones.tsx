@@ -92,7 +92,7 @@ export function EditorPresentaciones({ iniciales }: { iniciales: Presentacion[] 
         {filas.map((fila, i) => (
           <li
             key={fila.clave}
-            className="bg-muted/40 flex flex-col gap-2 rounded-xl p-3"
+            className="bg-muted/40 border-border flex min-w-0 flex-col gap-3 rounded-md border p-4"
             data-presentacion={i}
           >
             <div className="grid grid-cols-[1fr_7rem] gap-2">
@@ -151,7 +151,7 @@ export function EditorPresentaciones({ iniciales }: { iniciales: Presentacion[] 
               </button>
               <button
                 type="button"
-                className="text-destructive inline-flex size-11 items-center justify-center rounded-full"
+                className="text-destructive hover:bg-destructive/10 inline-flex size-11 items-center justify-center rounded-md"
                 aria-label={`Quitar la presentación ${i + 1}`}
                 onClick={() => cambiar(filas.filter((f) => f.clave !== fila.clave))}
                 disabled={filas.length === 1}

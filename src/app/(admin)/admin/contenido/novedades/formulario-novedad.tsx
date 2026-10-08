@@ -48,13 +48,13 @@ export function FormularioNovedad({ novedad, acciones }: Props) {
       destino={() => VOLVER}
     >
       {novedad?.comentario_revision ? (
-        <div role="note" className="bg-alerta/15 rounded-xl p-4" data-comentario-revision>
+        <div role="note" className="bg-alerta/15 rounded-md p-4" data-comentario-revision>
           <p className="font-semibold">Un administrador la devolvió con este comentario:</p>
           <p className="mt-1">{novedad.comentario_revision}</p>
         </div>
       ) : null}
       {soloLectura ? (
-        <p role="status" className="bg-muted rounded-xl p-4" data-esperando-aprobacion>
+        <p role="status" className="bg-muted rounded-md p-4" data-esperando-aprobacion>
           Esperando aprobación. Un administrador la revisará; mientras tanto no se puede editar.
         </p>
       ) : null}
@@ -164,7 +164,7 @@ export function FormularioNovedad({ novedad, acciones }: Props) {
 
 function BarraAprobacion({ acciones }: { acciones: Intencion[] }) {
   const { pendiente } = useFormularioPanel();
-  // La acción principal (la que no es «guardar») va en azul y a la derecha.
+  // La acción principal (la que no es «guardar») usa el primario y va a la derecha.
   const principales = acciones.filter((a) => a !== "guardar");
   return (
     <div className="bg-background/95 border-border sticky bottom-[calc(3.5rem+env(safe-area-inset-bottom))] z-30 -mx-4 flex flex-wrap justify-end gap-2 border-t px-4 py-3 md:bottom-0 md:mx-0 md:border-0 md:px-0">

@@ -31,7 +31,7 @@ export function ListaDeCambios({
         <li key={c.id}>
           <Link
             href={`/admin/auditoria/${c.id}`}
-            className="bg-card hover:bg-muted flex min-h-11 flex-col gap-0.5 rounded-xl border p-3 wrap-anywhere"
+            className="bg-card hover:bg-muted flex min-h-11 flex-col gap-0.5 rounded-md border p-3 wrap-anywhere"
             data-cambio={c.id}
           >
             <span>

@@ -47,7 +47,7 @@ async function Lista({ searchParams }: Pick<Props, "searchParams">) {
       {ingresos === null ? (
         <p role="alert">No se pudieron cargar los ingresos. Recarga la página.</p>
       ) : ingresos.length === 0 ? (
-        <p className="bg-card rounded-xl border p-6 text-center">
+        <p className="bg-card rounded-md border p-6 text-center">
           Nadie entró ni salió en ese periodo. Prueba con uno más largo.
         </p>
       ) : (
@@ -56,7 +56,7 @@ async function Lista({ searchParams }: Pick<Props, "searchParams">) {
             {ingresos.map((i, n) => (
               <li
                 key={`${i.ocurrido_en}-${i.usuario_id}-${n}`}
-                className="bg-card flex flex-col gap-0.5 rounded-xl border p-3 wrap-anywhere"
+                className="bg-card flex flex-col gap-0.5 rounded-md border p-3 wrap-anywhere"
               >
                 <span>
                   <strong className="font-semibold">{i.quien}</strong>{" "}

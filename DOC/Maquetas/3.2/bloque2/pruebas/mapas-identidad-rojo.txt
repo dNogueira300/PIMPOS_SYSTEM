@@ -1,0 +1,73 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:21716) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (24.3s)
+(node:18460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (22.1s)
+
+
+  1) [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('link', { name: 'Ver ficha', exact: true })
+    Expected: "rgb(149, 62, 44)"
+    Received: "rgb(0, 120, 168)"
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCSS" getByRole('link', { name: 'Ver ficha', exact: true }) with timeout 20000ms
+      - waiting for getByRole('link', { name: 'Ver ficha', exact: true })
+        43 × locator resolved to <a href="/admin/clientes/0caf36d1-7322-43c7-bf06-9093ed8cf8ee">Ver ficha</a>
+           - unexpected value "rgb(0, 120, 168)"
+
+
+      54 |     });
+      55 |     for (const enlace of [ficha, page.getByRole("link", { name: "OpenStreetMap", exact: true })]) {
+    > 56 |       await expect(enlace).toHaveCSS("color", primario);
+         |                            ^
+      57 |       await enlace.hover();
+      58 |       await expect(enlace).toHaveCSS("color", primario);
+      59 |       await enlace.focus();
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-mapas-identidad.spec.ts:56:28
+
+    Error Context: test-results\panel-mapas-identidad-los--d41a2--pasar-el-puntero-y-enfocar-movil\error-context.md
+
+  2) [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+
+    Error: expect(locator).toHaveCSS(expected) failed
+
+    Locator:  getByRole('link', { name: 'Ver ficha', exact: true })
+    Expected: "rgb(149, 62, 44)"
+    Received: "rgb(0, 120, 168)"
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCSS" getByRole('link', { name: 'Ver ficha', exact: true }) with timeout 20000ms
+      - waiting for getByRole('link', { name: 'Ver ficha', exact: true })
+        43 × locator resolved to <a href="/admin/clientes/b7a074f3-f521-41fe-aac1-9c32a6b13157">Ver ficha</a>
+           - unexpected value "rgb(0, 120, 168)"
+
+
+      54 |     });
+      55 |     for (const enlace of [ficha, page.getByRole("link", { name: "OpenStreetMap", exact: true })]) {
+    > 56 |       await expect(enlace).toHaveCSS("color", primario);
+         |                            ^
+      57 |       await enlace.hover();
+      58 |       await expect(enlace).toHaveCSS("color", primario);
+      59 |       await enlace.focus();
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-mapas-identidad.spec.ts:56:28
+
+    Error Context: test-results\panel-mapas-identidad-los--d41a2--pasar-el-puntero-y-enfocar-escritorio\error-context.md
+
+  2 failed
+    [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+    [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar

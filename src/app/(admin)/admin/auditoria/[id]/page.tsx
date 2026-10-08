@@ -97,7 +97,7 @@ async function Detalle({ params }: Pick<Props, "params">) {
       </section>
 
       <section aria-labelledby="que-cambio" className="mb-6">
-        <h2 id="que-cambio" className="mb-2 font-semibold">
+        <h2 id="que-cambio" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
           {cambio.operacion === "UPDATE"
             ? "Qué cambió"
             : cambio.operacion === "INSERT"
@@ -109,9 +109,12 @@ async function Detalle({ params }: Pick<Props, "params">) {
             No hay datos que enseñar: no cambió ningún dato, o se borraron a pedido del cliente.
           </p>
         ) : (
-          <dl className="bg-card divide-y rounded-xl border" data-diferencias>
+          <dl className="bg-card divide-y rounded-md border" data-diferencias>
             {lista.map((d) => (
-              <div key={d.campo} className="grid gap-1 p-3 sm:grid-cols-[12rem_1fr]">
+              <div
+                key={d.campo}
+                className="grid min-w-0 gap-2 p-4 sm:grid-cols-[12rem_minmax(0,1fr)]"
+              >
                 <dt className="text-muted-foreground text-sm">{d.etiqueta}</dt>
                 <dd className="wrap-anywhere">
                   {cambio.operacion === "UPDATE" ? (
@@ -132,7 +135,7 @@ async function Detalle({ params }: Pick<Props, "params">) {
         )}
       </section>
 
-      <details className="bg-card rounded-xl border p-3" data-detalle-tecnico>
+      <details className="bg-card rounded-md border p-3" data-detalle-tecnico>
         <summary className="min-h-11 cursor-pointer content-center font-semibold">
           Detalle técnico
         </summary>

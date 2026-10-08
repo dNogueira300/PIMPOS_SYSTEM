@@ -140,7 +140,7 @@ export function SubidaImagen({
         <img
           src={vista}
           alt=""
-          className="bg-muted aspect-video w-full max-w-sm rounded-xl object-cover"
+          className="bg-muted aspect-video w-full max-w-sm rounded-md object-cover"
           data-vista-previa
         />
       ) : (

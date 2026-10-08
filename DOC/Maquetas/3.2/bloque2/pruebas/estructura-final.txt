@@ -1,0 +1,10 @@
+{
+  "base": "c1f9582",
+  "files": 45,
+  "nonPresentationDifferences": [
+    "src/components/panel/botones-contacto.tsx",
+    "src/components/panel/grafico-barras.tsx",
+    "src/components/panel/selector-ubicacion.tsx",
+    "src/components/panel/vista-marca.tsx"
+  ]
+}

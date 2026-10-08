@@ -701,3 +701,9 @@
   line-height: var(--area-tactil-min);
   font-size: 1.375rem;
 }
+
+/* La validación por teclado debe ser legible desde que aparece el aviso.
+   El fundido de Sonner produce colores intermedios de contraste insuficiente. */
+.toaster [data-sonner-toast][data-type="error"] {
+  transition: none;
+}

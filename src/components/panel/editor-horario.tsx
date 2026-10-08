@@ -55,7 +55,7 @@ export function EditorHorario({ inicial }: { inicial: Horario }) {
         return (
           <fieldset
             key={dia}
-            className="bg-muted/40 flex flex-col gap-2 rounded-xl p-3"
+            className="bg-muted/40 border-border flex min-w-0 flex-col gap-3 rounded-md border p-4"
             data-dia={dia}
           >
             <legend className="sr-only">{NOMBRE[dia]}</legend>

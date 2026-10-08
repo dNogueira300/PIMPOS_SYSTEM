@@ -10,9 +10,10 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
-verificación local aprobada y PR #90 en borrador. Login de vista previa Vercel revisado;
-pendiente revisión en dispositivo. Se conserva toda funcionalidad. Ver
-`Verificacion rediseño 03.2 - Bloque 1.md`; el resto de 03.2 queda pendiente. El estado de auditoría
+verificación local aprobada y PR #90 fusionado por Dan el 08/10. Login de vista previa Vercel revisado;
+pendiente evidencia de teclado físico y zoom nativo. Se conserva toda funcionalidad. El segundo
+bloque (módulos completos del panel, T3/T4) está en curso en `feat/rediseno-modulos-panel`. Ver
+`Verificacion rediseño 03.2 - Bloque 1.md`; el sitio público y cierre de 03.2 quedan pendientes. El estado de auditoría
 y F7 está actualizado en `AGENTS.md`.
 
 ---
