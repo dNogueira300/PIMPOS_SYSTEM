@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) en curso en `feat/rediseno-modulos-panel`, base `c1f9582`; T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. No fusionar el segundo bloque sin revisión de Dan.
+**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`, base `c1f9582`; preparado para PR 2 en borrador y revisión de Dan. T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. No fusionar el segundo bloque sin revisión de Dan.
 
 ## Restricciones globales
 
@@ -195,6 +195,8 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 - [x] Probar que el repartidor conserva exactamente sus campos de corrección y el administrador sus acciones; guardar, volver a abrir y comparar datos en las suites existentes. Verificar menú Más y todas las pestañas, no solo la primera del prototipo.
 - [x] Ejecutar E2E `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`, `panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`, `panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`, `panel-accesibilidad` (archivos `.spec.ts`), por tandas de un trabajador.
 - [ ] Comparar A de insumos/ingreso/cliente-nuevo y añadir mapa/ficha, diálogo de borrado, reporte y estados de error. Revisar manualmente teclado móvil al final del formulario. Commit de T4, revisión independiente y PR 2.
+
+**Resultado local de T4:** 91 capturas sin incidencias; suites requeridas aprobadas. Revisión independiente sin Critical/Important, con M1 de corte de unidades a 768 px diferido a T7. La casilla final conserva pendiente el teclado móvil físico, el zoom nativo y la apertura/revisión del PR; ver `DOC/Verificacion rediseño 03.2 - Bloque 2.md`.
 
 ## T5 — Estructura pública y portada
 

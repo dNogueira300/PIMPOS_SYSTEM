@@ -1,0 +1,22 @@
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+⋯ Backing up original state…
+✔ Done backing up original state (134b379)!
+⋯ Running tasks for staged files…
+    *.{ts,tsx,mjs,mts} — 19 files
+      ⋯ eslint --fix
+      ⋯ prettier --write
+    *.{json,md,css,yml,yaml} — 6 files
+      ⋯ prettier --write
+
+✔ prettier --write
+✔ eslint --fix
+✔ prettier --write
+
+✔ Done running tasks for staged files!
+⋯ Staging changes from tasks…
+✔ Done staging changes from tasks!
+⋯ Cleaning up temporary files…
+✔ Done cleaning up temporary files!
+[feat/rediseno-modulos-panel 1e7c057] style(panel): completar insumos reportes y clientes con A

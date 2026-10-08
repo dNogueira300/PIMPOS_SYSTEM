@@ -1238,7 +1238,7 @@ Las reglas visuales que siguen documentan la implementación vigente; no obligan
 La dirección A fue elegida el 07/10/2026. Su primer bloque (T1/T2) está implementado en la rama
 `feat/rediseno-acceso-panel`, verificado localmente y en el PR #90, fusionado por Dan el 08/10/2026
 (main `c1f9582`). Incluye tokens globales, login circular/ondulado centrado en móvil, marca del panel
-y controles compartidos. El segundo bloque (T3/T4) está en curso en `feat/rediseno-modulos-panel`,
+y controles compartidos. El segundo bloque (T3/T4) está implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`,
 desde ese main, reutilizando el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. T5–T7 siguen pendientes.
 
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar

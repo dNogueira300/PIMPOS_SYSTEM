@@ -2,8 +2,8 @@
 
 Fecha: 08/10/2026. Base: `c1f9582` (PR #90 fusionado por Dan).
 Rama: `feat/rediseno-modulos-panel`. Checkout aislado: `PIMPOS_REDISENO_BLOQUE1`.
-Alcance: T3 + T4; T5–T7 siguen pendientes. Estado: implementación y verificación local
-completadas; revisión independiente y PR pendientes.
+Alcance: T3 + T4; T5–T7 siguen pendientes. Estado: implementación, verificación local
+y revisión independiente completadas; entrega preparada para PR 2 en borrador y revisión de Dan.
 
 ## Resultado
 
@@ -29,7 +29,7 @@ locales se restauran con el mecanismo existente y los errores abren su pestaña 
 | T4: siete suites de insumos        | 24 aprobadas, 20 omisiones previstas, 0 fallos (1,1 minutos)        |
 | T4: clientes y accesibilidad       | 206 aprobadas, 24 omisiones previstas, 0 fallos (9,5 minutos)       |
 | T4: evidencia autenticada          | 91 capturas; 0 overflow, axe, azul, imágenes pendientes u omisiones |
-| Revisión independiente de la rama  | Pendiente                                                           |
+| Revisión independiente de la rama  | Sin Critical/Important; una mejora Minor registrada para el cierre  |
 | Vista previa Vercel                | Pendiente                                                           |
 
 Suites T3: `panel-contenido`, `panel-categorias`, `panel-productos`, `panel-novedades`,
@@ -99,6 +99,10 @@ ni se alteran registros del negocio. Sitrai permanece detenido.
 Teclado móvil físico y zoom nativo siguen pendientes de revisión en dispositivo.
 Altura reducida y zoom CSS son evidencia complementaria y no sustituyen esas comprobaciones.
 
+El commit T4 ejecutó también los hooks del repositorio: `pnpm typecheck` y
+`pnpm exec lint-staged`, ambos aprobados. Los comandos equivalentes previos no
+sustituyen ni eliminan esos hooks.
+
 ## Decisiones de ejecución
 
 1. Ejecutar únicamente T3/T4 y abrir el PR 2. Coste: público y cierre transversal pendientes.
@@ -120,6 +124,27 @@ Altura reducida y zoom CSS son evidencia complementaria y no sustituyen esas com
    de comprobar tipos; se detuvo solo ese proceso. Coste: no se invoca literalmente pnpm;
    se ejecutan `next typegen`, `tsc`, ESLint, Prettier y Vitest, y CI conserva sus comandos.
 
+9. Mantener composición pública, carrusel, tapiz y T5/T6 fuera de PR 2, como resolvió
+   el revisor según el alcance. Coste: el sitio público espera la tercera entrega.
+10. Mantener regresión completa y rendimiento transversal T7 para el cierre.
+    Coste: las pruebas del panel no certifican todavía todo el sitio ni su rendimiento final.
+11. Aceptar el límite del revisor sobre teclado físico y zoom nativo, sin certificarlos.
+    Coste: se requiere comprobación en dispositivo; coincide con la decisión 3.
+12. No extrapolar la evidencia local al despliegue Vercel. Comprobar su estado al abrir el PR
+    y conservar separado el alcance de la vista previa. Coste: el panel desplegado requiere
+    su propia evidencia autenticada antes de dar esa comprobación por cerrada.
+
 ## Revisión independiente
 
-Pendiente. Ninguna observación se da por resuelta sin evidencia.
+Revisión única con contexto nuevo sobre `c1f9582..1e7c057`. El revisor leyó el diff,
+los contratos, las pruebas, los manifiestos y capturas representativas; no repitió las suites.
+Confirmó conservación de lógica, coherencia con A, 180 capturas y limpieza sin incidencias.
+
+Critical: ninguna. Important: ninguna. Minor M1: `tabla-reporte.tsx:89` permite partir
+«unidad» como «unida / d» a 768 px (`existencias-768.png`). No pierde información ni
+bloquea acciones; dificulta escanear las unidades. Se difiere al cierre visual T7, sin una
+corrección adicional en esta entrega. Ninguna incidencia bloqueante entra en pase de corrección.
+
+Veredicto: listo para abrir PR 2 en borrador; no fusionar sin la revisión de Dan y las
+comprobaciones pendientes declaradas. La composición pública, la verificación transversal,
+el dispositivo físico y Vercel quedaron fuera del juicio local, resueltos en decisiones 9–12.

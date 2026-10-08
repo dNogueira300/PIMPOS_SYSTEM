@@ -12,8 +12,10 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
 verificación local aprobada y PR #90 fusionado por Dan el 08/10. Login de vista previa Vercel revisado;
 pendiente evidencia de teclado físico y zoom nativo. Se conserva toda funcionalidad. El segundo
-bloque (módulos completos del panel, T3/T4) está en curso en `feat/rediseno-modulos-panel`. Ver
-`Verificacion rediseño 03.2 - Bloque 1.md`; el sitio público y cierre de 03.2 quedan pendientes. El estado de auditoría
+bloque (módulos completos del panel, T3/T4) está implementado, verificado localmente y revisado
+en `feat/rediseno-modulos-panel`, preparado para PR 2 en borrador y revisión de Dan. Ver
+`Verificacion rediseño 03.2 - Bloque 2.md`: 180 capturas y revisión sin defectos bloqueantes;
+M1 de corte de unidades a 768 px pasa al cierre. El sitio público y cierre de 03.2 quedan pendientes. El estado de auditoría
 y F7 está actualizado en `AGENTS.md`.
 
 ---
