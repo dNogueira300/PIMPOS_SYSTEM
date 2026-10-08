@@ -56,7 +56,7 @@ async function Contenido({ params, searchParams }: Props) {
             <select
               name="insumo"
               defaultValue={insumo ?? ""}
-              className="border-input bg-card min-h-11 rounded-xl border px-3"
+              className="border-input bg-card min-h-11 rounded-md border px-3"
             >
               <option value="">Elige…</option>
               {insumos.map((i) => (

@@ -34,14 +34,14 @@ async function InicioConSesion({
     <>
       <EncabezadoPanel titulo="Inicio" />
       {motivo === "sin-acceso" ? (
-        <p role="status" className="bg-alerta/15 mb-4 rounded-xl p-3 text-sm">
+        <p role="status" className="bg-alerta/15 mb-4 rounded-md p-3 text-sm">
           Esa sección no está disponible para tu rol.
         </p>
       ) : null}
 
       {avisos.length > 0 ? (
         <section aria-labelledby="avisos" className="mb-6 flex flex-col gap-2">
-          <h2 id="avisos" className="font-semibold">
+          <h2 id="avisos" className="text-xl font-semibold tracking-[-0.025em]">
             Para revisar
           </h2>
           {avisos.map((aviso) => (
@@ -49,7 +49,7 @@ async function InicioConSesion({
               key={aviso.ruta}
               href={aviso.ruta}
               data-aviso={aviso.clave}
-              className="bg-card flex min-h-12 items-center rounded-xl border p-4"
+              className="bg-card flex min-h-12 items-center rounded-md border p-4"
             >
               {aviso.texto}
             </Link>
@@ -58,16 +58,16 @@ async function InicioConSesion({
       ) : null}
 
       <section aria-labelledby="atajos">
-        <h2 id="atajos" className="mb-2 font-semibold">
+        <h2 id="atajos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
           Tus secciones
         </h2>
-        <ul className="grid gap-2 sm:grid-cols-2">
+        <ul className="border-border grid gap-0 border-t sm:grid-cols-2">
           {secciones.map((s) => (
             <li key={s.ruta}>
               <Link
                 href={s.ruta}
                 data-seccion={s.nombre}
-                className="tarjeta flex min-h-16 items-center p-4 font-semibold"
+                className="border-border hover:bg-muted flex min-h-16 items-center border-b px-3 py-5 font-semibold"
               >
                 {s.nombre}
               </Link>
@@ -83,7 +83,7 @@ async function InicioConSesion({
       </section>
       {administracion && recientes.length > 0 ? (
         <section aria-labelledby="actividad" className="mt-6" data-actividad-reciente>
-          <h2 id="actividad" className="mb-2 font-semibold">
+          <h2 id="actividad" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
             Actividad reciente
           </h2>
           <ListaDeCambios cambios={recientes} nombres={nombres} etiqueta="Los últimos cambios" />

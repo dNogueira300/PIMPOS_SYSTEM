@@ -23,7 +23,7 @@ function suscribir(nombreCampo: string, avisar: () => void): () => void {
 
 /**
  * Vista previa del favicon a los tamaños en que se ve de verdad (doc 03 §5.5),
- * sobre crema y sobre azul: un favicon que no se lee a 16 px no sirve.
+ * sobre crema y sobre terracota: un favicon que no se lee a 16 px no sirve.
  * Lee la ruta del campo oculto que deja `SubidaImagen`.
  */
 export function VistaFavicon({ nombreCampo }: { nombreCampo: string }) {
@@ -37,9 +37,13 @@ export function VistaFavicon({ nombreCampo }: { nombreCampo: string }) {
   if (!url) return null;
 
   return (
-    <div className="flex flex-wrap gap-4" aria-label="Así se verá el icono de la pestaña">
+    <div
+      role="group"
+      className="flex flex-wrap gap-4"
+      aria-label="Así se verá el icono de la pestaña"
+    >
       {["bg-background", "bg-primary"].map((fondo) => (
-        <div key={fondo} className={`${fondo} flex items-end gap-3 rounded-xl border p-3`}>
+        <div key={fondo} className={`${fondo} flex items-end gap-3 rounded-md border p-3`}>
           {[16, 32, 180].map((lado) => (
             // eslint-disable-next-line @next/next/no-img-element -- vista previa a tamaño exacto; next/image la reescalaría
             <img

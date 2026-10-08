@@ -113,14 +113,14 @@ async function Ficha({
 
       {lotesEnOrden.length > 0 ? (
         <section aria-labelledby="lotes" className="mb-6">
-          <h2 id="lotes" className="mb-2 font-semibold">
+          <h2 id="lotes" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
             Lotes con existencia
           </h2>
           <ul className="flex flex-col gap-2">
             {lotesEnOrden.map((l, i) => (
               <li
                 key={i}
-                className="bg-card flex flex-wrap justify-between gap-2 rounded-xl border p-3 text-sm"
+                className="bg-card flex flex-wrap justify-between gap-2 rounded-md border p-3 text-sm"
               >
                 <span>{l.lotes_insumo?.codigo ?? "Sin código"}</span>
                 <span>
@@ -143,7 +143,7 @@ async function Ficha({
       ) : null}
 
       <section aria-labelledby="kardex">
-        <h2 id="kardex" className="mb-2 font-semibold">
+        <h2 id="kardex" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
           Movimientos
         </h2>
         <form className="mb-3 flex flex-wrap items-end gap-2">
@@ -153,7 +153,7 @@ async function Ficha({
               type="date"
               name="desde"
               defaultValue={periodo.desde}
-              className="border-input bg-card min-h-11 rounded-xl border px-3"
+              className="border-input bg-card min-h-11 rounded-md border px-3"
             />
           </label>
           <label className="flex flex-col gap-1 text-sm">
@@ -162,7 +162,7 @@ async function Ficha({
               type="date"
               name="hasta"
               defaultValue={periodo.hasta}
-              className="border-input bg-card min-h-11 rounded-xl border px-3"
+              className="border-input bg-card min-h-11 rounded-md border px-3"
             />
           </label>
           <button type="submit" className="boton-linea">

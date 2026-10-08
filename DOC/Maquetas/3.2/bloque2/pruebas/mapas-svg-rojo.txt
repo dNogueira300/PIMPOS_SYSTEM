@@ -1,0 +1,65 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:26136) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:21920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (3.0s)
+(node:21952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (3.5s)
+
+
+  1) [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "rgb(76, 123, 225)",
+    + ]
+
+      82 |         ),
+      83 |     );
+    > 84 |     expect(pinturasAzules).toEqual([]);
+         |                            ^
+      85 |   } finally {
+      86 |     await borrarUsuario(usuario.id);
+      87 |     if (id) await borrarClienteDePrueba(id);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-mapas-identidad.spec.ts:84:28
+
+    Error Context: test-results\panel-mapas-identidad-los--d41a2--pasar-el-puntero-y-enfocar-movil\error-context.md
+
+  2) [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "rgb(76, 123, 225)",
+    + ]
+
+      82 |         ),
+      83 |     );
+    > 84 |     expect(pinturasAzules).toEqual([]);
+         |                            ^
+      85 |   } finally {
+      86 |     await borrarUsuario(usuario.id);
+      87 |     if (id) await borrarClienteDePrueba(id);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-mapas-identidad.spec.ts:84:28
+
+    Error Context: test-results\panel-mapas-identidad-los--d41a2--pasar-el-puntero-y-enfocar-escritorio\error-context.md
+
+  2 failed
+    [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+    [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar

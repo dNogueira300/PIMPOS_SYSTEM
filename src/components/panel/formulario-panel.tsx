@@ -197,14 +197,11 @@ export function FormularioPanel({ clave, accion, destino, alGuardar, validar, ch
   return (
     <Contexto value={contexto}>
       {ofrecer && borrador ? (
-        // La franja durazno (tinta encima da 10.39; el marrón de
-        // `bg-cta-secundario` es texto crema sobre dorado-800 y con tinta
-        // heredada solo da 2.65, y `.boton-linea` con el azul institucional
-        // baja a 1.94 — ver src/estilos/paleta.test.ts). Este aviso reutiliza
-        // el par ya probado de la franja de confianza.
+        // La acción sin fondo hereda la tinta de la franja: el terracota
+        // sobre durazno no alcanza 4.5:1. Se conserva la misma acción.
         <div
           role="status"
-          className="bg-franja text-franja-foreground mb-4 rounded-xl p-4 text-sm"
+          className="bg-franja text-franja-foreground mb-4 rounded-md p-4 text-sm"
           data-borrador
         >
           <p className="font-semibold">
@@ -215,7 +212,11 @@ export function FormularioPanel({ clave, accion, destino, alGuardar, validar, ch
             <button type="button" className="boton-cta" onClick={recuperar}>
               Recuperarlos
             </button>
-            <button type="button" className="boton-linea" onClick={descartar}>
+            <button
+              type="button"
+              className="boton-linea text-franja-foreground"
+              onClick={descartar}
+            >
               Descartar
             </button>
           </div>

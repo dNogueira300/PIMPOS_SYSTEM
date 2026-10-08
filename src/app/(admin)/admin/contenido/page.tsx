@@ -10,10 +10,13 @@ export default function Contenido() {
         titulo="Contenido"
         descripcion="Lo que se ve en el sitio. Los cambios se publican al guardar."
       />
-      <ul className="grid grid-cols-2 gap-2 md:grid-cols-4">
+      <ul className="border-border grid grid-cols-2 gap-0 border-t md:grid-cols-4">
         {SUBSECCIONES_DE_CONTENIDO.map((s) => (
           <li key={s.ruta}>
-            <Link href={s.ruta} className="tarjeta flex min-h-20 items-center p-4 font-semibold">
+            <Link
+              href={s.ruta}
+              className="border-border hover:bg-muted flex min-h-20 items-center border-b px-3 py-5 font-semibold"
+            >
               {s.nombre}
             </Link>
           </li>

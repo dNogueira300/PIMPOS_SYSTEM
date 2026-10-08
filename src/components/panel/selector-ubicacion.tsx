@@ -30,7 +30,7 @@ type Props = {
 export function SelectorUbicacion({
   inicial,
   opcional = false,
-  instruccion = "Arrastra el punto azul hasta la puerta del local.",
+  instruccion = "Arrastra el punto hasta la puerta del local.",
 }: Props) {
   const { registrarRestaurable } = useFormularioPanel();
   const contenedor = useRef<HTMLDivElement>(null);
@@ -215,7 +215,7 @@ export function SelectorUbicacion({
       */}
       <div
         ref={contenedor}
-        className="isolate h-72 w-full overflow-hidden rounded-xl border"
+        className="isolate h-72 w-full overflow-hidden rounded-md border"
         data-selector-ubicacion
       />
       <p className="text-muted-foreground text-sm" data-punto>

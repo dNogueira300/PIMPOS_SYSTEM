@@ -57,7 +57,7 @@ export function ListaAdaptable<F extends { id: string }>({
   etiqueta,
 }: Props<F>) {
   if (filas.length === 0) {
-    return <div className="bg-card rounded-xl border p-6 text-center">{vacio}</div>;
+    return <div className="bg-card rounded-md border p-6 text-center">{vacio}</div>;
   }
 
   const principal = columnas.find((c) => c.principal) ?? columnas[0];
@@ -78,7 +78,7 @@ export function ListaAdaptable<F extends { id: string }>({
         <Link
           href={editar(fila)}
           aria-label={`${etiquetaEditar} ${nombreDe(fila)}`.trim()}
-          className="text-primary hover:bg-primary/10 inline-flex size-11 shrink-0 items-center justify-center rounded-full"
+          className="text-primary hover:bg-primary/10 inline-flex size-11 shrink-0 items-center justify-center rounded-md"
         >
           <Pencil aria-hidden className="size-5" />
         </Link>
@@ -89,11 +89,14 @@ export function ListaAdaptable<F extends { id: string }>({
 
   return (
     <>
-      <ul aria-label={etiqueta} className="flex flex-col md:hidden">
+      <ul
+        aria-label={etiqueta}
+        className="border-border flex flex-col overflow-hidden rounded-md border md:hidden"
+      >
         {filas.map((fila) => (
           <li
             key={fila.id}
-            className={`bg-card flex items-center gap-2 border-b px-3 py-4 ${accionesDebajo ? "flex-wrap" : ""}`}
+            className={`bg-card border-border flex items-center gap-2 border-b px-3 py-4 last:border-b-0 ${accionesDebajo ? "flex-wrap" : ""}`}
           >
             {/* `min-w-0` y `wrap-anywhere`: una palabra larga se corta en vez de
                 empujar los botones fuera de la tarjeta (a 375 px caben cuatro,
@@ -124,7 +127,7 @@ export function ListaAdaptable<F extends { id: string }>({
         ))}
       </ul>
 
-      <table className="bg-card hidden w-full overflow-hidden rounded-xl border text-sm md:table">
+      <table className="bg-card hidden w-full overflow-hidden rounded-md border text-sm md:table">
         <caption className="sr-only">{etiqueta}</caption>
         <thead className="bg-muted text-left">
           <tr>
@@ -146,9 +149,9 @@ export function ListaAdaptable<F extends { id: string }>({
         </thead>
         <tbody>
           {filas.map((fila) => (
-            <tr key={fila.id} className="even:bg-muted/40 border-t">
+            <tr key={fila.id} className="border-border even:bg-muted/40 hover:bg-muted/60 border-t">
               {columnas.map((c) => (
-                <td key={c.titulo} className="px-4 py-2 tabular-nums">
+                <td key={c.titulo} className="px-4 py-2 wrap-anywhere tabular-nums">
                   {c === principal ? (
                     <Link
                       href={enlace(fila)}

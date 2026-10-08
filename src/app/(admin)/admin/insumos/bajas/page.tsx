@@ -56,7 +56,7 @@ async function Listas() {
     <>
       {esAdministracion ? (
         <section aria-labelledby="por-aprobar" className="mb-6">
-          <h2 id="por-aprobar" className="mb-2 font-semibold">
+          <h2 id="por-aprobar" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
             Por aprobar
           </h2>
           {pendientes.length === 0 ? (
@@ -66,7 +66,7 @@ async function Listas() {
               {pendientes.map((b) => (
                 <li
                   key={b.id}
-                  className="bg-card flex flex-col gap-2 rounded-xl border p-3"
+                  className="bg-card flex flex-col gap-2 rounded-md border p-3"
                   data-baja={b.id}
                 >
                   <p className="font-semibold">{describir(b)}</p>
@@ -89,7 +89,7 @@ async function Listas() {
       ) : null}
 
       <section aria-labelledby="historial">
-        <h2 id="historial" className="mb-2 font-semibold">
+        <h2 id="historial" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
           {esAdministracion ? "Resueltas" : "Tus bajas"}
         </h2>
         {resto.length === 0 ? (
@@ -100,7 +100,7 @@ async function Listas() {
             className="flex flex-col gap-2"
           >
             {resto.map((b) => (
-              <li key={b.id} className="bg-card flex flex-col gap-1 rounded-xl border p-3 text-sm">
+              <li key={b.id} className="bg-card flex flex-col gap-1 rounded-md border p-3 text-sm">
                 <p className="font-semibold">{describir(b)}</p>
                 <p>
                   {ESTADO[b.estado as keyof typeof ESTADO]} · {NOMBRE_MOTIVO[b.motivo_baja]} ·{" "}

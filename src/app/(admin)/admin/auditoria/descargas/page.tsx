@@ -39,7 +39,7 @@ async function Lista() {
   }
   if (descargas.length === 0) {
     return (
-      <p className="bg-card rounded-xl border p-6 text-center">
+      <p className="bg-card rounded-md border p-6 text-center">
         Nadie ha descargado la lista de clientes.
       </p>
     );
@@ -50,7 +50,7 @@ async function Lista() {
         <li
           key={d.id}
           data-descarga={d.id}
-          className="bg-card flex flex-col gap-0.5 rounded-xl border p-3 wrap-anywhere"
+          className="bg-card flex flex-col gap-0.5 rounded-md border p-3 wrap-anywhere"
         >
           <span>
             <strong className="font-semibold">{d.quien}</strong> descargó {queSeLlevo(d)}

@@ -85,7 +85,7 @@ function Lineas({ insumos }: { insumos: InsumoAContar[] }) {
         </p>
       ) : null}
       {insumos.map((i) => (
-        <div key={i.id} className="bg-card flex flex-col gap-2 rounded-xl border p-3">
+        <div key={i.id} className="bg-card flex flex-col gap-2 rounded-md border p-3">
           <p className="font-semibold">{i.nombre}</p>
           <p className="text-muted-foreground text-sm">Según el sistema: {i.hay}</p>
           <div className="grid grid-cols-2 gap-2">

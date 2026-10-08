@@ -35,7 +35,7 @@ export function FotosProducto({ productoId, nombreProducto, fotos }: Props) {
 
   if (!productoId) {
     return (
-      <p className="bg-muted rounded-xl border border-dashed p-4 text-sm" data-fotos-bloqueadas>
+      <p className="bg-muted rounded-md border border-dashed p-4 text-sm" data-fotos-bloqueadas>
         <strong>Primero guarda el producto</strong> y después podrás añadirle fotos.
       </p>
     );
@@ -59,7 +59,7 @@ export function FotosProducto({ productoId, nombreProducto, fotos }: Props) {
         {fotos.map((foto) => (
           <li
             key={foto.id}
-            className="bg-card flex flex-col gap-2 rounded-xl border p-3"
+            className="bg-card flex flex-col gap-2 rounded-md border p-3"
             data-foto={foto.id}
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- miniatura del panel; ver SubidaImagen */}

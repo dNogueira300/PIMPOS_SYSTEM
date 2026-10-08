@@ -20,7 +20,7 @@ export function FotosCliente({ clienteId, fotos, puedeQuitar }: Props) {
   const router = useRouter();
   if (!clienteId) {
     return (
-      <p className="bg-muted rounded-xl border border-dashed p-4 text-sm" data-fotos-bloqueadas>
+      <p className="bg-muted rounded-md border border-dashed p-4 text-sm" data-fotos-bloqueadas>
         <strong>Primero guarda el cliente</strong> y después podrás añadir hasta 3 fotos de la
         fachada.
       </p>
@@ -32,7 +32,7 @@ export function FotosCliente({ clienteId, fotos, puedeQuitar }: Props) {
       {fotos.length > 0 ? (
         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3" aria-label="Fotos de la fachada">
           {fotos.map((f) => (
-            <li key={f.id} className="bg-card flex flex-col gap-2 rounded-xl border p-2">
+            <li key={f.id} className="bg-card flex flex-col gap-2 rounded-md border p-2">
               {f.url ? (
                 // eslint-disable-next-line @next/next/no-img-element -- URL firmada de un bucket privado (ver la ficha)
                 <img

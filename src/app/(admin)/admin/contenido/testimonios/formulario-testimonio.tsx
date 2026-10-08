@@ -27,13 +27,13 @@ export function FormularioTestimonio({ testimonio }: { testimonio: TestimonioEdi
       destino={() => VOLVER}
     >
       {testimonio?.es_demo ? (
-        <p role="note" className="bg-alerta/15 rounded-xl p-4">
+        <p role="note" className="bg-alerta/15 rounded-md p-4">
           Este testimonio es <strong>de ejemplo</strong> y nunca se publica, aunque lo marques. Un
           testimonio inventado es una reseña falsa. Bórralo cuando tengas uno real.
         </p>
       ) : null}
       <input type="hidden" name="id" value={testimonio?.id ?? ""} />
-      <div className="bg-card flex flex-col gap-4 rounded-xl border p-4">
+      <div className="bg-card flex flex-col gap-4 rounded-md border p-4">
         <Campo
           nombre="nombre"
           etiqueta="Nombre de quien lo dice"

@@ -131,7 +131,7 @@ async function Contenido({
       </nav>
 
       {clientes !== null && clientes.length >= TOPE_BUSQUEDA ? (
-        <p role="status" className="bg-muted mb-4 rounded-xl p-3 text-sm" data-tope>
+        <p role="status" className="bg-muted mb-4 rounded-md p-3 text-sm" data-tope>
           Se muestran los primeros {TOPE_BUSQUEDA}. Escribe un nombre o elige una zona para ver los
           demás.
         </p>
@@ -213,7 +213,7 @@ function VistaMapa({ clientes }: { clientes: ClienteDeLista[] }) {
       {conPunto.length > 0 ? (
         <MapaClientes clientes={conPunto} />
       ) : (
-        <p className="bg-card rounded-xl border p-6 text-center">
+        <p className="bg-card rounded-md border p-6 text-center">
           Ningún cliente de esta lista tiene su casa marcada en el mapa.
         </p>
       )}

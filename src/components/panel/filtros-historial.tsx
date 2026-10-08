@@ -115,7 +115,7 @@ export function FiltrosHistorial({
         e.preventDefault();
         aplicar(elegido);
       }}
-      className="mb-4 flex flex-wrap items-end gap-2"
+      className="bg-muted/40 border-border mb-5 flex min-w-0 flex-wrap items-end gap-3 rounded-md border p-4"
     >
       {lista("persona", "Persona", [
         { valor: "", nombre: "Todas" },

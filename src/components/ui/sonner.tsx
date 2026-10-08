@@ -31,6 +31,9 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--info-bg": "var(--muted)",
           "--info-text": "var(--foreground)",
           "--info-border": "var(--border)",
+          "--error-bg": "var(--card)",
+          "--error-text": "var(--destructive)",
+          "--error-border": "var(--destructive)",
         } as React.CSSProperties
       }
       toastOptions={{

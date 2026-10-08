@@ -69,7 +69,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
 
       {cliente.borrado ? (
         <>
-          <p className="bg-card rounded-xl border p-4" data-datos-borrados>
+          <p className="bg-card rounded-md border p-4" data-datos-borrados>
             Los datos de este cliente se borraron a su pedido. Solo queda la constancia.
           </p>
           {administracion && cliente.fotosEnCarpeta > 0 ? (
@@ -89,10 +89,10 @@ async function Contenido({ params }: Pick<Props, "params">) {
           </div>
 
           <section aria-labelledby="datos" className="tarjeta mb-6 p-4">
-            <h2 id="datos" className="mb-2 font-semibold">
+            <h2 id="datos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
               Datos
             </h2>
-            <dl className="grid gap-x-4 gap-y-2 sm:grid-cols-[10rem_1fr]">
+            <dl className="grid min-w-0 gap-x-4 gap-y-2 wrap-anywhere sm:grid-cols-[10rem_minmax(0,1fr)]">
               <dt className="text-muted-foreground">Celular</dt>
               <dd>{celularParaLeer(cliente.celular)}</dd>
               <dt className="text-muted-foreground">Dirección</dt>
@@ -111,7 +111,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
           </section>
 
           <section aria-labelledby="fotos" className="mb-6">
-            <h2 id="fotos" className="mb-2 font-semibold">
+            <h2 id="fotos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
               Fotos de la fachada
             </h2>
             {cliente.fotos.length === 0 ? (
@@ -125,7 +125,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
                       <img
                         src={f.url}
                         alt={`Fachada de la casa, foto ${f.orden}`}
-                        className="aspect-[4/3] w-full rounded-xl border object-cover"
+                        className="aspect-[4/3] w-full rounded-md border object-cover"
                       />
                     </li>
                   ) : null,
@@ -135,7 +135,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
           </section>
 
           <section aria-labelledby="ubicacion" className="mb-6">
-            <h2 id="ubicacion" className="mb-2 font-semibold">
+            <h2 id="ubicacion" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
               Ubicación
             </h2>
             {cliente.latitud !== null && cliente.longitud !== null ? (
@@ -153,7 +153,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
           </section>
 
           <section aria-labelledby="permiso" className="mb-6">
-            <h2 id="permiso" className="mb-2 font-semibold">
+            <h2 id="permiso" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
               Permiso para guardar sus datos
             </h2>
             {cliente.permiso ? (
@@ -169,7 +169,7 @@ async function Contenido({ params }: Pick<Props, "params">) {
 
           {administracion ? (
             <section aria-labelledby="datos-personales" className="mb-6 border-t pt-4">
-              <h2 id="datos-personales" className="mb-2 font-semibold">
+              <h2 id="datos-personales" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
                 Datos personales
               </h2>
               <p className="text-muted-foreground mb-3 text-sm">

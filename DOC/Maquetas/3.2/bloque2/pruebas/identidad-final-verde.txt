@@ -1,0 +1,22 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:16124) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:26644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [movil] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible (3.9s)
+  ok 2 [movil] › e2e\panel-estados-identidad.spec.ts:20:5 › el aviso de copia local permite leer y descartar con contraste (4.1s)
+  ok 3 [movil] › e2e\panel-estados-identidad.spec.ts:42:5 › el aviso de validación del formulario es legible (2.1s)
+  ok 4 [movil] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (2.9s)
+(node:21260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 [escritorio] › e2e\panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible (4.2s)
+  ok 6 [escritorio] › e2e\panel-estados-identidad.spec.ts:20:5 › el aviso de copia local permite leer y descartar con contraste (4.7s)
+  ok 7 [escritorio] › e2e\panel-estados-identidad.spec.ts:42:5 › el aviso de validación del formulario es legible (2.5s)
+  ok 8 [escritorio] › e2e\panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar (3.2s)
+
+  8 passed (31.6s)

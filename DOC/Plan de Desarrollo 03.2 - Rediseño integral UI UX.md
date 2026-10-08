@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) implementado en `feat/rediseno-acceso-panel`, con verificación local terminada y entrega en curso; T3–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Base efectiva `3113084`; checkout `PIMPOS_REDISENO_BLOQUE1`. Sin fusión ni despliegue productivo.
+**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`, base `c1f9582`; preparado para PR 2 en borrador y revisión de Dan. T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. No fusionar el segundo bloque sin revisión de Dan.
 
 ## Restricciones globales
 
@@ -153,7 +153,7 @@ test("la navegación del panel cabe a 768 px", async ({ page }) => {
 });
 ```
 
-- [ ] Parcial (E2E y revisión independiente aprobados; PR #90 en borrador y login Vercel revisado; pendiente teclado móvil físico y zoom nativo): ejecutar E2E `panel-cascara.spec.ts panel-accesibilidad.spec.ts panel-editar.spec.ts panel-busqueda.spec.ts`, un trabajador. Comprobar manualmente teclado móvil y zoom 200 % en un formulario largo, sin barra de guardado superpuesta al error. Commit de T2, revisión independiente y PR 1.
+- [ ] Parcial (E2E y revisión independiente aprobados; PR #90 fusionado y login Vercel revisado; pendiente evidencia de teclado móvil físico y zoom nativo): ejecutar E2E `panel-cascara.spec.ts panel-accesibilidad.spec.ts panel-editar.spec.ts panel-busqueda.spec.ts`, un trabajador. Comprobar manualmente teclado móvil y zoom 200 % en un formulario largo, sin barra de guardado superpuesta al error. Commit de T2, revisión independiente y PR 1.
 
 ## T3 — Contenido, configuración, usuarios e historial
 
@@ -161,9 +161,9 @@ test("la navegación del panel cabe a 768 px", async ({ page }) => {
 
 **Interfaces:** consumir T1/T2; conservar props, modelos, nombres de campos y funciones servidor existentes. No editar `acciones.ts` ni `src/lib/auditoria/` para conseguir una presentación.
 
-- [ ] Inventariar todas las páginas de estas carpetas y registrar lista/alta/edición/detalle por entidad en la evidencia del PR. Cubrir categorías, productos, novedades, portada, galería, preguntas, guías y testimonios; también usuarios y configuración.
-- [ ] Completar composiciones de detalle del historial, registro extenso de cambios, presentación de producto con varias unidades y formulario con validaciones en otra pestaña; tomar los datos de los fixtures existentes.
-- [ ] Aplicar A a cabeceras, grupos de campos, listas y detalles. Cambios de clases típicos, sin alterar el elemento ni su acción:
+- [x] Inventariar todas las páginas de estas carpetas y registrar lista/alta/edición/detalle por entidad en la evidencia del PR. Cubrir categorías, productos, novedades, portada, galería, preguntas, guías y testimonios; también usuarios y configuración. Inventario conjunto de 58 páginas en `DOC/Maquetas/3.2/bloque2/INVENTARIO.md`.
+- [x] Completar composiciones de detalle del historial, registro extenso de cambios, presentación de producto con varias unidades y formulario con validaciones en otra pestaña; tomar los datos de los fixtures existentes.
+- [x] Aplicar A a cabeceras, grupos de campos, listas y detalles. Cambios de clases típicos, sin alterar el elemento ni su acción:
 
 ```tsx
 // Titular de una página del panel:
@@ -172,9 +172,9 @@ className = "text-foreground text-[1.6875rem] leading-tight font-semibold md:tex
 className = "border-border text-foreground hover:bg-muted focus-visible:ring-ring";
 ```
 
-- [ ] Revisar especialmente los botones azules reportados: Historial, Configuración y Nuevo producto; extender a hover, foco, pestañas, filtros y diálogos. Conservar diferencias entre aprobar, devolver, borrar y guardar.
-- [ ] Ejecutar E2E `panel-contenido`, `panel-categorias`, `panel-productos`, `panel-novedades`, `panel-configuracion`, `panel-usuarios`, `panel-historial`, `panel-accesibilidad` (archivos `.spec.ts`), en tandas. No debilitar casos por rol, publicación, imágenes o descargas para acomodar el nuevo DOM.
-- [ ] Comparar capturas A de inicio/historial/configuración/producto-nuevo y añadir detalles/vacíos/errores. Commit de T3.
+- [x] Revisar especialmente los botones azules reportados: Historial, Configuración y Nuevo producto; extender a hover, foco, pestañas, filtros y diálogos. Conservar diferencias entre aprobar, devolver, borrar y guardar.
+- [x] Ejecutar E2E `panel-contenido`, `panel-categorias`, `panel-productos`, `panel-novedades`, `panel-configuracion`, `panel-usuarios`, `panel-historial`, `panel-accesibilidad` (archivos `.spec.ts`), en tandas. No debilitar casos por rol, publicación, imágenes o descargas para acomodar el nuevo DOM.
+- [x] Comparar capturas A de inicio/historial/configuración/producto-nuevo y añadir detalles/vacíos/errores. Commit de T3.
 
 ## T4 — Insumos, reportes y clientes
 
@@ -182,9 +182,9 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 
 **Interfaces:** mismos formularios, consultas y callbacks. Las series del gráfico conservan valores/etiquetas; solo cambian colores con contraste y leyenda inequívoca. No tocar FEFO, redondeos, lotes, cálculos, coordenadas, consentimiento, URLs firmadas ni exportadores.
 
-- [ ] Capturar y aplicar A a catálogo de insumos, ficha/kárdex, alta/edición, ingreso, consumo, conteo, bajas/aprobación, proveedores y cada reporte existente. Revisar varias líneas de movimiento y errores por cantidad.
-- [ ] Capturar y aplicar A a lista/mapa de clientes, alta, ficha, edición, corrección por repartidor, zonas y Para revisar. Conservar selector de ubicación, carga de fotos, advertencias de duplicados y permiso obligatorio.
-- [ ] Mantener tablas semánticas o la lista adaptable existente. Para desbordamiento de una tabla ancha, usar su contenedor local y conservar encabezados; no producir scroll horizontal de toda la página:
+- [x] Capturar y aplicar A a catálogo de insumos, ficha/kárdex, alta/edición, ingreso, consumo, conteo, bajas/aprobación, proveedores y cada reporte existente. Revisar varias líneas de movimiento y errores por cantidad.
+- [x] Capturar y aplicar A a lista/mapa de clientes, alta, ficha, edición, corrección por repartidor, zonas y Para revisar. Conservar selector de ubicación, carga de fotos, advertencias de duplicados y permiso obligatorio.
+- [x] Mantener tablas semánticas o la lista adaptable existente. Para desbordamiento de una tabla ancha, usar su contenedor local y conservar encabezados; no producir scroll horizontal de toda la página:
 
 ```tsx
 <div className="max-w-full overflow-x-auto">
@@ -192,9 +192,11 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 </div>
 ```
 
-- [ ] Probar que el repartidor conserva exactamente sus campos de corrección y el administrador sus acciones; guardar, volver a abrir y comparar datos en las suites existentes. Verificar menú Más y todas las pestañas, no solo la primera del prototipo.
-- [ ] Ejecutar E2E `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`, `panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`, `panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`, `panel-accesibilidad` (archivos `.spec.ts`), por tandas de un trabajador.
+- [x] Probar que el repartidor conserva exactamente sus campos de corrección y el administrador sus acciones; guardar, volver a abrir y comparar datos en las suites existentes. Verificar menú Más y todas las pestañas, no solo la primera del prototipo.
+- [x] Ejecutar E2E `panel-insumos`, `panel-kardex`, `panel-movimientos`, `panel-bajas`, `panel-reportes`, `panel-exportar`, `insumos-concurrencia`, `panel-clientes`, `panel-clientes-registro`, `panel-clientes-administracion`, `panel-clientes-exportar`, `panel-accesibilidad` (archivos `.spec.ts`), por tandas de un trabajador.
 - [ ] Comparar A de insumos/ingreso/cliente-nuevo y añadir mapa/ficha, diálogo de borrado, reporte y estados de error. Revisar manualmente teclado móvil al final del formulario. Commit de T4, revisión independiente y PR 2.
+
+**Resultado local de T4:** 91 capturas sin incidencias; suites requeridas aprobadas. Revisión independiente sin Critical/Important, con M1 de corte de unidades a 768 px diferido a T7. La casilla final conserva pendiente el teclado móvil físico, el zoom nativo y la apertura/revisión del PR; ver `DOC/Verificacion rediseño 03.2 - Bloque 2.md`.
 
 ## T5 — Estructura pública y portada
 

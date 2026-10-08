@@ -44,7 +44,7 @@ export function AccionesUsuario({
     return (
       <section
         aria-label="Acceso de tu cuenta"
-        className="bg-card mt-4 flex flex-col gap-2 rounded-xl border p-4"
+        className="bg-card mt-4 flex flex-col gap-2 rounded-md border p-4"
       >
         <p className="text-muted-foreground text-sm">
           Esta es tu cuenta: tu rol y tu acceso los cambia otro administrador.
@@ -67,7 +67,7 @@ export function AccionesUsuario({
   return (
     <section
       aria-labelledby="acceso-titulo"
-      className="bg-card mt-4 flex flex-col gap-2 rounded-xl border p-4"
+      className="bg-card mt-4 flex flex-col gap-2 rounded-md border p-4"
     >
       <h2 id="acceso-titulo" className="font-semibold">
         Acceso

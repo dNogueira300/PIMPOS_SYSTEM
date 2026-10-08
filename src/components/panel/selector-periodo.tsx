@@ -19,7 +19,7 @@ export function SelectorPeriodo({
 }) {
   const enlace = (p: Periodo) => `${ruta}?${new URLSearchParams({ ...extra, ...p }).toString()}`;
   return (
-    <div className="mb-4 flex flex-col gap-2">
+    <div className="bg-muted/40 border-border mb-4 flex min-w-0 flex-col gap-3 rounded-md border p-4">
       <div className="flex flex-wrap gap-2">
         <Link href={enlace(semana)} className="boton-linea">
           Esta semana
@@ -38,7 +38,7 @@ export function SelectorPeriodo({
             type="date"
             name="desde"
             defaultValue={periodo.desde}
-            className="border-input bg-card min-h-11 rounded-xl border px-3"
+            className="border-input bg-card min-h-11 rounded-md border px-3"
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
@@ -47,7 +47,7 @@ export function SelectorPeriodo({
             type="date"
             name="hasta"
             defaultValue={periodo.hasta}
-            className="border-input bg-card min-h-11 rounded-xl border px-3"
+            className="border-input bg-card min-h-11 rounded-md border px-3"
           />
         </label>
         <button type="submit" className="boton-linea">

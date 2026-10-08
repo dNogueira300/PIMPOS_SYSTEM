@@ -1236,9 +1236,10 @@ La libertad estética no elimina accesibilidad, rendimiento, seguridad ni veraci
 El análisis y la base para el próximo plan están en `DOC/Analisis UI UX - Rediseno integral.md`.
 Las reglas visuales que siguen documentan la implementación vigente; no obligan al nuevo diseño.
 La dirección A fue elegida el 07/10/2026. Su primer bloque (T1/T2) está implementado en la rama
-`feat/rediseno-acceso-panel`, verificado localmente y en el PR #90 (borrador); no fusionado ni
-desplegado en producción. Incluye tokens globales, login circular, marca del panel y controles
-compartidos. T3–T7 siguen pendientes.
+`feat/rediseno-acceso-panel`, verificado localmente y en el PR #90, fusionado por Dan el 08/10/2026
+(main `c1f9582`). Incluye tokens globales, login circular/ondulado centrado en móvil, marca del panel
+y controles compartidos. El segundo bloque (T3/T4) está implementado, verificado localmente y revisado en `feat/rediseno-modulos-panel`,
+desde ese main, reutilizando el checkout aislado `PIMPOS_REDISENO_BLOQUE1`. T5–T7 siguen pendientes.
 
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
 el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.

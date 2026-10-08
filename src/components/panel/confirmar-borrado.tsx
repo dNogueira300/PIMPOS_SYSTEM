@@ -36,7 +36,7 @@ export function ConfirmarBorrado({ nombre, accion, aviso = AVISO }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger
-        className="text-destructive hover:bg-destructive/10 inline-flex size-11 items-center justify-center rounded-full"
+        className="text-destructive hover:bg-destructive/10 inline-flex size-11 items-center justify-center rounded-md"
         aria-label={`Borrar ${nombre}`}
       >
         <Trash aria-hidden className="size-5" />
