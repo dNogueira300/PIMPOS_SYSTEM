@@ -42,7 +42,7 @@ test("la portada muestra los tres datos verificables", async ({ page }) => {
   }
 });
 
-test("el hero de escritorio pone el titular sobre el velo crema, en azul", async ({
+test("el hero de escritorio muestra el titular terracota de la dirección A", async ({
   page,
   isMobile,
 }) => {
@@ -51,9 +51,9 @@ test("el hero de escritorio pone el titular sobre el velo crema, en azul", async
 
   const titular = page.locator('[aria-roledescription="diapositiva"][aria-label="1 de 3"] h2');
   await expect(titular).toBeVisible();
-  // El azul institucional sobre el velo, no el crema de antes sobre un
-  // degradado oscuro. El contraste del peor caso lo prueba paleta.test.ts.
-  await expect(titular).toHaveCSS("color", "rgb(18, 48, 110)");
+  // El bloque 1 aplica la paleta A; la composición del hero cambia en T5.
+  // El contraste del peor caso lo prueba paleta.test.ts.
+  await expect(titular).toHaveCSS("color", "rgb(149, 62, 44)");
 });
 
 test("el bloque de nosotros dice el año de apertura, no una cuenta de años inventada", async ({
@@ -211,16 +211,16 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 
-  // Playfair Display en titulares y Plus Jakarta Sans en texto (decision de Dan,
-  // 13/09/2026, plan 03.1). next/font nombra la familia con la variable
-  // exportada en src/estilos/fuentes.ts (`playfair`, `jakarta`), asi que se
+  // Plus Jakarta Sans en titulares y texto (dirección A, plan 03.2).
+  // next/font nombra la familia con la variable
+  // exportada en src/estilos/fuentes.ts (`jakarta`), asi que se
   // comprueba ese nombre. Que la clase este puesta en el <html> no basta: esto
   // verifica que la cadena token -> variable -> familia llega entera.
   const familiaTitulo = await page
     .getByRole("heading", { level: 2 })
     .first()
     .evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(familiaTitulo).toMatch(/playfair/i);
+  expect(familiaTitulo).toMatch(/jakarta/i);
 
   const familiaTexto = await page.locator("body").evaluate((el) => getComputedStyle(el).fontFamily);
   expect(familiaTexto).toMatch(/jakarta/i);
@@ -229,7 +229,6 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   const cargadas = await page.evaluate(() =>
     [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
   );
-  expect(cargadas.join(" ")).toMatch(/playfair/i);
   expect(cargadas.join(" ")).toMatch(/jakarta/i);
 });
 

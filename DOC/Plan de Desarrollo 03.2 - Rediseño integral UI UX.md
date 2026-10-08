@@ -153,7 +153,7 @@ test("la navegación del panel cabe a 768 px", async ({ page }) => {
 });
 ```
 
-- [ ] Parcial (E2E y revisión independientes aprobados; pendiente teclado físico, zoom nativo y entrega): ejecutar E2E `panel-cascara.spec.ts panel-accesibilidad.spec.ts panel-editar.spec.ts panel-busqueda.spec.ts`, un trabajador. Comprobar manualmente teclado móvil y zoom 200 % en un formulario largo, sin barra de guardado superpuesta al error. Commit de T2, revisión independiente y PR 1.
+- [ ] Parcial (E2E y revisión independiente aprobados; PR #90 en borrador y login Vercel revisado; pendiente teclado móvil físico y zoom nativo): ejecutar E2E `panel-cascara.spec.ts panel-accesibilidad.spec.ts panel-editar.spec.ts panel-busqueda.spec.ts`, un trabajador. Comprobar manualmente teclado móvil y zoom 200 % en un formulario largo, sin barra de guardado superpuesta al error. Commit de T2, revisión independiente y PR 1.
 
 ## T3 — Contenido, configuración, usuarios e historial
 

@@ -20,6 +20,9 @@ test("la pestaña seleccionada conserva el contraste al pasar el puntero", async
     await page.getByRole("button", { name: "Guardar", exact: true }).click();
     const conError = page.getByRole("tab", { name: /Horarios/ });
     await expect(conError).toHaveAttribute("data-con-error", "true");
+    // El error debe ser legible desde que aparece, sin colores intermedios
+    // de bajo contraste durante una transición desde la pestaña activa.
+    await expect(conError).toHaveCSS("transition-property", "none");
     await conError.hover();
     const error = await new AxeBuilder({ page }).include('[role="tablist"]').analyze();
     expect(error.violations).toEqual([]);

@@ -1236,7 +1236,7 @@ La libertad estética no elimina accesibilidad, rendimiento, seguridad ni veraci
 El análisis y la base para el próximo plan están en `DOC/Analisis UI UX - Rediseno integral.md`.
 Las reglas visuales que siguen documentan la implementación vigente; no obligan al nuevo diseño.
 La dirección A fue elegida el 07/10/2026. Su primer bloque (T1/T2) está implementado en la rama
-`feat/rediseno-acceso-panel`, verificado localmente y pendiente de revisión de PR; no fusionado ni
+`feat/rediseno-acceso-panel`, verificado localmente y en el PR #90 (borrador); no fusionado ni
 desplegado en producción. Incluye tokens globales, login circular, marca del panel y controles
 compartidos. T3–T7 siguen pendientes.
 
@@ -1266,7 +1266,8 @@ anteriores son históricos, no la dirección vigente. El plan está en
 cáscara del panel, después sus módulos, sitio público y cierre transversal. Conserva toda
 funcionalidad. Plan redactado el 07/10/2026; bloque 1 implementado y verificado localmente el 08/10.
 Resultados: `DOC/Verificacion rediseño 03.2 - Bloque 1.md`. Capturas del build, no maquetas con CSS
-inyectado, en `DOC/Maquetas/3.2/bloque1/`. Pendiente revisión de vista previa, teclado físico y zoom nativo.
+inyectado, en `DOC/Maquetas/3.2/bloque1/`. Login de vista previa Vercel revisado a 390 px y escritorio;
+pendiente teclado móvil físico y zoom nativo en formulario largo. Resultado actual de CI en PR #90.
 
 Estilo declarado: **tradicional / artesanal**, no minimalista ni "premium". Pimpo's es un negocio
 de barrio abierto en 2004, con precios desde S/ 0.10 y delivery propio: el precio se muestra con

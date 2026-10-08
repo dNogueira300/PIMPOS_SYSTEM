@@ -60,7 +60,7 @@ export function PestanasFormulario({
               key={p.valor}
               value={p.valor}
               data-con-error={conError || undefined}
-              className="data-[con-error]:bg-destructive/10 data-[con-error]:text-destructive data-[con-error]:hover:text-destructive min-h-11 min-w-0 text-[13px] leading-snug whitespace-normal md:text-sm"
+              className="data-[con-error]:bg-destructive/10 data-[con-error]:text-destructive data-[con-error]:hover:text-destructive min-h-11 min-w-0 text-[13px] leading-snug whitespace-normal data-[con-error]:transition-none md:text-sm"
             >
               {p.titulo}
               {conError ? (

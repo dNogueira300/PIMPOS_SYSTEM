@@ -2,7 +2,8 @@
 
 Fecha: 08/10/2026. Base: `3113084`. Rama: `feat/rediseno-acceso-panel`.
 Checkout: `PIMPOS_REDISENO_BLOQUE1`. Alcance: T1 + T2 del plan 03.2.
-Estado: implementación y verificación local terminadas; entrega y revisión de vista previa en curso.
+Estado: [PR #90](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/90) en borrador;
+verificación local aprobada y login de vista previa revisado. Revisión en dispositivo pendiente.
 
 ## Resultado implementado
 
@@ -18,16 +19,17 @@ Los tres WebP provienen del PNG aprobado, sin modificar el original. Tamaños: 1
 
 ## Comprobaciones
 
-| Comprobación                  | Resultado                                                                                     |
-| ----------------------------- | --------------------------------------------------------------------------------------------- |
-| Vitest completo               | 492 pruebas aprobadas, 60 archivos                                                            |
-| Paleta y contraste            | 45 pruebas aprobadas                                                                          |
-| Build de producción           | Turbopack; compilación y tipos aprobados, 113 páginas estáticas                               |
-| ESLint completo               | Aprobado sin advertencias, incluidos los guiones finales                                      |
-| Prettier completo             | Aprobado, incluidos los documentos y manifiestos de evidencia                                 |
-| E2E funcional + accesibilidad | 273 aprobadas / 21 omisiones previstas / 0 fallos; un trabajador, móvil y escritorio          |
-| Capturas del build            | 28 pantallas + 11 estados a 390 / 1440 px, tres roles; imágenes cargadas y sin desbordamiento |
-| Vista previa Vercel / CI      | Pendientes de abrir PR                                                                        |
+| Comprobación                  | Resultado                                                                                      |
+| ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| Vitest completo               | 492 pruebas aprobadas, 60 archivos                                                             |
+| Paleta y contraste            | 45 pruebas aprobadas                                                                           |
+| Build de producción           | Turbopack; compilación y tipos aprobados, 113 páginas estáticas                                |
+| ESLint completo               | Aprobado sin advertencias, incluidos los guiones finales                                       |
+| Prettier completo             | Aprobado, incluidos los documentos y manifiestos de evidencia                                  |
+| E2E funcional + accesibilidad | 273 aprobadas / 21 omisiones previstas / 0 fallos; un trabajador, móvil y escritorio           |
+| Capturas del build            | 28 pantallas + 11 estados a 390 / 1440 px, tres roles; imágenes cargadas y sin desbordamiento  |
+| Vista previa Vercel           | Login revisado en navegador a 1582 y 390 px reales; logo cargado, círculo y sin desbordamiento |
+| CI del PR #90                 | Primera ejecución y correcciones documentadas abajo; resultado posterior disponible en el PR   |
 
 Suites E2E: `identidad-panel`, `autenticacion`, `panel-sesiones`, `panel-inactividad`,
 `panel-cascara`, `panel-configuracion`, `panel-editar`, `panel-busqueda`,
@@ -35,6 +37,12 @@ Suites E2E: `identidad-panel`, `autenticacion`, `panel-sesiones`, `panel-inactiv
 375, 390, 768, 1024 y 1440 px. No se desactivan reglas de axe para acomodar el nuevo diseño.
 La prueba de marca carga una imagen local temporal, comprueba panel/login y restaura la
 configuración y el archivo al terminar. La comprobación de cabecera pública se completa en T5.
+
+Tras las correcciones de CI se repitieron las suites afectadas: 59 casos aprobados y 21 omisiones
+previstas. Dos casos de identidad detectaron que la nueva expectativa de duración no representaba
+la desactivación de la animación; corregida a `transition-property: none`, la suite de identidad
+aprobó 18/18 en tres repeticiones por tamaño. Build final, tipos, ESLint completo y formato completo
+aprobados. Los resultados posteriores de CI se conservan en el PR; esta evidencia local no los sustituye.
 
 Evidencia en `Maquetas/3.2/bloque1/`, con manifiesto y limpieza de tres usuarios temporales.
 Los once estados revisados no muestran azul en el barrido orientativo de estilos computados.
@@ -49,6 +57,28 @@ Detectó contraste insuficiente (2.18:1) en el hover de la pestaña activa: corr
 explícito y texto de peligro en la pestaña con error. La prueba axe reprodujo el fallo y pasó tras
 el ajuste. El barrido posterior encontró que la cabecera móvil quedaba fuera de los landmarks:
 se sustituyó su `div` por `header`. El caso de `/admin` falló antes y pasó después de esa corrección.
+
+La primera ejecución completa de CI (`37784905720`) aprobó 547 casos E2E, omitió 102 y falló en
+siete; dos casos aprobaron al reintentar. Seis fallos exigían el azul, Playfair o los botones en
+píldora del plan 03.1: se actualizaron esas expectativas al contrato A conservando la carga real
+de fuentes, la navegación activa y el área táctil. El caso de XSS del mapa falló también aislado:
+los eventos capturados mostraron que el foco de Leaflet desplaza la página durante el clic de
+mouse y suelta sobre la barra inferior. La suite móvil usa ahora `tap`; dos ejecuciones aisladas
+aprobaron manteniendo las tres comprobaciones de seguridad. No se modifica la lógica del mapa.
+
+El caso intermitente de la pestaña con error detectó contraste de 3.6:1 durante su transición de
+150 ms. Se elimina la transición únicamente en el estado de error. La comprobación inicial de
+duración falló con `0.15s`; se corrigió para afirmar `transition-property: none`, que es lo que
+desactiva la animación aunque el valor heredado de duración siga declarado. El marcador del mapa, compartido por contacto y ficha de cliente,
+tenía un azul inline heredado; ahora usa los tokens de marca y fondo. Se conserva su tamaño y
+toda su interacción. El caso intermitente de existencias obtuvo 46 en vez de 45 y aprobó al
+reintentar; no se modifica ni se relaja el cálculo ni su expectativa.
+
+Vercel aprobó el despliegue de vista previa. La protección SSO impidió inicialmente su lectura;
+Dan abrió el acceso y confirmó que estaba disponible. Se revisó exclusivamente `/ingresar`:
+logo original optimizado, círculo de 350 px en escritorio y 160 px en móvil, fuente Jakarta y
+campos intactos. A 390 px reales `scrollWidth` es 390; el logo carga `logo-256.webp`. Se restauró
+el viewport al terminar. Esta revisión no entra al panel alojado ni utiliza credenciales del negocio.
 
 Menor diferido: el test automático del círculo compara sus lados, pero no afirma el radio; utiliza
 los tamaños por defecto de Playwright. Las capturas a 390/1440 registran también el radio
