@@ -1,0 +1,749 @@
+e2e/abierto-ahora.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/abierto-ahora.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/abierto-ahora.spec.ts(17,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/abierto-ahora.spec.ts(27,62): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/abierto-ahora.spec.ts(38,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/abierto-ahora.spec.ts(53,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/accesibilidad.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/accesibilidad.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/accesibilidad.spec.ts(2,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/accesibilidad.spec.ts(90,50): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/accesibilidad.spec.ts(105,69): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/accesibilidad.spec.ts(105,75): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/autenticacion.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/autenticacion.spec.ts(9,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(16,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(24,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(36,63): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(55,57): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(76,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(93,70): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/autenticacion.spec.ts(93,78): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/avisos-diario.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/avisos-diario.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/avisos-diario.spec.ts(10,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/avisos-diario.spec.ts(14,57): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/avisos-diario.spec.ts(19,53): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/avisos-diario.spec.ts(27,3): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/ayudas/cerrojo.ts(14,10): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/ayudas/foto.ts(1,15): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/ayudas/insumos.ts(11,40): error TS2339: Property 'signInWithPassword' does not exist on type 'SupabaseAuthClient'.
+e2e/ayudas/sesion.ts(1,15): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/cabecera.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/cabecera.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/cabecera.spec.ts(11,85): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(29,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(29,81): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(48,76): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(58,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(73,76): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(85,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(101,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(102,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(116,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/cabecera.spec.ts(116,81): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/carrusel-estados.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/carrusel-estados.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/carrusel-estados.spec.ts(17,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/carrusel-estados.spec.ts(42,26): error TS7006: Parameter 'route' implicitly has an 'any' type.
+e2e/carrusel-estados.spec.ts(58,70): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/carrusel-interacciones.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/carrusel-interacciones.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/carrusel-interacciones.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/carrusel-interacciones.spec.ts(31,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/carrusel-interacciones.spec.ts(50,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/carrusel-interacciones.spec.ts(59,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/carrusel-interacciones.spec.ts(82,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/errores.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/errores.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/errores.spec.ts(24,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/flotante.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/flotante.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/flotante.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/flotante.spec.ts(49,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/flotante.spec.ts(50,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/flotante.spec.ts(74,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/flotante.spec.ts(74,81): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/flotante.spec.ts(96,26): error TS7006: Parameter 'cuanto' implicitly has an 'any' type.
+e2e/flotante.spec.ts(131,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/flotante.spec.ts(132,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/identidad-panel.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/identidad-panel.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/identidad-panel.spec.ts(7,84): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/identidad-panel.spec.ts(34,83): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/identidad-panel.spec.ts(49,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/insumos-concurrencia.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/insumos-concurrencia.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/insumos-concurrencia.spec.ts(5,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/mapa.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/mapa.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/mapa.spec.ts(16,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/mapa.spec.ts(55,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/mapa.spec.ts(55,72): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/marca.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/marca.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/marca.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/marca.spec.ts(29,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/marca.spec.ts(35,89): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/marca.spec.ts(53,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/movimiento.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/movimiento.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/movimiento.spec.ts(13,89): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(40,8): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(46,52): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(53,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(64,63): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(86,30): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(89,58): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(110,24): error TS7006: Parameter 'destino' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(117,25): error TS7006: Parameter 'selector' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(136,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(163,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(185,26): error TS7006: Parameter 'destino' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(188,36): error TS7006: Parameter 'selector' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(217,8): error TS7031: Binding element 'selector' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(217,18): error TS7031: Binding element 'indice' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(224,63): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(236,47): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(241,64): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(253,60): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(264,58): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/movimiento.spec.ts(278,44): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/novedades-portada.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/novedades-portada.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/novedades-portada.spec.ts(10,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/novedades-portada.spec.ts(11,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-accesibilidad.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-accesibilidad.spec.ts(2,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/panel-accesibilidad.spec.ts(91,28): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(100,37): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(114,28): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(123,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(132,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(133,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-accesibilidad.spec.ts(153,61): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-bajas.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-bajas.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-bajas.spec.ts(7,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-bajas.spec.ts(11,55): error TS2694: Namespace '"D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1/node_modules/@playwright/test/index"' has no exported member 'Page'.
+e2e/panel-bajas.spec.ts(21,78): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-bajas.spec.ts(48,53): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-bajas.spec.ts(75,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-busqueda.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-busqueda.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/panel-busqueda.spec.ts(22,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(26,74): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(47,61): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(62,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(79,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(94,85): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-busqueda.spec.ts(99,58): error TS7006: Parameter 'ruta' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-cascara.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-cascara.spec.ts(7,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(8,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(31,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(31,87): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(44,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-cascara.spec.ts(44,74): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-categorias.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-categorias.spec.ts(11,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(12,3): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(49,86): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(71,49): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(85,74): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(108,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-categorias.spec.ts(124,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-clientes-administracion.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-clientes-administracion.spec.ts(9,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(14,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(42,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(55,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(90,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(141,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-administracion.spec.ts(182,86): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-exportar.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-clientes-exportar.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-clientes-exportar.spec.ts(10,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-clientes-exportar.spec.ts(15,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-exportar.spec.ts(63,37): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-exportar.spec.ts(78,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-clientes-registro.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-clientes-registro.spec.ts(9,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(23,28): error TS7006: Parameter 'c' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(26,61): error TS2694: Namespace '"D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1/node_modules/@playwright/test/index"' has no exported member 'Page'.
+e2e/panel-clientes-registro.spec.ts(36,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(37,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(72,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(85,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(109,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(126,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(127,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(152,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(175,76): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(196,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(216,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(242,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(259,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes-registro.spec.ts(280,34): error TS7006: Parameter 'a' implicitly has an 'any' type.
+e2e/panel-clientes.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-clientes.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-clientes.spec.ts(9,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-clientes.spec.ts(14,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes.spec.ts(50,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-clientes.spec.ts(95,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-configuracion.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-configuracion.spec.ts(59,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(59,80): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(87,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(88,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(128,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(151,56): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(162,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(163,3): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(196,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(202,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(203,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-configuracion.spec.ts(204,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-contenido.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-contenido.spec.ts(12,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(81,69): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(81,77): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(97,28): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(99,41): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(132,46): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(133,44): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(146,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(147,3): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(180,85): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(217,85): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-contenido.spec.ts(235,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-editar.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-editar.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-editar.spec.ts(36,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-editar.spec.ts(37,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-editar.spec.ts(71,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-editar.spec.ts(86,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-editar.spec.ts(87,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-estados-identidad.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-estados-identidad.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-estados-identidad.spec.ts(7,70): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-estados-identidad.spec.ts(20,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-estados-identidad.spec.ts(42,67): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-exportar.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-exportar.spec.ts(8,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(12,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(39,37): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(53,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(81,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(82,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(100,59): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-exportar.spec.ts(106,64): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-historial.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-historial.spec.ts(2,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/panel-historial.spec.ts(14,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(22,40): error TS2339: Property 'signInWithPassword' does not exist on type 'SupabaseAuthClient'.
+e2e/panel-historial.spec.ts(99,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(135,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(167,89): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(189,83): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(211,84): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(229,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(236,20): error TS2339: Property 'signOut' does not exist on type 'SupabaseAuthClient'.
+e2e/panel-historial.spec.ts(248,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(298,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(314,21): error TS7006: Parameter 'enlaces' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(314,46): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(331,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-historial.spec.ts(362,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-inactividad.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-inactividad.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'BrowserContext'. Did you mean to use 'import BrowserContext from "@playwright/test"' instead?
+e2e/panel-inactividad.spec.ts(12,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(17,42): error TS7006: Parameter 'c' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(30,52): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(30,58): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(41,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(42,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(59,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(59,83): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(71,70): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(71,76): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(89,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(90,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(108,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(125,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(125,85): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(137,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inactividad.spec.ts(138,3): error TS7031: Binding element 'context' implicitly has an 'any' type.
+e2e/panel-inicio.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-inicio.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-inicio.spec.ts(21,5): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inicio.spec.ts(40,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-inicio.spec.ts(51,18): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/panel-inicio.spec.ts(55,45): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/panel-insumos.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-insumos.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-insumos.spec.ts(7,89): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-insumos.spec.ts(48,60): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-kardex.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-kardex.spec.ts(7,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(11,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(38,54): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(50,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(61,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(81,38): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(82,37): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/panel-kardex.spec.ts(90,53): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-mapas-identidad.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-mapas-identidad.spec.ts(10,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(11,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(18,35): error TS2339: Property 'signInWithPassword' does not exist on type 'SupabaseAuthClient'.
+e2e/panel-mapas-identidad.spec.ts(64,37): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(71,88): error TS7006: Parameter 'elementos' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(73,18): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/panel-mapas-identidad.spec.ts(74,19): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/panel-movimientos.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-movimientos.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-movimientos.spec.ts(10,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-movimientos.spec.ts(14,57): error TS2694: Namespace '"D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1/node_modules/@playwright/test/index"' has no exported member 'Page'.
+e2e/panel-movimientos.spec.ts(24,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-movimientos.spec.ts(79,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-movimientos.spec.ts(108,55): error TS2339: Property 'signInWithPassword' does not exist on type 'SupabaseAuthClient'.
+e2e/panel-movimientos.spec.ts(129,60): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-novedades.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-novedades.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-novedades.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Browser'. Did you mean to use 'import Browser from "@playwright/test"' instead?
+e2e/panel-novedades.spec.ts(27,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-novedades.spec.ts(102,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-productos.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-productos.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-productos.spec.ts(11,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-productos.spec.ts(60,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-productos.spec.ts(83,68): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-reportes.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-reportes.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-reportes.spec.ts(7,22): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-reportes.spec.ts(11,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-reportes.spec.ts(64,58): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-sesiones.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-sesiones.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Browser'. Did you mean to use 'import Browser from "@playwright/test"' instead?
+e2e/panel-sesiones.spec.ts(1,43): error TS2614: Module '"@playwright/test"' has no exported member 'BrowserContext'. Did you mean to use 'import BrowserContext from "@playwright/test"' instead?
+e2e/panel-sesiones.spec.ts(1,64): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/panel-sesiones.spec.ts(36,14): error TS7006: Parameter 'c' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(37,12): error TS7006: Parameter 'a' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(37,15): error TS7006: Parameter 'b' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(38,29): error TS7006: Parameter 'c' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(90,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(91,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(113,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(114,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(136,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(137,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(171,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(172,4): error TS7006: Parameter 'info' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(212,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(213,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-sesiones.spec.ts(239,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(2,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/panel-usuarios.spec.ts(2,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/panel-usuarios.spec.ts(2,29): error TS2614: Module '"@playwright/test"' has no exported member 'Browser'. Did you mean to use 'import Browser from "@playwright/test"' instead?
+e2e/panel-usuarios.spec.ts(2,43): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/panel-usuarios.spec.ts(30,57): error TS7006: Parameter 'ruta' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(44,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(116,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(117,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(143,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(144,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(170,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(184,70): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(205,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(206,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(239,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(240,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(276,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(277,3): error TS7031: Binding element 'browser' implicitly has an 'any' type.
+e2e/panel-usuarios.spec.ts(307,51): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/pedido.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/pedido.spec.ts(25,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(56,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(75,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(88,83): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(100,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(126,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(138,68): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pedido.spec.ts(138,74): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/pizarra.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/pizarra.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Locator'. Did you mean to use 'import Locator from "@playwright/test"' instead?
+e2e/pizarra.spec.ts(1,43): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/pizarra.spec.ts(18,82): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(37,19): error TS7006: Parameter 'titulos' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(37,44): error TS7006: Parameter 't' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(47,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(66,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(85,87): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(104,41): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(111,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(127,79): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(138,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(169,58): error TS7006: Parameter 'texto' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(172,23): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+e2e/pizarra.spec.ts(178,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada-movil.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/portada-movil.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/portada-movil.spec.ts(11,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada-movil.spec.ts(12,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada-movil.spec.ts(30,58): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada-movil.spec.ts(30,64): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada-movil.spec.ts(39,55): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/portada.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/portada.spec.ts(8,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(28,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(44,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(45,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada.spec.ts(61,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(73,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(98,55): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(107,61): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(107,67): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada.spec.ts(124,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(155,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(155,72): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada.spec.ts(172,55): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(172,61): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada.spec.ts(199,53): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(205,54): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/portada.spec.ts(211,59): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(223,16): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/portada.spec.ts(226,61): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/portada.spec.ts(237,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/portada.spec.ts(238,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/portada.spec.ts(247,42): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/presentaciones.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/presentaciones.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/presentaciones.spec.ts(11,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presentaciones.spec.ts(28,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presentaciones.spec.ts(40,85): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(3,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/presupuesto.spec.ts(3,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/presupuesto.spec.ts(3,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/presupuesto.spec.ts(60,88): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(83,63): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(85,23): error TS7006: Parameter 'peticion' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(97,57): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(127,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(127,72): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(148,25): error TS7006: Parameter 'peticion' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(172,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/presupuesto.spec.ts(174,30): error TS7006: Parameter 'respuesta' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/publico-composicion.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/publico-composicion.spec.ts(6,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(13,16): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(23,18): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(36,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(46,16): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(49,49): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/publico-composicion.spec.ts(54,42): error TS7006: Parameter 'e' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/publico-movimiento-fotos.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/publico-movimiento-fotos.spec.ts(3,84): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(9,31): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(11,42): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(12,39): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(17,30): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(18,47): error TS7006: Parameter 'animacion' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(27,31): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(32,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(40,59): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(47,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(48,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(63,34): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(67,34): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(72,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(80,61): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/publico-movimiento-fotos.spec.ts(80,67): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/reportes-presentacion.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/reportes-presentacion.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/reportes-presentacion.spec.ts(6,84): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/reportes-presentacion.spec.ts(18,47): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/secciones.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/secciones.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/secciones.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Locator'. Did you mean to use 'import Locator from "@playwright/test"' instead?
+e2e/secciones.spec.ts(18,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(30,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(54,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(66,72): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(71,71): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(87,64): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(145,65): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(155,57): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(164,81): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(175,74): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/secciones.spec.ts(186,74): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/seo.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/seo.spec.ts(14,20): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/seo.spec.ts(19,56): error TS2694: Namespace '"D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1/node_modules/@playwright/test/index"' has no exported member 'Page'.
+e2e/seo.spec.ts(28,69): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/seo.spec.ts(39,82): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/seo.spec.ts(57,80): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(88,60): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(99,75): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(117,76): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(117,82): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/seo.spec.ts(141,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(142,3): error TS7031: Binding element 'request' implicitly has an 'any' type.
+e2e/seo.spec.ts(149,12): error TS7006: Parameter 'png' implicitly has an 'any' type.
+e2e/seo.spec.ts(169,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/seo.spec.ts(191,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/tactil.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/tactil.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/tactil.spec.ts(1,29): error TS2614: Module '"@playwright/test"' has no exported member 'Page'. Did you mean to use 'import Page from "@playwright/test"' instead?
+e2e/tactil.spec.ts(71,77): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/tactil.spec.ts(71,83): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/tactil.spec.ts(90,74): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/tactil.spec.ts(102,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/tactil.spec.ts(103,3): error TS7031: Binding element 'isMobile' implicitly has an 'any' type.
+e2e/tactil.spec.ts(130,3): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/tactil.spec.ts(145,49): error TS7006: Parameter 'el' implicitly has an 'any' type.
+e2e/testimonios.spec.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'expect'. Did you mean to use 'import expect from "@playwright/test"' instead?
+e2e/testimonios.spec.ts(1,18): error TS2614: Module '"@playwright/test"' has no exported member 'test'. Did you mean to use 'import test from "@playwright/test"' instead?
+e2e/testimonios.spec.ts(16,66): error TS7031: Binding element 'page' implicitly has an 'any' type.
+e2e/testimonios.spec.ts(24,78): error TS7031: Binding element 'page' implicitly has an 'any' type.
+playwright.config.ts(1,10): error TS2614: Module '"@playwright/test"' has no exported member 'defineConfig'. Did you mean to use 'import defineConfig from "@playwright/test"' instead?
+playwright.config.ts(1,24): error TS2614: Module '"@playwright/test"' has no exported member 'devices'. Did you mean to use 'import devices from "@playwright/test"' instead?
+src/app/(admin)/admin/clientes/revisar/page.tsx(36,27): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/app/(admin)/admin/clientes/revisar/page.tsx(50,46): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/revisar/page.tsx(51,43): error TS2339: Property 'zona' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/revisar/page.tsx(52,52): error TS2339: Property 'ultima' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/revisar/page.tsx(56,50): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/revisar/page.tsx(57,51): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(49,27): error TS7006: Parameter 'z' implicitly has an 'any' type.
+src/app/(admin)/admin/clientes/zonas/page.tsx(57,43): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(58,62): error TS2339: Property 'clientes' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(59,46): error TS2339: Property 'activo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(64,34): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(70,48): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/clientes/zonas/page.tsx(70,66): error TS2339: Property 'activo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/configuracion/page.tsx(33,72): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/categorias/page.tsx(57,45): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/categorias/page.tsx(58,69): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/categorias/page.tsx(63,39): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/categorias/page.tsx(70,39): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(55,28): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(55,40): error TS2339: Property 'alt' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(64,47): error TS2339: Property 'ruta' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(68,18): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(68,30): error TS2339: Property 'alt' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(75,40): error TS2339: Property 'categoria' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(77,69): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(82,34): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(82,46): error TS2339: Property 'alt' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(89,34): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/galeria/page.tsx(89,46): error TS2339: Property 'alt' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/guias/page.tsx(55,45): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/guias/page.tsx(56,69): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/guias/page.tsx(61,34): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/guias/page.tsx(67,50): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(57,45): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(58,41): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Record<"promocion" | "nuevo_producto" | "campania" | "evento" | "aviso", string>'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(58,58): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(63,41): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(64,18): error TS2339: Property 'comentario_revision' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(71,15): error TS2339: Property 'vigencia_fin' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(71,41): error TS2339: Property 'vigencia_fin' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/novedades/page.tsx(76,35): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/portada/page.tsx(55,46): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/portada/page.tsx(56,69): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/portada/page.tsx(61,35): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/portada/page.tsx(67,51): error TS2339: Property 'titulo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/preguntas/page.tsx(54,47): error TS2339: Property 'pregunta' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/preguntas/page.tsx(55,69): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/preguntas/page.tsx(60,38): error TS2339: Property 'pregunta' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/preguntas/page.tsx(67,39): error TS2339: Property 'pregunta' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/productos/[id]/page.tsx(48,16): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/[id]/page.tsx(49,14): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/[id]/page.tsx(49,17): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/[id]/page.tsx(51,13): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/page.tsx(66,27): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/page.tsx(68,8): error TS7006: Parameter 'v' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/page.tsx(93,42): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/app/(admin)/admin/contenido/productos/page.tsx(105,47): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/productos/page.tsx(106,50): error TS2339: Property 'categoria' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/productos/page.tsx(109,74): error TS2339: Property 'precio' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/productos/page.tsx(111,71): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/productos/page.tsx(115,38): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(54,45): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(57,28): error TS2339: Property 'texto' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(57,53): error TS2339: Property 'texto' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(57,79): error TS2339: Property 'texto' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(62,15): error TS2339: Property 'es_demo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(67,41): error TS2339: Property 'estado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(74,43): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/contenido/testimonios/page.tsx(81,43): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/editar/page.tsx(46,16): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/editar/page.tsx(47,13): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(68,16): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(69,13): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(77,8): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(77,11): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(120,32): error TS7006: Parameter 'l' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(120,35): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/[id]/page.tsx(184,50): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(184,61): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(184,92): error TS2339: Property 'ocurrido_en' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(185,28): error TS2339: Property 'anulado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(194,70): error TS2345: Argument of type '{ id: string; }' is not assignable to parameter of type 'FilaKardex'.
+  Type '{ id: string; }' is missing the following properties from type 'FilaKardex': tipo, proveedor, documento, destino_lote, and 3 more.
+src/app/(admin)/admin/insumos/[id]/page.tsx(198,24): error TS2339: Property 'sentido' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(198,77): error TS2339: Property 'cantidad_base' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(202,61): error TS2339: Property 'saldo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(204,53): error TS2339: Property 'responsable' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(209,23): error TS2339: Property 'anulado' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(209,36): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(211,59): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(211,70): error TS2339: Property 'tipo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/[id]/page.tsx(211,118): error TS2339: Property 'ocurrido_en' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/bajas/page.tsx(50,35): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/bajas/page.tsx(52,20): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/bajas/page.tsx(53,20): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/bajas/page.tsx(66,32): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/bajas/page.tsx(102,25): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/conteo/page.tsx(45,38): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/conteo/page.tsx(55,20): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/conteo/page.tsx(56,17): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/datos-movimiento.ts(26,28): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/datos-movimiento.ts(30,48): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/datos-movimiento.ts(51,14): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/datos-movimiento.ts(53,8): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/datos-movimiento.ts(53,11): error TS7006: Parameter 'b' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/page.tsx(80,27): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/page.tsx(92,18): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/page.tsx(93,15): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/app/(admin)/admin/insumos/page.tsx(135,47): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/page.tsx(139,44): error TS2339: Property 'cantidad_base' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/page.tsx(139,62): error TS2339: Property 'unidad_base' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/page.tsx(145,20): error TS2339: Property 'bajo_minimo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/page.tsx(146,20): error TS2339: Property 'por_vencer' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/proveedores/page.tsx(53,45): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/proveedores/page.tsx(54,52): error TS2339: Property 'observacion' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/insumos/proveedores/page.tsx(58,37): error TS2339: Property 'nombre' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/usuarios/[id]/page.tsx(41,67): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/app/(admin)/admin/usuarios/page.tsx(45,68): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/app/(admin)/admin/usuarios/page.tsx(48,55): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/app/(admin)/admin/usuarios/page.tsx(50,31): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/app/(admin)/admin/usuarios/page.tsx(59,45): error TS2339: Property 'nombre_completo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/usuarios/page.tsx(60,74): error TS2339: Property 'correo' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/usuarios/page.tsx(61,40): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type 'Readonly<Record<"superadmin" | "repartidor" | "administrador" | "ingeniero", string>>'.
+src/app/(admin)/admin/usuarios/page.tsx(61,57): error TS2339: Property 'rol' does not exist on type '{ id: string; }'.
+src/app/(admin)/admin/usuarios/page.tsx(62,46): error TS2339: Property 'activo' does not exist on type '{ id: string; }'.
+src/estilos/paleta.test.ts(174,37): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/estilos/paleta.test.ts(175,38): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/acciones/autenticacion.ts(56,41): error TS2339: Property 'signInWithPassword' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/autenticacion.ts(74,40): error TS2339: Property 'getClaims' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/autenticacion.ts(100,23): error TS2339: Property 'signOut' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/clientes.ts(144,47): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/acciones/clientes.ts(257,35): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/acciones/orden.ts(131,19): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/acciones/orden.ts(134,19): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/acciones/productos.ts(192,45): error TS7006: Parameter 'u' implicitly has an 'any' type.
+src/lib/acciones/productos.ts(196,16): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/lib/acciones/productos.ts(197,13): error TS7006: Parameter 'a' implicitly has an 'any' type.
+src/lib/acciones/usuarios.test.ts(94,15): error TS2339: Property 'not' does not exist on type 'Assertion<void, EstadoAccion>'.
+src/lib/acciones/usuarios.ts(93,65): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(121,26): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(180,78): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(225,48): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(265,78): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(290,41): error TS2339: Property 'updateUser' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(307,72): error TS2339: Property 'admin' does not exist on type 'SupabaseAuthClient'.
+src/lib/acciones/usuarios.ts(322,23): error TS2339: Property 'refreshSession' does not exist on type 'SupabaseAuthClient'.
+src/lib/auditoria/catalogo.test.ts(61,24): error TS2339: Property 'not' does not exist on type 'Assertion<void, string[]>'.
+src/lib/auditoria/catalogo.test.ts(74,39): error TS2339: Property 'not' does not exist on type 'Assertion<void, string[]>'.
+src/lib/auditoria/datos.ts(100,68): error TS7006: Parameter 'l' implicitly has an 'any' type.
+src/lib/auditoria/datos.ts(286,28): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/lib/auditoria/datos.ts(313,28): error TS7006: Parameter 'i' implicitly has an 'any' type.
+src/lib/auditoria/datos.ts(341,32): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/lib/auditoria/datos.ts(378,32): error TS7006: Parameter 'd' implicitly has an 'any' type.
+src/lib/auth/sesion.ts(24,47): error TS2339: Property 'getClaims' does not exist on type 'SupabaseAuthClient'.
+src/lib/clientes/datos.ts(55,14): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/lib/clientes/datos.ts(56,11): error TS7006: Parameter 'c' implicitly has an 'any' type.
+src/lib/clientes/datos.ts(93,36): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/clientes/datos.ts(97,47): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/clientes/datos.ts(111,31): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/clientes/descargar.ts(60,20): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(62,24): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(63,16): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(64,18): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(65,19): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(66,13): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(67,18): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/descargar.ts(68,15): error TS18046: 'c' is of type 'unknown'.
+src/lib/clientes/permiso.test.ts(38,19): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/clientes/tabla.test.ts(27,31): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/correo/enviar.test.ts(32,20): error TS2339: Property 'not' does not exist on type 'Assertion<void, Mock<Procedure>>'.
+src/lib/datos/catalogo.ts(189,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(79,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(110,31): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(143,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(167,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(189,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/datos/contenido.ts(212,20): error TS7006: Parameter 'fila' implicitly has an 'any' type.
+src/lib/insumos/exportar-excel.test.ts(75,45): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/insumos/exportar-excel.test.ts(86,23): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/insumos/exportar-pdf.tsx(32,35): error TS7006: Parameter 'palabra' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(94,31): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(113,30): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(113,33): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(114,29): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(115,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(136,26): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(142,29): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(142,32): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(143,29): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(144,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(145,37): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(169,26): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(176,29): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(176,32): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(177,29): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(178,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(205,26): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(212,29): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(212,32): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(213,29): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(214,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+src/lib/insumos/reportes.ts(255,34): error TS7006: Parameter 'm' implicitly has an 'any' type.
+src/lib/panel/borrador.test.ts(62,64): error TS2339: Property 'not' does not exist on type 'Assertion<void, () => void>'.
+src/lib/panel/borrador.test.ts(114,53): error TS2339: Property 'not' does not exist on type 'Assertion<void, () => void>'.
+src/lib/panel/clave-temporal.test.ts(12,38): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/panel/clave-temporal.test.ts(44,36): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/panel/errores.test.ts(64,21): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/panel/navegacion.test.ts(23,34): error TS2339: Property 'not' does not exist on type 'Assertion<void, string[]>'.
+src/lib/panel/navegacion.test.ts(24,35): error TS2339: Property 'not' does not exist on type 'Assertion<void, string[]>'.
+src/lib/seo/datos-estructurados.test.ts(79,18): error TS2339: Property 'not' does not exist on type 'Assertion<void, string[]>'.
+src/lib/seo/datos-estructurados.test.ts(144,19): error TS2339: Property 'not' does not exist on type 'Assertion<void, { sameAs?: string[] | undefined; priceRange?: string | undefined; openingHoursSpecification: HorarioSchema[]; geo?: { "@type": string; latitude: number; longitude: number; } | undefined; ... 9 more ...; image: string; }>'.
+src/lib/seo/datos-estructurados.test.ts(158,19): error TS2339: Property 'not' does not exist on type 'Assertion<void, { sameAs?: string[] | undefined; priceRange?: string | undefined; openingHoursSpecification: HorarioSchema[]; geo?: { "@type": string; latitude: number; longitude: number; } | undefined; ... 9 more ...; image: string; }>'.
+src/lib/seo/datos-estructurados.test.ts(159,19): error TS2339: Property 'not' does not exist on type 'Assertion<void, { sameAs?: string[] | undefined; priceRange?: string | undefined; openingHoursSpecification: HorarioSchema[]; geo?: { "@type": string; latitude: number; longitude: number; } | undefined; ... 9 more ...; image: string; }>'.
+src/lib/seo/datos-estructurados.test.ts(181,20): error TS2339: Property 'not' does not exist on type 'Assertion<void, string>'.
+src/lib/supabase/proxy.ts(73,40): error TS2339: Property 'getClaims' does not exist on type 'SupabaseAuthClient'.
+src/lib/supabase/proxy.ts(84,48): error TS2339: Property 'signOut' does not exist on type 'SupabaseAuthClient'.
+src/lib/supabase/proxy.ts(95,27): error TS2339: Property 'signOut' does not exist on type 'SupabaseAuthClient'.

@@ -1253,9 +1253,18 @@ galería comparable en `DOC/Maquetas/3.2/bloque3/index.html`. PR #92 fusionado p
 main `adf156c`, con CI y Vercel en verde. Dan autoriza continuar el 09/10/2026: T6
 implementada y verificada localmente en `feat/rediseno-paginas-publicas`, mismo checkout aislado. Catálogo, fichas
 y páginas públicas restantes; evidencia en `DOC/Verificacion rediseño 03.2 - Bloque 4.md`.
-Parar en PR 4 borrador para revisión de Dan; no fusionar ni iniciar T7.
+PR #93 fusionado por Dan el 09/10/2026 (main `ea4ee37`). Autoriza continuar T7:
+`feat/cierre-rediseno-ui-ux`, mismo checkout aislado; cerrar en PR 5 borrador para su revisión.
+Se corrige el corte de unidades del reporte a 768 px. Dan amplía el alcance a todos los PDF:
+paleta terracota, Jakarta y logo aprobado repetido en cada página; datos, totales, avisos,
+columnas, filtros, permisos, registro de descargas y Excel se conservan.
+También pide novedades más visuales en el inicio (imagen completa sin recortar afiches),
+renovar la imagen al compartir por WhatsApp/redes y optimizar SEO para buscadores e IAs.
+OpenGraph usa el logo aprobado y A; las canónicas públicas no incluyen filtros y los
+datos Product describen información existente, sin valoraciones o existencias inventadas.
+La verificación transversal vigente se registra en `DOC/Verificacion rediseño 03.2.md`.
 
-PR #93 abierto en borrador. Dan pidió y aprobó dos ajustes dentro de ese PR:
+En PR #93 Dan pidió y aprobó dos ajustes:
 moto delivery decorativa que recorre una vez el bloque de movilidad propia en 4 s,
 y zoom del 3 % con cursor sobre las fotografías públicas. Ambos respetan movimiento
 reducido; fotos conservan proporciones/carga y marca/mapa quedan fuera del efecto.

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import { Suspense } from "react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
@@ -9,6 +10,7 @@ import { agruparPorCategoria, listarCategorias, listarProductos } from "@/lib/da
 import { enlaceWhatsApp, obtenerConfiguracion } from "@/lib/datos/configuracion";
 
 export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/productos") },
   title: "Productos",
   description:
     "Catálogo completo de Panadería Pimpo's en Iquitos: panes, panes especiales, integrales, dulces y abarrotes, con todos los precios a la vista desde S/ 0.10.",

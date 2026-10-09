@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import Link from "next/link";
 import { ArrowRight, Clock, Mail, MapPin, MessageCircle, Phone, Truck } from "lucide-react";
 
@@ -17,6 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const zonas = unirConY(config.delivery_zonas);
 
   return {
+    alternates: { canonical: urlAbsoluta("/contacto") },
     title: "Contacto",
     description: `Teléfono, WhatsApp, correo y dirección de Panadería Pimpo's en Iquitos.${
       zonas ? ` Delivery propio a ${zonas}.` : ""

@@ -4,7 +4,11 @@ const AxeBuilder = require("@axe-core/playwright").default;
 const fs = require("node:fs");
 const path = require("node:path");
 const baseline = process.argv.includes("--base");
-const out = path.resolve("DOC/Maquetas/3.2/bloque4", baseline ? "base" : "resultado");
+const outputIndex = process.argv.indexOf("--salida");
+const out =
+  outputIndex >= 0
+    ? path.resolve(process.argv[outputIndex + 1])
+    : path.resolve("DOC/Maquetas/3.2/bloque4", baseline ? "base" : "resultado");
 const routes = [
   ["catalogo", "/productos"],
   ["detalle-foto", "/productos/frances-chico"],

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import Image from "next/image";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
@@ -16,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const anos = anosDeOficio(await anioActual(), config.anio_fundacion);
 
   return {
+    alternates: { canonical: urlAbsoluta("/nosotros") },
     title: "Nosotros",
     description: anos
       ? `La historia de Panadería Pimpo's: ${anos} años horneando en Iquitos, con misión, visión y valores del negocio.`

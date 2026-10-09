@@ -43,11 +43,15 @@ Ese es el criterio para resolver cualquier duda.
 **Dirección elegida el 07/10/2026:** maqueta A, terracota y neutros cálidos, sin azul en la interfaz.
 El logo fuente es `DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png`; usar sus derivados
 optimizados con transparencia en público, login y panel. Galería revisada en
-`DOC/Maquetas/comparacion-redisenio/index.html`. El primer bloque está implementado en la rama
-`feat/rediseno-acceso-panel`: tokens terracota, Jakarta también en títulos, login con logo circular,
-marca en el panel y controles compartidos. Todavía no está fusionado ni desplegado en producción.
-La composición pública y los ajustes específicos de módulos quedan para los bloques siguientes.
-Se mantienen todas las funcionalidades.
+`DOC/Maquetas/comparacion-redisenio/index.html`. Los cuatro bloques se fusionaron en PR #90–93:
+Jakarta también en títulos, login móvil centrado con onda, logo circular, panel y módulos terracota,
+inicio administrativo organizado como dashboard y sitio público con tapiz tenue a6. La portada
+conserva carrusel, contraste móvil y contenido de madrugada sin horno. Delivery: moto decorativa
+de una pasada; fotografías: zoom mínimo solo con cursor y sin movimiento reducido.
+El cierre añade imagen completa a novedades de portada, marca en todos los PDF y tarjeta social A,
+además de canónicas públicas y descripción estructurada de productos con información existente.
+Se mantienen todas las funcionalidades. El registro de comprobaciones vigente es
+`DOC/Verificacion rediseño 03.2.md`; no confundir fusiones previas con el cierre aún en revisión.
 
 **Rediseño abierto el 06/10/2026 por Dan.** La descripción siguiente corresponde a la interfaz
 anterior a 03.2, no a una restricción para el nuevo diseño. Se pueden reemplazar estilo, tipografía, paleta

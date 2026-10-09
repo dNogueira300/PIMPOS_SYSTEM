@@ -1,0 +1,17 @@
+Lighthouse (móvil) sobre http://localhost:3000
+
+  midiendo / (x5) ... 91  100  100  100   (rendimiento: 79/88/95/96/91)
+  midiendo /productos (x5) ... 94  100  100  100   (rendimiento: 88/95/96/94/88)
+  midiendo /contacto (x5) ... 94  97  100  100   (rendimiento: 90/94/91/96/97)
+
+Ruta                           Rendimiento   AccesibilidadBuenas prácticas             SEO
+------------------------------------------------------------------------------------------
+  (no se pudo limpiar el perfil temporal de Chrome: EPERM)
+/                                       91             100             100             100
+/productos                              94             100             100             100
+/contacto                               94              97             100             100
+
+Mínimos del plan (doc 03 §7): rendimiento 90, accesibilidad 95, SEO 100. Buenas prácticas se informa, no corta.
+Informes completos en DOC/Maquetas/3.2/bloque5/lighthouse/resultado/
+
+Todas las páginas cumplen los mínimos.

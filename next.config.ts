@@ -43,13 +43,16 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
 
   /**
-   * El PDF de los reportes (F5, tarea 7) lee sus TTF en tiempo de ejecución,
+   * Los PDF de insumos y clientes leen sus TTF y el logo en tiempo de ejecución,
    * no en el build como la imagen para compartir: sin esto no viajan con la
    * función a Vercel y la descarga falla con `ENOENT`.
    */
   outputFileTracingIncludes: {
-    "/admin/insumos/reportes/[reporte]/pdf": ["./src/recursos/compartir/*.ttf"],
-    "/admin/clientes/pdf": ["./src/recursos/compartir/*.ttf"],
+    "/admin/insumos/reportes/[reporte]/pdf": [
+      "./src/recursos/compartir/*.ttf",
+      "./src/recursos/compartir/logo.png",
+    ],
+    "/admin/clientes/pdf": ["./src/recursos/compartir/*.ttf", "./src/recursos/compartir/logo.png"],
   },
 
   images: {

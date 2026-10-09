@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
 
 import { CondicionesPedido } from "@/components/publico/condiciones-pedido";
+import { DatosEstructurados } from "@/components/seo/datos-estructurados";
+import { urlAbsoluta } from "@/lib/sitio";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import {
   describirPrecio,
@@ -60,6 +62,7 @@ export async function generateMetadata(props: PageProps<"/productos/[slug]">): P
 
   const precio = describirPrecio(producto);
   return {
+    alternates: { canonical: urlAbsoluta(`/productos/${producto.slug}`) },
     title: producto.nombre,
     description:
       producto.descripcion ??
@@ -97,8 +100,21 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
     .filter((otro) => otro.categoriaSlug === producto.categoriaSlug && otro.id !== producto.id)
     .slice(0, 4);
 
+  const datosProducto = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "@id": `${urlAbsoluta(`/productos/${producto.slug}`)}#producto`,
+    url: urlAbsoluta(`/productos/${producto.slug}`),
+    name: producto.nombre,
+    brand: { "@type": "Brand", name: config.nombre_comercial },
+    ...(producto.descripcion ? { description: producto.descripcion } : {}),
+    ...(producto.imagen ? { image: urlAbsoluta(producto.imagen) } : {}),
+    ...(producto.categoriaNombre ? { category: producto.categoriaNombre } : {}),
+  };
+
   return (
     <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
+      <DatosEstructurados datos={datosProducto} />
       <Link
         href={
           producto.categoriaSlug ? `/productos?categoria=${producto.categoriaSlug}` : "/productos"

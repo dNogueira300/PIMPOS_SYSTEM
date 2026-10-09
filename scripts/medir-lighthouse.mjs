@@ -67,7 +67,7 @@ const [urlBase = "http://localhost:3000", ...rutasPedidas] = process.argv.slice(
 const rutas = rutasPedidas.length > 0 ? rutasPedidas : RUTAS_POR_DEFECTO;
 // Fuera de `test-results/`: Playwright vacia esa carpeta al empezar, y los
 // informes desaparecian en cuanto se corria cualquier prueba. Va al `.gitignore`.
-const carpeta = ".lighthouse";
+const carpeta = process.env.PIMPOS_LH_SALIDA || ".lighthouse";
 
 /** El valor central, que es el que no se lleva por delante una pasada rara. */
 function mediana(numeros) {
@@ -83,7 +83,7 @@ function auditoriasFallidas(lhr, categoria) {
     .map((a) => `      [${a.id}] ${a.title}`);
 }
 
-async function medir(chrome, ruta) {
+async function medir(chrome, ruta, pasada) {
   const url = new URL(ruta, urlBase).href;
   const resultado = await lighthouse(url, {
     port: chrome.port,
@@ -104,6 +104,12 @@ async function medir(chrome, ruta) {
     `${ruta.replace(/\W+/g, "-").replace(/^-|-$/g, "") || "inicio"}.html`,
   );
   await writeFile(archivo, resultado.report);
+  if (process.env.PIMPOS_LH_SALIDA) {
+    await writeFile(
+      archivo.replace(/\.html$/, `-${pasada}.json`),
+      JSON.stringify(resultado.lhr, null, 2),
+    );
+  }
 
   return { ruta, url, lhr: resultado.lhr, archivo };
 }
@@ -121,7 +127,7 @@ try {
     const pasadas = [];
     let ultima;
     for (let i = 0; i < PASADAS; i++) {
-      ultima = await medir(chrome, ruta);
+      ultima = await medir(chrome, ruta, i + 1);
       pasadas.push(CATEGORIAS.map((c) => Math.round(ultima.lhr.categories[c].score * 100)));
     }
 

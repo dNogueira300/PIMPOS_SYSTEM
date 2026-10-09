@@ -1,0 +1,637 @@
+{
+  "records": [
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 375,
+      "state": "inicial",
+      "capture": "login-375.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 390,
+      "state": "inicial",
+      "capture": "login-390.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 768,
+      "state": "inicial",
+      "capture": "login-768.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 1024,
+      "state": "inicial",
+      "capture": "login-1024.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 1440,
+      "state": "inicial",
+      "capture": "login-1440.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 390,
+      "state": "envío pendiente y botón deshabilitado",
+      "capture": "login-espera-390.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": true
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 1440,
+      "state": "envío pendiente y botón deshabilitado",
+      "capture": "login-espera-1440.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": true
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 390,
+      "state": "credenciales incorrectas",
+      "capture": "login-error-390.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/ingresar",
+      "role": "sin-sesion",
+      "width": 1440,
+      "state": "credenciales incorrectas",
+      "capture": "login-error-1440.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "hidden",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 375,
+      "state": "contraseña temporal",
+      "capture": "clave-375.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 390,
+      "state": "contraseña temporal",
+      "capture": "clave-390.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 768,
+      "state": "contraseña temporal",
+      "capture": "clave-768.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 1024,
+      "state": "contraseña temporal",
+      "capture": "clave-1024.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 1440,
+      "state": "contraseña temporal",
+      "capture": "clave-1440.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 390,
+      "state": "contraseñas diferentes; no se guarda",
+      "capture": "clave-error-390.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    },
+    {
+      "route": "/cambiar-clave",
+      "role": "ingeniero-temporal",
+      "width": 1440,
+      "state": "contraseñas diferentes; no se guarda",
+      "capture": "clave-error-1440.png",
+      "axe": [],
+      "overflow": false,
+      "brokenImages": [],
+      "form": [
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        },
+        {
+          "type": "email",
+          "disabled": false
+        },
+        {
+          "type": "password",
+          "disabled": false
+        },
+        {
+          "type": "submit",
+          "disabled": false
+        }
+      ],
+      "focus": null
+    }
+  ],
+  "cleanup": {
+    "userRemoved": true,
+    "credentialsChanged": false,
+    "productionTouched": false
+  }
+}

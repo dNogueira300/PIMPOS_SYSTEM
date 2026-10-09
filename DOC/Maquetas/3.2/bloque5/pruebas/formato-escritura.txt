@@ -1,0 +1,57 @@
+DOC/Maquetas/3.2/bloque5/acceso/manifest.json 112ms (unchanged)
+DOC/Maquetas/3.2/bloque5/estados/manifest.json 455ms (unchanged)
+DOC/Maquetas/3.2/bloque5/index.html 2130ms
+DOC/Maquetas/3.2/bloque5/inicio-portada/manifest.json 39ms
+DOC/Maquetas/3.2/bloque5/inventario.json 818ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto-1.json 155ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto-2.json 154ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto-3.json 167ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto-4.json 174ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto-5.json 146ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/contacto.html 1038ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio-1.json 316ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio-2.json 182ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio-3.json 157ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio-4.json 142ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio-5.json 155ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/inicio.html 675ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos-1.json 203ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos-2.json 158ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos-3.json 152ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos-4.json 148ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos-5.json 132ms
+DOC/Maquetas/3.2/bloque5/lighthouse/base/productos.html 607ms
+DOC/Maquetas/3.2/bloque5/lighthouse/comparacion.json 11ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto-1.json 146ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto-2.json 185ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto-3.json 152ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto-4.json 169ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto-5.json 164ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/contacto.html 566ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio-1.json 148ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio-2.json 186ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio-3.json 148ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio-4.json 131ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio-5.json 140ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/inicio.html 723ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos-1.json 187ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos-2.json 146ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos-3.json 157ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos-4.json 154ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos-5.json 133ms
+DOC/Maquetas/3.2/bloque5/lighthouse/resultado/productos.html 541ms
+DOC/Maquetas/3.2/bloque5/novedad/manifest.json 7ms (unchanged)
+DOC/Maquetas/3.2/bloque5/panel-contenido/limpieza.json 1ms
+DOC/Maquetas/3.2/bloque5/panel-contenido/manifest.json 433ms
+DOC/Maquetas/3.2/bloque5/panel-operacion/limpieza.json 2ms
+DOC/Maquetas/3.2/bloque5/panel-operacion/manifest.json 243ms
+DOC/Maquetas/3.2/bloque5/pdf/contenido-comparado.json 1ms (unchanged)
+DOC/Maquetas/3.2/bloque5/pdf/descargas/manifest.json 4ms (unchanged)
+DOC/Maquetas/3.2/bloque5/pruebas/capturas-ejecuciones.json 2ms (unchanged)
+DOC/Maquetas/3.2/bloque5/pruebas/complementos-ejecuciones.json 3ms (unchanged)
+DOC/Maquetas/3.2/bloque5/pruebas/lista-e2e.json 104ms (unchanged)
+DOC/Maquetas/3.2/bloque5/pruebas/regresion-completa.json 130ms
+DOC/Maquetas/3.2/bloque5/publico/manifest.json 24ms (unchanged)
+DOC/Maquetas/3.2/bloque5/zoom-nativo/manifest.json 8ms (unchanged)
+DOC/Verificacion rediseño 03.2.md 166ms
+scripts/comparar-lighthouse-cierre.cjs 39ms

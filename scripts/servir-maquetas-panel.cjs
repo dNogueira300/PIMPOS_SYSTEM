@@ -11,6 +11,7 @@ const types = {
   ".png": "image/png",
   ".webp": "image/webp",
   ".woff2": "font/woff2",
+  ".pdf": "application/pdf",
 };
 http
   .createServer((req, res) => {

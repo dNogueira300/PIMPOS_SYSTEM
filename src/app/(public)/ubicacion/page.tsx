@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import dynamic from "next/dynamic";
 import { ExternalLink } from "lucide-react";
 
@@ -8,6 +9,7 @@ import { direccionCompleta, obtenerConfiguracion } from "@/lib/datos/configuraci
 import { unirConY } from "@/lib/datos/pedido";
 
 export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/ubicacion") },
   title: "Ubicación",
   description:
     "Panadería Pimpo's está en la Calle Elías Aguirre 1321, Belén, Iquitos. Mapa, referencias y horario de atención.",

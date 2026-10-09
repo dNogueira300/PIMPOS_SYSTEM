@@ -1,0 +1,42 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:25152) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:21296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen (26.0s)
+
+
+  1) [movil] › e2e\novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('section[aria-labelledby="titulo-novedades"]').getByRole('link', { name: /Novedad visual E2E 1791563898302/ }).locator('img')
+    Expected: 1
+    Received: 0
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('section[aria-labelledby="titulo-novedades"]').getByRole('link', { name: /Novedad visual E2E 1791563898302/ }).locator('img') with timeout 20000ms
+      - waiting for locator('section[aria-labelledby="titulo-novedades"]').getByRole('link', { name: /Novedad visual E2E 1791563898302/ }).locator('img')
+        43 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      39 |     await expect(tarjeta).toContainText("Pan recién horneado para compartir.");
+      40 |     const foto = tarjeta.locator("img");
+    > 41 |     await expect(foto).toHaveCount(1);
+         |                        ^
+      42 |     await tarjeta.scrollIntoViewIfNeeded();
+      43 |     await expect
+      44 |       .poll(() => foto.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0))
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\novedades-portada.spec.ts:41:24
+
+    Error Context: test-results\novedades-portada-la-porta-c0b30-onserva-su-enlace-y-resumen-movil\error-context.md
+
+  1 failed
+    [movil] › e2e\novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen 

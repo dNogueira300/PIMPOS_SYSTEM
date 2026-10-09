@@ -1,0 +1,99 @@
+{
+  "records": [
+    {
+      "route": "/",
+      "role": "publico",
+      "width": 375,
+      "state": "novedad temporal publicada",
+      "file": "portada-con-novedad-375.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/novedades/novedad-de-evidencia-1791568837485",
+      "role": "publico",
+      "width": 375,
+      "state": "novedad temporal publicada",
+      "file": "detalle-novedad-375.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "role": "publico",
+      "width": 390,
+      "state": "novedad temporal publicada",
+      "file": "portada-con-novedad-390.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/novedades/novedad-de-evidencia-1791568837485",
+      "role": "publico",
+      "width": 390,
+      "state": "novedad temporal publicada",
+      "file": "detalle-novedad-390.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "role": "publico",
+      "width": 768,
+      "state": "novedad temporal publicada",
+      "file": "portada-con-novedad-768.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/novedades/novedad-de-evidencia-1791568837485",
+      "role": "publico",
+      "width": 768,
+      "state": "novedad temporal publicada",
+      "file": "detalle-novedad-768.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "role": "publico",
+      "width": 1024,
+      "state": "novedad temporal publicada",
+      "file": "portada-con-novedad-1024.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/novedades/novedad-de-evidencia-1791568837485",
+      "role": "publico",
+      "width": 1024,
+      "state": "novedad temporal publicada",
+      "file": "detalle-novedad-1024.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/",
+      "role": "publico",
+      "width": 1440,
+      "state": "novedad temporal publicada",
+      "file": "portada-con-novedad-1440.png",
+      "axe": [],
+      "overflow": false
+    },
+    {
+      "route": "/novedades/novedad-de-evidencia-1791568837485",
+      "role": "publico",
+      "width": 1440,
+      "state": "novedad temporal publicada",
+      "file": "detalle-novedad-1440.png",
+      "axe": [],
+      "overflow": false
+    }
+  ],
+  "fixture": "Novedad temporal con foto original de Pimpo’s; no es contenido comercial aprobado",
+  "cleanup": {
+    "productionTouched": false,
+    "ownRowsRemoved": true
+  }
+}

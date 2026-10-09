@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, MapPin, MessageCircle, Truck } from "lucide-react";
@@ -33,6 +34,10 @@ import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
 import { urlDeImagen } from "@/lib/supabase/publico";
 import { iniciales } from "@/lib/utilidades/iniciales";
+
+export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/") },
+};
 
 /**
  * Portada (doc 03 §4.2).
@@ -438,14 +443,27 @@ export default async function Inicio() {
               <li key={novedad.id} style={{ "--i": indice } as CSSProperties}>
                 <Link
                   href={`/novedades/${novedad.slug}`}
-                  className="tarjeta tarjeta--elevable group focus-visible:outline-ring flex h-full flex-col gap-2 p-6 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="tarjeta tarjeta--elevable bg-secondary group focus-visible:outline-ring flex h-full flex-col overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
-                  <h3 className="font-heading text-primary text-xl leading-tight font-semibold text-balance decoration-1 underline-offset-4 group-hover:underline">
-                    {novedad.titulo}
-                  </h3>
-                  {novedad.resumen ? (
-                    <p className="text-muted-foreground text-sm text-pretty">{novedad.resumen}</p>
+                  {novedad.imagen ? (
+                    <div className="bg-secondary relative aspect-[4/3] w-full overflow-hidden">
+                      <Image
+                        src={novedad.imagen}
+                        alt=""
+                        fill
+                        sizes="(max-width: 767px) 100vw, (max-width: 1200px) 33vw, 380px"
+                        className="foto-interactiva object-contain"
+                      />
+                    </div>
                   ) : null}
+                  <div className="border-primary flex flex-1 flex-col gap-3 border-t-2 p-6">
+                    <h3 className="font-heading text-primary text-xl leading-tight font-semibold text-balance decoration-1 underline-offset-4 group-hover:underline">
+                      {novedad.titulo}
+                    </h3>
+                    {novedad.resumen ? (
+                      <p className="text-muted-foreground text-sm text-pretty">{novedad.resumen}</p>
+                    ) : null}
+                  </div>
                 </Link>
               </li>
             ))}

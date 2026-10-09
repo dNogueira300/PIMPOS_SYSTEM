@@ -1,0 +1,63 @@
+{
+  "records": [
+    {
+      "name": "existencias",
+      "route": "/admin/insumos/reportes/existencias/pdf",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 276491,
+      "disposition": "attachment; filename=\"pimpos-existencias-2026-10-09.pdf\""
+    },
+    {
+      "name": "consumo",
+      "route": "/admin/insumos/reportes/consumo/pdf",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 140164,
+      "disposition": "attachment; filename=\"pimpos-consumo-2026-09-10-al-2026-10-09.pdf\""
+    },
+    {
+      "name": "compras",
+      "route": "/admin/insumos/reportes/compras/pdf",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 139402,
+      "disposition": "attachment; filename=\"pimpos-compras-2026-09-10-al-2026-10-09.pdf\""
+    },
+    {
+      "name": "mermas",
+      "route": "/admin/insumos/reportes/mermas/pdf",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 139792,
+      "disposition": "attachment; filename=\"pimpos-mermas-2026-09-10-al-2026-10-09.pdf\""
+    },
+    {
+      "name": "kardex",
+      "route": "/admin/insumos/reportes/kardex/pdf?insumo=cf99aec7-a1e1-4dba-9308-8f935367c3c0&desde=2026-01-01&hasta=2099-12-31",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 545466,
+      "disposition": "attachment; filename=\"pimpos-kardex-2026-01-01-al-2099-12-31.pdf\""
+    },
+    {
+      "name": "clientes",
+      "route": "/admin/clientes/pdf",
+      "status": 200,
+      "valid": true,
+      "logoEmbedded": true,
+      "bytes": 139732,
+      "disposition": "attachment; filename=\"pimpos-clientes-todas-2026-10-09.pdf\""
+    }
+  ],
+  "cleanup": {
+    "userRemoved": true,
+    "exportsRemoved": true,
+    "productionTouched": false
+  }
+}

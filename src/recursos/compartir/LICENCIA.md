@@ -1,7 +1,7 @@
 # Recursos de la imagen para compartir
 
-Estos archivos los usa **solo** `src/app/opengraph-image.tsx`, la imagen que aparece al compartir un
-enlace del sitio por WhatsApp o en redes. No se sirven a los visitantes.
+La imagen para compartir y los PDF descargables usan Jakarta y el logo aprobado.
+Estos recursos se incluyen en las funciones del servidor; no se cargan como fuentes de la página.
 
 ## Por qué existen, si el sitio ya tiene sus fuentes y su logo
 
@@ -25,7 +25,8 @@ que las del sitio, con el peso fijado (Playfair a 700, Jakarta a 500) y recortad
 
 **Playfair Display declara «Playfair Display» como _Reserved Font Name_**, y la OFL prohíbe que una
 versión modificada lo lleve: por eso `playfair-700.ttf` se llama «Playfair Pimpos» por dentro, y así
-se registra en `src/app/opengraph-image.tsx`. Plus Jakarta Sans no declara ninguno y conserva el
+se registraba en la tarjeta social anterior. El rediseño usa únicamente Jakarta; el recurso
+Playfair se conserva como histórico. Plus Jakarta Sans no declara ninguno y conserva el
 suyo. Detalle en `src/estilos/fuentes/LICENCIA.md`.
 
 Se regeneran junto con las del sitio:
@@ -37,11 +38,14 @@ python scripts/preparar-fuentes.py
 
 ## Imágenes
 
-| Archivo       | Origen                                                                       |
-| ------------- | ---------------------------------------------------------------------------- |
-| `isotipo.png` | `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/marca/isotipo-256.png` |
+| Archivo       | Origen                                                                                                                                                                                    |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `isotipo.png` | Histórico: `DOC/Fotos y documentos Adjuntados Pimpos/_OPTIMIZADO/marca/isotipo-256.png`                                                                                                   |
+| `logo.png`    | Logo aprobado `DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png`, a través del derivado `public/marca/logo-512.webp`; PNG con transparencia, 512 × 341 px, sin rediseñar la marca |
 
 Son la marca del propio cliente, Panadería Pimpo's E.I.R.L.
 
 **Límite de peso:** el paquete de la imagen no puede pasar de 500 KB con fuentes y logos incluidos.
-Hoy son unos 90 KB (las dos fuentes, 69 KB, más el isotipo). Antes de cambiar un archivo por uno más grande, sumar.
+La imagen actual utiliza 162.797 bytes de recursos (Jakarta y logo), por debajo de 500 KB.
+El isotipo y Playfair se conservan como recursos históricos. Los PDF llevan el logo en cada página;
+`outputFileTracingIncludes` asegura que también viaje en la descarga desplegada en Vercel.

@@ -136,3 +136,68 @@ test("la imagen para compartir existe y es una imagen de verdad", async ({ page,
   await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
   await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "630");
 });
+
+test("la imagen para compartir conserva la paleta terracota y crema aprobada", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/");
+  const url = await page.locator('meta[property="og:image"]').first().getAttribute("content");
+  const respuesta = await request.get(url!);
+  expect(respuesta.status()).toBe(200);
+  const muestras = await page.evaluate(
+    async (png) => {
+      const imagen = new Image();
+      imagen.src = `data:image/png;base64,${png}`;
+      await imagen.decode();
+      const lienzo = document.createElement("canvas");
+      lienzo.width = imagen.width;
+      lienzo.height = imagen.height;
+      const contexto = lienzo.getContext("2d")!;
+      contexto.drawImage(imagen, 0, 0);
+      return [30, 1190].map((x) => [...contexto.getImageData(x, 30, 1, 1).data]);
+    },
+    (await respuesta.body()).toString("base64"),
+  );
+  expect(muestras).toEqual([
+    [149, 62, 44, 255],
+    [247, 245, 240, 255],
+  ]);
+});
+
+test("las páginas públicas identifican su URL canónica sin duplicar los filtros", async ({
+  page,
+}) => {
+  for (const ruta of [
+    "/",
+    "/productos?categoria=panes",
+    "/productos/frances-chico",
+    "/nosotros",
+    "/novedades",
+    "/galeria",
+    "/ubicacion",
+    "/contacto",
+    "/preguntas-frecuentes",
+  ]) {
+    await page.goto(ruta);
+    await expect
+      .poll(async () => {
+        const href = await page.locator('link[rel="canonical"]').getAttribute("href");
+        return href ? new URL(href).href : null;
+      })
+      .toBe(new URL(ruta.split("?")[0], "http://localhost:3000").href);
+  }
+});
+
+test("la ficha describe el producto a buscadores sin inventar valoraciones ni existencias", async ({
+  page,
+}) => {
+  await page.goto("/productos/frances-chico");
+  const encontrado = await jsonLd(page, "Product");
+  expect(encontrado).not.toBeNull();
+  const producto = encontrado!.datos as { name: string; url: string; brand: { name: string } };
+  expect(producto.name).toBe(await page.locator("main h1").textContent());
+  expect(producto.url).toBe("http://localhost:3000/productos/frances-chico");
+  expect(producto.brand.name).toBe("Panadería Pimpo's");
+  expect(encontrado!.texto).not.toMatch(/aggregateRating|review|availability|priceValidUntil/);
+});

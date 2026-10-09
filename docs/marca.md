@@ -4,7 +4,7 @@
 > El logo para todas las superficies proviene de `DOC/Fotos y documentos Adjuntados Pimpos/Diseño/logo.png`.
 > Derivados WebP 256/512/768 px, conservando transparencia y original, en
 > `DOC/Maquetas/comparacion-redisenio/assets/`. La maqueta revisada es la referencia de dirección;
-> el bloque 1 ya aplica esa identidad en la rama `feat/rediseno-acceso-panel`, pendiente de fusión.
+> los bloques 1–4 ya están fusionados en PR #90–93. El cierre transversal sigue en revisión.
 > Las decisiones visuales históricas siguientes
 > no deben reintroducir azul ni el logo anterior en el nuevo diseño.
 
@@ -13,13 +13,13 @@
 > así como la paleta y tipografías de F3.1. Las tres webs de referencia sí pueden orientar el nuevo
 > lenguaje visual. Los apartados visuales inferiores describen la versión vigente y decisiones
 > históricas. Se mantienen los hechos, textos oficiales, precios, identidad del negocio y todas las
-> funcionalidades. La composición pública y los módulos específicos siguen pendientes. Ver
+> funcionalidades. La composición pública y los módulos específicos ya aplican A. Ver
 > `../DOC/Analisis UI UX - Rediseno integral.md` y `../AGENTS.md`, sección Diseño.
 
 Voz, tono y uso de marca. Todo lo de aquí sale de la **ficha de levantamiento** (secciones 1.8, 1.10,
 1.11, 2.1–2.7 y 5.x); nada está inventado. Cuando algo no estaba en la ficha, se dice explícitamente.
 
-## Identidad implementada en 03.2, bloque 1
+## Identidad implementada en 03.2
 
 | Uso                                       | Valor                                                                               |
 | ----------------------------------------- | ----------------------------------------------------------------------------------- |
@@ -34,7 +34,15 @@ Los WebP de 256/512/768 px están en `public/marca/`; el mayor conserva la ruta 
 El logo administrable mantiene prioridad sobre la imagen de reserva. Panel y acceso comparten
 `LogoMarca`, con resolución de configuración en el servidor. El lateral es claro y la selección
 terracota. Los avisos informativos usan neutros; peligro y éxito conservan su significado.
-Los tokens globales también afectan al público, cuya composición se completará en T5/T6.
+El público usa tapiz de panes tenue a6 (trazo 11 %), sin velo blanco del carrusel ni ilustración del horno.
+El login móvil centra logo y títulos sobre cabecera ondulada; el escritorio conserva dos columnas.
+El inicio administrativo organiza avisos, accesos por rol y actividad existente, sin nuevas métricas.
+Novedades de portada muestran su imagen completa sobre crema; no recortar textos de un afiche.
+Las fotografías admiten zoom del 3 % solo con cursor; la moto recorre una vez la sección delivery
+en 4 s. Ambos se desactivan con movimiento reducido y al imprimir.
+Los PDF emplean Jakarta, terracota, tinta y bordes cálidos sobre papel blanco, con el logo en cada
+página. Comparten el derivado PNG 512 × 341 px con la tarjeta OpenGraph de 1200 × 630 px,
+que utiliza fondo crema, franja terracota y logo en círculo. No inventar contenido para metadatos.
 El tapiz aprobado no corresponde al panel ni al login. Los apartados de F3.1 siguientes son históricos.
 
 **Para qué sirve:** cualquier texto que vea un cliente o el personal —un título de portada, el
