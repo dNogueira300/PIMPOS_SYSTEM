@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1
+
+
+ Test Files  60 passed (60)
+      Tests  491 passed (491)
+   Start at  10:23:49
+   Duration  14.39s (import 78%, transform 16%, tests 3%, worker 2%)
+
+    Isolate  60 workers spawned · ~550ms startup each (spawn + environment, per file)
+             at least ~4.16s faster with isolate: false — reuses workers across files instead of one per file
+

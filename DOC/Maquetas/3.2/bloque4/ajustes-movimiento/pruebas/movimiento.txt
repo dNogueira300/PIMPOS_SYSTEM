@@ -1,0 +1,25 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:24616) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:27828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite (7.7s)
+  ok  2 [movil] › e2e\publico-movimiento-fotos.spec.ts:31:5 › con movimiento reducido la moto permanece estática y el pedido sigue visible (510ms)
+  -   3 [movil] › e2e\publico-movimiento-fotos.spec.ts:46:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor
+  ok  4 [movil] › e2e\publico-movimiento-fotos.spec.ts:72:5 › las fotografías no hacen zoom con movimiento reducido (540ms)
+  ok  5 [movil] › e2e\publico-movimiento-fotos.spec.ts:80:5 › el hover no activa zoom en pantalla táctil (507ms)
+(node:18740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  6 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite (4.9s)
+  ok  7 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:31:5 › con movimiento reducido la moto permanece estática y el pedido sigue visible (514ms)
+  ok  8 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:46:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor (2.5s)
+  ok  9 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:72:5 › las fotografías no hacen zoom con movimiento reducido (620ms)
+  -  10 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:80:5 › el hover no activa zoom en pantalla táctil
+
+  2 skipped
+  8 passed (21.4s)

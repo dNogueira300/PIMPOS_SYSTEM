@@ -23,7 +23,7 @@ export function FiltroCategorias({ categorias }: { categorias: CategoriaPublica[
 
   return (
     <nav aria-label="Filtrar por categoría">
-      <ul className="tarjeta bg-muted inline-flex flex-wrap gap-1 rounded-3xl p-1.5 sm:rounded-full">
+      <ul className="tarjeta bg-muted inline-flex max-w-full flex-wrap gap-1 rounded-md p-1.5">
         {opciones.map(({ slug, nombre }) => {
           const seleccionada = activa === slug || (slug === null && activa === null);
           return (
@@ -32,7 +32,7 @@ export function FiltroCategorias({ categorias }: { categorias: CategoriaPublica[
                 href={slug === null ? "/productos" : `/productos?categoria=${slug}`}
                 aria-current={seleccionada ? "true" : undefined}
                 scroll={false}
-                className={`focus-visible:outline-ring min-h-tactil flex items-center rounded-full px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                className={`focus-visible:outline-ring min-h-tactil flex max-w-full items-center rounded-md px-4 text-sm wrap-anywhere transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
                   seleccionada
                     ? "bg-primary text-primary-foreground font-medium"
                     : "text-foreground hover:bg-background"

@@ -1,0 +1,48 @@
+[
+  {
+    "case": "zoom-css",
+    "viewport": 1440,
+    "rootWidth": 1440,
+    "scrollWidth": 2387,
+    "overflow": [
+      {
+        "tag": "NAV",
+        "text": "ProductosNovedadesNosotrosGaleríaUbicaci",
+        "right": 1988.140625
+      },
+      {
+        "tag": "UL",
+        "text": "ProductosNovedadesNosotrosGaleríaUbicaci",
+        "right": 1988.140625
+      },
+      {
+        "tag": "LI",
+        "text": "Ubicación",
+        "right": 1609.921875
+      },
+      {
+        "tag": "A",
+        "text": "Ubicación",
+        "right": 1609.921875
+      },
+      {
+        "tag": "LI",
+        "text": "Preguntas",
+        "right": 1803.203125
+      },
+      {
+        "tag": "A",
+        "text": "Preguntas",
+        "right": 1803.203125
+      }
+    ],
+    "desktopMedia": true
+  },
+  {
+    "case": "viewport-equivalent-200-percent",
+    "viewport": 720,
+    "rootWidth": 720,
+    "scrollWidth": 720,
+    "desktopMedia": false
+  }
+]

@@ -21,7 +21,7 @@ const Mapa = dynamic(() => import("@/components/publico/mapa").then((m) => m.Map
     // Las mismas medidas que el mapa para que la pagina no de un salto al
     // cargarlo, `isolate` incluido: asi el hueco y el mapa se apilan igual.
     <div
-      className="bg-muted isolate h-[60vh] min-h-80 w-full animate-pulse rounded-2xl"
+      className="bg-muted isolate h-[60vh] min-h-80 w-full rounded-md motion-safe:animate-pulse"
       aria-hidden
     />
   ),
@@ -55,7 +55,7 @@ export default async function Ubicacion() {
 
       <EncabezadoSeccion titulo="Dónde estamos" entradilla={direccion || "Iquitos, Loreto"} />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         {coords ? (
           <Mapa
             lat={coords.lat}

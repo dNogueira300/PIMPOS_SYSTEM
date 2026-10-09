@@ -1,0 +1,14 @@
+[
+  {
+    "id": "color-contrast",
+    "nodes": [
+      {
+        "target": [
+          ".aparece-lateral > .max-w-2xl > .sello.mb-3"
+        ],
+        "summary": "Fix any of the following:\n  Element has insufficient color contrast of 1.76 (foreground color: #c9b598, background color: #f3f1ea, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1",
+        "html": "<p class=\"sello mb-3\">Nuestra historia</p>"
+      }
+    ]
+  }
+]

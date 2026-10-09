@@ -1,0 +1,78 @@
+{
+  "base": "adf156c1c12c815cf4a258a6fa03dbf4a4101e49",
+  "checks": [
+    {
+      "file": "src/app/(public)/contacto/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/error.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/galeria/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/nosotros/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/novedades/[slug]/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/novedades/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/preguntas-frecuentes/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/productos/[slug]/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/productos/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/ubicacion/page.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/arma-tu-pedido.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/condiciones-pedido.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/encabezado-seccion.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/filtro-categorias.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/mapa.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/pagina-no-encontrada.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/pizarra-precios.tsx",
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/tarjeta-producto.tsx",
+      "onlyPresentation": true
+    }
+  ],
+  "protectedFilesUnchanged": true
+}

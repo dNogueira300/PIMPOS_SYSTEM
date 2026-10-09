@@ -1,0 +1,26 @@
+$ next typegen && tsc --noEmit
+Generating route types...
+✓ Types generated successfully
+⋯ Backing up original state…
+✔ Done backing up original state (407e670)!
+⋯ Running tasks for staged files…
+    *.{ts,tsx,mjs,mts} — 12 files
+      ⋯ eslint --fix
+      ⋯ prettier --write
+    *.{json,md,css,yml,yaml} — 1 file
+      ⋯ prettier --write
+
+✔ prettier --write
+✔ eslint --fix
+✔ prettier --write
+
+✔ Done running tasks for staged files!
+⋯ Staging changes from tasks…
+✔ Done staging changes from tasks!
+⋯ Cleaning up temporary files…
+✔ Done cleaning up temporary files!
+[feat/rediseno-paginas-publicas 4a025e6] style(publico): animar delivery y suavizar zoom de fotografías
+ 15 files changed, 363 insertions(+), 20 deletions(-)
+ create mode 100644 e2e/publico-movimiento-fotos.spec.ts
+ create mode 100644 scripts/capturar-ajustes-movimiento.cjs
+ create mode 100644 src/components/publico/moto-delivery.tsx

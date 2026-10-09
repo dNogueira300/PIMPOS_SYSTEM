@@ -1,0 +1,78 @@
+{
+  "baseline": true,
+  "records": [
+    {
+      "name": "catalogo",
+      "route": "/productos",
+      "width": 390,
+      "file": "catalogo-390.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Nuestros productos",
+      "axe": []
+    },
+    {
+      "name": "catalogo",
+      "route": "/productos",
+      "width": 1440,
+      "file": "catalogo-1440.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Nuestros productos",
+      "axe": []
+    },
+    {
+      "name": "detalle-foto",
+      "route": "/productos/frances-chico",
+      "width": 390,
+      "file": "detalle-foto-390.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Pan francés chico",
+      "axe": []
+    },
+    {
+      "name": "detalle-foto",
+      "route": "/productos/frances-chico",
+      "width": 1440,
+      "file": "detalle-foto-1440.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Pan francés chico",
+      "axe": []
+    },
+    {
+      "name": "detalle-presentaciones",
+      "route": "/productos/hamburguesa-grande",
+      "width": 390,
+      "file": "detalle-presentaciones-390.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Hamburguesa grande",
+      "axe": []
+    },
+    {
+      "name": "detalle-presentaciones",
+      "route": "/productos/hamburguesa-grande",
+      "width": 1440,
+      "file": "detalle-presentaciones-1440.png",
+      "status": 200,
+      "overflow": false,
+      "blue": [],
+      "brokenImages": [],
+      "heading": "Hamburguesa grande",
+      "axe": []
+    }
+  ],
+  "note": "Solo lectura; sin usuarios ni registros temporales. Fotos y cartografía pueden conservar azul."
+}

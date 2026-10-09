@@ -1,0 +1,42 @@
+[
+  {
+    "width": 375,
+    "axe": [],
+    "overflow": false,
+    "color": "rgb(255, 255, 255)",
+    "backgroundToken": "#f7f5f0",
+    "note": "Fotograma detenido a 2 s exclusivamente para esta captura; E2E comprueba el recorrido real."
+  },
+  {
+    "width": 390,
+    "axe": [],
+    "overflow": false,
+    "color": "rgb(255, 255, 255)",
+    "backgroundToken": "#f7f5f0",
+    "note": "Fotograma detenido a 2 s exclusivamente para esta captura; E2E comprueba el recorrido real."
+  },
+  {
+    "width": 768,
+    "axe": [],
+    "overflow": false,
+    "color": "rgb(255, 255, 255)",
+    "backgroundToken": "#f7f5f0",
+    "note": "Fotograma detenido a 2 s exclusivamente para esta captura; E2E comprueba el recorrido real."
+  },
+  {
+    "width": 1024,
+    "axe": ["color-contrast"],
+    "overflow": false,
+    "color": "rgb(255, 255, 255)",
+    "backgroundToken": "#f7f5f0",
+    "note": "Fotograma detenido a 2 s exclusivamente para esta captura; E2E comprueba el recorrido real."
+  },
+  {
+    "width": 1440,
+    "axe": ["color-contrast"],
+    "overflow": false,
+    "color": "rgb(255, 255, 255)",
+    "backgroundToken": "#f7f5f0",
+    "note": "Fotograma detenido a 2 s exclusivamente para esta captura; E2E comprueba el recorrido real."
+  }
+]

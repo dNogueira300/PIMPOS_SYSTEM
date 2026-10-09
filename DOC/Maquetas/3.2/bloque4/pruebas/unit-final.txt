@@ -1,0 +1,13 @@
+$ vitest run
+
+ RUN  v5.0.0 D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1
+
+
+ Test Files  60 passed (60)
+      Tests  491 passed (491)
+   Start at  00:44:24
+   Duration  11.42s (import 79%, transform 11%, tests 7%, worker 3%)
+
+    Isolate  60 workers spawned · ~569ms startup each (spawn + environment, per file)
+             at least ~4.31s faster with isolate: false — reuses workers across files instead of one per file
+

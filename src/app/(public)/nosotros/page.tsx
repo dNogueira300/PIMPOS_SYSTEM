@@ -35,7 +35,7 @@ export default async function Nosotros() {
     <>
       <EncabezadoSeccion titulo="Nuestra historia" entradilla={config.eslogan || undefined} />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
           <div className="aparece-grupo flex flex-col gap-4">
             {parrafos.map((parrafo) => (
@@ -46,13 +46,13 @@ export default async function Nosotros() {
           </div>
 
           {interior?.imagen ? (
-            <div className="acercarse shadow-elevada relative aspect-[4/5] overflow-hidden rounded-2xl lg:sticky lg:top-24 lg:self-start">
+            <div className="acercarse relative aspect-[4/5] overflow-hidden rounded-md lg:sticky lg:top-24 lg:self-start">
               <Image
                 src={interior.imagen}
                 alt={interior.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
+                className="foto-interactiva object-cover"
               />
             </div>
           ) : null}

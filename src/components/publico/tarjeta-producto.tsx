@@ -26,28 +26,28 @@ export function TarjetaProducto({
     <article className="tarjeta tarjeta--elevable flex h-full flex-col p-4">
       <Link
         href={`/productos/${producto.slug}`}
-        className="group focus-visible:outline-ring block rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="group focus-visible:outline-ring block rounded-md focus-visible:outline-2 focus-visible:outline-offset-2"
       >
-        <div className="bg-muted relative aspect-[4/3] overflow-hidden rounded-xl">
+        <div className="bg-muted relative aspect-[4/3] overflow-hidden rounded-md">
           <Image
             src={producto.imagen}
             alt={producto.imagenAlt ?? producto.nombre}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="foto-interactiva object-cover"
           />
           {producto.categoriaNombre ? (
             <span className="sello absolute top-3 left-3">{producto.categoriaNombre}</span>
           ) : null}
         </div>
-        <div className="mt-4 flex items-baseline justify-between gap-3">
-          <h3 className="font-heading text-primary text-lg leading-tight font-semibold decoration-1 underline-offset-4 group-hover:underline">
+        <div className="mt-4 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+          <h3 className="font-heading text-primary min-w-0 flex-[1_1_120px] text-lg leading-tight font-semibold wrap-anywhere decoration-1 underline-offset-4 group-hover:underline">
             {producto.nombre}
           </h3>
           {precio ? (
             <p
               data-precio
-              className="font-heading text-precio shrink-0 text-lg font-semibold whitespace-nowrap tabular-nums"
+              className="font-heading text-precio max-w-full text-lg font-semibold wrap-anywhere tabular-nums"
             >
               {precio}
             </p>

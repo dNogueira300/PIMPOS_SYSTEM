@@ -25,8 +25,8 @@ export function EncabezadoSeccion({
 }) {
   return (
     <div className="bg-muted border-border border-b">
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
-        <h1 className="font-heading text-primary text-4xl leading-tight font-bold tracking-[-0.02em] text-balance sm:text-5xl">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
+        <h1 className="font-heading text-primary text-4xl leading-tight font-bold tracking-[-0.02em] text-balance wrap-anywhere sm:text-5xl">
           {titulo}
         </h1>
         {entradilla ? (

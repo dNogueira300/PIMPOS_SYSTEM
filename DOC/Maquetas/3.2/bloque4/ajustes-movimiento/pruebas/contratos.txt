@@ -1,0 +1,121 @@
+{
+  "base": "adf156c1c12c815cf4a258a6fa03dbf4a4101e49",
+  "checks": [
+    {
+      "file": "src/app/(public)/contacto/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/error.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/galeria/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/nosotros/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/novedades/[slug]/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/novedades/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/preguntas-frecuentes/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/productos/[slug]/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/productos/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/app/(public)/ubicacion/page.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/arma-tu-pedido.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/carrusel-portada.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/condiciones-pedido.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/encabezado-seccion.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/filtro-categorias.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/mapa.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/moto-delivery.tsx",
+      "approvedMotion": true,
+      "onlyPresentation": false
+    },
+    {
+      "file": "src/components/publico/pagina-no-encontrada.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/pizarra-precios.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/portada-movil.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/components/publico/tarjeta-producto.tsx",
+      "approvedMotion": false,
+      "onlyPresentation": true
+    },
+    {
+      "file": "src/estilos/globals.css",
+      "approvedMotion": true,
+      "onlyPresentation": false
+    }
+  ],
+  "protectedFilesUnchanged": true
+}

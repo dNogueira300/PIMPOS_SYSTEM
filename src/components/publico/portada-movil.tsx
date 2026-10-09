@@ -64,7 +64,7 @@ export function PortadaMovil({
         //
         // `enfoque` (migracion 0020) dice por que altura se recorta cada foto;
         // centrarlas todas le cortaba el rotulo a la de la fachada.
-        <div className="relative aspect-video w-full">
+        <div className="relative aspect-video w-full overflow-hidden">
           <Image
             src={slide.imagenMovil ?? slide.imagen}
             alt={slide.alt}
@@ -72,7 +72,7 @@ export function PortadaMovil({
             fetchPriority="high"
             loading="eager"
             sizes="100vw"
-            className="object-cover"
+            className="foto-interactiva object-cover"
             style={{ objectPosition: `50% ${slide.enfoque}%` }}
           />
         </div>

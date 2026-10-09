@@ -1,0 +1,6 @@
+catalogo-390: overflow=false, axe=0, blue=0, photos=0
+catalogo-1440: overflow=false, axe=0, blue=0, photos=0
+detalle-foto-390: overflow=false, axe=0, blue=0, photos=0
+detalle-foto-1440: overflow=false, axe=0, blue=0, photos=0
+detalle-presentaciones-390: overflow=false, axe=0, blue=0, photos=0
+detalle-presentaciones-1440: overflow=false, axe=0, blue=0, photos=0

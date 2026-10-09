@@ -113,7 +113,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                   que es donde este carrusel existe, `fetchPriority` le da la
                   prioridad de LCP que antes daba el preload. */}
               <div className="hero-disposicion w-full">
-                <div className="relative col-start-2 row-start-1 min-w-0">
+                <div className="relative col-start-2 row-start-1 min-w-0 overflow-hidden">
                   {slide.imagen ? (
                     <Image
                       src={slide.imagen}
@@ -121,7 +121,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                       fill
                       fetchPriority={indice === 0 ? "high" : undefined}
                       sizes="100vw"
-                      className="object-cover"
+                      className="foto-interactiva object-cover"
                       style={{ objectPosition: `50% ${slide.enfoque}%` }}
                     />
                   ) : null}

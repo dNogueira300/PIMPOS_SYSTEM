@@ -5,6 +5,7 @@ import { ArrowRight, Clock, MapPin, MessageCircle, Truck } from "lucide-react";
 
 import { CarruselPortada } from "@/components/publico/carrusel-portada";
 import { Horario } from "@/components/publico/horario";
+import { MotoDelivery } from "@/components/publico/moto-delivery";
 import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
@@ -305,6 +306,7 @@ export default async function Inicio() {
           {/* En el celular, una fila por dato: el concepto a la izquierda y la
               cifra a la derecha. En dos columnas de 135 px, "30 a 45 minutos"
               se partia en "30 a" y "45 minutos". Desde `sm` caben columnas. */}
+          <MotoDelivery />
           {condiciones.length > 0 ? (
             <dl className="mt-8 grid gap-x-6 gap-y-3 sm:grid-cols-2 sm:gap-y-6 lg:grid-cols-4">
               {condiciones.map(({ clave, etiqueta, valor }) => (
@@ -352,7 +354,7 @@ export default async function Inicio() {
                   alt={fachada.alt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover"
+                  className="foto-interactiva object-cover"
                 />
               </div>
 

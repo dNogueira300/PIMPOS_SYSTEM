@@ -1,0 +1,69 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:9780) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:30548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite (21.4s)
+(node:28760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [escritorio] › e2e\publico-movimiento-fotos.spec.ts:42:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor (20.6s)
+
+
+  1) [escritorio] › e2e\publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite 
+
+    Error: expect(locator).toBeAttached() failed
+
+    Locator: locator('[data-recorrido-delivery]')
+    Expected: attached
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeAttached" locator('[data-recorrido-delivery]') with timeout 20000ms
+      - waiting for locator('[data-recorrido-delivery]')
+
+
+       5 |   await page.goto("/");
+       6 |   const pista = page.locator("[data-recorrido-delivery]");
+    >  7 |   await expect(pista).toBeAttached();
+         |                       ^
+       8 |   const moto = pista.locator("[data-moto-delivery]");
+       9 |   expect(await moto.evaluate((el) => el.getAnimations().length)).toBe(0);
+      10 |   await pista.scrollIntoViewIfNeeded();
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\publico-movimiento-fotos.spec.ts:7:23
+
+    Error Context: test-results\publico-movimiento-fotos-l-b7fd0-cuatro-segundos-y-no-repite-escritorio\error-context.md
+
+  2) [escritorio] › e2e\publico-movimiento-fotos.spec.ts:42:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor 
+
+    Error: expect(received).toBeCloseTo(expected, precision)
+
+    Expected: 1.03
+    Received: 1
+
+    Expected precision:    2
+    Expected difference: < 0.005
+    Received difference:   0.030000000000000027
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+      53 |     await foto.scrollIntoViewIfNeeded();
+      54 |     await foto.hover();
+    > 55 |     await expect.poll(() => foto.evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).a)).toBeCloseTo(1.03, 2);
+         |                                                                                                             ^
+      56 |     await page.mouse.move(0, 0);
+      57 |     await expect.poll(() => foto.evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).a)).toBeCloseTo(1, 2);
+      58 |   }
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\publico-movimiento-fotos.spec.ts:55:109
+
+    Error Context: test-results\publico-movimiento-fotos-l-f13de-r-ciento-al-pasar-el-cursor-escritorio\error-context.md
+
+  2 failed
+    [escritorio] › e2e\publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite 
+    [escritorio] › e2e\publico-movimiento-fotos.spec.ts:42:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor 

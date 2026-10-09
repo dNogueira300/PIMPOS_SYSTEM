@@ -26,9 +26,14 @@ export function CondicionesPedido({
   const lista = (
     <dl className={`divide-border divide-y ${enmarcada ? "" : "border-border/40 border-y"}`}>
       {condiciones.map(({ clave, etiqueta, valor }) => (
-        <div key={clave} className="flex items-baseline justify-between gap-6 py-2.5">
+        <div
+          key={clave}
+          className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-2.5"
+        >
           <dt className="text-muted-foreground shrink-0">{etiqueta}</dt>
-          <dd className="text-right font-medium text-pretty">{valor}</dd>
+          <dd className="max-w-full font-medium text-pretty wrap-anywhere sm:text-right">
+            {valor}
+          </dd>
         </div>
       ))}
     </dl>
