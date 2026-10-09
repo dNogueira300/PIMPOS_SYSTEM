@@ -18,7 +18,7 @@ import type { Slide } from "@/lib/datos/contenido";
  *
  * Lo que queda: la foto de la primera diapositiva, quieta, y debajo lo que el
  * vecino vino a saber —de quien es esto, si esta abierto ahora y como pedir—.
- * El texto va debajo de la foto y no encima: sobre el azul de marca el
+ * El texto va debajo de la foto y no encima: sobre terracota el
  * contraste esta garantizado, y no depende de que foto cargue el negocio desde
  * el panel.
  *
@@ -64,7 +64,7 @@ export function PortadaMovil({
         //
         // `enfoque` (migracion 0020) dice por que altura se recorta cada foto;
         // centrarlas todas le cortaba el rotulo a la de la fachada.
-        <div className="relative aspect-[4/3] w-full">
+        <div className="relative aspect-video w-full">
           <Image
             src={slide.imagenMovil ?? slide.imagen}
             alt={slide.alt}
@@ -78,15 +78,13 @@ export function PortadaMovil({
         </div>
       ) : null}
 
-      {/* Crema con el nombre en azul desde la fase 3.1, como el hero del
-          prototipo. La foto se queda arriba y sin velo: aquí es el LCP y va
-          sola, sin nada encima que retrase pintarla. */}
-      <div className="bg-background px-4 pt-7 pb-9">
-        <p className="font-heading text-primary text-4xl leading-[1.1] font-bold tracking-[-0.01em] text-balance">
+      {/* Texto sobre terracota y foto independiente, según A. */}
+      <div className="portada-movil-texto bg-primary text-primary-foreground px-5 py-6">
+        <p className="font-heading text-primary-foreground text-4xl leading-[1.1] font-bold tracking-[-0.01em] text-balance">
           {nombre}
         </p>
         {eslogan ? (
-          <p className="text-muted-foreground mt-2 text-lg text-pretty">{eslogan}</p>
+          <p className="text-primary-foreground mt-2 text-lg text-pretty">{eslogan}</p>
         ) : null}
 
         {/* Lo primero que se pregunta quien quiere pan: si puede ir ya. */}
@@ -116,7 +114,10 @@ export function PortadaMovil({
             </a>
           ) : null}
 
-          <Link href="/productos" className="boton-linea flex w-full justify-center">
+          <Link
+            href="/productos"
+            className="boton-linea portada-boton-claro flex w-full justify-center"
+          >
             Ver los precios
           </Link>
         </div>

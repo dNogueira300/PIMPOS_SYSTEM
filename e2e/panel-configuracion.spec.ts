@@ -198,15 +198,17 @@ test("el sitio anuncia el favicon de la configuración", async ({ page }) => {
   await expect(page.locator('link[rel="icon"]').first()).toHaveAttribute("href", /favicon/);
 });
 
-test("guardar la marca actualiza el logo del panel y del acceso sin redesplegar", async ({
+test("guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar", async ({
   page,
   browser,
 }, info) => {
   test.skip(info.project.name !== "movil", "escribe el logo compartido; una sola ejecución");
   const antes = await leerAjuste("logo_url");
+  const isotipoAntes = await leerAjuste("isotipo_url");
   const usuario = await entrarComo(page, "administrador");
   const visitante = await browser.newContext();
   let subida: string | null = null;
+  let subidaIsotipo: string | null = null;
   try {
     await page.goto("/admin/configuracion");
     await page.getByRole("tab", { name: "Marca" }).click();
@@ -234,18 +236,50 @@ test("guardar la marca actualiza el logo del panel y del acceso sin redesplegar"
     await expect
       .poll(() => marcaAcceso.evaluate((img: HTMLImageElement) => img.naturalWidth))
       .toBeGreaterThan(0);
+    const publica = await visitante.newPage();
+    await publica.goto(new URL("/", page.url()).href);
+    for (const region of ["banner", "contentinfo"] as const) {
+      const marcaPublica = publica.getByRole(region).locator("img").first();
+      await expect(marcaPublica).toHaveAttribute("src", src);
+      await expect
+        .poll(() => marcaPublica.evaluate((img: HTMLImageElement) => img.naturalWidth))
+        .toBeGreaterThan(0);
+    }
+    await page.goto("/admin/configuracion");
+    await page.getByRole("tab", { name: "Marca" }).click();
+    const dibujo = page.locator('[data-subida="isotipo_url"]');
+    await dibujo
+      .getByLabel(/Elegir de la galería para Dibujo del logo/)
+      .setInputFiles("public/marca/logo-256.webp");
+    const vistaIsotipo = dibujo.locator("[data-vista-previa]");
+    await expect(vistaIsotipo).toHaveAttribute("src", /\/marca\/isotipo\/.+\.webp$/);
+    const srcIsotipo = (await vistaIsotipo.getAttribute("src"))!;
+    subidaIsotipo = srcIsotipo.split("/marca/")[1];
+    await page.getByRole("button", { name: "Guardar", exact: true }).click();
+    await expect(page.getByText(/Guardado/).first()).toBeVisible();
+    await publica.reload();
+    const cabecera = publica.getByRole("banner");
+    // Los dos campos siguen administrándose de forma independiente.
+    await expect(cabecera.locator("img").first()).toHaveAttribute("src", src);
+    const isotipoPublicado = cabecera.locator(`img[src="${srcIsotipo}"]`);
+    await expect(isotipoPublicado).toBeVisible();
+    await expect
+      .poll(() => isotipoPublicado.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      .toBeGreaterThan(0);
   } finally {
     try {
       await restaurarAjuste("logo_url", antes);
+      await restaurarAjuste("isotipo_url", isotipoAntes);
       // Leer la fila restaurada y guardar por la UI también invalida la caché de marca.
       await page.goto("/admin/configuracion");
       await page.getByRole("button", { name: "Guardar", exact: true }).click();
       await expect(page.getByText(/Guardado/).first()).toBeVisible();
     } finally {
       await visitante.close();
-      if (subida) {
+      for (const archivo of [subida, subidaIsotipo]) {
+        if (!archivo) continue;
         const { apiUrl, serviceRoleKey } = supabaseLocal();
-        await fetch(`${apiUrl}/storage/v1/object/marca/${subida}`, {
+        await fetch(`${apiUrl}/storage/v1/object/marca/${archivo}`, {
           method: "DELETE",
           headers: { apikey: serviceRoleKey, Authorization: `Bearer ${serviceRoleKey}` },
         });

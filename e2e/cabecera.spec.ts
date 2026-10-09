@@ -17,15 +17,13 @@ test("el nombre del negocio se lee en la cabecera, en cualquier pantalla", async
     cabecera.getByRole("link", { name: "Panadería Pimpo's, ir al inicio" }),
   ).toBeVisible();
 
-  // El nombre va escrito, no dibujado. El logo raster a 44 px de alto dejaba
-  // «PANADERÍA PASTELERÍA Y BODEGA» en letras de dos píxeles: se arregló primero
-  // en el celular y el escritorio se quedó con el raster (crítica del 12/09).
+  // Nombre escrito y logo completo aprobado; el enlace conserva su nombre accesible.
   await expect(cabecera.getByText("Panadería Pimpo's", { exact: true })).toBeVisible();
-  await expect(cabecera.getByAltText("Panadería Pimpo's", { exact: true })).toHaveCount(0);
-
-  // El isotipo es vectorial: escala sin romperse en ningún tamaño.
   const marca = cabecera.locator("img").first();
-  await expect(marca).toHaveAttribute("src", /\.svg($|\?)/);
+  await expect(marca).toHaveAttribute("src", /\/marca\/logo\.webp$/);
+  await expect
+    .poll(() => marca.evaluate((img: HTMLImageElement) => img.naturalWidth))
+    .toBeGreaterThan(0);
 });
 
 test("el menu del celular empieza por Inicio y trae el horario", async ({ page, isMobile }) => {

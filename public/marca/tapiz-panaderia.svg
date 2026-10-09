@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="600" viewBox="0 0 680 600">
+  <defs>
+    <g id="barra" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 36C8 23 13 11 25 9L105 9C122 10 124 24 116 34C109 43 26 45 17 36Z"/>
+      <path d="M36 13L28 30M57 12L49 33M79 12L70 33M100 13L91 32"/>
+      <path d="M24 36C51 40 84 38 107 34"/>
+    </g>
+    <g id="croissant" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 63C-1 41 13 17 36 10C52 5 71 8 86 18C103 30 111 48 100 64L84 51C81 38 66 30 55 32C40 31 31 40 29 51Z"/>
+      <path d="M13 63L29 51M100 64L84 51M18 23L36 40M38 10L46 32M61 9L59 32M84 17L74 37M99 35L82 45"/>
+    </g>
+    <g id="redondo" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10 51C7 27 24 10 49 10C76 9 91 30 87 53C84 72 15 76 10 51Z"/>
+      <path d="M15 57C35 64 67 64 82 55M28 24C22 34 22 43 27 49M48 20C42 32 43 44 48 52M67 25C64 33 65 44 69 48"/>
+    </g>
+    <g id="molde" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M24 68L20 38C6 34 9 18 23 14C31 0 48 0 57 7C72 0 89 8 91 19C105 26 101 38 88 41L85 68Z"/>
+      <path d="M32 38L35 61M51 32L53 61M73 38L72 61M25 69L85 69"/>
+    </g>
+  </defs>
+  <g stroke="#95664b" stroke-width="1.8" opacity=".11">
+    <use href="#barra" transform="translate(36 29) rotate(-24 65 25) scale(.88)"/>
+    <use href="#croissant" transform="translate(250 41) rotate(18 55 35) scale(.68)"/>
+    <use href="#redondo" transform="translate(484 30) rotate(-12 50 40) scale(1.12)"/>
+    <use href="#molde" transform="translate(122 166) rotate(13 52 36) scale(.72)"/>
+    <use href="#barra" transform="translate(339 169) rotate(41 65 25) scale(1.1)"/>
+    <use href="#croissant" transform="translate(565 187) rotate(-27 55 35) scale(.61)"/>
+    <use href="#redondo" transform="translate(30 317) rotate(18 50 40) scale(.68)"/>
+    <use href="#croissant" transform="translate(221 317) rotate(-16 55 35) scale(1.05)"/>
+    <use href="#molde" transform="translate(476 349) rotate(22 52 36) scale(.86)"/>
+    <use href="#barra" transform="translate(100 504) rotate(-12 65 25) scale(.68)"/>
+    <use href="#redondo" transform="translate(341 492) rotate(-20 50 40) scale(.76)"/>
+    <use href="#barra" transform="translate(539 509) rotate(25 65 25) scale(.8)"/>
+  </g>
+</svg>

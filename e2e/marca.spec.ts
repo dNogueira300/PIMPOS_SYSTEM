@@ -26,25 +26,10 @@ async function abrirPortada(page: Page) {
   await page.addStyleTag({ content: SIN_ANIMACION });
 }
 
-test("la ilustración del horno se carga de verdad", async ({ page }) => {
+test("la madrugada conserva su texto sin la ilustración retirada", async ({ page }) => {
   await abrirPortada(page);
-
-  const horno = page.locator('img[src*="horno-amanecer"]').first();
-  await horno.scrollIntoViewIfNeeded();
-  await expect(horno).toBeVisible();
-
-  // Que el `<img>` este en el DOM no prueba nada: `naturalWidth` solo pasa de
-  // cero si el navegador decodifico el archivo. A diferencia de las fotos
-  // semilla, esta vive en `public/` y por tanto SI esta en el repositorio y en
-  // el CI: aqui no hay nada que saltarse, y si falla es que falla.
-  await horno.evaluate(async (img: HTMLImageElement) => {
-    if (!img.complete) await img.decode();
-  });
-  expect(await horno.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
-
-  // Decorativa: lo que dice ya esta escrito al lado. Con un `alt` de verdad, un
-  // lector de pantalla leeria dos veces lo mismo.
-  await expect(horno).toHaveAttribute("alt", "");
+  await expect(page.locator("#titulo-madrugada")).toBeVisible();
+  await expect(page.locator('img[src*="horno-amanecer"]')).toHaveCount(0);
 });
 
 test("el titular de la madrugada dice la misma hora que la tabla de horarios", async ({ page }) => {
