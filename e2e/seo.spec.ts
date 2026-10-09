@@ -192,12 +192,16 @@ test("las páginas públicas identifican su URL canónica sin duplicar los filtr
 test("la ficha describe el producto a buscadores sin inventar valoraciones ni existencias", async ({
   page,
 }) => {
-  await page.goto("/productos/frances-chico");
-  const encontrado = await jsonLd(page, "Product");
-  expect(encontrado).not.toBeNull();
-  const producto = encontrado!.datos as { name: string; url: string; brand: { name: string } };
-  expect(producto.name).toBe(await page.locator("main h1").textContent());
-  expect(producto.url).toBe("http://localhost:3000/productos/frances-chico");
-  expect(producto.brand.name).toBe("Panadería Pimpo's");
-  expect(encontrado!.texto).not.toMatch(/aggregateRating|review|availability|priceValidUntil/);
+  // La marca del negocio no acredita la marca del producto: el arroz de la
+  // bodega tiene una marca propia y el modelo público no dispone de ese dato.
+  for (const slug of ["arroz-1kg", "frances-chico"]) {
+    await page.goto(`/productos/${slug}`);
+    const encontrado = await jsonLd(page, "Product");
+    expect(encontrado).not.toBeNull();
+    const producto = encontrado!.datos as { name: string; url: string; brand?: { name: string } };
+    expect(producto.name).toBe(await page.locator("main h1").textContent());
+    expect(producto.url).toBe(`http://localhost:3000/productos/${slug}`);
+    expect(producto.brand).toBeUndefined();
+    expect(encontrado!.texto).not.toMatch(/aggregateRating|review|availability|priceValidUntil/);
+  }
 });

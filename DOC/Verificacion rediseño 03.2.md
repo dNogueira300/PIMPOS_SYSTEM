@@ -20,7 +20,7 @@ resultados del build, no sustituye la revisión ni autoriza fusión.
   Nombre comercial y precio mínimo siguen saliendo de las consultas existentes.
   Next declara la misma imagen para OpenGraph y Twitter/X, en URL absoluta.
 - SEO: canónicas para todas las páginas públicas y detalles publicados; filtros del
-  catálogo apuntan al listado canónico. JSON-LD Product describe nombre, marca,
+  catálogo apuntan al listado canónico. JSON-LD Product describe nombre,
   categoría, descripción e imagen existentes; omite datos ausentes y no inventa
   valoraciones, disponibilidad, vencimientos ni precios de presentaciones diferentes.
   Se conservan Bakery, FAQPage, sitemap vigente y exclusión del panel y acceso.
@@ -33,18 +33,18 @@ de descarga incluyen explícitamente la TTF y el logo para Vercel.
 
 ## Comprobaciones registradas
 
-| Comprobación           | Resultado actual                                                                        |
-| ---------------------- | --------------------------------------------------------------------------------------- |
-| Unitarias completas    | 496 aprobadas en 61 archivos                                                            |
-| Ajustes dirigidos E2E  | 22 aprobadas, 18 omisiones previstas por proyecto, cero fallos                          |
-| Build local            | Aprobado, `BUILD_ID` `xpunENGfsnmpnnGmpz203`                                            |
-| Tipos                  | `next typegen` y `tsc --noEmit` aprobados con acceso real a las junctions               |
-| Lint y formato         | Lint completo sin advertencias y formato completo aprobados al cierre                   |
-| Suite E2E completa     | 605 aprobadas, 105 omisiones previstas; 710 casos/54 archivos, cero faltantes o extras  |
-| Inventario y capturas  | 70 plantillas, 497 capturas, ninguna ruta omitida                                       |
-| Lighthouse             | Inicio 85→91; catálogo 89→94; contacto 95→94, todas dentro de −3 y de mínimos absolutos |
-| Revisión independiente | Pendiente al concluir la evidencia                                                      |
-| CI y vista previa      | Pendientes de apertura del PR 5                                                         |
+| Comprobación           | Resultado actual                                                                               |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| Unitarias completas    | 496 aprobadas en 61 archivos                                                                   |
+| Ajustes dirigidos E2E  | 22 aprobadas, 18 omisiones previstas por proyecto, cero fallos                                 |
+| Build local            | Build final aprobado: `vjzWHRdBhka2hk1VPHDOZ`; evidencia visual previa `xpunENGfsnmpnnGmpz203` |
+| Tipos                  | `next typegen` y `tsc --noEmit` aprobados con acceso real a las junctions                      |
+| Lint y formato         | Lint completo sin advertencias y formato completo aprobados al cierre                          |
+| Suite E2E completa     | 605 aprobadas, 105 omisiones previstas; 710 casos/54 archivos, cero faltantes o extras         |
+| Inventario y capturas  | 70 plantillas, 497 capturas, ninguna ruta omitida                                              |
+| Lighthouse             | Inicio 85→91; catálogo 89→94; contacto 95→94, todas dentro de −3 y de mínimos absolutos        |
+| Revisión independiente | Revisión fresca: I1 corregido con RED→GREEN y suite completa aprobada                          |
+| CI y vista previa      | Pendientes de apertura del PR 5                                                                |
 
 Los saltos de las suites dirigidas son intencionales: SEO solo en escritorio,
 descargas solo en móvil. No se debilitan reglas axe, cálculos o permisos.
@@ -147,8 +147,8 @@ El checkout principal mantiene sus documentos y cambios locales sin tocar.
 Turbopack usa temporalmente la raíz común para la junction de Windows y se restaura
 en `finally`. El tipo de acceso restringido al árbol de dependencias causó falsos
 errores de resolución; ejecutar tipos con acceso a sus destinos reales pasa sin
-cambiar fuentes ni paquetes. Corepack sin red no pudo descargar pnpm: las herramientas
-Node instaladas ejecutan las mismas verificaciones, sin omitir hooks al hacer commit.
+cambiar fuentes ni paquetes. Corepack sin red no pudo descargar pnpm inicialmente: las herramientas
+Node instaladas ejecutaron las mismas verificaciones; después pnpm 12.3.4 resolvió con acceso real. Los controles finales y hooks se ejecutan con pnpm, sin omitirlos.
 
 El intento de zoom por teclado en el navegador integrado no cambió sus métricas.
 La comprobación de zoom nativo utiliza perfiles desechables de Chromium con preferencias
@@ -175,3 +175,30 @@ No marcar T7 concluida mientras falten comprobaciones o la revisión independien
 - Task 7: Ruling: primera tanda7 falla esperando networkidle del mapa público (tesitura externa de tiles), sin cambios de mapa en este bloque; repetición de presupuesto pasa9/1 sin editar fuente ni prueba. Reanudar tandas7/8 en idéntico BUILD_ID, conservar intento fallido y conciliar710; coste si errado: un fallo intermitente de red sigue posible, no se presenta como cero fallos iniciales.
 - Task 7: Ruling: capturador de portada bloqueado en decode de imágenes lazy fuera de la diapositiva visible; forzar carga eager únicamente en guion de evidencia, no en aplicación. Se detiene solo PID21948 identificado y se limpian3 cuentas dashboard de ese intervalo local; coste si errado: la captura no representa el orden de carga diferida, ya cubierto por pruebas de presupuesto. Ensayo CSS200 adverso desborda catálogo, mientras zoom nativo200 confirmado DPR2/CSS1 no desborda; registrar ambos sin rebajar reglas.
 - Task 7: Ruling: screenshot fullPage de Playwright con zoom nativo usa medidas CSS para un bitmap físico y recorta; CDP Page.getLayoutMetrics.contentSize (DIP) + captureScreenshot clip conserva viewport y escala, probado1424x1303 contra CSS712x651/DPR2. Repetir evidencia nativa con guion corregido. Coste si errado: imagen del zoom poco representativa; métricas y axe son directas e independientes.
+
+## Revisión independiente del cierre
+
+Revisor fresco `gpt-6-astra`, de solo lectura, sobre `ea4ee37..2e491d9`.
+Revisó fuentes, pruebas y guiones, trazas NFT y muestras PDF/OG/novedades,
+conciliación E2E e inventario. Sin hallazgos críticos ni menores adicionales.
+
+I1, importante: la marca comercial del negocio no acredita la marca de todos
+los artículos que vende. El JSON-LD de `/productos/arroz-1kg` declaraba Pimpo’s,
+pero su foto corresponde a arroz Milli. La prueba SEO reprodujo esa atribución
+incorrecta; el único pase de corrección omite `brand` al no existir un campo
+acreditado en el modelo público. Se comprueban arroz y pan francés sin nuevas
+lecturas, campos ni cambios visibles. GREEN de arroz y pan francés aprobado; regresión completa 605/105 en `vjzWHRdBhka2hk1VPHDOZ`, 710 casos conciliados y cero fallos en las ocho tandas posteriores.
+La evidencia anterior se conserva en `pruebas/antes-revision/`; las capturas,
+PDF y Lighthouse corresponden al build visual `xpunENGfsnmpnnGmpz203`.
+La corrección cambia exclusivamente JSON-LD, sin modificar la composición.
+
+### Decisiones sobre límites considerados por el revisor
+
+- Final: Ruling: teclado virtual de teléfono físico — conservarlo como limitación no certificada; perfiles de escritorio y zoom nativo no sustituyen un teléfono. Coste si errado: una interacción con teclado móvil puede requerir ajuste posterior.
+- Final: Ruling: CI y Vercel — comprobar ambos después de crear el PR; las trazas NFT locales no sustituyen el despliegue. Coste si errado: un fallo de empaquetado o de entorno podría aparecer solo en la vista previa.
+- Final: Ruling: correo antiguo de avisos — permanece fuera del alcance de sitio/PDF, con envío apagado. Coste si errado: al habilitar el correo conservaría su identidad anterior; revisar esa superficie antes de activarlo.
+- Final: Ruling: posicionamiento y caché externa — certificar lo que publica el sitio y su información factual, sin prometer rankings ni renovación inmediata de WhatsApp. Coste si errado: visibilidad y tarjeta compartida pueden tardar en actualizarse.
+- Final: Ruling: auditoría SQL/RLS nueva y pendientes F7 — no añadir cambios de base ni capacitación/manual/traspaso a un cierre visual; conservar CI existente de base. Coste si errado: los pendientes de entrega del proyecto continúan abiertos, separados del rediseño.
+
+Menores diferidos del cierre: ninguno adicional. Los menores históricos siguen
+con su estado registrado en cada bloque; M1 de unidades queda resuelto aquí.

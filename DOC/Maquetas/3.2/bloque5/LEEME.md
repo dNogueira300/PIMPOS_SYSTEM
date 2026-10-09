@@ -23,7 +23,7 @@ al zoom nativo. No se certifica teclado virtual de un teléfono físico.
 
 `pruebas/regresion-completa.json` concilia710 casos en54 archivos:605 aprobados,
 105 omisiones previstas por rol/proyecto/datos y cero faltantes o extras.
-Conserva un primer timeout de red del mapa y la repetición aprobada, sin cambiar
+La evidencia previa en `pruebas/antes-revision/` conserva el timeout de red del mapa y su repetición, sin cambiar
 código/prueba. Los logs de capturadores incluyen ensayos interrumpidos/corregidos;
 los manifiestos finales y sus limpiezas son la evidencia del cierre.
 
@@ -39,3 +39,9 @@ Las escrituras de fixtures se limitan a Supabase local mediante
 no se tocan. La fotografía del capturador de novedad proviene de los archivos
 locales originales, excluidos del repositorio. Los informes públicos no incluyen
 configuración del runner ni sus claves.
+
+La revisión final detectó una atribución de marca incorrecta en JSON-LD de bodega.
+Se omite ese campo sin información acreditada; arroz y pan francés pasan su prueba.
+El build posterior `vjzWHRdBhka2hk1VPHDOZ` solo cambia ese dato SEO. Las capturas,
+PDF y Lighthouse anteriores siguen documentando la misma presentación visual.
+El manifiesto de regresión final identifica su build por separado.

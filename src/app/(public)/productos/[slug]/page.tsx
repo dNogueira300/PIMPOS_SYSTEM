@@ -106,7 +106,6 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
     "@id": `${urlAbsoluta(`/productos/${producto.slug}`)}#producto`,
     url: urlAbsoluta(`/productos/${producto.slug}`),
     name: producto.nombre,
-    brand: { "@type": "Brand", name: config.nombre_comercial },
     ...(producto.descripcion ? { description: producto.descripcion } : {}),
     ...(producto.imagen ? { image: urlAbsoluta(producto.imagen) } : {}),
     ...(producto.categoriaNombre ? { category: producto.categoriaNombre } : {}),

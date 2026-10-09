@@ -1,5 +1,5 @@
 {
-  "build": "vjzWHRdBhka2hk1VPHDOZ",
+  "build": "xpunENGfsnmpnnGmpz203",
   "files": [
     "abierto-ahora.spec.ts",
     "accesibilidad.spec.ts",
@@ -71,8 +71,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:27:12.014Z",
-        "duration": 94001.19,
+        "startTime": "2026-10-09T16:54:30.508Z",
+        "duration": 90739.999,
         "expected": 75,
         "skipped": 7,
         "unexpected": 0,
@@ -833,8 +833,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:28:48.296Z",
-        "duration": 47509.182,
+        "startTime": "2026-10-09T16:56:02.420Z",
+        "duration": 40975.303,
         "expected": 41,
         "skipped": 5,
         "unexpected": 0,
@@ -1271,8 +1271,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:29:36.717Z",
-        "duration": 618722.539,
+        "startTime": "2026-10-09T16:56:44.265Z",
+        "duration": 607009.34,
         "expected": 213,
         "skipped": 17,
         "unexpected": 0,
@@ -3365,8 +3365,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:39:56.691Z",
-        "duration": 167558.103,
+        "startTime": "2026-10-09T17:06:52.706Z",
+        "duration": 174242.776,
         "expected": 51,
         "skipped": 21,
         "unexpected": 0,
@@ -4041,8 +4041,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:42:45.166Z",
-        "duration": 94473.879,
+        "startTime": "2026-10-09T17:09:48.541Z",
+        "duration": 99047.993,
         "expected": 43,
         "skipped": 29,
         "unexpected": 0,
@@ -4713,8 +4713,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:44:20.440Z",
-        "duration": 173687.90600000002,
+        "startTime": "2026-10-09T17:11:28.546Z",
+        "duration": 179808.985,
         "expected": 58,
         "skipped": 6,
         "unexpected": 0,
@@ -5313,8 +5313,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:47:14.997Z",
-        "duration": 62965.027,
+        "startTime": "2026-10-09T17:34:01.184Z",
+        "duration": 69921.34899999999,
         "expected": 69,
         "skipped": 9,
         "unexpected": 0,
@@ -6037,8 +6037,8 @@
       ],
       "exitCode": 0,
       "stats": {
-        "startTime": "2026-10-09T20:48:18.872Z",
-        "duration": 58606.927,
+        "startTime": "2026-10-09T17:35:12.201Z",
+        "duration": 47912.291,
         "expected": 55,
         "skipped": 11,
         "unexpected": 0,
@@ -6644,12 +6644,739 @@
     }
   ],
   "complete": true,
-  "attempts": [],
   "missing": [],
   "extra": [],
   "buildUnchanged": true,
   "summary": {
     "expected": 605,
     "skipped": 105
-  }
+  },
+  "attempts": [
+    {
+      "name": "tanda-7",
+      "files": [
+        "pizarra.spec.ts",
+        "portada-movil.spec.ts",
+        "portada.spec.ts",
+        "presentaciones.spec.ts",
+        "presupuesto.spec.ts",
+        "publico-composicion.spec.ts",
+        "publico-movimiento-fotos.spec.ts"
+      ],
+      "exitCode": 1,
+      "stats": {
+        "startTime": "2026-10-09T17:14:29.195Z",
+        "duration": 88517.651,
+        "expected": 68,
+        "skipped": 9,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "tests": [
+        {
+          "key": "pizarra.spec.ts:18:el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»:movil",
+          "file": "pizarra.spec.ts",
+          "title": "el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:46:cada precio queda en la linea de su producto y cada fila se puede pulsar:movil",
+          "file": "pizarra.spec.ts",
+          "title": "cada precio queda en la linea de su producto y cada fila se puede pulsar",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:66:un producto con foto la conserva en la pizarra:movil",
+          "file": "pizarra.spec.ts",
+          "title": "un producto con foto la conserva en la pizarra",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:85:la ficha sin foto no deja una caja vacia y pone el precio de titular:movil",
+          "file": "pizarra.spec.ts",
+          "title": "la ficha sin foto no deja una caja vacia y pone el precio de titular",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:111:el mensaje de WhatsApp dice la presentacion solo cuando aporta:movil",
+          "file": "pizarra.spec.ts",
+          "title": "el mensaje de WhatsApp dice la presentacion solo cuando aporta",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:127:la portada enseña lo que se hornea como pizarra, sin relleno:movil",
+          "file": "pizarra.spec.ts",
+          "title": "la portada enseña lo que se hornea como pizarra, sin relleno",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:137:en la portada, tarjeta solo para los productos con foto y ninguno dos veces:movil",
+          "file": "pizarra.spec.ts",
+          "title": "en la portada, tarjeta solo para los productos con foto y ninguno dos veces",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:178:el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano:movil",
+          "file": "pizarra.spec.ts",
+          "title": "el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:18:el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:46:cada precio queda en la linea de su producto y cada fila se puede pulsar:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "cada precio queda en la linea de su producto y cada fila se puede pulsar",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:66:un producto con foto la conserva en la pizarra:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "un producto con foto la conserva en la pizarra",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:85:la ficha sin foto no deja una caja vacia y pone el precio de titular:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "la ficha sin foto no deja una caja vacia y pone el precio de titular",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:111:el mensaje de WhatsApp dice la presentacion solo cuando aporta:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "el mensaje de WhatsApp dice la presentacion solo cuando aporta",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:127:la portada enseña lo que se hornea como pizarra, sin relleno:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "la portada enseña lo que se hornea como pizarra, sin relleno",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:137:en la portada, tarjeta solo para los productos con foto y ninguno dos veces:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "en la portada, tarjeta solo para los productos con foto y ninguno dos veces",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "pizarra.spec.ts:178:el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano:escritorio",
+          "file": "pizarra.spec.ts",
+          "title": "el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada-movil.spec.ts:10:en el celular no hay carrusel, y si foto quieta, nombre y como pedir:movil",
+          "file": "portada-movil.spec.ts",
+          "title": "en el celular no hay carrusel, y si foto quieta, nombre y como pedir",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada-movil.spec.ts:30:en escritorio el carrusel sigue estando:movil",
+          "file": "portada-movil.spec.ts",
+          "title": "en escritorio el carrusel sigue estando",
+          "project": "movil",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["Es la portada de escritorio."]
+        },
+        {
+          "key": "portada-movil.spec.ts:39:la portada sigue teniendo un solo h1:movil",
+          "file": "portada-movil.spec.ts",
+          "title": "la portada sigue teniendo un solo h1",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada-movil.spec.ts:10:en el celular no hay carrusel, y si foto quieta, nombre y como pedir:escritorio",
+          "file": "portada-movil.spec.ts",
+          "title": "en el celular no hay carrusel, y si foto quieta, nombre y como pedir",
+          "project": "escritorio",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["Es la portada del celular."]
+        },
+        {
+          "key": "portada-movil.spec.ts:30:en escritorio el carrusel sigue estando:escritorio",
+          "file": "portada-movil.spec.ts",
+          "title": "en escritorio el carrusel sigue estando",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada-movil.spec.ts:39:la portada sigue teniendo un solo h1:escritorio",
+          "file": "portada-movil.spec.ts",
+          "title": "la portada sigue teniendo un solo h1",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:8:la portada carga en espanol y con su encabezado:movil",
+          "file": "portada.spec.ts",
+          "title": "la portada carga en espanol y con su encabezado",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:28:la portada muestra los tres datos verificables:movil",
+          "file": "portada.spec.ts",
+          "title": "la portada muestra los tres datos verificables",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:43:el hero de escritorio conserva contraste sobre el panel terracota de la dirección A:movil",
+          "file": "portada.spec.ts",
+          "title": "el hero de escritorio conserva contraste sobre el panel terracota de la dirección A",
+          "project": "movil",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["El hero con carrusel es de escritorio."]
+        },
+        {
+          "key": "portada.spec.ts:60:el bloque de nosotros dice el año de apertura, no una cuenta de años inventada:movil",
+          "file": "portada.spec.ts",
+          "title": "el bloque de nosotros dice el año de apertura, no una cuenta de años inventada",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:73:el catalogo llega desde la base con su precio a la vista:movil",
+          "file": "portada.spec.ts",
+          "title": "el catalogo llega desde la base con su precio a la vista",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:98:un borrador nunca llega a la portada:movil",
+          "file": "portada.spec.ts",
+          "title": "un borrador nunca llega a la portada",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:107:el pedido por WhatsApp esta siempre a mano:movil",
+          "file": "portada.spec.ts",
+          "title": "el pedido por WhatsApp esta siempre a mano",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:124:los horarios dicen que el domingo esta cerrado:movil",
+          "file": "portada.spec.ts",
+          "title": "los horarios dicen que el domingo esta cerrado",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:155:se puede llegar al catalogo solo con el teclado:movil",
+          "file": "portada.spec.ts",
+          "title": "se puede llegar al catalogo solo con el teclado",
+          "project": "movil",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["La navegacion por teclado se comprueba en escritorio."]
+        },
+        {
+          "key": "portada.spec.ts:172:el menu de movil se abre y se cierra:movil",
+          "file": "portada.spec.ts",
+          "title": "el menu de movil se abre y se cierra",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:199:el sistema de diseno esta aplicado:movil",
+          "file": "portada.spec.ts",
+          "title": "el sistema de diseno esta aplicado",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:211:la tipografia elegida llega al navegador:movil",
+          "file": "portada.spec.ts",
+          "title": "la tipografia elegida llega al navegador",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:236:el hero separa texto y foto sin velo ni controles sobre el texto:movil",
+          "file": "portada.spec.ts",
+          "title": "el hero separa texto y foto sin velo ni controles sobre el texto",
+          "project": "movil",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["El carrusel es de escritorio."]
+        },
+        {
+          "key": "portada.spec.ts:8:la portada carga en espanol y con su encabezado:escritorio",
+          "file": "portada.spec.ts",
+          "title": "la portada carga en espanol y con su encabezado",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:28:la portada muestra los tres datos verificables:escritorio",
+          "file": "portada.spec.ts",
+          "title": "la portada muestra los tres datos verificables",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:43:el hero de escritorio conserva contraste sobre el panel terracota de la dirección A:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el hero de escritorio conserva contraste sobre el panel terracota de la dirección A",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:60:el bloque de nosotros dice el año de apertura, no una cuenta de años inventada:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el bloque de nosotros dice el año de apertura, no una cuenta de años inventada",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:73:el catalogo llega desde la base con su precio a la vista:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el catalogo llega desde la base con su precio a la vista",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:98:un borrador nunca llega a la portada:escritorio",
+          "file": "portada.spec.ts",
+          "title": "un borrador nunca llega a la portada",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:107:el pedido por WhatsApp esta siempre a mano:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el pedido por WhatsApp esta siempre a mano",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:124:los horarios dicen que el domingo esta cerrado:escritorio",
+          "file": "portada.spec.ts",
+          "title": "los horarios dicen que el domingo esta cerrado",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:155:se puede llegar al catalogo solo con el teclado:escritorio",
+          "file": "portada.spec.ts",
+          "title": "se puede llegar al catalogo solo con el teclado",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:172:el menu de movil se abre y se cierra:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el menu de movil se abre y se cierra",
+          "project": "escritorio",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["El menu desplegable solo existe por debajo de lg."]
+        },
+        {
+          "key": "portada.spec.ts:199:el sistema de diseno esta aplicado:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el sistema de diseno esta aplicado",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:211:la tipografia elegida llega al navegador:escritorio",
+          "file": "portada.spec.ts",
+          "title": "la tipografia elegida llega al navegador",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "portada.spec.ts:236:el hero separa texto y foto sin velo ni controles sobre el texto:escritorio",
+          "file": "portada.spec.ts",
+          "title": "el hero separa texto y foto sin velo ni controles sobre el texto",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:11:la ficha enseña las dos presentaciones con su precio:movil",
+          "file": "presentaciones.spec.ts",
+          "title": "la ficha enseña las dos presentaciones con su precio",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:28:el mensaje de WhatsApp lleva la linea para elegir presentacion:movil",
+          "file": "presentaciones.spec.ts",
+          "title": "el mensaje de WhatsApp lleva la linea para elegir presentacion",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:40:un producto de una sola presentacion no gana una lista de una fila:movil",
+          "file": "presentaciones.spec.ts",
+          "title": "un producto de una sola presentacion no gana una lista de una fila",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:11:la ficha enseña las dos presentaciones con su precio:escritorio",
+          "file": "presentaciones.spec.ts",
+          "title": "la ficha enseña las dos presentaciones con su precio",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:28:el mensaje de WhatsApp lleva la linea para elegir presentacion:escritorio",
+          "file": "presentaciones.spec.ts",
+          "title": "el mensaje de WhatsApp lleva la linea para elegir presentacion",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presentaciones.spec.ts:40:un producto de una sola presentacion no gana una lista de una fila:escritorio",
+          "file": "presentaciones.spec.ts",
+          "title": "un producto de una sola presentacion no gana una lista de una fila",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:60:la portada no se dispara y no pesa mas que una pagina sin interaccion:movil",
+          "file": "presupuesto.spec.ts",
+          "title": "la portada no se dispara y no pesa mas que una pagina sin interaccion",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:83:el mapa no entra en el paquete de la portada:movil",
+          "file": "presupuesto.spec.ts",
+          "title": "el mapa no entra en el paquete de la portada",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:97:la ubicacion carga el mapa, y solo ahi:movil",
+          "file": "presupuesto.spec.ts",
+          "title": "la ubicacion carga el mapa, y solo ahi",
+          "project": "movil",
+          "status": "unexpected",
+          "results": ["timedOut"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:172:las fuentes que se descargan no pasan de 140 KB:movil",
+          "file": "presupuesto.spec.ts",
+          "title": "las fuentes que se descargan no pasan de 140 KB",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:60:la portada no se dispara y no pesa mas que una pagina sin interaccion:escritorio",
+          "file": "presupuesto.spec.ts",
+          "title": "la portada no se dispara y no pesa mas que una pagina sin interaccion",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:83:el mapa no entra en el paquete de la portada:escritorio",
+          "file": "presupuesto.spec.ts",
+          "title": "el mapa no entra en el paquete de la portada",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:97:la ubicacion carga el mapa, y solo ahi:escritorio",
+          "file": "presupuesto.spec.ts",
+          "title": "la ubicacion carga el mapa, y solo ahi",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:172:las fuentes que se descargan no pasan de 140 KB:escritorio",
+          "file": "presupuesto.spec.ts",
+          "title": "las fuentes que se descargan no pasan de 140 KB",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:127:la portada no se baja la misma foto dos veces:movil",
+          "file": "presupuesto.spec.ts",
+          "title": "la portada no se baja la misma foto dos veces",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "presupuesto.spec.ts:127:la portada no se baja la misma foto dos veces:escritorio",
+          "file": "presupuesto.spec.ts",
+          "title": "la portada no se baja la misma foto dos veces",
+          "project": "escritorio",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["El derroche era del celular: dos heros, y solo uno se ve."]
+        },
+        {
+          "key": "publico-composicion.spec.ts:5:nombres y precios largos de las presentaciones se leen sin superponerse:movil",
+          "file": "publico-composicion.spec.ts",
+          "title": "nombres y precios largos de las presentaciones se leen sin superponerse",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-composicion.spec.ts:36:la pizarra conserva nombre y precio largos dentro de la página:movil",
+          "file": "publico-composicion.spec.ts",
+          "title": "la pizarra conserva nombre y precio largos dentro de la página",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-composicion.spec.ts:5:nombres y precios largos de las presentaciones se leen sin superponerse:escritorio",
+          "file": "publico-composicion.spec.ts",
+          "title": "nombres y precios largos de las presentaciones se leen sin superponerse",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-composicion.spec.ts:36:la pizarra conserva nombre y precio largos dentro de la página:escritorio",
+          "file": "publico-composicion.spec.ts",
+          "title": "la pizarra conserva nombre y precio largos dentro de la página",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:3:la moto cruza al aparecer, termina en cuatro segundos y no repite:movil",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "la moto cruza al aparecer, termina en cuatro segundos y no repite",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:31:con movimiento reducido la moto permanece estática y el pedido sigue visible:movil",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "con movimiento reducido la moto permanece estática y el pedido sigue visible",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:46:las fotografías aumentan solo un tres por ciento al pasar el cursor:movil",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "las fotografías aumentan solo un tres por ciento al pasar el cursor",
+          "project": "movil",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["El hover se reserva para cursor preciso."]
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:72:las fotografías no hacen zoom con movimiento reducido:movil",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "las fotografías no hacen zoom con movimiento reducido",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:80:el hover no activa zoom en pantalla táctil:movil",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "el hover no activa zoom en pantalla táctil",
+          "project": "movil",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:3:la moto cruza al aparecer, termina en cuatro segundos y no repite:escritorio",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "la moto cruza al aparecer, termina en cuatro segundos y no repite",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:31:con movimiento reducido la moto permanece estática y el pedido sigue visible:escritorio",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "con movimiento reducido la moto permanece estática y el pedido sigue visible",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:46:las fotografías aumentan solo un tres por ciento al pasar el cursor:escritorio",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "las fotografías aumentan solo un tres por ciento al pasar el cursor",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:72:las fotografías no hacen zoom con movimiento reducido:escritorio",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "las fotografías no hacen zoom con movimiento reducido",
+          "project": "escritorio",
+          "status": "expected",
+          "results": ["passed"],
+          "skips": []
+        },
+        {
+          "key": "publico-movimiento-fotos.spec.ts:80:el hover no activa zoom en pantalla táctil:escritorio",
+          "file": "publico-movimiento-fotos.spec.ts",
+          "title": "el hover no activa zoom en pantalla táctil",
+          "project": "escritorio",
+          "status": "skipped",
+          "results": ["skipped"],
+          "skips": ["Comprobación de pantalla táctil."]
+        }
+      ],
+      "errors": []
+    }
+  ]
 }

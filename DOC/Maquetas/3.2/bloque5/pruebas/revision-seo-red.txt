@@ -1,0 +1,32 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:31056) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:29376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [escritorio] › e2e\seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias (1.4s)
+
+
+  1) [escritorio] › e2e\seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias 
+
+    Error: expect(received).toBeUndefined()
+
+    Received: {"@type": "Brand", "name": "Panadería Pimpo's"}
+
+      202 |     expect(producto.name).toBe(await page.locator("main h1").textContent());
+      203 |     expect(producto.url).toBe(`http://localhost:3000/productos/${slug}`);
+    > 204 |     expect(producto.brand).toBeUndefined();
+          |                            ^
+      205 |     expect(encontrado!.texto).not.toMatch(/aggregateRating|review|availability|priceValidUntil/);
+      206 |   }
+      207 | });
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\seo.spec.ts:204:28
+
+    Error Context: test-results\seo-la-ficha-describe-el-p-ea4b0-valoraciones-ni-existencias-escritorio\error-context.md
+
+  1 failed
+    [escritorio] › e2e\seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias 
