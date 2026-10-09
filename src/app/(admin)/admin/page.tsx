@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
+import { AccesoInicio } from "@/components/panel/acceso-inicio";
 import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { ListaDeCambios } from "@/components/panel/lista-de-cambios";
 import { resolverNombres, ultimosCambios } from "@/lib/auditoria/datos";
@@ -32,7 +34,14 @@ async function InicioConSesion({
 
   return (
     <>
-      <EncabezadoPanel titulo="Inicio" />
+      <EncabezadoPanel
+        titulo="Inicio"
+        descripcion={
+          administracion
+            ? "Revisiones pendientes, tus secciones y los últimos cambios."
+            : "Tus revisiones pendientes y secciones del panel."
+        }
+      />
       {motivo === "sin-acceso" ? (
         <p role="status" className="bg-alerta/15 mb-4 rounded-md p-3 text-sm">
           Esa sección no está disponible para tu rol.
@@ -40,60 +49,86 @@ async function InicioConSesion({
       ) : null}
 
       {avisos.length > 0 ? (
-        <section aria-labelledby="avisos" className="mb-6 flex flex-col gap-2">
-          <h2 id="avisos" className="text-xl font-semibold tracking-[-0.025em]">
+        <section aria-labelledby="avisos" className="mb-8">
+          <h2 id="avisos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
             Para revisar
           </h2>
-          {avisos.map((aviso) => (
-            <Link
-              key={aviso.ruta}
-              href={aviso.ruta}
-              data-aviso={aviso.clave}
-              className="bg-card flex min-h-12 items-center rounded-md border p-4"
-            >
-              {aviso.texto}
-            </Link>
-          ))}
+          <div className="grid gap-3 lg:grid-cols-3 xl:gap-4">
+            {avisos.map((aviso) => {
+              const partes = aviso.texto.match(/^(\d+)\s(.+)$/u);
+              return (
+                <Link
+                  key={aviso.ruta}
+                  href={aviso.ruta}
+                  data-aviso={aviso.clave}
+                  aria-label={aviso.texto}
+                  className="bg-card hover:border-primary relative grid min-h-[84px] grid-cols-[minmax(56px,auto)_minmax(0,1fr)] items-center gap-2 rounded-md border p-[18px] pr-11 lg:min-h-[146px] lg:grid-cols-1 lg:content-start lg:items-start lg:pr-[18px] xl:p-[22px]"
+                >
+                  {partes ? (
+                    <>
+                      <span className="text-primary text-[34px] leading-[1.1] font-semibold tracking-[-0.045em] tabular-nums lg:text-[40px]">
+                        {partes[1]}
+                      </span>{" "}
+                      <span className="text-sm wrap-anywhere lg:mt-3 lg:max-w-[24ch]">
+                        {partes[2]}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="col-span-full pr-5 text-sm wrap-anywhere">{aviso.texto}</span>
+                  )}
+                  <ArrowUpRight
+                    aria-hidden
+                    className="text-primary absolute top-[calc(50%-10px)] right-3.5 size-5 lg:top-5 lg:right-[18px]"
+                  />
+                </Link>
+              );
+            })}
+          </div>
         </section>
       ) : null}
 
-      <section aria-labelledby="atajos">
-        <h2 id="atajos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
-          Tus secciones
-        </h2>
-        <ul className="border-border grid gap-0 border-t sm:grid-cols-2">
-          {secciones.map((s) => (
-            <li key={s.ruta}>
-              <Link
-                href={s.ruta}
-                data-seccion={s.nombre}
-                className="border-border hover:bg-muted flex min-h-16 items-center border-b px-3 py-5 font-semibold"
-              >
-                {s.nombre}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {secciones.length === 0 ? (
-          <p className="text-muted-foreground text-sm">
-            Por ahora tu rol no tiene secciones en el panel. Pide a un administrador que revise tu
-            cuenta.
-          </p>
-        ) : null}
-      </section>
-      {administracion && recientes.length > 0 ? (
-        <section aria-labelledby="actividad" className="mt-6" data-actividad-reciente>
-          <h2 id="actividad" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
-            Actividad reciente
+      <div
+        className={`grid items-start gap-7 ${administracion && recientes.length > 0 ? "xl:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]" : ""}`}
+      >
+        <section aria-labelledby="atajos" className="min-w-0">
+          <h2 id="atajos" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
+            Tus secciones
           </h2>
-          <ListaDeCambios cambios={recientes} nombres={nombres} etiqueta="Los últimos cambios" />
-          <p className="mt-3">
-            <Link href="/admin/auditoria" className="boton-linea">
-              Ver todo el historial
-            </Link>
-          </p>
+          <ul
+            className={`grid grid-cols-2 gap-3 ${administracion && recientes.length > 0 ? "lg:grid-cols-3 xl:grid-cols-2" : "lg:grid-cols-3"}`}
+          >
+            {secciones.map((s) => (
+              <li key={s.ruta}>
+                <AccesoInicio seccion={s} />
+              </li>
+            ))}
+          </ul>
+          {secciones.length === 0 ? (
+            <p className="text-muted-foreground text-sm">
+              Por ahora tu rol no tiene secciones en el panel. Pide a un administrador que revise tu
+              cuenta.
+            </p>
+          ) : null}
         </section>
-      ) : null}
+        {administracion && recientes.length > 0 ? (
+          <section
+            aria-labelledby="actividad"
+            className="actividad-inicio min-w-0"
+            data-actividad-reciente
+          >
+            <h2 id="actividad" className="mb-3 text-xl font-semibold tracking-[-0.025em]">
+              Actividad reciente
+            </h2>
+            <ListaDeCambios cambios={recientes} nombres={nombres} etiqueta="Los últimos cambios" />
+            <p className="mt-3">
+              <Link href="/admin/auditoria" className="boton-linea flex w-full justify-center">
+                Ver todo el historial
+                <ArrowRight aria-hidden className="size-5" />
+              </Link>
+            </p>
+          </section>
+        ) : null}
+      </div>
     </>
   );
 }

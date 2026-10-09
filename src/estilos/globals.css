@@ -729,3 +729,28 @@
 .toaster [data-sonner-toast][data-type="error"] {
   transition: none;
 }
+
+/* Solo la actividad del inicio: el historial conserva su propia composición. */
+.actividad-inicio ul {
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.actividad-inicio li + li {
+  border-top: 1px solid var(--border);
+}
+.actividad-inicio li a {
+  border: 0;
+  border-radius: 0;
+  padding: 15px 18px;
+  font-size: 14px;
+}
+.actividad-inicio li a:focus-visible {
+  outline-offset: -3px;
+}
+.actividad-inicio li a > span:last-child {
+  font-size: 12px;
+  margin-top: 5px;
+}
