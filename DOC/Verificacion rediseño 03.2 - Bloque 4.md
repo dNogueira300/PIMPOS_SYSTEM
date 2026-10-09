@@ -74,4 +74,12 @@ en la aplicación. T7 mantiene el cierre integral.
 
 ## Revisión independiente
 
-Pendiente. Galería: `Maquetas/3.2/bloque4/index.html`.
+Revisión independiente única de `adf156c..2bec20b`, solo lectura, concluida sin
+Critical, Important ni Minor material. Apta para entregar PR4 borrador a Dan;
+no autoriza fusionar ni iniciar T7. Informe en
+`Maquetas/3.2/bloque4/pruebas/revision-independiente.md`. Cada conducta apartada
+tiene decisión y costo explícitos en `pruebas/registro.md`. Se mantiene la última
+casilla del plan pendiente de revisión de Dan.
+
+Galería: `Maquetas/3.2/bloque4/index.html`, abierta en el navegador y con ambas
+imágenes de catálogo A/resultado comprobadas. Checkout conservado para revisión.
