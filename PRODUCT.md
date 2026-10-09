@@ -51,7 +51,8 @@ de una pasada; fotografías: zoom mínimo solo con cursor y sin movimiento reduc
 El cierre añade imagen completa a novedades de portada, marca en todos los PDF y tarjeta social A,
 además de canónicas públicas y descripción estructurada de productos con información existente.
 Se mantienen todas las funcionalidades. El registro de comprobaciones vigente es
-`DOC/Verificacion rediseño 03.2.md`; no confundir fusiones previas con el cierre aún en revisión.
+`DOC/Verificacion rediseño 03.2.md`; cierre implementado y verificado localmente en
+[PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94), borrador pendiente de revisión/fusión de Dan.
 
 **Rediseño abierto el 06/10/2026 por Dan.** La descripción siguiente corresponde a la interfaz
 anterior a 03.2, no a una restricción para el nuevo diseño. Se pueden reemplazar estilo, tipografía, paleta

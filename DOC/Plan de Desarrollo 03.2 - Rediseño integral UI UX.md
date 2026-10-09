@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** bloques1/2 fusionados por Dan en PR90/91; dashboard y portada T4.1/T5 en PR92; páginas públicas y movimiento T6 en PR93, main `ea4ee37`. T7 en curso desde esa base en `feat/cierre-rediseno-ui-ux`, checkout aislado `PIMPOS_REDISENO_BLOQUE1`, con las ampliaciones de PDF, novedades y SEO de Dan. Esta entrega se detiene en PR5 borrador para su revisión.
+**Estado:** bloques1/2 fusionados por Dan en PR90/91; dashboard y portada T4.1/T5 en PR92; páginas públicas y movimiento T6 en PR93, main `ea4ee37`. T7 implementada y verificada localmente desde esa base en `feat/cierre-rediseno-ui-ux`, checkout aislado `PIMPOS_REDISENO_BLOQUE1`, con las ampliaciones de PDF, novedades y SEO de Dan. Revisión independiente concluida e I1 corregido. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94) borrador abierto para su revisión; resultados y límites en `DOC/Verificacion rediseño 03.2.md`. No se declara fusión ni cierre productivo.
 
 ## Restricciones globales
 
@@ -299,7 +299,7 @@ rg -n 'blue-|sky-|cyan-|pimpos-azul|#12306[eE]|#0060[aA]8' src
 - [x] Comprobar axe público/panel, navegación completa con teclado, foco tras cerrar diálogos, 200 % zoom, reduced motion e impresión. Las correcciones visuales no justifican bajar umbrales ni eliminar reglas de axe.
 - [x] Medir Lighthouse de `/`, `/productos` y `/contacto` contra el commit base en la misma máquina, sesión y condiciones; seguir `scripts/medir-lighthouse.mjs` y los umbrales vigentes. Exigir diferencia mediana no peor de 3 puntos y analizar variabilidad antes de atribuirla al cambio. Revisar LCP/CLS, fuentes e imágenes; si falla, corregir antes del cierre.
 - [x] Confirmar diff sin cambios funcionales ni de base. No exigir nuevas pruebas SQL para CSS; conservar el resultado del CI requerido por el repositorio. Cualquier alteración accidental de consulta, autorización o cálculo se revierte, no se convierte en alcance nuevo.
-- [ ] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 5. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
+- [x] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 5. PR #94 borrador abierto, vista previa revisada; checks vigentes en el PR. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
 
 ## Protocolo de verificación por tarea
 

@@ -31,11 +31,16 @@ comparación en `Maquetas/3.2/bloque3/index.html`. PR #92 fusionado por Dan (mai
 `adf156c`), CI/Vercel en verde. Autorización de continuar el 09/10/2026: T6 implementada y verificada localmente
 en `feat/rediseno-paginas-publicas`, catálogo/fichas/páginas restantes. Evidencia en
 `Verificacion rediseño 03.2 - Bloque 4.md`; PR #93 fusionado por Dan, main `ea4ee37`.
-Incluye la moto decorativa y zoom mínimo de fotografías aprobados. T7 en curso en
+Incluye la moto decorativa y zoom mínimo de fotografías aprobados. T7 implementada en
 `feat/cierre-rediseno-ui-ux`, con regresión completa y comparación de rendimiento.
 Dan añade PDF con paleta y logo actuales, novedades de portada con imagen completa,
 tarjeta al compartir renovada y SEO técnico para buscadores e IAs. No cambia la funcionalidad.
-Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Entregar PR 5 borrador;
+496 unitarias aprobadas, 605 E2E aprobadas y 105 omisiones previstas; 710 casos conciliados,
+70 plantillas y 497 capturas. Revisión independiente concluida, marca no acreditada de
+productos corregida con RED→GREEN y regresión completa repetida. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
+abierto como borrador, vista previa Vercel revisada. CI de aplicación y base aprobados
+en el código verificado; resultado vigente de E2E remoto en los checks del PR.
+Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Pendiente revisión/fusión de Dan;
 F7 de capacitación, manual, informe y credenciales queda fuera de este alcance.
 
 ---

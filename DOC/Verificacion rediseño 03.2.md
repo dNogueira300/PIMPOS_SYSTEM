@@ -2,8 +2,9 @@
 
 Fecha: 09/10/2026. Base del bloque `ea4ee3747cb53456141c3797a9d1415631c6eb9d`,
 PR #93 fusionado por Dan. Rama `feat/cierre-rediseno-ui-ux`, checkout aislado
-`PIMPOS_REDISENO_BLOQUE1`. T7 en curso; este documento se completa con los
-resultados del build, no sustituye la revisión ni autoriza fusión.
+`PIMPOS_REDISENO_BLOQUE1`. T7 implementada y verificada localmente, con revisión
+independiente y corrección I1 terminadas. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
+abierto como borrador para Dan; este documento no autoriza fusión.
 
 ## Cambios solicitados y conservación de funciones
 
@@ -33,18 +34,18 @@ de descarga incluyen explícitamente la TTF y el logo para Vercel.
 
 ## Comprobaciones registradas
 
-| Comprobación           | Resultado actual                                                                               |
-| ---------------------- | ---------------------------------------------------------------------------------------------- |
-| Unitarias completas    | 496 aprobadas en 61 archivos                                                                   |
-| Ajustes dirigidos E2E  | 22 aprobadas, 18 omisiones previstas por proyecto, cero fallos                                 |
-| Build local            | Build final aprobado: `vjzWHRdBhka2hk1VPHDOZ`; evidencia visual previa `xpunENGfsnmpnnGmpz203` |
-| Tipos                  | `next typegen` y `tsc --noEmit` aprobados con acceso real a las junctions                      |
-| Lint y formato         | Lint completo sin advertencias y formato completo aprobados al cierre                          |
-| Suite E2E completa     | 605 aprobadas, 105 omisiones previstas; 710 casos/54 archivos, cero faltantes o extras         |
-| Inventario y capturas  | 70 plantillas, 497 capturas, ninguna ruta omitida                                              |
-| Lighthouse             | Inicio 85→91; catálogo 89→94; contacto 95→94, todas dentro de −3 y de mínimos absolutos        |
-| Revisión independiente | Revisión fresca: I1 corregido con RED→GREEN y suite completa aprobada                          |
-| CI y vista previa      | Pendientes de apertura del PR 5                                                                |
+| Comprobación           | Resultado actual                                                                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unitarias completas    | 496 aprobadas en 61 archivos                                                                                                                         |
+| Ajustes dirigidos E2E  | 22 aprobadas, 18 omisiones previstas por proyecto, cero fallos                                                                                       |
+| Build local            | Build final aprobado: `vjzWHRdBhka2hk1VPHDOZ`; evidencia visual previa `xpunENGfsnmpnnGmpz203`                                                       |
+| Tipos                  | `next typegen` y `tsc --noEmit` aprobados con acceso real a las junctions                                                                            |
+| Lint y formato         | Lint completo sin advertencias y formato completo aprobados al cierre                                                                                |
+| Suite E2E completa     | 605 aprobadas, 105 omisiones previstas; 710 casos/54 archivos, cero faltantes o extras                                                               |
+| Inventario y capturas  | 70 plantillas, 497 capturas, ninguna ruta omitida                                                                                                    |
+| Lighthouse             | Inicio 85→91; catálogo 89→94; contacto 95→94, todas dentro de −3 y de mínimos absolutos                                                              |
+| Revisión independiente | Revisión fresca: I1 corregido con RED→GREEN y suite completa aprobada                                                                                |
+| CI y vista previa      | PR #94 abierto; aplicación, base y Vercel aprobados en `dbc504b`; E2E remoto en curso al registrar la evidencia. Estado vigente en los checks del PR |
 
 Los saltos de las suites dirigidas son intencionales: SEO solo en escritorio,
 descargas solo en móvil. No se debilitan reglas axe, cálculos o permisos.
@@ -54,6 +55,31 @@ prueba. Se conservan los resultados del intento y del cierre, con el mismo build
 Las cifras de F7 y de los bloques anteriores son históricas, no resultados de T7.
 La conciliación completa se guarda en `Maquetas/3.2/bloque5/pruebas/regresion-completa.json`;
 los informes no publican la configuración ni las claves del entorno de pruebas.
+
+## Vista previa publicada y CI
+
+La vista previa de [PR #94](https://pimpos-system-git-fea-77d72d-daniel-nogueiras-projects-79bc3c01.vercel.app/)
+se abrió sin barrera de autenticación. La tarjeta de Novedades muestra el afiche
+publicado completo (`object-fit: contain`, imagen cargada), y mantiene la segunda
+novedad sin imagen con su presentación textual. No se modifica contenido del negocio.
+La captura móvil conserva 375 px de ancho útil (ventana solicitada de 390 px con scrollbar).
+OpenGraph responde como imagen de 1200 × 630 con logo y paleta aprobados;
+`og:image` y `twitter:image` señalan la misma URL absoluta. El login de escritorio
+conserva logo circular, Jakarta y formulario terracota, sin enviar credenciales.
+
+En `/productos/arroz-1kg`, el DOM publicado confirma nombre «Arroz Milli», categoría
+Bodega, imagen y URL existentes, canónica de producción y ausencia de `brand`.
+Evidencia en `Maquetas/3.2/bloque5/vercel/`: capturas de novedades, tarjeta social,
+login de escritorio y JSON-LD leído del producto. No se presenta una captura de
+login móvil remoto: el ajuste del navegador integrado mantuvo 1280 px; la evidencia
+móvil local y las pruebas de acceso están en el inventario general.
+
+[CI del código verificado](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/37990388718):
+tipos/lint/formato/unitarias y migraciones/pgTAP/controles de base aprobados;
+Vercel aprobado. Playwright remoto aún en ejecución al escribir este registro.
+Los checks del PR indican el resultado vigente, también después del commit documental.
+Los PDF autenticados se descargaron y verificaron en local; no se afirma una
+descarga autenticada en Vercel. Las trazas NFT locales incluyen logo y fuente.
 
 ## PDF y tarjeta al compartir
 
@@ -164,7 +190,10 @@ ignorada `.superpowers`, con las mismas dependencias y Supabase local, sin tocar
 ## Decisiones de ejecución y menores
 
 Decisiones trasladadas desde el ledger de T7 para conservarlas junto al código.
-No marcar T7 concluida mientras falten comprobaciones o la revisión independiente.
+La ejecución local de T7 queda registrada como completa mediante `task-done`:
+`pnpm test`, 496 aprobadas en 61 archivos. Revisión independiente y corrección
+comprometidas; PR #94 borrador abierto. Fusión, publicación en producción y
+teclado virtual de teléfono físico siguen fuera de esta certificación.
 
 ### Registro de decisiones
 

@@ -1263,6 +1263,12 @@ renovar la imagen al compartir por WhatsApp/redes y optimizar SEO para buscadore
 OpenGraph usa el logo aprobado y A; las canónicas públicas no incluyen filtros y los
 datos Product describen información existente, sin valoraciones o existencias inventadas.
 La verificación transversal vigente se registra en `DOC/Verificacion rediseño 03.2.md`.
+T7 implementada y verificada localmente: 496 unitarias, 605 E2E aprobadas y 105 omisiones
+previstas (710 casos conciliados), 70 plantillas y 497 capturas. Revisión fresca concluida;
+I1 de atribución incorrecta de marca en Product corregido con RED→GREEN y suite completa.
+PR #94 borrador abierto y vista previa Vercel revisada; checks vigentes en el PR.
+Pendiente revisión/fusión de Dan. Teclado virtual de teléfono físico no certificado;
+F7 de capacitación/manual/informe/credenciales permanece separado.
 
 En PR #93 Dan pidió y aprobó dos ajustes:
 moto delivery decorativa que recorre una vez el bloque de movilidad propia en 4 s,
