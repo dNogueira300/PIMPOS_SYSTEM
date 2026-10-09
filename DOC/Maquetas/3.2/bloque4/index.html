@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pimpo’s — páginas públicas, bloque 4</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f7f5f0;
+        color: #28251f;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+      }
+      header {
+        padding: 24px;
+        border-bottom: 1px solid #d9d4ca;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin: 16px 0;
+      }
+      label {
+        display: grid;
+        gap: 4px;
+      }
+      select,
+      button {
+        min-height: 44px;
+        padding: 8px 12px;
+        background: white;
+        color: #28251f;
+        border: 1px solid #837b70;
+        border-radius: 6px;
+        font: inherit;
+      }
+      button {
+        background: #953e2c;
+        color: white;
+      }
+      a {
+        color: #953e2c;
+      }
+      :focus-visible {
+        outline: 2px solid #953e2c;
+        outline-offset: 3px;
+      }
+      main {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 24px;
+        padding: 24px;
+      }
+      figure {
+        margin: 0;
+        max-width: 100%;
+      }
+      figcaption {
+        padding-bottom: 12px;
+        font-weight: 600;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #d9d4ca;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Páginas públicas · bloque 4</h1>
+      <p>
+        Capturas del build local. Catálogo comparable con A; fichas comparables con la base
+        fusionada.
+      </p>
+      <form>
+        <label
+          >Pantalla<select name="screen">
+            <option value="catalogo">Catálogo</option>
+            <option value="detalle-foto">Producto con foto</option>
+            <option value="detalle-presentaciones">Varias presentaciones</option>
+            <option value="categoria-vacia">Categoría vacía</option>
+            <option value="novedades">Novedades</option>
+            <option value="nosotros">Nosotros</option>
+            <option value="galeria">Galería</option>
+            <option value="ubicacion">Ubicación</option>
+            <option value="preguntas">Preguntas y guías</option>
+            <option value="contacto">Contacto y pedido</option>
+            <option value="no-encontrado">No encontrado</option>
+          </select></label
+        >
+        <label
+          >Ancho<select name="width">
+            <option>390</option>
+            <option>375</option>
+            <option>768</option>
+            <option>1024</option>
+            <option>1440</option>
+          </select></label
+        >
+        <label
+          >Referencia<select name="reference">
+            <option value="a">A aprobada</option>
+            <option value="base">Base fusionada</option>
+            <option value="none">Solo resultado</option>
+          </select></label
+        >
+        <button>Mostrar</button>
+      </form>
+      <p id="nota" role="status"></p>
+      <p>
+        <a href="LEEME.md">Alcance y reproducción</a> ·
+        <a href="resultado/manifest.json">Verificación de capturas</a> ·
+        <a href="resultado/catalogo-zoom-css-200.png">Catálogo con zoom CSS</a>
+      </p>
+    </header>
+    <main></main>
+    <script>
+      const q = new URLSearchParams(location.search);
+      const form = document.querySelector("form");
+      for (const name of ["screen", "width", "reference"]) {
+        const input = form.elements.namedItem(name);
+        if ([...input.options].some((o) => o.value === q.get(name))) input.value = q.get(name);
+      }
+      const screen = form.elements.screen.value;
+      const width = form.elements.width.value;
+      const reference = form.elements.reference.value;
+      function show(src, title) {
+        const fig = document.createElement("figure");
+        fig.style.width = Math.min(Number(width), 680) + "px";
+        const caption = document.createElement("figcaption");
+        caption.textContent = title;
+        const a = document.createElement("a");
+        a.href = src;
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = title;
+        a.append(img);
+        fig.append(caption, a);
+        document.querySelector("main").append(fig);
+      }
+      if (reference === "a" && screen === "catalogo" && ["390", "1440"].includes(width)) {
+        show(`../../comparacion-redisenio/pantallas/catalogo-${width}-a.png`, "A aprobada");
+      } else if (
+        reference === "base" &&
+        ["catalogo", "detalle-foto", "detalle-presentaciones"].includes(screen) &&
+        ["390", "1440"].includes(width)
+      ) {
+        show(`base/${screen}-${width}.png`, "Base fusionada · adf156c");
+      } else if (reference !== "none") {
+        document.querySelector("#nota").textContent =
+          "No existe una referencia exacta para esta combinación. Se muestra el resultado sin inventar una maqueta.";
+      }
+      show(`resultado/${screen}-${width}.png`, `Build implementado · ${width} px`);
+    </script>
+  </body>
+</html>

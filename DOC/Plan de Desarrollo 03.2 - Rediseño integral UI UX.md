@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) fusionado por Dan en PR #91 el mismo día, main `429a25d`. Dan aprobó la maqueta del dashboard con «perfecto, dale palante» el 08/10/2026. T4.1 + T5 implementados en `feat/rediseno-portada-dashboard`, desde ese main: dashboard y estructura pública/portada. Evidencia y límites en `DOC/Verificacion rediseño 03.2 - Bloque 3.md`, galería en `DOC/Maquetas/3.2/bloque3/index.html`. La entrega se detiene en PR 3 borrador para revisión de Dan. T6/T7 pendientes; no fusionar ni iniciar el bloque siguiente. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`.
+**Estado:** bloques1/2 fusionados por Dan en PR90/91. Dashboard y portada T4.1/T5 fusionados en PR92, main `adf156c`, con CI/Vercel en verde. Dan autoriza continuar el 09/10/2026. T6 implementada y verificada localmente en `feat/rediseno-paginas-publicas`, checkout aislado `PIMPOS_REDISENO_BLOQUE1`. Esta entrega se detiene en PR4 borrador para revisión; T7 pendiente.
 
 ## Restricciones globales
 
@@ -262,16 +262,16 @@ test("la madrugada conserva su texto sin la ilustración retirada", async ({ pag
 
 **Interfaces:** mismas props, búsqueda/categoría en URL, slugs, precios, unidades, presentaciones y mensajes de pedido. No editar funciones de consulta, saneamiento ni validaciones para el rediseño.
 
-- [ ] Completar la composición de detalle de producto con varias presentaciones, precios largos, sin foto y sin disponibilidad; seguir jerarquía y tarjetas de A, sin crear opciones de compra nuevas.
-- [ ] Aplicar los estilos semánticos a las páginas restantes. Ejemplo de contenedor adaptable para el contenido existente:
+- [x] Completar la composición de detalle de producto con varias presentaciones, precios largos, sin foto y sin disponibilidad; seguir jerarquía y tarjetas de A, sin crear opciones de compra nuevas. Disponibilidad: conservar condiciones existentes; no hay campo de stock público.
+- [x] Aplicar los estilos semánticos a las páginas restantes. Ejemplo de contenedor adaptable para el contenido existente:
 
 ```tsx
 className = "mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14";
 ```
 
-- [ ] Mantener mapa, contacto, guías, preguntas, testimonios y novedades condicionales. Dar el mismo tratamiento tipográfico a vacíos, error, carga y 404; preservar mensajes, enlaces de recuperación y límites de error.
-- [ ] Revisar que cabecera/pie/tapiz cubran la página entera sin uniones de estilos anteriores. Confirmar que imágenes mantienen proporciones, foco de recorte configurable y carga optimizada. Conservar títulos, descripciones, canónicas, sitemap y datos estructurados.
-- [ ] Ejecutar E2E `presentaciones`, `pedido`, `pizarra`, `presupuesto`, `secciones`, `testimonios`, `mapa`, `errores`, `seo`, `accesibilidad` (archivos `.spec.ts`). Mantener comprobaciones de precio, mensaje WhatsApp y query params.
+- [x] Mantener mapa, contacto, guías, preguntas, testimonios y novedades condicionales. Dar el mismo tratamiento tipográfico a vacíos, error, carga y 404; preservar mensajes, enlaces de recuperación y límites de error.
+- [x] Revisar que cabecera/pie/tapiz cubran la página entera sin uniones de estilos anteriores. Confirmar que imágenes mantienen proporciones, foco de recorte configurable y carga optimizada. Conservar títulos, descripciones, canónicas, sitemap y datos estructurados.
+- [x] Ejecutar E2E `presentaciones`, `pedido`, `pizarra`, `presupuesto`, `secciones`, `testimonios`, `mapa`, `errores`, `seo`, `accesibilidad` (archivos `.spec.ts`). Mantener comprobaciones de precio, mensaje WhatsApp y query params.
 - [ ] Comparar catálogo contra A y capturar detalle/estados a 390/1440; revisar tamaños intermedios y zoom. Commit de T6, revisión independiente y PR 4.
 
 ## T7 — Cierre y evidencia del sistema completo

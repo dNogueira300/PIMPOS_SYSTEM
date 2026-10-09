@@ -27,8 +27,10 @@ el 08/10/2026. Rama `feat/rediseno-portada-dashboard`, desde main `429a25d`.
 Dashboard y estructura pública/portada implementados: los mismos avisos y accesos, actividad
 reciente, logo configurable, composición sin velo, contraste móvil, madrugada sin horno y
 tapiz tenue aprobado. Evidencia y límites en `Verificacion rediseño 03.2 - Bloque 3.md`;
-comparación en `Maquetas/3.2/bloque3/index.html`. Detenerse en PR 3 borrador para revisión;
-T6/T7 siguen pendientes, sin fusionar ni pasar al siguiente bloque.
+comparación en `Maquetas/3.2/bloque3/index.html`. PR #92 fusionado por Dan (main
+`adf156c`), CI/Vercel en verde. Autorización de continuar el 09/10/2026: T6 implementada y verificada localmente
+en `feat/rediseno-paginas-publicas`, catálogo/fichas/páginas restantes. Evidencia en
+`Verificacion rediseño 03.2 - Bloque 4.md`; detenerse en PR 4 borrador. T7 pendiente.
 
 ---
 

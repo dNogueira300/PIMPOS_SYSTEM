@@ -1249,8 +1249,11 @@ Solo reorganiza avisos existentes, accesos por rol y los cinco cambios recientes
 gráficos, acciones, consultas ni funciones. T4.1 y T5 están implementados en esta rama:
 dashboard, logo público configurable, hero sin velo, contraste móvil, madrugada sin horno
 y tapiz tenue a6. Verificación y límites en `DOC/Verificacion rediseño 03.2 - Bloque 3.md`;
-galería comparable en `DOC/Maquetas/3.2/bloque3/index.html`. La entrega se detiene en PR 3
-borrador para revisión de Dan; no fusionar ni iniciar T6/T7, que siguen pendientes.
+galería comparable en `DOC/Maquetas/3.2/bloque3/index.html`. PR #92 fusionado por Dan,
+main `adf156c`, con CI y Vercel en verde. Dan autoriza continuar el 09/10/2026: T6
+implementada y verificada localmente en `feat/rediseno-paginas-publicas`, mismo checkout aislado. Catálogo, fichas
+y páginas públicas restantes; evidencia en `DOC/Verificacion rediseño 03.2 - Bloque 4.md`.
+Parar en PR 4 borrador para revisión de Dan; no fusionar ni iniciar T7.
 
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
 el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.
