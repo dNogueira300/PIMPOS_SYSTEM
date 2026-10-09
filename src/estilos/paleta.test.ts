@@ -16,7 +16,7 @@ import { AA, aCanales, contraste } from "@/lib/utilidades/contraste";
  *
  * Desde la fase 3.1 (plan 03.1, tarea 2) la paleta es la del prototipo de
  * Stitch con el terracota de la dirección A. Las parejas nuevas —verde de WhatsApp,
- * terracota de la barra de aviso, franja durazno, el velo del hero— se suman a
+ * terracota de la barra de aviso, franja durazno, hero sólido— se suman a
  * las de F1, que se conservan: el tema oscuro y los colores de estado siguen
  * existiendo aunque la portada no los enseñe.
  */
@@ -75,12 +75,6 @@ const c = {
   peligro300: primitivo("peligro-300"),
 };
 
-/**
- * El peor caso del hero de escritorio: un pixel negro debajo del velo crema,
- * a la opacidad minima que declara `--velo-hero` (0.85).
- */
-const VELO_SOBRE_NEGRO = mezclar(c.crema50, "#000000", 0.85);
-
 /** [frente, fondo, umbral, para que se usa] */
 type Par = [string, string, number, string];
 
@@ -105,8 +99,8 @@ const PARES_CLARO: Par[] = [
   [c.crema50, c.terracota800, AA.texto, "texto de la barra de aviso"],
   [c.tinta900, c.dorado300, AA.texto, "texto de la franja de confianza"],
   [mezclar(c.tinta900, c.dorado300, 0.8), c.dorado300, AA.texto, "detalle de la franja al 80 %"],
-  [c.accion800, VELO_SOBRE_NEGRO, AA.texto, "titular del hero sobre el velo, peor caso"],
-  [c.tinta600, VELO_SOBRE_NEGRO, AA.texto, "subtítulo del hero sobre el velo, peor caso"],
+  [c.crema0, c.accion800, AA.texto, "titular y subtítulo del hero sobre terracota sólido"],
+  [c.accion800, c.crema0, AA.texto, "acción del hero sobre blanco"],
   [
     c.crema50,
     mezclar(c.tinta900, "#ffffff", 0.8),
@@ -169,14 +163,6 @@ describe("reglas de uso del dorado", () => {
   it("y un botón marrón NO se distingue de un bloque primario", () => {
     // 1.94: por eso ningun boton secundario va sobre fondo azul (plan 03.1).
     expect(contraste(c.dorado800, c.accion800)).toBeLessThan(AA.interfaz);
-  });
-});
-
-describe("el velo del hero", () => {
-  it("la opacidad declarada en el CSS es la que da por buena esta prueba", () => {
-    // Si alguien baja --velo-hero, el peor caso de arriba deja de ser cierto sin
-    // que la prueba lo note: por eso se ata el valor aqui.
-    expect(CSS).toMatch(/--velo-hero:\s*0\.85;/);
   });
 });
 

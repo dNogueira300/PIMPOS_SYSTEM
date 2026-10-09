@@ -18,10 +18,8 @@ test("la portada carga en espanol y con su encabezado", async ({ page }) => {
   await expect(titulo).toHaveCount(1);
   await expect(titulo).toContainText("Panadería Pimpo's");
 
-  // La marca en la cabecera, sea el logo (escritorio) o el isotipo con el
-  // nombre escrito (celular, donde el logo completo no se lee). El enlace es lo
-  // que hay en los dos casos; que cada uno enseñe lo suyo lo cubre
-  // `cabecera.spec.ts`.
+  // El logo aprobado y el nombre escrito conservan el enlace a inicio.
+  // La imagen cargada en ambos tamaños se comprueba en `cabecera.spec.ts`.
   await expect(
     page.getByRole("banner").getByRole("link", { name: "Panadería Pimpo's, ir al inicio" }),
   ).toBeVisible();
@@ -42,7 +40,7 @@ test("la portada muestra los tres datos verificables", async ({ page }) => {
   }
 });
 
-test("el hero de escritorio muestra el titular terracota de la dirección A", async ({
+test("el hero de escritorio conserva contraste sobre el panel terracota de la dirección A", async ({
   page,
   isMobile,
 }) => {
@@ -51,9 +49,12 @@ test("el hero de escritorio muestra el titular terracota de la dirección A", as
 
   const titular = page.locator('[aria-roledescription="diapositiva"][aria-label="1 de 3"] h2');
   await expect(titular).toBeVisible();
-  // El bloque 1 aplica la paleta A; la composición del hero cambia en T5.
-  // El contraste del peor caso lo prueba paleta.test.ts.
-  await expect(titular).toHaveCSS("color", "rgb(149, 62, 44)");
+  // La composición aprobada en T5 coloca el titular blanco sobre terracota sólido.
+  // La relación de contraste AA la prueba paleta.test.ts.
+  await expect(titular).toHaveCSS("color", "rgb(255, 255, 255)");
+  await expect(
+    titular.locator("xpath=ancestor::*[contains(@class, 'hero-disposicion')]"),
+  ).toHaveCSS("background-color", "rgb(149, 62, 44)");
 });
 
 test("el bloque de nosotros dice el año de apertura, no una cuenta de años inventada", async ({
@@ -232,62 +233,46 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   expect(cargadas.join(" ")).toMatch(/jakarta/i);
 });
 
-test("el texto del hero cae entero dentro de la zona opaca del velo y nada lo tapa", async ({
+test("el hero separa texto y foto sin velo ni controles sobre el texto", async ({
   page,
   isMobile,
 }) => {
-  test.skip(isMobile, "El hero con carrusel es de escritorio; los anchos se fijan aquí.");
-
-  // El contraste del titular sobre la foto solo está garantizado donde el velo
-  // está a --velo-hero (0.85): lo prueba paleta.test.ts en el peor caso. Esto
-  // prueba la otra mitad, que el texto no se salga de esa zona. Con un degradado
-  // en porcentajes se salía: el texto va en un contenedor centrado y termina en
-  // el 59 % a 1024 px y en el 78 % a 768.
-  const fuera: string[] = [];
+  test.skip(isMobile, "El carrusel es de escritorio.");
   for (const ancho of [768, 1024, 1280, 1920]) {
     await page.setViewportSize({ width: ancho, height: 900 });
     await page.goto("/");
-
-    const medida = await page.evaluate(() => {
-      const texto = document.querySelector("[data-texto-hero]");
-      const velo = document.querySelector(".velo-hero");
-      if (!texto || !velo) return null;
-
-      // El límite de la zona opaca se MIDE del CSS real, no se recalcula aquí
-      // con la fórmula copiada: la primera versión de esta prueba lo hacía, y
-      // pasaba igual con un velo roto, porque comparaba el texto contra la
-      // fórmula y no contra la hoja de estilos. Una sonda con
-      // `width: var(--velo-hasta)` resuelve el valor contra la caja del velo,
-      // que es la misma base contra la que resuelve el degradado.
-      const sonda = document.createElement("div");
-      sonda.style.cssText = "position:absolute;left:0;top:0;height:1px;width:var(--velo-hasta)";
-      velo.appendChild(sonda);
-      const zonaOpacaHasta = sonda.getBoundingClientRect().right;
-      sonda.remove();
-
-      const cajasTexto = [...texto.children].map((hijo) => hijo.getBoundingClientRect());
-      const bordeTexto = Math.max(...cajasTexto.map((caja) => caja.right));
-
-      // Y que ningún control del carrusel se monte encima del texto: a 1024 px
-      // la flecha izquierda tapaba el comienzo del subtítulo.
+    const slide = page.locator('[aria-roledescription="diapositiva"][aria-hidden="false"]');
+    await expect(slide.locator("[data-texto-hero]")).toBeVisible();
+    await expect(page.locator(".velo-hero")).toHaveCount(0);
+    const medida = await slide.evaluate((el) => {
+      const panel = el.querySelector("[data-panel-hero]")!.getBoundingClientRect();
+      const textos = [...el.querySelector("[data-texto-hero]")!.children].map((h) =>
+        h.getBoundingClientRect(),
+      );
+      const imagen = el.querySelector("img")?.getBoundingClientRect();
       const controles = [...document.querySelectorAll('[aria-roledescription="carrusel"] button')]
-        .map((boton) => boton.getBoundingClientRect())
-        .filter((caja) => caja.width > 0);
-      const tapado = cajasTexto.some((t) =>
-        controles.some(
-          (c) => c.left < t.right && c.right > t.left && c.top < t.bottom && c.bottom > t.top,
+        .map((b) => b.getBoundingClientRect())
+        .filter((b) => b.width > 0);
+      const solapan = (a: DOMRect, b: DOMRect) =>
+        a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+      return {
+        contenido: textos.every(
+          (t) =>
+            t.left >= panel.left &&
+            t.right <= panel.right &&
+            t.top >= panel.top &&
+            t.bottom <= panel.bottom,
         ),
-      );
-      return { zonaOpacaHasta, bordeTexto, tapado };
+        foto: !imagen || textos.every((t) => !solapan(t, imagen)),
+        tapado: textos.some((t) => controles.some((c) => solapan(t, c))),
+        overflow: document.documentElement.scrollWidth > innerWidth,
+      };
     });
-
-    expect(medida, `no hay hero con velo a ${ancho} px`).not.toBeNull();
-    if (medida!.tapado) fuera.push(`${ancho} px: un control del carrusel tapa el texto`);
-    if (medida!.bordeTexto > medida!.zonaOpacaHasta) {
-      fuera.push(
-        `${ancho} px: el texto llega a ${Math.round(medida!.bordeTexto)} y la zona opaca a ${Math.round(medida!.zonaOpacaHasta)}`,
-      );
-    }
+    expect(medida, String(ancho)).toEqual({
+      contenido: true,
+      foto: true,
+      tapado: false,
+      overflow: false,
+    });
   }
-  expect(fuera, `Texto fuera de la zona opaca del velo:\n${fuera.join("\n")}`).toEqual([]);
 });

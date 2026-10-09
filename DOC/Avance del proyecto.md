@@ -13,10 +13,22 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 verificación local aprobada y PR #90 fusionado por Dan el 08/10. Login de vista previa Vercel revisado;
 pendiente evidencia de teclado físico y zoom nativo. Se conserva toda funcionalidad. El segundo
 bloque (módulos completos del panel, T3/T4) está implementado, verificado localmente y revisado
-en `feat/rediseno-modulos-panel`, preparado para PR 2 en borrador y revisión de Dan. Ver
+en `feat/rediseno-modulos-panel`, fusionado por Dan en PR #91 el 08/10/2026 (main `429a25d`). Ver
 `Verificacion rediseño 03.2 - Bloque 2.md`: 180 capturas y revisión sin defectos bloqueantes;
 M1 de corte de unidades a 768 px pasa al cierre. El sitio público y cierre de 03.2 quedan pendientes. El estado de auditoría
 y F7 está actualizado en `AGENTS.md`.
+
+**Ajuste solicitado después de PR #91:** Dan acepta lo implementado y pide un inicio administrativo
+tipo dashboard en la próxima tarea, conservando las funciones. Se añade T4.1 al plan 03.2: el
+próximo PR reúne dashboard y estructura pública/portada (T5); catálogo y páginas restantes (T6)
+van en PR 4 y el cierre (T7) en PR 5. Se mantiene el límite de dos tareas por PR. Propuesta visual
+comparable en `Maquetas/3.2/dashboard-inicio/`, aprobada por Dan con «perfecto, dale palante»
+el 08/10/2026. Rama `feat/rediseno-portada-dashboard`, desde main `429a25d`.
+Dashboard y estructura pública/portada implementados: los mismos avisos y accesos, actividad
+reciente, logo configurable, composición sin velo, contraste móvil, madrugada sin horno y
+tapiz tenue aprobado. Evidencia y límites en `Verificacion rediseño 03.2 - Bloque 3.md`;
+comparación en `Maquetas/3.2/bloque3/index.html`. Detenerse en PR 3 borrador para revisión;
+T6/T7 siguen pendientes, sin fusionar ni pasar al siguiente bloque.
 
 ---
 

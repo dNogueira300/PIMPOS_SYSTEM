@@ -1,0 +1,133 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:18568) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+▲ Next.js 16.3.4 (Turbopack)
+✓ Running next.config.ts took 111ms
+- Cache Components enabled
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 66s
+  Running TypeScript ...
+  Finished TypeScript in 16.8s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/113) ...
+  Generating static pages using 7 workers (28/113) 
+  Generating static pages using 7 workers (56/113) 
+  Generating static pages using 7 workers (84/113) 
+✓ Generating static pages using 7 workers (113/113) in 6.0s
+  Finalizing page optimization ...
+
+Route (app)                                  Revalidate  Expire
+┌ ○ /                                                1h      1d
+├ ○ /_not-found                                      1h      1d
+├ ◐ /admin                                           1h      1d
+├ ◐ /admin/auditoria                                 1h      1d
+├   /admin/auditoria/[id]                            1h      1d
+│ └ ◐ /admin/auditoria/[id]                          1h      1d
+├ ◐ /admin/auditoria/borrados                        1h      1d
+├ ◐ /admin/auditoria/descargas                       1h      1d
+├ ◐ /admin/auditoria/ingresos                        1h      1d
+├ ◐ /admin/clientes                                  1h      1d
+├   /admin/clientes/[id]                             1h      1d
+│ └ ◐ /admin/clientes/[id]                           1h      1d
+├   /admin/clientes/[id]/corregir                    1h      1d
+│ └ ◐ /admin/clientes/[id]/corregir                  1h      1d
+├   /admin/clientes/[id]/editar                      1h      1d
+│ └ ◐ /admin/clientes/[id]/editar                    1h      1d
+├ ƒ /admin/clientes/excel
+├ ◐ /admin/clientes/nuevo                            1h      1d
+├ ƒ /admin/clientes/pdf
+├ ◐ /admin/clientes/revisar                          1h      1d
+├ ◐ /admin/clientes/zonas                            1h      1d
+├   /admin/clientes/zonas/[id]                       1h      1d
+│ └ ◐ /admin/clientes/zonas/[id]                     1h      1d
+├ ◐ /admin/clientes/zonas/nueva                      1h      1d
+├ ◐ /admin/configuracion                             1h      1d
+├ ◐ /admin/contenido                                 1h      1d
+├ ◐ /admin/contenido/categorias                      1h      1d
+├   /admin/contenido/categorias/[id]                 1h      1d
+│ └ ◐ /admin/contenido/categorias/[id]               1h      1d
+├ ◐ /admin/contenido/categorias/nueva                1h      1d
+├ ◐ /admin/contenido/galeria                         1h      1d
+├   /admin/contenido/galeria/[id]                    1h      1d
+│ └ ◐ /admin/contenido/galeria/[id]                  1h      1d
+├ ◐ /admin/contenido/galeria/nueva                   1h      1d
+├ ◐ /admin/contenido/guias                           1h      1d
+├   /admin/contenido/guias/[id]                      1h      1d
+│ └ ◐ /admin/contenido/guias/[id]                    1h      1d
+├ ◐ /admin/contenido/guias/nueva                     1h      1d
+├ ◐ /admin/contenido/novedades                       1h      1d
+├   /admin/contenido/novedades/[id]                  1h      1d
+│ └ ◐ /admin/contenido/novedades/[id]                1h      1d
+├ ◐ /admin/contenido/novedades/nueva                 1h      1d
+├ ◐ /admin/contenido/portada                         1h      1d
+├   /admin/contenido/portada/[id]                    1h      1d
+│ └ ◐ /admin/contenido/portada/[id]                  1h      1d
+├ ◐ /admin/contenido/portada/nueva                   1h      1d
+├ ◐ /admin/contenido/preguntas                       1h      1d
+├   /admin/contenido/preguntas/[id]                  1h      1d
+│ └ ◐ /admin/contenido/preguntas/[id]                1h      1d
+├ ◐ /admin/contenido/preguntas/nueva                 1h      1d
+├ ◐ /admin/contenido/productos                       1h      1d
+├   /admin/contenido/productos/[id]                  1h      1d
+│ └ ◐ /admin/contenido/productos/[id]                1h      1d
+├ ◐ /admin/contenido/productos/nuevo                 1h      1d
+├ ◐ /admin/contenido/testimonios                     1h      1d
+├   /admin/contenido/testimonios/[id]                1h      1d
+│ └ ◐ /admin/contenido/testimonios/[id]              1h      1d
+├ ◐ /admin/contenido/testimonios/nueva               1h      1d
+├ ◐ /admin/insumos                                   1h      1d
+├   /admin/insumos/[id]                              1h      1d
+│ └ ◐ /admin/insumos/[id]                            1h      1d
+├   /admin/insumos/[id]/editar                       1h      1d
+│ └ ◐ /admin/insumos/[id]/editar                     1h      1d
+├ ◐ /admin/insumos/bajas                             1h      1d
+├ ◐ /admin/insumos/bajas/nueva                       1h      1d
+├ ◐ /admin/insumos/consumo                           1h      1d
+├ ◐ /admin/insumos/conteo                            1h      1d
+├ ◐ /admin/insumos/ingreso                           1h      1d
+├ ◐ /admin/insumos/nuevo                             1h      1d
+├ ◐ /admin/insumos/proveedores                       1h      1d
+├   /admin/insumos/proveedores/[id]                  1h      1d
+│ └ ◐ /admin/insumos/proveedores/[id]                1h      1d
+├ ◐ /admin/insumos/proveedores/nuevo                 1h      1d
+├ ◐ /admin/insumos/reportes                          1h      1d
+├   /admin/insumos/reportes/[reporte]                1h      1d
+│ └ ◐ /admin/insumos/reportes/[reporte]              1h      1d
+├ ƒ /admin/insumos/reportes/[reporte]/excel
+├ ƒ /admin/insumos/reportes/[reporte]/pdf
+├ ◐ /admin/usuarios                                  1h      1d
+├   /admin/usuarios/[id]                             1h      1d
+│ └ ◐ /admin/usuarios/[id]                           1h      1d
+├ ◐ /admin/usuarios/nuevo                            1h      1d
+├ ƒ /api/avisos/diario
+├ ○ /cambiar-clave                                   1h      1d
+├ ○ /contacto                                        1h      1d
+├ ○ /galeria                                         1h      1d
+├ ◐ /ingresar                                        1h      1d
+├ ○ /nosotros                                        1h      1d
+├ ○ /novedades                                       1h      1d
+├   /novedades/[slug]                                1h      1d
+│ ├ ◐ /novedades/[slug]                              1h      1d
+│ └ ○ /novedades/sin-novedades                       1h      1d
+├ ○ /opengraph-image                                 1h      1d
+├ ○ /preguntas-frecuentes                            1h      1d
+├ ◐ /productos                                       1h      1d
+├   /productos/[slug]                                1h      1d
+│ ├ ◐ /productos/[slug]                              1h      1d
+│ ├ ○ /productos/frances-chico                       1h      1d
+│ ├ ○ /productos/leche                               1h      1d
+│ └ ◐ [+32 more paths]
+├ ○ /robots.txt
+├ ○ /sitemap.xml                                     1h      1d
+└ ○ /ubicacion                                       1h      1d
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)             prerendered as static content
+◐  (Partial Prerender)  prerendered as static HTML with dynamic server-streamed content
+ƒ  (Dynamic)            server-rendered on demand
+

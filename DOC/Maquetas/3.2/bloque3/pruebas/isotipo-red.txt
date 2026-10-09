@@ -1,0 +1,40 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:27724) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:26156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\panel-configuracion.spec.ts:201:5 › guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar (25.5s)
+
+
+  1) [movil] › e2e\panel-configuracion.spec.ts:201:5 › guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('banner').locator('img[src="http://127.0.0.1:54321/storage/v1/object/public/marca/isotipo/0fc99104-521d-427d-898e-401a4270f5ac.webp"]')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('banner').locator('img[src="http://127.0.0.1:54321/storage/v1/object/public/marca/isotipo/0fc99104-521d-427d-898e-401a4270f5ac.webp"]') with timeout 20000ms
+      - waiting for getByRole('banner').locator('img[src="http://127.0.0.1:54321/storage/v1/object/public/marca/isotipo/0fc99104-521d-427d-898e-401a4270f5ac.webp"]')
+
+
+      263 |     await expect(cabecera.locator("img").first()).toHaveAttribute("src", src);
+      264 |     const isotipoPublicado = cabecera.locator(`img[src="${srcIsotipo}"]`);
+    > 265 |     await expect(isotipoPublicado).toBeVisible();
+          |                                    ^
+      266 |     await expect
+      267 |       .poll(() => isotipoPublicado.evaluate((img: HTMLImageElement) => img.naturalWidth))
+      268 |       .toBeGreaterThan(0);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-configuracion.spec.ts:265:36
+
+    Error Context: test-results\panel-configuracion-guarda-30c09-configurado-sin-redesplegar-movil\error-context.md
+
+  1 failed
+    [movil] › e2e\panel-configuracion.spec.ts:201:5 › guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar 

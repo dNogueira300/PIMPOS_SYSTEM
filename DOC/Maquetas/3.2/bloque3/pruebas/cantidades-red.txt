@@ -1,0 +1,78 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:27704) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:24488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel (3.3s)
+  ok  2 [movil] › e2e\carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces (2.5s)
+  ok  3 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones (2.5s)
+  ok  4 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones (1.5s)
+  ok  5 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones (1.3s)
+  x   6 [movil] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil (1.4s)
+(node:29284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  7 [escritorio] › e2e\carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel (1.0s)
+  ok  8 [escritorio] › e2e\carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces (3.5s)
+  ok  9 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones (2.0s)
+  ok 10 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones (2.1s)
+  ok 11 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones (1.4s)
+  x  12 [escritorio] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil (2.0s)
+
+
+  1) [movil] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+        "cabe": true,
+    -   "separados": true,
+    +   "separados": false,
+      }
+
+      64 |       };
+      65 |     });
+    > 66 |     expect(geometria).toEqual({ separados: true, cabe: true });
+         |                       ^
+      67 |   } finally {
+      68 |     await borrarUsuario(usuario.id);
+      69 |   }
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-inicio.spec.ts:66:23
+
+    Error Context: test-results\panel-inicio-cantidades-am-c3f86-al-texto-del-aviso-en-móvil-movil\error-context.md
+
+  2) [escritorio] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+        "cabe": true,
+    -   "separados": true,
+    +   "separados": false,
+      }
+
+      64 |       };
+      65 |     });
+    > 66 |     expect(geometria).toEqual({ separados: true, cabe: true });
+         |                       ^
+      67 |   } finally {
+      68 |     await borrarUsuario(usuario.id);
+      69 |   }
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-inicio.spec.ts:66:23
+
+    Error Context: test-results\panel-inicio-cantidades-am-c3f86-al-texto-del-aviso-en-móvil-escritorio\error-context.md
+
+  2 failed
+    [movil] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil 
+    [escritorio] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil 
+  10 passed (30.5s)

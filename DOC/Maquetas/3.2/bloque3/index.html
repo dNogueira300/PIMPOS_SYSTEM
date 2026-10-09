@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pimpo’s — dashboard y portada implementados</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f8f6f0;
+        color: #29261f;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+      }
+      header {
+        padding: 24px;
+        border-bottom: 1px solid #d8d2c7;
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 16px;
+      }
+      label {
+        display: grid;
+        gap: 4px;
+      }
+      select,
+      button {
+        min-height: 44px;
+        padding: 8px 12px;
+        background: white;
+        border: 1px solid #95664b;
+        border-radius: 6px;
+        color: inherit;
+        font: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid #953e2c;
+        outline-offset: 3px;
+      }
+      main {
+        padding: 24px;
+      }
+      .comparison {
+        display: flex;
+        gap: 24px;
+        align-items: start;
+        overflow: auto;
+      }
+      figure {
+        margin: 0;
+        flex: 0 0 auto;
+        max-width: 100%;
+      }
+      figcaption {
+        padding: 0 0 12px;
+        font-weight: 600;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #d8d2c7;
+      }
+      a {
+        color: #953e2c;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Dashboard y portada · bloque 3</h1>
+      <p>
+        Capturas del build local frente a la maqueta aprobada. Los datos de prueba pueden variar.
+      </p>
+      <form id="controls">
+        <label
+          >Pantalla<select name="screen">
+            <option value="inicio">Inicio administrativo</option>
+            <option value="publico">Portada pública</option>
+          </select></label
+        >
+        <label
+          >Ancho<select name="width">
+            <option>390</option>
+            <option>375</option>
+            <option>768</option>
+            <option>1024</option>
+            <option>1440</option>
+          </select></label
+        >
+        <label
+          >Rol<select name="role">
+            <option value="administrador">Administrador</option>
+            <option value="ingeniero">Ingeniero</option>
+            <option value="repartidor">Repartidor</option>
+          </select></label
+        >
+        <label
+          >Presentación<select name="compare">
+            <option value="1">Maqueta y resultado</option>
+            <option value="0">Solo resultado</option>
+          </select></label
+        >
+        <button type="submit">Mostrar</button>
+      </form>
+      <p id="detail" role="status"></p>
+      <p>
+        <a href="LEEME.md">Alcance y reproducción</a> ·
+        <a href="manifest.json">Manifest de verificación</a> ·
+        <a href="madrugada-390.png">Madrugada móvil</a> ·
+        <a href="inicio-zoom-css-200.png">Dashboard al 200 % CSS</a>
+      </p>
+    </header>
+    <main><div class="comparison" id="images"></div></main>
+    <script>
+      const form = document.getElementById("controls");
+      const params = new URLSearchParams(location.search);
+      for (const [key, value] of params) if (form.elements[key]) form.elements[key].value = value;
+      function figure(src, label, width) {
+        const f = document.createElement("figure");
+        f.style.width = width + "px";
+        const caption = document.createElement("figcaption");
+        caption.textContent = label;
+        const a = document.createElement("a");
+        a.href = src;
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = label;
+        a.append(img);
+        f.append(caption, a);
+        return f;
+      }
+      const screen = form.elements.screen.value;
+      const role = form.elements.role.value;
+      const requested = Number(form.elements.width.value);
+      const width =
+        screen === "inicio" && role !== "administrador" && ![390, 1440].includes(requested)
+          ? 390
+          : requested;
+      const actual = screen === "publico" ? `publico-${width}.png` : `inicio-${role}-${width}.png`;
+      let reference;
+      if (screen === "inicio" && role === "administrador")
+        reference = `../dashboard-inicio/propuesta-${width}.png`;
+      if (screen === "publico" && [390, 1440].includes(width))
+        reference = `../../comparacion-redisenio/pantallas/publico-${width}-a.png`;
+      const images = document.getElementById("images");
+      if (reference && form.elements.compare.value === "1")
+        images.append(figure(reference, "Maqueta aprobada", width));
+      images.append(figure(actual, "Build implementado · " + width + " px", width));
+      document.getElementById("detail").textContent = reference
+        ? "Misma dirección visual; la maqueta no es una copia de los datos locales actuales."
+        : "Este rol o ancho no tiene una maqueta propia. Se muestra la captura implementada.";
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        location.search = new URLSearchParams(new FormData(form)).toString();
+      });
+    </script>
+  </body>
+</html>

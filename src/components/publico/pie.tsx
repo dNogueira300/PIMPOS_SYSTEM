@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { LogoMarca } from "@/components/marca/logo-marca";
+import { urlDeImagen } from "@/lib/supabase/publico";
 import { ArrowRight, ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 
 import { anioActual, direccionCompleta, type Configuracion } from "@/lib/datos/configuracion";
@@ -6,9 +8,9 @@ import { anioActual, direccionCompleta, type Configuracion } from "@/lib/datos/c
 import { Horario } from "./horario";
 import { SECCIONES } from "./navegacion";
 
-/** Titular de columna: serif azul, como los del prototipo. */
+/** Titular de columna: Jakarta y terracota. */
 const TITULO_COLUMNA = "font-heading text-primary mb-4 text-lg font-semibold";
-/** Enlace del pie: gris cálido que se vuelve azul, siempre con 44 px de alto. */
+/** Enlace del pie: gris cálido que se vuelve terracota, siempre con 44 px de alto. */
 const ENLACE = "text-muted-foreground hover:text-primary min-h-tactil flex items-center";
 
 /**
@@ -30,10 +32,16 @@ export async function Pie({ config }: { config: Configuracion }) {
   // siempre (critica del 12/09). El hueco estuvo primero en `<main>`, que no es
   // lo ultimo que se ve, y la prueba lo cazo. Desde `sm` no hay flotante.
   return (
-    <footer className="bg-muted text-foreground border-border mt-24 border-t pb-20 sm:pb-0">
+    <footer className="bg-muted text-foreground border-border mt-0 border-t pb-20 sm:pb-0">
       <div className="mx-auto grid max-w-(--container-contenido) gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         {/* 1. La marca */}
         <div className="flex flex-col gap-3">
+          <LogoMarca
+            src={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
+            alt={config.logo_alt}
+            sizes="128px"
+            className="mb-2 h-auto w-32 object-contain"
+          />
           <p className="font-heading text-primary text-2xl font-semibold">
             {config.nombre_comercial}
           </p>

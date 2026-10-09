@@ -257,51 +257,15 @@ export default async function Inicio() {
         )}
       </section>
 
-      {/* 3 bis. La madrugada, ilustrada.
-          
-          Es el unico bloque de la portada que no da un dato nuevo: lo que hace
-          es ponerle cara a uno que ya estaba enterrado en la tabla de horarios
-          del final. Que la panaderia abra a las 4 de la manana es lo mas
-          concreto que puede decir sobre el pan fresco, y en texto plano al pie
-          de la pagina no lo lee nadie.
-          
-          La ilustracion es un linograbado del horno con el sol saliendo y
-          palmeras al fondo — el dibujo, no una foto, porque aqui no se esta
-          ensenando el local sino contando una hora del dia, y porque las fotos
-          reales del local ya mandan en la galeria y en la historia (principio 5
-          de PRODUCT.md). Las palmeras son las de Iquitos, no un adorno.
-          
-          Va DESPUES de la pizarra de precios y no antes: en el celular, cada
-          bloque que se mete por encima retrasa lo que el vecino vino a ver
-          —que hay y a cuanto—, y esto es calidez, no informacion de compra.
-          
-          La hora sale del horario cargado (`primeraAperturaEscrita`), no
-          escrita aqui: si el negocio cambia el turno desde el panel, este
-          titular no puede quedarse contradiciendo a la tabla de horarios. */}
+      {/* La hora dinámica se conserva; se retira la ilustración aprobada por Dan. */}
       <section
         aria-labelledby="titulo-madrugada"
-        className="mx-auto mt-20 grid max-w-(--container-contenido) items-center gap-8 px-4 sm:px-6 lg:grid-cols-[26rem_1fr] lg:gap-16"
+        className="mx-auto mt-16 max-w-(--container-contenido) px-4 sm:px-6"
       >
-        {/* El dibujo va acotado a 26 rem tambien en escritorio. Sin tope ocupaba
-            578 px de alto y el texto, que son 180, quedaba flotando con 192 px
-            de vacio arriba y otros tantos abajo: la seccion se leia sin
-            terminar. Acotado, el titular puede crecer y los dos pesan igual. */}
-        <div className="acercarse relative mx-auto aspect-[900/879] w-full max-w-md lg:max-w-none">
-          <Image
-            src="/marca/horno-amanecer.webp"
-            // Decorativa: lo que dice ya esta escrito al lado, y repetirlo
-            // obligaria a un lector de pantalla a oirlo dos veces.
-            alt=""
-            fill
-            sizes="(max-width: 1024px) min(100vw, 28rem), 26rem"
-            className="object-contain"
-          />
-        </div>
-
-        <div className="aparece-lateral">
+        <div className="max-w-3xl border-y py-8">
           <h2
             id="titulo-madrugada"
-            className="font-heading text-primary text-3xl font-semibold text-balance sm:text-4xl lg:text-5xl"
+            className="font-heading text-primary text-3xl font-semibold text-balance sm:text-4xl"
           >
             {abreALas
               ? `Aquí el día empieza a las ${abreALas}`
@@ -324,7 +288,7 @@ export default async function Inicio() {
         aria-labelledby="titulo-delivery"
         className="mx-auto mt-20 max-w-(--container-contenido) px-4 sm:px-6"
       >
-        <div className="aparece bg-primary text-primary-foreground shadow-elevada rounded-2xl px-6 py-12 sm:px-12">
+        <div className="aparece bg-primary text-primary-foreground rounded-md px-6 py-12 sm:px-12">
           <div className="max-w-2xl">
             <h2
               id="titulo-delivery"

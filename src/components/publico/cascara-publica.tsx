@@ -55,6 +55,7 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
 
       <Cabecera
         logoAlt={config.logo_alt}
+        logoSrc={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
         isotipo={urlDeImagen("marca", config.isotipo_url) ?? "/marca/isotipo.svg"}
         nombre={config.nombre_comercial}
         horario={horario}
@@ -63,7 +64,9 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
 
       {/* El hueco que reserva el boton flotante va en el pie, que es lo ultimo
           que se ve: aqui no servia de nada. */}
-      <main id="contenido">{children}</main>
+      <main id="contenido" className="tapiz-publico">
+        {children}
+      </main>
 
       <BotonWhatsApp enlace={pedido} />
       <Pie config={config} />

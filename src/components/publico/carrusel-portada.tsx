@@ -112,35 +112,31 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                   Diferida, el navegador no pide lo que no se ve; en escritorio,
                   que es donde este carrusel existe, `fetchPriority` le da la
                   prioridad de LCP que antes daba el preload. */}
-              <div className="relative aspect-[21/9] w-full">
-                {slide.imagen ? (
-                  <Image
-                    src={slide.imagen}
-                    alt={slide.alt}
-                    fill
-                    fetchPriority={indice === 0 ? "high" : undefined}
-                    sizes="100vw"
-                    className="object-cover"
-                    style={{ objectPosition: `50% ${slide.enfoque}%` }}
-                  />
-                ) : null}
-
-                {/* Velo crema desde la izquierda con el titular en azul (prototipo
-                    de Stitch, plan 03.1). Sustituye al degradado oscuro de F3.
-                    Por qué su zona opaca no es un porcentaje fijo, en la clase
-                    `.velo-hero` de globals.css. */}
-                <div className="velo-hero absolute inset-0" />
-
-                <div className="absolute inset-0 flex items-center">
-                  {/* `data-texto-hero`: la prueba mide que este bloque caiga
-                      entero dentro de la zona opaca del velo. */}
-                  <div className="mx-auto w-full max-w-(--container-contenido) px-4 pb-10 sm:px-6">
-                    <div data-texto-hero className="max-w-xl">
-                      <h2 className="font-heading text-primary text-4xl leading-[1.1] font-bold tracking-[-0.02em] text-balance lg:text-5xl">
+              <div className="hero-disposicion w-full">
+                <div className="relative col-start-2 row-start-1 min-w-0">
+                  {slide.imagen ? (
+                    <Image
+                      src={slide.imagen}
+                      alt={slide.alt}
+                      fill
+                      fetchPriority={indice === 0 ? "high" : undefined}
+                      sizes="100vw"
+                      className="object-cover"
+                      style={{ objectPosition: `50% ${slide.enfoque}%` }}
+                    />
+                  ) : null}
+                </div>
+                <div
+                  data-panel-hero
+                  className="hero-panel col-start-1 row-start-1 flex min-w-0 items-center"
+                >
+                  <div className="w-full min-w-0">
+                    <div data-texto-hero className="min-w-0 wrap-anywhere">
+                      <h2 className="font-heading text-primary-foreground text-[clamp(30px,3.4vw,52px)] leading-[1.07] font-bold tracking-[-0.02em] text-balance">
                         {slide.titulo}
                       </h2>
                       {slide.subtitulo ? (
-                        <p className="text-muted-foreground mt-4 text-base text-pretty sm:text-lg">
+                        <p className="text-primary-foreground mt-4 text-base text-pretty sm:text-lg">
                           {slide.subtitulo}
                         </p>
                       ) : null}
@@ -150,7 +146,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                           target="_blank"
                           rel="noopener noreferrer"
                           tabIndex={indice === actual ? undefined : -1}
-                          className="boton-cta mt-6"
+                          className="boton-cta portada-boton-claro mt-6"
                         >
                           {slide.textoBoton ?? "Ver más"}
                         </a>
@@ -158,7 +154,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
                         <Link
                           href={slide.enlace}
                           tabIndex={indice === actual ? undefined : -1}
-                          className="boton-cta mt-6"
+                          className="boton-cta portada-boton-claro mt-6"
                         >
                           {slide.textoBoton ?? "Ver más"}
                         </Link>
@@ -174,11 +170,7 @@ export function CarruselPortada({ slides }: { slides: Slide[] }) {
 
       {slides.length > 1 ? (
         <>
-          {/* Las flechas van abajo a la derecha, como en el prototipo, y no
-              centradas en los bordes: con el texto a la izquierda sobre el
-              velo, a 768 y 1024 px la flecha izquierda tapaba el comienzo del
-              titular y el subtítulo (a esos anchos el contenedor casi no tiene
-              margen). Lo vigila e2e/portada.spec.ts. */}
+          {/* Controles al pie; el panel reserva espacio para que no tapen texto. */}
           <button
             type="button"
             onClick={() => embla?.scrollPrev()}

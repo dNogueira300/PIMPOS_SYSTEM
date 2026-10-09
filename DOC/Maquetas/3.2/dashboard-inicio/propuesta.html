@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pimpo’s — propuesta de inicio administrativo</title>
+    <link rel="stylesheet" href="propuesta.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <img
+        class="logo"
+        src="../../comparacion-redisenio/assets/logo-256.webp"
+        alt="Panadería Pimpo’s"
+      />
+      <p class="brand">Pimpo’s · Panel</p>
+      <nav aria-label="Secciones del panel">
+        <a class="active" aria-current="page" href="/admin"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-house"
+            aria-hidden="true"
+          >
+            <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+            <path
+              d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+            ></path></svg
+          >Inicio</a
+        ><a href="/admin/contenido"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-layout-grid"
+            aria-hidden="true"
+          >
+            <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+            <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+            <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg
+          >Contenido</a
+        ><a href="/admin/insumos"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-package"
+            aria-hidden="true"
+          >
+            <path
+              d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+            ></path>
+            <path d="M12 22V12"></path>
+            <polyline points="3.29 7 12 12 20.71 7"></polyline>
+            <path d="m7.5 4.27 9 5.15"></path></svg
+          >Insumos</a
+        ><a href="/admin/clientes"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-contact"
+            aria-hidden="true"
+          >
+            <path d="M16 2v2"></path>
+            <path d="M7 21v-2a2 2 0 012-2h6a2 2 0 012 2v2"></path>
+            <path d="M8 2v2"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect></svg
+          >Clientes</a
+        ><a href="/admin/usuarios"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-users"
+            aria-hidden="true"
+          >
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <circle cx="9" cy="7" r="4"></circle></svg
+          >Usuarios</a
+        ><a href="/admin/auditoria"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-rotate-ccw-clock"
+            aria-hidden="true"
+          >
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+            <path d="M3 3v5h5"></path>
+            <path d="M12 7v5l4 2"></path></svg
+          >Historial</a
+        ><a href="/admin/configuracion"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-settings"
+            aria-hidden="true"
+          >
+            <path
+              d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+            ></path>
+            <circle cx="12" cy="12" r="3"></circle></svg
+          >Configuración</a
+        >
+      </nav>
+      <div class="account">
+        <p>Diseño local administrador<small>Administrador</small></p>
+        <a href="/"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-external-link"
+            aria-hidden="true"
+          >
+            <path d="M15 3h6v6"></path>
+            <path d="M10 14 21 3"></path>
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg
+          >Ver el sitio</a
+        ><button type="button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-log-out"
+            aria-hidden="true"
+          >
+            <path d="m16 17 5-5-5-5"></path>
+            <path d="M21 12H9"></path>
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path></svg
+          >Cerrar sesión
+        </button>
+      </div>
+    </aside>
+    <header class="mobile-header">
+      <img src="../../comparacion-redisenio/assets/logo-256.webp" alt="Panadería Pimpo’s" /><span
+        >Pimpo’s · Panel</span
+      ><a href="/" aria-label="Ver el sitio"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-external-link"
+          aria-hidden="true"
+        >
+          <path d="M15 3h6v6"></path>
+          <path d="M10 14 21 3"></path>
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg
+      ></a>
+    </header>
+    <main id="contenido">
+      <header class="page-heading">
+        <h1>Inicio</h1>
+        <p>Revisiones pendientes, tus secciones y los últimos cambios.</p>
+      </header>
+      <section aria-labelledby="avisos">
+        <h2 id="avisos">Para revisar</h2>
+        <div class="notices">
+          <a class="notice" href="/admin/configuracion"
+            ><span class="number">5</span
+            ><span class="notice-text">datos del sitio están por confirmar</span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-up-right arrow"
+              aria-hidden="true"
+            >
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path></svg></a
+          ><a class="notice" href="/admin/insumos?ver=bajo"
+            ><span class="number">20</span
+            ><span class="notice-text">insumos están bajo el mínimo</span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-up-right arrow"
+              aria-hidden="true"
+            >
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path></svg></a
+          ><a class="notice" href="/admin/insumos?ver=vencer"
+            ><span class="number">1</span
+            ><span class="notice-text">insumo tiene algo por vencer</span
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-up-right arrow"
+              aria-hidden="true"
+            >
+              <path d="M7 7h10v10"></path>
+              <path d="M7 17 17 7"></path></svg
+          ></a>
+        </div>
+      </section>
+      <div class="dashboard">
+        <section aria-labelledby="atajos">
+          <h2 id="atajos">Tus secciones</h2>
+          <ul class="sections">
+            <li>
+              <a class="section-link" href="/admin/contenido"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-layout-grid"
+                    aria-hidden="true"
+                  >
+                    <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+                    <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+                    <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+                    <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg></span
+                ><strong>Contenido</strong
+                ><span class="description">Productos y contenido del sitio</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+            <li>
+              <a class="section-link" href="/admin/insumos"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-package"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                    ></path>
+                    <path d="M12 22V12"></path>
+                    <polyline points="3.29 7 12 12 20.71 7"></polyline>
+                    <path d="m7.5 4.27 9 5.15"></path></svg></span
+                ><strong>Insumos</strong><span class="description">Existencias y movimientos</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+            <li>
+              <a class="section-link" href="/admin/clientes"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-contact"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 2v2"></path>
+                    <path d="M7 21v-2a2 2 0 012-2h6a2 2 0 012 2v2"></path>
+                    <path d="M8 2v2"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <rect x="3" y="3" width="18" height="18" rx="2"></rect></svg></span
+                ><strong>Clientes</strong><span class="description">Fichas, zonas y reparto</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+            <li>
+              <a class="section-link" href="/admin/usuarios"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-users"
+                    aria-hidden="true"
+                  >
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <path d="M16 3.128a4 4 0 0 1 0 7.744"></path>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <circle cx="9" cy="7" r="4"></circle></svg></span
+                ><strong>Usuarios</strong><span class="description">Cuentas y permisos</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+            <li>
+              <a class="section-link" href="/admin/auditoria"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-rotate-ccw-clock"
+                    aria-hidden="true"
+                  >
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                    <path d="M3 3v5h5"></path>
+                    <path d="M12 7v5l4 2"></path></svg></span
+                ><strong>Historial</strong
+                ><span class="description">Cambios y registros de acceso</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+            <li>
+              <a class="section-link" href="/admin/configuracion"
+                ><span class="section-icon"
+                  ><svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-settings"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"
+                    ></path>
+                    <circle cx="12" cy="12" r="3"></circle></svg></span
+                ><strong>Configuración</strong
+                ><span class="description">Datos del negocio y marca</span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide lucide-chevron-right section-arrow"
+                  aria-hidden="true"
+                >
+                  <path d="m9 18 6-6-6-6"></path></svg
+              ></a>
+            </li>
+          </ul>
+        </section>
+        <section aria-labelledby="actividad" class="activity">
+          <div class="activity-heading"><h2 id="actividad">Actividad reciente</h2></div>
+          <ul aria-label="Los últimos cambios">
+            <li>
+              <a href="/admin/auditoria/ejemplo-0"
+                ><span
+                  ><strong>Diseño local administrador</strong> creó la novedad Aviso de evidencia
+                  1791494182267</span
+                ><small>Administrador · 08/10/2026 16:16</small></a
+              >
+            </li>
+            <li>
+              <a href="/admin/auditoria/ejemplo-1"
+                ><span
+                  ><strong>Diseño local administrador</strong> cambió la presentación Docena de Pan
+                  de evidencia 1791494182267: Precio S/ 2.40 → S/ 2.50</span
+                ><small>Administrador · 08/10/2026 16:16</small></a
+              >
+            </li>
+            <li>
+              <a href="/admin/auditoria/ejemplo-2"
+                ><span
+                  ><strong>Diseño local administrador</strong> cambió la presentación Media docena
+                  de Pan de evidencia 1791494182267: Precio S/ 1.20 → S/ 1.30</span
+                ><small>Administrador · 08/10/2026 16:16</small></a
+              >
+            </li>
+            <li>
+              <a href="/admin/auditoria/ejemplo-3"
+                ><span
+                  ><strong>Diseño local administrador</strong> cambió la presentación Unidad de Pan
+                  de evidencia 1791494182267: Precio S/ 0.20 → S/ 0.30</span
+                ><small>Administrador · 08/10/2026 16:16</small></a
+              >
+            </li>
+            <li>
+              <a href="/admin/auditoria/ejemplo-4"
+                ><span
+                  ><strong>Diseño local administrador</strong> cambió el producto Pan de evidencia
+                  1791494182267: Descripción Producto temporal para revisar la prese… → Pan
+                  artesanal. Se ofrece por unidad, me…</span
+                ><small>Administrador · 08/10/2026 16:16</small></a
+              >
+            </li>
+          </ul>
+          <a class="history-link" href="/admin/auditoria"
+            >Ver todo el historial<svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-arrow-right"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path></svg
+          ></a>
+        </section>
+      </div>
+    </main>
+    <nav class="mobile-nav" aria-label="Secciones del panel en móvil">
+      <a class="active" href="/admin" aria-current="page"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-house"
+          aria-hidden="true"
+        >
+          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+          <path
+            d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+          ></path></svg
+        ><span>Inicio</span></a
+      ><a href="/admin/contenido"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-layout-grid"
+          aria-hidden="true"
+        >
+          <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+          <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+          <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+          <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg
+        ><span>Contenido</span></a
+      ><a href="/admin/insumos"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-package"
+          aria-hidden="true"
+        >
+          <path
+            d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+          ></path>
+          <path d="M12 22V12"></path>
+          <polyline points="3.29 7 12 12 20.71 7"></polyline>
+          <path d="m7.5 4.27 9 5.15"></path></svg
+        ><span>Insumos</span></a
+      ><a href="/admin/clientes"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-contact"
+          aria-hidden="true"
+        >
+          <path d="M16 2v2"></path>
+          <path d="M7 21v-2a2 2 0 012-2h6a2 2 0 012 2v2"></path>
+          <path d="M8 2v2"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+          <rect x="3" y="3" width="18" height="18" rx="2"></rect></svg
+        ><span>Clientes</span></a
+      ><button type="button">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-ellipsis"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="1"></circle>
+          <circle cx="19" cy="12" r="1"></circle>
+          <circle cx="5" cy="12" r="1"></circle></svg
+        ><span>Más</span>
+      </button>
+    </nav>
+    <script>
+      document
+        .querySelectorAll("a")
+        .forEach((a) => a.addEventListener("click", (e) => e.preventDefault()));
+    </script>
+  </body>
+</html>

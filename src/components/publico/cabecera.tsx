@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { LogoMarca } from "@/components/marca/logo-marca";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -9,8 +9,9 @@ import { Menu, X } from "lucide-react";
 import { SECCIONES, esSeccionActiva } from "./navegacion";
 
 type Props = {
-  /** Solo para el nombre accesible del enlace: el logo raster ya no se pinta. */
+  /** Nombre accesible del enlace a inicio. */
   logoAlt: string;
+  logoSrc: string;
   isotipo: string;
   nombre: string;
   /** El horario ya agrupado y con las horas escritas, listo para pintar. */
@@ -36,12 +37,15 @@ const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as co
  * mide unos 1200 px, y a 1024 la pagina entera se desplazaba 173 px en
  * horizontal. Lo vigila e2e/cabecera.spec.ts en 768, 1024, 1100, 1280 y 1366.
  */
-export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props) {
+export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp }: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
+  // El logo principal es el aprobado/configurado. Un dibujo administrado
+  // conserva su efecto en la cabecera, sin recuperar el SVG anterior por defecto.
+  const isotipoPersonalizado = isotipo !== "/marca/isotipo.svg";
 
   return (
-    // Crema y no azul desde la fase 3.1 (prototipo de Stitch). Fondo SÓLIDO: el
+    // Fondo crema sólido de la dirección A. Fondo SÓLIDO: el
     // prototipo lo hace translúcido con `backdrop-blur`, y un desenfoque en una
     // cabecera fija se recalcula en cada paso del scroll, que en un celular
     // modesto se nota. La portada ya está justa de rendimiento (plan 03.1).
@@ -52,37 +56,19 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
           className="focus-visible:outline-ring shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
           aria-label={`${logoAlt}, ir al inicio`}
         >
-          {/* El isotipo y el nombre escrito, en todas las pantallas.
-
-              El logo raster a 44 px de alto no se lee: el arco "PANADERÍA
-              PASTELERÍA Y BODEGA" queda en letras de dos pixeles. Se arreglo
-              primero solo en el celular, y la segunda critica (12/09) encontro
-              que en escritorio seguia igual, que es donde peor sienta: es el
-              primer elemento del primer pliegue y el unico que dice de quien es
-              la pagina.
-
-              El isotipo es SVG: `unoptimized` porque el optimizador de Next no
-              toca los vectores, y asi escala sin limite. El logo completo se
-              queda para donde se ve grande: los datos estructurados y la imagen
-              para compartir el enlace. */}
           <span className="flex items-center gap-2 sm:gap-3">
-            {/* El isotipo va dentro de un círculo azul. Está dibujado en blanco con
-                trazo fino para ir sobre el azul institucional —así sale en la
-                imagen para compartir—, y desde que la cabecera es crema (3.1)
-                el chef desaparecía contra el fondo. */}
-            <span className="bg-primary flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full sm:size-12">
-              <Image
-                src={isotipo}
+            <span className="relative flex h-12 w-[72px] shrink-0 items-center">
+              <LogoMarca
+                src={logoSrc}
                 alt=""
-                width={40}
-                height={44}
-                // `preload`, el sustituto de `priority` desde Next 16. Aqui si
-                // vale: es una sola imagen, esta en la cabecera de todas las
-                // paginas y no compite con ninguna otra candidata a LCP.
-                preload
-                unoptimized
-                className="h-9 w-auto sm:h-10"
+                sizes="72px"
+                className={`h-12 object-contain ${isotipoPersonalizado ? "w-12" : "w-[72px]"}`}
               />
+              {isotipoPersonalizado ? (
+                <span className="bg-primary absolute top-1/2 right-0 grid size-6 -translate-y-1/2 place-items-center rounded-sm">
+                  <LogoMarca src={isotipo} alt="" sizes="20px" className="size-5 object-contain" />
+                </span>
+              ) : null}
             </span>
             <span className="flex flex-col">
               <span className="font-heading text-primary text-xl leading-none font-semibold sm:text-2xl">
@@ -106,7 +92,7 @@ export function Cabecera({ logoAlt, isotipo, nombre, horario, whatsapp }: Props)
                   <Link
                     href={destino}
                     aria-current={activa ? "page" : undefined}
-                    className={`focus-visible:outline-ring min-h-tactil flex items-center rounded-full px-3.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+                    className={`focus-visible:outline-ring min-h-tactil flex items-center rounded-md px-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
                       activa
                         ? "bg-primary text-primary-foreground"
                         : "text-muted-foreground hover:bg-muted hover:text-primary"
