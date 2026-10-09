@@ -1,0 +1,29 @@
+{
+  "base": "429a25d",
+  "checks": [
+    {
+      "name": "contarAvisos: consultas, textos, orden y filtros",
+      "equal": true
+    },
+    {
+      "name": "inicio: acceso, secciones, avisos y cinco cambios",
+      "equal": true
+    },
+    {
+      "name": "carrusel: estado, efectos, pausas y navegación",
+      "equal": true
+    },
+    {
+      "name": "portada: carga de datos, configuración y horarios",
+      "equal": true
+    },
+    {
+      "name": "sin cambios en acciones, datos, permisos, migraciones o dependencias",
+      "equal": true
+    },
+    {
+      "name": "tapiz exacto de a6",
+      "equal": true
+    }
+  ]
+}

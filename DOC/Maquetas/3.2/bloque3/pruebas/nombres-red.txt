@@ -1,0 +1,104 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:22148) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:26832) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones (21.8s)
+(node:23812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones (21.3s)
+(node:29336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones (21.2s)
+
+
+  1) [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones 
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator:  locator('[data-seccion="Contenido"]')
+    Expected: "Contenido"
+    Received: "Contenido Productos y contenido del sitio"
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveAccessibleName" locator('[data-seccion="Contenido"]') with timeout 20000ms
+      - waiting for locator('[data-seccion="Contenido"]')
+        43 × locator resolved to <a href="/admin/contenido" data-seccion="Contenido" class="bg-card hover:border-primary relative grid h-full min-h-[150px] content-start gap-2 rounded-md border p-4 wrap-anywhere xl:min-h-[166px] xl:p-[18px]">…</a>
+           - unexpected value "Contenido Productos y contenido del sitio"
+
+
+      24 |       for (const nombre of nombres) {
+      25 |         const enlace = page.locator(`[data-seccion="${nombre}"]`);
+    > 26 |         await expect(enlace).toHaveAccessibleName(nombre);
+         |                              ^
+      27 |         await expect(enlace).toHaveAttribute("href", ACCESOS[nombre]);
+      28 |       }
+      29 |       if (rol !== "administrador") await expect(page.locator("[data-actividad-reciente]")).toHaveCount(0);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-inicio.spec.ts:26:30
+
+    Error Context: test-results\panel-inicio-inicio-de-adm-e421b-y-destinos-de-sus-secciones-movil\error-context.md
+
+  2) [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones 
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator:  locator('[data-seccion="Contenido"]')
+    Expected: "Contenido"
+    Received: "Contenido Productos y contenido del sitio"
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveAccessibleName" locator('[data-seccion="Contenido"]') with timeout 20000ms
+      - waiting for locator('[data-seccion="Contenido"]')
+        43 × locator resolved to <a href="/admin/contenido" data-seccion="Contenido" class="bg-card hover:border-primary relative grid h-full min-h-[150px] content-start gap-2 rounded-md border p-4 wrap-anywhere xl:min-h-[166px] xl:p-[18px]">…</a>
+           - unexpected value "Contenido Productos y contenido del sitio"
+
+
+      24 |       for (const nombre of nombres) {
+      25 |         const enlace = page.locator(`[data-seccion="${nombre}"]`);
+    > 26 |         await expect(enlace).toHaveAccessibleName(nombre);
+         |                              ^
+      27 |         await expect(enlace).toHaveAttribute("href", ACCESOS[nombre]);
+      28 |       }
+      29 |       if (rol !== "administrador") await expect(page.locator("[data-actividad-reciente]")).toHaveCount(0);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-inicio.spec.ts:26:30
+
+    Error Context: test-results\panel-inicio-inicio-de-ing-8de86-y-destinos-de-sus-secciones-movil\error-context.md
+
+  3) [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones 
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator:  locator('[data-seccion="Clientes"]')
+    Expected: "Clientes"
+    Received: "Clientes Fichas, zonas y reparto"
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveAccessibleName" locator('[data-seccion="Clientes"]') with timeout 20000ms
+      - waiting for locator('[data-seccion="Clientes"]')
+        43 × locator resolved to <a href="/admin/clientes" data-seccion="Clientes" class="bg-card hover:border-primary relative grid h-full min-h-[150px] content-start gap-2 rounded-md border p-4 wrap-anywhere xl:min-h-[166px] xl:p-[18px]">…</a>
+           - unexpected value "Clientes Fichas, zonas y reparto"
+
+
+      24 |       for (const nombre of nombres) {
+      25 |         const enlace = page.locator(`[data-seccion="${nombre}"]`);
+    > 26 |         await expect(enlace).toHaveAccessibleName(nombre);
+         |                              ^
+      27 |         await expect(enlace).toHaveAttribute("href", ACCESOS[nombre]);
+      28 |       }
+      29 |       if (rol !== "administrador") await expect(page.locator("[data-actividad-reciente]")).toHaveCount(0);
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\panel-inicio.spec.ts:26:30
+
+    Error Context: test-results\panel-inicio-inicio-de-rep-3c551-y-destinos-de-sus-secciones-movil\error-context.md
+
+  3 failed
+    [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones 
+    [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones 
+    [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones 

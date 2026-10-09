@@ -1,0 +1,170 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:28732) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:26548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla (21.8s)
+(node:28532) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [movil] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada (20.5s)
+(node:16644) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  3 [movil] › e2e\portada.spec.ts:235:5 › el hero separa texto y foto sin velo ni controles sobre el texto
+(node:1300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 [escritorio] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla (20.6s)
+(node:27684) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 [escritorio] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada (20.6s)
+(node:6672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  6 [escritorio] › e2e\portada.spec.ts:235:5 › el hero separa texto y foto sin velo ni controles sobre el texto (20.6s)
+
+
+  1) [movil] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('banner').locator('img').first()
+    Expected pattern: /\/marca\/logo\.webp$/
+    Received string:  "/marca/isotipo.svg"
+    Timeout: 20000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('banner').locator('img').first() with timeout 20000ms
+      - waiting for getByRole('banner').locator('img').first()
+        43 × locator resolved to <img alt="" width="40" height="44" data-nimg="1" decoding="async" src="/marca/isotipo.svg" class="h-9 w-auto sm:h-10"/>
+           - unexpected value "/marca/isotipo.svg"
+
+
+      21 |   await expect(cabecera.getByText("Panadería Pimpo's", { exact: true })).toBeVisible();
+      22 |   const marca = cabecera.locator("img").first();
+    > 23 |   await expect(marca).toHaveAttribute("src", /\/marca\/logo\.webp$/);
+         |                       ^
+      24 |   await expect.poll(() => marca.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+      25 | });
+      26 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\cabecera.spec.ts:23:23
+
+    Error Context: test-results\cabecera-el-nombre-del-neg-e6053-ecera-en-cualquier-pantalla-movil\error-context.md
+
+  2) [movil] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada ─
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('img[src*="horno-amanecer"]')
+    Expected: 0
+    Received: 1
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('img[src*="horno-amanecer"]') with timeout 20000ms
+      - waiting for locator('img[src*="horno-amanecer"]')
+        43 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      30 |   await abrirPortada(page);
+      31 |   await expect(page.locator("#titulo-madrugada")).toBeVisible();
+    > 32 |   await expect(page.locator('img[src*="horno-amanecer"]')).toHaveCount(0);
+         |                                                            ^
+      33 | });
+      34 |
+      35 | test("el titular de la madrugada dice la misma hora que la tabla de horarios", async ({ page }) => {
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\marca.spec.ts:32:60
+
+    Error Context: test-results\marca-la-madrugada-conserv-b7e9e-sin-la-ilustración-retirada-movil\error-context.md
+
+  3) [escritorio] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: getByRole('banner').locator('img').first()
+    Expected pattern: /\/marca\/logo\.webp$/
+    Received string:  "/marca/isotipo.svg"
+    Timeout: 20000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('banner').locator('img').first() with timeout 20000ms
+      - waiting for getByRole('banner').locator('img').first()
+        43 × locator resolved to <img alt="" width="40" height="44" data-nimg="1" decoding="async" src="/marca/isotipo.svg" class="h-9 w-auto sm:h-10"/>
+           - unexpected value "/marca/isotipo.svg"
+
+
+      21 |   await expect(cabecera.getByText("Panadería Pimpo's", { exact: true })).toBeVisible();
+      22 |   const marca = cabecera.locator("img").first();
+    > 23 |   await expect(marca).toHaveAttribute("src", /\/marca\/logo\.webp$/);
+         |                       ^
+      24 |   await expect.poll(() => marca.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+      25 | });
+      26 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\cabecera.spec.ts:23:23
+
+    Error Context: test-results\cabecera-el-nombre-del-neg-e6053-ecera-en-cualquier-pantalla-escritorio\error-context.md
+
+  4) [escritorio] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('img[src*="horno-amanecer"]')
+    Expected: 0
+    Received: 1
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('img[src*="horno-amanecer"]') with timeout 20000ms
+      - waiting for locator('img[src*="horno-amanecer"]')
+        43 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      30 |   await abrirPortada(page);
+      31 |   await expect(page.locator("#titulo-madrugada")).toBeVisible();
+    > 32 |   await expect(page.locator('img[src*="horno-amanecer"]')).toHaveCount(0);
+         |                                                            ^
+      33 | });
+      34 |
+      35 | test("el titular de la madrugada dice la misma hora que la tabla de horarios", async ({ page }) => {
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\marca.spec.ts:32:60
+
+    Error Context: test-results\marca-la-madrugada-conserv-b7e9e-sin-la-ilustración-retirada-escritorio\error-context.md
+
+  5) [escritorio] › e2e\portada.spec.ts:235:5 › el hero separa texto y foto sin velo ni controles sobre el texto 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.velo-hero')
+    Expected: 0
+    Received: 3
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveCount" locator('.velo-hero') with timeout 20000ms
+      - waiting for locator('.velo-hero')
+        43 × locator resolved to 3 elements
+           - unexpected value "3"
+
+
+      240 |     const slide = page.locator('[aria-roledescription="diapositiva"][aria-hidden="false"]');
+      241 |     await expect(slide.locator("[data-texto-hero]")).toBeVisible();
+    > 242 |     await expect(page.locator(".velo-hero")).toHaveCount(0);
+          |                                              ^
+      243 |     const medida = await slide.evaluate(el => {
+      244 |       const panel = el.querySelector("[data-panel-hero]")!.getBoundingClientRect();
+      245 |       const textos = [...el.querySelector("[data-texto-hero]")!.children].map(h => h.getBoundingClientRect());
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\portada.spec.ts:242:46
+
+    Error Context: test-results\portada-el-hero-separa-tex-17c41-ni-controles-sobre-el-texto-escritorio\error-context.md
+
+  5 failed
+    [movil] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla 
+    [movil] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada ──
+    [escritorio] › e2e\cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla 
+    [escritorio] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada 
+    [escritorio] › e2e\portada.spec.ts:235:5 › el hero separa texto y foto sin velo ni controles sobre el texto 
+  1 skipped

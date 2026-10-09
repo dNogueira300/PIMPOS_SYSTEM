@@ -22,8 +22,13 @@ y F7 está actualizado en `AGENTS.md`.
 tipo dashboard en la próxima tarea, conservando las funciones. Se añade T4.1 al plan 03.2: el
 próximo PR reúne dashboard y estructura pública/portada (T5); catálogo y páginas restantes (T6)
 van en PR 4 y el cierre (T7) en PR 5. Se mantiene el límite de dos tareas por PR. Propuesta visual
-comparable en `Maquetas/3.2/dashboard-inicio/`, pendiente de revisión de Dan y aún sin cambios en
-el código del producto. Rama `feat/rediseno-portada-dashboard`, desde main `429a25d`.
+comparable en `Maquetas/3.2/dashboard-inicio/`, aprobada por Dan con «perfecto, dale palante»
+el 08/10/2026. Rama `feat/rediseno-portada-dashboard`, desde main `429a25d`.
+Dashboard y estructura pública/portada implementados: los mismos avisos y accesos, actividad
+reciente, logo configurable, composición sin velo, contraste móvil, madrugada sin horno y
+tapiz tenue aprobado. Evidencia y límites en `Verificacion rediseño 03.2 - Bloque 3.md`;
+comparación en `Maquetas/3.2/bloque3/index.html`. Detenerse en PR 3 borrador para revisión;
+T6/T7 siguen pendientes, sin fusionar ni pasar al siguiente bloque.
 
 ---
 

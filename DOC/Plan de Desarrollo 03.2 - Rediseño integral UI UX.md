@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) fusionado por Dan en PR #91 el mismo día, main `429a25d`. Dan acepta lo implementado y pide incorporar un inicio administrativo con composición de dashboard en la siguiente entrega. Se añade T4.1, sin alterar la numeración ni los contratos de T5–T7. Próximo bloque: T4.1 + T5, en `feat/rediseno-portada-dashboard`, desde ese main. Maqueta de T4.1 preparada para revisión visual en `DOC/Maquetas/3.2/dashboard-inicio/`; aún no implementada ni aprobada. T5–T7 pendientes. Ni las capturas exploratorias ni sus barridos de controles prueban una regresión funcional completa. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`.
+**Estado:** diseño aprobado el 07/10/2026. Bloque 1 (T1/T2) fusionado por Dan en PR #90 el 08/10/2026. Bloque 2 (T3/T4) fusionado por Dan en PR #91 el mismo día, main `429a25d`. Dan aprobó la maqueta del dashboard con «perfecto, dale palante» el 08/10/2026. T4.1 + T5 implementados en `feat/rediseno-portada-dashboard`, desde ese main: dashboard y estructura pública/portada. Evidencia y límites en `DOC/Verificacion rediseño 03.2 - Bloque 3.md`, galería en `DOC/Maquetas/3.2/bloque3/index.html`. La entrega se detiene en PR 3 borrador para revisión de Dan. T6/T7 pendientes; no fusionar ni iniciar el bloque siguiente. Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`.
 
 ## Restricciones globales
 
@@ -209,11 +209,13 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 
 **Diseño propuesto:** «Para revisar» con cantidades destacadas y tarjetas enlazadas; «Tus secciones» con iconos existentes y ayudas de lectura; actividad reciente en una columna contigua en escritorio. En móvil, apilar avisos, secciones y actividad, con espacios de seguridad para la barra inferior. Radios de 6 px, Jakarta, crema y terracota; sin tapiz en el panel. La maqueta usa el mismo estado local del inicio administrativo capturado en el bloque 2, no datos inventados de ventas, producción o rendimiento.
 
-- [ ] Revisar con Dan la maqueta comparable `DOC/Maquetas/3.2/dashboard-inicio/index.html` antes de implementar la nueva composición. Aprobación de PR #91 no equivale a aprobación de esta maqueta posterior.
-- [ ] Conservar capturas de la base `429a25d`; comprobar avisos presentes/ausentes, historial presente/ausente, `motivo=sin-acceso` y roles administrador, ingeniero y repartidor. No mostrar secciones ni actividad restringidas para llenar espacios del dashboard.
-- [ ] Aplicar el diseño a la presentación. Mantener el encabezado «Inicio», todos los destinos y textos de aviso, la actividad dinámica y «Ver todo el historial» bajo las mismas condiciones. No añadir métricas, gráficos, filtros, acciones ni consultas.
-- [ ] Ejecutar `panel-cascara.spec.ts`, `panel-historial.spec.ts`, `panel-accesibilidad.spec.ts` y las pruebas de avisos de `panel-insumos.spec.ts`, `panel-bajas.spec.ts`, `panel-novedades.spec.ts` y `panel-clientes-administracion.spec.ts` con un trabajador. Usar los casos existentes por rol; añadir una comprobación únicamente si queda un riesgo observable sin cobertura.
-- [ ] Capturar el build a 375/390/768/1024/1440, revisar contraste, teclado/foco, enlaces, texto largo, zoom y ausencia de azul/desbordamientos. Mantener pendiente explícito cualquier control físico no realizado. Typecheck/lint y commit propio de T4.1; revisión independiente conjunta con T5 antes de PR 3.
+- [x] Revisar con Dan la maqueta comparable `DOC/Maquetas/3.2/dashboard-inicio/index.html` antes de implementar la nueva composición. Aprobada expresamente con «perfecto, dale palante» el 08/10/2026.
+- [x] Conservar capturas de la base `429a25d`; comprobar avisos presentes/ausentes, historial presente/ausente, `motivo=sin-acceso` y roles administrador, ingeniero y repartidor. No mostrar secciones ni actividad restringidas para llenar espacios del dashboard.
+- [x] Aplicar el diseño a la presentación. Mantener el encabezado «Inicio», todos los destinos y textos de aviso, la actividad dinámica y «Ver todo el historial» bajo las mismas condiciones. No añadir métricas, gráficos, filtros, acciones ni consultas.
+- [x] Ejecutar `panel-cascara.spec.ts`, `panel-historial.spec.ts`, `panel-accesibilidad.spec.ts` y las pruebas de avisos de `panel-insumos.spec.ts`, `panel-bajas.spec.ts`, `panel-novedades.spec.ts` y `panel-clientes-administracion.spec.ts` con un trabajador. Usar los casos existentes por rol; añadir una comprobación únicamente si queda un riesgo observable sin cobertura.
+- [x] Capturar el build a 375/390/768/1024/1440, revisar contraste, teclado/foco, enlaces, texto largo, zoom y ausencia de azul/desbordamientos. Mantener pendiente explícito cualquier control físico no realizado. Typecheck/lint y commit propio de T4.1; revisión independiente conjunta con T5 antes de PR 3.
+
+**Resultado local:** suites administrativas 233 aprobadas y 25 saltos previstos; públicas y Configuración final 120 aprobadas y 18 saltos previstos. Las comprobaciones locales y capturas se registran en la evidencia del bloque 3. Teclado móvil físico, zoom nativo y Vercel quedan pendientes explícitos; la revisión/fusión corresponde a Dan.
 
 **Fuera del alcance:** ventas, ingresos, totales de clientes/productos, tendencias o gráficos nuevos; acciones directas nuevas de alta/registro; cambios de permisos o resumen de auditoría distinto del existente.
 
@@ -223,11 +225,11 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 
 **Interfaces:** mantener las props existentes del carrusel, estado y WhatsApp. Ampliar `Cabecera` con `logoSrc: string` procedente de `config.logo_url`; `Pie` ya recibe `config`. Usar `LogoMarca` de T1. No cambiar filtros de datos ni condiciones de aparición de secciones.
 
-- [ ] Aplicar la cabecera/pie de A y completar la prueba de actualización del logo de T1 en las tres superficies. Conservar menú móvil, enlaces, horarios/redes condicionales y margen del botón flotante.
-- [ ] Sustituir velo blanco y superposición de texto por la composición aprobada, preservando DOM interactivo del carrusel, temporización de 6 s, botones, pausas y reduced motion. No reemplazar el carrusel por una imagen fija en escritorio.
-- [ ] Aplicar el contraste aprobado al botón y al punto abierto solo en la portada móvil; conservar cálculo del horario, estado cerrado y URL/mensaje de WhatsApp.
-- [ ] Eliminar la ilustración de madrugada en `/` conservando `#titulo-madrugada`, hora calculada y descripción. No borrar el archivo de imagen si sigue usándose en el vacío de novedades; ese uso no fue objeto de la retirada aprobada.
-- [ ] Incorporar tapiz como fondo decorativo del contenido público, manteniendo opacos los bloques sólidos. Ejemplo de clase dedicada; la opacidad vive en el SVG:
+- [x] Aplicar la cabecera/pie de A y completar la prueba de actualización del logo de T1 en las tres superficies. Conservar menú móvil, enlaces, horarios/redes condicionales y margen del botón flotante.
+- [x] Sustituir velo blanco y superposición de texto por la composición aprobada, preservando DOM interactivo del carrusel, temporización de 6 s, botones, pausas y reduced motion. No reemplazar el carrusel por una imagen fija en escritorio.
+- [x] Aplicar el contraste aprobado al botón y al punto abierto solo en la portada móvil; conservar cálculo del horario, estado cerrado y URL/mensaje de WhatsApp.
+- [x] Eliminar la ilustración de madrugada en `/` conservando `#titulo-madrugada`, hora calculada y descripción. No borrar el archivo de imagen si sigue usándose en el vacío de novedades; ese uso no fue objeto de la retirada aprobada.
+- [x] Incorporar tapiz como fondo decorativo del contenido público, manteniendo opacos los bloques sólidos. Ejemplo de clase dedicada; la opacidad vive en el SVG:
 
 ```css
 .tapiz-publico {
@@ -241,7 +243,7 @@ className = "border-border text-foreground hover:bg-muted focus-visible:ring-rin
 }
 ```
 
-- [ ] Sustituir únicamente el antiguo test del horno en `e2e/marca.spec.ts` por la decisión aprobada; mantener los tests de hora y años dinámicos:
+- [x] Sustituir únicamente el antiguo test del horno en `e2e/marca.spec.ts` por la decisión aprobada; mantener los tests de hora y años dinámicos:
 
 ```ts
 test("la madrugada conserva su texto sin la ilustración retirada", async ({ page }) => {
@@ -251,8 +253,8 @@ test("la madrugada conserva su texto sin la ilustración retirada", async ({ pag
 });
 ```
 
-- [ ] Ejecutar E2E `portada`, `portada-movil`, `marca`, `cabecera`, `abierto-ahora`, `flotante`, `movimiento`, `tactil`, `accesibilidad` (archivos `.spec.ts`). Extender casos existentes de slides vacíos y contenido largo si no cubren la composición nueva; no fijar el reloj de la aplicación.
-- [ ] Capturar página completa y viewport de madrugada a 390/1440, comparar con a6 y revisar 375/768/1024. El patrón no desaparece por fondos opacos accidentales ni compite con texto. Commit de T5.
+- [x] Ejecutar E2E `portada`, `portada-movil`, `marca`, `cabecera`, `abierto-ahora`, `flotante`, `movimiento`, `tactil`, `accesibilidad` (archivos `.spec.ts`). Extender casos existentes de slides vacíos y contenido largo si no cubren la composición nueva; no fijar el reloj de la aplicación.
+- [x] Capturar página completa y viewport de madrugada a 390/1440, comparar con a6 y revisar 375/768/1024. El patrón no desaparece por fondos opacos accidentales ni compite con texto. Commit de T5.
 
 ## T6 — Catálogo, detalles y páginas públicas restantes
 

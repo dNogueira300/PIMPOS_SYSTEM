@@ -1,0 +1,26 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:29068) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:27776) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel (1.2s)
+  ok  2 [movil] › e2e\carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces (2.8s)
+  ok  3 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones (1.8s)
+  ok  4 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones (1.0s)
+  ok  5 [movil] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones (1.1s)
+  ok  6 [movil] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil (1.1s)
+(node:30704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  7 [escritorio] › e2e\carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel (568ms)
+  ok  8 [escritorio] › e2e\carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces (1.3s)
+  ok  9 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones (1.2s)
+  ok 10 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones (1.1s)
+  ok 11 [escritorio] › e2e\panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones (1.0s)
+  ok 12 [escritorio] › e2e\panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil (1.1s)
+
+  12 passed (17.5s)

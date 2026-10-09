@@ -1,8 +1,10 @@
 # Inicio del panel como dashboard — propuesta
 
-Fecha: 08/10/2026. Solicitud de Dan después de fusionar PR #91. **Pendiente de revisión visual;
-no implementada en el producto.** Rama de preparación: `feat/rediseno-portada-dashboard`, desde
-main `429a25d`.
+Fecha: 08/10/2026. Solicitud de Dan después de fusionar PR #91. **Aprobada con
+«perfecto, dale palante»; implementada en el bloque 3.** Se conserva esta maqueta
+como referencia. Resultado comparable en `../bloque3/index.html` y límites en
+`../../../Verificacion rediseño 03.2 - Bloque 3.md`. Rama:
+`feat/rediseno-portada-dashboard`, desde main `429a25d`.
 
 Abrir `index.html` directamente, o iniciar `node scripts/servir-maquetas-panel.cjs` desde la raíz
 del repositorio (puerto 4178 libre). La galería del bloque 2 ya levantada también sirve esta carpeta:
@@ -39,11 +41,11 @@ pie de la pantalla mientras se baja. Las capturas de la propuesta y
 `verificacion.json` registran la revisión estática a los cinco anchos.
 
 Una maqueta revisada con axe y controles visibles no prueba sesiones, permisos, auditoría,
-consultas o flujos. Las pruebas del código final y la revisión independiente se ejecutarán en
-T4.1 + T5 antes de abrir PR 3. El teclado físico y el zoom nativo siguen sin evidencia nueva.
+consultas o flujos. Las pruebas del código y la revisión independiente se documentan
+en la verificación del bloque 3. El teclado físico y el zoom nativo siguen sin evidencia nueva.
 
 ## Alcance de la próxima entrega
 
 El plan incorpora T4.1 junto con T5 en PR 3. T6 pasa a PR 4 y T7 a PR 5 para mantener como máximo
-dos tareas por PR. Se preserva la numeración histórica de T5–T7. No se abre otro PR ni se publica
-esta preparación antes de revisar la composición nueva.
+dos tareas por PR. Se preserva la numeración histórica de T5–T7. La aprobación visual
+no autoriza fusión automática; se detiene en PR 3 borrador para revisión.

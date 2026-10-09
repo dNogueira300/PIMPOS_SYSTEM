@@ -1242,10 +1242,15 @@ y controles compartidos. El segundo bloque (T3/T4) fue fusionado por Dan en PR #
 main `429a25d`. Dan acepta lo implementado y pide mejorar el inicio administrativo como dashboard,
 sin cambiar funcionalidad, dentro de la próxima entrega. El plan incorpora T4.1: PR 3 será T4.1 + T5
 (dashboard y estructura pública/portada); PR 4, T6; PR 5, T7. Se reutiliza `PIMPOS_REDISENO_BLOQUE1`
-en `feat/rediseno-portada-dashboard` desde ese main. La propuesta visual está en
-`DOC/Maquetas/3.2/dashboard-inicio/index.html`, pendiente de revisión de Dan; no se ha implementado.
+en `feat/rediseno-portada-dashboard` desde ese main. Dan aprobó la propuesta visual con
+«perfecto, dale palante» el 08/10/2026; referencia en
+`DOC/Maquetas/3.2/dashboard-inicio/index.html`.
 Solo reorganiza avisos existentes, accesos por rol y los cinco cambios recientes. No añade métricas,
-gráficos, acciones, consultas ni funciones. T4.1 y T5–T7 siguen pendientes.
+gráficos, acciones, consultas ni funciones. T4.1 y T5 están implementados en esta rama:
+dashboard, logo público configurable, hero sin velo, contraste móvil, madrugada sin horno
+y tapiz tenue a6. Verificación y límites en `DOC/Verificacion rediseño 03.2 - Bloque 3.md`;
+galería comparable en `DOC/Maquetas/3.2/bloque3/index.html`. La entrega se detiene en PR 3
+borrador para revisión de Dan; no fusionar ni iniciar T6/T7, que siguen pendientes.
 
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
 el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.

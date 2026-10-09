@@ -1,0 +1,13 @@
+
+ RUN  v5.0.0 D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1
+
+
+ Test Files  60 passed (60)
+      Tests  491 passed (491)
+   Start at  23:14:07
+   Duration  28.52s (import 73%, transform 18%, tests 6%, worker 3%)
+
+     Import  134 modules were evaluated 210 times · 11.88s total, 73% of tracked time
+             ~4.30s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
