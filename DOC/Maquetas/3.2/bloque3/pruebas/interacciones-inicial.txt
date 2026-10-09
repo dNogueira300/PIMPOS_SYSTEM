@@ -1,0 +1,84 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:26516) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:21888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [movil] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible (21.2s)
+(node:25056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 [movil] › e2e\carrusel-interacciones.spec.ts:45:5 › el avance automático mantiene el intervalo de seis segundos (1.3s)
+  ok 3 [movil] › e2e\carrusel-interacciones.spec.ts:54:5 › hover y foco de teclado pausan el avance y permiten reanudarlo (1.3s)
+  ok 4 [movil] › e2e\carrusel-interacciones.spec.ts:73:5 › movimiento reducido evita avance automático pero conserva navegación manual (1.2s)
+(node:25700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  5 [escritorio] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible (20.9s)
+(node:6556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 6 [escritorio] › e2e\carrusel-interacciones.spec.ts:45:5 › el avance automático mantiene el intervalo de seis segundos (1.4s)
+  ok 7 [escritorio] › e2e\carrusel-interacciones.spec.ts:54:5 › hover y foco de teclado pausan el avance y permiten reanudarlo (1.4s)
+  ok 8 [escritorio] › e2e\carrusel-interacciones.spec.ts:73:5 › movimiento reducido evita avance automático pero conserva navegación manual (1.2s)
+
+
+  1) [movil] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a')
+    Expected: "_blank"
+    Received: ""
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a') with timeout 20000ms
+      - waiting for locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a')
+        43 × locator resolved to <a href="/nosotros" class="boton-cta portada-boton-claro mt-6">Conocer la panadería</a>
+           - unexpected value "null"
+
+
+      39 |   await carrusel(page).getByRole("button", { name: "Ir a la diapositiva 3", exact: true }).click();
+      40 |   await expect(slide(page, 3)).toHaveAttribute("aria-hidden", "false");
+    > 41 |   await expect(slide(page, 3).locator("a")).toHaveAttribute("target", "_blank");
+         |                                             ^
+      42 |   await expect(slide(page, 3).locator("a")).toHaveAttribute("href", /^https:\/\//);
+      43 | });
+      44 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\carrusel-interacciones.spec.ts:41:45
+
+    Error Context: test-results\carrusel-interacciones-fle-8e6ca-lide-y-el-enlace-disponible-movil\error-context.md
+
+  2) [escritorio] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a')
+    Expected: "_blank"
+    Received: ""
+    Timeout:  20000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a') with timeout 20000ms
+      - waiting for locator('[aria-roledescription="carrusel"]').locator('[aria-roledescription="diapositiva"][aria-label="3 de 3"]').locator('a')
+        43 × locator resolved to <a href="/nosotros" class="boton-cta portada-boton-claro mt-6">Conocer la panadería</a>
+           - unexpected value "null"
+
+
+      39 |   await carrusel(page).getByRole("button", { name: "Ir a la diapositiva 3", exact: true }).click();
+      40 |   await expect(slide(page, 3)).toHaveAttribute("aria-hidden", "false");
+    > 41 |   await expect(slide(page, 3).locator("a")).toHaveAttribute("target", "_blank");
+         |                                             ^
+      42 |   await expect(slide(page, 3).locator("a")).toHaveAttribute("href", /^https:\/\//);
+      43 | });
+      44 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\carrusel-interacciones.spec.ts:41:45
+
+    Error Context: test-results\carrusel-interacciones-fle-8e6ca-lide-y-el-enlace-disponible-escritorio\error-context.md
+
+  2 failed
+    [movil] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible 
+    [escritorio] › e2e\carrusel-interacciones.spec.ts:28:5 › flechas e indicadores cambian el slide y el enlace disponible 
+  6 passed (55.2s)

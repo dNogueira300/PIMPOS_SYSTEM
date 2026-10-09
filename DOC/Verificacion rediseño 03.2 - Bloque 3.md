@@ -29,7 +29,7 @@ No se rediseña aún la composición de catálogo, detalles ni páginas restante
 | Dashboard y nueve suites administrativas      | 233 aprobadas, 25 saltos previstos, 0 fallos (10,2 min)                                  |
 | Diez suites públicas y Configuración completa | 120 aprobadas, 18 saltos previstos, 0 fallos (2 min)                                     |
 | Capturas finales y foco                       | 31 PNG; 19 estados sin incidencias y dos focos visibles de 2 px; tres cuentas eliminadas |
-| Revisión independiente de rama                | Pendiente de registrar                                                                   |
+| Revisión independiente de rama                | Sin Critical/Minor; I1 de cobertura atendido con pruebas hidratadas                      |
 | Vista previa de Vercel                        | Pendiente                                                                                |
 
 Las suites administrativas incluyen `panel-cascara`, `panel-historial`,
@@ -112,7 +112,8 @@ cierre integral del rediseño. T7 conserva esas comprobaciones transversales.
    Costo: build local con raíz distinta del CI.
 5. Estados extremos renderizados con React real aislado para evitar el JSX
    propio de Playwright y cambios en fixtures. Costo: esos casos no cubren
-   hidratación; movimiento/navegación reales tienen sus regresiones E2E.
+   hidratación de los extremos. `carrusel-interacciones.spec.ts` comprueba
+   navegación, avance y pausas ordinarias sobre la página real hidratada.
 6. Se conserva el dibujo configurado como marca auxiliar, sin recuperar el SVG
    antiguo por defecto. La instrucción de no perder funcionalidad prevalece
    sobre la omisión de este consumidor en el plan. Costo: con dibujo personalizado,
@@ -120,4 +121,28 @@ cierre integral del rediseño. T7 conserva esas comprobaciones transversales.
 
 ## Revisión independiente
 
-Pendiente de registrar.
+Revisor independiente con contexto nuevo, solo lectura de `429a25d..4a3065c`;
+informe de hallazgos y exclusiones en `Maquetas/3.2/bloque3/pruebas/revision.md`.
+Cero Critical y cero Minor material.
+
+I1: las pruebas anteriores de movimiento cubrían scroll y las de navegación,
+menú/catálogo; no probaban directamente Embla. La conservación de hooks no
+acreditaba esa integración. Se corrige la afirmación de cobertura y se añaden
+cuatro casos, ejecutados en ambos proyectos a ancho de escritorio, de flechas,
+indicadores/enlace, intervalo, pausa por hover/foco con reanudación y movimiento
+reducido. No se modifica código productivo. La primera tanda aprobó los seis
+casos de temporización/pausas; dos expectativas suponían erróneamente que el
+tercer slide era externo, cuando el fixture enlaza `/nosotros`. Se corrige solo
+esa expectativa y se verifica también la navegación al destino real.
+Ese fallo del test no se presenta como RED de un defecto de aplicación.
+Suite pública completa posterior: **117 aprobadas, 15 saltos previstos, cero
+fallos (1,7 min)**; las ocho interacciones nuevas pasan sin añadir saltos.
+Configuración conserva su tanda completa anterior de once aprobadas y tres
+saltos, sobre el mismo código productivo; no se vuelve a ejecutar administración.
+
+Decisión adicional: I1 se resuelve como hueco de pruebas/documentación;
+no se altera el comportamiento existente para fabricar un RED. Costo: una
+regresión que pasa inicialmente no demuestra reparación de un fallo productivo.
+Las 17 exclusiones del revisor tienen resolución y costo registrados en
+`Maquetas/3.2/bloque3/pruebas/ejecucion.txt`; continúan como límites explícitos,
+no como certificaciones implícitas. No hay menores nuevos diferidos.

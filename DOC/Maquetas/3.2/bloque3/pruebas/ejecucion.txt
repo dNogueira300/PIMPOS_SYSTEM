@@ -17,3 +17,24 @@ Ruling: logo principal aprobado/configurable; isotipo personalizado conserva efe
 Verificación final T4.1: 233 aprobadas / 25 saltos previstos / 0 fallos, 10.2 min. Tras la corrección aislada de cabecera T5, Configuración completa y diez suites públicas: 120 aprobadas / 18 saltos / 0 fallos, 2 min; prueba de marca y dibujo GREEN. Vitest completo 491/491, 60 archivos; ESLint completo y build final 113 páginas pasan. Captura final en curso.
 Task T4.1: complete (commits 0b36381..15485a6; nueve suites 233 aprobadas / 25 saltos / 0 fallos; 12 estados/cantidades GREEN; capturas finales 19 estados y dos focos, sin incidencias; hooks typecheck/lint-staged pasan).
 Task T5: complete (commits 15485a6..8f86ee5; diez suites públicas y Configuración completa 120 aprobadas / 18 saltos / 0 fallos; marca/dibujo RED→GREEN; Vitest 491/491; build y lint completos pasan, formato completo pasa, 31 PNG actuales y limpieza 3/3; hooks pasan).
+
+Final review: fresh gpt-6-astra high, read-only 429a25d..4a3065c. Critical0, ImportantI1 cobertura carrusel hidratado, Minor0. Una pasada: cuatro casos nuevos de flechas/indicadores/enlace, intervalo, hover/foco/reanudación y reduce, sin cambios productivos. Primera ejecución6 aprobadas2 fallos por expectativa errónea del tercer slide (/nosotros, no enlace externo); se corrige solo el test. No se presenta ese fallo como RED de aplicación.
+Final: Ruling: I1 es un hueco de cobertura/documentación, no fallo funcional demostrado — agregar regresión del comportamiento ya existente sin cambiar aplicación para fabricar RED — costo: GREEN inicial no demuestra reparación de un fallo productivo.
+Final: Ruling: Vercel — pendiente en vista previa de PR — costo: entorno remoto aún no acreditado.
+Final: Ruling: fusión y despliegue — se entrega borrador y se detiene por autorización de Dan — costo: requiere revisión humana posterior.
+Final: Ruling: cierre integral de rutas/estados — T7 mantiene ese trabajo — costo: bloque3 no certifica todo el sistema.
+Final: Ruling: catálogo y otras composiciones públicas — T6; compartidos sí verificados — costo: interiores aún no adoptan toda composición A.
+Final: Ruling: formularios largos/borradores/pestañas/submitter — fuentes intactas y regresiones del bloque2; no volver a ejecutar todo — costo: no se repite cobertura integral aquí.
+Final: Ruling: teclado móvil físico y barras — mantener pendiente físico en T7 — costo: captura no prueba teclado real.
+Final: Ruling: zoom nativo200% — solo CSS declarado, pendiente nativo — costo: evidencia no equivalente.
+Final: Ruling: impresión integral — solo regresión existente de opacidad; T7 conserva revisión — costo: resultado completo impreso aún no acreditado.
+Final: Ruling: todos portales/selección/hover/focos — tokens intactos y cierre transversal T7 — costo: capturas no cubren cada estado.
+Final: Ruling: hidratación fixtures extremos — SSR solo geometría; carrusel ordinario ahora con pruebas hidratadas — costo: vacío/largo no prueba hidratación.
+Final: Ruling: historial administrador vacío — condición igual por inspección, sin borrar auditoría — costo: caso no ejecutado con historial vacío.
+Final: Ruling: todas marcas/proporciones/textos largos — guardar logo+dibujo probado; no matriz infinita de assets — costo: assets extremos adicionales pueden requerir ajustes.
+Final: Ruling: Lighthouse/presupuesto imágenes — medición comparativa final T7, conservar sizes existente — costo: rendimiento nuevo no medido aún.
+Final: Ruling: fachada cerrada y azul de fotografías/mapas — conservar contenido y excepción aprobada — costo: calidad editorial de esa foto no se mejora en este bloque.
+Final: Ruling: RLS/exportaciones/cálculos/seguridad intactos — sin fuentes modificadas; suites SQL no repetidas — costo: inspección no equivale a nueva ejecución exhaustiva.
+Final: Ruling: CI y otros navegadores/dispositivos — validar sus respectivos entornos, no inferir equivalencia — costo: build local acredita solo este entorno.
+Final: Ruling: espacios finales logs brutos — preservar evidencia; chequeo de código pasa — costo: diff-check global muestra ruido de logs.
+Final: fixed I1 — cobertura/documentación del carrusel hidratado; ocho casos pasan, suite pública completa 117 aprobadas / 15 saltos / 0 fallos (1.7 min). No defecto productivo demostrado ni cambio de aplicación; expectativa errónea de fixture corregida. No hay menores nuevos diferidos. Revisión limpia tras una pasada, sin re-revisión.
