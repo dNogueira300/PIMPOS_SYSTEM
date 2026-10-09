@@ -32,6 +32,9 @@ ni ilustración de vacío. Cada foto vuelve a su tamaño al retirar el cursor.
 - Build final, ESLint completo y 491 unitarias aprobados; registros en `pruebas/`.
 - Tipado y lint-staged aprobados en el commit `4a025e6`. Revisión independiente
   de esta ampliación sin hallazgos materiales; informe y límites en `pruebas/`.
+- Vista previa Vercel de `00e1b54` revisada a 390 px: moto crema, recorrido
+  activado al aparecer y destino final al extremo derecho, sin overflow.
+  URL y alcance registrados en la verificación del bloque 4.
 - El comparador AST con `--ajustes-movimiento` admite explícitamente las dos
   fuentes decorativas revisadas (CSS y MotoDelivery) y retira solo su import y
   nodo añadido de portada. El resto conserva estructura no visual. No afirma

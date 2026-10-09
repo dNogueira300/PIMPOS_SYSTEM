@@ -54,6 +54,14 @@ independiente de la ampliación `d34d0c8..4a025e6` concluida sin hallazgos mater
 no sustituye sus límites de prueba por código ni la revisión pendiente de Dan.
 Informe: `Maquetas/3.2/bloque4/ajustes-movimiento/pruebas/revision-independiente.md`.
 
+Vista previa Vercel del commit `00e1b54` lista y revisada en navegador a 390 px:
+`https://pimpos-system-nlhv8m4s1-daniel-nogueiras-projects-79bc3c01.vercel.app/`.
+La sección conserva los datos reales configurados, color crema, sin overflow;
+al entrar inicia `recorrer-delivery`, duración 4 s/una iteración. La moto termina
+con el borde derecho del SVG en 335 px, igual al de su pista. Es una comprobación
+de portada móvil, no una certificación completa del despliegue. CI se consulta
+directamente en PR #93; estos registros locales no reemplazan su estado.
+
 ## Comprobaciones iniciales de T6
 
 Build de producción aprobado; configuración temporal restaurada sin diff.
@@ -104,8 +112,9 @@ foto. Se conservó el mínimo existente de 44 px y se corrigió el tamaño a
   como diagnóstico y se contrasta con 720 px efectivos. Costo: falta comprobar
   zoom nativo y cierre transversal en T7.
 
-No hay vista previa nueva de Vercel, teclado móvil físico, zoom nativo, impresión
-integral ni medición comparativa Lighthouse en este bloque. Los estados de error
+La pasada inicial no revisó una vista previa nueva de Vercel; la ampliación tiene
+la revisión móvil registrada arriba. Teclado móvil físico, zoom nativo, impresión
+integral y Lighthouse comparativo siguen pendientes. Los estados de error
 de servidor y streaming se revisan por código sin introducir rutas artificiales
 en la aplicación. T7 mantiene el cierre integral.
 
