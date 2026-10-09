@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pimpo’s — delivery y fotografías</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #f7f5f0;
+        color: #28251f;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 1120px;
+        margin: auto;
+      }
+      h1 {
+        color: #953e2c;
+        font-size: 30px;
+      }
+      a {
+        color: #953e2c;
+      }
+      .fotos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      figure {
+        margin: 0;
+        flex: 1 1 400px;
+        min-width: 0;
+      }
+      figcaption {
+        margin: 8px 0;
+      }
+      img {
+        width: 100%;
+        height: auto;
+        border: 1px solid #d9d4ca;
+      }
+      video {
+        width: 390px;
+        max-width: 100%;
+        border: 1px solid #d9d4ca;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Delivery y fotografías</h1>
+      <p>
+        Implementación de los dos ajustes aprobados para PR #93. El video muestra el recorrido real
+        en el build local; las fotos de delivery fijan su fotograma a los dos segundos para poder
+        compararlas.
+      </p>
+      <p>
+        <a href="../index.html">Volver al bloque 4</a> ·
+        <a href="LEEME.md">Resultados y reproducción</a>
+      </p>
+      <h2>Una pasada al aparecer</h2>
+      <video
+        controls
+        muted
+        playsinline
+        preload="metadata"
+        poster="delivery-390.png"
+        src="delivery-movil.webm"
+      ></video>
+      <div class="fotos">
+        <figure>
+          <figcaption>Delivery · 390 px</figcaption>
+          <a href="delivery-390.png"
+            ><img src="delivery-390.png" alt="Moto de reparto en el bloque de delivery móvil"
+          /></a>
+        </figure>
+        <figure>
+          <figcaption>Delivery · 1440 px</figcaption>
+          <a href="delivery-1440.png"
+            ><img
+              src="delivery-1440.png"
+              alt="Moto de reparto en el bloque de delivery de escritorio"
+          /></a>
+        </figure>
+      </div>
+      <h2>Zoom suave en fotografías</h2>
+      <div class="fotos">
+        <figure>
+          <figcaption>Galería · normal</figcaption>
+          <a href="galeria-normal.png"
+            ><img src="galeria-normal.png" alt="Galería antes de pasar el cursor"
+          /></a>
+        </figure>
+        <figure>
+          <figcaption>Galería · cursor sobre foto</figcaption>
+          <a href="galeria-hover.png"
+            ><img src="galeria-hover.png" alt="Galería con zoom de tres por ciento en una foto"
+          /></a>
+        </figure>
+      </div>
+      <p>
+        El zoom se reserva para cursor preciso y se desactiva con movimiento reducido. Se conservan
+        textos, pedidos, precios, navegación y fotografías reales.
+      </p>
+    </main>
+  </body>
+</html>

@@ -1255,6 +1255,12 @@ implementada y verificada localmente en `feat/rediseno-paginas-publicas`, mismo 
 y páginas públicas restantes; evidencia en `DOC/Verificacion rediseño 03.2 - Bloque 4.md`.
 Parar en PR 4 borrador para revisión de Dan; no fusionar ni iniciar T7.
 
+PR #93 abierto en borrador. Dan pidió y aprobó dos ajustes dentro de ese PR:
+moto delivery decorativa que recorre una vez el bloque de movilidad propia en 4 s,
+y zoom del 3 % con cursor sobre las fotografías públicas. Ambos respetan movimiento
+reducido; fotos conservan proporciones/carga y marca/mapa quedan fuera del efecto.
+Evidencia adicional en `DOC/Maquetas/3.2/bloque4/ajustes-movimiento/`.
+
 **Ampliación de Dan y evidencia del 07/10/2026:** quitar el velo blanco del carrusel y empezar
 el rediseño del panel por el login; mostrar el logo original en login, lateral y cabecera móvil.
 La evidencia autenticada local (28 capturas, tres roles) y las maquetas A/B (10 pantallas en

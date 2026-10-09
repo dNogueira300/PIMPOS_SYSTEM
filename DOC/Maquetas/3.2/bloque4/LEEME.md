@@ -27,8 +27,12 @@ restricción de azul de interfaz.
 Las pruebas de composición extrema modifican solo texto del DOM del navegador:
 no prueban cálculo o persistencia. Esas funciones siguen cubiertas por las suites
 de presentaciones, pedido y pizarra sobre datos reales.
-La comparación AST elimina clases y espacios JSX vacíos; confirma que las 18
-fuentes modificadas conservan la misma estructura y contenido no visual.
+La comparación AST inicial eliminó clases y espacios JSX vacíos y confirmó las
+18 fuentes de T6. Los dos ajustes posteriores aprobados en PR #93 tienen
+[video, comparaciones y resultados propios](ajustes-movimiento/index.html).
+Para el árbol actual usar `--ajustes-movimiento`: admite explícitamente CSS y
+MotoDelivery, y conserva la comparación no visual del resto. No equipara esas
+dos fuentes decorativas a cambios de clases solamente.
 
 Zoom CSS no equivale a zoom nativo; no se usa teclado móvil físico.
 El capturador termina con código 1: sus 55 vistas normales pasan, pero la

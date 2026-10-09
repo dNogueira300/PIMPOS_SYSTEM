@@ -13,11 +13,48 @@ tratamiento visual y mantienen sus enlaces y contenido.
 
 No cambian consultas, acciones, props, filtros, slugs, cálculo de precios,
 mensajes WhatsApp, mapa/escapado, metadata ni límites de error. El comparador AST
-confirma las 18 fuentes modificadas ignorando solo `className`, el literal de
+confirmó las 18 fuentes iniciales modificadas ignorando solo `className`, el literal de
 clases `CAMPO` y espacios JSX vacíos; no permite cambios en expresiones de datos.
 Las fuentes de datos, migraciones y dependencias permanecen intactas.
 
-## Comprobaciones
+**Ampliación aprobada por Dan en PR #93:** moto decorativa en la sección de
+movilidad propia, una pasada de 4 s al aparecer, y zoom uniforme del 3 % en
+fotografías públicas. SVG inspirado en su referencia, sin librerías nuevas.
+Respeta movimiento reducido y cursor/tacto. Evidencia adicional en
+`Maquetas/3.2/bloque4/ajustes-movimiento/`, con video y comparaciones normal/hover.
+El comparador actual con `--ajustes-movimiento` distingue las dos fuentes
+decorativas nuevas/revisadas de los cambios de clases; no certifica su lógica
+mediante eliminación de clases. Consultas, acciones y datos siguen intactos.
+
+## Comprobaciones de los ajustes de PR #93
+
+Build final aprobado con el color crema aplicado y configuración restaurada.
+ESLint completo aprobado; Vitest: 491 pruebas aprobadas en 60 archivos.
+Playwright contra ese build: 199 aprobadas, 21 omisiones previstas y cero fallos
+en 17 suites, 3.3 min. Incluye ocho casos ejecutados de moto/hover/tacto/reduced
+motion y dos omisiones por tipo de dispositivo. Se conserva el RED previo.
+Las pruebas de precios, filtros, pedido, mapa, carrusel, contenido y SEO pasan.
+Presupuesto de portada: 156 KB móvil y 159 KB escritorio, dentro del umbral.
+
+Las cinco capturas adicionales a 375/390/768/1024/1440 no desbordan y axe no
+señala violaciones. La moto usa el token crema `#f7f5f0`. Video del recorrido real
+y pares normal/hover de galería, nosotros y producto en
+`Maquetas/3.2/bloque4/ajustes-movimiento/`. Galería abierta en el navegador:
+las cuatro imágenes y el video cargan; este último dura 5.28 s, con 4 s de recorrido.
+
+La primera captura señaló contraste durante la aparición heredada de «Nuestra
+historia» por scroll. El diagnóstico se conserva. El capturador final neutraliza
+solo esas clases de aparición dentro de su navegador para medir texto estable;
+mantiene activa la moto y todas las reglas de axe. No altera la aplicación ni
+certifica cada fotograma intermedio. El comparador AST actual requiere
+`--ajustes-movimiento` y mantiene las fuentes protegidas intactas.
+
+Tipado y lint-staged aprobados en `4a025e6`, con hooks activos. Revisión
+independiente de la ampliación `d34d0c8..4a025e6` concluida sin hallazgos materiales;
+no sustituye sus límites de prueba por código ni la revisión pendiente de Dan.
+Informe: `Maquetas/3.2/bloque4/ajustes-movimiento/pruebas/revision-independiente.md`.
+
+## Comprobaciones iniciales de T6
 
 Build de producción aprobado; configuración temporal restaurada sin diff.
 ESLint completo aprobado. Vitest: 491/491 en 60 archivos, 11.42 s en la pasada
