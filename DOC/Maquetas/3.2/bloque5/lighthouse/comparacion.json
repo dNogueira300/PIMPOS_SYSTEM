@@ -1,0 +1,487 @@
+{
+  "baseSha": "3113084",
+  "resultBase": "ea4ee37",
+  "method": "Mismo puerto3000, dependencias, Supabase local, máquina y sesión.5 mediciones móviles por ruta y versión, mediana y dispersión. Sin capturadores ni builds en paralelo.",
+  "records": [
+    {
+      "route": "/",
+      "base": {
+        "performance": 85,
+        "accessibility": 100,
+        "seo": 100,
+        "lcp": 3642.6709250000004,
+        "cls": 0.01412808136563025,
+        "bytes": 446121,
+        "range": [69, 95]
+      },
+      "result": {
+        "performance": 91,
+        "accessibility": 100,
+        "seo": 100,
+        "lcp": 3285.4375,
+        "cls": 0.01818708600502714,
+        "bytes": 356307,
+        "range": [79, 96]
+      },
+      "delta": 6,
+      "relativePass": true,
+      "absolutePass": true,
+      "samples": {
+        "base": [
+          {
+            "file": "base/inicio-1.json",
+            "scores": {
+              "performance": 69,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 4888.011700000001,
+            "cls": 0.01412808136563025,
+            "bytes": 446125,
+            "warnings": []
+          },
+          {
+            "file": "base/inicio-2.json",
+            "scores": {
+              "performance": 77,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3801.05155,
+            "cls": 0.01412808136563025,
+            "bytes": 446121,
+            "warnings": []
+          },
+          {
+            "file": "base/inicio-3.json",
+            "scores": {
+              "performance": 85,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3642.6709250000004,
+            "cls": 0.01412808136563025,
+            "bytes": 446121,
+            "warnings": []
+          },
+          {
+            "file": "base/inicio-4.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2652.5506499999997,
+            "cls": 0.01412808136563025,
+            "bytes": 446121,
+            "warnings": []
+          },
+          {
+            "file": "base/inicio-5.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2652.3802499999993,
+            "cls": 0.01412808136563025,
+            "bytes": 446121,
+            "warnings": []
+          }
+        ],
+        "result": [
+          {
+            "file": "resultado/inicio-1.json",
+            "scores": {
+              "performance": 79,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 4188.698850000001,
+            "cls": 0.01818708600502714,
+            "bytes": 356307,
+            "warnings": []
+          },
+          {
+            "file": "resultado/inicio-2.json",
+            "scores": {
+              "performance": 88,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3332.940125,
+            "cls": 0.01818708600502714,
+            "bytes": 356307,
+            "warnings": []
+          },
+          {
+            "file": "resultado/inicio-3.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2470.1135750000003,
+            "cls": 0.01818708600502714,
+            "bytes": 356307,
+            "warnings": []
+          },
+          {
+            "file": "resultado/inicio-4.json",
+            "scores": {
+              "performance": 96,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2463.569125,
+            "cls": 0.01818708600502714,
+            "bytes": 356307,
+            "warnings": []
+          },
+          {
+            "file": "resultado/inicio-5.json",
+            "scores": {
+              "performance": 91,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3285.4375,
+            "cls": 0.01818708600502714,
+            "bytes": 356307,
+            "warnings": []
+          }
+        ]
+      }
+    },
+    {
+      "route": "/productos",
+      "base": {
+        "performance": 89,
+        "accessibility": 100,
+        "seo": 100,
+        "lcp": 3103.173,
+        "cls": 0,
+        "bytes": 336236,
+        "range": [82, 94]
+      },
+      "result": {
+        "performance": 94,
+        "accessibility": 100,
+        "seo": 100,
+        "lcp": 2863.667,
+        "cls": 0,
+        "bytes": 308090,
+        "range": [88, 96]
+      },
+      "delta": 5,
+      "relativePass": true,
+      "absolutePass": true,
+      "samples": {
+        "base": [
+          {
+            "file": "base/productos-1.json",
+            "scores": {
+              "performance": 89,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3074.7730000000006,
+            "cls": 0,
+            "bytes": 336422,
+            "warnings": []
+          },
+          {
+            "file": "base/productos-2.json",
+            "scores": {
+              "performance": 88,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3225.438,
+            "cls": 0,
+            "bytes": 336236,
+            "warnings": []
+          },
+          {
+            "file": "base/productos-3.json",
+            "scores": {
+              "performance": 82,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3343.195,
+            "cls": 0,
+            "bytes": 336236,
+            "warnings": []
+          },
+          {
+            "file": "base/productos-4.json",
+            "scores": {
+              "performance": 94,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2982.9133999999995,
+            "cls": 0,
+            "bytes": 335454,
+            "warnings": []
+          },
+          {
+            "file": "base/productos-5.json",
+            "scores": {
+              "performance": 90,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3103.173,
+            "cls": 0,
+            "bytes": 336236,
+            "warnings": []
+          }
+        ],
+        "result": [
+          {
+            "file": "resultado/productos-1.json",
+            "scores": {
+              "performance": 88,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3129.994,
+            "cls": 0,
+            "bytes": 308269,
+            "warnings": []
+          },
+          {
+            "file": "resultado/productos-2.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2826.709,
+            "cls": 0,
+            "bytes": 308090,
+            "warnings": []
+          },
+          {
+            "file": "resultado/productos-3.json",
+            "scores": {
+              "performance": 96,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2771.107,
+            "cls": 0,
+            "bytes": 308090,
+            "warnings": []
+          },
+          {
+            "file": "resultado/productos-4.json",
+            "scores": {
+              "performance": 94,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2863.667,
+            "cls": 0,
+            "bytes": 308090,
+            "warnings": []
+          },
+          {
+            "file": "resultado/productos-5.json",
+            "scores": {
+              "performance": 88,
+              "accessibility": 100,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3088.4139999999998,
+            "cls": 0,
+            "bytes": 308090,
+            "warnings": []
+          }
+        ]
+      }
+    },
+    {
+      "route": "/contacto",
+      "base": {
+        "performance": 95,
+        "accessibility": 97,
+        "seo": 100,
+        "lcp": 2815.2046250000003,
+        "cls": 0,
+        "bytes": 307199,
+        "range": [91, 96]
+      },
+      "result": {
+        "performance": 94,
+        "accessibility": 97,
+        "seo": 100,
+        "lcp": 2773.0117,
+        "cls": 0,
+        "bytes": 272111,
+        "range": [90, 97]
+      },
+      "delta": -1,
+      "relativePass": true,
+      "absolutePass": true,
+      "samples": {
+        "base": [
+          {
+            "file": "base/contacto-1.json",
+            "scores": {
+              "performance": 91,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3114.3088000000007,
+            "cls": 0,
+            "bytes": 307199,
+            "warnings": []
+          },
+          {
+            "file": "base/contacto-2.json",
+            "scores": {
+              "performance": 96,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2730.109875,
+            "cls": 0,
+            "bytes": 307199,
+            "warnings": []
+          },
+          {
+            "file": "base/contacto-3.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2823.80775,
+            "cls": 0,
+            "bytes": 307199,
+            "warnings": []
+          },
+          {
+            "file": "base/contacto-4.json",
+            "scores": {
+              "performance": 96,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2776.90625,
+            "cls": 0,
+            "bytes": 307199,
+            "warnings": []
+          },
+          {
+            "file": "base/contacto-5.json",
+            "scores": {
+              "performance": 95,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2815.2046250000003,
+            "cls": 0,
+            "bytes": 307199,
+            "warnings": []
+          }
+        ],
+        "result": [
+          {
+            "file": "resultado/contacto-1.json",
+            "scores": {
+              "performance": 90,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 3045.4113500000003,
+            "cls": 0,
+            "bytes": 272136,
+            "warnings": []
+          },
+          {
+            "file": "resultado/contacto-2.json",
+            "scores": {
+              "performance": 94,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2773.0117,
+            "cls": 0,
+            "bytes": 272111,
+            "warnings": []
+          },
+          {
+            "file": "resultado/contacto-3.json",
+            "scores": {
+              "performance": 91,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2937.3026,
+            "cls": 0,
+            "bytes": 272111,
+            "warnings": []
+          },
+          {
+            "file": "resultado/contacto-4.json",
+            "scores": {
+              "performance": 96,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2617.4287999999997,
+            "cls": 0,
+            "bytes": 272111,
+            "warnings": []
+          },
+          {
+            "file": "resultado/contacto-5.json",
+            "scores": {
+              "performance": 97,
+              "accessibility": 97,
+              "best-practices": 100,
+              "seo": 100
+            },
+            "lcp": 2572.3183,
+            "cls": 0,
+            "bytes": 272111,
+            "warnings": []
+          }
+        ]
+      }
+    }
+  ]
+}

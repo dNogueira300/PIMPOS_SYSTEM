@@ -1,0 +1,22 @@
+[
+  {
+    "name": "insumos",
+    "textEqualIgnoringRepeatedHeadersAndPageNumbers": true,
+    "pages": 1
+  },
+  {
+    "name": "insumos-vacio",
+    "textEqualIgnoringRepeatedHeadersAndPageNumbers": true,
+    "pages": 1
+  },
+  {
+    "name": "clientes",
+    "textEqualIgnoringRepeatedHeadersAndPageNumbers": true,
+    "pages": 8
+  },
+  {
+    "name": "clientes-vacio",
+    "textEqualIgnoringRepeatedHeadersAndPageNumbers": true,
+    "pages": 1
+  }
+]

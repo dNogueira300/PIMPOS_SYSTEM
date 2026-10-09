@@ -1,0 +1,40 @@
+Lighthouse (móvil) sobre http://localhost:3000
+
+  midiendo / (x5) ... 85  100  100  100   (rendimiento: 69/77/85/95/95)
+  midiendo /productos (x5) ... 89  100  100  100   (rendimiento: 89/88/82/94/90)
+  midiendo /contacto (x5) ... 95  97  100  100   (rendimiento: 91/96/95/96/95)
+
+Ruta                           Rendimiento   AccesibilidadBuenas prácticas             SEO
+------------------------------------------------------------------------------------------
+  (no se pudo limpiar el perfil temporal de Chrome: EPERM)
+/                                     85 ✗             100             100             100
+/productos                            89 ✗             100             100             100
+/contacto                               95              97             100             100
+
+Mínimos del plan (doc 03 §7): rendimiento 90, accesibilidad 95, SEO 100. Buenas prácticas se informa, no corta.
+Informes completos en DOC/Maquetas/3.2/bloque5/lighthouse/base/
+
+Por debajo del mínimo:
+  / → Rendimiento 85, se pedían 90
+      [image-delivery-insight] Improve image delivery
+      [network-dependency-tree-insight] Network dependency tree
+      [max-potential-fid] Max Potential First Input Delay
+      [legacy-javascript-insight] Legacy JavaScript
+      [render-blocking-insight] Render-blocking requests
+      [unused-javascript] Reduce unused JavaScript
+      [largest-contentful-paint] Largest Contentful Paint
+      [interactive] Time to Interactive
+      [total-blocking-time] Total Blocking Time
+      informe: DOC\Maquetas\3.2\bloque5\lighthouse\base\inicio.html
+  /productos → Rendimiento 89, se pedían 90
+      [forced-reflow-insight] Forced reflow
+      [legacy-javascript-insight] Legacy JavaScript
+      [network-dependency-tree-insight] Network dependency tree
+      [unused-javascript] Reduce unused JavaScript
+      [max-potential-fid] Max Potential First Input Delay
+      [render-blocking-insight] Render-blocking requests
+      [largest-contentful-paint] Largest Contentful Paint
+      [total-blocking-time] Total Blocking Time
+      [interactive] Time to Interactive
+      [speed-index] Speed Index
+      informe: DOC\Maquetas\3.2\bloque5\lighthouse\base\productos.html

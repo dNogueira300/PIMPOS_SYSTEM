@@ -86,7 +86,7 @@ export function TablaReporte({ reporte }: { reporte: Reporte }) {
               {columnas.map((c) => (
                 <td
                   key={c.clave}
-                  className={`p-3 wrap-anywhere ${c.tipo === "texto" ? "" : "text-right tabular-nums"}`}
+                  className={`p-3 ${c.clave === "unidad" ? "whitespace-nowrap" : "wrap-anywhere"} ${c.tipo === "texto" ? "" : "text-right tabular-nums"}`}
                 >
                   {celda(f[c.clave] ?? null, c, sinCosto[i] ?? false)}
                 </td>

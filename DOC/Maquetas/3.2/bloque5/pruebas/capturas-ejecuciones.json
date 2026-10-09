@@ -1,0 +1,30 @@
+[
+  {
+    "name": "pdf-descargas",
+    "exit": 0
+  },
+  {
+    "name": "acceso-capturas",
+    "exit": 0
+  },
+  {
+    "name": "zoom-nativo",
+    "exit": 0
+  },
+  {
+    "name": "publico-capturas",
+    "exit": 1
+  },
+  {
+    "name": "inicio-capturas",
+    "exit": 4294967295
+  },
+  {
+    "name": "contenido-capturas",
+    "exit": 0
+  },
+  {
+    "name": "operacion-capturas",
+    "exit": 0
+  }
+]

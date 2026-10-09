@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -23,6 +24,7 @@ export async function generateMetadata(props: PageProps<"/novedades/[slug]">): P
   const novedad = await obtenerNovedad(slug);
   if (!novedad) return { title: "Novedad no encontrada" };
   return {
+    alternates: { canonical: urlAbsoluta(`/novedades/${novedad.slug}`) },
     title: novedad.titulo,
     description: novedad.resumen ?? novedad.contenido.slice(0, 155),
   };

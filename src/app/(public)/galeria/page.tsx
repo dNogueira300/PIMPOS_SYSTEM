@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 
@@ -7,6 +8,7 @@ import { obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { listarGaleria } from "@/lib/datos/contenido";
 
 export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/galeria") },
   title: "Galería",
   description:
     "Fotos de Panadería Pimpo's en Iquitos: la fachada, el interior de la tienda, el horno y la atención en el mostrador.",

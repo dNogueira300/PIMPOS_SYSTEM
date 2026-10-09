@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 D:/300/OTROS/XXX/DAN/PIMPOS/PIMPOS_REDISENO_BLOQUE1
+
+
+ Test Files  4 passed (4)
+      Tests  16 passed (16)
+   Start at  11:17:38
+   Duration  1.81s (tests 49%, import 38%, transform 11%, worker 2%)
+

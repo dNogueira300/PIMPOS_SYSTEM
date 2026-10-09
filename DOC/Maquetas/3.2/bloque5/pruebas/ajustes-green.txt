@@ -1,0 +1,55 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:6880) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 40 tests using 1 worker
+
+(node:24848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen (5.5s)
+  ok  2 [movil] › e2e\panel-clientes-exportar.spec.ts:14:5 › la administración descarga el Excel de una zona, sin fotos, y queda registrado (5.0s)
+  ok  3 [movil] › e2e\panel-clientes-exportar.spec.ts:63:5 › el PDF se descarga (1.9s)
+  ok  4 [movil] › e2e\panel-clientes-exportar.spec.ts:78:5 › el ingeniero no ve los botones ni llega a la descarga (1.3s)
+  ok  5 [movil] › e2e\panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla (2.0s)
+  ok  6 [movil] › e2e\panel-exportar.spec.ts:39:5 › el PDF se descarga (1.7s)
+  ok  7 [movil] › e2e\panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla (2.9s)
+  ok  8 [movil] › e2e\panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo (1.7s)
+  ok  9 [movil] › e2e\panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar (223ms)
+  ok 10 [movil] › e2e\panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos (1.2s)
+  ok 11 [movil] › e2e\reportes-presentacion.spec.ts:6:5 › las unidades del reporte se leen completas en tamaños intermedios (2.3s)
+  -  12 [movil] › e2e\seo.spec.ts:28:5 › robots.txt deja fuera el panel y apunta al sitemap
+  -  13 [movil] › e2e\seo.spec.ts:39:5 › el sitemap trae las secciones y los productos, y nada del panel
+  -  14 [movil] › e2e\seo.spec.ts:57:5 › la portada describe la panaderia con su horario de dos turnos
+  -  15 [movil] › e2e\seo.spec.ts:88:5 › las preguntas frecuentes van como FAQPage
+  -  16 [movil] › e2e\seo.spec.ts:99:5 › cada pagina lleva su titulo y descripcion para compartir
+  -  17 [movil] › e2e\seo.spec.ts:117:5 › la imagen para compartir existe y es una imagen de verdad
+  -  18 [movil] › e2e\seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada
+  -  19 [movil] › e2e\seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros
+  -  20 [movil] › e2e\seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias
+(node:27020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 21 [escritorio] › e2e\novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen (6.7s)
+  -  22 [escritorio] › e2e\panel-clientes-exportar.spec.ts:14:5 › la administración descarga el Excel de una zona, sin fotos, y queda registrado
+  -  23 [escritorio] › e2e\panel-clientes-exportar.spec.ts:63:5 › el PDF se descarga
+  -  24 [escritorio] › e2e\panel-clientes-exportar.spec.ts:78:5 › el ingeniero no ve los botones ni llega a la descarga
+  -  25 [escritorio] › e2e\panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla
+  -  26 [escritorio] › e2e\panel-exportar.spec.ts:39:5 › el PDF se descarga
+  -  27 [escritorio] › e2e\panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla
+  -  28 [escritorio] › e2e\panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo
+  -  29 [escritorio] › e2e\panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar
+  -  30 [escritorio] › e2e\panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos
+  ok 31 [escritorio] › e2e\reportes-presentacion.spec.ts:6:5 › las unidades del reporte se leen completas en tamaños intermedios (3.4s)
+  ok 32 [escritorio] › e2e\seo.spec.ts:28:5 › robots.txt deja fuera el panel y apunta al sitemap (88ms)
+  ok 33 [escritorio] › e2e\seo.spec.ts:39:5 › el sitemap trae las secciones y los productos, y nada del panel (88ms)
+  ok 34 [escritorio] › e2e\seo.spec.ts:57:5 › la portada describe la panaderia con su horario de dos turnos (742ms)
+  ok 35 [escritorio] › e2e\seo.spec.ts:88:5 › las preguntas frecuentes van como FAQPage (630ms)
+  ok 36 [escritorio] › e2e\seo.spec.ts:99:5 › cada pagina lleva su titulo y descripcion para compartir (1.0s)
+  ok 37 [escritorio] › e2e\seo.spec.ts:117:5 › la imagen para compartir existe y es una imagen de verdad (638ms)
+  ok 38 [escritorio] › e2e\seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada (628ms)
+  ok 39 [escritorio] › e2e\seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros (1.9s)
+  ok 40 [escritorio] › e2e\seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias (472ms)
+
+  18 skipped
+  22 passed (48.5s)

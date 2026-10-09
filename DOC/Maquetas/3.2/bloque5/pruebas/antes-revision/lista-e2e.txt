@@ -1,0 +1,712 @@
+Listing tests:
+  [movil] › abierto-ahora.spec.ts:17:5 › en horario de atencion dice que esta abierto y hasta cuando
+  [movil] › abierto-ahora.spec.ts:27:5 › fuera de horario dice cuando vuelve a abrir
+  [movil] › abierto-ahora.spec.ts:38:5 › cambia solo al llegar la hora de cierre, sin recargar
+  [movil] › abierto-ahora.spec.ts:53:5 › el pie tambien lo dice, en todas las secciones
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos/leche
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos/frances-chico
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /novedades
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /nosotros
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /galeria
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /ubicacion
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /preguntas-frecuentes
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /contacto
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /esto-no-existe
+  [movil] › accesibilidad.spec.ts:90:7 › sin errores de axe en /ingresar
+  [movil] › accesibilidad.spec.ts:105:5 › sin errores de axe con el menú del celular abierto
+  [movil] › autenticacion.spec.ts:9:5 › el panel redirige al ingreso a quien no tiene sesion
+  [movil] › autenticacion.spec.ts:16:5 › un formulario vacio se rechaza sin llamar al servidor de auth
+  [movil] › autenticacion.spec.ts:24:5 › unas credenciales incorrectas no revelan si la cuenta existe
+  [movil] › autenticacion.spec.ts:36:5 › un superadmin entra y ve todas las secciones
+  [movil] › autenticacion.spec.ts:55:5 › un repartidor entra y solo ve clientes
+  [movil] › autenticacion.spec.ts:76:5 › una cuenta sin rol asignado entra pero no ve el panel
+  [movil] › autenticacion.spec.ts:93:5 › cerrar sesion devuelve al ingreso y corta el acceso
+  [movil] › avisos-diario.spec.ts:14:5 › sin la cabecera del cron, no hace nada
+  [movil] › avisos-diario.spec.ts:19:5 › con un secreto equivocado, tampoco
+  [movil] › avisos-diario.spec.ts:26:5 › con el correo apagado, dice por qué y deja los avisos para cuando se encienda
+  [movil] › cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla
+  [movil] › cabecera.spec.ts:29:5 › el menu del celular empieza por Inicio y trae el horario
+  [movil] › cabecera.spec.ts:48:5 › la galeria dice la direccion que tiene cargada el negocio
+  [movil] › cabecera.spec.ts:58:5 › cada diapositiva se encuadra por la altura que tiene guardada
+  [movil] › cabecera.spec.ts:73:5 › la historia de la portada ya no empieza por «Bienvenidos»
+  [movil] › cabecera.spec.ts:85:5 › la barra de aviso dice la hora y las zonas que hay en la base
+  [movil] › cabecera.spec.ts:100:5 › la cabecera usa el fondo cálido y la sección activa terracota
+  [movil] › cabecera.spec.ts:116:5 › la cabecera cabe sin desbordar en los anchos intermedios
+  [movil] › carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel
+  [movil] › carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces
+  [movil] › carrusel-interacciones.spec.ts:31:5 › flechas e indicadores cambian el slide y el enlace disponible
+  [movil] › carrusel-interacciones.spec.ts:50:5 › el avance automático mantiene el intervalo de seis segundos
+  [movil] › carrusel-interacciones.spec.ts:59:5 › hover y foco de teclado pausan el avance y permiten reanudarlo
+  [movil] › carrusel-interacciones.spec.ts:81:5 › movimiento reducido evita avance automático pero conserva navegación manual
+  [movil] › errores.spec.ts:24:7 › una direccion que no existe: 404 en espanol, con cabecera y por donde seguir
+  [movil] › errores.spec.ts:24:7 › un producto que no existe: 404 en espanol, con cabecera y por donde seguir
+  [movil] › flotante.spec.ts:48:5 › al final de la pagina, el flotante no se queda encima de ningun texto
+  [movil] › flotante.spec.ts:74:5 › el flotante se aparta mientras se baja y vuelve al parar
+  [movil] › flotante.spec.ts:130:5 › el flotante se aparta con cualquier boton de WhatsApp a la vista
+  [movil] › identidad-panel.spec.ts:7:5 › la pestaña seleccionada conserva el contraste al pasar el puntero
+  [movil] › identidad-panel.spec.ts:34:5 › el acceso muestra el logo completo y el formulario cabe en móvil
+  [movil] › identidad-panel.spec.ts:49:5 › la marca y la navegación del panel caben en tamaños intermedios
+  [movil] › insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda
+  [movil] › mapa.spec.ts:16:5 › al bajar, la cabecera queda por encima del mapa
+  [movil] › mapa.spec.ts:55:5 › el menu del celular se abre por encima del mapa
+  [movil] › marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada
+  [movil] › marca.spec.ts:35:5 › el titular de la madrugada dice la misma hora que la tabla de horarios
+  [movil] › marca.spec.ts:53:5 › los años de oficio se calculan, no se escriben
+  [movil] › movimiento.spec.ts:13:5 › el horario junta los dias iguales y pone cada turno en su propia linea
+  [movil] › movimiento.spec.ts:46:5 › el domingo sigue diciendo Cerrado
+  [movil] › movimiento.spec.ts:53:5 › las preguntas frecuentes dan el horario como el resto del sitio
+  [movil] › movimiento.spec.ts:64:5 › todo lo animado acaba visible al llegar a el
+  [movil] › movimiento.spec.ts:135:5 › con la pagina quieta, nada de lo que se ve entero queda a medio aparecer
+  [movil] › movimiento.spec.ts:162:5 › la aparicion sigue ahi: un bloque que esta entrando se ve a medio camino
+  [movil] › movimiento.spec.ts:224:5 › al imprimir no queda ningun bloque en blanco
+  [movil] › movimiento.spec.ts:241:5 › quien pide menos movimiento no recibe ninguno
+  [movil] › movimiento.spec.ts:264:5 › el boton de pedido responde al pulsarlo
+  [movil] › novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/categorias
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/categorias/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/productos
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/productos/nuevo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/novedades
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/novedades/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/portada
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/portada/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/galeria
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/galeria/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/preguntas
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/preguntas/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/guias
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/guias/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/testimonios
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/testimonios/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/nuevo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/ingreso
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/consumo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/conteo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/bajas
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/bajas/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/proveedores
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/proveedores/nuevo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/existencias
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/consumo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/compras
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/mermas
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/kardex
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/nuevo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/zonas
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/zonas/nueva
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/revisar
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/ingresos
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/borrados
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/descargas
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/usuarios
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/usuarios/nuevo
+  [movil] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/configuracion
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/categorias
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/categorias/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/productos
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/productos/nuevo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/novedades
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/novedades/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/portada
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/portada/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/galeria
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/galeria/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/preguntas
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/preguntas/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/guias
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/guias/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/testimonios
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/testimonios/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/nuevo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/ingreso
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/consumo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/conteo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/bajas
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/bajas/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/proveedores
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/proveedores/nuevo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/existencias
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/consumo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/compras
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/mermas
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/kardex
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/nuevo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/zonas
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/zonas/nueva
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/revisar
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/ingresos
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/borrados
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/descargas
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/usuarios
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/usuarios/nuevo
+  [movil] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/configuracion
+  [movil] › panel-accesibilidad.spec.ts:131:5 › el «Más» del celular no tiene errores de axe ni controles pequeños
+  [movil] › panel-accesibilidad.spec.ts:153:5 › axe y área táctil en la ficha de un insumo
+  [movil] › panel-bajas.spec.ts:21:5 › el ingeniero pide, el administrador aprueba y el saldo baja
+  [movil] › panel-bajas.spec.ts:48:5 › un rechazo llega con su comentario
+  [movil] › panel-bajas.spec.ts:74:5 › una baja puede nombrar su lote, y al aprobarla sale de ese y no del que vence primero
+  [movil] › panel-busqueda.spec.ts:26:5 › productos: filtra al escribir, sin Enter y sin recargar
+  [movil] › panel-busqueda.spec.ts:47:5 › productos: la categoría filtra al elegirla
+  [movil] › panel-busqueda.spec.ts:62:5 › insumos: filtra al escribir, sin Enter y sin recargar
+  [movil] › panel-busqueda.spec.ts:79:5 › volver a la sección desde el menú vacía también el buscador
+  [movil] › panel-busqueda.spec.ts:94:5 › lo elegido antes de que la página termine de cargar también filtra
+  [movil] › panel-cascara.spec.ts:6:5 › el ingeniero ve inicio y contenido, y no usuarios ni configuración
+  [movil] › panel-cascara.spec.ts:31:5 › en el celular, «Más» lleva a configuración y a cerrar sesión
+  [movil] › panel-cascara.spec.ts:44:5 › la barra inferior no tapa el final de la página
+  [movil] › panel-categorias.spec.ts:10:5 › crear una categoría con foto: se comprime, se sube y el bucket la sirve
+  [movil] › panel-categorias.spec.ts:49:5 › las dos formas de elegir foto muestran un indicador de foco visible
+  [movil] › panel-categorias.spec.ts:85:5 › lo escrito sobrevive a una recarga y se puede recuperar
+  [movil] › panel-categorias.spec.ts:108:5 › un error en una pestaña que no se ve la marca y salta a ella
+  [movil] › panel-categorias.spec.ts:124:5 › borrar pide confirmación nombrando la categoría
+  [movil] › panel-clientes-administracion.spec.ts:13:5 › la administración crea una zona, no la puede retirar con clientes activos, y sí vacía
+  [movil] › panel-clientes-administracion.spec.ts:42:5 › el ingeniero no llega a las zonas ni a la lista para revisar
+  [movil] › panel-clientes-administracion.spec.ts:54:5 › borrar los datos a pedido: pide motivo, borra datos y fotos, y deja la constancia
+  [movil] › panel-clientes-administracion.spec.ts:89:5 › un cliente de hace dos años sale en el inicio y en «Para revisar»; «Sigue siendo cliente» lo quita
+  [movil] › panel-clientes-administracion.spec.ts:140:5 › si Storage no deja borrar las fotos, lleva a la ficha y ahí se reintenta (Review Focus)
+  [movil] › panel-clientes-administracion.spec.ts:182:5 › «Sigue siendo cliente» no reactiva a quien otro acaba de desactivar
+  [movil] › panel-clientes-exportar.spec.ts:14:5 › la administración descarga el Excel de una zona, sin fotos, y queda registrado
+  [movil] › panel-clientes-exportar.spec.ts:63:5 › el PDF se descarga
+  [movil] › panel-clientes-exportar.spec.ts:78:5 › el ingeniero no ve los botones ni llega a la descarga
+  [movil] › panel-clientes-registro.spec.ts:35:5 › el ingeniero registra con permiso y punto, y añade la foto de la fachada
+  [movil] › panel-clientes-registro.spec.ts:72:5 › sin el permiso marcado no se guarda, y lo dice en su pestaña
+  [movil] › panel-clientes-registro.spec.ts:85:5 › un celular repetido avisa con enlace a su ficha, y deja seguir
+  [movil] › panel-clientes-registro.spec.ts:109:5 › el alta pulsada dos veces no deja dos clientes (Review Focus)
+  [movil] › panel-clientes-registro.spec.ts:125:5 › el repartidor corrige la referencia y el punto, y no llega a editar datos
+  [movil] › panel-clientes-registro.spec.ts:152:5 › el ingeniero desactiva y reactiva a un cliente
+  [movil] › panel-clientes-registro.spec.ts:175:5 › un nombre con código no se ejecuta en el mapa de la ficha
+  [movil] › panel-clientes-registro.spec.ts:196:5 › el mapa del alta se dibuja entero al abrir su pestaña
+  [movil] › panel-clientes-registro.spec.ts:216:5 › añadir una foto no deja «cambios sin guardar» en el formulario
+  [movil] › panel-clientes-registro.spec.ts:242:5 › elegir una zona en la vista Mapa se queda en el mapa
+  [movil] › panel-clientes-registro.spec.ts:259:5 › el repartidor cambia una foto de la fachada sin poder borrarla
+  [movil] › panel-clientes.spec.ts:13:5 › el repartidor encuentra a un cliente por nombre sin tildes y por celular con espacios
+  [movil] › panel-clientes.spec.ts:50:5 › la ficha tiene sus botones, su permiso y la foto solo por URL firmada
+  [movil] › panel-clientes.spec.ts:94:5 › la vista mapa enseña a los clientes con punto y dice cuántos no lo tienen
+  [movil] › panel-configuracion.spec.ts:59:5 › cambiar el teléfono se ve en contacto sin redesplegar
+  [movil] › panel-configuracion.spec.ts:86:5 › confirmar un dato provisional le quita la etiqueta y baja el aviso del inicio
+  [movil] › panel-configuracion.spec.ts:128:5 › un horario imposible se marca en la pestaña Horarios
+  [movil] › panel-configuracion.spec.ts:151:5 › el ingeniero no entra a configuración
+  [movil] › panel-configuracion.spec.ts:161:5 › el administrador sube el logo al bucket marca (0032 se lo deja solo a la administración)
+  [movil] › panel-configuracion.spec.ts:196:5 › el sitio anuncia el favicon de la configuración
+  [movil] › panel-configuracion.spec.ts:201:5 › guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar
+  [movil] › panel-contenido.spec.ts:12:5 › una pregunta nueva se publica y sale en Preguntas frecuentes
+  [movil] › panel-contenido.spec.ts:81:5 › subir una pregunta la adelanta también en el sitio
+  [movil] › panel-contenido.spec.ts:145:5 › una foto nueva de galería se sube al bucket galeria y sale en la galería
+  [movil] › panel-contenido.spec.ts:180:5 › un slide con enlace pero sin texto de botón se marca en su pestaña
+  [movil] › panel-contenido.spec.ts:217:5 › un testimonio nuevo se guarda sin publicar y no sale en la portada
+  [movil] › panel-contenido.spec.ts:235:5 › una guía nueva queda en la lista con su estado
+  [movil] › panel-editar.spec.ts:35:5 › cada fila de cada lista tiene su lápiz de editar, y lleva al formulario
+  [movil] › panel-editar.spec.ts:71:5 › el lápiz dice qué edita, para quien usa lector de pantalla
+  [movil] › panel-editar.spec.ts:85:5 › a 375 px, una fila con una palabra larga no empuja sus botones fuera de la tarjeta
+  [movil] › panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+  [movil] › panel-estados-identidad.spec.ts:20:5 › el aviso de copia local permite leer y descartar con contraste
+  [movil] › panel-estados-identidad.spec.ts:42:5 › el aviso de validación del formulario es legible
+  [movil] › panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla
+  [movil] › panel-exportar.spec.ts:39:5 › el PDF se descarga
+  [movil] › panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla
+  [movil] › panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo
+  [movil] › panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar
+  [movil] › panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos
+  [movil] › panel-historial.spec.ts:98:5 › la administración encuentra un cambio de precio, lo abre y ve el antes y el después
+  [movil] › panel-historial.spec.ts:135:5 › los filtros se aplican al elegir, sin recargar la página
+  [movil] › panel-historial.spec.ts:167:5 › una dirección con filtros inventados no rompe la página (Review Focus)
+  [movil] › panel-historial.spec.ts:189:5 › el ingeniero no ve «Historial» ni llega escribiendo la dirección
+  [movil] › panel-historial.spec.ts:211:5 › «Ver historial» desde un producto trae también sus presentaciones
+  [movil] › panel-historial.spec.ts:229:5 › Ingresos muestra el ingreso que la prueba acaba de hacer
+  [movil] › panel-historial.spec.ts:247:5 › Datos borrados y Descargas muestran lo que dejan un borrado y una descarga
+  [movil] › panel-historial.spec.ts:298:5 › el inicio enseña la actividad reciente solo a la administración
+  [movil] › panel-historial.spec.ts:330:5 › el detalle enseña el guardado entero, y «Ir a…» desaparece si el producto se borró después
+  [movil] › panel-historial.spec.ts:361:5 › «Ver historial» de un insumo trae el reparto entre lotes, dicho con el nombre del insumo
+  [movil] › panel-inactividad.spec.ts:30:5 › entrar deja la marca de actividad
+  [movil] › panel-inactividad.spec.ts:40:5 › con más de dos horas sin actividad, la siguiente página pide entrar otra vez
+  [movil] › panel-inactividad.spec.ts:59:5 › con actividad reciente, sigue dentro y la marca se renueva
+  [movil] › panel-inactividad.spec.ts:71:5 › escribir o tocar en la página cuenta como actividad
+  [movil] › panel-inactividad.spec.ts:88:5 › con la pestaña abierta y sin tocar nada dos horas, se cierra sola
+  [movil] › panel-inactividad.spec.ts:108:5 › con el reloj de la computadora una hora adelantado, se puede trabajar
+  [movil] › panel-inactividad.spec.ts:125:5 › una sesión sin marca de actividad no se reanuda: pide entrar
+  [movil] › panel-inactividad.spec.ts:136:5 › si se cerró la sesión en otra pestaña, esta deja de enseñar el panel
+  [movil] › panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones
+  [movil] › panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones
+  [movil] › panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones
+  [movil] › panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil
+  [movil] › panel-insumos.spec.ts:7:5 › el ingeniero crea un insumo con su equivalencia y lo ve en Existencias
+  [movil] › panel-insumos.spec.ts:48:5 › el repartidor no ve la sección de insumos
+  [movil] › panel-kardex.spec.ts:11:5 › el administrador cuenta, ve el ajuste en el kárdex y lo anula
+  [movil] › panel-kardex.spec.ts:38:5 › el ingeniero no ve Conteo ni Anular
+  [movil] › panel-kardex.spec.ts:50:5 › en el conteo, cada precio dice de qué insumo es
+  [movil] › panel-kardex.spec.ts:61:5 › la ficha enseña primero el lote que sale primero (el que vence antes)
+  [movil] › panel-kardex.spec.ts:90:5 › el kárdex sin insumo pide elegirlo
+  [movil] › panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+  [movil] › panel-movimientos.spec.ts:24:5 › un ingreso de dos líneas sube el saldo y un consumo lo baja
+  [movil] › panel-movimientos.spec.ts:78:5 › cambiar de un insumo perecible a uno que no vence no deja fecha en el lote
+  [movil] › panel-movimientos.spec.ts:129:5 › un consumo que no alcanza dice cuánto hay
+  [movil] › panel-novedades.spec.ts:26:5 › ingeniero envía, administrador devuelve, ingeniero corrige, administrador publica
+  [movil] › panel-novedades.spec.ts:101:5 › aunque la pida por la API, un ingeniero no puede publicar una promoción
+  [movil] › panel-productos.spec.ts:10:5 › un ingeniero crea un producto, lo publica y el sitio lo muestra sin redesplegar
+  [movil] › panel-productos.spec.ts:59:5 › un precio con letras se marca en la pestaña Precios aunque se esté en Datos
+  [movil] › panel-productos.spec.ts:83:5 › cambiar un precio deja constancia en el historial
+  [movil] › panel-reportes.spec.ts:11:5 › un consumo de hoy aparece en el reporte con su costo
+  [movil] › panel-reportes.spec.ts:64:5 › existencias enseña el valor del almacén
+  [movil] › panel-sesiones.spec.ts:89:5 › desactivar a alguien le cierra la sesión que tenía abierta, en el acto
+  [movil] › panel-sesiones.spec.ts:112:5 › darle una contraseña temporal nueva le cierra la sesión que tenía abierta, en el acto
+  [movil] › panel-sesiones.spec.ts:135:5 › cambiarle el rol a alguien le cierra la sesión que tenía abierta, en el acto (0032)
+  [movil] › panel-sesiones.spec.ts:170:5 › cerrar sesión borra las copias locales: quien entra después en el mismo celular no las ve
+  [movil] › panel-sesiones.spec.ts:211:5 › si le cierran la sesión, sus copias locales se borran al llegar al ingreso
+  [movil] › panel-sesiones.spec.ts:238:5 › cambiar la PROPIA contraseña no cierra la sesión con la que se está entrando
+  [movil] › panel-usuarios.spec.ts:43:5 › un administrador da de alta a alguien, y ese alguien cambia la contraseña al entrar
+  [movil] › panel-usuarios.spec.ts:115:5 › una cuenta desactivada ya no entra, y reactivada vuelve a entrar
+  [movil] › panel-usuarios.spec.ts:142:5 › una contraseña temporal nueva sustituye a la anterior y obliga a cambiarla
+  [movil] › panel-usuarios.spec.ts:169:5 › en su propia ficha, el administrador no tiene botones para quitarse el acceso
+  [movil] › panel-usuarios.spec.ts:184:5 › el administrador no toca el acceso de un superadmin
+  [movil] › panel-usuarios.spec.ts:204:5 › aunque llame a la acción a mano, un administrador no le cambia la contraseña a un superadmin
+  [movil] › panel-usuarios.spec.ts:238:5 › un administrador no le cambia la contraseña a otro administrador, ni llamando a la acción a mano
+  [movil] › panel-usuarios.spec.ts:275:5 › el superadmin elimina una cuenta nombrándola antes, y esa cuenta ya no entra
+  [movil] › panel-usuarios.spec.ts:307:5 › el ingeniero no entra a usuarios
+  [movil] › pedido.spec.ts:25:5 › el detalle de producto dice que pasa al pedir y cuanto cuesta
+  [movil] › pedido.spec.ts:55:5 › de la ficha se llega a los pasos para pedir, y ahi mismo se puede pedir
+  [movil] › pedido.spec.ts:75:5 › cada 'escríbenos por WhatsApp' se puede pulsar
+  [movil] › pedido.spec.ts:88:5 › contacto muestra el numero de WhatsApp escrito y las condiciones
+  [movil] › pedido.spec.ts:100:5 › «Arma tu pedido» abre WhatsApp con lo que escribió el cliente
+  [movil] › pedido.spec.ts:126:5 › la portada pone el precio del delivery en su propio bloque
+  [movil] › pedido.spec.ts:138:5 › en un celular las condiciones caben sin desbordar
+  [movil] › pizarra.spec.ts:18:5 › el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»
+  [movil] › pizarra.spec.ts:46:5 › cada precio queda en la linea de su producto y cada fila se puede pulsar
+  [movil] › pizarra.spec.ts:66:5 › un producto con foto la conserva en la pizarra
+  [movil] › pizarra.spec.ts:85:5 › la ficha sin foto no deja una caja vacia y pone el precio de titular
+  [movil] › pizarra.spec.ts:111:5 › el mensaje de WhatsApp dice la presentacion solo cuando aporta
+  [movil] › pizarra.spec.ts:127:5 › la portada enseña lo que se hornea como pizarra, sin relleno
+  [movil] › pizarra.spec.ts:137:5 › en la portada, tarjeta solo para los productos con foto y ninguno dos veces
+  [movil] › pizarra.spec.ts:178:5 › el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano
+  [movil] › portada-movil.spec.ts:10:5 › en el celular no hay carrusel, y si foto quieta, nombre y como pedir
+  [movil] › portada-movil.spec.ts:30:5 › en escritorio el carrusel sigue estando
+  [movil] › portada-movil.spec.ts:39:5 › la portada sigue teniendo un solo h1
+  [movil] › portada.spec.ts:8:5 › la portada carga en espanol y con su encabezado
+  [movil] › portada.spec.ts:28:5 › la portada muestra los tres datos verificables
+  [movil] › portada.spec.ts:43:5 › el hero de escritorio conserva contraste sobre el panel terracota de la dirección A
+  [movil] › portada.spec.ts:60:5 › el bloque de nosotros dice el año de apertura, no una cuenta de años inventada
+  [movil] › portada.spec.ts:73:5 › el catalogo llega desde la base con su precio a la vista
+  [movil] › portada.spec.ts:98:5 › un borrador nunca llega a la portada
+  [movil] › portada.spec.ts:107:5 › el pedido por WhatsApp esta siempre a mano
+  [movil] › portada.spec.ts:124:5 › los horarios dicen que el domingo esta cerrado
+  [movil] › portada.spec.ts:155:5 › se puede llegar al catalogo solo con el teclado
+  [movil] › portada.spec.ts:172:5 › el menu de movil se abre y se cierra
+  [movil] › portada.spec.ts:199:5 › el sistema de diseno esta aplicado
+  [movil] › portada.spec.ts:211:5 › la tipografia elegida llega al navegador
+  [movil] › portada.spec.ts:236:5 › el hero separa texto y foto sin velo ni controles sobre el texto
+  [movil] › presentaciones.spec.ts:11:5 › la ficha enseña las dos presentaciones con su precio
+  [movil] › presentaciones.spec.ts:28:5 › el mensaje de WhatsApp lleva la linea para elegir presentacion
+  [movil] › presentaciones.spec.ts:40:5 › un producto de una sola presentacion no gana una lista de una fila
+  [movil] › presupuesto.spec.ts:60:5 › la portada no se dispara y no pesa mas que una pagina sin interaccion
+  [movil] › presupuesto.spec.ts:83:5 › el mapa no entra en el paquete de la portada
+  [movil] › presupuesto.spec.ts:97:5 › la ubicacion carga el mapa, y solo ahi
+  [movil] › presupuesto.spec.ts:127:7 › con la densidad de pantalla de un telefono real › la portada no se baja la misma foto dos veces
+  [movil] › presupuesto.spec.ts:172:5 › las fuentes que se descargan no pasan de 140 KB
+  [movil] › publico-composicion.spec.ts:5:5 › nombres y precios largos de las presentaciones se leen sin superponerse
+  [movil] › publico-composicion.spec.ts:36:5 › la pizarra conserva nombre y precio largos dentro de la página
+  [movil] › publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite
+  [movil] › publico-movimiento-fotos.spec.ts:31:5 › con movimiento reducido la moto permanece estática y el pedido sigue visible
+  [movil] › publico-movimiento-fotos.spec.ts:46:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor
+  [movil] › publico-movimiento-fotos.spec.ts:72:5 › las fotografías no hacen zoom con movimiento reducido
+  [movil] › publico-movimiento-fotos.spec.ts:80:5 › el hover no activa zoom en pantalla táctil
+  [movil] › reportes-presentacion.spec.ts:6:5 › las unidades del reporte se leen completas en tamaños intermedios
+  [movil] › secciones.spec.ts:18:7 › /productos responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /novedades responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /nosotros responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /galeria responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /ubicacion responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /preguntas-frecuentes responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:18:7 › /contacto responde y tiene un unico encabezado
+  [movil] › secciones.spec.ts:30:5 › el catalogo filtra por categoria y el filtro vive en la URL
+  [movil] › secciones.spec.ts:54:5 › el detalle de producto muestra precio y pedido
+  [movil] › secciones.spec.ts:66:5 › un producto que no existe da 404, no una pagina vacia
+  [movil] › secciones.spec.ts:71:5 › la galería pone el título real de cada foto como pie
+  [movil] › secciones.spec.ts:87:5 › la galeria muestra las fotos reales del local
+  [movil] › secciones.spec.ts:145:5 › las preguntas frecuentes se abren y se cierran
+  [movil] › secciones.spec.ts:155:5 › la ubicacion carga el mapa en diferido
+  [movil] › secciones.spec.ts:164:5 › nosotros trae la historia, la mision y los valores de la ficha
+  [movil] › secciones.spec.ts:175:5 › el pie repite contacto y horario en todas las secciones
+  [movil] › secciones.spec.ts:186:5 › el pie lleva un enlace discreto al ingreso del personal
+  [movil] › seo.spec.ts:28:5 › robots.txt deja fuera el panel y apunta al sitemap
+  [movil] › seo.spec.ts:39:5 › el sitemap trae las secciones y los productos, y nada del panel
+  [movil] › seo.spec.ts:57:5 › la portada describe la panaderia con su horario de dos turnos
+  [movil] › seo.spec.ts:88:5 › las preguntas frecuentes van como FAQPage
+  [movil] › seo.spec.ts:99:5 › cada pagina lleva su titulo y descripcion para compartir
+  [movil] › seo.spec.ts:117:5 › la imagen para compartir existe y es una imagen de verdad
+  [movil] › seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada
+  [movil] › seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros
+  [movil] › seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias
+  [movil] › tactil.spec.ts:71:5 › ningun control del sitio mide menos de 44 px en un celular
+  [movil] › tactil.spec.ts:90:5 › el salto al contenido tambien mide 44 px cuando aparece
+  [movil] › tactil.spec.ts:101:5 › el boton flotante se aparta mientras el de la pagina esta a la vista
+  [movil] › tactil.spec.ts:129:5 › los botones mantienen 48 px de alto y el radio discreto de la dirección A
+  [movil] › testimonios.spec.ts:16:5 › ningun testimonio de ejemplo llega a la portada
+  [movil] › testimonios.spec.ts:24:5 › sin testimonios reales, el bloque no deja un hueco a medias
+  [escritorio] › abierto-ahora.spec.ts:17:5 › en horario de atencion dice que esta abierto y hasta cuando
+  [escritorio] › abierto-ahora.spec.ts:27:5 › fuera de horario dice cuando vuelve a abrir
+  [escritorio] › abierto-ahora.spec.ts:38:5 › cambia solo al llegar la hora de cierre, sin recargar
+  [escritorio] › abierto-ahora.spec.ts:53:5 › el pie tambien lo dice, en todas las secciones
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos/leche
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /productos/frances-chico
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /novedades
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /nosotros
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /galeria
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /ubicacion
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /preguntas-frecuentes
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /contacto
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /esto-no-existe
+  [escritorio] › accesibilidad.spec.ts:90:7 › sin errores de axe en /ingresar
+  [escritorio] › accesibilidad.spec.ts:105:5 › sin errores de axe con el menú del celular abierto
+  [escritorio] › autenticacion.spec.ts:9:5 › el panel redirige al ingreso a quien no tiene sesion
+  [escritorio] › autenticacion.spec.ts:16:5 › un formulario vacio se rechaza sin llamar al servidor de auth
+  [escritorio] › autenticacion.spec.ts:24:5 › unas credenciales incorrectas no revelan si la cuenta existe
+  [escritorio] › autenticacion.spec.ts:36:5 › un superadmin entra y ve todas las secciones
+  [escritorio] › autenticacion.spec.ts:55:5 › un repartidor entra y solo ve clientes
+  [escritorio] › autenticacion.spec.ts:76:5 › una cuenta sin rol asignado entra pero no ve el panel
+  [escritorio] › autenticacion.spec.ts:93:5 › cerrar sesion devuelve al ingreso y corta el acceso
+  [escritorio] › avisos-diario.spec.ts:14:5 › sin la cabecera del cron, no hace nada
+  [escritorio] › avisos-diario.spec.ts:19:5 › con un secreto equivocado, tampoco
+  [escritorio] › avisos-diario.spec.ts:26:5 › con el correo apagado, dice por qué y deja los avisos para cuando se encienda
+  [escritorio] › cabecera.spec.ts:11:5 › el nombre del negocio se lee en la cabecera, en cualquier pantalla
+  [escritorio] › cabecera.spec.ts:29:5 › el menu del celular empieza por Inicio y trae el horario
+  [escritorio] › cabecera.spec.ts:48:5 › la galeria dice la direccion que tiene cargada el negocio
+  [escritorio] › cabecera.spec.ts:58:5 › cada diapositiva se encuadra por la altura que tiene guardada
+  [escritorio] › cabecera.spec.ts:73:5 › la historia de la portada ya no empieza por «Bienvenidos»
+  [escritorio] › cabecera.spec.ts:85:5 › la barra de aviso dice la hora y las zonas que hay en la base
+  [escritorio] › cabecera.spec.ts:100:5 › la cabecera usa el fondo cálido y la sección activa terracota
+  [escritorio] › cabecera.spec.ts:116:5 › la cabecera cabe sin desbordar en los anchos intermedios
+  [escritorio] › carrusel-estados.spec.ts:13:5 › sin diapositivas no aparece una región vacía de carrusel
+  [escritorio] › carrusel-estados.spec.ts:17:5 › el contenido largo y la ausencia de foto no recortan texto ni enlaces
+  [escritorio] › carrusel-interacciones.spec.ts:31:5 › flechas e indicadores cambian el slide y el enlace disponible
+  [escritorio] › carrusel-interacciones.spec.ts:50:5 › el avance automático mantiene el intervalo de seis segundos
+  [escritorio] › carrusel-interacciones.spec.ts:59:5 › hover y foco de teclado pausan el avance y permiten reanudarlo
+  [escritorio] › carrusel-interacciones.spec.ts:81:5 › movimiento reducido evita avance automático pero conserva navegación manual
+  [escritorio] › errores.spec.ts:24:7 › una direccion que no existe: 404 en espanol, con cabecera y por donde seguir
+  [escritorio] › errores.spec.ts:24:7 › un producto que no existe: 404 en espanol, con cabecera y por donde seguir
+  [escritorio] › flotante.spec.ts:48:5 › al final de la pagina, el flotante no se queda encima de ningun texto
+  [escritorio] › flotante.spec.ts:74:5 › el flotante se aparta mientras se baja y vuelve al parar
+  [escritorio] › flotante.spec.ts:130:5 › el flotante se aparta con cualquier boton de WhatsApp a la vista
+  [escritorio] › identidad-panel.spec.ts:7:5 › la pestaña seleccionada conserva el contraste al pasar el puntero
+  [escritorio] › identidad-panel.spec.ts:34:5 › el acceso muestra el logo completo y el formulario cabe en móvil
+  [escritorio] › identidad-panel.spec.ts:49:5 › la marca y la navegación del panel caben en tamaños intermedios
+  [escritorio] › insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda
+  [escritorio] › mapa.spec.ts:16:5 › al bajar, la cabecera queda por encima del mapa
+  [escritorio] › mapa.spec.ts:55:5 › el menu del celular se abre por encima del mapa
+  [escritorio] › marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada
+  [escritorio] › marca.spec.ts:35:5 › el titular de la madrugada dice la misma hora que la tabla de horarios
+  [escritorio] › marca.spec.ts:53:5 › los años de oficio se calculan, no se escriben
+  [escritorio] › movimiento.spec.ts:13:5 › el horario junta los dias iguales y pone cada turno en su propia linea
+  [escritorio] › movimiento.spec.ts:46:5 › el domingo sigue diciendo Cerrado
+  [escritorio] › movimiento.spec.ts:53:5 › las preguntas frecuentes dan el horario como el resto del sitio
+  [escritorio] › movimiento.spec.ts:64:5 › todo lo animado acaba visible al llegar a el
+  [escritorio] › movimiento.spec.ts:135:5 › con la pagina quieta, nada de lo que se ve entero queda a medio aparecer
+  [escritorio] › movimiento.spec.ts:162:5 › la aparicion sigue ahi: un bloque que esta entrando se ve a medio camino
+  [escritorio] › movimiento.spec.ts:224:5 › al imprimir no queda ningun bloque en blanco
+  [escritorio] › movimiento.spec.ts:241:5 › quien pide menos movimiento no recibe ninguno
+  [escritorio] › movimiento.spec.ts:264:5 › el boton de pedido responde al pulsarlo
+  [escritorio] › novedades-portada.spec.ts:9:5 › la portada muestra completa la imagen de la novedad y conserva su enlace y resumen
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/categorias
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/categorias/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/productos
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/productos/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/novedades
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/novedades/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/portada
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/portada/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/galeria
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/galeria/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/preguntas
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/preguntas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/guias
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/guias/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/testimonios
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/contenido/testimonios/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/ingreso
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/consumo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/conteo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/bajas
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/bajas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/proveedores
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/proveedores/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/existencias
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/consumo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/compras
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/mermas
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/insumos/reportes/kardex
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/zonas
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/zonas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/clientes/revisar
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/ingresos
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/borrados
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/auditoria/descargas
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/usuarios
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/usuarios/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:100:9 › axe en cada ruta del panel › axe en /admin/configuracion
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/categorias
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/categorias/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/productos
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/productos/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/novedades
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/novedades/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/portada
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/portada/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/galeria
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/galeria/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/preguntas
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/preguntas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/guias
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/guias/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/testimonios
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/contenido/testimonios/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/ingreso
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/consumo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/conteo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/bajas
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/bajas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/proveedores
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/proveedores/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/existencias
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/consumo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/compras
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/mermas
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/insumos/reportes/kardex
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/zonas
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/zonas/nueva
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/clientes/revisar
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/ingresos
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/borrados
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/auditoria/descargas
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/usuarios
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/usuarios/nuevo
+  [escritorio] › panel-accesibilidad.spec.ts:123:9 › area tactil en cada ruta del panel › controles de al menos 44 × 44 px en /admin/configuracion
+  [escritorio] › panel-accesibilidad.spec.ts:131:5 › el «Más» del celular no tiene errores de axe ni controles pequeños
+  [escritorio] › panel-accesibilidad.spec.ts:153:5 › axe y área táctil en la ficha de un insumo
+  [escritorio] › panel-bajas.spec.ts:21:5 › el ingeniero pide, el administrador aprueba y el saldo baja
+  [escritorio] › panel-bajas.spec.ts:48:5 › un rechazo llega con su comentario
+  [escritorio] › panel-bajas.spec.ts:74:5 › una baja puede nombrar su lote, y al aprobarla sale de ese y no del que vence primero
+  [escritorio] › panel-busqueda.spec.ts:26:5 › productos: filtra al escribir, sin Enter y sin recargar
+  [escritorio] › panel-busqueda.spec.ts:47:5 › productos: la categoría filtra al elegirla
+  [escritorio] › panel-busqueda.spec.ts:62:5 › insumos: filtra al escribir, sin Enter y sin recargar
+  [escritorio] › panel-busqueda.spec.ts:79:5 › volver a la sección desde el menú vacía también el buscador
+  [escritorio] › panel-busqueda.spec.ts:94:5 › lo elegido antes de que la página termine de cargar también filtra
+  [escritorio] › panel-cascara.spec.ts:6:5 › el ingeniero ve inicio y contenido, y no usuarios ni configuración
+  [escritorio] › panel-cascara.spec.ts:31:5 › en el celular, «Más» lleva a configuración y a cerrar sesión
+  [escritorio] › panel-cascara.spec.ts:44:5 › la barra inferior no tapa el final de la página
+  [escritorio] › panel-categorias.spec.ts:10:5 › crear una categoría con foto: se comprime, se sube y el bucket la sirve
+  [escritorio] › panel-categorias.spec.ts:49:5 › las dos formas de elegir foto muestran un indicador de foco visible
+  [escritorio] › panel-categorias.spec.ts:85:5 › lo escrito sobrevive a una recarga y se puede recuperar
+  [escritorio] › panel-categorias.spec.ts:108:5 › un error en una pestaña que no se ve la marca y salta a ella
+  [escritorio] › panel-categorias.spec.ts:124:5 › borrar pide confirmación nombrando la categoría
+  [escritorio] › panel-clientes-administracion.spec.ts:13:5 › la administración crea una zona, no la puede retirar con clientes activos, y sí vacía
+  [escritorio] › panel-clientes-administracion.spec.ts:42:5 › el ingeniero no llega a las zonas ni a la lista para revisar
+  [escritorio] › panel-clientes-administracion.spec.ts:54:5 › borrar los datos a pedido: pide motivo, borra datos y fotos, y deja la constancia
+  [escritorio] › panel-clientes-administracion.spec.ts:89:5 › un cliente de hace dos años sale en el inicio y en «Para revisar»; «Sigue siendo cliente» lo quita
+  [escritorio] › panel-clientes-administracion.spec.ts:140:5 › si Storage no deja borrar las fotos, lleva a la ficha y ahí se reintenta (Review Focus)
+  [escritorio] › panel-clientes-administracion.spec.ts:182:5 › «Sigue siendo cliente» no reactiva a quien otro acaba de desactivar
+  [escritorio] › panel-clientes-exportar.spec.ts:14:5 › la administración descarga el Excel de una zona, sin fotos, y queda registrado
+  [escritorio] › panel-clientes-exportar.spec.ts:63:5 › el PDF se descarga
+  [escritorio] › panel-clientes-exportar.spec.ts:78:5 › el ingeniero no ve los botones ni llega a la descarga
+  [escritorio] › panel-clientes-registro.spec.ts:35:5 › el ingeniero registra con permiso y punto, y añade la foto de la fachada
+  [escritorio] › panel-clientes-registro.spec.ts:72:5 › sin el permiso marcado no se guarda, y lo dice en su pestaña
+  [escritorio] › panel-clientes-registro.spec.ts:85:5 › un celular repetido avisa con enlace a su ficha, y deja seguir
+  [escritorio] › panel-clientes-registro.spec.ts:109:5 › el alta pulsada dos veces no deja dos clientes (Review Focus)
+  [escritorio] › panel-clientes-registro.spec.ts:125:5 › el repartidor corrige la referencia y el punto, y no llega a editar datos
+  [escritorio] › panel-clientes-registro.spec.ts:152:5 › el ingeniero desactiva y reactiva a un cliente
+  [escritorio] › panel-clientes-registro.spec.ts:175:5 › un nombre con código no se ejecuta en el mapa de la ficha
+  [escritorio] › panel-clientes-registro.spec.ts:196:5 › el mapa del alta se dibuja entero al abrir su pestaña
+  [escritorio] › panel-clientes-registro.spec.ts:216:5 › añadir una foto no deja «cambios sin guardar» en el formulario
+  [escritorio] › panel-clientes-registro.spec.ts:242:5 › elegir una zona en la vista Mapa se queda en el mapa
+  [escritorio] › panel-clientes-registro.spec.ts:259:5 › el repartidor cambia una foto de la fachada sin poder borrarla
+  [escritorio] › panel-clientes.spec.ts:13:5 › el repartidor encuentra a un cliente por nombre sin tildes y por celular con espacios
+  [escritorio] › panel-clientes.spec.ts:50:5 › la ficha tiene sus botones, su permiso y la foto solo por URL firmada
+  [escritorio] › panel-clientes.spec.ts:94:5 › la vista mapa enseña a los clientes con punto y dice cuántos no lo tienen
+  [escritorio] › panel-configuracion.spec.ts:59:5 › cambiar el teléfono se ve en contacto sin redesplegar
+  [escritorio] › panel-configuracion.spec.ts:86:5 › confirmar un dato provisional le quita la etiqueta y baja el aviso del inicio
+  [escritorio] › panel-configuracion.spec.ts:128:5 › un horario imposible se marca en la pestaña Horarios
+  [escritorio] › panel-configuracion.spec.ts:151:5 › el ingeniero no entra a configuración
+  [escritorio] › panel-configuracion.spec.ts:161:5 › el administrador sube el logo al bucket marca (0032 se lo deja solo a la administración)
+  [escritorio] › panel-configuracion.spec.ts:196:5 › el sitio anuncia el favicon de la configuración
+  [escritorio] › panel-configuracion.spec.ts:201:5 › guardar la marca actualiza el logo y conserva el dibujo configurado sin redesplegar
+  [escritorio] › panel-contenido.spec.ts:12:5 › una pregunta nueva se publica y sale en Preguntas frecuentes
+  [escritorio] › panel-contenido.spec.ts:81:5 › subir una pregunta la adelanta también en el sitio
+  [escritorio] › panel-contenido.spec.ts:145:5 › una foto nueva de galería se sube al bucket galeria y sale en la galería
+  [escritorio] › panel-contenido.spec.ts:180:5 › un slide con enlace pero sin texto de botón se marca en su pestaña
+  [escritorio] › panel-contenido.spec.ts:217:5 › un testimonio nuevo se guarda sin publicar y no sale en la portada
+  [escritorio] › panel-contenido.spec.ts:235:5 › una guía nueva queda en la lista con su estado
+  [escritorio] › panel-editar.spec.ts:35:5 › cada fila de cada lista tiene su lápiz de editar, y lleva al formulario
+  [escritorio] › panel-editar.spec.ts:71:5 › el lápiz dice qué edita, para quien usa lector de pantalla
+  [escritorio] › panel-editar.spec.ts:85:5 › a 375 px, una fila con una palabra larga no empuja sus botones fuera de la tarjeta
+  [escritorio] › panel-estados-identidad.spec.ts:7:5 › la vista previa de marca tiene agrupación accesible
+  [escritorio] › panel-estados-identidad.spec.ts:20:5 › el aviso de copia local permite leer y descartar con contraste
+  [escritorio] › panel-estados-identidad.spec.ts:42:5 › el aviso de validación del formulario es legible
+  [escritorio] › panel-exportar.spec.ts:12:5 › el Excel de existencias trae lo mismo que la pantalla
+  [escritorio] › panel-exportar.spec.ts:39:5 › el PDF se descarga
+  [escritorio] › panel-exportar.spec.ts:53:5 › el kárdex se descarga con el insumo y el periodo de la pantalla
+  [escritorio] › panel-exportar.spec.ts:80:5 › si la sesión se cerró, el botón lleva a ingresar y no baja un archivo
+  [escritorio] › panel-exportar.spec.ts:100:5 › sin sesión, la descarga manda a ingresar
+  [escritorio] › panel-exportar.spec.ts:106:5 › el repartidor no descarga reportes de insumos
+  [escritorio] › panel-historial.spec.ts:98:5 › la administración encuentra un cambio de precio, lo abre y ve el antes y el después
+  [escritorio] › panel-historial.spec.ts:135:5 › los filtros se aplican al elegir, sin recargar la página
+  [escritorio] › panel-historial.spec.ts:167:5 › una dirección con filtros inventados no rompe la página (Review Focus)
+  [escritorio] › panel-historial.spec.ts:189:5 › el ingeniero no ve «Historial» ni llega escribiendo la dirección
+  [escritorio] › panel-historial.spec.ts:211:5 › «Ver historial» desde un producto trae también sus presentaciones
+  [escritorio] › panel-historial.spec.ts:229:5 › Ingresos muestra el ingreso que la prueba acaba de hacer
+  [escritorio] › panel-historial.spec.ts:247:5 › Datos borrados y Descargas muestran lo que dejan un borrado y una descarga
+  [escritorio] › panel-historial.spec.ts:298:5 › el inicio enseña la actividad reciente solo a la administración
+  [escritorio] › panel-historial.spec.ts:330:5 › el detalle enseña el guardado entero, y «Ir a…» desaparece si el producto se borró después
+  [escritorio] › panel-historial.spec.ts:361:5 › «Ver historial» de un insumo trae el reparto entre lotes, dicho con el nombre del insumo
+  [escritorio] › panel-inactividad.spec.ts:30:5 › entrar deja la marca de actividad
+  [escritorio] › panel-inactividad.spec.ts:40:5 › con más de dos horas sin actividad, la siguiente página pide entrar otra vez
+  [escritorio] › panel-inactividad.spec.ts:59:5 › con actividad reciente, sigue dentro y la marca se renueva
+  [escritorio] › panel-inactividad.spec.ts:71:5 › escribir o tocar en la página cuenta como actividad
+  [escritorio] › panel-inactividad.spec.ts:88:5 › con la pestaña abierta y sin tocar nada dos horas, se cierra sola
+  [escritorio] › panel-inactividad.spec.ts:108:5 › con el reloj de la computadora una hora adelantado, se puede trabajar
+  [escritorio] › panel-inactividad.spec.ts:125:5 › una sesión sin marca de actividad no se reanuda: pide entrar
+  [escritorio] › panel-inactividad.spec.ts:136:5 › si se cerró la sesión en otra pestaña, esta deja de enseñar el panel
+  [escritorio] › panel-inicio.spec.ts:20:7 › inicio de administrador: conserva los nombres accesibles y destinos de sus secciones
+  [escritorio] › panel-inicio.spec.ts:20:7 › inicio de ingeniero: conserva los nombres accesibles y destinos de sus secciones
+  [escritorio] › panel-inicio.spec.ts:20:7 › inicio de repartidor: conserva los nombres accesibles y destinos de sus secciones
+  [escritorio] › panel-inicio.spec.ts:40:5 › cantidades amplias no se superponen al texto del aviso en móvil
+  [escritorio] › panel-insumos.spec.ts:7:5 › el ingeniero crea un insumo con su equivalencia y lo ve en Existencias
+  [escritorio] › panel-insumos.spec.ts:48:5 › el repartidor no ve la sección de insumos
+  [escritorio] › panel-kardex.spec.ts:11:5 › el administrador cuenta, ve el ajuste en el kárdex y lo anula
+  [escritorio] › panel-kardex.spec.ts:38:5 › el ingeniero no ve Conteo ni Anular
+  [escritorio] › panel-kardex.spec.ts:50:5 › en el conteo, cada precio dice de qué insumo es
+  [escritorio] › panel-kardex.spec.ts:61:5 › la ficha enseña primero el lote que sale primero (el que vence antes)
+  [escritorio] › panel-kardex.spec.ts:90:5 › el kárdex sin insumo pide elegirlo
+  [escritorio] › panel-mapas-identidad.spec.ts:9:5 › los enlaces del mapa de clientes conservan la identidad al abrir, pasar el puntero y enfocar
+  [escritorio] › panel-movimientos.spec.ts:24:5 › un ingreso de dos líneas sube el saldo y un consumo lo baja
+  [escritorio] › panel-movimientos.spec.ts:78:5 › cambiar de un insumo perecible a uno que no vence no deja fecha en el lote
+  [escritorio] › panel-movimientos.spec.ts:129:5 › un consumo que no alcanza dice cuánto hay
+  [escritorio] › panel-novedades.spec.ts:26:5 › ingeniero envía, administrador devuelve, ingeniero corrige, administrador publica
+  [escritorio] › panel-novedades.spec.ts:101:5 › aunque la pida por la API, un ingeniero no puede publicar una promoción
+  [escritorio] › panel-productos.spec.ts:10:5 › un ingeniero crea un producto, lo publica y el sitio lo muestra sin redesplegar
+  [escritorio] › panel-productos.spec.ts:59:5 › un precio con letras se marca en la pestaña Precios aunque se esté en Datos
+  [escritorio] › panel-productos.spec.ts:83:5 › cambiar un precio deja constancia en el historial
+  [escritorio] › panel-reportes.spec.ts:11:5 › un consumo de hoy aparece en el reporte con su costo
+  [escritorio] › panel-reportes.spec.ts:64:5 › existencias enseña el valor del almacén
+  [escritorio] › panel-sesiones.spec.ts:89:5 › desactivar a alguien le cierra la sesión que tenía abierta, en el acto
+  [escritorio] › panel-sesiones.spec.ts:112:5 › darle una contraseña temporal nueva le cierra la sesión que tenía abierta, en el acto
+  [escritorio] › panel-sesiones.spec.ts:135:5 › cambiarle el rol a alguien le cierra la sesión que tenía abierta, en el acto (0032)
+  [escritorio] › panel-sesiones.spec.ts:170:5 › cerrar sesión borra las copias locales: quien entra después en el mismo celular no las ve
+  [escritorio] › panel-sesiones.spec.ts:211:5 › si le cierran la sesión, sus copias locales se borran al llegar al ingreso
+  [escritorio] › panel-sesiones.spec.ts:238:5 › cambiar la PROPIA contraseña no cierra la sesión con la que se está entrando
+  [escritorio] › panel-usuarios.spec.ts:43:5 › un administrador da de alta a alguien, y ese alguien cambia la contraseña al entrar
+  [escritorio] › panel-usuarios.spec.ts:115:5 › una cuenta desactivada ya no entra, y reactivada vuelve a entrar
+  [escritorio] › panel-usuarios.spec.ts:142:5 › una contraseña temporal nueva sustituye a la anterior y obliga a cambiarla
+  [escritorio] › panel-usuarios.spec.ts:169:5 › en su propia ficha, el administrador no tiene botones para quitarse el acceso
+  [escritorio] › panel-usuarios.spec.ts:184:5 › el administrador no toca el acceso de un superadmin
+  [escritorio] › panel-usuarios.spec.ts:204:5 › aunque llame a la acción a mano, un administrador no le cambia la contraseña a un superadmin
+  [escritorio] › panel-usuarios.spec.ts:238:5 › un administrador no le cambia la contraseña a otro administrador, ni llamando a la acción a mano
+  [escritorio] › panel-usuarios.spec.ts:275:5 › el superadmin elimina una cuenta nombrándola antes, y esa cuenta ya no entra
+  [escritorio] › panel-usuarios.spec.ts:307:5 › el ingeniero no entra a usuarios
+  [escritorio] › pedido.spec.ts:25:5 › el detalle de producto dice que pasa al pedir y cuanto cuesta
+  [escritorio] › pedido.spec.ts:55:5 › de la ficha se llega a los pasos para pedir, y ahi mismo se puede pedir
+  [escritorio] › pedido.spec.ts:75:5 › cada 'escríbenos por WhatsApp' se puede pulsar
+  [escritorio] › pedido.spec.ts:88:5 › contacto muestra el numero de WhatsApp escrito y las condiciones
+  [escritorio] › pedido.spec.ts:100:5 › «Arma tu pedido» abre WhatsApp con lo que escribió el cliente
+  [escritorio] › pedido.spec.ts:126:5 › la portada pone el precio del delivery en su propio bloque
+  [escritorio] › pedido.spec.ts:138:5 › en un celular las condiciones caben sin desbordar
+  [escritorio] › pizarra.spec.ts:18:5 › el catalogo es una pizarra: sin fotos de relleno y sin «Unidad»
+  [escritorio] › pizarra.spec.ts:46:5 › cada precio queda en la linea de su producto y cada fila se puede pulsar
+  [escritorio] › pizarra.spec.ts:66:5 › un producto con foto la conserva en la pizarra
+  [escritorio] › pizarra.spec.ts:85:5 › la ficha sin foto no deja una caja vacia y pone el precio de titular
+  [escritorio] › pizarra.spec.ts:111:5 › el mensaje de WhatsApp dice la presentacion solo cuando aporta
+  [escritorio] › pizarra.spec.ts:127:5 › la portada enseña lo que se hornea como pizarra, sin relleno
+  [escritorio] › pizarra.spec.ts:137:5 › en la portada, tarjeta solo para los productos con foto y ninguno dos veces
+  [escritorio] › pizarra.spec.ts:178:5 › el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano
+  [escritorio] › portada-movil.spec.ts:10:5 › en el celular no hay carrusel, y si foto quieta, nombre y como pedir
+  [escritorio] › portada-movil.spec.ts:30:5 › en escritorio el carrusel sigue estando
+  [escritorio] › portada-movil.spec.ts:39:5 › la portada sigue teniendo un solo h1
+  [escritorio] › portada.spec.ts:8:5 › la portada carga en espanol y con su encabezado
+  [escritorio] › portada.spec.ts:28:5 › la portada muestra los tres datos verificables
+  [escritorio] › portada.spec.ts:43:5 › el hero de escritorio conserva contraste sobre el panel terracota de la dirección A
+  [escritorio] › portada.spec.ts:60:5 › el bloque de nosotros dice el año de apertura, no una cuenta de años inventada
+  [escritorio] › portada.spec.ts:73:5 › el catalogo llega desde la base con su precio a la vista
+  [escritorio] › portada.spec.ts:98:5 › un borrador nunca llega a la portada
+  [escritorio] › portada.spec.ts:107:5 › el pedido por WhatsApp esta siempre a mano
+  [escritorio] › portada.spec.ts:124:5 › los horarios dicen que el domingo esta cerrado
+  [escritorio] › portada.spec.ts:155:5 › se puede llegar al catalogo solo con el teclado
+  [escritorio] › portada.spec.ts:172:5 › el menu de movil se abre y se cierra
+  [escritorio] › portada.spec.ts:199:5 › el sistema de diseno esta aplicado
+  [escritorio] › portada.spec.ts:211:5 › la tipografia elegida llega al navegador
+  [escritorio] › portada.spec.ts:236:5 › el hero separa texto y foto sin velo ni controles sobre el texto
+  [escritorio] › presentaciones.spec.ts:11:5 › la ficha enseña las dos presentaciones con su precio
+  [escritorio] › presentaciones.spec.ts:28:5 › el mensaje de WhatsApp lleva la linea para elegir presentacion
+  [escritorio] › presentaciones.spec.ts:40:5 › un producto de una sola presentacion no gana una lista de una fila
+  [escritorio] › presupuesto.spec.ts:60:5 › la portada no se dispara y no pesa mas que una pagina sin interaccion
+  [escritorio] › presupuesto.spec.ts:83:5 › el mapa no entra en el paquete de la portada
+  [escritorio] › presupuesto.spec.ts:97:5 › la ubicacion carga el mapa, y solo ahi
+  [escritorio] › presupuesto.spec.ts:127:7 › con la densidad de pantalla de un telefono real › la portada no se baja la misma foto dos veces
+  [escritorio] › presupuesto.spec.ts:172:5 › las fuentes que se descargan no pasan de 140 KB
+  [escritorio] › publico-composicion.spec.ts:5:5 › nombres y precios largos de las presentaciones se leen sin superponerse
+  [escritorio] › publico-composicion.spec.ts:36:5 › la pizarra conserva nombre y precio largos dentro de la página
+  [escritorio] › publico-movimiento-fotos.spec.ts:3:5 › la moto cruza al aparecer, termina en cuatro segundos y no repite
+  [escritorio] › publico-movimiento-fotos.spec.ts:31:5 › con movimiento reducido la moto permanece estática y el pedido sigue visible
+  [escritorio] › publico-movimiento-fotos.spec.ts:46:5 › las fotografías aumentan solo un tres por ciento al pasar el cursor
+  [escritorio] › publico-movimiento-fotos.spec.ts:72:5 › las fotografías no hacen zoom con movimiento reducido
+  [escritorio] › publico-movimiento-fotos.spec.ts:80:5 › el hover no activa zoom en pantalla táctil
+  [escritorio] › reportes-presentacion.spec.ts:6:5 › las unidades del reporte se leen completas en tamaños intermedios
+  [escritorio] › secciones.spec.ts:18:7 › /productos responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /novedades responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /nosotros responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /galeria responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /ubicacion responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /preguntas-frecuentes responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:18:7 › /contacto responde y tiene un unico encabezado
+  [escritorio] › secciones.spec.ts:30:5 › el catalogo filtra por categoria y el filtro vive en la URL
+  [escritorio] › secciones.spec.ts:54:5 › el detalle de producto muestra precio y pedido
+  [escritorio] › secciones.spec.ts:66:5 › un producto que no existe da 404, no una pagina vacia
+  [escritorio] › secciones.spec.ts:71:5 › la galería pone el título real de cada foto como pie
+  [escritorio] › secciones.spec.ts:87:5 › la galeria muestra las fotos reales del local
+  [escritorio] › secciones.spec.ts:145:5 › las preguntas frecuentes se abren y se cierran
+  [escritorio] › secciones.spec.ts:155:5 › la ubicacion carga el mapa en diferido
+  [escritorio] › secciones.spec.ts:164:5 › nosotros trae la historia, la mision y los valores de la ficha
+  [escritorio] › secciones.spec.ts:175:5 › el pie repite contacto y horario en todas las secciones
+  [escritorio] › secciones.spec.ts:186:5 › el pie lleva un enlace discreto al ingreso del personal
+  [escritorio] › seo.spec.ts:28:5 › robots.txt deja fuera el panel y apunta al sitemap
+  [escritorio] › seo.spec.ts:39:5 › el sitemap trae las secciones y los productos, y nada del panel
+  [escritorio] › seo.spec.ts:57:5 › la portada describe la panaderia con su horario de dos turnos
+  [escritorio] › seo.spec.ts:88:5 › las preguntas frecuentes van como FAQPage
+  [escritorio] › seo.spec.ts:99:5 › cada pagina lleva su titulo y descripcion para compartir
+  [escritorio] › seo.spec.ts:117:5 › la imagen para compartir existe y es una imagen de verdad
+  [escritorio] › seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada
+  [escritorio] › seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros
+  [escritorio] › seo.spec.ts:192:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias
+  [escritorio] › tactil.spec.ts:71:5 › ningun control del sitio mide menos de 44 px en un celular
+  [escritorio] › tactil.spec.ts:90:5 › el salto al contenido tambien mide 44 px cuando aparece
+  [escritorio] › tactil.spec.ts:101:5 › el boton flotante se aparta mientras el de la pagina esta a la vista
+  [escritorio] › tactil.spec.ts:129:5 › los botones mantienen 48 px de alto y el radio discreto de la dirección A
+  [escritorio] › testimonios.spec.ts:16:5 › ningun testimonio de ejemplo llega a la portada
+  [escritorio] › testimonios.spec.ts:24:5 › sin testimonios reales, el bloque no deja un hueco a medias
+Total: 710 tests in 54 files

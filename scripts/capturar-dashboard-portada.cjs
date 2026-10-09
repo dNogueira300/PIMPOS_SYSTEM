@@ -36,6 +36,11 @@ async function shot(page, name, route, width, role, current = false) {
     await page.evaluate((y) => scrollTo(0, y), y);
   await page.evaluate(() => scrollTo(0, 0));
   await page.locator("img:visible").evaluateAll(async (imgs) => {
+    // Las otras diapositivas están fuera de la pantalla: decode() no inicia
+    // su petición lazy. Esta carga es solo para la captura, no cambia el sitio.
+    imgs.forEach((i) => {
+      i.loading = "eager";
+    });
     await Promise.all(imgs.map((i) => i.decode().catch(() => null)));
   });
   const measured = await page.evaluate(() => {

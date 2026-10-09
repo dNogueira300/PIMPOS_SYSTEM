@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 30/09/2026
+**Corte:** 09/10/2026 (cierre visual en revisión; estados históricos conservados)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -15,7 +15,7 @@ pendiente evidencia de teclado físico y zoom nativo. Se conserva toda funcional
 bloque (módulos completos del panel, T3/T4) está implementado, verificado localmente y revisado
 en `feat/rediseno-modulos-panel`, fusionado por Dan en PR #91 el 08/10/2026 (main `429a25d`). Ver
 `Verificacion rediseño 03.2 - Bloque 2.md`: 180 capturas y revisión sin defectos bloqueantes;
-M1 de corte de unidades a 768 px pasa al cierre. El sitio público y cierre de 03.2 quedan pendientes. El estado de auditoría
+M1 de corte de unidades a 768 px se corrige en T7. El sitio público ya está fusionado; el cierre de 03.2 sigue en revisión. El estado de auditoría
 y F7 está actualizado en `AGENTS.md`.
 
 **Ajuste solicitado después de PR #91:** Dan acepta lo implementado y pide un inicio administrativo
@@ -30,7 +30,18 @@ tapiz tenue aprobado. Evidencia y límites en `Verificacion rediseño 03.2 - Blo
 comparación en `Maquetas/3.2/bloque3/index.html`. PR #92 fusionado por Dan (main
 `adf156c`), CI/Vercel en verde. Autorización de continuar el 09/10/2026: T6 implementada y verificada localmente
 en `feat/rediseno-paginas-publicas`, catálogo/fichas/páginas restantes. Evidencia en
-`Verificacion rediseño 03.2 - Bloque 4.md`; detenerse en PR 4 borrador. T7 pendiente.
+`Verificacion rediseño 03.2 - Bloque 4.md`; PR #93 fusionado por Dan, main `ea4ee37`.
+Incluye la moto decorativa y zoom mínimo de fotografías aprobados. T7 implementada en
+`feat/cierre-rediseno-ui-ux`, con regresión completa y comparación de rendimiento.
+Dan añade PDF con paleta y logo actuales, novedades de portada con imagen completa,
+tarjeta al compartir renovada y SEO técnico para buscadores e IAs. No cambia la funcionalidad.
+496 unitarias aprobadas, 605 E2E aprobadas y 105 omisiones previstas; 710 casos conciliados,
+70 plantillas y 497 capturas. Revisión independiente concluida, marca no acreditada de
+productos corregida con RED→GREEN y regresión completa repetida. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
+abierto como borrador, vista previa Vercel revisada. CI de aplicación y base aprobados
+en el código verificado; resultado vigente de E2E remoto en los checks del PR.
+Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Pendiente revisión/fusión de Dan;
+F7 de capacitación, manual, informe y credenciales queda fuera de este alcance.
 
 ---
 

@@ -1,0 +1,31 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:348) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:31436) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Suelo (/nosotros): 156 KB · Portada: 156 KB · Nuestro codigo anade 0 KB
+  ok  1 [movil] › e2e\presupuesto.spec.ts:60:5 › la portada no se dispara y no pesa mas que una pagina sin interaccion (2.2s)
+  ok  2 [movil] › e2e\presupuesto.spec.ts:83:5 › el mapa no entra en el paquete de la portada (879ms)
+Ubicación: 199 KB comprimidos, con Leaflet incluido
+  ok  3 [movil] › e2e\presupuesto.spec.ts:97:5 › la ubicacion carga el mapa, y solo ahi (4.7s)
+  ok  4 [movil] › e2e\presupuesto.spec.ts:127:7 › con la densidad de pantalla de un telefono real › la portada no se baja la misma foto dos veces (963ms)
+Fuentes: 1 archivos, 31 KB
+  ok  5 [movil] › e2e\presupuesto.spec.ts:172:5 › las fuentes que se descargan no pasan de 140 KB (832ms)
+(node:29652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Suelo (/nosotros): 159 KB · Portada: 159 KB · Nuestro codigo anade 0 KB
+  ok  6 [escritorio] › e2e\presupuesto.spec.ts:60:5 › la portada no se dispara y no pesa mas que una pagina sin interaccion (1.9s)
+  ok  7 [escritorio] › e2e\presupuesto.spec.ts:83:5 › el mapa no entra en el paquete de la portada (928ms)
+Ubicación: 201 KB comprimidos, con Leaflet incluido
+  ok  8 [escritorio] › e2e\presupuesto.spec.ts:97:5 › la ubicacion carga el mapa, y solo ahi (1.8s)
+  -   9 [escritorio] › e2e\presupuesto.spec.ts:127:7 › con la densidad de pantalla de un telefono real › la portada no se baja la misma foto dos veces
+Fuentes: 1 archivos, 31 KB
+  ok 10 [escritorio] › e2e\presupuesto.spec.ts:172:5 › las fuentes que se descargan no pasan de 140 KB (902ms)
+
+  1 skipped
+  9 passed (17.4s)

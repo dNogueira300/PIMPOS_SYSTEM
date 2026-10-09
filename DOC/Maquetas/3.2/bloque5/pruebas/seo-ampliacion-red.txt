@@ -1,0 +1,61 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:11472) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [escritorio] › e2e\seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros (21.1s)
+(node:21288) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 [escritorio] › e2e\seo.spec.ts:175:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias (701ms)
+
+
+  1) [escritorio] › e2e\seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('link[rel="canonical"]')
+    Expected: "http://localhost:3000/"
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" locator('link[rel="canonical"]') with timeout 20000ms
+      - waiting for locator('link[rel="canonical"]')
+
+
+      169 |   for (const ruta of ["/", "/productos?categoria=panes", "/productos/frances-chico", "/nosotros", "/novedades", "/galeria", "/ubicacion", "/contacto", "/preguntas-frecuentes"]) {
+      170 |     await page.goto(ruta);
+    > 171 |     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new URL(ruta.split("?")[0], "http://localhost:3000").href);
+          |                                                         ^
+      172 |   }
+      173 | });
+      174 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\seo.spec.ts:171:57
+
+    Error Context: test-results\seo-las-páginas-públicas-i-59758-ca-sin-duplicar-los-filtros-escritorio\error-context.md
+
+  2) [escritorio] › e2e\seo.spec.ts:175:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias 
+
+    Error: expect(received).not.toBeNull()
+
+    Received: null
+
+      176 |   await page.goto("/productos/frances-chico");
+      177 |   const encontrado = await jsonLd(page, "Product");
+    > 178 |   expect(encontrado).not.toBeNull();
+          |                          ^
+      179 |   const producto = encontrado!.datos as { name: string; url: string; brand: { name: string } };
+      180 |   expect(producto.name).toBe(await page.locator("main h1").textContent());
+      181 |   expect(producto.url).toBe("http://localhost:3000/productos/frances-chico");
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\seo.spec.ts:178:26
+
+    Error Context: test-results\seo-la-ficha-describe-el-p-ea4b0-valoraciones-ni-existencias-escritorio\error-context.md
+
+  2 failed
+    [escritorio] › e2e\seo.spec.ts:168:5 › las páginas públicas identifican su URL canónica sin duplicar los filtros 
+    [escritorio] › e2e\seo.spec.ts:175:5 › la ficha describe el producto a buscadores sin inventar valoraciones ni existencias 

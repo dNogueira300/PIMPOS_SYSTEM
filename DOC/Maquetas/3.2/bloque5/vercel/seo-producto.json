@@ -1,0 +1,13 @@
+{
+  "canonical": "https://pimpos-system-iota.vercel.app/productos/arroz-1kg",
+  "product": {
+    "@context": "https://schema.org",
+    "@id": "https://pimpos-system-iota.vercel.app/productos/arroz-1kg#producto",
+    "@type": "Product",
+    "category": "Bodega",
+    "image": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/productos/producto-3-arroz-milli.webp",
+    "name": "Arroz Milli",
+    "url": "https://pimpos-system-iota.vercel.app/productos/arroz-1kg"
+  },
+  "url": "https://pimpos-system-git-fea-77d72d-daniel-nogueiras-projects-79bc3c01.vercel.app/productos/arroz-1kg"
+}

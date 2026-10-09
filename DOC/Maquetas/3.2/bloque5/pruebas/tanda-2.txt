@@ -1,0 +1,56 @@
+
+Running 46 tests using 1 worker
+
+(node:24416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [movil] › e2e\errores.spec.ts:24:7 › una direccion que no existe: 404 en espanol, con cabecera y por donde seguir (838ms)
+  ok  2 [movil] › e2e\errores.spec.ts:24:7 › un producto que no existe: 404 en espanol, con cabecera y por donde seguir (1.1s)
+  ok  3 [movil] › e2e\flotante.spec.ts:48:5 › al final de la pagina, el flotante no se queda encima de ningun texto (3.8s)
+  ok  4 [movil] › e2e\flotante.spec.ts:74:5 › el flotante se aparta mientras se baja y vuelve al parar (1.6s)
+  ok  5 [movil] › e2e\flotante.spec.ts:130:5 › el flotante se aparta con cualquier boton de WhatsApp a la vista (2.4s)
+  ok  6 [movil] › e2e\identidad-panel.spec.ts:7:5 › la pestaña seleccionada conserva el contraste al pasar el puntero (6.3s)
+  ok  7 [movil] › e2e\identidad-panel.spec.ts:34:5 › el acceso muestra el logo completo y el formulario cabe en móvil (506ms)
+  ok  8 [movil] › e2e\identidad-panel.spec.ts:49:5 › la marca y la navegación del panel caben en tamaños intermedios (2.0s)
+  ok  9 [movil] › e2e\insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda (999ms)
+  ok 10 [movil] › e2e\mapa.spec.ts:16:5 › al bajar, la cabecera queda por encima del mapa (801ms)
+  ok 11 [movil] › e2e\mapa.spec.ts:55:5 › el menu del celular se abre por encima del mapa (686ms)
+  ok 12 [movil] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada (379ms)
+  ok 13 [movil] › e2e\marca.spec.ts:35:5 › el titular de la madrugada dice la misma hora que la tabla de horarios (508ms)
+  ok 14 [movil] › e2e\marca.spec.ts:53:5 › los años de oficio se calculan, no se escriben (628ms)
+  ok 15 [movil] › e2e\movimiento.spec.ts:13:5 › el horario junta los dias iguales y pone cada turno en su propia linea (623ms)
+  ok 16 [movil] › e2e\movimiento.spec.ts:46:5 › el domingo sigue diciendo Cerrado (394ms)
+  ok 17 [movil] › e2e\movimiento.spec.ts:53:5 › las preguntas frecuentes dan el horario como el resto del sitio (444ms)
+  ok 18 [movil] › e2e\movimiento.spec.ts:64:5 › todo lo animado acaba visible al llegar a el (1.1s)
+  ok 19 [movil] › e2e\movimiento.spec.ts:135:5 › con la pagina quieta, nada de lo que se ve entero queda a medio aparecer (1.4s)
+  ok 20 [movil] › e2e\movimiento.spec.ts:162:5 › la aparicion sigue ahi: un bloque que esta entrando se ve a medio camino (484ms)
+  ok 21 [movil] › e2e\movimiento.spec.ts:224:5 › al imprimir no queda ningun bloque en blanco (582ms)
+  ok 22 [movil] › e2e\movimiento.spec.ts:241:5 › quien pide menos movimiento no recibe ninguno (403ms)
+  ok 23 [movil] › e2e\movimiento.spec.ts:264:5 › el boton de pedido responde al pulsarlo (391ms)
+(node:19256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 24 [escritorio] › e2e\errores.spec.ts:24:7 › una direccion que no existe: 404 en espanol, con cabecera y por donde seguir (617ms)
+  ok 25 [escritorio] › e2e\errores.spec.ts:24:7 › un producto que no existe: 404 en espanol, con cabecera y por donde seguir (476ms)
+  -  26 [escritorio] › e2e\flotante.spec.ts:48:5 › al final de la pagina, el flotante no se queda encima de ningun texto
+  -  27 [escritorio] › e2e\flotante.spec.ts:74:5 › el flotante se aparta mientras se baja y vuelve al parar
+  -  28 [escritorio] › e2e\flotante.spec.ts:130:5 › el flotante se aparta con cualquier boton de WhatsApp a la vista
+  ok 29 [escritorio] › e2e\identidad-panel.spec.ts:7:5 › la pestaña seleccionada conserva el contraste al pasar el puntero (3.7s)
+  ok 30 [escritorio] › e2e\identidad-panel.spec.ts:34:5 › el acceso muestra el logo completo y el formulario cabe en móvil (334ms)
+  ok 31 [escritorio] › e2e\identidad-panel.spec.ts:49:5 › la marca y la navegación del panel caben en tamaños intermedios (1.4s)
+  -  32 [escritorio] › e2e\insumos-concurrencia.spec.ts:9:5 › dos consumos a la vez del mismo insumo: uno entra, el otro dice cuánto queda
+  ok 33 [escritorio] › e2e\mapa.spec.ts:16:5 › al bajar, la cabecera queda por encima del mapa (794ms)
+  -  34 [escritorio] › e2e\mapa.spec.ts:55:5 › el menu del celular se abre por encima del mapa
+  ok 35 [escritorio] › e2e\marca.spec.ts:29:5 › la madrugada conserva su texto sin la ilustración retirada (338ms)
+  ok 36 [escritorio] › e2e\marca.spec.ts:35:5 › el titular de la madrugada dice la misma hora que la tabla de horarios (397ms)
+  ok 37 [escritorio] › e2e\marca.spec.ts:53:5 › los años de oficio se calculan, no se escriben (427ms)
+  ok 38 [escritorio] › e2e\movimiento.spec.ts:13:5 › el horario junta los dias iguales y pone cada turno en su propia linea (610ms)
+  ok 39 [escritorio] › e2e\movimiento.spec.ts:46:5 › el domingo sigue diciendo Cerrado (353ms)
+  ok 40 [escritorio] › e2e\movimiento.spec.ts:53:5 › las preguntas frecuentes dan el horario como el resto del sitio (432ms)
+  ok 41 [escritorio] › e2e\movimiento.spec.ts:64:5 › todo lo animado acaba visible al llegar a el (1.1s)
+  ok 42 [escritorio] › e2e\movimiento.spec.ts:135:5 › con la pagina quieta, nada de lo que se ve entero queda a medio aparecer (1.5s)
+  ok 43 [escritorio] › e2e\movimiento.spec.ts:162:5 › la aparicion sigue ahi: un bloque que esta entrando se ve a medio camino (516ms)
+  ok 44 [escritorio] › e2e\movimiento.spec.ts:224:5 › al imprimir no queda ningun bloque en blanco (745ms)
+  ok 45 [escritorio] › e2e\movimiento.spec.ts:241:5 › quien pide menos movimiento no recibe ninguno (677ms)
+  ok 46 [escritorio] › e2e\movimiento.spec.ts:264:5 › el boton de pedido responde al pulsarlo (515ms)
+
+  5 skipped
+  41 passed (47.5s)

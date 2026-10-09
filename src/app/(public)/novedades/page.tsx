@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
 import { listarNovedades, type Novedad } from "@/lib/datos/contenido";
 
 export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/novedades") },
   title: "Novedades",
   description: "Promociones, campañas y avisos vigentes de Panadería Pimpo's en Iquitos.",
 };

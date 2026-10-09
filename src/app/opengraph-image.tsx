@@ -18,14 +18,14 @@ import { obtenerConfiguracion } from "@/lib/datos/configuracion";
  *
  * - `ImageResponse` **no acepta woff2**, que es el formato de las fuentes del
  *   sitio. Solo ttf, otf y woff. Los `.ttf` de `src/recursos/compartir/` son
- *   las mismas Playfair Display y Plus Jakarta Sans del sitio (misma licencia
+ *   las fuentes estáticas de la marca (misma licencia
  *   OFL, mismo archivo de origen), convertidas a estáticas de un solo peso: el
  *   motor tampoco maneja bien las fuentes variables. Las prepara
  *   `scripts/preparar-fuentes.py`.
- * - El isotipo va en PNG y dentro del repositorio. El de `DOC/Fotos...` está fuera
+ * - El logo aprobado va en PNG y dentro del repositorio. El de `DOC/Fotos...` está fuera
  *   de git, y en el CI o en un despliegue no existiría.
  * - El paquete de esta imagen tiene un límite de 500 KB con fuentes y logos
- *   incluidos. Hoy son unos 125 KB.
+ *   incluidos. Jakarta y el logo suman unos 163 KB.
  *
  * El nombre y el precio salen de la base, no de este archivo: si el pan más
  * barato sube de precio, la imagen deja de anunciar uno que ya no existe.
@@ -38,16 +38,14 @@ export const contentType = "image/png";
 const RECURSOS = join(process.cwd(), "src/recursos/compartir");
 
 // No dependen de la petición: se leen una vez al cargar el módulo.
-const playfair = await readFile(join(RECURSOS, "playfair-700.ttf"));
 const jakarta = await readFile(join(RECURSOS, "jakarta-500.ttf"));
-const isotipo = `data:image/png;base64,${await readFile(join(RECURSOS, "isotipo.png"), "base64")}`;
+const logo = `data:image/png;base64,${await readFile(join(RECURSOS, "logo.png"), "base64")}`;
 
 // Los colores van en crudo porque aquí no hay CSS ni variables: es una imagen.
 // Son los mismos de la capa de primitivos de globals.css.
-const AZUL = "#12306e";
-const CREMA = "#f7efe2";
-const DORADO = "#c8801f";
-const TINTA = "#231a14";
+const TERRACOTA = "#953e2c";
+const CREMA = "#f7f5f0";
+const TINTA = "#28251f";
 
 export default async function ImagenParaCompartir() {
   const [config, productos] = await Promise.all([obtenerConfiguracion(), listarProductos()]);
@@ -67,8 +65,7 @@ export default async function ImagenParaCompartir() {
         fontFamily: "Plus Jakarta Sans",
       }}
     >
-      {/* Franja azul a la izquierda con el isotipo: el azul es el color que
-            carga la identidad, no el dorado. */}
+      {/* La misma marca circular y paleta que el acceso y el sitio público. */}
       <div
         style={{
           width: 420,
@@ -76,14 +73,26 @@ export default async function ImagenParaCompartir() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: AZUL,
+          backgroundColor: TERRACOTA,
         }}
       >
         {/* `<img>` y no `next/image`, y no por descuido: esto no es una página
               sino la entrada de `ImageResponse`, que dibuja JSX plano. Un
               componente de React con optimización no existe en ese motor. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={isotipo} width={242} height={320} alt="" />
+        <div
+          style={{
+            width: 320,
+            height: 320,
+            borderRadius: "50%",
+            backgroundColor: CREMA,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logo} width={280} height={187} alt="" />
+        </div>
       </div>
 
       <div
@@ -97,10 +106,9 @@ export default async function ImagenParaCompartir() {
       >
         <div
           style={{
-            fontFamily: "Playfair Pimpos",
-            fontSize: 76,
+            fontSize: 64,
             lineHeight: 1.05,
-            color: AZUL,
+            color: TERRACOTA,
           }}
         >
           {config.nombre_comercial}
@@ -113,7 +121,7 @@ export default async function ImagenParaCompartir() {
         <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 10 }}>
           {masBarato !== null ? (
             <div style={{ fontSize: 30, color: TINTA, display: "flex" }}>
-              <span style={{ fontFamily: "Playfair Pimpos", color: DORADO, marginRight: 12 }}>
+              <span style={{ color: TERRACOTA, marginRight: 12 }}>
                 Desde {formatearPrecio(masBarato)}
               </span>
             </div>
@@ -124,13 +132,7 @@ export default async function ImagenParaCompartir() {
     </div>,
     {
       ...size,
-      fonts: [
-        // "Playfair Pimpos": es el nombre que lleva por dentro la derivada de
-        // Playfair Display, que no puede usar el nombre reservado de la fuente
-        // (ver src/estilos/fuentes/LICENCIA.md). Solo es una etiqueta para el motor.
-        { name: "Playfair Pimpos", data: playfair, weight: 700, style: "normal" },
-        { name: "Plus Jakarta Sans", data: jakarta, weight: 500, style: "normal" },
-      ],
+      fonts: [{ name: "Plus Jakarta Sans", data: jakarta, weight: 500, style: "normal" }],
     },
   );
 }

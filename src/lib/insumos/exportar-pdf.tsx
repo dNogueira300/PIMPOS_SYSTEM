@@ -1,8 +1,18 @@
 import "server-only";
 
+import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { Document, Font, Page, renderToBuffer, StyleSheet, Text, View } from "@react-pdf/renderer";
+import {
+  Document,
+  Font,
+  Image,
+  Page,
+  renderToBuffer,
+  StyleSheet,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 
 import {
   AVISO_SIN_COSTO,
@@ -17,33 +27,52 @@ import {
 // las lleva con la función a Vercel.
 const RECURSOS = join(process.cwd(), "src/recursos/compartir");
 Font.register({ family: "Jakarta", src: join(RECURSOS, "jakarta-500.ttf") });
-Font.register({ family: "Playfair", src: join(RECURSOS, "playfair-700.ttf") });
 // Sin esto, react-pdf corta las palabras largas con guiones de su propio
 // diccionario (inglés).
 Font.registerHyphenationCallback((palabra) => [palabra]);
 
-const AZUL = "#12306E";
-const TINTA_SUAVE = "#5b5446";
+const TERRACOTA = "#953E2C";
+const TINTA_SUAVE = "#59554E";
+// Buffer evita que una ruta absoluta de Windows se interprete como una URL.
+const LOGO = await readFile(join(RECURSOS, "logo.png"));
 const estilos = StyleSheet.create({
-  pagina: { padding: 36, paddingBottom: 48, fontFamily: "Jakarta", fontSize: 10, color: "#1E1B14" },
-  titulo: { fontFamily: "Playfair", fontSize: 18, color: AZUL },
+  pagina: {
+    padding: 36,
+    paddingTop: 104,
+    paddingBottom: 48,
+    fontFamily: "Jakarta",
+    fontSize: 10,
+    color: "#28251F",
+  },
+  marca: {
+    position: "absolute",
+    top: 28,
+    left: 36,
+    right: 36,
+    height: 60,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#D9D4CA",
+    paddingBottom: 8,
+  },
+  logo: { width: 52, height: 52, objectFit: "contain" },
+  titulo: { fontSize: 18, color: TERRACOTA },
   subtitulo: { marginTop: 4, marginBottom: 16, color: TINTA_SUAVE },
   fila: {
     flexDirection: "row",
     borderBottomWidth: 0.5,
-    borderBottomColor: "#d9d2c3",
+    borderBottomColor: "#D9D4CA",
     paddingVertical: 4,
   },
   cabecera: {
     flexDirection: "row",
     borderBottomWidth: 1,
-    borderBottomColor: AZUL,
+    borderBottomColor: TERRACOTA,
     paddingBottom: 4,
-    color: AZUL,
+    color: TERRACOTA,
   },
   celda: { flex: 1, paddingRight: 6 },
   numero: { flex: 1, paddingRight: 6, textAlign: "right" },
-  total: { marginTop: 12, textAlign: "right", fontSize: 12, color: AZUL },
+  total: { marginTop: 12, textAlign: "right", fontSize: 12, color: TERRACOTA },
   aviso: { marginTop: 6, fontSize: 8, color: TINTA_SUAVE },
   vacio: { marginTop: 12, color: TINTA_SUAVE },
   pie: { position: "absolute", bottom: 20, left: 36, right: 36, fontSize: 8, color: TINTA_SUAVE },
@@ -65,6 +94,10 @@ export async function reporteAPdf(reporte: TablaExportable): Promise<Buffer> {
         orientation={reporte.columnas.length > 5 ? "landscape" : "portrait"}
         style={estilos.pagina}
       >
+        <View style={estilos.marca} fixed>
+          {/* eslint-disable-next-line jsx-a11y/alt-text -- Image de react-pdf no admite alt; el nombre de la panadería figura como texto en el subtítulo. */}
+          <Image src={LOGO} style={estilos.logo} />
+        </View>
         <Text style={estilos.titulo}>{reporte.titulo}</Text>
         <Text style={estilos.subtitulo}>Panadería Pimpo&apos;s · {reporte.subtitulo}</Text>
         {textos.length === 0 ? (

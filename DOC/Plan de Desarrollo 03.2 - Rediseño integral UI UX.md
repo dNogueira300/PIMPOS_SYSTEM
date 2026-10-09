@@ -10,7 +10,7 @@
 
 **Especificación:** `DOC/Analisis UI UX - Rediseno integral.md`, en especial §§10 y 12; decisiones finales de `AGENTS.md`; `DOC/Maquetas/comparacion-redisenio/LEEME.md` y capturas A de esa carpeta. Ante contradicciones con bocetos anteriores, prevalecen los ajustes aprobados hasta la revisión a6 del 07/10/2026.
 
-**Estado:** bloques1/2 fusionados por Dan en PR90/91. Dashboard y portada T4.1/T5 fusionados en PR92, main `adf156c`, con CI/Vercel en verde. Dan autoriza continuar el 09/10/2026. T6 implementada y verificada localmente en `feat/rediseno-paginas-publicas`, checkout aislado `PIMPOS_REDISENO_BLOQUE1`. Esta entrega se detiene en PR4 borrador para revisión; T7 pendiente.
+**Estado:** bloques1/2 fusionados por Dan en PR90/91; dashboard y portada T4.1/T5 en PR92; páginas públicas y movimiento T6 en PR93, main `ea4ee37`. T7 implementada y verificada localmente desde esa base en `feat/cierre-rediseno-ui-ux`, checkout aislado `PIMPOS_REDISENO_BLOQUE1`, con las ampliaciones de PDF, novedades y SEO de Dan. Revisión independiente concluida e I1 corregido. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94) borrador abierto para su revisión; resultados y límites en `DOC/Verificacion rediseño 03.2.md`. No se declara fusión ni cierre productivo.
 
 ## Restricciones globales
 
@@ -276,21 +276,30 @@ className = "mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:
 
 ## T7 — Cierre y evidencia del sistema completo
 
+**Ampliaciones de Dan, 09/10/2026, después de fusionar PR #93:** actualizar el estilo de
+todos los PDF descargables e incluir el logo aprobado en cada página, conservando contenido,
+cálculos, permisos y registro. La prohibición previa de tocar exportadores no limita este
+ajuste explícito de presentación; Excel conserva su contrato. Hacer más visuales las novedades
+del inicio mostrando la imagen completa, renovar la tarjeta OpenGraph para WhatsApp/redes con A
+y optimizar SEO técnico para buscadores e IAs. Añadir canónicas y descripción estructurada con
+datos existentes, sin modificar consultas ni inventar stock, valoraciones o afirmaciones comerciales.
+No se garantiza una posición ni indexación; se verifica lo que el sitio publica a los rastreadores.
+
 **Archivos:** crear `DOC/Verificacion rediseño 03.2.md` y `DOC/Maquetas/3.2/`; actualizar `AGENTS.md`, `PRODUCT.md`, `docs/marca.md`, `DOC/Avance del proyecto.md` y este plan. Correcciones en los componentes que fallen, con prueba funcional si hubo una regresión.
 
-- [ ] Enumerar todas las rutas desde las páginas actuales, no desde las diez maquetas. Registrar ruta, rol, tamaño, estado observado, captura y resultado. Cobertura obligatoria: público completo; login/cambiar clave; inicio; todos los CRUD de contenido; insumos y sus movimientos/reportes/proveedores; clientes/zonas/corrección/revisión; usuarios; configuración; auditoría principal, detalle, ingresos, descargas y borrados.
-- [ ] Revisar pantallas completas contra A a 390/1440; controles y desbordamiento a 375/768/1024. Incluir diálogos, menú Más, vacío, error, espera y deshabilitado. Registrar diferencias justificadas por contenido real, nunca atribuirlas a una aprobación inexistente.
-- [ ] Buscar residuos de paleta anterior y comprobar los estilos calculados de controles visibles, hover, focus y pseudoelementos. Ejemplo de inventario estático auxiliar, que no sustituye la inspección visual:
+- [x] Enumerar todas las rutas desde las páginas actuales, no desde las diez maquetas. Registrar ruta, rol, tamaño, estado observado, captura y resultado. Cobertura obligatoria: público completo; login/cambiar clave; inicio; todos los CRUD de contenido; insumos y sus movimientos/reportes/proveedores; clientes/zonas/corrección/revisión; usuarios; configuración; auditoría principal, detalle, ingresos, descargas y borrados.
+- [x] Revisar pantallas completas contra A a 390/1440; controles y desbordamiento a 375/768/1024. Incluir diálogos, menú Más, vacío, error, espera y deshabilitado. Registrar diferencias justificadas por contenido real, nunca atribuirlas a una aprobación inexistente.
+- [x] Buscar residuos de paleta anterior y comprobar los estilos calculados de controles visibles, hover, focus y pseudoelementos. Ejemplo de inventario estático auxiliar, que no sustituye la inspección visual:
 
 ```powershell
 rg -n 'blue-|sky-|cyan-|pimpos-azul|#12306[eE]|#0060[aA]8' src
 ```
 
-- [ ] Ejecutar `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm test` y `pnpm build`. Correr la suite E2E completa, dividida por archivos contra **el mismo build**, `--workers=1`; conciliar el listado de `pnpm exec playwright test --list` con todos los archivos ejecutados. Registrar totales, saltos explicados y fallos, sin reutilizar cifras históricas de F7 como resultados actuales.
-- [ ] Comprobar axe público/panel, navegación completa con teclado, foco tras cerrar diálogos, 200 % zoom, reduced motion e impresión. Las correcciones visuales no justifican bajar umbrales ni eliminar reglas de axe.
-- [ ] Medir Lighthouse de `/`, `/productos` y `/contacto` contra el commit base en la misma máquina, sesión y condiciones; seguir `scripts/medir-lighthouse.mjs` y los umbrales vigentes. Exigir diferencia mediana no peor de 3 puntos y analizar variabilidad antes de atribuirla al cambio. Revisar LCP/CLS, fuentes e imágenes; si falla, corregir antes del cierre.
-- [ ] Confirmar diff sin cambios funcionales ni de base. No exigir nuevas pruebas SQL para CSS; conservar el resultado del CI requerido por el repositorio. Cualquier alteración accidental de consulta, autorización o cálculo se revierte, no se convierte en alcance nuevo.
-- [ ] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 5. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
+- [x] Ejecutar `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm test` y `pnpm build`. Correr la suite E2E completa, dividida por archivos contra **el mismo build**, `--workers=1`; conciliar el listado de `pnpm exec playwright test --list` con todos los archivos ejecutados. Registrar totales, saltos explicados y fallos, sin reutilizar cifras históricas de F7 como resultados actuales.
+- [x] Comprobar axe público/panel, navegación completa con teclado, foco tras cerrar diálogos, 200 % zoom, reduced motion e impresión. Las correcciones visuales no justifican bajar umbrales ni eliminar reglas de axe.
+- [x] Medir Lighthouse de `/`, `/productos` y `/contacto` contra el commit base en la misma máquina, sesión y condiciones; seguir `scripts/medir-lighthouse.mjs` y los umbrales vigentes. Exigir diferencia mediana no peor de 3 puntos y analizar variabilidad antes de atribuirla al cambio. Revisar LCP/CLS, fuentes e imágenes; si falla, corregir antes del cierre.
+- [x] Confirmar diff sin cambios funcionales ni de base. No exigir nuevas pruebas SQL para CSS; conservar el resultado del CI requerido por el repositorio. Cualquier alteración accidental de consulta, autorización o cálculo se revierte, no se convierte en alcance nuevo.
+- [x] Concluir la revisión independiente, documentar evidencia y limitaciones, actualizar el estado de este plan y abrir PR 5. PR #94 borrador abierto, vista previa revisada; checks vigentes en el PR. Parar conforme al flujo del proyecto. El despliegue y comprobación posterior quedan sujetos al flujo habitual de publicación, no a que la maqueta esté aprobada.
 
 ## Protocolo de verificación por tarea
 

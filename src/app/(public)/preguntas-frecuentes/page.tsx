@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { urlAbsoluta } from "@/lib/sitio";
 import { ChevronDown, MessageCircle } from "lucide-react";
 
 import { EncabezadoSeccion } from "@/components/publico/encabezado-seccion";
@@ -11,6 +12,7 @@ import { GUIA_DEL_PEDIDO, mensajeDePedido } from "@/lib/datos/pedido";
 import { preguntasSchema } from "@/lib/seo/datos-estructurados";
 
 export const metadata: Metadata = {
+  alternates: { canonical: urlAbsoluta("/preguntas-frecuentes") },
   title: "Preguntas frecuentes",
   description:
     "Horarios, delivery, pedidos por encargo y productos integrales: las preguntas que más nos hacen en Panadería Pimpo's.",

@@ -1,0 +1,18 @@
+[
+  {
+    "name": "inicio-repeticion",
+    "exit": 0
+  },
+  {
+    "name": "zoom-captura-corregida",
+    "exit": 0
+  },
+  {
+    "name": "novedad-capturas",
+    "exit": 1
+  },
+  {
+    "name": "estados-cierre",
+    "exit": 1
+  }
+]

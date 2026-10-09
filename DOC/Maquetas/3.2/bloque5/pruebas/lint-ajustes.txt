@@ -1,0 +1,6 @@
+
+D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\src\lib\insumos\exportar-pdf.tsx
+  98:11  warning  Image elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+
+✖ 1 problem (0 errors, 1 warning)
+

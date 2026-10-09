@@ -505,7 +505,9 @@ async function specialT4(page, role) {
           routes = [template.replace("[id]", id)];
         }
         for (const route of routes)
-          for (const width of [390, 1440]) {
+          for (const width of process.argv.includes("--cierre")
+            ? [375, 390, 768, 1024, 1440]
+            : [390, 1440]) {
             const name =
               (template === "/admin" ? "inicio" : template.slice(7))
                 .replaceAll("/", "-")

@@ -1,0 +1,550 @@
+{
+  "records": [
+    {
+      "name": "inicio-administrador-375",
+      "route": "/admin",
+      "width": 375,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-administrador-390",
+      "route": "/admin",
+      "width": 390,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-administrador-768",
+      "route": "/admin",
+      "width": 768,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-administrador-1024",
+      "route": "/admin",
+      "width": 1024,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-administrador-1440",
+      "route": "/admin",
+      "width": 1440,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-sin-acceso-administrador",
+      "route": "/admin?motivo=sin-acceso",
+      "width": 390,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-zoom-css-200",
+      "route": "/admin",
+      "width": 1440,
+      "role": "administrador",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "pendientes",
+          "texto": "5 datos del sitio están por confirmar",
+          "href": "/admin/configuracion"
+        },
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": [
+        "/admin/contenido",
+        "/admin/insumos",
+        "/admin/clientes",
+        "/admin/usuarios",
+        "/admin/auditoria",
+        "/admin/configuracion"
+      ],
+      "cambios": 5,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-ingeniero-390",
+      "route": "/admin",
+      "width": 390,
+      "role": "ingeniero",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": ["/admin/contenido", "/admin/insumos", "/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-ingeniero-1440",
+      "route": "/admin",
+      "width": 1440,
+      "role": "ingeniero",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": ["/admin/contenido", "/admin/insumos", "/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-sin-acceso-ingeniero",
+      "route": "/admin?motivo=sin-acceso",
+      "width": 390,
+      "role": "ingeniero",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "insumos-bajo-minimo",
+          "texto": "18 insumos están bajo el mínimo",
+          "href": "/admin/insumos?ver=bajo"
+        },
+        {
+          "clave": "insumos-por-vencer",
+          "texto": "1 insumo tiene algo por vencer",
+          "href": "/admin/insumos?ver=vencer"
+        }
+      ],
+      "secciones": ["/admin/contenido", "/admin/insumos", "/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-repartidor-390",
+      "route": "/admin",
+      "width": 390,
+      "role": "repartidor",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [],
+      "secciones": ["/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-repartidor-1440",
+      "route": "/admin",
+      "width": 1440,
+      "role": "repartidor",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [],
+      "secciones": ["/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "inicio-sin-acceso-repartidor",
+      "route": "/admin?motivo=sin-acceso",
+      "width": 390,
+      "role": "repartidor",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [],
+      "secciones": ["/admin/clientes"],
+      "cambios": 0,
+      "tapiz": "none",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-375",
+      "route": "/",
+      "width": 375,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-390",
+      "route": "/",
+      "width": 390,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-768",
+      "route": "/",
+      "width": 768,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-1024",
+      "route": "/",
+      "width": 1024,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-1440",
+      "route": "/",
+      "width": 1440,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    },
+    {
+      "name": "publico-cerrado-390",
+      "route": "/",
+      "width": 390,
+      "role": "publico",
+      "overflow": false,
+      "brokenImages": [],
+      "blue": [],
+      "avisos": [
+        {
+          "clave": "true",
+          "texto": "Horario y reparto",
+          "href": null
+        }
+      ],
+      "secciones": [],
+      "cambios": 0,
+      "tapiz": "url(\"http://127.0.0.1:3000/marca/tapiz-panaderia.svg\")",
+      "smallControls": [],
+      "axe": []
+    }
+  ],
+  "focusRecords": [
+    {
+      "name": "inicio-foco-teclado",
+      "focused": true,
+      "focusVisible": true,
+      "outline": "rgb(149, 62, 44) solid 2px",
+      "outlineWidth": 2
+    },
+    {
+      "name": "publico-foco-teclado",
+      "focused": true,
+      "focusVisible": true,
+      "outline": "rgb(255, 255, 255) solid 2px",
+      "outlineWidth": 2
+    }
+  ],
+  "cleanup": [
+    {
+      "id": "e830a91c-0798-4d86-81ea-21da834f6e17",
+      "removed": true
+    },
+    {
+      "id": "4ef54b6d-b800-4baf-9ac4-53877cbd6687",
+      "removed": true
+    },
+    {
+      "id": "2e8ffa66-088b-42f3-a8fb-15290973ccea",
+      "removed": true
+    }
+  ],
+  "note": "Fixtures locales; sin registros comerciales nuevos. Zoom CSS no equivale al zoom nativo."
+}

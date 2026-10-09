@@ -1,0 +1,52 @@
+Stopped services: [supabase_realtime_PIMPOS_SYSTEM supabase_imgproxy_PIMPOS_SYSTEM supabase_pg_meta_PIMPOS_SYSTEM supabase_studio_PIMPOS_SYSTEM supabase_edge_runtime_PIMPOS_SYSTEM supabase_analytics_PIMPOS_SYSTEM supabase_vector_PIMPOS_SYSTEM supabase_pooler_PIMPOS_SYSTEM]
+A new version of Supabase CLI is available: v2.120.0 (currently installed v2.116.0)
+We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+(node:30264) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:11740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 [escritorio] › e2e\seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada (4.7s)
+
+
+  1) [escritorio] › e2e\seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 5
+    + Received  + 5
+
+      Array [
+        Array [
+    -     149,
+    -     62,
+    -     44,
+    +     18,
+    +     48,
+    +     110,
+          255,
+        ],
+        Array [
+          247,
+    -     245,
+    -     240,
+    +     239,
+    +     226,
+          255,
+        ],
+      ]
+
+      154 |     return [30, 1190].map((x) => [...contexto.getImageData(x, 30, 1, 1).data]);
+      155 |   }, (await respuesta.body()).toString("base64"));
+    > 156 |   expect(muestras).toEqual([[149, 62, 44, 255], [247, 245, 240, 255]]);
+          |                    ^
+      157 | });
+      158 |
+        at D:\300\OTROS\XXX\DAN\PIMPOS\PIMPOS_REDISENO_BLOQUE1\e2e\seo.spec.ts:156:20
+
+    Error Context: test-results\seo-la-imagen-para-compart-e0d4f--terracota-y-crema-aprobada-escritorio\error-context.md
+
+  1 failed
+    [escritorio] › e2e\seo.spec.ts:140:5 › la imagen para compartir conserva la paleta terracota y crema aprobada 
