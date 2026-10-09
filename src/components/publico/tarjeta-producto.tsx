@@ -34,7 +34,7 @@ export function TarjetaProducto({
             alt={producto.imagenAlt ?? producto.nombre}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="foto-interactiva object-cover"
           />
           {producto.categoriaNombre ? (
             <span className="sello absolute top-3 left-3">{producto.categoriaNombre}</span>

@@ -52,7 +52,7 @@ export default async function Nosotros() {
                 alt={interior.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover"
+                className="foto-interactiva object-cover"
               />
             </div>
           ) : null}

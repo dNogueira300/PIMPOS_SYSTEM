@@ -93,7 +93,7 @@ export default async function Galeria() {
                                 ? "(max-width: 768px) 100vw, 66vw"
                                 : "(max-width: 640px) 50vw, 33vw"
                             }
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            className="foto-interactiva object-cover"
                           />
                         ) : null}
 

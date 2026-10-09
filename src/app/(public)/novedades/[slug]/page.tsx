@@ -58,7 +58,14 @@ export default async function DetalleNovedad(props: PageProps<"/novedades/[slug]
       {novedad.imagen ? (
         <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-md">
           {/* `preload`: el `priority` de siempre, renombrado en Next 16. */}
-          <Image src={novedad.imagen} alt="" fill preload sizes="100vw" className="object-cover" />
+          <Image
+            src={novedad.imagen}
+            alt=""
+            fill
+            preload
+            sizes="100vw"
+            className="foto-interactiva object-cover"
+          />
         </div>
       ) : null}
 

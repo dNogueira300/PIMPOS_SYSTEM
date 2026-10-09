@@ -60,7 +60,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
             alt=""
             fill
             sizes="80px"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="foto-interactiva object-cover"
           />
         </span>
       ) : null}

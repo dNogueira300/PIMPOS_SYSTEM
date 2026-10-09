@@ -121,7 +121,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               // otra candidata segun el ancho.
               preload
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="foto-interactiva object-cover"
             />
           </div>
 

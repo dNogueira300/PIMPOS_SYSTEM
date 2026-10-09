@@ -776,6 +776,45 @@
 .tapiz-publico .tarjeta {
   box-shadow: none;
 }
+/* Fotografías: zoom mínimo dentro del recorte, solo con cursor y sin reducir movimiento. */
+@media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .foto-interactiva {
+    transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .foto-interactiva:hover {
+    transform: scale(1.03);
+  }
+}
+
+/* Pista separada del contenido: la moto termina a la derecha y no vuelve a empezar. */
+.recorrido-delivery {
+  color: var(--background);
+  overflow: hidden;
+  pointer-events: none;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+.moto-delivery {
+  width: calc(100% - 5rem);
+  height: 4rem;
+}
+.moto-delivery svg {
+  display: block;
+  width: 5rem;
+  height: 4rem;
+}
+@keyframes recorrer-delivery {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@media screen and (prefers-reduced-motion: no-preference) {
+  .recorrido-delivery[data-recorrido="iniciado"] .moto-delivery {
+    animation: recorrer-delivery 4s cubic-bezier(0.32, 0, 0.68, 1) forwards;
+  }
+}
 @media (width < 640px) {
   .tapiz-publico {
     background-size: 510px 450px;
