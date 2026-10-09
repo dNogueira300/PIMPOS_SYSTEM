@@ -39,7 +39,7 @@ export default async function Productos(props: PageProps<"/productos">) {
         }
       />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         <Suspense fallback={<EsqueletoCatalogo />}>
           <Catalogo searchParams={props.searchParams} consulta={consulta} />
         </Suspense>
@@ -55,8 +55,8 @@ export default async function Productos(props: PageProps<"/productos">) {
  */
 function EsqueletoCatalogo() {
   return (
-    <div aria-hidden className="animate-pulse">
-      <div className="bg-muted h-14 w-full max-w-3xl rounded-full" />
+    <div aria-hidden className="motion-safe:animate-pulse">
+      <div className="bg-muted h-14 w-full max-w-3xl rounded-md" />
       {/* Filas de pizarra, no tarjetas: el esqueleto tenía todavía la forma de la
           rejilla que se retiró el 11/09, y al llegar el catálogo la página saltaba. */}
       <div className="mt-10 gap-x-12 md:columns-2">
@@ -94,7 +94,7 @@ async function Catalogo({
       {visibles.length === 0 ? (
         // Estado vacio con salida: una categoria puede quedarse sin productos
         // publicados, y dejar la pagina en blanco haria pensar que se rompio.
-        <div className="border-border/40 mt-8 rounded-lg border border-dashed px-6 py-16 text-center">
+        <div className="border-border bg-card mt-8 rounded-md border px-6 py-16 text-center">
           <p className="font-heading text-primary text-xl font-semibold">
             Todavía no hay productos en esta categoría
           </p>

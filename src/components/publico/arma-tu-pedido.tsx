@@ -6,7 +6,7 @@ import { MessageCircle } from "lucide-react";
 import { mensajeArmado, type PedidoArmado } from "@/lib/datos/pedido-armado";
 
 const CAMPO =
-  "bg-card border-input text-foreground focus-visible:border-primary focus-visible:ring-primary/15 placeholder:text-muted-foreground min-h-12 w-full rounded-[10px] border-[1.5px] px-4 text-base outline-none focus-visible:ring-[3px]";
+  "bg-card border-input text-foreground focus-visible:border-primary focus-visible:ring-primary/15 placeholder:text-muted-foreground min-h-12 w-full rounded-md border-[1.5px] px-4 text-base outline-none focus-visible:ring-[3px]";
 const ETIQUETA = "text-foreground mb-1.5 block text-xs font-bold tracking-[0.06em] uppercase";
 
 /**

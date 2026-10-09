@@ -54,7 +54,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
       {producto.imagen ? (
         // `alt` vacio a proposito: el nombre ya va escrito al lado y es el
         // nombre del enlace. Leerlo dos veces no ayuda a nadie.
-        <span className="bg-muted relative size-16 shrink-0 overflow-hidden rounded-xl sm:size-20">
+        <span className="bg-muted relative size-16 shrink-0 overflow-hidden rounded-md sm:size-20">
           <Image
             src={producto.imagen}
             alt=""
@@ -65,8 +65,8 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
         </span>
       ) : null}
 
-      <span className="flex min-w-0 flex-1 items-baseline gap-3">
-        <span data-nombre className="min-w-0">
+      <span className="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span data-nombre className="min-w-0 flex-[1_1_120px] wrap-anywhere">
           <span className="font-heading text-primary block text-lg leading-snug font-semibold decoration-1 underline-offset-4 group-hover:underline">
             {producto.nombre}
           </span>
@@ -87,7 +87,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
         {precio ? (
           <span
             data-precio
-            className="text-precio font-heading shrink-0 text-xl font-semibold whitespace-nowrap tabular-nums"
+            className="text-precio font-heading max-w-full text-xl font-semibold wrap-anywhere tabular-nums"
           >
             {precio}
           </span>

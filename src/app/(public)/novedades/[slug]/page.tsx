@@ -47,7 +47,7 @@ export default async function DetalleNovedad(props: PageProps<"/novedades/[slug]
         Todas las novedades
       </Link>
 
-      <h1 className="font-heading text-primary mt-4 text-4xl font-bold text-balance sm:text-5xl">
+      <h1 className="font-heading text-primary mt-4 text-4xl font-bold text-balance wrap-anywhere sm:text-5xl">
         {novedad.titulo}
       </h1>
 
@@ -56,7 +56,7 @@ export default async function DetalleNovedad(props: PageProps<"/novedades/[slug]
       ) : null}
 
       {novedad.imagen ? (
-        <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl">
+        <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-md">
           {/* `preload`: el `priority` de siempre, renombrado en Next 16. */}
           <Image src={novedad.imagen} alt="" fill preload sizes="100vw" className="object-cover" />
         </div>

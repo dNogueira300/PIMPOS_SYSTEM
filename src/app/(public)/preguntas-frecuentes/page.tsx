@@ -53,7 +53,7 @@ export default async function PreguntasFrecuentes() {
         }
       />
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 md:py-14">
         {faqs.length === 0 ? (
           <p className="text-muted-foreground">Todavía no hay preguntas publicadas.</p>
         ) : (
@@ -64,7 +64,7 @@ export default async function PreguntasFrecuentes() {
                     El foco de teclado se dibuja en la tarjeta y no en el `summary`: con el
                     `overflow-hidden` que redondea las esquinas, el contorno del
                     `summary` quedaba recortado. */}
-                <details className="group tarjeta bg-muted has-[summary:focus-visible]:outline-ring overflow-hidden has-[summary:focus-visible]:outline-2 has-[summary:focus-visible]:outline-offset-2">
+                <details className="group tarjeta bg-card has-[summary:focus-visible]:outline-ring overflow-hidden has-[summary:focus-visible]:outline-2 has-[summary:focus-visible]:outline-offset-2">
                   <summary className="min-h-tactil flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 outline-none [&::-webkit-details-marker]:hidden">
                     <h2 className="font-heading text-primary text-lg font-semibold text-pretty">
                       {faq.pregunta}

@@ -98,7 +98,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
     .slice(0, 4);
 
   return (
-    <div className="mx-auto max-w-(--container-contenido) px-4 py-8 sm:px-6 sm:py-12">
+    <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
       <Link
         href={
           producto.categoriaSlug ? `/productos?categoria=${producto.categoriaSlug}` : "/productos"
@@ -111,7 +111,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
 
       {producto.imagen ? (
         <div className="mt-4 grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="acercarse bg-muted shadow-elevada relative aspect-[4/3] overflow-hidden rounded-2xl">
+          <div className="acercarse bg-muted relative aspect-[4/3] overflow-hidden rounded-md">
             <Image
               src={producto.imagen}
               alt={producto.imagenAlt ?? producto.nombre}
@@ -125,8 +125,8 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
             />
           </div>
 
-          <div className="aparece-lateral flex flex-col">
-            <h1 className="font-heading text-primary text-4xl font-bold text-balance sm:text-5xl">
+          <div className="aparece-lateral tarjeta flex min-w-0 flex-col p-6 sm:p-8">
+            <h1 className="font-heading text-primary text-4xl font-bold text-balance wrap-anywhere sm:text-5xl">
               {producto.nombre}
             </h1>
             {precio ? (
@@ -148,15 +148,15 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
         // contraste; ahora el precio ocupa ese sitio, a tamano de titular,
         // y el pedido va al lado. Es lo que el cliente viene a ver.
         <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          <div className="aparece">
-            <h1 className="font-heading text-primary text-4xl font-bold text-balance sm:text-5xl">
+          <div className="aparece tarjeta min-w-0 p-6 sm:p-8">
+            <h1 className="font-heading text-primary text-4xl font-bold text-balance wrap-anywhere sm:text-5xl">
               {producto.nombre}
             </h1>
             {presentacion ? (
               <p className="text-muted-foreground mt-2 text-lg">{presentacion}</p>
             ) : null}
             {precio ? (
-              <p className="text-precio font-heading mt-6 text-5xl leading-none font-semibold text-balance tabular-nums sm:text-7xl">
+              <p className="text-precio font-heading mt-6 text-[clamp(44px,4vw,56px)] leading-tight font-semibold text-balance wrap-anywhere tabular-nums">
                 {precio}
               </p>
             ) : null}
@@ -169,7 +169,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
             ) : null}
           </div>
 
-          <div className="aparece-lateral lg:pt-2">{pedido}</div>
+          <div className="aparece-lateral min-w-0 lg:pt-2">{pedido}</div>
         </div>
       )}
 
@@ -216,14 +216,14 @@ function Presentaciones({
             key={id}
             data-nombre={nombre}
             data-precio={precio ?? undefined}
-            className="border-border/20 flex items-baseline gap-3 border-b py-2 last:border-b-0"
+            className="border-border grid grid-cols-[minmax(0,1fr)_minmax(0,auto)] items-baseline gap-3 border-b py-3 last:border-b-0"
           >
-            <span>{nombre}</span>
+            <span className="min-w-0 wrap-anywhere">{nombre}</span>
             {/* La linea de puntos lleva el ojo del nombre al precio sin pintar
                 una tabla: es como se lee una carta de toda la vida. */}
-            <span aria-hidden className="border-guia min-w-6 flex-1 border-b-2 border-dotted" />
+            <span aria-hidden className="hidden" />
             {precio !== null ? (
-              <span className="text-precio font-heading font-semibold tabular-nums">
+              <span className="text-precio font-heading max-w-full text-right font-semibold wrap-anywhere tabular-nums">
                 {formatearPrecio(precio)}
               </span>
             ) : null}
@@ -255,7 +255,7 @@ function BloquePedido({
   guia: Pick<Guia, "slug" | "titulo"> | null;
 }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex min-w-0 flex-col">
       {whatsapp ? (
         <>
           <a

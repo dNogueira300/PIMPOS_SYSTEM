@@ -29,7 +29,7 @@ export default async function Novedades() {
         entradilla="Promociones y avisos que están vigentes hoy. Lo que caduca desaparece solo."
       />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         {novedades.length === 0 ? (
           // Vacio con salida: es el estado normal muchos dias del anio, no un
           // fallo, y tiene que decir a donde ir.

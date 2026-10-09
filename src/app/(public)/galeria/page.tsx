@@ -48,7 +48,7 @@ export default async function Galeria() {
         entradilla={`Fotos del local, del horno y del día a día.${donde}`}
       />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         {fotos.length === 0 ? (
           <p className="text-muted-foreground">Todavía no hay fotos publicadas.</p>
         ) : (
@@ -79,7 +79,7 @@ export default async function Galeria() {
                       className={grande ? "col-span-2 md:row-span-2" : undefined}
                     >
                       <figure
-                        className={`tarjeta--elevable group bg-muted relative h-full overflow-hidden rounded-2xl ${
+                        className={`tarjeta--elevable group bg-muted relative h-full overflow-hidden rounded-md ${
                           grande ? "aspect-[4/3] md:aspect-auto" : "aspect-[4/3]"
                         }`}
                       >

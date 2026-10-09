@@ -52,13 +52,13 @@ export default async function Contacto() {
         entradilla="La forma más rápida es WhatsApp. También puedes llamarnos o venir al local."
       />
 
-      <div className="mx-auto max-w-(--container-contenido) px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
         <div className="aparece-grupo grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <section aria-labelledby="titulo-local" className="tarjeta flex flex-col p-6 sm:p-8">
             <div className="flex items-start gap-4">
               <span
                 aria-hidden
-                className="bg-primary text-primary-foreground grid size-12 shrink-0 place-items-center rounded-xl"
+                className="bg-primary text-primary-foreground grid size-12 shrink-0 place-items-center rounded-md"
               >
                 <MapPin className="size-6" />
               </span>

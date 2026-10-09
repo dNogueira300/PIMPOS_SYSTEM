@@ -102,7 +102,7 @@ export function Mapa({ lat, lng, titulo, direccion }: Props) {
       ref={contenedor}
       role="application"
       aria-label={`Mapa con la ubicación de ${titulo}`}
-      className="shadow-suave isolate h-[60vh] min-h-80 w-full overflow-hidden rounded-2xl"
+      className="isolate h-[60vh] min-h-80 w-full overflow-hidden rounded-md"
     />
   );
 }
