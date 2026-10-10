@@ -1,6 +1,6 @@
 # Validación de alojamiento Cloudflare
 
-Fecha de consulta: 09/10/2026, America/Lima.
+Consultas: 09–10/10/2026, America/Lima. Conclusión de evaluación: 10/10/2026.
 Base de la aplicación: `main`, commit `2e7cfa803580135e52677e3edeae1011caf44baf`, después de PR #94.
 
 ## Alcance y estado
@@ -9,8 +9,11 @@ Evaluar Cloudflare Workers para el sitio público y el panel existentes, preserv
 funcionalidad. Esta evaluación no cambia producción, DNS, datos del negocio ni el dominio.
 La prueba aislada de PDF y Excel funciona en el runtime local y en Cloudflare, con ajustes de
 empaquetado. Las seis exportaciones medidas exceden el límite publicado de CPU de Free;
-**no se recomienda Free para la arquitectura actual**. La aplicación completa sigue pendiente
-de verificación en Linux/CI antes de decidir una migración a Workers Paid u otro proveedor.
+**no se recomienda Free para la arquitectura actual**. El empaquetado completo pasa en
+Ubuntu, pero el login falla tanto con Next 16.3.4 como con la comparación 16.3.8.
+**Evaluación cerrada con resultado negativo: no migrar el sistema actual a Cloudflare.**
+Workers Paid tampoco queda aprobado por estas pruebas. PR #95 permanece en borrador;
+no hay compra, contratación, fusión ni cambio de producción.
 
 Se usa una copia de los archivos versionados, con sus propias dependencias, en
 `.superpowers/validacion-cloudflare/app`. Esta carpeta está ignorada por Git. Los registros de
@@ -58,7 +61,7 @@ del de Workers.
 
 | Área                | Evidencia actual                                                                                                                                                     | Criterio de aceptación                                                                                                             |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| Versión de Next.js  | Sistema: 16.3.4. El paquete OpenNext 1.20.10 declara peer `>=15.5.27 <16                                                                                             |                                                                                                                                    | >=16.3.8`. Prueba aislada: 16.3.8. | Compilar y ejecutar sin cambiar comportamiento. |
+| Versión de Next.js  | Sistema: 16.3.4. OpenNext 1.20.10 admite Next 15 desde 15.5.27 y Next desde 16.3.8. Comparación aislada: 16.3.8.                                                     | Compilar y ejecutar sin cambiar comportamiento.                                                                                    |
 | Sesión y permisos   | `src/proxy.ts` utiliza el proxy Node de Next 16. Las guías generales dicen que no está soportado, pero la versión 1.20.3 de OpenNext incorporó soporte experimental. | No quitar ni rebajar el control de sesión. Probar ingreso, roles, clave temporal y revocación con la versión instalada.            |
 | PDF                 | `exportar-pdf.tsx` lee PNG y TTF desde `process.cwd()/src/recursos/compartir`.                                                                                       | Descargar PDF de clientes e insumos con el logo en cada página y sus fuentes, sin errores de archivos ni memoria.                  |
 | Excel               | Generación en servidor mediante ExcelJS y Buffer.                                                                                                                    | Abrir los archivos y conservar datos numéricos, totales y formatos.                                                                |
@@ -195,15 +198,14 @@ Las exportaciones reales con datos ficticios exceden su límite publicado en las
 mediciones, conservando sus funciones. No quitar ni trasladar descargas automáticamente
 para forzar la gratuidad.
 
-Si se quiere continuar con Cloudflare, la siguiente validación debe evaluar Workers Paid
-(US$5/mes de base más uso, sin contratar todavía) y el empaquetado oficial en Linux/CI:
-integrar recursos, fuentes y Wasm, y probar sesión/roles/revocación, imágenes, OpenGraph,
-publicación e invalidación de caché, cron y todas las descargas. Solo después se prepara
-el plan de migración, presupuesto de recursos asociados y reversión.
-Pagar Workers no corrige una incompatibilidad del adaptador.
-Si el alojamiento debe ser completamente gratuito, evaluar otra plataforma compatible con
-Next y Node antes de cambiar la arquitectura; separar servicios requeriría un plan explícito.
-El dominio puede registrarse independientemente de la decisión final del hosting.
+El empaquetado oficial en Linux/CI ya está aprobado; la aplicación sigue bloqueada en
+el login, también con una versión de Next admitida por el adaptador. **No continuar hacia
+producción ni contratar Workers Paid para resolverlo:** pagar no corrige una incompatibilidad
+del adaptador. Reabrir esta opción exigiría resolver el fallo y ejecutar los 710 casos,
+validar el entorno remoto, todas las descargas y el presupuesto de recursos asociados.
+No quitar Proxy, PPR, permisos ni funciones para forzar el alojamiento.
+El siguiente candidato gratuito es Netlify, todavía sin prueba de Pimpo's. El dominio
+puede registrarse independientemente del hosting; su compra permanece pendiente.
 
 ## Continuación autorizada: Linux/CI
 
@@ -284,3 +286,71 @@ los casos restantes. Si se omiten estas distinciones, se podría aprobar una mig
 sin verificar sesión ni presupuesto. Los dos menores anteriores siguen aplazados.
 
 Plan y criterios: [`Plan de validacion Cloudflare Linux CI.md`](<Plan de validacion Cloudflare Linux CI.md>).
+
+### Comparación final: Next 16.3.8 reproduce el bloqueo
+
+Dan autorizó continuar antes de fusionar PR #95. La comparación cambia exclusivamente
+`next` y `eslint-config-next` de 16.3.4 a 16.3.8 en el manifiesto y lock de validación.
+El preparador rechaza cualquier otro cambio de versión y guarda las dos diferencias
+en `versiones.json`. Producción conserva Next 16.3.4, Cache Components y Proxy.
+
+[Ejecución de comparación](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38058759716),
+commit `58daf1a16f0e8ce4862eb709f46c17f6c80c6302`, Ubuntu, OpenNext 1.20.10,
+Wrangler 4.149.0, mismo código de aplicación. Preparación, instalación congelada,
+Supabase temporal, Chromium, build oficial, artefactos y limpieza pasan. Las nueve
+pruebas de aislamiento pasan; los 349 archivos src siguen idénticos por SHA-256.
+
+Playwright registra **17 aprobados, 5 fallidos y 688 sin ejecutar**, cero reintentos.
+Los cinco casos fallidos son los mismos de la ejecución anterior: axe en el login
+y formulario vacío, credenciales incorrectas, superadmin y repartidor. La pantalla
+global muestra digest `1840303558`; la traza conserva errores React 419/441.
+El formulario puede aparecer inicialmente y después quedar sustituido por el error;
+esto no equivale a una autenticación funcional. La parada de cinco fallos impide
+certificar escritorio y el resto de los flujos. Los pendientes no cuentan como cobertura.
+
+**Resultado de la hipótesis:** actualizar a la versión admitida no elimina el fallo;
+el desfase de versión no es una explicación suficiente. La causa interna precisa
+del render/resume continúa sin confirmar. No se atribuye el fallo a Proxy solamente
+por su aviso experimental ni se concluye que Cloudflare nunca pueda soportar Next.
+
+Evidencia sanitizada: [`linux-ci-next-16.3.8.json`](<Evidencias Cloudflare/linux-ci-next-16.3.8.json>).
+Artefacto original descargado a `evidencia-linux-3`, ignorado, además de las dos
+ejecuciones anteriores. Las evidencias históricas no se sustituyen.
+
+## Conclusión de alojamiento y siguiente paso
+
+**Descartar Cloudflare como destino del sistema actual en esta evaluación.** Hay dos
+motivos independientes: Free tiene un presupuesto de CPU menor al de las exportaciones
+medidas; la aplicación completa no supera el login en Workers con ninguna de las
+dos versiones comparadas. Workers Paid amplía el presupuesto, pero no corrige el render.
+No contratarlo ni preparar una migración basándose solamente en el build aprobado.
+PR #95 queda en borrador y sin fusionar; documenta una evaluación negativa, no un despliegue.
+
+Recomiendo **validar Netlify Free como siguiente candidato**, preservando todas las
+funciones. Su [comparación oficial](https://www.netlify.com/guides/netlify-vs-vercel/)
+permite explícitamente proyectos comerciales en Free. La
+[documentación de Next](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/)
+declara soporte de App Router, Server Actions, PPR y Cache Components; también
+documenta restricciones del middleware Node. Esto justifica probarlo, pero **no certifica
+Pimpo's**. La validación aún no se ha ejecutado ni se ha creado un sitio en Netlify.
+
+Según la [tarifa vigente](https://www.netlify.com/pricing/), Free tiene 300 créditos/mes:
+15 por despliegue de producción, 10 por GB-hora de cómputo, 20 por GB transferido y
+2 por 10.000 peticiones. Las previews no cobran el despliegue, pero sí su tráfico y
+cómputo. Al alcanzar el límite se pausan los proyectos de la cuenta hasta la siguiente
+recarga o cambio de plan; véase [cómo funcionan los créditos](https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/how-credits-work/).
+No prometer alojamiento gratuito permanente sin medir tráfico, imágenes y descargas.
+
+La siguiente tarea deberá comprobar empaquetado Linux y ejecución real del adaptador
+de Netlify, login/roles/revocación, los 710 casos conciliados, publicación/caché,
+imágenes/OpenGraph, cron y cada clase de PDF/Excel con datos ficticios. Después se
+requiere preview aislada y medición de consumo mensual estimado, antes de elegir
+hosting o conectar producción. No modificar funciones ni usar la base del negocio
+para obtener un resultado favorable. Cloudflare Registrar sigue siendo una opción
+de dominio independiente; todavía no hay compra, cambio DNS ni nueva contratación.
+
+La comparación de versión y su guard exacto tienen revisión independiente sin hallazgos.
+Decisión de ejecución: se cierra la evaluación negativa con evidencia, sin perseguir
+parches de arquitectura para forzar Workers. Coste de mezclar versiones o de aprobar
+desde el build: recomendar una migración que no conserva una sesión funcional.
+Los dos menores del arnés anotados arriba permanecen aplazados.

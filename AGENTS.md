@@ -335,9 +335,11 @@ React 19 más Next 16, y nuestro código añade 0 KB. `motion` habría costado m
 aplicación. Si el panel (F4–F6) la necesita, vuelve entonces: ahí no hay presupuesto de portada que
 cuidar. Una dependencia instalada sin usar es una invitación a alcanzarla.
 
-Hosting: Vercel en desarrollo; Cloudflare Workers es el destino probable de producción
-(decisión abierta hasta octubre). Hostinger quedó descartado como hosting — solo se contempla
-como registrador de dominio.
+Hosting: Vercel en desarrollo. Evaluación Cloudflare cerrada con resultado negativo el
+10/10/2026: Free excedido por exportaciones; login bloqueado también con Next 16.3.8.
+No migrar el sistema actual a Workers; Paid no aprobado. Netlify Free es el siguiente
+candidato comercial, aún sin validación del sistema ni decisión de despliegue.
+Hostinger quedó descartado como hosting — solo se contempla como registrador de dominio.
 
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.
@@ -1283,7 +1285,15 @@ Workers E2E bloqueada por error de render del login directo: 17 aprobadas, 5 fal
 688 sin ejecutar al parar tras cinco fallos (run `38027301473`). Variante con `volver`
 pasa en ese ensayo; causa exacta pendiente, no parchear el login para esconderla.
 Adaptador declara Next >=16.3.8 en la serie 16; Node Proxy experimental. No se actualizó
-producción ni se aprobó migración. CI y evidencia listos en `feat/validacion-cloudflare`.
+producción ni se aprobó migración. Comparación autorizada con Next/eslint-config-next
+16.3.8 en copia aislada: run `38058759716`, empaquetado aprobado; mismos 17 aprobados,
+5 fallidos y 688 sin ejecutar; digest `1840303558`, React 419/441. Nueve pruebas de
+aislamiento aprobadas; 349 hashes src sin diferencias; manifiesto raíz en 16.3.4.
+El desfase de versión no explica por sí solo el fallo. Evaluación cerrada con resultado
+negativo: no migrar el sistema actual a Cloudflare y no contratar Paid para ocultarlo.
+PR #95 sigue en borrador, sin fusionar por instrucción de Dan. Próximo candidato:
+Netlify Free permite uso comercial, con 300 créditos/mes y pausa al agotarlos; no
+está probado con Pimpo's. Dominio pendiente e independiente. CI y evidencia en esta rama.
 Resultados y evidencia sin datos personales en
 `DOC/Validacion de alojamiento Cloudflare.md`. No conectar producción a las sondas.
 

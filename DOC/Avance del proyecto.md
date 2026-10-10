@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 09/10/2026 (cierre visual fusionado; alojamiento en evaluación; estados históricos conservados)
+**Corte:** 10/10/2026 (cierre visual fusionado; Cloudflare evaluado con resultado negativo; hosting definitivo pendiente; estados históricos conservados)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -57,6 +57,16 @@ adaptador requiere Next >=16.3.8 en la serie 16 y avisa de Node Proxy experiment
 La compatibilidad completa y la migración siguen sin aprobar. No hay cambios de
 producción ni contratación. CI y evidencia preparados en `feat/validacion-cloudflare`;
 ejecución de diagnóstico: https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38027301473.
+Comparación autorizada del 10/10 con Next/eslint-config-next 16.3.8, solamente en
+la copia de CI: build aprobado, mismos 17 aprobados, 5 fallidos y 688 sin ejecutar;
+run https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38058759716.
+Nueve pruebas de aislamiento aprobadas; 349 hashes src idénticos; producción en 16.3.4.
+El fallo del login persiste con una versión admitida; causa exacta no confirmada.
+**Evaluación Cloudflare cerrada con resultado negativo: no migrar el sistema actual,
+ni contratar Paid para solucionar el render.** PR #95 permanece en borrador, sin fusión.
+Netlify Free es el siguiente candidato: permite uso comercial, pero tiene cuota de
+300 créditos/mes y pausa al agotarla; aún no se probó la aplicación ni su consumo allí.
+No se ha elegido otro hosting, comprado dominio ni desplegado una nueva aplicación.
 Resultados y métricas sin datos personales: `Validacion de alojamiento Cloudflare.md`.
 
 ---
