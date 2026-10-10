@@ -69,6 +69,13 @@ Netlify Free es el siguiente candidato: permite uso comercial, pero tiene cuota 
 No se ha elegido otro hosting, comprado dominio ni desplegado una nueva aplicación.
 Resultados y métricas sin datos personales: `Validacion de alojamiento Cloudflare.md`.
 
+Dan prioriza después comparar hosting de pago anual antes de Netlify, con dominio
+y un máximo de S/300 al año, también al renovar. Hostinger ahora admite Node/Next,
+pero la renovación consultada excede ese presupuesto. OVHcloud VPS-1 y Namecheap
+Stellar quedan como candidatos sin prueba de Pimpo's ni compra; ver
+`Alternativas de alojamiento anual.md`. La administración del VPS y el SSL de
+Namecheap deben resolverse antes de elegir. PR #95 sigue sin fusionar.
+
 ---
 
 ## 1. Dónde estamos

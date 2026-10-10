@@ -339,7 +339,15 @@ Hosting: Vercel en desarrollo. Evaluación Cloudflare cerrada con resultado nega
 10/10/2026: Free excedido por exportaciones; login bloqueado también con Next 16.3.8.
 No migrar el sistema actual a Workers; Paid no aprobado. Netlify Free es el siguiente
 candidato comercial, aún sin validación del sistema ni decisión de despliegue.
-Hostinger quedó descartado como hosting — solo se contempla como registrador de dominio.
+En la decisión histórica de septiembre, Hostinger quedó descartado como hosting;
+esa evaluación se actualiza debajo por el nuevo soporte Node documentado.
+
+Actualización de Dan, 10/10: antes de Netlify, comparar pago anual con dominio,
+máximo S/300/año también al renovar. Hostinger ahora soporta Node/Next en Business
+(Unlimited) y Cloud, pero su renovación consultada supera el presupuesto. Candidatos
+de investigación: OVHcloud VPS-1 con dominio separado, si habrá mantenimiento técnico;
+Namecheap Stellar con `.com` rebajado y SSL/compatibilidad pendientes. Ninguno aprobado.
+No comprar ni desplegar. Fuentes y límites en `DOC/Alternativas de alojamiento anual.md`.
 
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.

@@ -354,3 +354,10 @@ Decisión de ejecución: se cierra la evaluación negativa con evidencia, sin pe
 parches de arquitectura para forzar Workers. Coste de mezclar versiones o de aprobar
 desde el build: recomendar una migración que no conserva una sesión funcional.
 Los dos menores del arnés anotados arriba permanecen aplazados.
+
+Actualización posterior de Dan, 10/10: comparar pago anual con dominio antes de
+probar Netlify, máximo S/300 al año incluyendo renovación. Investigación en
+[`Alternativas de alojamiento anual.md`](<Alternativas de alojamiento anual.md>).
+Hostinger ahora soporta Node/Next, pero su renovación consultada supera el límite;
+OVHcloud VPS-1 y Namecheap Stellar son candidatos sin validación de Pimpo's ni compra.
+Esta ampliación no cambia el resultado negativo de Cloudflare.
