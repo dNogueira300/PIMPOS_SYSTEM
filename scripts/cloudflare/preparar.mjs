@@ -31,6 +31,8 @@ export function entornoLocal(status) {
     CORREO_ALERTAS: "",
     NEXT_TELEMETRY_DISABLED: "1",
     WRANGLER_SEND_METRICS: "false",
+    OPEN_NEXT_DEBUG: "1",
+    OPEN_NEXT_ERROR_LOG_LEVEL: "0",
     PIMPOS_E2E_API_URL: url.origin,
     PIMPOS_E2E_ANON_KEY: status.ANON_KEY,
     PIMPOS_E2E_SERVICE_ROLE_KEY: status.SERVICE_ROLE_KEY,
