@@ -132,14 +132,30 @@ export async function prepararCopia(repo, { soloCodigo = false } = {}) {
         "utf8",
       ),
     );
+    const diferencias = [];
     for (const grupo of ["dependencies", "devDependencies"]) {
       for (const [nombre, version] of Object.entries(paquete[grupo])) {
-        if (copia[grupo][nombre] !== version)
+        const comparacion = copia[grupo][nombre];
+        if (comparacion === version) continue;
+        // Única variación diagnóstica autorizada: no relajar otros controles.
+        if (
+          ((grupo === "dependencies" && nombre === "next") ||
+            (grupo === "devDependencies" && nombre === "eslint-config-next")) &&
+          version === "16.3.4" &&
+          comparacion === "16.3.8"
+        ) {
+          diferencias.push({ dependencia: nombre, produccion: version, comparacion });
+        } else {
           throw new Error(
             `La copia difiere de producción: ${nombre}. Actualiza el manifiesto y lock de la validación.`,
           );
+        }
       }
     }
+    await writeFile(
+      path.join(trabajo, "versiones.json"),
+      JSON.stringify({ diferencias }, null, 2) + "\n",
+    );
     for (const archivo of ["package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml"]) {
       await copiarArchivo(
         path.join(herramientas, "dependencias", archivo),

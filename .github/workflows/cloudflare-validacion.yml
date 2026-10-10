@@ -80,6 +80,7 @@ jobs:
           include-hidden-files: true
           path: |
             .superpowers/validacion-cloudflare-ci/fuentes.json
+            .superpowers/validacion-cloudflare-ci/versiones.json
             .superpowers/validacion-cloudflare-ci/build.log
             .superpowers/validacion-cloudflare-ci/pruebas.log
             .superpowers/validacion-cloudflare-ci/app/playwright-report/

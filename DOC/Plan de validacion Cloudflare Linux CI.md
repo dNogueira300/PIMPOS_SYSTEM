@@ -4,6 +4,15 @@ Autorizada por Dan el 09/10/2026. Ejecutar en `feat/validacion-cloudflare`.
 Especificación: probar la aplicación completa conservando funciones y versiones
 de producción, sin desplegar, comprar, activar servicios remotos ni usar la base alojada.
 
+Continuación autorizada por Dan el 10/10/2026, antes de fusionar PR #95: obtener una
+conclusión de alojamiento. Comparar la copia con Next y eslint-config-next 16.3.8,
+únicas variaciones frente a 16.3.4, registradas en `versiones.json`. La aplicación de
+producción sigue intacta. Hipótesis: el límite de soporte declarado por OpenNext
+puede explicar el bloqueo del login; si se reproduce con 16.3.8, se descarta como
+explicación suficiente. No sustituir esta comparación por retirar Proxy o PPR.
+Si pasa el login, continuar los 710 casos; si falla, conservar diagnóstico y decidir
+la adecuación de Cloudflare con ese resultado y las mediciones de CPU ya existentes.
+
 1. Preparar una copia aislada del código y un entorno de dependencias congeladas:
    las versiones actuales de la aplicación más OpenNext 1.20.10 y Wrangler 4.149.0.
    Validar que no se copian `.env`, enlaces o dependencias locales y que el destino
