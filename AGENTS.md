@@ -335,9 +335,19 @@ React 19 más Next 16, y nuestro código añade 0 KB. `motion` habría costado m
 aplicación. Si el panel (F4–F6) la necesita, vuelve entonces: ahí no hay presupuesto de portada que
 cuidar. Una dependencia instalada sin usar es una invitación a alcanzarla.
 
-Hosting: Vercel en desarrollo; Cloudflare Workers es el destino probable de producción
-(decisión abierta hasta octubre). Hostinger quedó descartado como hosting — solo se contempla
-como registrador de dominio.
+Hosting: Vercel en desarrollo. Evaluación Cloudflare cerrada con resultado negativo el
+10/10/2026: Free excedido por exportaciones; login bloqueado también con Next 16.3.8.
+No migrar el sistema actual a Workers; Paid no aprobado. Netlify Free es el siguiente
+candidato comercial, aún sin validación del sistema ni decisión de despliegue.
+En la decisión histórica de septiembre, Hostinger quedó descartado como hosting;
+esa evaluación se actualiza debajo por el nuevo soporte Node documentado.
+
+Actualización de Dan, 10/10: antes de Netlify, comparar pago anual con dominio,
+máximo S/300/año también al renovar. Hostinger ahora soporta Node/Next en Business
+(Unlimited) y Cloud, pero su renovación consultada supera el presupuesto. Candidatos
+de investigación: OVHcloud VPS-1 con dominio separado, si habrá mantenimiento técnico;
+Namecheap Stellar con `.com` rebajado y SSL/compatibilidad pendientes. Ninguno aprobado.
+No comprar ni desplegar. Fuentes y límites en `DOC/Alternativas de alojamiento anual.md`.
 
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.
@@ -1266,9 +1276,34 @@ La verificación transversal vigente se registra en `DOC/Verificacion rediseño 
 T7 implementada y verificada localmente: 496 unitarias, 605 E2E aprobadas y 105 omisiones
 previstas (710 casos conciliados), 70 plantillas y 497 capturas. Revisión fresca concluida;
 I1 de atribución incorrecta de marca en Product corregido con RED→GREEN y suite completa.
-PR #94 borrador abierto y vista previa Vercel revisada; checks vigentes en el PR.
-Pendiente revisión/fusión de Dan. Teclado virtual de teléfono físico no certificado;
+PR #94 fusionado por Dan el 09/10/2026, main `2e7cfa8`; vista previa Vercel revisada.
+Teclado virtual de teléfono físico no certificado;
 F7 de capacitación/manual/informe/credenciales permanece separado.
+
+Dan autoriza evaluar Cloudflare Workers/Registrar el 09/10/2026. Se reutiliza este checkout
+en `feat/validacion-cloudflare`, con prueba aislada y dependencias propias bajo la carpeta
+ignorada `.superpowers/validacion-cloudflare/`; la aplicación versionada conserva Next 16.3.4.
+Cuenta Free y dominio consultados; no se compra, migra ni contrata. Dan ingresó a Wrangler
+manualmente y autorizó continuar la prueba aislada. PDF/Excel de 70 filas ficticias funcionan
+en workerd y en la sonda remota, con recursos y Wasm empaquetados. CPU remota: Excel
+152/38/36 ms y PDF 964/318/340 ms, las seis sobre los 10 ms de Free. No recomendar Free
+para el sistema completo actual. Linux/CI ejecutado el 10/10/2026: empaquetado oficial
+completo aprobado con Next 16.3.4, sin parches Windows; 349 archivos src idénticos por hash.
+Workers E2E bloqueada por error de render del login directo: 17 aprobadas, 5 fallidas,
+688 sin ejecutar al parar tras cinco fallos (run `38027301473`). Variante con `volver`
+pasa en ese ensayo; causa exacta pendiente, no parchear el login para esconderla.
+Adaptador declara Next >=16.3.8 en la serie 16; Node Proxy experimental. No se actualizó
+producción ni se aprobó migración. Comparación autorizada con Next/eslint-config-next
+16.3.8 en copia aislada: run `38058759716`, empaquetado aprobado; mismos 17 aprobados,
+5 fallidos y 688 sin ejecutar; digest `1840303558`, React 419/441. Nueve pruebas de
+aislamiento aprobadas; 349 hashes src sin diferencias; manifiesto raíz en 16.3.4.
+El desfase de versión no explica por sí solo el fallo. Evaluación cerrada con resultado
+negativo: no migrar el sistema actual a Cloudflare y no contratar Paid para ocultarlo.
+PR #95 sigue en borrador, sin fusionar por instrucción de Dan. Próximo candidato:
+Netlify Free permite uso comercial, con 300 créditos/mes y pausa al agotarlos; no
+está probado con Pimpo's. Dominio pendiente e independiente. CI y evidencia en esta rama.
+Resultados y evidencia sin datos personales en
+`DOC/Validacion de alojamiento Cloudflare.md`. No conectar producción a las sondas.
 
 En PR #93 Dan pidió y aprobó dos ajustes:
 moto delivery decorativa que recorre una vez el bloque de movilidad propia en 4 s,
