@@ -49,8 +49,14 @@ y US$10.46/año de renovación, sin compra. Next 16.3.8 compila en una copia pri
 con datos ficticios funcionan en workerd tras ajustar su empaquetado. Después del ingreso
 manual de Dan a Wrangler, se publicó una sonda separada y se midió CPU real: Excel
 152/38/36 ms y PDF 964/318/340 ms. Las seis exportaciones superan los 10 ms de Free;
-no recomendar ese plan para el sistema completo actual. Falta comprobar la aplicación en
-Linux/CI antes de decidir Paid u otro proveedor. No hay cambios de producción ni contratación.
+no recomendar ese plan para el sistema completo actual. Linux/CI ejecutado el 10/10:
+empaquetado oficial completo aprobado con Next 16.3.4; E2E en Workers falla al cargar
+el login directo (17 aprobadas, 5 fallidas, 688 sin ejecutar por parada temprana).
+La variante con `volver` pasa en el segundo ensayo; causa exacta sin confirmar. El
+adaptador requiere Next >=16.3.8 en la serie 16 y avisa de Node Proxy experimental.
+La compatibilidad completa y la migración siguen sin aprobar. No hay cambios de
+producción ni contratación. CI y evidencia preparados en `feat/validacion-cloudflare`;
+ejecución de diagnóstico: https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38027301473.
 Resultados y métricas sin datos personales: `Validacion de alojamiento Cloudflare.md`.
 
 ---

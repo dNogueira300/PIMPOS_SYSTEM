@@ -1277,8 +1277,14 @@ Cuenta Free y dominio consultados; no se compra, migra ni contrata. Dan ingresó
 manualmente y autorizó continuar la prueba aislada. PDF/Excel de 70 filas ficticias funcionan
 en workerd y en la sonda remota, con recursos y Wasm empaquetados. CPU remota: Excel
 152/38/36 ms y PDF 964/318/340 ms, las seis sobre los 10 ms de Free. No recomendar Free
-para el sistema completo actual. Antes de migrar a Paid u otro proveedor falta verificar
-la aplicación completa en Linux/CI. Resultados y evidencia sin datos personales en
+para el sistema completo actual. Linux/CI ejecutado el 10/10/2026: empaquetado oficial
+completo aprobado con Next 16.3.4, sin parches Windows; 349 archivos src idénticos por hash.
+Workers E2E bloqueada por error de render del login directo: 17 aprobadas, 5 fallidas,
+688 sin ejecutar al parar tras cinco fallos (run `38027301473`). Variante con `volver`
+pasa en ese ensayo; causa exacta pendiente, no parchear el login para esconderla.
+Adaptador declara Next >=16.3.8 en la serie 16; Node Proxy experimental. No se actualizó
+producción ni se aprobó migración. CI y evidencia listos en `feat/validacion-cloudflare`.
+Resultados y evidencia sin datos personales en
 `DOC/Validacion de alojamiento Cloudflare.md`. No conectar producción a las sondas.
 
 En PR #93 Dan pidió y aprobó dos ajustes:

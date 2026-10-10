@@ -224,6 +224,63 @@ de configuración y destino enlazados. Revisión independiente: dos importantes 
 (PostCSS y enlaces en entradas explícitas), comprobados con pruebas que fallaron antes.
 Menores aplazados: el filtro de push no incluye cambios exclusivos de public/PostCSS/
 tsconfig (repetir manualmente); el fixture de node_modules no contiene un centinela.
-La ejecución Ubuntu aún no tiene resultado registrado en este punto.
+
+### Resultado real en Ubuntu: empaquetado aprobado, compatibilidad bloqueada
+
+Ejecutado el **10/10/2026**, contra la aplicación de `main` `2e7cfa8`, con Next
+16.3.4, OpenNext 1.20.10, su adaptador AWS 4.1.9 y Wrangler 4.149.0. Los **349 archivos
+de src** copiados coinciden por SHA-256 con el código actual: cero diferencias.
+
+| Ejecución                                                                             | Commit                                     | Resultado                                                                                                                         |
+| ------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| [Primera](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38026557814)     | `e1ac911f50cbd92e669fbf4f02a03985979fc96c` | Preparación, instalación, Supabase y empaquetado aprobados. Cancelada al repetirse el error del login; no hay informe JSON final. |
+| [Diagnóstico](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38027301473) | `5adf2d95061955d8af19f8439c2caaf2a3281787` | Las mismas etapas aprobadas; E2E fallida. Informe, capturas y trazas guardados; Supabase temporal detenido correctamente.         |
+
+La segunda ejecución activa el diagnóstico nativo de OpenNext y detiene Playwright
+tras cinco fallos. Conserva los 710 casos existentes, sin filtros ni cambios de tests:
+**17 aprobados, 5 fallidos y 688 sin ejecutar**. De los cinco fallos, uno es axe sobre
+la pantalla de error de `/ingresar` y cuatro son timeouts esperando el formulario
+(validación vacía, credenciales incorrectas, superadmin y repartidor). El JSON agrupa
+los 688 pendientes bajo `skipped`, pero sus arrays de resultados están vacíos:
+**no son omisiones deliberadas por pantalla ni pruebas aprobadas**. La parada aparece
+también como error general de Playwright; es el límite de fallos, no un sexto caso.
+Escritorio y los demás flujos administrativos, invalidación, cron, imágenes y descargas
+de la aplicación completa quedaron sin certificar.
+
+Síntoma reproducido: el acceso directo a `/ingresar` responde HTTP 200, pero el
+navegador termina en la pantalla global de error del servidor: digest `241716660`
+en el primer build y `2811352710` en el segundo.
+La traza registra React 419/441 y datos de la portada pública en la continuación
+RSC de esa respuesta. Los logs de OpenNext resuelven correctamente `/ingresar`
+antes del render. En el segundo ensayo, el caso de redirección anónima a
+`/ingresar?volver=%2Fadmin` sí pasa. Esto acota la investigación al render/resume
+de la ruta sin parámetros; **no demuestra todavía la causa exacta ni que añadir
+un parámetro arregle el sistema**. No se modifica el login para ocultar el fallo.
+
+Además, el manifiesto instalado del adaptador declara el peer de Next
+`>=15.5.27 <16 || >=16.3.8`; la aplicación actual está en 16.3.4. También avisa
+que Node Proxy es experimental. Estos son límites de soporte y candidatos de
+diagnóstico, no una atribución confirmada del error. El siguiente ensayo controlado
+puede comparar una copia con una versión admitida de Next, repitiendo login/resume
+y después la suite; requiere su propio lock y evidencia. No se ha actualizado
+Next de producción, desactivado Cache Components ni eliminado Proxy o permisos.
+
+**Decisión: no aprobar todavía Cloudflare para el sistema completo.** Linux elimina
+el bloqueo de empaquetado observado en Windows, pero descubre un bloqueo funcional.
+Pagar Workers no resuelve esta incompatibilidad. La conclusión previa sobre los
+10 ms de Free permanece separada y vigente.
+
+Resumen sanitizado y versionado: [`linux-ci.json`](<Evidencias Cloudflare/linux-ci.json>).
+Los artefactos de GitHub se conservan siete días; los dos ensayos se descargaron a
+`.superpowers/validacion-cloudflare-ci/evidencia-linux-1` y `evidencia-linux-2`,
+ignorados por Git. El segundo contiene `playwright-report/`, JSON, capturas y trazas.
+No se versionan logs de diagnóstico completos ni credenciales locales.
+
+Decisiones de revisión: la compatibilidad se juzga con ejecución real; los casos no
+ejecutados no cuentan como cobertura; la CPU remota y cualquier contratación quedan
+fuera del CI local; se conserva el historial separado de la sonda. El límite de cinco
+fallos permite obtener informes ante el bloqueo; una futura aprobación exige ejecutar
+los casos restantes. Si se omiten estas distinciones, se podría aprobar una migración
+sin verificar sesión ni presupuesto. Los dos menores anteriores siguen aplazados.
 
 Plan y criterios: [`Plan de validacion Cloudflare Linux CI.md`](<Plan de validacion Cloudflare Linux CI.md>).
