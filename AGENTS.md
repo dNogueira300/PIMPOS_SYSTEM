@@ -1266,9 +1266,20 @@ La verificación transversal vigente se registra en `DOC/Verificacion rediseño 
 T7 implementada y verificada localmente: 496 unitarias, 605 E2E aprobadas y 105 omisiones
 previstas (710 casos conciliados), 70 plantillas y 497 capturas. Revisión fresca concluida;
 I1 de atribución incorrecta de marca en Product corregido con RED→GREEN y suite completa.
-PR #94 borrador abierto y vista previa Vercel revisada; checks vigentes en el PR.
-Pendiente revisión/fusión de Dan. Teclado virtual de teléfono físico no certificado;
+PR #94 fusionado por Dan el 09/10/2026, main `2e7cfa8`; vista previa Vercel revisada.
+Teclado virtual de teléfono físico no certificado;
 F7 de capacitación/manual/informe/credenciales permanece separado.
+
+Dan autoriza evaluar Cloudflare Workers/Registrar el 09/10/2026. Se reutiliza este checkout
+en `feat/validacion-cloudflare`, con prueba aislada y dependencias propias bajo la carpeta
+ignorada `.superpowers/validacion-cloudflare/`; la aplicación versionada conserva Next 16.3.4.
+Cuenta Free y dominio consultados; no se compra, migra ni contrata. Dan ingresó a Wrangler
+manualmente y autorizó continuar la prueba aislada. PDF/Excel de 70 filas ficticias funcionan
+en workerd y en la sonda remota, con recursos y Wasm empaquetados. CPU remota: Excel
+152/38/36 ms y PDF 964/318/340 ms, las seis sobre los 10 ms de Free. No recomendar Free
+para el sistema completo actual. Antes de migrar a Paid u otro proveedor falta verificar
+la aplicación completa en Linux/CI. Resultados y evidencia sin datos personales en
+`DOC/Validacion de alojamiento Cloudflare.md`. No conectar producción a las sondas.
 
 En PR #93 Dan pidió y aprobó dos ajustes:
 moto delivery decorativa que recorre una vez el bloque de movilidad propia en 4 s,

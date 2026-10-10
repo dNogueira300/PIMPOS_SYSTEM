@@ -1,0 +1,96 @@
+name: Validación Cloudflare en Linux
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/validacion-cloudflare]
+    paths:
+      - .github/workflows/cloudflare-validacion.yml
+      - scripts/cloudflare/**
+      - src/**
+      - e2e/**
+      - supabase/**
+      - next.config.ts
+      - package.json
+      - pnpm-lock.yaml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-validacion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compatibilidad:
+    name: OpenNext y flujos en Workers local
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      WRANGLER_SEND_METRICS: "false"
+      HUSKY: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verificar el aislamiento y preparar la copia
+        run: |
+          node --test scripts/cloudflare/aislamiento.test.mjs
+          node scripts/cloudflare/preparar.mjs
+      - name: Instalar dependencias congeladas de la validación
+        working-directory: .superpowers/validacion-cloudflare-ci/app
+        run: pnpm install --frozen-lockfile
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+      - name: Iniciar base temporal del runner
+        run: |
+          sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+          supabase start
+      - name: Instalar Chromium
+        working-directory: .superpowers/validacion-cloudflare-ci/app
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Empaquetar la aplicación completa con OpenNext
+        id: build
+        working-directory: .superpowers/validacion-cloudflare-ci/app
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/cloudflare/ejecutar.mjs build 2>&1 | tee ../build.log
+      - name: Probar los flujos contra Workers
+        id: pruebas
+        working-directory: .superpowers/validacion-cloudflare-ci/app
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/cloudflare/ejecutar.mjs pruebas 2>&1 | tee ../pruebas.log
+      - name: Guardar evidencia sin variables de entorno ni paquetes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cloudflare-linux-${{ github.run_id }}
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            .superpowers/validacion-cloudflare-ci/fuentes.json
+            .superpowers/validacion-cloudflare-ci/build.log
+            .superpowers/validacion-cloudflare-ci/pruebas.log
+            .superpowers/validacion-cloudflare-ci/app/playwright-report/
+            .superpowers/validacion-cloudflare-ci/app/test-results/
+      - name: Registrar las etapas ejecutadas
+        if: always()
+        run: |
+          printf '### Validación aislada de Cloudflare\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Commit: `%s`\n\n' "$GITHUB_SHA" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Empaquetado: **%s**. Pruebas Workers: **%s**.\n' '${{ steps.build.outcome }}' '${{ steps.pruebas.outcome }}' >> "$GITHUB_STEP_SUMMARY"
+          printf '\nSupabase, R2, D1 e Images locales. Sin despliegue ni credenciales de producción.\n' >> "$GITHUB_STEP_SUMMARY"
+      - name: Apagar base temporal
+        if: always()
+        run: supabase stop --no-backup || true

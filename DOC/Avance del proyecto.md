@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 09/10/2026 (cierre visual en revisión; estados históricos conservados)
+**Corte:** 09/10/2026 (cierre visual fusionado; alojamiento en evaluación; estados históricos conservados)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -38,10 +38,20 @@ tarjeta al compartir renovada y SEO técnico para buscadores e IAs. No cambia la
 496 unitarias aprobadas, 605 E2E aprobadas y 105 omisiones previstas; 710 casos conciliados,
 70 plantillas y 497 capturas. Revisión independiente concluida, marca no acreditada de
 productos corregida con RED→GREEN y regresión completa repetida. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
-abierto como borrador, vista previa Vercel revisada. CI de aplicación y base aprobados
+fusionado por Dan el 09/10/2026 (main `2e7cfa8`), vista previa Vercel revisada. CI de aplicación y base aprobados
 en el código verificado; resultado vigente de E2E remoto en los checks del PR.
-Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Pendiente revisión/fusión de Dan;
+Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`;
 F7 de capacitación, manual, informe y credenciales queda fuera de este alcance.
+
+**Evaluación de alojamiento, 09/10/2026:** Dan autoriza validar Cloudflare Workers y Registrar.
+La cuenta muestra Free y `panaderiapimpos.com` se consultó disponible a US$10.46 de registro
+y US$10.46/año de renovación, sin compra. Next 16.3.8 compila en una copia privada; PDF/Excel
+con datos ficticios funcionan en workerd tras ajustar su empaquetado. Después del ingreso
+manual de Dan a Wrangler, se publicó una sonda separada y se midió CPU real: Excel
+152/38/36 ms y PDF 964/318/340 ms. Las seis exportaciones superan los 10 ms de Free;
+no recomendar ese plan para el sistema completo actual. Falta comprobar la aplicación en
+Linux/CI antes de decidir Paid u otro proveedor. No hay cambios de producción ni contratación.
+Resultados y métricas sin datos personales: `Validacion de alojamiento Cloudflare.md`.
 
 ---
 
