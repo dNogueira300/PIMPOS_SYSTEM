@@ -1,4 +1,6 @@
 [build]
+  # Netlify resuelve la base desde la raíz Git, aunque el CLI arranque en la copia.
+  base = ".superpowers/validacion-netlify-ci/app"
   command = "pnpm build"
   publish = ".next"
 
