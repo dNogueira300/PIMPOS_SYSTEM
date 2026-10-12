@@ -2,7 +2,7 @@
   "name": "pimpos-system",
   "version": "0.1.0",
   "private": true,
-  "description": "Plataforma web y panel de gestiÃ³n de PanaderÃ­a Pimpo's E.I.R.L. (Iquitos)",
+  "description": "Plataforma web y panel de gestión de Panadería Pimpo's E.I.R.L. (Iquitos)",
   "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": ">=24"
