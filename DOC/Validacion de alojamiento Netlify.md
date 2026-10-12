@@ -76,7 +76,9 @@ repositorio de producción que está en raíz. Próxima comparación: copia fuer
 checkout, en el temporal fijado del runner, con raíz Git propia sin hooks ni remotos
 heredados y base `.`. No parchear el adaptador ni los archivos generados.
 
-Los cuatro intentos iniciales no certifican ni descartan Netlify remoto. Evidencias
+- [38206629110](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38206629110), SHA 93a4875: GitHub rechaza `runner.temp` en `job.env`; no crea jobs ni ejecuta pruebas. Se define el temporal en un paso mediante `$RUNNER_TEMP` y `$GITHUB_ENV`, donde el runner ya existe.
+
+Los cinco intentos iniciales no certifican ni descartan Netlify remoto. Evidencias
 completas de intentos 3/4 descargadas fuera de Git. Los dos menores de revisión
 (registro al evento exit y listado reemplazado en pruebas.log) siguen diferidos;
 el listado inicial se conserva en Actions y el JSON funcional se evalúa aparte.

@@ -25,9 +25,10 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
       NETLIFY_TELEMETRY_DISABLED: "1"
       HUSKY: "0"
-      PIMPOS_NETLIFY_TEMPORAL: ${{ runner.temp }}/pimpos-validacion-netlify
     steps:
       - uses: actions/checkout@v4
+      - name: Definir temporal independiente del checkout
+        run: echo "PIMPOS_NETLIFY_TEMPORAL=$RUNNER_TEMP/pimpos-validacion-netlify" >> "$GITHUB_ENV"
       - uses: pnpm/action-setup@v4
         with:
           version: 12.3.4
