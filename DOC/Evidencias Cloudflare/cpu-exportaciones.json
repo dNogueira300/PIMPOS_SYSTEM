@@ -1,0 +1,83 @@
+[
+  {
+    "ruta": "/",
+    "vuelta": 1,
+    "cpuMs": 0,
+    "paredMs": 0,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/excel",
+    "vuelta": 1,
+    "cpuMs": 152,
+    "paredMs": 160,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/pdf",
+    "vuelta": 1,
+    "cpuMs": 964,
+    "paredMs": 1007,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/",
+    "vuelta": 2,
+    "cpuMs": 0,
+    "paredMs": 0,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/excel",
+    "vuelta": 2,
+    "cpuMs": 38,
+    "paredMs": 39,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/pdf",
+    "vuelta": 2,
+    "cpuMs": 318,
+    "paredMs": 336,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/",
+    "vuelta": 3,
+    "cpuMs": 0,
+    "paredMs": 3,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/excel",
+    "vuelta": 3,
+    "cpuMs": 36,
+    "paredMs": 38,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  },
+  {
+    "ruta": "/pdf",
+    "vuelta": 3,
+    "cpuMs": 340,
+    "paredMs": 363,
+    "resultado": "ok",
+    "excepciones": 0,
+    "version": "ba27b534-4df7-4970-a203-30db95eee6d1"
+  }
+]

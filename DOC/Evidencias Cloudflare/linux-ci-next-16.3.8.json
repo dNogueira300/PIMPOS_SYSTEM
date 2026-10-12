@@ -1,0 +1,109 @@
+{
+  "fecha": "2026-10-10",
+  "baseAplicacion": "2e7cfa803580135e52677e3edeae1011caf44baf",
+  "entorno": "GitHub Actions ubuntu-latest; OpenNext preview / workerd; Supabase, R2, D1 e Images locales",
+  "versiones": {
+    "next": "16.3.8",
+    "opennextCloudflare": "1.20.10",
+    "opennextAws": "4.1.9",
+    "wrangler": "4.149.0",
+    "pnpm": "12.3.4",
+    "node": "24",
+    "supabaseCli": "2.116.0"
+  },
+  "ejecuciones": [
+    {
+      "id": 38058759716,
+      "commit": "58daf1a16f0e8ce4862eb709f46c17f6c80c6302",
+      "url": "https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38058759716",
+      "conclusion": "failure",
+      "preparacion": "success",
+      "dependencias": "success",
+      "supabaseTemporal": "success",
+      "empaquetado": "success",
+      "e2e": "failure",
+      "artefactos": "success",
+      "limpiezaSupabase": "success"
+    }
+  ],
+  "integridadSrc": {
+    "archivos": 349,
+    "diferenciasSha256": 0
+  },
+  "pruebasAislamiento": {
+    "aprobadas": 9,
+    "fallidas": 0
+  },
+  "e2e": {
+    "casosListados": 710,
+    "aprobados": 17,
+    "fallidos": 5,
+    "sinEjecutar": 688,
+    "omisionesDeliberadasEjecutadas": 0,
+    "maxFailures": 5,
+    "duracionMs": 159606.857,
+    "fallos": [
+      {
+        "archivo": "e2e/accesibilidad.spec.ts",
+        "linea": 90,
+        "caso": "sin errores de axe en /ingresar",
+        "proyecto": "movil",
+        "resultados": ["failed"]
+      },
+      {
+        "archivo": "e2e/autenticacion.spec.ts",
+        "linea": 16,
+        "caso": "un formulario vacio se rechaza sin llamar al servidor de auth",
+        "proyecto": "movil",
+        "resultados": ["timedOut"]
+      },
+      {
+        "archivo": "e2e/autenticacion.spec.ts",
+        "linea": 24,
+        "caso": "unas credenciales incorrectas no revelan si la cuenta existe",
+        "proyecto": "movil",
+        "resultados": ["timedOut"]
+      },
+      {
+        "archivo": "e2e/autenticacion.spec.ts",
+        "linea": 36,
+        "caso": "un superadmin entra y ve todas las secciones",
+        "proyecto": "movil",
+        "resultados": ["timedOut"]
+      },
+      {
+        "archivo": "e2e/autenticacion.spec.ts",
+        "linea": 55,
+        "caso": "un repartidor entra y solo ve clientes",
+        "proyecto": "movil",
+        "resultados": ["timedOut"]
+      }
+    ]
+  },
+  "diagnostico": {
+    "ruta": "/ingresar",
+    "pantallaFinal": "Error global del servidor; login no operativo",
+    "digest": "1840303558",
+    "erroresReact": ["419", "441"],
+    "causaExactaConfirmada": false,
+    "peerNextDeclaradoPorAdaptador": ">=15.5.27 <16 || >=16.3.8",
+    "nodeProxy": "experimental",
+    "resultadoHipotesis": "El desfase de Next no es explicación suficiente: el fallo persiste con 16.3.8."
+  },
+  "decision": "Evaluación cerrada con resultado negativo: no migrar el sistema actual a Cloudflare. Free excedido por CPU de exportaciones; Paid no aprobado por bloqueo del login. Netlify Free es el siguiente candidato, aún sin validación del sistema. PR 95 sigue en borrador, sin fusionar.",
+  "cambiosProduccion": false,
+  "despliegueAplicacion": false,
+  "contrataciones": false,
+  "comparacionVersiones": [
+    {
+      "dependencia": "next",
+      "produccion": "16.3.4",
+      "comparacion": "16.3.8"
+    },
+    {
+      "dependencia": "eslint-config-next",
+      "produccion": "16.3.4",
+      "comparacion": "16.3.8"
+    }
+  ]
+}

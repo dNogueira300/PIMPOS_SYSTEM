@@ -1,0 +1,8 @@
+{
+  "name": "pimpos-netlify-cli-validacion",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "dependencies": {
+    "netlify-cli": "27.12.0"
+  }
+}

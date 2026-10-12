@@ -1,12 +1,29 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 09/10/2026 (cierre visual en revisión; estados históricos conservados)
+**Corte:** 12/10/2026 (cierre visual fusionado; Cloudflare negativo; Netlify local no aprobado por fallo de decodificación; hosting definitivo pendiente)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
 
 Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
 hay que leer para ponerse al día sin recorrer el historial de commits.
+
+**Validación Netlify local cerrada el 12/10/2026, sin aprobación del alojamiento:**
+Dan confirma probar primero con Supabase local. CI Ubuntu 38255212161 conserva
+Next 16.3.4, nueve guardas aprobadas, 40 resoluciones directas y 349 hashes idénticos.
+La aplicación compila; `/ingresar` responde 200. La suite se detiene tras cinco
+casos por tiempo de espera, cero aprobados y 705 sin ejecutar. Traza de contacto:
+HTML con header gzip y `ERR_CONTENT_DECODING_FAILED`. Causa exacta y comportamiento
+remoto siguen sin confirmar; no se alteran aplicación ni aserciones para aprobar.
+El CI habitual del mismo SHA aprueba tipos/lint/base/E2E (602 passed, 1 flaky y 107 skipped).
+La comparación `dev.publish` se descarta antes de guardar porque el CLI la sobrescribe.
+Para seguir hace falta una vista previa con Supabase de pruebas separado; no conectar
+la base del negocio ni exponer la local. PR #95 sigue en borrador; no hay migración
+aprobada ni sitio Netlify remoto creado. Resultados y conciliación en
+`Validacion de alojamiento Netlify.md`, plan local ejecutado en
+`Plan de validacion Netlify.md` y evidencia sanitizada en
+`Evidencias Netlify/linux-ci-0a7e87b.json`. Sitrai está detenido; solo seis servicios
+locales necesarios de Pimpo's activos, APIs sanas y todos los datos conservados.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
@@ -38,10 +55,43 @@ tarjeta al compartir renovada y SEO técnico para buscadores e IAs. No cambia la
 496 unitarias aprobadas, 605 E2E aprobadas y 105 omisiones previstas; 710 casos conciliados,
 70 plantillas y 497 capturas. Revisión independiente concluida, marca no acreditada de
 productos corregida con RED→GREEN y regresión completa repetida. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
-abierto como borrador, vista previa Vercel revisada. CI de aplicación y base aprobados
+fusionado por Dan el 09/10/2026 (main `2e7cfa8`), vista previa Vercel revisada. CI de aplicación y base aprobados
 en el código verificado; resultado vigente de E2E remoto en los checks del PR.
-Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Pendiente revisión/fusión de Dan;
+Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`;
 F7 de capacitación, manual, informe y credenciales queda fuera de este alcance.
+
+**Evaluación de alojamiento, 09/10/2026:** Dan autoriza validar Cloudflare Workers y Registrar.
+La cuenta muestra Free y `panaderiapimpos.com` se consultó disponible a US$10.46 de registro
+y US$10.46/año de renovación, sin compra. Next 16.3.8 compila en una copia privada; PDF/Excel
+con datos ficticios funcionan en workerd tras ajustar su empaquetado. Después del ingreso
+manual de Dan a Wrangler, se publicó una sonda separada y se midió CPU real: Excel
+152/38/36 ms y PDF 964/318/340 ms. Las seis exportaciones superan los 10 ms de Free;
+no recomendar ese plan para el sistema completo actual. Linux/CI ejecutado el 10/10:
+empaquetado oficial completo aprobado con Next 16.3.4; E2E en Workers falla al cargar
+el login directo (17 aprobadas, 5 fallidas, 688 sin ejecutar por parada temprana).
+La variante con `volver` pasa en el segundo ensayo; causa exacta sin confirmar. El
+adaptador requiere Next >=16.3.8 en la serie 16 y avisa de Node Proxy experimental.
+La compatibilidad completa y la migración siguen sin aprobar. No hay cambios de
+producción ni contratación. CI y evidencia preparados en `feat/validacion-cloudflare`;
+ejecución de diagnóstico: https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38027301473.
+Comparación autorizada del 10/10 con Next/eslint-config-next 16.3.8, solamente en
+la copia de CI: build aprobado, mismos 17 aprobados, 5 fallidos y 688 sin ejecutar;
+run https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38058759716.
+Nueve pruebas de aislamiento aprobadas; 349 hashes src idénticos; producción en 16.3.4.
+El fallo del login persiste con una versión admitida; causa exacta no confirmada.
+**Evaluación Cloudflare cerrada con resultado negativo: no migrar el sistema actual,
+ni contratar Paid para solucionar el render.** PR #95 permanece en borrador, sin fusión.
+Netlify Free es el siguiente candidato: permite uso comercial, pero tiene cuota de
+300 créditos/mes y pausa al agotarla; aún no se probó la aplicación ni su consumo allí.
+No se ha elegido otro hosting, comprado dominio ni desplegado una nueva aplicación.
+Resultados y métricas sin datos personales: `Validacion de alojamiento Cloudflare.md`.
+
+Dan prioriza después comparar hosting de pago anual antes de Netlify, con dominio
+y un máximo de S/300 al año, también al renovar. Hostinger ahora admite Node/Next,
+pero la renovación consultada excede ese presupuesto. OVHcloud VPS-1 y Namecheap
+Stellar quedan como candidatos sin prueba de Pimpo's ni compra; ver
+`Alternativas de alojamiento anual.md`. La administración del VPS y el SSL de
+Namecheap deben resolverse antes de elegir. PR #95 sigue sin fusionar.
 
 ---
 

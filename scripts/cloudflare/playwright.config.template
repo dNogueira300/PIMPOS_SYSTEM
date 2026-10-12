@@ -1,0 +1,43 @@
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./e2e",
+  fullyParallel: false,
+  forbidOnly: true,
+  retries: 0,
+  // Conserva informe/trazas al primer bloqueo repetido, sin eliminar casos.
+  maxFailures: 5,
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    ["json", { outputFile: "test-results/cloudflare.json" }],
+  ],
+  expect: { timeout: 20_000 },
+  use: {
+    baseURL: "http://localhost:3000",
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+    locale: "es-PE",
+    timezoneId: "America/Lima",
+  },
+  projects: [
+    {
+      name: "movil",
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 375, height: 667 },
+        isMobile: true,
+        hasTouch: true,
+      },
+    },
+    { name: "escritorio", use: { ...devices["Desktop Chrome"] } },
+  ],
+  webServer: {
+    command: "node scripts/cloudflare/ejecutar.mjs preview",
+    url: "http://localhost:3000/ingresar",
+    reuseExistingServer: false,
+    timeout: 180_000,
+    stdout: "pipe",
+    stderr: "pipe",
+  },
+});

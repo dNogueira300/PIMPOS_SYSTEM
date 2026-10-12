@@ -1,0 +1,12 @@
+[build]
+  # La copia temporal tiene raíz Git propia, como el repositorio de producción.
+  base = "."
+  command = "pnpm build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[dev]
+  framework = "#static"
+  autoLaunch = false

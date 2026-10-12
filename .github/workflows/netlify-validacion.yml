@@ -1,0 +1,89 @@
+name: Validación Netlify en Linux
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [feat/validacion-cloudflare]
+    paths:
+      - .github/workflows/netlify-validacion.yml
+      - scripts/netlify/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: netlify-validacion-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compatibilidad:
+    name: Adaptador Netlify y flujos locales
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      NETLIFY_TELEMETRY_DISABLED: "1"
+      HUSKY: "0"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Definir temporal independiente del checkout
+        run: echo "PIMPOS_NETLIFY_TEMPORAL=$RUNNER_TEMP/pimpos-validacion-netlify" >> "$GITHUB_ENV"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verificar aislamiento y preparar copia
+        run: |
+          node --test scripts/netlify/aislamiento.test.mjs
+          node scripts/netlify/preparar.mjs
+      - name: Instalar dependencias congeladas de validación
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
+        run: pnpm install --frozen-lockfile
+      - name: Instalar CLI aislado con lock congelado
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/cli
+        run: pnpm install --frozen-lockfile
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+      - name: Iniciar base temporal del runner
+        run: |
+          sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
+          supabase start
+      - name: Instalar Chromium
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Registrar los casos disponibles
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
+        run: node scripts/netlify/ejecutar.mjs pruebas --list
+      - name: Compilar y probar funciones empaquetadas por Netlify
+        id: pruebas
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
+        run: node scripts/netlify/ejecutar.mjs pruebas
+      - name: Conservar evidencia sin secretos ni paquetes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: netlify-linux-${{ github.run_id }}
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            ${{ runner.temp }}/pimpos-validacion-netlify/fuentes.json
+            ${{ runner.temp }}/pimpos-validacion-netlify/versiones.json
+            ${{ runner.temp }}/pimpos-validacion-netlify/build.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/serve.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/pruebas.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/app/playwright-report/
+            ${{ runner.temp }}/pimpos-validacion-netlify/app/test-results/
+      - name: Registrar resultado y límites
+        if: always()
+        run: |
+          printf '### Validación local del adaptador Netlify\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Commit: `%s`. Resultado de la suite: **%s**.\n\n' "$GITHUB_SHA" '${{ steps.pruebas.outcome }}' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Supabase temporal y Netlify offline. No es una prueba del servicio remoto ni de consumo de créditos.\n' >> "$GITHUB_STEP_SUMMARY"
+      - name: Apagar base temporal
+        if: always()
+        run: supabase stop --no-backup || true

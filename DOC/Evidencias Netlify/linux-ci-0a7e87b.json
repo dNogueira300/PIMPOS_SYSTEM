@@ -1,0 +1,75 @@
+{
+  "fecha": "2026-10-12",
+  "run_id": 38255212161,
+  "url": "https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38255212161",
+  "sha": "0a7e87be5c3585b7e212f6f92338ff91f89c4be4",
+  "entorno": "Ubuntu, Supabase local temporal, Netlify serve offline",
+  "versiones": {
+    "next": "16.3.4",
+    "herramientas": {
+      "netlify-cli": "27.12.0",
+      "@netlify/plugin-nextjs": "5.16.2"
+    },
+    "diferenciasAplicacion": [],
+    "resolucionesDirectasIdenticas": 40
+  },
+  "fuentes_sha256": {
+    "archivos": 349,
+    "diferencias": 0
+  },
+  "aislamiento": {
+    "aprobadas": 9
+  },
+  "build": "aprobado; Netlify Build 37.4.1, 42.7 segundos",
+  "login_disponibilidad_http": 200,
+  "e2e": {
+    "disponibles": 710,
+    "aprobados": 0,
+    "fallidos": 5,
+    "sin_ejecutar": 705,
+    "omisiones_previstas_verificadas": 0,
+    "detencion": "maxFailures=5"
+  },
+  "fallos": [
+    {
+      "archivo": "abierto-ahora.spec.ts",
+      "casos": 4,
+      "resultado": "timedOut"
+    },
+    {
+      "archivo": "accesibilidad.spec.ts",
+      "casos": 1,
+      "resultado": "timedOut"
+    }
+  ],
+  "diagnostico": {
+    "ruta": "/contacto",
+    "http": 200,
+    "content_encoding": "gzip",
+    "error_browser": "net::ERR_CONTENT_DECODING_FAILED",
+    "fuente": "trace.zip del primer caso; no prueba la causa interna exacta",
+    "font_woff2_http": 200
+  },
+  "limites": [
+    "No hubo aprobación funcional",
+    "No se ejecutaron login autenticado, roles ni descargas",
+    "No prueba Netlify remoto, CDN, consumo o cron",
+    "Origen estático calculado antes del build difiere del publicado; dev.publish descartado porque el CLI lo sobrescribe. No se ha probado que cause el fallo gzip."
+  ],
+  "referencia_ci_habitual": {
+    "run_id": 38255218499,
+    "url": "https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38255218499",
+    "sha": "0a7e87be5c3585b7e212f6f92338ff91f89c4be4",
+    "resultado": "success",
+    "e2e": {
+      "declarados": 710,
+      "passed": 602,
+      "flaky": 1,
+      "skipped": 107
+    },
+    "runtime": "pnpm build && pnpm start",
+    "workers": 2,
+    "retries": 2,
+    "limite": "No es una comparación controlada de rendimiento; Netlify usa un worker y cero reintentos"
+  }
+}
