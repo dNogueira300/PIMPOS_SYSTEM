@@ -1,3 +1,7 @@
 allowBuilds:
   esbuild: true
+  # CLI ya incluye dist/bin; postinstall solo genera autocompletado y bienvenida.
+  netlify-cli: false
+  # Transporte nativo de syslog opcional, no usado por esta ejecución offline.
+  unix-dgram: false
   sharp: false
