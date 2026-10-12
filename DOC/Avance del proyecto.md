@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 12/10/2026 (cierre visual fusionado; Cloudflare negativo; validación Netlify con Supabase local en preparación; hosting definitivo pendiente)
+**Corte:** 12/10/2026 (cierre visual fusionado; Cloudflare negativo; Netlify local no aprobado por fallo de decodificación; hosting definitivo pendiente)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -8,14 +8,22 @@
 Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
 hay que leer para ponerse al día sin recorrer el historial de commits.
 
-**Validación Netlify, retomada el 11/10/2026:** Dan confirma probar primero con Supabase local.
-CLI autenticado y preparación aislada; nueve pruebas de guardas aprobadas, 40 resoluciones
-directas del lock original conservadas, Next 16.3.4 intacto. El CLI tiene dependencias
-separadas y el runtime se ejecutará en Linux/CI limpio para no cargar su perfil de Windows.
-El ensayo anidado compiló pero el emulador falló en una ruta Lambda; se repite como repositorio raíz en el temporal del runner. La suite funcional aún no comenzó: no hay migración aprobada ni sitio
-remoto creado. PR #95 sigue en borrador. Plan y límites en `Plan de validacion Netlify.md`
-y `Validacion de alojamiento Netlify.md`. A pedido de Dan, Sitrai se detiene y se dejan
-solo los seis servicios locales necesarios de Pimpo's, conservando todos los datos.
+**Validación Netlify local cerrada el 12/10/2026, sin aprobación del alojamiento:**
+Dan confirma probar primero con Supabase local. CI Ubuntu 38255212161 conserva
+Next 16.3.4, nueve guardas aprobadas, 40 resoluciones directas y 349 hashes idénticos.
+La aplicación compila; `/ingresar` responde 200. La suite se detiene tras cinco
+casos por tiempo de espera, cero aprobados y 705 sin ejecutar. Traza de contacto:
+HTML con header gzip y `ERR_CONTENT_DECODING_FAILED`. Causa exacta y comportamiento
+remoto siguen sin confirmar; no se alteran aplicación ni aserciones para aprobar.
+El CI habitual del mismo SHA aprueba tipos/lint/base/E2E (602 passed, 1 flaky y 107 skipped).
+La comparación `dev.publish` se descarta antes de guardar porque el CLI la sobrescribe.
+Para seguir hace falta una vista previa con Supabase de pruebas separado; no conectar
+la base del negocio ni exponer la local. PR #95 sigue en borrador; no hay migración
+aprobada ni sitio Netlify remoto creado. Resultados y conciliación en
+`Validacion de alojamiento Netlify.md`, plan local ejecutado en
+`Plan de validacion Netlify.md` y evidencia sanitizada en
+`Evidencias Netlify/linux-ci-0a7e87b.json`. Sitrai está detenido; solo seis servicios
+locales necesarios de Pimpo's activos, APIs sanas y todos los datos conservados.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con

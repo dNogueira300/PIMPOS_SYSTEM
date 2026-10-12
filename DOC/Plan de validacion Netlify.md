@@ -28,27 +28,41 @@ Enlaces y rutas que escapen, copia accidental de secretos, instalación en el ch
 
 Archivos: `scripts/netlify/preparar.mjs`, `aislamiento.test.mjs`, `ejecutar.mjs`, `playwright.config.template`, `netlify.template.toml`, `dependencias/` y `cli/`.
 
-- [ ] Añadir pruebas Node que rechacen URL alojada, claves incompletas, enlaces, versiones distintas y copia de `.env`/dependencias; comprobar fuente y PostCSS idénticos.
-- [ ] Ejecutar `node --test scripts/netlify/aislamiento.test.mjs` antes de implementar y conservar el fallo.
-- [ ] Implementar `prepararCopia(repo, {soloCodigo})`, `entornoLocal(status)` y `entornoSeguro(heredado, locales)` con las guardas anteriores. La copia no sobrescribe una ejecución existente.
-- [ ] Copiar manifiesto/lock/workspace raíz a `scripts/netlify/dependencias`; añadir solo el adaptador fijado y regenerar allí el lock. Congelar CLI separado en `scripts/netlify/cli`. Comparar manifiesto y resoluciones con la raíz antes de copiar.
-- [ ] Ejecutar las pruebas de aislamiento, formato y ESLint; comprobar que la raíz sigue intacta. Guardar hashes SHA-256 de `src` y versiones de la copia.
+- [x] Añadir pruebas Node que rechacen URL alojada, claves incompletas, enlaces, versiones distintas y copia de `.env`/dependencias; comprobar fuente y PostCSS idénticos.
+- [x] Ejecutar `node --test scripts/netlify/aislamiento.test.mjs` antes de implementar y conservar el fallo.
+- [x] Implementar `prepararCopia(repo, {soloCodigo})`, `entornoLocal(status)` y `entornoSeguro(heredado, locales)` con las guardas anteriores. La copia no sobrescribe una ejecución existente.
+- [x] Copiar manifiesto/lock/workspace raíz a `scripts/netlify/dependencias`; añadir solo el adaptador fijado y regenerar allí el lock. Congelar CLI separado en `scripts/netlify/cli`. Comparar manifiesto y resoluciones con la raíz antes de copiar.
+- [x] Ejecutar las pruebas de aislamiento, formato y ESLint; comprobar que la raíz sigue intacta. Guardar hashes SHA-256 de `src` y versiones de la copia.
 
 ## T2: ejecutar el adaptador y los flujos en Linux
 
 Archivos: `.github/workflows/netlify-validacion.yml` y documentación de resultado.
 
-- [ ] Workflow por push limitado a las rutas Netlify de la rama del PR, y manual tras su primer registro: Ubuntu, Node/pnpm fijados, dependencias app/CLI congeladas por separado, Supabase temporal y Chromium.
-- [ ] Playwright inicia `node scripts/netlify/ejecutar.mjs serve`: ejecuta únicamente `node ../cli/node_modules/netlify-cli/bin/run.js serve --offline --port 3000 --context production`, sin perfil ni sitio enlazado en CI. El CLI realiza el build y sirve funciones/edge/caché locales.
-- [ ] Ejecutar los mismos casos móvil/escritorio, sin retirar casos ni cambiar aserciones. La lista inicial debe conciliar los 710 casos existentes.
-- [ ] Subir solo hashes, versiones, logs e informes/trazas; nunca `.env`, `.netlify` o dependencias. Apagar Supabase temporal incluso ante error.
-- [ ] Revisión independiente del delta de esta validación, un pase de correcciones materiales y commit/push: el push inicial registra e inicia el workflow sin fusionar. En repeticiones manuales usar `gh workflow run netlify-validacion.yml --ref feat/validacion-cloudflare`.
-- [ ] Descargar artefactos, registrar SHA/URL/etapas/conteos reales y emitir una conclusión limitada a lo demostrado. Si el emulador no representa una función remota, declararlo.
+- [x] Workflow por push limitado a las rutas Netlify de la rama del PR, y manual tras su primer registro: Ubuntu, Node/pnpm fijados, dependencias app/CLI congeladas por separado, Supabase temporal y Chromium.
+- [x] Playwright inicia `node scripts/netlify/ejecutar.mjs serve`: ejecuta únicamente `node ../cli/node_modules/netlify-cli/bin/run.js serve --offline --port 3000 --context production`, sin perfil ni sitio enlazado en CI. El CLI realiza el build y sirve funciones/edge/caché locales.
+- [x] Ejecutar los mismos casos móvil/escritorio, sin retirar casos ni cambiar aserciones. La lista inicial debe conciliar los 710 casos existentes.
+- [x] Subir solo hashes, versiones, logs e informes/trazas; nunca `.env`, `.netlify` o dependencias. Apagar Supabase temporal incluso ante error.
+- [x] Revisión independiente del delta de esta validación, un pase de correcciones materiales y commit/push: el push inicial registra e inicia el workflow sin fusionar. En repeticiones manuales usar `gh workflow run netlify-validacion.yml --ref feat/validacion-cloudflare`.
+- [x] Descargar artefactos, registrar SHA/URL/etapas/conteos reales y emitir una conclusión limitada a lo demostrado. Si el emulador no representa una función remota, declararlo.
 
 ## T3: decidir la siguiente comprobación
 
-- [ ] Actualizar `DOC/Validacion de alojamiento Netlify.md`, `AGENTS.md`, avance y PR #95 con resultados y límites.
-- [ ] Conciliar funcionalidades: login/roles/revocación/inactividad, publicación/revalidación, imágenes y OpenGraph, clientes/insumos/auditoría, PDF/Excel y cron.
-- [ ] Separar tareas todavía necesarias para migrar: prueba remota con base de pruebas separada, consumo real y mecanismos de cron. Una base local no es accesible desde las funciones remotas; no reemplazarla por la base del negocio.
+- [x] Actualizar `DOC/Validacion de alojamiento Netlify.md`, `AGENTS.md`, avance y PR #95 con resultados y límites.
+- [x] Conciliar funcionalidades: login/roles/revocación/inactividad, publicación/revalidación, imágenes y OpenGraph, clientes/insumos/auditoría, PDF/Excel y cron.
+- [x] Separar tareas todavía necesarias para migrar: prueba remota con base de pruebas separada, consumo real y mecanismos de cron. Una base local no es accesible desde las funciones remotas; no reemplazarla por la base del negocio.
 
 Referencias: [adaptador Next](https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/), [serve](https://cli.netlify.com/commands/serve/), [tarifas](https://www.netlify.com/pricing/).
+
+## Cierre de la etapa local, 12/10/2026
+
+Plan ejecutado, no aprobación del alojamiento. CI 38255212161 compila y empieza
+la suite: cero aprobados, cinco fallidos por timeout y 705 sin ejecutar. Traza
+contacto: HTTP 200, header gzip y ERR_CONTENT_DECODING_FAILED. Nueve guardas
+aprobadas, 349 hashes iguales, 40 resoluciones directas conservadas. La revisión
+independiente verifica el conteo y descarta `dev.publish` sin efecto; no se cambió
+la aplicación para sortear el error. Ver la conciliación de capacidades y los
+límites en `DOC/Validacion de alojamiento Netlify.md`.
+
+El siguiente hito requiere Supabase de pruebas alojado y una vista previa remota;
+no forma parte de la autorización «primero Supabase local». PR #95 continúa en
+borrador y no hay proveedor nuevo aprobado ni cambios de producción.

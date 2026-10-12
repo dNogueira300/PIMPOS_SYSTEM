@@ -349,12 +349,12 @@ de investigación: OVHcloud VPS-1 con dominio separado, si habrá mantenimiento 
 Namecheap Stellar con `.com` rebajado y SSL/compatibilidad pendientes. Ninguno aprobado.
 No comprar ni desplegar. Fuentes y límites en `DOC/Alternativas de alojamiento anual.md`.
 
-Dan retoma Netlify el 10/10 y elige Supabase local; reanuda el 11/10. Preparación en
+Dan retoma Netlify el 10/10 y elige Supabase local; reanuda el 11–12/10. Validación en
 `scripts/netlify/` y workflow `netlify-validacion.yml`, mismo PR #95 en borrador.
 Next 16.3.4 y funcionalidad intactos; CLI separado del adaptador para conservar las
 40 resoluciones directas originales. Nueve pruebas de aislamiento aprobadas.
 Runtime solo en Linux/CI con perfil limpio, sin sesión real ni sitio enlazado.
-El ensayo anidado compiló pero el emulador falló con ruta Lambda de monorepo. Se repite en RUNNER_TEMP con raíz propia, sin tocar el adaptador. Flujos aún no aprobados.
+El ensayo en RUNNER_TEMP con raíz propia compila y login responde 200, pero falla la carga pública (ERR_CONTENT_DECODING_FAILED con HTML gzip): cero casos aprobados, cinco timedOut y 705 sin ejecutar. 349 hashes iguales. Conclusión local NO aprobada; causa interna y compatibilidad remota sin confirmar. No se cambió app, tiempos, Proxy/PPR ni generados para sortearlo. dev.publish se descartó porque el CLI lo sobrescribe. Siguiente hito: vista previa remota con Supabase de pruebas separado, pendiente; no usar producción ni exponer local.
 Ver `DOC/Validacion de alojamiento Netlify.md`. Docker local: detener Sitrai y usar
 solo DB/Auth/REST/Storage/Kong/Inbucket de Pimpo's; no borrar volúmenes ni datos.
 
