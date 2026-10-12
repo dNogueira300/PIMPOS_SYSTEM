@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { mkdtemp, mkdir, readFile, symlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -20,6 +21,24 @@ const status = {
 
 const lockBase =
   "importers:\n  .:\n    dependencies:\n      next:\n        specifier: 16.3.4\n        version: 16.3.4(color@7.2.0)\npackages:\n";
+
+test("rechaza un destino temporal distinto del reservado para CI", async () => {
+  const repo = await repoFixture();
+  const codigo = `const {prepararCopia} = await import(${JSON.stringify(new URL("./preparar.mjs", import.meta.url).href)}); await prepararCopia(process.argv[1], {destinoTemporal:true});`;
+  assert.throws(
+    () =>
+      execFileSync(process.execPath, ["--input-type=module", "-e", codigo, repo], {
+        env: {
+          ...process.env,
+          CI: "true",
+          RUNNER_TEMP: os.tmpdir(),
+          PIMPOS_NETLIFY_TEMPORAL: path.join(os.tmpdir(), "no-autorizado"),
+        },
+        stdio: "pipe",
+      }),
+    /directorio fijado/,
+  );
+});
 
 test("rechaza cambios de resolución incluso con el mismo manifiesto", () => {
   assert.throws(
@@ -113,6 +132,19 @@ async function repoFixture() {
 test("copia código y PostCSS exactos sin copiar secretos ni dependencias", async () => {
   const repo = await repoFixture();
   const destino = await prepararCopia(repo, { soloCodigo: true });
+  assert.equal(
+    path.resolve(
+      execFileSync("git", ["rev-parse", "--show-toplevel"], {
+        cwd: destino,
+        encoding: "utf8",
+      }).trim(),
+    ),
+    destino,
+  );
+  assert.equal(
+    execFileSync("git", ["remote", "-v"], { cwd: destino, encoding: "utf8" }).trim(),
+    "",
+  );
   assert.equal(
     await readFile(path.join(destino, "src/ejemplo.ts"), "utf8"),
     await readFile(path.join(repo, "src/ejemplo.ts"), "utf8"),

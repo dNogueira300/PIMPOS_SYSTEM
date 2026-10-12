@@ -16,7 +16,7 @@ Supabase temporal del runner. Usa `netlify serve --offline` para **compilar y se
 funciones empaquetadas por Netlify**, sin sustituirlas por `next start`.
 Las pruebas E2E existentes y sus aserciones permanecen intactas.
 
-Preparación: ocho pruebas Node de aislamiento aprobadas. Rechazan secretos y URLs
+Preparación: nueve pruebas Node de aislamiento aprobadas. Rechazan secretos y URLs
 alojadas, enlaces, sobrescritura de evidencia, manifiesto diferente, resolución de
 peers distinta y perfiles modernos/heredados de Netlify. El CLI se instala en otra
 carpeta con lock propio; solo el adaptador se añade a la copia de la aplicación.
@@ -28,8 +28,9 @@ Windows se usó para comprobar acceso al servicio, no para alimentar plugins off
 Eliminar una variable de token no basta porque el CLI puede cargar su perfil global.
 Por eso se rechaza un perfil existente antes de iniciar el adaptador.
 
-La primera ejecución Linux está pendiente. No declarar aprobados los 710 casos
-por haber preparado la copia. Con cinco fallos, se conservará diagnóstico y se
+La ejecución Linux se inició; aún no hay regresión funcional aprobada. El listado
+conserva 710 casos en 54 archivos y los 349 hashes src coinciden. No declarar
+aprobados esos casos por haber preparado la copia. Con cinco fallos, se conservará diagnóstico y se
 contarán separadamente los casos sin ejecutar y las omisiones previstas.
 
 ## Soporte declarado y presupuesto
@@ -60,3 +61,22 @@ créditos del servicio. No prometer gratuidad suficiente sin volumen y medición
 Docker local: a petición de Dan se detuvieron los cinco contenedores activos de
 Sitrai y se iniciaron solo seis servicios Pimpo's (DB, Auth, REST, Storage, Kong e
 Inbucket). Salud de Auth, REST y Storage respondió HTTP 200. No se borraron datos.
+
+## Ensayos iniciales, 11–12/10/2026
+
+- [38204213512](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38204213512), SHA 8003688: ocho guardas aprobadas, pero descripción del manifiesto mal codificada al generarlo en Windows. Se regeneró desde UTF8 sin relajar la comparación. Sin build ni E2E.
+- [38204346308](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38204346308), SHA a4292ce: copia y dependencias de app aprobadas; CLI detenido por scripts opcionales no declarados en pnpm. Se negaron explícitamente autocompletado y syslog opcionales. Sin build ni E2E.
+- [38204520494](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38204520494), SHA 7d6d5cc: instalaciones, Supabase, Chromium y lista de 710 aprobados; Netlify eligió base raíz Git con Next ausente allí. Se fijó la base de copia. Cero E2E ejecutados, un error general de arranque.
+- [38204834594](https://github.com/dNogueira300/PIMPOS_SYSTEM/actions/runs/38204834594), SHA 3f6e100: compila y empaqueta con Runtime 5.16.2, pero login local devuelve 500 al buscar request-context.cjs bajo `/var/task/.superpowers/...`. El servidor no alcanza disponibilidad y los E2E no empiezan.
+
+La inspección del paquete oficial 5.16.2 demuestra que su plantilla monorepo usa
+la ruta Lambda absoluta cuando Next informa `relativeAppDir` no vacío. La copia
+bajo el checkout hereda locks padre y se interpreta como un monorepo, distinto del
+repositorio de producción que está en raíz. Próxima comparación: copia fuera del
+checkout, en el temporal fijado del runner, con raíz Git propia sin hooks ni remotos
+heredados y base `.`. No parchear el adaptador ni los archivos generados.
+
+Los cuatro intentos iniciales no certifican ni descartan Netlify remoto. Evidencias
+completas de intentos 3/4 descargadas fuera de Git. Los dos menores de revisión
+(registro al evento exit y listado reemplazado en pruebas.log) siguen diferidos;
+el listado inicial se conserva en Actions y el JSON funcional se evalúa aparte.

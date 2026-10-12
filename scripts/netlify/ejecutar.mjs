@@ -20,8 +20,14 @@ const comandos = {
 };
 if (!(modo in comandos)) throw new Error("Solo build, serve o pruebas; no se admite despliegue.");
 const cwd = process.cwd();
+const temporal = process.env.PIMPOS_NETLIFY_TEMPORAL;
+const esperado = temporal
+  ? path.join(await realpath(process.env.RUNNER_TEMP), "pimpos-validacion-netlify", "app")
+  : undefined;
 if (
-  !cwd.endsWith(path.join(".superpowers", "validacion-netlify-ci", "app")) ||
+  (temporal
+    ? cwd !== esperado
+    : !cwd.endsWith(path.join(".superpowers", "validacion-netlify-ci", "app"))) ||
   (await realpath(cwd)) !== cwd
 )
   throw new Error("Ejecuta únicamente en la copia aislada, sin enlaces.");

@@ -4,7 +4,7 @@
 
 **Objetivo:** comprobar el sistema actual contra el adaptador de Netlify con Supabase local, sin cambiar ninguna función.
 
-**Arquitectura:** copia aislada bajo `.superpowers/validacion-netlify-ci/app`, sin enlaces, variables de producción ni dependencias del checkout. `netlify serve --offline` compila y sirve las funciones empaquetadas por el adaptador; no sustituirlo por `next start`. Ubuntu ejecuta la suite existente contra esa misma instancia.
+**Arquitectura:** copia aislada en `$RUNNER_TEMP/pimpos-validacion-netlify/app` con raíz Git propia sin remotos, fuera de los locks del checkout, sin enlaces, variables de producción ni dependencias del checkout. `netlify serve --offline` compila y sirve las funciones empaquetadas por el adaptador; no sustituirlo por `next start`. Ubuntu ejecuta la suite existente contra esa misma instancia.
 
 **Stack:** Next 16.3.4, Node 24, pnpm 12.3.4, Netlify CLI 27.12.0, adaptador `@netlify/plugin-nextjs` 5.16.2, Supabase CLI 2.116.0 y Playwright 1.63.0.
 

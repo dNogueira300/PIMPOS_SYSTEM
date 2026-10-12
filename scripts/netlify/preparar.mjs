@@ -105,9 +105,20 @@ async function directorioSeguro(destino) {
     throw new Error("No se permite un enlace en el destino aislado.");
 }
 
-export async function prepararCopia(repo, { soloCodigo = false } = {}) {
+export async function prepararCopia(repo, { soloCodigo = false, destinoTemporal = false } = {}) {
   const raiz = await realpath(repo);
-  const trabajo = path.join(raiz, ".superpowers/validacion-netlify-ci");
+  let trabajo = path.join(raiz, ".superpowers/validacion-netlify-ci");
+  if (destinoTemporal) {
+    if (
+      process.platform !== "linux" ||
+      process.env.CI !== "true" ||
+      !process.env.RUNNER_TEMP ||
+      path.resolve(process.env.PIMPOS_NETLIFY_TEMPORAL) !==
+        path.join(path.resolve(process.env.RUNNER_TEMP), "pimpos-validacion-netlify")
+    )
+      throw new Error("El destino temporal solo acepta el directorio fijado del runner Linux.");
+    trabajo = path.join(await realpath(process.env.RUNNER_TEMP), "pimpos-validacion-netlify");
+  }
   const destino = path.join(trabajo, "app");
   const origenSeguro = async (relativo) => {
     const origen = path.resolve(raiz, relativo);
@@ -148,7 +159,7 @@ export async function prepararCopia(repo, { soloCodigo = false } = {}) {
     if (!isDeepStrictEqual(cli.dependencies, { "netlify-cli": "27.12.0" }))
       throw new Error("El toolchain CLI difiere del autorizado.");
   }
-  await directorioSeguro(path.join(raiz, ".superpowers"));
+  if (!destinoTemporal) await directorioSeguro(path.join(raiz, ".superpowers"));
   await directorioSeguro(trabajo);
   // No reutilizar ni sobrescribir dependencias o evidencias anteriores.
   await mkdir(destino);
@@ -249,6 +260,8 @@ export async function prepararCopia(repo, { soloCodigo = false } = {}) {
       2,
     ) + "\n",
   );
+  // La copia representa el repositorio raíz de producción, sin remotos ni hooks heredados.
+  execFileSync("git", ["init", "--quiet", "--template="], { cwd: destino });
   return destino;
 }
 
@@ -263,5 +276,7 @@ export function leerEntornoCli(cwd) {
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const repo = path.resolve(fileURLToPath(new URL("../..", import.meta.url)));
-  console.log(`Copia Netlify: ${path.relative(repo, await prepararCopia(repo))}`);
+  console.log(
+    `Copia Netlify: ${path.relative(repo, await prepararCopia(repo, { destinoTemporal: Boolean(process.env.PIMPOS_NETLIFY_TEMPORAL) }))}`,
+  );
 }

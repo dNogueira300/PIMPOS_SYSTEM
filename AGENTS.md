@@ -352,9 +352,9 @@ No comprar ni desplegar. Fuentes y límites en `DOC/Alternativas de alojamiento 
 Dan retoma Netlify el 10/10 y elige Supabase local; reanuda el 11/10. Preparación en
 `scripts/netlify/` y workflow `netlify-validacion.yml`, mismo PR #95 en borrador.
 Next 16.3.4 y funcionalidad intactos; CLI separado del adaptador para conservar las
-40 resoluciones directas originales. Ocho pruebas de aislamiento aprobadas.
+40 resoluciones directas originales. Nueve pruebas de aislamiento aprobadas.
 Runtime solo en Linux/CI con perfil limpio, sin sesión real ni sitio enlazado.
-La ejecución de flujos está pendiente; no certificar Netlify por preparar la copia.
+El ensayo anidado compiló pero el emulador falló con ruta Lambda de monorepo. Se repite en RUNNER_TEMP con raíz propia, sin tocar el adaptador. Flujos aún no aprobados.
 Ver `DOC/Validacion de alojamiento Netlify.md`. Docker local: detener Sitrai y usar
 solo DB/Auth/REST/Storage/Kong/Inbucket de Pimpo's; no borrar volúmenes ni datos.
 

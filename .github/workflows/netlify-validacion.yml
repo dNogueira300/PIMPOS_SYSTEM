@@ -25,6 +25,7 @@ jobs:
       NEXT_TELEMETRY_DISABLED: "1"
       NETLIFY_TELEMETRY_DISABLED: "1"
       HUSKY: "0"
+      PIMPOS_NETLIFY_TEMPORAL: ${{ runner.temp }}/pimpos-validacion-netlify
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -39,10 +40,10 @@ jobs:
           node --test scripts/netlify/aislamiento.test.mjs
           node scripts/netlify/preparar.mjs
       - name: Instalar dependencias congeladas de validación
-        working-directory: .superpowers/validacion-netlify-ci/app
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
         run: pnpm install --frozen-lockfile
       - name: Instalar CLI aislado con lock congelado
-        working-directory: .superpowers/validacion-netlify-ci/cli
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/cli
         run: pnpm install --frozen-lockfile
       - uses: supabase/setup-cli@v1
         with:
@@ -52,14 +53,14 @@ jobs:
           sudo sysctl -w net.ipv4.ip_local_reserved_ports=54320-54329
           supabase start
       - name: Instalar Chromium
-        working-directory: .superpowers/validacion-netlify-ci/app
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
         run: pnpm exec playwright install --with-deps chromium
       - name: Registrar los casos disponibles
-        working-directory: .superpowers/validacion-netlify-ci/app
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
         run: node scripts/netlify/ejecutar.mjs pruebas --list
       - name: Compilar y probar funciones empaquetadas por Netlify
         id: pruebas
-        working-directory: .superpowers/validacion-netlify-ci/app
+        working-directory: ${{ runner.temp }}/pimpos-validacion-netlify/app
         run: node scripts/netlify/ejecutar.mjs pruebas
       - name: Conservar evidencia sin secretos ni paquetes
         if: always()
@@ -69,13 +70,13 @@ jobs:
           retention-days: 7
           include-hidden-files: true
           path: |
-            .superpowers/validacion-netlify-ci/fuentes.json
-            .superpowers/validacion-netlify-ci/versiones.json
-            .superpowers/validacion-netlify-ci/build.log
-            .superpowers/validacion-netlify-ci/serve.log
-            .superpowers/validacion-netlify-ci/pruebas.log
-            .superpowers/validacion-netlify-ci/app/playwright-report/
-            .superpowers/validacion-netlify-ci/app/test-results/
+            ${{ runner.temp }}/pimpos-validacion-netlify/fuentes.json
+            ${{ runner.temp }}/pimpos-validacion-netlify/versiones.json
+            ${{ runner.temp }}/pimpos-validacion-netlify/build.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/serve.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/pruebas.log
+            ${{ runner.temp }}/pimpos-validacion-netlify/app/playwright-report/
+            ${{ runner.temp }}/pimpos-validacion-netlify/app/test-results/
       - name: Registrar resultado y límites
         if: always()
         run: |

@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 11/10/2026 (cierre visual fusionado; Cloudflare negativo; validación Netlify con Supabase local en preparación; hosting definitivo pendiente)
+**Corte:** 12/10/2026 (cierre visual fusionado; Cloudflare negativo; validación Netlify con Supabase local en preparación; hosting definitivo pendiente)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
@@ -9,10 +9,10 @@ Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y
 hay que leer para ponerse al día sin recorrer el historial de commits.
 
 **Validación Netlify, retomada el 11/10/2026:** Dan confirma probar primero con Supabase local.
-CLI autenticado y preparación aislada; ocho pruebas de guardas aprobadas, 40 resoluciones
+CLI autenticado y preparación aislada; nueve pruebas de guardas aprobadas, 40 resoluciones
 directas del lock original conservadas, Next 16.3.4 intacto. El CLI tiene dependencias
 separadas y el runtime se ejecutará en Linux/CI limpio para no cargar su perfil de Windows.
-La suite contra el adaptador aún no se ha ejecutado: no hay migración aprobada ni sitio
+El ensayo anidado compiló pero el emulador falló en una ruta Lambda; se repite como repositorio raíz en el temporal del runner. La suite funcional aún no comenzó: no hay migración aprobada ni sitio
 remoto creado. PR #95 sigue en borrador. Plan y límites en `Plan de validacion Netlify.md`
 y `Validacion de alojamiento Netlify.md`. A pedido de Dan, Sitrai se detiene y se dejan
 solo los seis servicios locales necesarios de Pimpo's, conservando todos los datos.
