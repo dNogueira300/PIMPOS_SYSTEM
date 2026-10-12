@@ -349,6 +349,15 @@ de investigación: OVHcloud VPS-1 con dominio separado, si habrá mantenimiento 
 Namecheap Stellar con `.com` rebajado y SSL/compatibilidad pendientes. Ninguno aprobado.
 No comprar ni desplegar. Fuentes y límites en `DOC/Alternativas de alojamiento anual.md`.
 
+Dan retoma Netlify el 10/10 y elige Supabase local; reanuda el 11/10. Preparación en
+`scripts/netlify/` y workflow `netlify-validacion.yml`, mismo PR #95 en borrador.
+Next 16.3.4 y funcionalidad intactos; CLI separado del adaptador para conservar las
+40 resoluciones directas originales. Ocho pruebas de aislamiento aprobadas.
+Runtime solo en Linux/CI con perfil limpio, sin sesión real ni sitio enlazado.
+La ejecución de flujos está pendiente; no certificar Netlify por preparar la copia.
+Ver `DOC/Validacion de alojamiento Netlify.md`. Docker local: detener Sitrai y usar
+solo DB/Auth/REST/Storage/Kong/Inbucket de Pimpo's; no borrar volúmenes ni datos.
+
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.
 
