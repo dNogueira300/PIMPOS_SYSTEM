@@ -38,8 +38,24 @@ la configuración y las dependencias versionadas permanecen intactas.
   por ausencia de oferta/reseñas/valoración. Es el límite previsto para varias presentaciones;
   no un resultado aprobado para todos los productos. Código local de pruebas, no datos publicados por esta entrega.
 
-La vista previa remota se comprobará después de abrir el PR; no está acreditada por este registro.
-La comprobación de Google sobre el dominio definitivo debe repetirse tras la integración.
+## Integración y producción, 13/10/2026
+
+Dan fusionó el plan en PR #96 (`ffd485b`) y la implementación en PR #97 (`40f2a8b`).
+CI del commit técnico aprobó aplicación, pgTAP y Playwright completos; Vercel Ready.
+La vista previa se revisó antes de integrar: título local, canónicas del dominio real,
+oferta de 0.1 PEN y teléfono +51947874820, sin cambios en pedidos.
+
+El dominio definitivo se comprobó después de la fusión: **44 URLs públicas HTTP 200**,
+canónicas coherentes y sin `noindex` público; sitemap XML válido. Las **32 ofertas**
+publicadas coinciden con el precio visible. Las dos hamburguesas con varias presentaciones
+siguen sin oferta, según el alcance previsto. Login conserva `noindex, nofollow`.
+Portada muestra el título local y Bakery con foto del negocio, logo independiente y +51.
+Evidencia: `Evidencias SEO/despliegue-tecnico-2026-10-13.json`.
+
+[Rich Results Test de marcado real de la vista previa](https://search.google.com/test/rich-results/result?id=TBEaqfdeEwa0gv1D9bR00A):
+cuatro tipos válidos (fragmento de producto, ficha de comerciante, empresa local y organización),
+con avisos no críticos. Es una prueba por código; no acredita indexación ni procesamiento
+del sitemap de Search Console. La inspección en Google de las URLs productivas sigue como seguimiento externo.
 
 ## Límites y seguimiento
 
@@ -55,3 +71,17 @@ La comprobación de Google sobre el dominio definitivo debe repetirse tras la in
   relacionados. La prueba podría restringirse al precio principal en una mejora posterior.
 
 PR #95 de hosting continúa pausado e intacto. F7 de capacitación/manual/traspaso sigue separado.
+
+## Contenido publicado, 13/10/2026
+
+Tras la confirmación y aprobación de Dan, se guardaron cinco descripciones mediante el
+panel existente: francés chico, bizcocho chico, ciabatta, pan molde y pan molde integral.
+Lectura pública posterior: cinco HTTP 200; texto visible, descripción Product, meta y OG
+coinciden con los textos aprobados. Los restantes campos Product, incluidas ofertas,
+imágenes y categorías, son iguales a la auditoría previa. Los precios visibles coinciden
+con los estructurados: 0.10, 0.10, 0.50, 6.00 y 7.00 PEN, respectivamente.
+
+Evidencia: `Evidencias SEO/contenido-publicado-2026-10-13.json`.
+Esta entrega solo registra publicación y seguimiento: no cambia código de aplicación y
+no repite suites de código ya ejecutadas para PR #97. No se atribuye a estas comprobaciones
+indexación de Google ni solución del error de lectura del sitemap.
