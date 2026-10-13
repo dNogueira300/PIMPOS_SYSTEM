@@ -345,7 +345,8 @@ La antigua previsión de Workers deja de ser el destino aprobado o probable.
 **SEO con dominio propio:** `https://www.panaderiapimpos.com/` está operativo. Auditoría
 pública del 12/10: 44 URLs, todas 200/canónica/h1 coherentes, robots/sitemap/OG correctos.
 No confundir con indexación Google. Después de esa auditoría, Dan verificó Search Console
-y realizó solicitudes de indexación; lectura del sitemap e indexación siguen pendientes.
+y realizó solicitudes de indexación. El 13/10 aporta captura: sitemap Correcto, 44 páginas
+descubiertas; Google muestra portada/contacto. No acredita indexación de las 44 URLs.
 La ficha existente de Maps queda sin verificar y aplazada por Dan. Usamos la cuenta del negocio.
 Plan: `DOC/Plan SEO - Dominio e indexacion.md`; evidencia pública sanitizada en
 `DOC/Evidencias SEO/auditoria-dominio-2026-10-12.json`. Guiar T1 Search Console → T2 Maps →
@@ -1384,14 +1385,15 @@ consentimiento de datos personales.
 
 Dan confirma dominio en Hostinger/Vercel y propiedad de Search Console verificada;
 completó solicitudes de indexación para portada, productos, francés chico y contacto.
-Esto no acredita indexación. Sitemap pendiente: Search Console mantiene error de lectura,
-aunque el XML público responde 200 y su prueba en tiempo real está disponible para Google.
+Las solicitudes por sí solas no acreditan indexación. El 13/10/2026 Dan aporta captura:
+sitemap Correcto, 44 páginas descubiertas; Google muestra portada/contacto. La lectura
+está confirmada, sin dar por indexadas las 44 URLs.
 Maps: ficha existente; reclamación iniciada, número inaccesible, Google ofrece video.
 **Dan aplaza Maps y autoriza pasar a SEO técnico y contenido.** No cambiar el contacto
 de la web por el número antiguo de esa ficha; no crear otra ficha ni inventar verificaciones.
 
-Dan fusionó PR #96 y #97 el 13/10/2026; main `40f2a8b`. Se reutiliza el checkout aislado
-`PIMPOS_REDISENO_BLOQUE1`, ahora en `docs/seguimiento-seo-contenido` desde ese main.
+Dan fusionó PR #96 y #97 el 13/10/2026; después #98, main `68628ed`. Se reutiliza el
+checkout aislado `PIMPOS_REDISENO_BLOQUE1`, ahora en `fix/favicon-descubrimiento` desde ese main.
 T3a/T3b desplegadas y comprobadas en producción: título local absoluto, foto Bakery
 separada de logo, prefijo +51 solo para celular peruano claro, Offer real en PEN solo
 para una presentación con precio finito no negativo. Múltiples presentaciones siguen
@@ -1411,5 +1413,16 @@ visible, meta/OG y Product coinciden con los aprobados. Precios, imágenes, cate
 ofertas, presentaciones y estados se conservaron. Evidencia pública en
 `DOC/Evidencias SEO/contenido-publicado-2026-10-13.json`. Quedan 29 fichas por confirmar
 y redactar; no extender los hechos del lote a ellas. Próximo paso guiado: T5 Bing con la
-cuenta del negocio. Maps y procesamiento del sitemap permanecen pendientes; no acredita
-indexación. PR #95 de hosting continúa pausado. No hubo escritura por SQL/API alternativa.
+cuenta del negocio. Maps y seguimiento de cobertura permanecen pendientes; el sitemap
+está Correcto según nueva captura de Dan; no acredita
+indexación de todo el catálogo. PR #95 de hosting continúa pausado. No hubo escritura por SQL/API alternativa.
+
+**Ajuste antes de Bing, 13/10/2026:** Dan confirma por captura sitemap Correcto y
+44 páginas descubiertas; Google muestra portada/contacto. El favicon enlazado era SVG
+rectangular antiguo. PNG cuadrado 96 × 96 preparado desde el personaje del logo aprobado
+y publicado mediante configuración existente; bytes idénticos, HTTP 200, Bakery/canónica
+conservados. No dar por actualizada la caché de Google. Reserva local PNG y Apple 180 × 180
+en esta rama, pendientes de despliegue. Ver `DOC/SEO - Favicon y descubrimiento.md`.
+Dan probó ChatGPT sin búsqueda web: repetir con búsqueda activada; no se deduce bloqueo.
+Robots y HTTP simulando agentes permiten público y conservan exclusiones; no certifican
+IP/rastreo real. No cambiar firewall/robots/entrenamiento sin un bloqueo demostrado.

@@ -64,8 +64,9 @@ del sitemap de Search Console. La inspección en Google de las URLs productivas 
 - Google Maps/verificación por video aplazada por Dan. El teléfono antiguo de esa ficha
   no se usa para cambiar el contacto publicado en la web.
 - Search Console: propiedad verificada y solicitudes realizadas según Dan; no acredita indexación.
-  El sitemap sigue pendiente por el error de lectura comunicado, aunque las pruebas públicas
-  y la prueba en vivo aportada muestran acceso correcto. Estos cambios no se atribuyen a su solución.
+  La captura posterior de Dan del 13/10/2026 muestra sitemap Correcto y 44 páginas descubiertas.
+  La captura de búsqueda muestra portada/contacto; no acredita indexación completa ni una causa
+  técnica del error anterior. Estos cambios no se atribuyen a su solución.
 - La aparición de resultados enriquecidos y la indexación se comprobarán después de integrar y desplegar.
 - Menor de revisión aplazado: `e2e/seo.spec.ts` comprueba el precio visible en `main`, que incluye
   relacionados. La prueba podría restringirse al precio principal en una mejora posterior.
