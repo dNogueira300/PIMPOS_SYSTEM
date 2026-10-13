@@ -344,15 +344,18 @@ La antigua previsión de Workers deja de ser el destino aprobado o probable.
 
 **SEO con dominio propio:** `https://www.panaderiapimpos.com/` está operativo. Auditoría
 pública del 12/10: 44 URLs, todas 200/canónica/h1 coherentes, robots/sitemap/OG correctos.
-No confundir con indexación Google: no se consultó Search Console. Dan confirma que las
-altas de Search Console y Perfil de Empresa aún no existen y usaremos la cuenta del negocio.
+No confundir con indexación Google. Después de esa auditoría, Dan verificó Search Console
+y realizó solicitudes de indexación; lectura del sitemap e indexación siguen pendientes.
+La ficha existente de Maps queda sin verificar y aplazada por Dan. Usamos la cuenta del negocio.
 Plan: `DOC/Plan SEO - Dominio e indexacion.md`; evidencia pública sanitizada en
 `DOC/Evidencias SEO/auditoria-dominio-2026-10-12.json`. Guiar T1 Search Console → T2 Maps →
 T3 SEO técnico → T4 contenido → T5 Bing/IA → T6 medición. Ninguna funcionalidad cambia.
 DNS activos: nova/cosmos.dns-parking.com; confirmar editor de esa zona antes de añadir
 solo el TXT real de Google. No cambiar nameservers ni registros de web/correo; no pedir
 contraseñas o publicar tokens. T1 cierra con propiedad verificada/sitemap/inspecciones,
-no con promesa de indexación. Este PR solo documenta el plan; las altas y T3 no se han hecho.
+no con promesa de indexación. PR #96 del plan y #97 de T3 se fusionaron el 13/10/2026;
+T3 está comprobada en producción y el lote inicial de T4 está publicado. Ver el registro
+de ejecución al final de este archivo para los pendientes y el siguiente paso T5.
 
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.
@@ -1387,18 +1390,26 @@ Maps: ficha existente; reclamación iniciada, número inaccesible, Google ofrece
 **Dan aplaza Maps y autoriza pasar a SEO técnico y contenido.** No cambiar el contacto
 de la web por el número antiguo de esa ficha; no crear otra ficha ni inventar verificaciones.
 
-Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`, rama `feat/seo-tecnico`
-desde main `2e7cfa8`; el PR #96 documental sigue independiente e intacto y debe integrarse
-antes de la entrega técnica. T3a/T3b implementadas: título local absoluto, foto Bakery
+Dan fusionó PR #96 y #97 el 13/10/2026; main `40f2a8b`. Se reutiliza el checkout aislado
+`PIMPOS_REDISENO_BLOQUE1`, ahora en `docs/seguimiento-seo-contenido` desde ese main.
+T3a/T3b desplegadas y comprobadas en producción: título local absoluto, foto Bakery
 separada de logo, prefijo +51 solo para celular peruano claro, Offer real en PEN solo
 para una presentación con precio finito no negativo. Múltiples presentaciones siguen
 descriptivas, sin marca/stock/reseñas inventadas. No cambian funcionalidades ni consultas.
 Ver `DOC/Verificacion SEO tecnico.md`: 516 unitarias, 11 E2E SEO, tipos/lint/build local
-aprobados y revisión independiente sin defectos bloqueantes. Rich Results Test de código
-local confirma francés chico válido; falta comprobar URL desplegada tras integrar.
-No llamar desplegados a estos cambios locales. Google puede mantener avisos opcionales.
+aprobados y revisión independiente sin defectos bloqueantes. CI completo aprobado y Vercel Ready.
+Rich Results Test de código confirma francés chico y Bakery válidos. La auditoría del dominio
+tras integrar confirma 44 URLs públicas correctas, 32 ofertas con precio visible coincidente y
+dos productos múltiples descriptivos; login `noindex, nofollow`. Esto no acredita indexación
+ni que Search Console haya leído el sitemap. Google puede mantener avisos opcionales.
 
-`DOC/SEO - Contenido confirmado.md` contiene cinco propuestas iniciales, no publicadas,
-porque Dan no tiene selección. Prioridad y características requieren confirmación del negocio;
-publicar mediante el panel existente y comprobar descripción visible/JSON-LD. Maps y
-procesamiento del sitemap permanecen pendientes; PR #95 de hosting continúa pausado.
+`DOC/SEO - Contenido confirmado.md` contiene cinco textos aprobados por Dan el 13/10/2026,
+con elaboración propia y textura suave/esponjosa confirmadas para todos. No se inventan
+pesos, ingredientes o beneficios. Los cinco textos se publicaron el 13/10/2026 mediante
+el panel existente tras localizar la sesión autenticada. Se editó solo descripción; texto
+visible, meta/OG y Product coinciden con los aprobados. Precios, imágenes, categorías,
+ofertas, presentaciones y estados se conservaron. Evidencia pública en
+`DOC/Evidencias SEO/contenido-publicado-2026-10-13.json`. Quedan 29 fichas por confirmar
+y redactar; no extender los hechos del lote a ellas. Próximo paso guiado: T5 Bing con la
+cuenta del negocio. Maps y procesamiento del sitemap permanecen pendientes; no acredita
+indexación. PR #95 de hosting continúa pausado. No hubo escritura por SQL/API alternativa.

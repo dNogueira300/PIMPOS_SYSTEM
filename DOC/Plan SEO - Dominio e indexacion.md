@@ -56,14 +56,14 @@ El ingreso y las verificaciones personales las hace Dan. No crear cuentas, acept
 
 ## 4. Secuencia y cierre
 
-| Etapa | Entrega                      | Criterio de cierre                                                                               | Estado                 |
-| ----- | ---------------------------- | ------------------------------------------------------------------------------------------------ | ---------------------- |
-| T1    | Search Console y sitemap     | Propiedad verificada, sitemap recibido y primeras inspecciones registradas                       | Por iniciar            |
-| T2    | Perfil de Empresa / Maps     | Ficha correcta y verificada; si Google demora, registrar verificación en curso sin marcar cierre | Después de T1          |
-| T3    | SEO técnico                  | Vista previa comprobada, PR revisado y aplicación productiva verificada tras la fusión de Dan    | Después de preparar T2 |
-| T4    | Contenido y coherencia local | Lote inicial confirmado y publicado; seguimiento de los demás productos documentado              | Después de T3          |
-| T5    | Bing y acceso de bots        | Propiedad verificada, sitemap recibido y rastreo sin bloqueos comprobados al alcance disponible  | Después de T4 inicial  |
-| T6    | Medición                     | Línea base y primera revisión con datos disponibles; sin inventar ceros cuando no hay datos      | Después de T5          |
+| Etapa | Entrega                      | Criterio de cierre                                                                               | Estado                                                                           |
+| ----- | ---------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| T1    | Search Console y sitemap     | Propiedad verificada, sitemap recibido y primeras inspecciones registradas                       | Propiedad verificada; procesamiento del sitemap pendiente                        |
+| T2    | Perfil de Empresa / Maps     | Ficha correcta y verificada; si Google demora, registrar verificación en curso sin marcar cierre | Aplazada por Dan; ficha existente sin verificar                                  |
+| T3    | SEO técnico                  | Vista previa comprobada, PR revisado y aplicación productiva verificada tras la fusión de Dan    | Integrada y comprobada en producción el 13/10/2026                               |
+| T4    | Contenido y coherencia local | Lote inicial confirmado y publicado; seguimiento de los demás productos documentado              | Lote de cinco publicado y comprobado; 29 fichas y coherencia con Maps pendientes |
+| T5    | Bing y acceso de bots        | Propiedad verificada, sitemap recibido y rastreo sin bloqueos comprobados al alcance disponible  | Después de T4 inicial                                                            |
+| T6    | Medición                     | Línea base y primera revisión con datos disponibles; sin inventar ceros cuando no hay datos      | Después de T5                                                                    |
 
 T1 y T2 no necesitan modificar código. T3 se divide en dos tareas técnicas como máximo por PR: T3a y T3b. Las esperas externas no impiden preparar textos o el PR técnico, pero no se da por cerrado el estado externo. No programar una automatización de seguimiento: las revisiones serán guiadas en este chat.
 
@@ -94,7 +94,11 @@ Resolve-DnsName panaderiapimpos.com -Type TXT
 - [ ] Solicitar indexación de esas páginas una vez que la inspección no muestre un bloqueo. No repetir solicitudes para intentar acelerar el proceso.
 - [ ] Mantener el TXT de verificación. Marcar T1 cuando propiedad y sitemap estén comprobados y las inspecciones registradas; no exigir que todo Google ya haya indexado para cerrar la configuración.
 
-**Primer paso que daremos ahora:** abrir Search Console con la cuenta del negocio y llegar al TXT de la propiedad de dominio. El valor se obtiene allí, no de este documento.
+**Estado al 13/10/2026:** Dan verificó la propiedad y realizó las cuatro solicitudes iniciales.
+El TXT publicado se comprobó sin guardar su valor en Git. El sitemap seguía mostrando
+error de lectura en la última evidencia de Search Console, aunque su prueba en vivo
+estaba disponible para Google. El XML público se volvió a comprobar: HTTP 200, válido,
+44 URLs. No repetir solicitudes ni dar por indexadas las páginas por su envío.
 
 ## T2. Perfil de Empresa y Google Maps
 
@@ -286,12 +290,23 @@ La condición DNS se comprueba con operaciones públicas y estado del servicio, 
 
 ## 6. Registro de ejecución
 
-| Fecha      | Etapa    | Acción y comprobación                                        | Estado real                                  | Próximo paso                       |
-| ---------- | -------- | ------------------------------------------------------------ | -------------------------------------------- | ---------------------------------- |
-| 12/10/2026 | Base     | Auditoría de 44 URLs/robots/sitemap/OG y NS públicos         | Base técnica comprobada; altas no realizadas | T1, cuenta del negocio             |
-| 12/10/2026 | Decisión | Dan confirma cuenta del negocio y guía en el orden propuesto | Plan preparado; migración pausada            | Abrir Search Console y obtener TXT |
+| Fecha      | Etapa    | Acción y comprobación                                                                                     | Estado real                                                                                        | Próximo paso                                                |
+| ---------- | -------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 12/10/2026 | Base     | Auditoría de 44 URLs/robots/sitemap/OG y NS públicos                                                      | Base técnica comprobada; altas no realizadas                                                       | T1, cuenta del negocio                                      |
+| 12/10/2026 | Decisión | Dan confirma cuenta del negocio y guía en el orden propuesto                                              | Plan preparado; migración pausada                                                                  | Abrir Search Console y obtener TXT                          |
+| 12/10/2026 | T1       | Dan verifica la propiedad mediante TXT en Hostinger y realiza cuatro solicitudes de indexación            | Propiedad verificada; indexación no confirmada                                                     | Comprobar procesamiento del sitemap en Search Console       |
+| 12/10/2026 | T1       | Sitemap enviado; un reenvío conserva error; prueba en vivo de Google disponible                           | Lectura del sitemap pendiente, sin causa exacta acreditada                                         | Mantener seguimiento sin repetir envíos                     |
+| 12/10/2026 | T2       | Ficha existente; reclamar solicita verificación, teléfono inaccesible, video disponible                   | Dan aplaza Maps; ficha sin verificar                                                               | Retomar cuando Dan lo indique                               |
+| 13/10/2026 | T3       | Dan fusiona PR #96 y #97; main `40f2a8b`; revisión pública de 44 URLs                                     | Título local, Bakery y 32 ofertas reales desplegados; dos fichas múltiples descriptivas            | T4, publicación del lote aprobado                           |
+| 13/10/2026 | T4       | Dan confirma elaboración propia y textura suave/esponjosa de los cinco productos; aprueba los textos      | Textos aprobados antes de su publicación                                                           | Publicación y comprobación registradas en la siguiente fila |
+| 13/10/2026 | T4       | Cinco descripciones guardadas por el panel; texto visible, meta/OG y Product comparados con los aprobados | Lote inicial publicado; precios, imágenes, categorías y ofertas conservados; 29 fichas registradas | T5: verificar Bing con la cuenta del negocio                |
 
 Se añadirán filas al completar acciones, manteniendo los intentos fallidos y sus motivos. No marcar la primera línea como indexación confirmada. Nunca subir secretos o datos de recuperación como evidencia.
+
+Evidencia del despliegue: `Evidencias SEO/despliegue-tecnico-2026-10-13.json`.
+Evidencia del lote: `Evidencias SEO/contenido-publicado-2026-10-13.json`.
+El lote inicial de T4 está publicado y comprobado; el catálogo restante y la coherencia
+con Maps permanecen pendientes. Se puede avanzar a T5 sin dar por completados esos puntos.
 
 ## 7. Fuentes oficiales consultadas el 12/10/2026
 

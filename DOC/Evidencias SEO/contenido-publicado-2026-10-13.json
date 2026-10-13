@@ -1,0 +1,72 @@
+{
+  "fecha": "2026-10-13",
+  "publicacion": "Cinco descripciones aprobadas por Dan y guardadas mediante el panel existente.",
+  "comprobacion": "HTTP público y comparación con auditoría anterior a la publicación; no acredita indexación en Google.",
+  "productos": [
+    {
+      "url": "https://www.panaderiapimpos.com/productos/frances-chico",
+      "http": 200,
+      "descripcion": "Pan francés chico elaborado por Pimpo’s en Iquitos, con textura suave y esponjosa. Forma parte de nuestra línea de panes clásicos.",
+      "texto_visible_coincide": true,
+      "product_description_coincide": true,
+      "meta_description_coincide": true,
+      "og_description_coincide": true,
+      "canonica_coincide": true,
+      "otros_campos_product_conservados": true,
+      "precio_pen_conservado": 0.1,
+      "precio_visible_coincide": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bizcocho-chico",
+      "http": 200,
+      "descripcion": "Bizcocho chico de elaboración propia, con textura suave y esponjosa. Una opción de la línea de panes especiales de Pimpo’s para pedir por WhatsApp.",
+      "texto_visible_coincide": true,
+      "product_description_coincide": true,
+      "meta_description_coincide": true,
+      "og_description_coincide": true,
+      "canonica_coincide": true,
+      "otros_campos_product_conservados": true,
+      "precio_pen_conservado": 0.1,
+      "precio_visible_coincide": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/ciabatta",
+      "http": 200,
+      "descripcion": "Ciabatta de elaboración propia, suave y esponjosa. Pídela a Pimpo’s por WhatsApp y coordina la cantidad y la entrega según nuestra cobertura de reparto.",
+      "texto_visible_coincide": true,
+      "product_description_coincide": true,
+      "meta_description_coincide": true,
+      "og_description_coincide": true,
+      "canonica_coincide": true,
+      "otros_campos_product_conservados": true,
+      "precio_pen_conservado": 0.5,
+      "precio_visible_coincide": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde",
+      "http": 200,
+      "descripcion": "Pan molde elaborado por Pimpo’s, con textura suave y esponjosa. Consulta su presentación y precio vigente antes de coordinar tu pedido.",
+      "texto_visible_coincide": true,
+      "product_description_coincide": true,
+      "meta_description_coincide": true,
+      "og_description_coincide": true,
+      "canonica_coincide": true,
+      "otros_campos_product_conservados": true,
+      "precio_pen_conservado": 6,
+      "precio_visible_coincide": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde-integral",
+      "http": 200,
+      "descripcion": "Pan molde integral de elaboración propia, con textura suave y esponjosa. Preparado en Pimpo’s, Iquitos; consulta su presentación y precio vigente para tu pedido.",
+      "texto_visible_coincide": true,
+      "product_description_coincide": true,
+      "meta_description_coincide": true,
+      "og_description_coincide": true,
+      "canonica_coincide": true,
+      "otros_campos_product_conservados": true,
+      "precio_pen_conservado": 7,
+      "precio_visible_coincide": true
+    }
+  ]
+}

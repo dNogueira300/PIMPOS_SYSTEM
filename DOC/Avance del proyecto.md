@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 12/10/2026 (PR #94 fusionado; dominio propio operativo; plan SEO preparado; migración pausada)
+**Corte:** 13/10/2026 (PR #96/#97 fusionados; SEO técnico comprobado en producción; cinco descripciones publicadas y comprobadas; migración pausada)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://www.panaderiapimpos.com/ — dominio preferido, operativo en Vercel
@@ -12,12 +12,23 @@ hay que leer para ponerse al día sin recorrer el historial de commits.
 el semestre; se evaluará hosting comercial después si la dueña lo solicita. PR #95 sigue
 intacto y en borrador. El dominio nuevo está conectado: 44 URLs públicas comprobadas,
 canónicas y sitemap correctos, imagen de compartir válida y datos Bakery/Product presentes.
-Esto no acredita indexación: Search Console y Perfil de Empresa todavía no están configurados.
-Dan confirma cuenta del negocio para las altas. `Plan SEO - Dominio e indexacion.md`
+Esto no acredita indexación. Search Console ya tiene la propiedad verificada por Dan;
+el sitemap fue enviado, pero su procesamiento mantiene error en la última evidencia comunicada.
+Maps tiene una ficha existente sin verificar: teléfono inaccesible, video ofrecido;
+Dan aplaza esa verificación. Se utiliza la cuenta del negocio. `Plan SEO - Dominio e indexacion.md`
 ordena Search Console, Maps, SEO técnico, contenido, Bing/IA y medición con guía y criterios
 por etapa. La evidencia está en `Evidencias SEO/auditoria-dominio-2026-10-12.json`.
-Estado: plan preparado; T1 por iniciar. No se han añadido TXT, creado cuentas/fichas,
-modificado código o desplegado mejoras por este plan. Se conserva toda funcionalidad.
+Dan fusionó el plan en PR #96 y la implementación en PR #97 el 13/10; main `40f2a8b`.
+Producción comprobada: título local, foto Bakery separada de logo, teléfono +51,
+44 URLs públicas correctas y 32 ofertas reales con precios visibles coincidentes.
+Dos hamburguesas con varias presentaciones permanecen descriptivas. Login conserva `noindex, nofollow`; no se consultó su estado en el índice de Google.
+Detalle en `Verificacion SEO tecnico.md` y `Evidencias SEO/despliegue-tecnico-2026-10-13.json`.
+Dan confirma elaboración propia y textura suave/esponjosa de los cinco productos del lote inicial
+y aprueba sus textos: `SEO - Contenido confirmado.md`. Los cinco se publicaron por el panel
+el 13/10/2026; texto visible, meta/OG y Product coinciden. Precios, imágenes, categorías,
+presentaciones y estados se conservaron. Evidencia en `Evidencias SEO/contenido-publicado-2026-10-13.json`.
+Quedan 29 fichas por confirmar/redactar; el siguiente paso guiado es Bing. Maps y lectura
+del sitemap de Search Console siguen pendientes. No hubo cambios funcionales ni escritura por SQL/API alternativa.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con

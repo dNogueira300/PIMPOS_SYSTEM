@@ -1,0 +1,330 @@
+{
+  "fecha": "2026-10-13",
+  "dominio": "https://www.panaderiapimpos.com",
+  "main": "40f2a8b046eeae96aefed3e283b10d46eedd3a93",
+  "pr_integrados": [96, 97],
+  "sitemap": {
+    "http": 200,
+    "content_type": "application/xml",
+    "urls": 44,
+    "xml_valido": true
+  },
+  "paginas_publicas": 44,
+  "errores_publicos": [],
+  "productos_con_oferta": 32,
+  "ofertas": [
+    {
+      "url": "https://www.panaderiapimpos.com/productos/frances-chico",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/leche",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cerveza",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-chico",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/maiz",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-chica",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-suave",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hot-dog-chico",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bizcocho-chico",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bizcocho-grande",
+      "price": 0.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/carioco",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/ciabatta",
+      "price": 0.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-grande",
+      "price": 0.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-al-ajo",
+      "price": 1.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hot-dog-grande-ajonjoli",
+      "price": 0.3,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde-integral",
+      "price": 7,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-integral",
+      "price": 1.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bolitas-integral",
+      "price": 3,
+      "moneda": "PEN",
+      "presentacion": "Bolsa",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/tostada-integral",
+      "price": 2,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/tostada-blanca",
+      "price": 2,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/rosca",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cartera",
+      "price": 0.1,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/roscas-blancas-de-almidon",
+      "price": 2.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/paneton",
+      "price": 14,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pate",
+      "price": 5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/arroz-1kg",
+      "price": 4.5,
+      "moneda": "PEN",
+      "presentacion": "Kilo",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde",
+      "price": 6,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/lentejas",
+      "price": 2,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/harina-de-platano",
+      "price": 4,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/upe",
+      "price": 4,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cereales",
+      "price": 0.5,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/arvejas",
+      "price": 2,
+      "moneda": "PEN",
+      "presentacion": "Unidad",
+      "precio_visible": true
+    }
+  ],
+  "sin_oferta": [
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-grande",
+      "varias_presentaciones": true
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-grande-ajonjoli",
+      "varias_presentaciones": true
+    }
+  ],
+  "precios_visibles_coinciden": true,
+  "portada": {
+    "url": "https://www.panaderiapimpos.com/",
+    "titulo": "Panadería Pimpo's en Iquitos | Pan fresco y delivery",
+    "canonica": "https://www.panaderiapimpos.com",
+    "datos": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Bakery",
+        "@id": "https://www.panaderiapimpos.com/#panaderia",
+        "name": "Panadería Pimpo's",
+        "url": "https://www.panaderiapimpos.com",
+        "logo": "https://www.panaderiapimpos.com/marca/logo.webp",
+        "image": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/galeria/fachada1.webp",
+        "telephone": "+51947874820",
+        "email": "contactopimpos@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Calle Elías Aguirre 1321, Belén",
+          "addressLocality": "Iquitos",
+          "addressRegion": "Loreto",
+          "addressCountry": "PE"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -3.759545048266943,
+          "longitude": -73.2516156605442
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "https://schema.org/Monday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Tuesday",
+              "https://schema.org/Saturday",
+              "https://schema.org/Friday",
+              "https://schema.org/Wednesday"
+            ],
+            "opens": "04:00",
+            "closes": "11:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "https://schema.org/Monday",
+              "https://schema.org/Thursday",
+              "https://schema.org/Tuesday",
+              "https://schema.org/Friday",
+              "https://schema.org/Wednesday"
+            ],
+            "opens": "15:00",
+            "closes": "20:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["https://schema.org/Saturday"],
+            "opens": "15:30",
+            "closes": "20:00"
+          }
+        ],
+        "priceRange": "S/ 0.10 - S/ 14.00"
+      }
+    ]
+  },
+  "login": {
+    "http": 200,
+    "robots": ["noindex, nofollow"]
+  },
+  "robots": {
+    "http": 200,
+    "texto": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /ingresar\n\nSitemap: https://www.panaderiapimpos.com/sitemap.xml\n"
+  },
+  "limites": [
+    "No acredita indexacion de Google ni procesamiento del sitemap en Search Console",
+    "Google Maps aplazado por Dan",
+    "Dos productos con varias presentaciones sin elegibilidad para precio enriquecido"
+  ],
+  "publicacion_contenido": "Cinco descripciones aprobadas, publicadas mediante el panel y comprobadas el 13/10/2026; ver contenido-publicado-2026-10-13.json. Quedan 29 fichas por confirmar."
+}
