@@ -13,7 +13,8 @@ el semestre; se evaluará hosting comercial después si la dueña lo solicita. P
 intacto y en borrador. El dominio nuevo está conectado: 44 URLs públicas comprobadas,
 canónicas y sitemap correctos, imagen de compartir válida y datos Bakery/Product presentes.
 Esto no acredita indexación. Search Console ya tiene la propiedad verificada por Dan;
-el sitemap fue enviado, pero su procesamiento mantiene error en la última evidencia comunicada.
+Dan aporta captura el 13/10/2026: sitemap Correcto y 44 páginas descubiertas. La captura de
+Google también muestra resultados de portada y contacto; no acredita que las 44 URLs estén indexadas.
 Maps tiene una ficha existente sin verificar: teléfono inaccesible, video ofrecido;
 Dan aplaza esa verificación. Se utiliza la cuenta del negocio. `Plan SEO - Dominio e indexacion.md`
 ordena Search Console, Maps, SEO técnico, contenido, Bing/IA y medición con guía y criterios
@@ -28,7 +29,7 @@ y aprueba sus textos: `SEO - Contenido confirmado.md`. Los cinco se publicaron p
 el 13/10/2026; texto visible, meta/OG y Product coinciden. Precios, imágenes, categorías,
 presentaciones y estados se conservaron. Evidencia en `Evidencias SEO/contenido-publicado-2026-10-13.json`.
 Quedan 29 fichas por confirmar/redactar; el siguiente paso guiado es Bing. Maps y lectura
-del sitemap de Search Console siguen pendientes. No hubo cambios funcionales ni escritura por SQL/API alternativa.
+de cobertura/indexación en Search Console sigue pendiente; el sitemap ya está Correcto. No hubo cambios funcionales ni escritura por SQL/API alternativa.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con

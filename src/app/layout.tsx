@@ -32,22 +32,23 @@ const METADATA_FIJA: Metadata = {
 /**
  * El favicon es administrable (R21). No se sirve con `app/icon.tsx` +
  * `ImageResponse`: ese generador no dibuja SVG de forma fiable (trampa de
- * `next/og` en AGENTS.md) y el favicon de fábrica es SVG. Un
+ * `next/og` en AGENTS.md). El archivo de reserva es PNG cuadrado para
+ * buscadores y navegadores. Un
  * `<link rel="icon">` a la URL guardada no necesita generar ninguna imagen.
  *
  * `obtenerConfiguracion` está en `use cache` con la etiqueta `marca`: no
  * cuesta una consulta por página, y al guardar la configuración el panel
  * invalida la etiqueta y el enlace cambia sin redesplegar. El
- * `apple-touch-icon` se queda fijo en `public/marca/`: Apple no permite
- * elegir su ruta desde `<link>`, así que administrarlo exigiría regenerar el
- * archivo en cada guardado, y a ese tamaño el icono de fábrica sirve.
+ * `apple-touch-icon` conserva su archivo local en `public/marca/`.
+ * Ambos archivos locales se preparan desde el logo aprobado con
+ * `scripts/preparar-favicon.cjs`; el favicon configurado conserva prioridad.
  */
 export async function generateMetadata(): Promise<Metadata> {
   const config = await obtenerConfiguracion();
   return {
     ...METADATA_FIJA,
     icons: {
-      icon: urlDeImagen("marca", config.favicon_url) ?? "/marca/favicon.svg",
+      icon: urlDeImagen("marca", config.favicon_url) ?? "/marca/favicon.png",
       apple: "/marca/apple-touch-icon.png",
     },
   };

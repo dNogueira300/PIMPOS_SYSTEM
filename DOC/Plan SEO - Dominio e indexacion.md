@@ -58,7 +58,7 @@ El ingreso y las verificaciones personales las hace Dan. No crear cuentas, acept
 
 | Etapa | Entrega                      | Criterio de cierre                                                                               | Estado                                                                           |
 | ----- | ---------------------------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| T1    | Search Console y sitemap     | Propiedad verificada, sitemap recibido y primeras inspecciones registradas                       | Propiedad verificada; procesamiento del sitemap pendiente                        |
+| T1    | Search Console y sitemap     | Propiedad verificada, sitemap recibido y primeras inspecciones registradas                       | Propiedad verificada; sitemap correcto con 44 URLs según captura de Dan          |
 | T2    | Perfil de Empresa / Maps     | Ficha correcta y verificada; si Google demora, registrar verificación en curso sin marcar cierre | Aplazada por Dan; ficha existente sin verificar                                  |
 | T3    | SEO técnico                  | Vista previa comprobada, PR revisado y aplicación productiva verificada tras la fusión de Dan    | Integrada y comprobada en producción el 13/10/2026                               |
 | T4    | Contenido y coherencia local | Lote inicial confirmado y publicado; seguimiento de los demás productos documentado              | Lote de cinco publicado y comprobado; 29 fichas y coherencia con Maps pendientes |
@@ -95,10 +95,10 @@ Resolve-DnsName panaderiapimpos.com -Type TXT
 - [ ] Mantener el TXT de verificación. Marcar T1 cuando propiedad y sitemap estén comprobados y las inspecciones registradas; no exigir que todo Google ya haya indexado para cerrar la configuración.
 
 **Estado al 13/10/2026:** Dan verificó la propiedad y realizó las cuatro solicitudes iniciales.
-El TXT publicado se comprobó sin guardar su valor en Git. El sitemap seguía mostrando
-error de lectura en la última evidencia de Search Console, aunque su prueba en vivo
-estaba disponible para Google. El XML público se volvió a comprobar: HTTP 200, válido,
-44 URLs. No repetir solicitudes ni dar por indexadas las páginas por su envío.
+El TXT publicado se comprobó sin guardar su valor en Git. Tras el error de lectura
+anterior, la nueva captura muestra **Correcto y 44 páginas descubiertas**. Google muestra
+resultados de portada y contacto; no se da por indexado el resto. El XML público responde
+HTTP 200 y es válido. No repetir solicitudes ni dar por indexadas las páginas por su envío.
 
 ## T2. Perfil de Empresa y Google Maps
 
@@ -290,16 +290,19 @@ La condición DNS se comprueba con operaciones públicas y estado del servicio, 
 
 ## 6. Registro de ejecución
 
-| Fecha      | Etapa    | Acción y comprobación                                                                                     | Estado real                                                                                        | Próximo paso                                                |
-| ---------- | -------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| 12/10/2026 | Base     | Auditoría de 44 URLs/robots/sitemap/OG y NS públicos                                                      | Base técnica comprobada; altas no realizadas                                                       | T1, cuenta del negocio                                      |
-| 12/10/2026 | Decisión | Dan confirma cuenta del negocio y guía en el orden propuesto                                              | Plan preparado; migración pausada                                                                  | Abrir Search Console y obtener TXT                          |
-| 12/10/2026 | T1       | Dan verifica la propiedad mediante TXT en Hostinger y realiza cuatro solicitudes de indexación            | Propiedad verificada; indexación no confirmada                                                     | Comprobar procesamiento del sitemap en Search Console       |
-| 12/10/2026 | T1       | Sitemap enviado; un reenvío conserva error; prueba en vivo de Google disponible                           | Lectura del sitemap pendiente, sin causa exacta acreditada                                         | Mantener seguimiento sin repetir envíos                     |
-| 12/10/2026 | T2       | Ficha existente; reclamar solicita verificación, teléfono inaccesible, video disponible                   | Dan aplaza Maps; ficha sin verificar                                                               | Retomar cuando Dan lo indique                               |
-| 13/10/2026 | T3       | Dan fusiona PR #96 y #97; main `40f2a8b`; revisión pública de 44 URLs                                     | Título local, Bakery y 32 ofertas reales desplegados; dos fichas múltiples descriptivas            | T4, publicación del lote aprobado                           |
-| 13/10/2026 | T4       | Dan confirma elaboración propia y textura suave/esponjosa de los cinco productos; aprueba los textos      | Textos aprobados antes de su publicación                                                           | Publicación y comprobación registradas en la siguiente fila |
-| 13/10/2026 | T4       | Cinco descripciones guardadas por el panel; texto visible, meta/OG y Product comparados con los aprobados | Lote inicial publicado; precios, imágenes, categorías y ofertas conservados; 29 fichas registradas | T5: verificar Bing con la cuenta del negocio                |
+| Fecha      | Etapa    | Acción y comprobación                                                                                                      | Estado real                                                                                                | Próximo paso                                                 |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 12/10/2026 | Base     | Auditoría de 44 URLs/robots/sitemap/OG y NS públicos                                                                       | Base técnica comprobada; altas no realizadas                                                               | T1, cuenta del negocio                                       |
+| 12/10/2026 | Decisión | Dan confirma cuenta del negocio y guía en el orden propuesto                                                               | Plan preparado; migración pausada                                                                          | Abrir Search Console y obtener TXT                           |
+| 12/10/2026 | T1       | Dan verifica la propiedad mediante TXT en Hostinger y realiza cuatro solicitudes de indexación                             | Propiedad verificada; indexación no confirmada                                                             | Comprobar procesamiento del sitemap en Search Console        |
+| 12/10/2026 | T1       | Sitemap enviado; un reenvío conserva error; prueba en vivo de Google disponible                                            | Lectura del sitemap pendiente, sin causa exacta acreditada                                                 | Mantener seguimiento sin repetir envíos                      |
+| 12/10/2026 | T2       | Ficha existente; reclamar solicita verificación, teléfono inaccesible, video disponible                                    | Dan aplaza Maps; ficha sin verificar                                                                       | Retomar cuando Dan lo indique                                |
+| 13/10/2026 | T3       | Dan fusiona PR #96 y #97; main `40f2a8b`; revisión pública de 44 URLs                                                      | Título local, Bakery y 32 ofertas reales desplegados; dos fichas múltiples descriptivas                    | T4, publicación del lote aprobado                            |
+| 13/10/2026 | T4       | Dan confirma elaboración propia y textura suave/esponjosa de los cinco productos; aprueba los textos                       | Textos aprobados antes de su publicación                                                                   | Publicación y comprobación registradas en la siguiente fila  |
+| 13/10/2026 | T4       | Cinco descripciones guardadas por el panel; texto visible, meta/OG y Product comparados con los aprobados                  | Lote inicial publicado; precios, imágenes, categorías y ofertas conservados; 29 fichas registradas         | T5: verificar Bing con la cuenta del negocio                 |
+| 13/10/2026 | T1       | Dan aporta captura de Search Console: sitemap Correcto, 44 páginas descubiertas                                            | Lectura confirmada; no equivale a 44 páginas indexadas                                                     | Seguimiento de cobertura                                     |
+| 13/10/2026 | Revisión | Captura de Google muestra portada y contacto; favicon antiguo rectangular. Dan confirma que probó ChatGPT sin búsqueda web | Dos resultados visibles; acceso HTTP de bots simulado permitido, sin garantía de descubrimiento en ChatGPT | Corregir favicon antes de Bing                               |
+| 13/10/2026 | Favicon  | PNG 96 × 96 del logo aprobado publicado mediante el panel; HTTP 200, bytes idénticos y Bakery/canónica conservados         | Favicon corregido en producción; caché de Google no comprobada                                             | Fusionar reserva local y Apple; comprobar tras nuevo rastreo |
 
 Se añadirán filas al completar acciones, manteniendo los intentos fallidos y sus motivos. No marcar la primera línea como indexación confirmada. Nunca subir secretos o datos de recuperación como evidencia.
 

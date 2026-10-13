@@ -1,0 +1,154 @@
+{
+  "fecha": "2026-10-13",
+  "iconos": [
+    {
+      "link": "<link rel=\"icon\" href=\"https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/marca/favicon/570cb3d0-abf0-4e87-88f7-e0192d01dbe2.svg\"/>",
+      "url": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/marca/favicon/570cb3d0-abf0-4e87-88f7-e0192d01dbe2.svg",
+      "http": 200,
+      "tipo": "image/svg+xml",
+      "bytes": 21901
+    },
+    {
+      "link": "<link rel=\"apple-touch-icon\" href=\"/marca/apple-touch-icon.png\"/>",
+      "url": "https://www.panaderiapimpos.com/marca/apple-touch-icon.png",
+      "http": 200,
+      "tipo": "image/png",
+      "bytes": 11038
+    }
+  ],
+  "bots": [
+    {
+      "agente_simulado": "OAI-SearchBot",
+      "robots_http": 200,
+      "robots": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /ingresar\n\nSitemap: https://www.panaderiapimpos.com/sitemap.xml\n",
+      "publico_permitido": true,
+      "admin_excluido": true,
+      "login_excluido": true,
+      "paginas": [
+        {
+          "ruta": "/",
+          "http": 200,
+          "titulo": "Panadería Pimpo's en Iquitos | Pan fresco y delivery"
+        },
+        {
+          "ruta": "/nosotros",
+          "http": 200,
+          "titulo": "Nosotros · Panadería Pimpo's"
+        },
+        {
+          "ruta": "/productos/frances-chico",
+          "http": 200,
+          "titulo": "Pan francés chico · Panadería Pimpo's"
+        }
+      ]
+    },
+    {
+      "agente_simulado": "ChatGPT-User",
+      "robots_http": 200,
+      "robots": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /ingresar\n\nSitemap: https://www.panaderiapimpos.com/sitemap.xml\n",
+      "publico_permitido": true,
+      "admin_excluido": true,
+      "login_excluido": true,
+      "paginas": [
+        {
+          "ruta": "/",
+          "http": 200,
+          "titulo": "Panadería Pimpo's en Iquitos | Pan fresco y delivery"
+        },
+        {
+          "ruta": "/nosotros",
+          "http": 200,
+          "titulo": "Nosotros · Panadería Pimpo's"
+        },
+        {
+          "ruta": "/productos/frances-chico",
+          "http": 200,
+          "titulo": "Pan francés chico · Panadería Pimpo's"
+        }
+      ]
+    },
+    {
+      "agente_simulado": "Googlebot",
+      "robots_http": 200,
+      "robots": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /ingresar\n\nSitemap: https://www.panaderiapimpos.com/sitemap.xml\n",
+      "publico_permitido": true,
+      "admin_excluido": true,
+      "login_excluido": true,
+      "paginas": [
+        {
+          "ruta": "/",
+          "http": 200,
+          "titulo": "Panadería Pimpo's en Iquitos | Pan fresco y delivery"
+        },
+        {
+          "ruta": "/nosotros",
+          "http": 200,
+          "titulo": "Nosotros · Panadería Pimpo's"
+        },
+        {
+          "ruta": "/productos/frances-chico",
+          "http": 200,
+          "titulo": "Pan francés chico · Panadería Pimpo's"
+        }
+      ]
+    },
+    {
+      "agente_simulado": "bingbot",
+      "robots_http": 200,
+      "robots": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /ingresar\n\nSitemap: https://www.panaderiapimpos.com/sitemap.xml\n",
+      "publico_permitido": true,
+      "admin_excluido": true,
+      "login_excluido": true,
+      "paginas": [
+        {
+          "ruta": "/",
+          "http": 200,
+          "titulo": "Panadería Pimpo's en Iquitos | Pan fresco y delivery"
+        },
+        {
+          "ruta": "/nosotros",
+          "http": 200,
+          "titulo": "Nosotros · Panadería Pimpo's"
+        },
+        {
+          "ruta": "/productos/frances-chico",
+          "http": 200,
+          "titulo": "Pan francés chico · Panadería Pimpo's"
+        }
+      ]
+    }
+  ],
+  "limite": "User-Agent simulado: no certifica IP real, rastreo ni descubrimiento en ChatGPT.",
+  "estado_google_aportado_por_dan": {
+    "sitemap": "Correcto",
+    "paginas_descubiertas": 44,
+    "resultados_visibles": ["portada", "contacto"],
+    "limite": "Capturas del usuario; no se consultó el estado de todas las URLs en el índice."
+  },
+  "chatgpt": {
+    "prueba_usuario": "Sin activar búsqueda web",
+    "accion": "Repetir con búsqueda web; no cambiar robots por falta de respuesta sin navegación.",
+    "busqueda_en_herramienta": "Consulta por dominio sin resultados y apertura por herramienta web no disponible. No prueba un bloqueo de OpenAI."
+  },
+  "favicon_preparado": {
+    "archivo": "public/marca/favicon.png",
+    "formato": "PNG",
+    "lado": 96,
+    "original_sha256": "ae90087ee7b28e620d24318da6776c70a8a6c81315648cfdf7a2eb7dadbded53",
+    "metodo": "Recorte del personaje del logo aprobado y máscara de esquinas, fondo crema; sin redibujo.",
+    "publicacion": "Publicado por el panel existente y comprobado en la portada pública; solo favicon_url editado."
+  },
+  "favicon_publicado": {
+    "url": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/marca/favicon/cf7c0bb7-3ded-432b-90ba-3ee05e1aefb1.png",
+    "http": 200,
+    "tipo": "image/png",
+    "ancho": 96,
+    "alto": 96,
+    "sha256": "fd92d3f8a35d45ce2a1a2f01c4b2711fa1173eb5541c80aec71349b23a1c0331",
+    "bytes": 8950,
+    "igual_al_preparado": true,
+    "bakery_conservado": true,
+    "canonica_conservada": true,
+    "limite": "No acredita que Google ya haya actualizado su caché del favicon."
+  }
+}
