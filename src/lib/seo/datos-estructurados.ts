@@ -87,13 +87,18 @@ export function panaderiaSchema(opciones: {
   config: Configuracion;
   urlSitio: string;
   urlLogo: string;
+  urlFoto?: string;
   precios: readonly (number | null)[];
 }) {
-  const { config, urlSitio, urlLogo, precios } = opciones;
+  const { config, urlSitio, urlLogo, urlFoto, precios } = opciones;
 
   const calle = [config.direccion, config.distrito].filter((p) => p.trim()).join(", ");
   const redes = [config.facebook, config.instagram].filter((url) => url.trim().length > 0);
   const rango = rangoDePrecios(precios);
+  // Solo un celular peruano inequívoco recibe el prefijo. No reinterpretar
+  // teléfonos fijos, internacionales o valores incompletos del panel.
+  const digitos = config.telefono.replace(/\s/g, "");
+  const telefono = /^9\d{8}$/.test(digitos) ? `+51${digitos}` : config.telefono;
 
   return {
     "@context": "https://schema.org",
@@ -102,8 +107,8 @@ export function panaderiaSchema(opciones: {
     name: config.nombre_comercial,
     url: urlSitio,
     logo: urlLogo,
-    image: urlLogo,
-    ...(config.telefono ? { telephone: config.telefono } : {}),
+    image: urlFoto ?? urlLogo,
+    ...(telefono ? { telephone: telefono } : {}),
     ...(config.correo ? { email: config.correo } : {}),
     address: {
       "@type": "PostalAddress",

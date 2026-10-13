@@ -36,6 +36,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
 import { iniciales } from "@/lib/utilidades/iniciales";
 
 export const metadata: Metadata = {
+  title: { absolute: "Panadería Pimpo's en Iquitos | Pan fresco y delivery" },
   alternates: { canonical: urlAbsoluta("/") },
 };
 
@@ -133,6 +134,7 @@ export default async function Inicio() {
           config,
           urlSitio: urlDelSitio(),
           urlLogo: urlAbsoluta(urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"),
+          urlFoto: fachada?.imagen ? urlAbsoluta(fachada.imagen) : undefined,
           precios: productos.map((producto) => producto.precioDesde),
         })}
       />

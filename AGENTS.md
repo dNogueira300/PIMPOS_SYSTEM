@@ -1376,3 +1376,29 @@ qué entregable. **Orden obligatorio:** primero las de proceso (`brand`, `design
 El cronograma de 12 semanas no tiene holgura. Lo que se recorta, en este orden: PWA offline (R16)
 → detalle de los reportes de F5 → testimonios. **Nunca se recorta:** SEO, RLS, auditoría ni
 consentimiento de datos personales.
+
+## SEO del dominio — ejecución posterior al plan (12/10/2026)
+
+Dan confirma dominio en Hostinger/Vercel y propiedad de Search Console verificada;
+completó solicitudes de indexación para portada, productos, francés chico y contacto.
+Esto no acredita indexación. Sitemap pendiente: Search Console mantiene error de lectura,
+aunque el XML público responde 200 y su prueba en tiempo real está disponible para Google.
+Maps: ficha existente; reclamación iniciada, número inaccesible, Google ofrece video.
+**Dan aplaza Maps y autoriza pasar a SEO técnico y contenido.** No cambiar el contacto
+de la web por el número antiguo de esa ficha; no crear otra ficha ni inventar verificaciones.
+
+Se reutiliza el checkout aislado `PIMPOS_REDISENO_BLOQUE1`, rama `feat/seo-tecnico`
+desde main `2e7cfa8`; el PR #96 documental sigue independiente e intacto y debe integrarse
+antes de la entrega técnica. T3a/T3b implementadas: título local absoluto, foto Bakery
+separada de logo, prefijo +51 solo para celular peruano claro, Offer real en PEN solo
+para una presentación con precio finito no negativo. Múltiples presentaciones siguen
+descriptivas, sin marca/stock/reseñas inventadas. No cambian funcionalidades ni consultas.
+Ver `DOC/Verificacion SEO tecnico.md`: 516 unitarias, 11 E2E SEO, tipos/lint/build local
+aprobados y revisión independiente sin defectos bloqueantes. Rich Results Test de código
+local confirma francés chico válido; falta comprobar URL desplegada tras integrar.
+No llamar desplegados a estos cambios locales. Google puede mantener avisos opcionales.
+
+`DOC/SEO - Contenido confirmado.md` contiene cinco propuestas iniciales, no publicadas,
+porque Dan no tiene selección. Prioridad y características requieren confirmación del negocio;
+publicar mediante el panel existente y comprobar descripción visible/JSON-LD. Maps y
+procesamiento del sitemap permanecen pendientes; PR #95 de hosting continúa pausado.

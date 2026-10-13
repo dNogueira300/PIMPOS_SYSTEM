@@ -57,6 +57,8 @@ test("el sitemap trae las secciones y los productos, y nada del panel", async ({
 test("la portada describe la panaderia con su horario de dos turnos", async ({ page }) => {
   await page.goto("/");
 
+  await expect(page).toHaveTitle("Panadería Pimpo's en Iquitos | Pan fresco y delivery");
+
   const encontrado = await jsonLd(page, "Bakery");
   expect(encontrado, "no hay JSON-LD de tipo Bakery en la portada").not.toBeNull();
 
@@ -67,11 +69,20 @@ test("la portada describe la panaderia con su horario de dos turnos", async ({ p
     geo?: { latitude: number };
     openingHoursSpecification: { dayOfWeek: string[]; opens: string; closes: string }[];
     priceRange?: string;
+    logo: string;
+    image: string;
   };
 
   expect(panaderia.name).toBe("Panadería Pimpo's");
   expect(panaderia.address.addressLocality).toBe("Iquitos");
   expect(panaderia.geo?.latitude).toBeLessThan(0);
+  expect(panaderia.logo).toMatch(/^https?:\/\//);
+  const fotoNegocio = page.locator('section[aria-labelledby="titulo-historia"] img');
+  if (await fotoNegocio.count()) {
+    const foto = await fotoNegocio.getAttribute("src");
+    const original = new URL(foto!, page.url()).searchParams.get("url") ?? foto;
+    expect(panaderia.image).toBe(new URL(original!, page.url()).href);
+  }
 
   // Los dos turnos, y el domingo fuera: en schema.org un día que no figura es
   // un día cerrado.
@@ -83,6 +94,33 @@ test("la portada describe la panaderia con su horario de dos turnos", async ({ p
 
   // El escape que impide que un texto del panel cierre la etiqueta.
   expect(texto).not.toContain("</");
+});
+
+test("la ficha publica la oferta real de su única presentación", async ({ page }) => {
+  await page.goto("/productos/frances-chico");
+  const encontrado = await jsonLd(page, "Product");
+  expect(encontrado).not.toBeNull();
+  const producto = encontrado!.datos as {
+    offers: { "@type": string; price: number; priceCurrency: string; url: string; name: string };
+  };
+  expect(producto.offers).toMatchObject({
+    "@type": "Offer",
+    price: 0.1,
+    priceCurrency: "PEN",
+    url: "http://localhost:3000/productos/frances-chico",
+    name: "Unidad",
+  });
+  await expect(page.locator("main")).toContainText("S/ 0.10");
+  expect(encontrado!.texto).not.toMatch(/aggregateRating|review|availability|priceValidUntil/);
+});
+
+test("las distintas presentaciones no se anuncian como una oferta única", async ({ page }) => {
+  await page.goto("/productos/hamburguesa-grande");
+  await expect(page.locator("[data-presentaciones] li")).toHaveCount(2);
+  const encontrado = await jsonLd(page, "Product");
+  expect(encontrado).not.toBeNull();
+  expect(encontrado!.datos).not.toHaveProperty("offers");
+  expect(encontrado!.texto).not.toMatch(/AggregateOffer|aggregateRating|review|availability/);
 });
 
 test("las preguntas frecuentes van como FAQPage", async ({ page }) => {
