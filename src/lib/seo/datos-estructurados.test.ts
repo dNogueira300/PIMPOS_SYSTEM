@@ -123,6 +123,27 @@ describe("panaderiaSchema", () => {
     precios: [0.1, 2],
   };
 
+  it("separa la foto del negocio de su logo y conserva la reserva sin foto", () => {
+    const foto = "https://panaderiapimpos.com/fachada.webp";
+    const datos = panaderiaSchema({ config: config(), ...base, urlFoto: foto });
+    expect(datos.logo).toBe(base.urlLogo);
+    expect(datos.image).toBe(foto);
+    expect(panaderiaSchema({ config: config(), ...base }).image).toBe(base.urlLogo);
+  });
+
+  it.each(["947874820", "947 874 820"])("publica el celular peruano %s con +51", (telefono) => {
+    expect(panaderiaSchema({ config: config({ telefono }), ...base }).telephone).toBe(
+      "+51947874820",
+    );
+  });
+
+  it.each(["065 987654", "+51947874820", "+34912345678", "123456789", "94787482"])(
+    "no reinterpreta el teléfono %s",
+    (telefono) => {
+      expect(panaderiaSchema({ config: config({ telefono }), ...base }).telephone).toBe(telefono);
+    },
+  );
+
   it("es una panaderia con direccion, coordenadas y horario", () => {
     const datos = panaderiaSchema({ config: config(), ...base });
     expect(datos["@type"]).toBe("Bakery");

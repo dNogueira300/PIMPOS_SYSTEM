@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, MessageCircle } from "lucide-react";
 import { CondicionesPedido } from "@/components/publico/condiciones-pedido";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { urlAbsoluta } from "@/lib/sitio";
+import { productoSchema } from "@/lib/seo/producto";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import {
   describirPrecio,
@@ -100,20 +101,11 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
     .filter((otro) => otro.categoriaSlug === producto.categoriaSlug && otro.id !== producto.id)
     .slice(0, 4);
 
-  const datosProducto = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "@id": `${urlAbsoluta(`/productos/${producto.slug}`)}#producto`,
-    url: urlAbsoluta(`/productos/${producto.slug}`),
-    name: producto.nombre,
-    ...(producto.descripcion ? { description: producto.descripcion } : {}),
-    ...(producto.imagen ? { image: urlAbsoluta(producto.imagen) } : {}),
-    ...(producto.categoriaNombre ? { category: producto.categoriaNombre } : {}),
-  };
-
   return (
     <div className="mx-auto w-full max-w-(--container-contenido) px-4 py-10 sm:px-6 md:py-14">
-      <DatosEstructurados datos={datosProducto} />
+      <DatosEstructurados
+        datos={productoSchema(producto, urlAbsoluta(`/productos/${producto.slug}`))}
+      />
       <Link
         href={
           producto.categoriaSlug ? `/productos?categoria=${producto.categoriaSlug}` : "/productos"
