@@ -1,12 +1,23 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 09/10/2026 (cierre visual en revisión; estados históricos conservados)
+**Corte:** 12/10/2026 (PR #94 fusionado; dominio propio operativo; plan SEO preparado; migración pausada)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
-**Sitio desplegado:** https://pimpos-system-iota.vercel.app — sin dominio propio todavía
+**Sitio desplegado:** https://www.panaderiapimpos.com/ — dominio preferido, operativo en Vercel
 
 Este documento resume qué está hecho, qué decisiones se tomaron y por qué, y qué falta. Es el que
 hay que leer para ponerse al día sin recorrer el historial de commits.
+
+**Decisión y plan SEO, 12/10/2026:** Dan pausa la migración y continúa en Vercel durante
+el semestre; se evaluará hosting comercial después si la dueña lo solicita. PR #95 sigue
+intacto y en borrador. El dominio nuevo está conectado: 44 URLs públicas comprobadas,
+canónicas y sitemap correctos, imagen de compartir válida y datos Bakery/Product presentes.
+Esto no acredita indexación: Search Console y Perfil de Empresa todavía no están configurados.
+Dan confirma cuenta del negocio para las altas. `Plan SEO - Dominio e indexacion.md`
+ordena Search Console, Maps, SEO técnico, contenido, Bing/IA y medición con guía y criterios
+por etapa. La evidencia está en `Evidencias SEO/auditoria-dominio-2026-10-12.json`.
+Estado: plan preparado; T1 por iniciar. No se han añadido TXT, creado cuentas/fichas,
+modificado código o desplegado mejoras por este plan. Se conserva toda funcionalidad.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
@@ -38,9 +49,9 @@ tarjeta al compartir renovada y SEO técnico para buscadores e IAs. No cambia la
 496 unitarias aprobadas, 605 E2E aprobadas y 105 omisiones previstas; 710 casos conciliados,
 70 plantillas y 497 capturas. Revisión independiente concluida, marca no acreditada de
 productos corregida con RED→GREEN y regresión completa repetida. [PR #94](https://github.com/dNogueira300/PIMPOS_SYSTEM/pull/94)
-abierto como borrador, vista previa Vercel revisada. CI de aplicación y base aprobados
+fusionado por Dan (main `2e7cfa8`), vista previa Vercel revisada. CI de aplicación y base aprobados
 en el código verificado; resultado vigente de E2E remoto en los checks del PR.
-Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. Pendiente revisión/fusión de Dan;
+Evidencia y límites del cierre: `Verificacion rediseño 03.2.md`. El rediseño está integrado;
 F7 de capacitación, manual, informe y credenciales queda fuera de este alcance.
 
 ---

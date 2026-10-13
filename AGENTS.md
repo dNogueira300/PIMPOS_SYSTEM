@@ -28,7 +28,7 @@ negocio cargue su inventario inicial y registre a sus primeros clientes). **F7 (
 primera parte, el Historial del panel (auditoría), está hecha (06/10/2026); falta el resto —
 capacitación, manual, informe final y traspaso de credenciales—, que aún no tiene plan.** Ver «F7 en
 curso — cómo retomar», más abajo. El sitio está desplegado (12/09/2026) en
-https://pimpos-system-iota.vercel.app, todavía sin dominio propio. Resumen completo en
+https://www.panaderiapimpos.com/; dominio propio operativo confirmado el 12/10/2026. Resumen completo en
 `DOC/Avance del proyecto.md` — léelo primero para ponerte al día.
 
 | Fase               | Estado                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -335,9 +335,24 @@ React 19 más Next 16, y nuestro código añade 0 KB. `motion` habría costado m
 aplicación. Si el panel (F4–F6) la necesita, vuelve entonces: ahí no hay presupuesto de portada que
 cuidar. Una dependencia instalada sin usar es una invitación a alcanzarla.
 
-Hosting: Vercel en desarrollo; Cloudflare Workers es el destino probable de producción
-(decisión abierta hasta octubre). Hostinger quedó descartado como hosting — solo se contempla
-como registrador de dominio.
+**Decisión vigente de Dan, 12/10/2026:** continuar en Vercel durante el semestre y
+pausar la migración. Un hosting comercial se reconsiderará si la dueña lo solicita.
+PR #95 (evaluación Cloudflare/Netlify) queda abierto, intacto y en borrador; no fusionarlo
+ni ejecutar nuevas pruebas de alojamiento por este plan. La conclusión Cloudflare fue
+negativa y Netlify local no quedó aprobado; su resultado no prueba incompatibilidad remota.
+La antigua previsión de Workers deja de ser el destino aprobado o probable.
+
+**SEO con dominio propio:** `https://www.panaderiapimpos.com/` está operativo. Auditoría
+pública del 12/10: 44 URLs, todas 200/canónica/h1 coherentes, robots/sitemap/OG correctos.
+No confundir con indexación Google: no se consultó Search Console. Dan confirma que las
+altas de Search Console y Perfil de Empresa aún no existen y usaremos la cuenta del negocio.
+Plan: `DOC/Plan SEO - Dominio e indexacion.md`; evidencia pública sanitizada en
+`DOC/Evidencias SEO/auditoria-dominio-2026-10-12.json`. Guiar T1 Search Console → T2 Maps →
+T3 SEO técnico → T4 contenido → T5 Bing/IA → T6 medición. Ninguna funcionalidad cambia.
+DNS activos: nova/cosmos.dns-parking.com; confirmar editor de esa zona antes de añadir
+solo el TXT real de Google. No cambiar nameservers ni registros de web/correo; no pedir
+contraseñas o publicar tokens. T1 cierra con propiedad verificada/sitemap/inspecciones,
+no con promesa de indexación. Este PR solo documenta el plan; las altas y T3 no se han hecho.
 
 Si TypeScript 7 rompe algún plugin del ecosistema, la salida acordada es fijar `typescript@5.9`
 **solo en devDependencies**, nunca cambiar el código de la aplicación por eso.
@@ -1266,8 +1281,9 @@ La verificación transversal vigente se registra en `DOC/Verificacion rediseño 
 T7 implementada y verificada localmente: 496 unitarias, 605 E2E aprobadas y 105 omisiones
 previstas (710 casos conciliados), 70 plantillas y 497 capturas. Revisión fresca concluida;
 I1 de atribución incorrecta de marca en Product corregido con RED→GREEN y suite completa.
-PR #94 borrador abierto y vista previa Vercel revisada; checks vigentes en el PR.
-Pendiente revisión/fusión de Dan. Teclado virtual de teléfono físico no certificado;
+PR #94 fusionado por Dan; main `2e7cfa8`, con vista previa Vercel revisada.
+La migración de alojamiento y el nuevo plan SEO son trabajos posteriores separados.
+Teclado virtual de teléfono físico no certificado;
 F7 de capacitación/manual/informe/credenciales permanece separado.
 
 En PR #93 Dan pidió y aprobó dos ajustes:

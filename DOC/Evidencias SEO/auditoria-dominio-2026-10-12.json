@@ -1,0 +1,275 @@
+{
+  "fecha": "2026-10-12",
+  "dominio": "https://www.panaderiapimpos.com",
+  "metodo": "HTTP publico, HTML descargado y DNS; no cuenta Search Console ni panel administrativo",
+  "sitemap": {
+    "declaradas": 44,
+    "unicas": 44,
+    "urls_200": 44,
+    "canonica_coherente": 44,
+    "h1_unico": 44,
+    "noindex_publicas": 0
+  },
+  "productos": {
+    "fichas": 34,
+    "description_schema_presente": 0
+  },
+  "robots": {
+    "sitemap": "https://www.panaderiapimpos.com/sitemap.xml",
+    "publico_permitido": true,
+    "disallow": ["/admin", "/ingresar"]
+  },
+  "login": {
+    "noindex": true,
+    "nofollow": true
+  },
+  "redirects": {
+    "apex_https_a_www": 308,
+    "http_www_a_https_www": 308,
+    "dominio_vercel_anterior": {
+      "http": 200,
+      "canonical": "https://www.panaderiapimpos.com",
+      "redirect": false
+    }
+  },
+  "og": {
+    "http": 200,
+    "png_valido": true,
+    "bytes": 85641,
+    "ancho_declarado": 1200,
+    "alto_declarado": 630
+  },
+  "dns_ns": ["nova.dns-parking.com", "cosmos.dns-parking.com"],
+  "bots_user_agent_simulado": {
+    "Googlebot": 200,
+    "bingbot": 200,
+    "OAI-SearchBot": 200,
+    "limite": "No comprueba acceso desde IP reales ni indexacion"
+  },
+  "estado_google": "Sin inspeccion de Search Console; indexacion no verificada",
+  "cuentas": "Dan confirma Google del negocio; altas todavia no realizadas",
+  "urls": [
+    {
+      "url": "https://www.panaderiapimpos.com/",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/novedades",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/novedades"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/nosotros",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/nosotros"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/galeria",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/galeria"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/ubicacion",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/ubicacion"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/preguntas-frecuentes",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/preguntas-frecuentes"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/contacto",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/contacto"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/frances-chico",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/frances-chico"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/leche",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/leche"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cerveza",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/cerveza"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-chico",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bico-chico"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/maiz",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/maiz"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-chica",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hamburguesa-chica"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-suave",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hamburguesa-suave"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hot-dog-chico",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hot-dog-chico"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bizcocho-chico",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bizcocho-chico"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bizcocho-grande",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bizcocho-grande"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/carioco",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/carioco"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/ciabatta",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/ciabatta"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-grande",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bico-grande"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-al-ajo",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/pan-al-ajo"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-grande",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hamburguesa-grande"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hamburguesa-grande-ajonjoli",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hamburguesa-grande-ajonjoli"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/hot-dog-grande-ajonjoli",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/hot-dog-grande-ajonjoli"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde-integral",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/pan-molde-integral"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bico-integral",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bico-integral"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/bolitas-integral",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/bolitas-integral"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/tostada-integral",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/tostada-integral"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/tostada-blanca",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/tostada-blanca"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/rosca",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/rosca"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cartera",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/cartera"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/roscas-blancas-de-almidon",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/roscas-blancas-de-almidon"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/paneton",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/paneton"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pate",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/pate"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/arroz-1kg",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/arroz-1kg"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/pan-molde",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/pan-molde"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/lentejas",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/lentejas"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/harina-de-platano",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/harina-de-platano"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/upe",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/upe"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/cereales",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/cereales"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/productos/arvejas",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/productos/arvejas"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/novedades/pack-de-6-donuts",
+      "status": 200,
+      "canonical": ["https://www.panaderiapimpos.com/novedades/pack-de-6-donuts"]
+    },
+    {
+      "url": "https://www.panaderiapimpos.com/novedades/se-busca-personal-de-atencion-al-cliente",
+      "status": 200,
+      "canonical": [
+        "https://www.panaderiapimpos.com/novedades/se-busca-personal-de-atencion-al-cliente"
+      ]
+    }
+  ]
+}
