@@ -187,17 +187,49 @@ test("el enlace al catálogo dice cuántos precios hay, sin escribirlo a mano", 
   // o equivocado, nunca coincidiria y seguiria fallando hasta agotar el
   // presupuesto, no se cuela por una carrera de otra prueba.
   await expect(async () => {
-    await page.goto("/productos");
+    const respuestaCatalogo = await page.goto("/productos");
     const total = Number.parseInt((await page.getByRole("status").textContent()) ?? "", 10);
 
-    await page.goto("/");
+    const respuestaPortada = await page.goto("/");
     const bloque = page.getByRole("region", { name: "Lo que horneamos hoy" });
     // Timeout corto en esta comprobacion interna: si el numero esta mal de
     // verdad, cada intento falla rapido y `toPass` alcanza a reintentar
     // varias veces dentro de su propio presupuesto en vez de agotarlo en el
     // primer intento.
-    await expect(bloque.getByRole("link", { name: `Ver los ${total} precios` })).toBeVisible({
-      timeout: 2_000,
-    });
+    try {
+      await expect(bloque.getByRole("link", { name: `Ver los ${total} precios` })).toBeVisible({
+        timeout: 2_000,
+      });
+    } catch (error) {
+      try {
+        // Conservar lo observado en esta pasada, sin volver a navegar y alterar
+        // el estado que causó la diferencia. No cambia la aserción ni sus tiempos.
+        const enlaces = await bloque.getByRole("link").allTextContents();
+        const cabecerasCache = (cabeceras: Record<string, string>) =>
+          Object.fromEntries(
+            ["x-nextjs-cache", "x-nextjs-prerender", "x-nextjs-stale-time", "cache-control"]
+              .filter((nombre) => nombre in cabeceras)
+              .map((nombre) => [nombre, cabeceras[nombre]]),
+          );
+        await test.info().attach("contadores-catalogo-portada", {
+          contentType: "application/json",
+          body: JSON.stringify({
+            totalCatalogo: total,
+            enlacesPortada: enlaces.map((enlace) => enlace.trim()),
+            catalogo: {
+              http: respuestaCatalogo?.status(),
+              cache: cabecerasCache(respuestaCatalogo?.headers() ?? {}),
+            },
+            portada: {
+              http: respuestaPortada?.status(),
+              cache: cabecerasCache(respuestaPortada?.headers() ?? {}),
+            },
+          }),
+        });
+      } catch {
+        // Un fallo del diagnóstico no debe sustituir la aserción original.
+      }
+      throw error;
+    }
   }).toPass({ timeout: 15_000 });
 });

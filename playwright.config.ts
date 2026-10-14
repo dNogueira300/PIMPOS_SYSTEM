@@ -14,7 +14,15 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? "github" : "list",
+  // Anotaciones en GitHub y un informe descargable incluso si un reintento pasa.
+  // El reporter github por sí solo no crea playwright-report/.
+  reporter: process.env.CI
+    ? [
+        ["github"],
+        ["html", { open: "never" }],
+        ["json", { outputFile: "test-results/resumen.json" }],
+      ]
+    : "list",
 
   // Margen amplio a proposito: el ingreso pasa por Supabase local en Docker, y
   // los 5 s que espera Playwright por defecto se quedan cortos en un arranque

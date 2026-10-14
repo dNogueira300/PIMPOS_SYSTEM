@@ -1,6 +1,6 @@
 # Avance del proyecto — Panadería Pimpo's
 
-**Corte:** 13/10/2026 (PR #96/#97 fusionados; SEO técnico comprobado en producción; cinco descripciones publicadas y comprobadas; migración pausada)
+**Corte:** 14/10/2026 (PR #99 fusionado; diagnóstico de E2E en main pendiente; migración pausada)
 **Repositorio:** https://github.com/dNogueira300/PIMPOS_SYSTEM
 **Producción:** proyecto Supabase `pimpos-produccion` (región São Paulo)
 **Sitio desplegado:** https://www.panaderiapimpos.com/ — dominio preferido, operativo en Vercel
@@ -30,6 +30,13 @@ el 13/10/2026; texto visible, meta/OG y Product coinciden. Precios, imágenes, c
 presentaciones y estados se conservaron. Evidencia en `Evidencias SEO/contenido-publicado-2026-10-13.json`.
 Quedan 29 fichas por confirmar/redactar; el siguiente paso guiado es Bing. Maps y lectura
 de cobertura/indexación en Search Console sigue pendiente; el sitemap ya está Correcto. No hubo cambios funcionales ni escritura por SQL/API alternativa.
+
+**CI tras fusionar PR #99:** main `cf49231`, ejecución `38475537335`: contador de
+portada fallido; publicación de producto pasó al reintentarse. Se investiga antes de
+continuar con Bing. El CI no conservaba evidencia porque pedía HTML sin generarlo.
+La rama de diagnóstico conserva informes/trazas y captura ambos contadores sin cambiar
+funcionalidad ni relajar las comprobaciones. Las reproducciones locales no cierran el
+fallo remoto; detalle en `Diagnostico CI catalogo.md`.
 
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con

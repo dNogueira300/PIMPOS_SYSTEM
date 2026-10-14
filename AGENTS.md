@@ -1393,7 +1393,8 @@ Maps: ficha existente; reclamación iniciada, número inaccesible, Google ofrece
 de la web por el número antiguo de esa ficha; no crear otra ficha ni inventar verificaciones.
 
 Dan fusionó PR #96 y #97 el 13/10/2026; después #98, main `68628ed`. Se reutiliza el
-checkout aislado `PIMPOS_REDISENO_BLOQUE1`, ahora en `fix/favicon-descubrimiento` desde ese main.
+checkout aislado `PIMPOS_REDISENO_BLOQUE1`. PR #99 fusionado el 13/10, main `cf49231`;
+la rama actual es `fix/ci-catalogo-evidencia`, para investigar el E2E fallido tras integrar.
 T3a/T3b desplegadas y comprobadas en producción: título local absoluto, foto Bakery
 separada de logo, prefijo +51 solo para celular peruano claro, Offer real en PEN solo
 para una presentación con precio finito no negativo. Múltiples presentaciones siguen
@@ -1422,7 +1423,18 @@ indexación de todo el catálogo. PR #95 de hosting continúa pausado. No hubo e
 rectangular antiguo. PNG cuadrado 96 × 96 preparado desde el personaje del logo aprobado
 y publicado mediante configuración existente; bytes idénticos, HTTP 200, Bakery/canónica
 conservados. No dar por actualizada la caché de Google. Reserva local PNG y Apple 180 × 180
-en esta rama, pendientes de despliegue. Ver `DOC/SEO - Favicon y descubrimiento.md`.
-Dan probó ChatGPT sin búsqueda web: repetir con búsqueda activada; no se deduce bloqueo.
+integradas en PR #99; queda verificar el Apple icon desplegado. Ver
+`DOC/SEO - Favicon y descubrimiento.md`. Dan también probó con búsqueda web: no hubo
+descubrimiento por nombre, pero confirmó que ChatGPT puede leer la URL directa.
+No se deduce bloqueo de acceso ni se repite la prueba ya realizada.
 Robots y HTTP simulando agentes permiten público y conservan exclusiones; no certifican
 IP/rastreo real. No cambiar firewall/robots/entrenamiento sin un bloqueo demostrado.
+
+**CI tras PR #99, 14/10/2026:** el run de main `38475537335` falló en el contador
+de pizarra; publicación de producto pasó al reintentarse. No confundir ambas conclusiones.
+No había artefactos: el reporter github no generaba el HTML que intentaba subir el workflow.
+Se preparan HTML/JSON, conservación de test-results y attachment público de los contadores
+sin cambiar aserciones ni tiempos. Reproducción dirigida: 6/6; tanda ampliada: 94/96, con
+un fallo visual sobre un producto temporal ajeno y un timeout de publicación. Son datos
+locales, no un cierre de CI. Ver `DOC/Diagnostico CI catalogo.md`; causa y corrección pendientes
+de evidencia del runner Linux. No modificar funcionalidad, producción ni migraciones.
