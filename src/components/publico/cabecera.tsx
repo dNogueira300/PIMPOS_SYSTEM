@@ -40,9 +40,9 @@ const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as co
 export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp }: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
-  // El logo principal es el aprobado/configurado. Un dibujo administrado
-  // conserva su efecto en la cabecera, sin recuperar el SVG anterior por defecto.
-  const isotipoPersonalizado = isotipo !== "/marca/isotipo.svg";
+  // El dibujo administrado reemplaza la marca compacta; no se añade como
+  // segunda insignia. Sin uno personalizado se usa el logo principal aprobado.
+  const imagenCabecera = isotipo !== "/marca/isotipo.svg" ? isotipo : logoSrc;
 
   return (
     // Fondo crema sólido de la dirección A. Fondo SÓLIDO: el
@@ -57,19 +57,12 @@ export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp 
           aria-label={`${logoAlt}, ir al inicio`}
         >
           <span className="flex items-center gap-2 sm:gap-3">
-            <span className="relative flex h-12 w-[72px] shrink-0 items-center">
-              <LogoMarca
-                src={logoSrc}
-                alt=""
-                sizes="72px"
-                className={`h-12 object-contain ${isotipoPersonalizado ? "w-12" : "w-[72px]"}`}
-              />
-              {isotipoPersonalizado ? (
-                <span className="bg-primary absolute top-1/2 right-0 grid size-6 -translate-y-1/2 place-items-center rounded-sm">
-                  <LogoMarca src={isotipo} alt="" sizes="20px" className="size-5 object-contain" />
-                </span>
-              ) : null}
-            </span>
+            <LogoMarca
+              src={imagenCabecera}
+              alt=""
+              sizes="72px"
+              className="h-12 w-[72px] shrink-0 object-contain"
+            />
             <span className="flex flex-col">
               <span className="font-heading text-primary text-xl leading-none font-semibold sm:text-2xl">
                 {nombre}

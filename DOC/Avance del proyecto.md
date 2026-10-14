@@ -38,6 +38,16 @@ La rama de diagnóstico conserva informes/trazas y captura ambos contadores sin 
 funcionalidad ni relajar las comprobaciones. Las reproducciones locales no cierran el
 fallo remoto; detalle en `Diagnostico CI catalogo.md`.
 
+**Marca pública, 14/10/2026:** PR #100 fusionado (`ffbe514`), CI verde con 605 E2E y
+ningún reintento. Dan señala dos logos de cabecera y favicon azul en Google. Cabecera
+corregida en rama `fix/marca-publica-unificada`: un solo dibujo administrado, con logo
+principal como reserva; acceso/panel/pie conservan el logo completo. `/favicon.ico`
+publicado aún tenía azul: se prepara la versión crema y la ruta SVG compatible sin
+alterar los PNG/Apple aprobados. Isotipo y favicon PNG se publicaron por el panel y se
+verificó el enlace del favicon en una visita pública. La cabecera única y los archivos
+compatibles requieren desplegar el PR; Google debe volver a rastrear y no se promete plazo.
+Evidencia en `Evidencias SEO/marca-publica-2026-10-14.json`.
+
 **Actualización de interfaz, 08/10/2026:** dirección A de 03.2 aprobada; primer bloque
 (identidad, acceso y estructura del panel) implementado en `feat/rediseno-acceso-panel`, con
 verificación local aprobada y PR #90 fusionado por Dan el 08/10. Login de vista previa Vercel revisado;

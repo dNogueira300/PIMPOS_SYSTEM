@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-10-14",
+  "sitio": "https://www.panaderiapimpos.com/",
+  "favicon_publicado": {
+    "url": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/marca/favicon/1ed453d4-0505-4c74-8f2b-bc64eb11c403.png",
+    "formato": "PNG",
+    "dimensiones": [96, 96],
+    "sha256": "fd92d3f8a35d45ce2a1a2f01c4b2711fa1173eb5541c80aec71349b23a1c0331",
+    "identico_al_png_aprobado": true
+  },
+  "isotipo_publicado": "https://syppvyerzkqkadcnrwov.supabase.co/storage/v1/object/public/marca/isotipo/ff4a5feb-6d19-481f-aeef-8420c0046e27.webp",
+  "logo_completo_conservado": "/marca/logo.webp",
+  "cabecera_actual_publica": "dos imágenes; corrección de una imagen pendiente de desplegar",
+  "compatibilidad_actual_publica": {
+    "favicon_ico": "icono azul 64x64 verificado antes del ajuste; reemplazo crema pendiente de desplegar"
+  },
+  "google": "apariencia del resultado comunicada por Dan; no se certifica nuevo rastreo ni selección de icono por Google",
+  "publicacion": "campos isotipo_url y favicon_url mediante panel existente; sin escritura directa SQL/API"
+}

@@ -38,7 +38,24 @@ async function preparar() {
       .png()
       .toFile(path.join(output, file));
   }
-  console.log("Favicon PNG 96 × 96 y Apple 180 × 180 preparados desde el logo aprobado.");
+  // Compatibilidad con navegadores y rastreadores que conservan estas rutas.
+  // ICO contiene el mismo PNG aprobado, sin redibujar ni cambiar sus píxeles.
+  const png = fs.readFileSync(path.join(output, "favicon.png"));
+  const ico = Buffer.alloc(22);
+  ico.writeUInt16LE(1, 2); // ICONDIR: icono.
+  ico.writeUInt16LE(1, 4); // Una imagen.
+  ico[6] = 96;
+  ico[7] = 96;
+  ico.writeUInt16LE(1, 10); // Planos.
+  ico.writeUInt16LE(32, 12); // RGBA.
+  ico.writeUInt32LE(png.length, 14);
+  ico.writeUInt32LE(22, 18);
+  fs.writeFileSync(path.resolve("public/favicon.ico"), Buffer.concat([ico, png]));
+  fs.writeFileSync(
+    path.join(output, "favicon.svg"),
+    `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><image width="96" height="96" href="data:image/png;base64,${png.toString("base64")}"/></svg>\n`,
+  );
+  console.log("Favicon PNG/ICO/SVG y Apple preparados desde el logo aprobado.");
 }
 
 preparar().catch((error) => {
