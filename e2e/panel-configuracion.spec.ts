@@ -238,9 +238,17 @@ test("guardar la marca actualiza el logo y conserva el dibujo configurado sin re
       .toBeGreaterThan(0);
     const publica = await visitante.newPage();
     await publica.goto(new URL("/", page.url()).href);
+    const dibujoPrevio = typeof isotipoAntes.valor === "string" ? isotipoAntes.valor : "";
+    const urlDibujoPrevio = /^(https?:\/\/|\/)/.test(dibujoPrevio)
+      ? dibujoPrevio
+      : `${supabaseLocal().apiUrl}/storage/v1/object/public/marca/${dibujoPrevio}`;
     for (const region of ["banner", "contentinfo"] as const) {
       const marcaPublica = publica.getByRole(region).locator("img").first();
-      await expect(marcaPublica).toHaveAttribute("src", src);
+      const esperado =
+        region === "banner" && dibujoPrevio && dibujoPrevio !== "/marca/isotipo.svg"
+          ? urlDibujoPrevio
+          : src;
+      await expect(marcaPublica).toHaveAttribute("src", esperado);
       await expect
         .poll(() => marcaPublica.evaluate((img: HTMLImageElement) => img.naturalWidth))
         .toBeGreaterThan(0);
@@ -259,8 +267,15 @@ test("guardar la marca actualiza el logo y conserva el dibujo configurado sin re
     await expect(page.getByText(/Guardado/).first()).toBeVisible();
     await publica.reload();
     const cabecera = publica.getByRole("banner");
-    // Los dos campos siguen administrándose de forma independiente.
-    await expect(cabecera.locator("img").first()).toHaveAttribute("src", src);
+    // El dibujo configurado ocupa la única marca de cabecera: no se suma
+    // como una segunda insignia junto al logo completo. Pie, panel y login
+    // conservan el logo completo administrado de forma independiente.
+    await expect(cabecera.locator("img")).toHaveCount(1);
+    await expect(cabecera.locator("img")).toHaveAttribute("src", srcIsotipo);
+    await expect(publica.getByRole("contentinfo").locator("img").first()).toHaveAttribute(
+      "src",
+      src,
+    );
     const isotipoPublicado = cabecera.locator(`img[src="${srcIsotipo}"]`);
     await expect(isotipoPublicado).toBeVisible();
     await expect

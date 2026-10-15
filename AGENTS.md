@@ -1438,3 +1438,18 @@ sin cambiar aserciones ni tiempos. Reproducción dirigida: 6/6; tanda ampliada: 
 un fallo visual sobre un producto temporal ajeno y un timeout de publicación. Son datos
 locales, no un cierre de CI. Ver `DOC/Diagnostico CI catalogo.md`; causa y corrección pendientes
 de evidencia del runner Linux. No modificar funcionalidad, producción ni migraciones.
+
+**Marca pública, 14/10/2026, después de PR #100 fusionado (`ffbe514`):** el CI de
+PR #100 aprobó 605 E2E, 109 omisiones, cero intermitentes/reintentos; la causa de la
+intermitencia anterior sigue sin probarse. Dan informa dos logos en cabecera y azul en Google.
+La cabecera renderizaba logo completo más una insignia del isotipo personalizado;
+la corrección muestra solo el isotipo configurado o el logo principal de reserva,
+conservando la administración de ambos campos. Pie, acceso y panel mantienen logo completo.
+El `/favicon.ico` público aún era azul `#12306E`, aunque la vista previa de configuración
+se veía sobre crema (SVG transparente). Se preparan ICO y SVG compatibles con los píxeles
+del PNG crema aprobado. El PNG/Apple existentes no cambian. Por UI se actualizó isotipo
+al derivado del logo aprobado y favicon al PNG 96×96, verificado públicamente con bytes
+idénticos. Google requiere nuevo rastreo; no se promete apariencia inmediata ni se atribuye
+su selección anterior a una causa no demostrada. Evidencia:
+`DOC/Evidencias SEO/marca-publica-2026-10-14.json`. Rama `fix/marca-publica-unificada`;
+la eliminación de la segunda imagen y los archivos compatibles requieren despliegue.
