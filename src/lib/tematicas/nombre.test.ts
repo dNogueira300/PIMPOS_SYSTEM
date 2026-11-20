@@ -33,13 +33,15 @@ describe("el aviso de dos temáticas alternativas", () => {
       avisoDeAlternativa("halloween", "Halloween", "cancion-criolla", "Día de la Canción Criolla"),
     ).toBe(
       "Halloween y el Día de la Canción Criolla son para la misma fiesta: solo una puede estar " +
-        "encendida. La otra déjala «Apagada»; seguirá apagada aunque le cambies las fechas.",
+        "encendida. La otra déjala «Apagada»: seguirá apagada aunque le cambies las fechas, hasta el " +
+        "día que termina. Cada año, al poner las fechas nuevas, vuelve a elegir «Apagada».",
     );
     expect(
       avisoDeAlternativa("cancion-criolla", "Día de la Canción Criolla", "halloween", "Halloween"),
     ).toBe(
       "El Día de la Canción Criolla y Halloween son para la misma fiesta: solo una puede estar " +
-        "encendida. La otra déjala «Apagada»; seguirá apagada aunque le cambies las fechas.",
+        "encendida. La otra déjala «Apagada»: seguirá apagada aunque le cambies las fechas, hasta el " +
+        "día que termina. Cada año, al poner las fechas nuevas, vuelve a elegir «Apagada».",
     );
   });
 });

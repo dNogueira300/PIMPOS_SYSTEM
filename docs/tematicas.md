@@ -61,8 +61,10 @@ Canción Criolla «Apagada».
 - **Para celebrar la Canción Criolla en lugar de Halloween:** primero pon Halloween en **«Apagada»** y
   guarda; después pon la Canción Criolla en **«Según fechas»** y guarda. Si lo haces al revés, el panel
   avisa: «Las dos son para la misma fiesta: deja una de las dos «Apagada»».
-- **Cada año:** pon las fechas nuevas a las dos. La que no se celebra **sigue «Apagada»** aunque le
-  cambies las fechas; vale hasta el día que terminan.
+- **Mientras dura la campaña,** la que está «Apagada» sigue apagada aunque le cambies las fechas.
+- **Cada año:** la «Apagada» del año pasado ya venció (el panel la enseña en «Según fechas»). Pon
+  primero las fechas nuevas a la que **no** se celebra y elige **otra vez «Apagada»**; después, las
+  mismas fechas a la que sí se celebra, en «Según fechas».
 
 El Día de la Madre viene puesto del 3 al 10 de mayo de 2027, con la fiesta el domingo 9 (en Perú es el
 segundo domingo de mayo). **Dos temáticas no pueden cruzarse**: si las fechas se pisan, al guardar sale

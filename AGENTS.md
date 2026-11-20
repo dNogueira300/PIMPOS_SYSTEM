@@ -250,7 +250,8 @@ todas en `docs/tematicas.md`.
   sus propias fechas (`docs/tematicas.md`).
 - **Halloween y el Día de la Canción Criolla** (0050) son **alternativas** para el 31 de octubre
   (25/10–01/11/2027): comparten fechas y solo una puede estar encendida (la otra, «Apagada», que sigue
-  apagada aunque le cambien las fechas). Halloween tiene dos estilos, `calabaza-noche` (puesto:
+  apagada aunque le cambien las fechas mientras no termine su campaña; al año siguiente ya venció y
+  hay que volver a elegir «Apagada»). Halloween tiene dos estilos, `calabaza-noche` (puesto:
   telarañas, esqueletito que saluda, calabaza, arañita y murciélagos) y `calabaza-crema` (banderines de
   papel, telaraña y arañita), con los adornos distintos en cada estilo, colgados de los `span` de
   `.adornos-tematica`; «Halloween» del título va en `#c2560f` (`--caligrafia-titulo`, texto grande).
