@@ -1,3 +1,5 @@
+import { nombreConDe } from "@/lib/tematicas/nombre";
+
 /**
  * La cinta de mensajes de la temática (plan 08, T4), bajo la franja de la
  * portada. Se desliza en bucle con dos copias de la lista; la segunda va con
@@ -5,7 +7,15 @@
  * movimiento» se queda quieta, envuelve en varias líneas y la copia no sale
  * (ver `.cinta-tematica` en tematicas.css).
  */
-export function CintaTematica({ mensajes, nombre }: { mensajes: string[]; nombre: string }) {
+export function CintaTematica({
+  mensajes,
+  nombre,
+  slug,
+}: {
+  mensajes: string[];
+  nombre: string;
+  slug: string;
+}) {
   if (mensajes.length === 0) return null;
   // Con pocos mensajes, una copia no llena el ancho de una pantalla grande y el
   // bucle dejaría un hueco: se repiten hasta tener al menos seis.
@@ -13,7 +23,11 @@ export function CintaTematica({ mensajes, nombre }: { mensajes: string[]; nombre
   const lista = Array.from({ length: repeticiones }, () => mensajes).flat();
 
   return (
-    <section aria-label={`Mensajes de ${nombre}`} className="cinta-tematica" data-cinta-tematica>
+    <section
+      aria-label={`Mensajes ${nombreConDe(slug, nombre)}`}
+      className="cinta-tematica"
+      data-cinta-tematica
+    >
       <div className="cinta-tematica__pista">
         <ul>
           {mensajes.map((m, i) => (

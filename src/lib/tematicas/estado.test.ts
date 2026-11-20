@@ -75,4 +75,13 @@ describe("avisoSoloTemporada", () => {
       ]),
     ).toBe("Solo se vende en Navidad y Año Nuevo · hoy se ve en el sitio");
   });
+
+  it("con el nombre ya en frase, dice bien una fiesta con artículo", () => {
+    expect(
+      avisoSoloTemporada([
+        { nombre: "Navidad", activa: false },
+        { nombre: "el Día de la Madre", activa: true },
+      ]),
+    ).toBe("Solo se vende en Navidad y el Día de la Madre · hoy se ve en el sitio");
+  });
 });

@@ -1,10 +1,16 @@
-import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Browser, type Page } from "@playwright/test";
 
 import { sqlLocal } from "./ayudas/base";
 import { conCerrojo } from "./ayudas/cerrojo";
 import { entrarComo } from "./ayudas/sesion";
-import { apartarLasDemas } from "./ayudas/tematicas";
+import {
+  apartarLasDemas,
+  axeEnRutas,
+  dia,
+  exigirCeroAxe,
+  listarAdornosVisibles,
+  listarAnimados,
+} from "./ayudas/tematicas";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 /**
@@ -16,55 +22,6 @@ import { borrarUsuario } from "./ayudas/usuarios";
  * (ver playwright.config.ts). Se enciende desde el panel y no por SQL: el sitio
  * está en caché y solo el «Guardar» del panel la refresca.
  */
-
-const DIA_MS = 24 * 60 * 60 * 1000;
-/** «2026-11-25»: hoy en Iquitos más `dias`. */
-function dia(dias: number): string {
-  return new Date(Date.now() - 5 * 60 * 60 * 1000 + dias * DIA_MS).toISOString().slice(0, 10);
-}
-
-/** Las páginas públicas de `accesibilidad.spec.ts`: el estilo cambia el color de todas. */
-const RUTAS = [
-  "/",
-  "/productos",
-  "/productos/leche",
-  "/productos/frances-chico",
-  "/novedades",
-  "/nosotros",
-  "/galeria",
-  "/ubicacion",
-  "/preguntas-frecuentes",
-  "/contacto",
-  "/esto-no-existe",
-];
-
-const NORMAS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
-const SIN_ANIMACION = "*,*::before,*::after{animation:none!important;transition:none!important}";
-
-async function exigirCeroAxe(page: Page, donde: string) {
-  await page.addStyleTag({ content: SIN_ANIMACION });
-  const { violations } = await new AxeBuilder({ page }).withTags(NORMAS).analyze();
-  const fallos = violations.map(
-    (v) =>
-      `[${v.id}] ${v.help}: ${v.nodes
-        .slice(0, 3)
-        .map((n) => String(n.target))
-        .join(", ")}`,
-  );
-  expect(fallos, `axe en ${donde}:\n${fallos.join("\n")}`).toEqual([]);
-}
-
-/** axe en todas las páginas públicas con la temática puesta. */
-async function axeEnRutas(page: Page, donde: string) {
-  for (const ruta of RUTAS) {
-    await page.goto(ruta);
-    if (ruta === "/ubicacion") {
-      // El mapa llega en diferido: sin esperarlo, sus controles quedarían sin mirar.
-      await expect(page.locator(".leaflet-control-zoom-in")).toBeVisible({ timeout: 20_000 });
-    }
-    await exigirCeroAxe(page, `${ruta} ${donde}`);
-  }
-}
 
 async function axeEnEscritorio(browser: Browser, estilo: string) {
   const contexto = await browser.newContext({ viewport: { width: 1280, height: 800 } });
@@ -83,8 +40,8 @@ async function axeEnEscritorio(browser: Browser, estilo: string) {
 }
 
 /*
- * Las tres funciones que siguen corren DENTRO del navegador (`page.evaluate`):
- * no pueden usar nada de fuera de su cuerpo.
+ * La función que sigue corre DENTRO del navegador (`page.evaluate`): no puede
+ * usar nada de fuera de su cuerpo.
  */
 
 /** Cómo se mueve cada adorno de Navidad, y si estorba. */
@@ -139,42 +96,6 @@ function leerAdornos() {
   };
 }
 
-/** Todo lo que se está animando en la página, seudoelementos incluidos. */
-function listarAnimados() {
-  const animados: string[] = [];
-  for (const el of document.querySelectorAll("*")) {
-    for (const seudo of [undefined, "::before", "::after"]) {
-      const nombre = getComputedStyle(el, seudo).animationName;
-      if (nombre !== "none") {
-        animados.push(`${el.tagName.toLowerCase()}.${el.className}${seudo ?? ""}: ${nombre}`);
-      }
-    }
-  }
-  return animados;
-}
-
-/** Los adornos de la temática que se ven (sirve para comprobar la impresión). */
-function listarAdornosVisibles() {
-  const envoltura = document.querySelector("[data-tematica]");
-  const cabecera = document.querySelector("[data-tematica] header");
-  if (!envoltura || !cabecera) throw new Error("No hay temática puesta");
-  const piezas: [string, Element, string | undefined][] = [
-    ["nieve", envoltura, "::before"],
-    ["copos", envoltura, "::after"],
-    ["luces", cabecera, "::before"],
-    ["cable", cabecera, "::after"],
-    ...[...cabecera.querySelectorAll(".adornos-tematica")].map(
-      (el): [string, Element, undefined] => ["bolas y luces", el, undefined],
-    ),
-  ];
-  return piezas
-    .filter(([, el, seudo]) => {
-      const estilo = getComputedStyle(el, seudo);
-      return estilo.display !== "none" && estilo.content !== "none";
-    })
-    .map(([nombre]) => nombre);
-}
-
 /** Abre la temática en el panel, aplica `cambiar` y guarda. */
 async function guardarNavidad(page: Page, cambiar: () => Promise<void>) {
   await page.goto("/admin/contenido/tematicas/navidad");
@@ -190,7 +111,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
   // Antes del cerrojo: su espera máxima sale del tiempo de la prueba.
   test.setTimeout(240_000);
   // Las dos pruebas que encienden Navidad escriben la misma fila: una a la vez.
-  await conCerrojo("tematica-navidad", async () => {
+  await conCerrojo("tematicas", async () => {
     const slug = `paneton-e2e-${Date.now()}`;
     const nombre = `Panetón E2E ${slug.slice(-6)}`;
     // Lo de fábrica que se toca, para dejarlo como estaba.

@@ -230,8 +230,10 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   antes que el código: `select payload->>'action', count(*) from auth.audit_log_entries group by 1`.
   De antes de ese día no hay ingresos anotados.
 
-**Temáticas de temporada (plan 08)** (20/11/2026). Spec, plan y «Lo que resultó distinto» en
-`DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`; manual para el negocio en `docs/tematicas.md`.
+**Temáticas de temporada (plan 08 y 08.1)** (20/11/2026). Navidad (plan 08): spec, plan y «Lo que
+resultó distinto» en `DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`. El Día de la Madre (plan
+08.1): lo mismo en `DOC/Plan de Desarrollo 08.1 - Día de la Madre.md`. Manual para el negocio de las
+dos en `docs/tematicas.md`.
 
 - **Qué hay:** Navidad, con fechas (1–26/12/2026 de fábrica) y encendido a mano que caduca en la fecha
   de fin (0047); dos estilos, `noche` (puesto) y `crema` (0048, decisión de Dan del 20/11/2026); la
@@ -241,6 +243,10 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   (el único elemento que la temática añade al HTML, `.adornos-tematica`, en `Cabecera`), nieve con
   copos grandes, el texto de campaña en la barra, la cinta y la sección de
   temporada en la portada. **Sin temática activa el HTML no cambia.**
+- **El Día de la Madre** (0049): 3–10/05/2027, fiesta el 9; dos estilos, `rosa-crema` (puesto) y
+  `rosa`, con banderines bajo la cabecera, corazones que suben y un festón en la sección; sin productos.
+  No se puede encender a mano antes de que pase Navidad (se cruzarían): para enseñarlo antes, se cambian
+  sus propias fechas (`docs/tematicas.md`).
 - **Una temática nueva** es una migración (amplía `tematicas_slug_conocido` y la restricción de pares
   `tematicas_estilo_de_su_tematica`, y siembra la fila sin auditar, como 0049), su entrada en
   `src/lib/tematicas/disenos.ts` (sus estilos, con nombre y ayuda, y su artículo) y su CSS en

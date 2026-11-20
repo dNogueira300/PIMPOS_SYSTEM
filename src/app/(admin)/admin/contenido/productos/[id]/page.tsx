@@ -6,6 +6,7 @@ import { EnlaceHistorial } from "@/components/panel/enlace-historial";
 import { exigirAcceso } from "@/lib/auth/sesion";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { avisoSoloTemporada } from "@/lib/tematicas/estado";
+import { nombreEnFrase } from "@/lib/tematicas/nombre";
 
 import { FormularioProducto } from "../formulario-producto";
 
@@ -43,7 +44,7 @@ async function Editor({ params }: { params: Params }) {
       // (plan 08): la ficha avisa de si hoy se ve en el sitio.
       supabase
         .from("tematica_productos")
-        .select("tematica_id, tematicas(nombre)")
+        .select("tematica_id, tematicas(nombre, slug)")
         .eq("producto_id", id)
         .eq("solo_temporada", true),
       supabase.from("tematicas_panel").select("id").eq("activa", true).maybeSingle(),
@@ -73,7 +74,7 @@ async function Editor({ params }: { params: Params }) {
 
   const aviso = avisoSoloTemporada(
     (temporadas ?? []).map((t) => ({
-      nombre: t.tematicas?.nombre ?? "una temática",
+      nombre: t.tematicas ? nombreEnFrase(t.tematicas.slug, t.tematicas.nombre) : "una temática",
       activa: t.tematica_id === activa?.id,
     })),
   );

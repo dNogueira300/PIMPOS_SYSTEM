@@ -15,9 +15,9 @@ const TEMATICAS = readFileSync(join(process.cwd(), "src/estilos/tematicas.css"),
 const GLOBALES = readFileSync(join(process.cwd(), "src/estilos/globals.css"), "utf8");
 
 /** Los tokens hex del bloque de un estilo (el primero que lo nombra). */
-function tokensDe(estilo: string): Record<string, string> {
-  const inicio = TEMATICAS.indexOf(`[data-tematica="navidad"][data-estilo="${estilo}"] {`);
-  if (inicio < 0) throw new Error(`No está el bloque del estilo ${estilo}`);
+function tokensDe(estilo: string, tematica = "navidad"): Record<string, string> {
+  const inicio = TEMATICAS.indexOf(`[data-tematica="${tematica}"][data-estilo="${estilo}"] {`);
+  if (inicio < 0) throw new Error(`No está el bloque del estilo ${estilo} de ${tematica}`);
   const bloque = TEMATICAS.slice(inicio, TEMATICAS.indexOf("}", inicio));
   const tokens: Record<string, string> = {};
   for (const [, nombre, valor] of bloque.matchAll(/--([\w-]+):\s*(#[0-9a-fA-F]{6});/g)) {
@@ -95,6 +95,56 @@ describe("Navidad · noche", () => {
 
 describe("Navidad · crema", () => {
   it.each(PARES_CREMA)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+});
+
+// --- Día de la Madre (plan 08.1) ------------------------------------------
+const rc = tokensDe("rosa-crema", "dia-de-la-madre");
+const PARES_ROSA_CREMA: Par[] = [
+  [rc.primary, crema50, AA.texto, "titulares vino sobre el crema"],
+  [rc.primary, crema0, AA.texto, "titulares vino sobre las tarjetas"],
+  [rc["primary-foreground"], rc.primary, AA.texto, "texto del bloque vino (hero, delivery)"],
+  [rc["cta-texto"], rc["cta-fondo"], AA.texto, "botón vino"],
+  [rc["cta-texto"], rc["cta-fondo-hover"], AA.texto, "botón vino al pasar"],
+  [rc["acento-texto"], crema50, AA.texto, "acentos rosa (caligrafía, sellos)"],
+  [rc["acento-texto"], crema0, AA.texto, "acentos rosa sobre tarjetas"],
+  [rc["franja-texto"], rc["franja-fondo"], AA.texto, "franja y cinta rosa palo"],
+  [rc["aviso-texto"], rc["aviso-fondo"], AA.texto, "barra de arriba"],
+  [rc["sello-texto"], rc["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [rc.ring, crema50, AA.interfaz, "anillo de foco"],
+];
+
+const r = tokensDe("rosa", "dia-de-la-madre");
+const PARES_ROSA: Par[] = [
+  [r.foreground, r.background, AA.texto, "texto sobre el fondo rosa"],
+  [r.foreground, r.card, AA.texto, "texto sobre las tarjetas"],
+  [r["muted-foreground"], r.background, AA.texto, "texto secundario sobre el fondo"],
+  [r["muted-foreground"], r.card, AA.texto, "texto secundario sobre las tarjetas"],
+  [r["muted-foreground"], r.muted, AA.texto, "texto secundario sobre el pie"],
+  [r.primary, r.background, AA.texto, "titulares vino sobre el rosa"],
+  [r.primary, r.card, AA.texto, "titulares vino sobre las tarjetas"],
+  [r["primary-foreground"], r.primary, AA.texto, "texto del bloque vino (hero, delivery)"],
+  [r["cta-texto"], r["cta-fondo"], AA.texto, "botón frambuesa"],
+  [r["cta-texto"], r["cta-fondo-hover"], AA.texto, "botón frambuesa al pasar"],
+  [r["acento-texto"], r.background, AA.texto, "acentos frambuesa"],
+  [r["acento-texto"], r.card, AA.texto, "acentos sobre tarjetas"],
+  [r["precio-texto"], r.background, AA.texto, "precio dorado sobre el rosa"],
+  [r["precio-texto"], r.card, AA.texto, "precio dorado sobre las tarjetas"],
+  [r["franja-texto"], r["franja-fondo"], AA.texto, "franja y cinta vino"],
+  [r["aviso-texto"], r["aviso-fondo"], AA.texto, "barra de arriba"],
+  [r["sello-texto"], r["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [r.ring, r.background, AA.interfaz, "anillo de foco"],
+];
+
+describe("Día de la Madre · rosa sobre crema", () => {
+  it.each(PARES_ROSA_CREMA)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+});
+
+describe("Día de la Madre · todo en rosa", () => {
+  it.each(PARES_ROSA)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
     expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
   });
 });

@@ -6,7 +6,11 @@ import { supabaseLocal } from "./e2e/ayudas/supabase-local";
 const PUERTO = 3000;
 const URL_BASE = `http://localhost:${PUERTO}`;
 /** Las que encienden una temática: corren al final, en su propio proyecto. */
-const PRUEBAS_DE_TEMATICAS = [/tematica-navidad\.spec\.ts/, /panel-tematicas\.spec\.ts/];
+const PRUEBAS_DE_TEMATICAS = [
+  /tematica-navidad\.spec\.ts/,
+  /tematica-dia-de-la-madre\.spec\.ts/,
+  /panel-tematicas\.spec\.ts/,
+];
 
 // Flujos criticos de punta a punta (doc 03 §6): ingreso por rol, publicar un
 // producto, que un ingeniero NO pueda publicar una promocion, registrar un

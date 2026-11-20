@@ -376,3 +376,33 @@ aspecto es CSS bajo `[data-tematica="dia-de-la-madre"]`, sin componentes nuevos.
 - [ ] **Paso 6: capturas** a 375 y 1280 px, con los dos estilos, encendiendo desde el panel; mirarlas. Después, el Día de la Madre y Navidad en «Según fechas», con sus fechas y estilos de fábrica.
 - [ ] **Paso 7: documentación.** `docs/tematicas.md`: el Día de la Madre, sus estilos y cómo encenderla antes de tiempo (§1). `AGENTS.md`: temáticas (lo que hay y cómo se añade una, ahora con `disenos.ts`) y una trampa si sale alguna. Este documento: «Lo que resultó distinto».
 - [ ] **Paso 8:** revisión de la rama por un subagente; arreglos con su prueba vista fallar. Commits `feat(tematicas): el Día de la Madre en el sitio, con sus dos estilos` y `docs(tematicas): …`; PR 2 y parar.
+
+---
+
+## Lo que resultó distinto
+
+**T1 (20/11/2026, PR #110).** La 0049 se aplicó en producción desde `PIMPOS_SYSTEM` (huella de la
+migración igual a la local) y el PR se fusionó.
+
+- La revisión de la rama encontró que la comprobación «sin auditoría» de la 0049 nunca podía fallar:
+  filtraba por `tematicas` y la auditoría guarda `public.tematicas`. Ahora mira el **alta** de la fila
+  (`operacion = 'INSERT'`), y solo `created_by` para la autoría: en local, las E2E guardan el Día de la
+  Madre desde el panel, y eso sí se audita, como debe. Se vio fallar con la migración rota a propósito.
+- Las pruebas 0047 y 0048 y las E2E de Navidad habrían fallado en ciertas fechas (de enero a mayo) al
+  cruzarse con el Día de la Madre. Se vio simulando esas fechas en la base local. Las pgTAP apartan
+  antes el Día de la Madre; las E2E, todas las demás temáticas (`apartarLasDemas`, `e2e/ayudas/tematicas.ts`).
+- La pantalla del Día de la Madre entró en `RUTAS_DEL_PANEL` (axe y área táctil del panel).
+
+**T2 y T3 (20/11/2026, PR 2).**
+
+- **Las ayudas de las E2E de temáticas** (axe en las rutas, lo animado, los adornos visibles al
+  imprimir, las fechas relativas) pasaron a `e2e/ayudas/tematicas.ts`; el cerrojo común se llama
+  `tematicas`.
+- **«Todo en rosa» lleva su precio** (`--precio-texto: #7a4c12`), un dorado algo más oscuro, medido sobre
+  el rosa.
+- **El bloque del titular de la portada sale en vino** en los dos estilos: es el que en la marca va en
+  terracota (`--primary`). En «Todo en rosa» es un vino oscuro (`#5c1630`) y pesa más que en la maqueta,
+  que no lo enseñaba. Queda para que Dan lo vea en las capturas.
+- **Verificación:** Vitest 620 (29 pares de contraste nuevos), pgTAP 830, E2E de temáticas 6/6 (axe en
+  cero en las 11 páginas con los dos estilos, a 375 px y en escritorio). Capturas en
+  `DOC/Maquetas/tematicas/dia-de-la-madre/implementada/`.
