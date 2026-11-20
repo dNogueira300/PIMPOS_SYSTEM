@@ -28,6 +28,8 @@ export const RUTAS_DEL_PANEL = [
   "/admin/contenido/guias/nueva",
   "/admin/contenido/testimonios",
   "/admin/contenido/testimonios/nueva",
+  "/admin/contenido/tematicas",
+  "/admin/contenido/tematicas/navidad",
   "/admin/insumos",
   "/admin/insumos/nuevo",
   "/admin/insumos/ingreso",
