@@ -1,4 +1,4 @@
-import { Clock } from "lucide-react";
+import { Clock, Sparkles } from "lucide-react";
 
 /**
  * La barra terracota de arriba del todo (prototipo de Stitch, plan 03.1).
@@ -15,17 +15,25 @@ import { Clock } from "lucide-react";
  *   axe lo marca (regla `region`) y quien navega por regiones se lo salta. Es lo
  *   mismo que le pasó al botón flotante en F3, y se resuelve igual.
  */
-export function BarraAviso({ texto }: { texto: string | null }) {
+export function BarraAviso({
+  texto,
+  campania = false,
+}: {
+  texto: string | null;
+  /** Con una temática activa, la barra dice el texto de la campaña (plan 08). */
+  campania?: boolean;
+}) {
   if (!texto) return null;
+  const Icono = campania ? Sparkles : Clock;
 
   return (
     <aside
       data-aviso
-      aria-label="Horario y reparto"
+      aria-label={campania ? "Campaña de temporada" : "Horario y reparto"}
       className="bg-aviso text-aviso-foreground px-4 py-1.5 text-center text-xs font-semibold sm:text-[0.8125rem]"
     >
       <p className="mx-auto flex max-w-(--container-contenido) items-center justify-center gap-2">
-        <Clock aria-hidden className="size-3.5 shrink-0" />
+        <Icono aria-hidden className="size-3.5 shrink-0" />
         <span>{texto}</span>
       </p>
     </aside>

@@ -7,6 +7,7 @@ import { Pie } from "@/components/publico/pie";
 import { enlaceWhatsApp, formatearHora, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { agruparHorario, primeraAperturaEscrita } from "@/lib/datos/horario";
 import { mensajeDePedido, unirConY } from "@/lib/datos/pedido";
+import { obtenerTematicaActiva } from "@/lib/datos/tematica";
 import { textoDelAviso } from "@/lib/datos/texto-aviso";
 import { urlDeImagen } from "@/lib/supabase/publico";
 
@@ -25,7 +26,7 @@ import { urlDeImagen } from "@/lib/supabase/publico";
  * y se refrescan las ocho secciones a la vez (R21).
  */
 export async function CascaraPublica({ children }: { children: ReactNode }) {
-  const config = await obtenerConfiguracion();
+  const [config, tematica] = await Promise.all([obtenerConfiguracion(), obtenerTematicaActiva()]);
   const pedido = enlaceWhatsApp(config, mensajeDePedido());
   // La cabecera es de cliente: recibe el horario ya agrupado y con las horas
   // escritas, en vez de la configuracion entera y la logica para leerla.
@@ -39,7 +40,15 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
     // títulos, Dancing Script en los acentos): con `display: contents` no crea
     // caja, así que cabecera, `main` y pie siguen colgando del `body` a efectos
     // de maquetación. Ver `.sitio-publico` en globals.css.
-    <div className="sitio-publico contents">
+    //
+    // Con una temática activa (plan 08) lleva además `data-tematica` y
+    // `data-estilo`, que cambian los colores y ponen los adornos (ver
+    // tematicas.css). Sin temática, el HTML queda exactamente como antes.
+    <div
+      className="sitio-publico contents"
+      data-tematica={tematica?.slug}
+      data-estilo={tematica?.estilo}
+    >
       {/* Primer elemento enfocable de la pagina: quien navega con teclado no
           tiene que recorrer las siete secciones en cada pagina. */}
       <a
@@ -51,10 +60,14 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
 
       {/* Antes de la cabecera y en su propia región: ver BarraAviso. */}
       <BarraAviso
-        texto={textoDelAviso({
-          abreALas: primeraAperturaEscrita(config.horario_semanal),
-          zonas: unirConY(config.delivery_zonas),
-        })}
+        campania={Boolean(tematica?.textoAviso)}
+        texto={
+          tematica?.textoAviso ??
+          textoDelAviso({
+            abreALas: primeraAperturaEscrita(config.horario_semanal),
+            zonas: unirConY(config.delivery_zonas),
+          })
+        }
       />
 
       <Cabecera

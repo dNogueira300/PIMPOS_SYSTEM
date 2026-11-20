@@ -47,3 +47,15 @@ Todos los contrastes de texto pasan AA (4.5) con holgura; se midieron con la mis
 - `sin-tematica-{movil,escritorio}-pliegue.png`: el sitio de hoy, para comparar.
 - `navidad-noche-{movil,escritorio}[-pliegue].png`: variante 1, página entera y primer pliegue.
 - `navidad-crema-{movil,escritorio}[-pliegue].png`: variante 2, página entera y primer pliegue.
+
+## Implementada (T4, 20/11/2026)
+
+`implementada/`: capturas del **build real** con Navidad encendida en la base local, en los dos estilos
+(`navidad-{noche,crema}-{movil,escritorio}-{pliegue,temporada}.png`). Los productos de la sección son
+los que había en la base local (el pan francés, con foto; panetón y bizcocho, en la pizarra). El estilo
+crema se capturó cambiando `data-estilo` en la página: el HTML de los dos es el mismo y solo cambia el
+CSS.
+
+Diferencias con la maqueta: con una o dos fotos, las tarjetas van al lado de la pizarra (como en «Lo
+que horneamos hoy»), el borde nevado cruza la pantalla entera, el cable de las luces es más claro en
+la noche para que se vea sobre el pino, y al imprimir el sitio sale con los colores de la marca.

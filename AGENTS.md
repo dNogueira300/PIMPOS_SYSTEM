@@ -230,6 +230,47 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   antes que el código: `select payload->>'action', count(*) from auth.audit_log_entries group by 1`.
   De antes de ese día no hay ingresos anotados.
 
+**Temáticas de temporada (plan 08)** (20/11/2026). Spec, plan y «Lo que resultó distinto» en
+`DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`; manual para el negocio en `docs/tematicas.md`.
+
+- **Qué hay:** Navidad, con fechas (1–26/12/2026 de fábrica) y encendido a mano que caduca en la fecha
+  de fin (0047); dos estilos, `noche` (puesto) y `crema` (0048, decisión de Dan del 20/11/2026); la
+  pantalla del panel (Contenido → Temáticas, solo superadmin y administración); y en el sitio, con la
+  temática activa, `data-tematica` + `data-estilo` en la envoltura de `CascaraPublica`, los tokens de
+  `src/estilos/tematicas.css`, luces, nieve, el texto de campaña en la barra, la cinta y la sección de
+  temporada en la portada. **Sin temática activa el HTML no cambia.**
+- **Una temática nueva** (Día de la Madre…) es una migración (amplía los `check` de `slug` y `estilo`
+  y siembra la fila), su CSS en `tematicas.css`, su slug en `SLUGS_CON_DISENO`
+  (`src/lib/datos/tematica.ts`) y sus estilos en `src/lib/tematicas/estilos.ts`. Los contrastes de cada
+  estilo los mide `src/estilos/tematicas.test.ts`.
+- **Las E2E que encienden una temática corren aparte**, en el proyecto `tematicas` de
+  `playwright.config.ts`, que depende de `movil` y `escritorio`: una temática viste el sitio entero y
+  las pruebas que miran colores o la barra fallarían a ratos. Antes de todo, el proyecto `preparar`
+  apaga desde el panel la que esté activa (en diciembre, Navidad lo estaría por fechas). Ver las
+  trampas.
+
+**Trampas de las temáticas:**
+
+- **Playwright corre ENTERO un proyecto del que otro depende**, aunque se filtre por archivo:
+  `playwright test e2e/tematica-navidad.spec.ts` lanza toda la suite de `movil` y `escritorio` antes.
+  Para correr solo las de temáticas: `--project=tematicas --no-deps` (y `--project=preparar` si hace
+  falta apagar una temática antes). Un `--project=movil` arrastra también `preparar`, que fuera de
+  temporada no hace nada.
+- **En diciembre, `preparar` deja Navidad «Apagada» en la base local** hasta el 26/12 si después no
+  corre `tematicas` (pasa al correr un solo proyecto). Se devuelve con
+  `--project=tematicas --no-deps` o desde el panel. Y si `preparar` falla, Playwright salta `movil` y
+  `escritorio` enteros: mirar primero ese fallo.
+- **Encender una temática por SQL no cambia el sitio**: está en caché (`use cache`, `cacheLife("hours")`)
+  y solo el «Guardar» del panel la refresca (`updateTag` de `marca` y `catalogo`). Por eso las E2E
+  encienden y apagan desde el panel, y el SQL solo prepara datos o limpia al final.
+- **Una vista con `t.*` no gana las columnas nuevas de su tabla**: Postgres expande el `*` al crearla.
+  0048 tuvo que borrar y recrear `tematicas_panel`, con sus permisos.
+- **La envoltura del sitio es `display: contents`**: hereda variables pero no pinta fondo. Los tokens
+  de una temática se ponen también en `:root:has([data-tematica=…])`, si no el `body` sigue crema
+  detrás del pino. Y sus seudoelementos sí se pintan: la nieve es su `::before`.
+- **Un `::after` en la cabecera no le cambia la posición**: ya es `sticky`, que sirve de referencia al
+  adorno. Ponerle `position: relative` le quitaría lo fijo.
+
 **El despliegue, en corto** (actualizado el 06/10/2026, con el Historial de F7). El sitio vive en
 https://pimpos-system-iota.vercel.app, sin dominio todavía. En Vercel hay **cuatro variables**:
 
@@ -375,6 +416,7 @@ pnpm test                          # Vitest: src/**/*.test.ts
 pnpm test -- src/lib/utilidades/slug.test.ts   # un solo archivo
 pnpm test:e2e                      # Playwright; levanta pnpm dev solo
 pnpm exec playwright test e2e/portada.spec.ts --project=movil   # un solo E2E
+pnpm exec playwright test --project=tematicas --no-deps          # las de temáticas, solas (ver plan 08)
 pnpm lighthouse                    # Lighthouse movil contra el build local
 PASADAS=5 pnpm lighthouse          # mediana de 5 pasadas: una sola no decide nada
 pnpm lighthouse https://pimpos-system-iota.vercel.app   # contra lo desplegado
@@ -1088,7 +1130,7 @@ en el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 45 migraciones** (`supabase/migrations/`), en orden:
+**Las 48 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                            | Contenido                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1137,6 +1179,9 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0043_clientes_datos_personales`   | `borrar_datos_cliente` (solo administración, con motivo): borra fotos, revoca el permiso y borra su nota, deja la ficha sin datos y desactivada, tacha el contenido de su auditoría y anota la constancia en `supresiones`; lo borrado ya no se vuelve a llenar ni recibe fotos · `clientes_para_revisar` (2 años sin cambios) · `permiso_de_cliente` · `exportaciones_clientes` (quién, cuándo, cuántos, zona y estado; nadie la corrige)                                                                                                                                                  |
 | `0044_clientes_reglas_finales`     | Lo que encontró la revisión final de F6, para quien tiene sesión: referencia y zona obligatorias y ningún cliente activo en una zona retirada (`clientes_exigir_datos`) · un permiso se fecha al anotarlo, lleva una versión con forma de versión y después solo admite que se retire (`consentimientos_proteger`) · retirar el único permiso de un cliente no llega a guardarse (trigger **diferido** `consentimientos_cliente_con_permiso`; `borrar_datos_cliente` sí pasa) · la anotación de una descarga no se fecha a mano (permiso de `insert` solo sobre formato, cantidad y filtro) |
 | `0045_historial`                   | Lo que el Historial del panel necesita de la base: `ingresos_al_sistema` (quién entró y quién salió, del registro de Auth; `security definer`, solo administración, sin la IP, como mucho 500 filas; con una guarda que no deja aplicar la migración si no se puede leer ese registro) · vistas `constancias_de_borrado` y `descargas_de_clientes`, con el nombre de quien borró o descargó                                                                                                                                                                                                 |
+| `0046_historial_ingresos`          | `existencias_insumo.ultimo_ingreso` (última compra de cada insumo, sin lo anulado) y la vista `ingresos_insumo` (un ingreso por fila, con proveedor, documento y quién lo registró) para el historial de ingresos                                                                                                                                                                                                                                                                                                                                                                           |
+| `0047_tematicas`                   | Temáticas de temporada (plan 08): `tematicas` (fechas, encendido a mano que caduca en la fecha de fin, textos) y `tematica_productos` (`solo_temporada`) · `app.tematica_activa_id()` es la única respuesta a «¿cuál está activa hoy?» · un producto solo de temporada no lo ve `anon` fuera de ella, ni por la vista ni por las tablas · vistas `tematicas_panel`, `tematica_publica`, `productos_de_temporada` y `guardar_tematica`                                                                                                                                                       |
+| `0048_estilo_tematica`             | `tematicas.estilo` (`noche` o `crema`, los que tienen CSS; Navidad queda con `noche`, decisión de Dan del 20/11/2026) · recrea `tematicas_panel` (llevaba `t.*`), amplía `tematica_publica` y `guardar_tematica` (sin estilo, deja el que había)                                                                                                                                                                                                                                                                                                                                            |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales; a producción se carga a mano desde el editor SQL, **nunca** con `--include-seed`) y
@@ -1372,7 +1417,9 @@ sobre la portada real (`DOC/Maquetas/caligrafia/`): en el **sitio público**, **
 vuelve a los títulos —el rediseño A (PR #94) la había retirado— y **Dancing Script** entra como
 acento caligráfico; **Plus Jakarta Sans** sigue en el texto, los precios y las cifras. El **panel y
 el ingreso** siguen solo en Jakarta, como en A. La caligrafía va en tres sitios y en ninguno más: el
-eslogan de la portada móvil, «Horneando en Iquitos» y el titular «Te lo llevamos a tu casa»; nunca
+eslogan de la portada móvil, «Horneando en Iquitos» y el titular «Te lo llevamos a tu casa» (y, con
+una temática activa, el nombre de la fiesta en el título de la sección de temporada, aprobado por Dan
+en la maqueta de Navidad del 20/11/2026); nunca
 en menú, botones, precios, nombres de producto, párrafos ni el panel, nunca por debajo de 20 px ni
 en mayúsculas (`.texto-caligrafico` en `globals.css`). Las tres se declaran en `src/estilos/fuentes.ts`;
 Playfair y Dancing van **sin precarga**, así que el navegador solo las baja donde algo las usa: el

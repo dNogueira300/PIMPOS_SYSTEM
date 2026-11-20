@@ -11,6 +11,8 @@ import { PortadaMovil } from "@/components/publico/portada-movil";
 import { PizarraPrecios } from "@/components/publico/pizarra-precios";
 import { TarjetaProducto } from "@/components/publico/tarjeta-producto";
 import { TituloSeccion } from "@/components/publico/titulo-seccion";
+import { CintaTematica } from "@/components/publico/tematica/cinta-tematica";
+import { SeccionTemporada } from "@/components/publico/tematica/seccion-temporada";
 import { DatosEstructurados } from "@/components/seo/datos-estructurados";
 import { formatearPrecio, listarDestacados, listarProductos } from "@/lib/datos/catalogo";
 import {
@@ -30,6 +32,11 @@ import {
 import { repartirPorFoto } from "@/lib/datos/destacados";
 import { primeraAperturaEscrita } from "@/lib/datos/horario";
 import { condicionesDelPedido, mensajeDePedido, unirConY } from "@/lib/datos/pedido";
+import {
+  cuentaRegresivaDeHoy,
+  listarProductosDeTemporada,
+  obtenerTematicaActiva,
+} from "@/lib/datos/tematica";
 import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
 import { urlDeImagen } from "@/lib/supabase/publico";
@@ -91,14 +98,27 @@ function hechos(zonas: string, anos: number | null) {
 }
 
 export default async function Inicio() {
-  const [config, slides, destacados, novedades, testimonios, galeria] = await Promise.all([
-    obtenerConfiguracion(),
-    listarSlides(),
-    listarDestacados(8),
-    listarNovedades(3),
-    listarTestimonios(),
-    listarGaleria(),
-  ]);
+  const [config, slides, destacados, novedades, testimonios, galeria, tematica] = await Promise.all(
+    [
+      obtenerConfiguracion(),
+      listarSlides(),
+      listarDestacados(8),
+      listarNovedades(3),
+      listarTestimonios(),
+      listarGaleria(),
+      obtenerTematicaActiva(),
+    ],
+  );
+  // La temática de temporada (plan 08): sus productos y su cuenta regresiva.
+  // Sin temática activa no se consulta nada más y la portada queda como antes.
+  const [productosDeTemporada, cuenta] = tematica
+    ? await Promise.all([
+        listarProductosDeTemporada(),
+        tematica.fechaEvento
+          ? cuentaRegresivaDeHoy(tematica.fechaEvento, tematica.nombre)
+          : Promise.resolve(null),
+      ])
+    : [[], null];
 
   // Cacheada con la misma etiqueta que el resto del catálogo: no es una
   // consulta más, es la misma lectura que ya hace listarDestacados.
@@ -202,6 +222,20 @@ export default async function Inicio() {
           ))}
         </ul>
       </section>
+
+      {/* La temática de temporada, si hay una activa: la cinta de mensajes y
+          lo de la temporada, antes de lo de todos los días (plan 08). */}
+      {tematica ? (
+        <>
+          <CintaTematica mensajes={tematica.mensajes} nombre={tematica.nombre} />
+          <SeccionTemporada
+            tematica={tematica}
+            productos={productosDeTemporada}
+            cuenta={cuenta}
+            config={config}
+          />
+        </>
+      ) : null}
 
       {/* 3. Lo que vende, con su precio. Híbrido (decisión de Dan, 13/09):
           tarjeta del prototipo para los destacados con foto real y la pizarra

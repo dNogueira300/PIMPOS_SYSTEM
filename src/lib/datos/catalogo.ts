@@ -106,7 +106,7 @@ function aPresentaciones(valor: unknown): Presentacion[] {
   return presentaciones;
 }
 
-function aProducto(fila: FilaProducto): ProductoPublico {
+export function aProducto(fila: FilaProducto): ProductoPublico {
   return {
     id: fila.id ?? "",
     nombre: fila.nombre ?? "",
@@ -129,7 +129,7 @@ function aProducto(fila: FilaProducto): ProductoPublico {
 // Una sola cadena literal, sin concatenar: supabase-js deduce el tipo de la
 // fila a partir del texto del `select`, y un `"a" + "b"` le llega como `string`
 // generico, que rompe la inferencia y deja el resultado sin tipar.
-const COLUMNAS =
+export const COLUMNAS =
   "id, nombre, slug, descripcion, destacado, categoria_nombre, categoria_slug, precio_desde, precio_hasta, variantes, variante_nombre, variante_unidad, imagen_ruta, imagen_alt, presentaciones, orden, categoria_orden" as const;
 
 export async function listarProductos(): Promise<ProductoPublico[]> {

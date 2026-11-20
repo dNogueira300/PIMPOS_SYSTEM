@@ -72,9 +72,9 @@ export function EditorProductosTemporada({
     <div className="flex flex-col gap-4">
       <input ref={oculto} type="hidden" name="productos" value={valor} />
       <p className="text-muted-foreground text-sm">
-        Salen en la sección de temporada de la portada, en este orden. Marca «Solo se vende en esta
-        temporada» en lo que no se vende el resto del año: fuera de la temporada, el sitio no lo
-        muestra.
+        Salen en la sección de temporada de la portada, en este orden (la portada enseña los ocho
+        primeros). Marca «Solo se vende en esta temporada» en lo que no se vende el resto del año:
+        fuera de la temporada, el sitio no lo muestra.
       </p>
 
       <div className="flex flex-wrap items-end gap-2">
@@ -122,10 +122,16 @@ export function EditorProductosTemporada({
               key={f.producto_id}
               className="bg-muted/40 border-border flex min-w-0 flex-wrap items-center gap-2 rounded-md border p-3"
             >
-              <span className="min-w-0 flex-1 font-semibold wrap-anywhere">{f.nombre}</span>
+              <span
+                id={`producto-temporada-${f.producto_id}`}
+                className="min-w-0 flex-1 font-semibold wrap-anywhere"
+              >
+                {f.nombre}
+              </span>
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
+                  aria-describedby={`producto-temporada-${f.producto_id}`}
                   className="accent-exito size-11 shrink-0"
                   checked={f.solo_temporada}
                   onChange={(e) =>

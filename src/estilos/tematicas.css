@@ -1,0 +1,279 @@
+/*
+ * Temáticas de temporada (plan 08, T4), con los dos estilos de Navidad que
+ * aprobó Dan el 20/11/2026 (maqueta en DOC/Maquetas/tematicas/navidad/):
+ *
+ *   · `noche`: el sitio entero sobre verde pino, con rojo y dorado.
+ *   · `crema`: el crema de siempre, con rojo en lo que se pulsa y pino en las
+ *     franjas.
+ *
+ * El atributo lo pone `CascaraPublica` solo cuando hay una temática activa
+ * (`data-tematica` y `data-estilo`): sin temática el HTML no cambia y nada de
+ * esto aplica. Solo se sustituyen tokens semánticos de globals.css; ningún
+ * componente cambia de clases.
+ *
+ * Los tokens se ponen dos veces: en la envoltura (que hereda a todo lo de
+ * dentro) y en `:root` con `:has()`, porque la envoltura es `display: contents`
+ * y no pinta fondo: sin la segunda, el `body` seguiría crema detrás del pino.
+ *
+ * Movimiento: solo con `prefers-reduced-motion: no-preference`; al imprimir,
+ * ningún adorno. Los contrastes de texto los vigila src/estilos/paleta.test.ts.
+ */
+
+/* --- Navidad · Noche ------------------------------------------------------ */
+/* Solo en pantalla: al imprimir, el navegador no pinta fondos y el texto crema
+   de la noche saldría invisible sobre el papel. Se imprime con la marca. */
+@media screen {
+  :root:has([data-tematica="navidad"][data-estilo="noche"]),
+  [data-tematica="navidad"][data-estilo="noche"] {
+    --background: #13291f;
+    --foreground: #f7f1e3;
+    --muted: #1b382b;
+    --muted-foreground: #d9cfba;
+    --secondary: #1b382b;
+    --secondary-foreground: #f7f1e3;
+    --accent: #234536;
+    --accent-foreground: #f7f1e3;
+    --card: #1d3b2e;
+    --card-foreground: #f7f1e3;
+    --popover: #1d3b2e;
+    --popover-foreground: #f7f1e3;
+    /* Titulares y botones de línea en crema; el bloque del hero y el del
+       delivery, crema con tinta de pino. */
+    --primary: #f7f1e3;
+    --primary-foreground: #13291f;
+    --border: rgb(247 241 227 / 0.18);
+    --ring: #f2c46d;
+    --cta-fondo: #b3262a;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #8f1d21;
+    --cta-texto-hover: #ffffff;
+    /* El verde de siempre no se ve sobre el pino (1.95): verde claro con letra
+       verde oscura, como el de la portada del celular. */
+    --whatsapp-fondo: #e7f2df;
+    --whatsapp-texto: #234735;
+    --whatsapp-fondo-hover: #d3e8c6;
+    --acento-texto: #f2c46d;
+    --precio-texto: #f2c46d;
+    --guia-puntos: rgb(242 196 109 / 0.4);
+    --franja-fondo: #9e1f24;
+    --franja-texto: #fff4e0;
+    --aviso-fondo: #0c1d15;
+    --aviso-texto: #f2c46d;
+    --sello-fondo: rgb(242 196 109 / 0.14);
+    --sello-borde: rgb(242 196 109 / 0.5);
+    --sello-texto: #f2c46d;
+    --nieve: rgb(255 255 255 / 0.85);
+    --cable-luces: #6b8a7a;
+    --gorro-nieve: rgb(255 255 255 / 0.92);
+  }
+}
+/* Leaflet pinta en blanco su crédito y sus globos, tenga el sitio el color que
+   tenga: dentro del mapa, los enlaces vuelven al terracota de la marca (con
+   el crema de la noche no se leían; lo cazó axe en /ubicacion). */
+[data-tematica="navidad"][data-estilo="noche"] .leaflet-container {
+  --primary: var(--pimpos-accion-800);
+}
+/* El tapiz de panes se perdía sobre lo oscuro. */
+[data-tematica="navidad"][data-estilo="noche"] .tapiz-publico {
+  background-image: none;
+}
+/* El logo tiene letras oscuras: sobre el pino va en un fondo crema, como en el
+   ingreso. */
+[data-tematica="navidad"][data-estilo="noche"] .logo-publico {
+  background: #f7f1e3;
+  border-radius: 9999px;
+  padding: 2px 6px;
+}
+[data-tematica="navidad"][data-estilo="noche"] footer .logo-publico {
+  border-radius: 1rem;
+  padding: 6px 10px;
+}
+
+/* --- Navidad · Crema ------------------------------------------------------ */
+@media screen {
+  :root:has([data-tematica="navidad"][data-estilo="crema"]),
+  [data-tematica="navidad"][data-estilo="crema"] {
+    --primary: #a3201f;
+    --cta-fondo: #a3201f;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #821918;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #1f4d3a;
+    --franja-fondo: #1f4d3a;
+    --franja-texto: #fbf6ea;
+    --aviso-fondo: #173d2e;
+    --aviso-texto: #fbf6ea;
+    --sello-borde: rgb(163 32 31 / 0.35);
+    --sello-texto: #a3201f;
+    --nieve: rgb(31 77 58 / 0.18);
+    --cable-luces: #314a3e;
+    --gorro-nieve: #ffffff;
+  }
+}
+
+/* --- Adornos comunes de Navidad ------------------------------------------ */
+
+/* Luces colgando bajo la cabecera: un cable ondulado con bombillas rojas,
+   doradas, verdes y blancas. La cabecera ya es `sticky`, así que es el bloque
+   de referencia del adorno sin tocarle la posición. */
+[data-tematica="navidad"] header::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 26px;
+  pointer-events: none;
+  background-color: var(--cable-luces);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='26' viewBox='0 0 160 26'%3E%3Cpath d='M0 4 Q20 16 40 4 T80 4 T120 4 T160 4' fill='none' stroke='%23000' stroke-width='1.4'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 26px;
+}
+[data-tematica="navidad"] header::before {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 26px;
+  pointer-events: none;
+  z-index: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='26' viewBox='0 0 160 26'%3E%3Cellipse cx='20' cy='15' rx='4' ry='6' fill='%23d63a35'/%3E%3Cellipse cx='60' cy='15' rx='4' ry='6' fill='%23f2c46d'/%3E%3Cellipse cx='100' cy='15' rx='4' ry='6' fill='%233f9c6b'/%3E%3Cellipse cx='140' cy='15' rx='4' ry='6' fill='%23fff4d6'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 26px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="navidad"] header::before {
+    animation: luces-titilan 2.4s ease-in-out infinite alternate;
+  }
+}
+@keyframes luces-titilan {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.35) saturate(1.2);
+  }
+}
+
+/* Nieve: tres capas de puntos que caen despacio, por debajo de la cabecera y
+   del botón flotante, sin recibir clics. Quieta con menos movimiento. Es un
+   seudoelemento de la envoltura: aunque ella no crea caja, sus seudoelementos
+   sí. */
+[data-tematica="navidad"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  background-image:
+    radial-gradient(circle, var(--nieve) 0 1.6px, transparent 2.2px),
+    radial-gradient(circle, var(--nieve) 0 1.1px, transparent 1.7px),
+    radial-gradient(circle, var(--nieve) 0 2.2px, transparent 2.8px);
+  background-size:
+    120px 140px,
+    80px 90px,
+    190px 210px;
+  background-position:
+    10px 0,
+    40px 30px,
+    90px 60px;
+  opacity: 0.7;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="navidad"]::before {
+    animation: nieve-cae 18s linear infinite;
+  }
+}
+@keyframes nieve-cae {
+  to {
+    background-position:
+      40px 140px,
+      20px 120px,
+      130px 270px;
+  }
+}
+
+/* --- Cinta de mensajes (cualquier temática) ------------------------------ */
+.cinta-tematica {
+  overflow: hidden;
+  background: var(--franja-fondo);
+  color: var(--franja-texto);
+  border-block: 2px solid var(--acento-texto);
+}
+.cinta-tematica__pista {
+  display: flex;
+  width: max-content;
+}
+.cinta-tematica ul {
+  display: flex;
+  gap: 2.5rem;
+  padding: 0.85rem 1.25rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cinta-tematica li::before {
+  content: "✦" / "";
+  margin-right: 2.5rem;
+  opacity: 0.8;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cinta-tematica__pista {
+    animation: cinta-avanza 30s linear infinite;
+  }
+}
+/* Quieta: los mensajes envuelven en varias líneas y la copia del bucle sobra. */
+@media (prefers-reduced-motion: reduce) {
+  .cinta-tematica__pista {
+    width: auto;
+  }
+  .cinta-tematica ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 2.5rem;
+    white-space: normal;
+  }
+  .cinta-tematica ul[aria-hidden],
+  .cinta-tematica li[aria-hidden] {
+    display: none;
+  }
+}
+@keyframes cinta-avanza {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* --- Sección de temporada ------------------------------------------------- */
+.seccion-temporada {
+  position: relative;
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+}
+.seccion-temporada::before {
+  content: "";
+  position: absolute;
+  inset: -14px 0 auto 0;
+  height: 18px;
+  pointer-events: none;
+  background-color: var(--gorro-nieve);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='18' viewBox='0 0 120 18'%3E%3Cpath d='M0 18 V8 Q10 0 20 7 Q32 15 44 6 Q56 -2 68 7 Q80 14 92 5 Q106 -3 120 8 V18 Z'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 120px 18px;
+}
+.cuenta-regresiva {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  background: var(--sello-fondo);
+  color: var(--sello-texto);
+  border: 1px solid var(--sello-borde);
+}
+
+@media print {
+  [data-tematica]::before,
+  [data-tematica] header::before,
+  [data-tematica] header::after,
+  .seccion-temporada::before {
+    display: none;
+  }
+  .cinta-tematica__pista {
+    animation: none;
+  }
+}

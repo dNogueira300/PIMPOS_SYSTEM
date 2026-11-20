@@ -546,3 +546,46 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   vista, así que la columna nueva no habría aparecido. `tematica_publica` se amplía al final.
 - Una temática nueva tiene que decir su estilo (la columna no tiene valor por defecto). La fixture de
   `0047_tematicas.test.sql` lo dice; pgTAP queda en 809.
+
+**T4 (20/11/2026).**
+
+- **Los dos estilos van en el mismo CSS**, bajo `[data-tematica="navidad"][data-estilo="noche|crema"]`,
+  y los tokens se repiten en `:root:has(...)`: la envoltura de `CascaraPublica` es `display: contents`
+  y no pinta fondo, así que sin eso el `body` seguía crema detrás del pino. En `noche` el logo va
+  sobre un fondo crema (`.logo-publico`), como pedía la maqueta.
+- **Los adornos son solo CSS** (luces en `header::before/::after`, nieve en el `::before` de la
+  envoltura, borde nevado en la sección); no hizo falta `adornos-navidad.tsx`. La cinta y la sección
+  sí son componentes (`cinta-tematica.tsx`, `seccion-temporada.tsx`).
+- **La sección de temporada reparte como «Lo que horneamos hoy»**: con una o dos fotos, tarjetas al
+  lado de la pizarra; con tres o más, la rejilla. Con una tarjeta sola en una fila de cuatro quedaba
+  medio vacía, que es lo que el bloque de abajo ya había resuelto. El borde nevado cruza la pantalla:
+  la sección ocupa todo el ancho y el contenido va dentro.
+- **La barra de arriba dice el texto de la campaña** con su propio nombre de región («Campaña de
+  temporada») y un icono de destellos, en lugar del horario.
+- **Las E2E que encienden la temática van en un proyecto aparte** (`tematicas`, que depende de `movil`
+  y `escritorio`), y un proyecto `preparar` apaga antes la que esté activa. Sin eso, una temática
+  encendida a mitad de suite tiñe el sitio y tumba pruebas de color; y en diciembre la suite entera
+  correría con Navidad encendida por fechas. `panel-tematicas.spec.ts` se mudó también allí.
+- **`verificar-sitio-publico.sh` prueba el Punto 5** por PostgREST: marca el panetón como solo de
+  Navidad con la llave de servicio, comprueba que `anon` deja de verlo en `productos`,
+  `producto_variantes`, `producto_imagenes` y `productos_publicos`, y que vuelve a verse al quitar la
+  marca. Si hay una temática activa, se salta diciendo por qué.
+- **La revisión de la rama (opus) encontró** que las dos pruebas del proyecto `tematicas` podían correr
+  a la vez y pisarse la fila de Navidad (ahora con el cerrojo `tematica-navidad`), que al imprimir con
+  la noche el texto crema salía invisible sobre el papel (los tokens van en `@media screen`), que si
+  fallaba la lectura de productos el formulario salía vacío y «Guardar» los borraba todos (ahora se
+  avisa y no se pinta), y menores: la estrella de la cinta se leía en voz alta, las casillas «Solo se
+  vende en esta temporada» no decían de qué producto eran, el editor no avisaba de que la portada
+  enseña ocho, y el guion borraba una fila que no había creado. Todo arreglado.
+- **axe en todas las páginas públicas** con la temática (no solo la portada) cazó que en `/ubicacion`
+  el crédito de Leaflet, que se pinta en blanco, quedaba con letra crema: dentro del mapa, `--primary`
+  vuelve al terracota de la marca.
+- **Rendimiento** (20/11/2026, `/` con Navidad encendida en estilo noche, frente a `main` `68e5f02`,
+  10 rondas intercaladas con las dos builds guardadas, misma sesión): mediana **91 frente a 90.5**,
+  media 91.1 frente a 90.3, p = 0.13 (prueba de permutación). Las 20 pasadas cayeron en el modo de LCP
+  alto (> 3 s) en las dos versiones. La temática no cuesta.
+- **Verificación:** Vitest 580 (contrastes de los dos estilos, cuenta regresiva, estilos), pgTAP 809,
+  E2E de temáticas 4/4 con dos procesos a la vez (axe en las 11 páginas públicas a 375 px y en
+  escritorio, menú abierto, área táctil de la sección, cinta quieta con menos movimiento, sin adornos
+  ni letra crema al imprimir), sitio público 259 pasan y 35 se saltan, panel (accesibilidad, productos,
+  historial) 212 pasan, y `verificar-sitio-publico.sh` en verde.
