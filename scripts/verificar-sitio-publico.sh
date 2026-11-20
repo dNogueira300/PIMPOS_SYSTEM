@@ -119,25 +119,36 @@ if [ "$activa" != "0" ]; then
   echo "  [SALTA] hay una temática activa hoy: el producto se vería con razón."
 elif [ -z "$producto" ] || [ -z "$navidad" ]; then
   fail "no están el panetón o la temática de Navidad para preparar la prueba"
+elif [ "$(srv "tematica_productos?tematica_id=eq.$navidad&producto_id=eq.$producto&select=id" | filas)" != "0" ]; then
+  # Una fila puesta desde el panel no se toca: el guion la borraría al terminar.
+  echo "  [SALTA] el panetón ya está en Navidad en esta base: no se toca una fila que no es del guion."
 else
   antes=$(anon "productos?slug=eq.paneton&select=id" | filas)
-  srv "tematica_productos" -X POST -H "Content-Type: application/json" -H "Prefer: return=minimal" \
-      -d "{\"tematica_id\":\"$navidad\",\"producto_id\":\"$producto\",\"solo_temporada\":true}" >/dev/null
-  for consulta in "productos?slug=eq.paneton&select=id" \
-                  "producto_variantes?producto_id=eq.$producto&select=id" \
-                  "producto_imagenes?producto_id=eq.$producto&select=id" \
-                  "productos_publicos?slug=eq.paneton&select=id"; do
-    n=$(anon "$consulta" | filas)
-    case "$n" in
-      0) ok "${consulta%%\?*}: fuera de temporada no lo ve un anonimo" ;;
-      *) fail "${consulta%%\?*}: un anonimo lo ve fuera de temporada -> $n" ;;
-    esac
-  done
-  srv "tematica_productos?tematica_id=eq.$navidad&producto_id=eq.$producto" -X DELETE >/dev/null
-  despues=$(anon "productos?slug=eq.paneton&select=id" | filas)
-  [ "$antes" = "1" ] && [ "$despues" = "1" ] \
-    && ok "y sin la marca vuelve a verse (antes $antes, después $despues)" \
-    || fail "el panetón no se veía antes de marcarlo o no vuelve a verse (antes $antes, después $despues)"
+  respuesta=$(mktemp)
+  codigo=$(srv "tematica_productos" -X POST -H "Content-Type: application/json" -H "Prefer: return=minimal" \
+      -d "{\"tematica_id\":\"$navidad\",\"producto_id\":\"$producto\",\"solo_temporada\":true}" \
+      -o "$respuesta" -w "%{http_code}")
+  if [ "$codigo" != "201" ]; then
+    fail "no se pudo marcar el panetón como solo de Navidad -> $codigo $(head -c 200 "$respuesta")"
+    rm -f "$respuesta"
+  else
+    rm -f "$respuesta"
+    for consulta in "productos?slug=eq.paneton&select=id" \
+                    "producto_variantes?producto_id=eq.$producto&select=id" \
+                    "producto_imagenes?producto_id=eq.$producto&select=id" \
+                    "productos_publicos?slug=eq.paneton&select=id"; do
+      n=$(anon "$consulta" | filas)
+      case "$n" in
+        0) ok "${consulta%%\?*}: fuera de temporada no lo ve un anonimo" ;;
+        *) fail "${consulta%%\?*}: un anonimo lo ve fuera de temporada -> $n" ;;
+      esac
+    done
+    srv "tematica_productos?tematica_id=eq.$navidad&producto_id=eq.$producto" -X DELETE >/dev/null
+    despues=$(anon "productos?slug=eq.paneton&select=id" | filas)
+    [ "$antes" = "1" ] && [ "$despues" = "1" ] \
+      && ok "y sin la marca vuelve a verse (antes $antes, después $despues)" \
+      || fail "el panetón no se veía antes de marcarlo o no vuelve a verse (antes $antes, después $despues)"
+  fi
 fi
 
 echo

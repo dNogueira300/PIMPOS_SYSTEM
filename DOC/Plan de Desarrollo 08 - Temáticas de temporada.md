@@ -546,3 +546,31 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   vista, así que la columna nueva no habría aparecido. `tematica_publica` se amplía al final.
 - Una temática nueva tiene que decir su estilo (la columna no tiene valor por defecto). La fixture de
   `0047_tematicas.test.sql` lo dice; pgTAP queda en 809.
+
+**T4 (20/11/2026).**
+
+- **Los dos estilos van en el mismo CSS**, bajo `[data-tematica="navidad"][data-estilo="noche|crema"]`,
+  y los tokens se repiten en `:root:has(...)`: la envoltura de `CascaraPublica` es `display: contents`
+  y no pinta fondo, así que sin eso el `body` seguía crema detrás del pino. En `noche` el logo va
+  sobre un fondo crema (`.logo-publico`), como pedía la maqueta.
+- **Los adornos son solo CSS** (luces en `header::before/::after`, nieve en el `::before` de la
+  envoltura, borde nevado en la sección); no hizo falta `adornos-navidad.tsx`. La cinta y la sección
+  sí son componentes (`cinta-tematica.tsx`, `seccion-temporada.tsx`).
+- **La sección de temporada reparte como «Lo que horneamos hoy»**: con una o dos fotos, tarjetas al
+  lado de la pizarra; con tres o más, la rejilla. Con una tarjeta sola en una fila de cuatro quedaba
+  medio vacía, que es lo que el bloque de abajo ya había resuelto. El borde nevado cruza la pantalla:
+  la sección ocupa todo el ancho y el contenido va dentro.
+- **La barra de arriba dice el texto de la campaña** con su propio nombre de región («Campaña de
+  temporada») y un icono de destellos, en lugar del horario.
+- **Las E2E que encienden la temática van en un proyecto aparte** (`tematicas`, que depende de `movil`
+  y `escritorio`), y un proyecto `preparar` apaga antes la que esté activa. Sin eso, una temática
+  encendida a mitad de suite tiñe el sitio y tumba pruebas de color; y en diciembre la suite entera
+  correría con Navidad encendida por fechas. `panel-tematicas.spec.ts` se mudó también allí.
+- **`verificar-sitio-publico.sh` prueba el Punto 5** por PostgREST: marca el panetón como solo de
+  Navidad con la llave de servicio, comprueba que `anon` deja de verlo en `productos`,
+  `producto_variantes`, `producto_imagenes` y `productos_publicos`, y que vuelve a verse al quitar la
+  marca. Si hay una temática activa, se salta diciendo por qué.
+- **Verificación:** Vitest 580 (contrastes de los dos estilos, cuenta regresiva, estilos), pgTAP 809,
+  E2E de temáticas 4/4 (incluido axe a 375 px, con el menú abierto y en escritorio, en los dos
+  estilos), sitio público 259 pasan y 35 se saltan, panel (accesibilidad, productos, historial) 212
+  pasan.

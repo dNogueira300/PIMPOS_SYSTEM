@@ -37,14 +37,22 @@ async function Editor({
     .maybeSingle();
   if (!t?.id) notFound();
 
-  const [{ data: elegidos }, { data: catalogo }] = await Promise.all([
-    supabase
-      .from("tematica_productos")
-      .select("producto_id, solo_temporada, orden, productos(nombre)")
-      .eq("tematica_id", t.id)
-      .order("orden"),
-    supabase.from("productos").select("id, nombre").is("deleted_at", null).order("nombre"),
-  ]);
+  const [{ data: elegidos, error: errorElegidos }, { data: catalogo, error: errorCatalogo }] =
+    await Promise.all([
+      supabase
+        .from("tematica_productos")
+        .select("producto_id, solo_temporada, orden, productos(nombre)")
+        .eq("tematica_id", t.id)
+        .order("orden"),
+      supabase.from("productos").select("id, nombre").is("deleted_at", null).order("nombre"),
+    ]);
+  // Sin sus productos no se pinta el formulario: «Guardar» con la lista vacía
+  // borraría todos los de la temática (`guardar_tematica` quita lo que no llega).
+  if (errorElegidos || errorCatalogo || !elegidos || !catalogo) {
+    return (
+      <p role="alert">No se pudieron cargar los productos de la temática. Recarga la página.</p>
+    );
+  }
 
   // Las columnas de una vista salen nullables en los tipos generados: se
   // normalizan aquí, nunca con `!`.
@@ -81,12 +89,12 @@ async function Editor({
       />
       <FormularioTematica
         tematica={tematica}
-        productos={(elegidos ?? []).map((e) => ({
+        productos={elegidos.map((e) => ({
           producto_id: e.producto_id,
           nombre: e.productos?.nombre ?? "Un producto",
           solo_temporada: e.solo_temporada,
         }))}
-        catalogo={catalogo ?? []}
+        catalogo={catalogo}
       />
     </>
   );

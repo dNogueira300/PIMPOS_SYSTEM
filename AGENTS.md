@@ -256,6 +256,10 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   Para correr solo las de temáticas: `--project=tematicas --no-deps` (y `--project=preparar` si hace
   falta apagar una temática antes). Un `--project=movil` arrastra también `preparar`, que fuera de
   temporada no hace nada.
+- **En diciembre, `preparar` deja Navidad «Apagada» en la base local** hasta el 26/12 si después no
+  corre `tematicas` (pasa al correr un solo proyecto). Se devuelve con
+  `--project=tematicas --no-deps` o desde el panel. Y si `preparar` falla, Playwright salta `movil` y
+  `escritorio` enteros: mirar primero ese fallo.
 - **Encender una temática por SQL no cambia el sitio**: está en caché (`use cache`, `cacheLife("hours")`)
   y solo el «Guardar» del panel la refresca (`updateTag` de `marca` y `catalogo`). Por eso las E2E
   encienden y apagan desde el panel, y el SQL solo prepara datos o limpia al final.

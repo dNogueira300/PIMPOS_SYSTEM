@@ -20,48 +20,52 @@
  */
 
 /* --- Navidad · Noche ------------------------------------------------------ */
-:root:has([data-tematica="navidad"][data-estilo="noche"]),
-[data-tematica="navidad"][data-estilo="noche"] {
-  --background: #13291f;
-  --foreground: #f7f1e3;
-  --muted: #1b382b;
-  --muted-foreground: #d9cfba;
-  --secondary: #1b382b;
-  --secondary-foreground: #f7f1e3;
-  --accent: #234536;
-  --accent-foreground: #f7f1e3;
-  --card: #1d3b2e;
-  --card-foreground: #f7f1e3;
-  --popover: #1d3b2e;
-  --popover-foreground: #f7f1e3;
-  /* Titulares y botones de línea en crema; el bloque del hero y el del
-     delivery, crema con tinta de pino. */
-  --primary: #f7f1e3;
-  --primary-foreground: #13291f;
-  --border: rgb(247 241 227 / 0.18);
-  --ring: #f2c46d;
-  --cta-fondo: #b3262a;
-  --cta-texto: #ffffff;
-  --cta-fondo-hover: #8f1d21;
-  --cta-texto-hover: #ffffff;
-  /* El verde de siempre no se ve sobre el pino (1.95): verde claro con letra
-     verde oscura, como el de la portada del celular. */
-  --whatsapp-fondo: #e7f2df;
-  --whatsapp-texto: #234735;
-  --whatsapp-fondo-hover: #d3e8c6;
-  --acento-texto: #f2c46d;
-  --precio-texto: #f2c46d;
-  --guia-puntos: rgb(242 196 109 / 0.4);
-  --franja-fondo: #9e1f24;
-  --franja-texto: #fff4e0;
-  --aviso-fondo: #0c1d15;
-  --aviso-texto: #f2c46d;
-  --sello-fondo: rgb(242 196 109 / 0.14);
-  --sello-borde: rgb(242 196 109 / 0.5);
-  --sello-texto: #f2c46d;
-  --nieve: rgb(255 255 255 / 0.85);
-  --cable-luces: #6b8a7a;
-  --gorro-nieve: rgb(255 255 255 / 0.92);
+/* Solo en pantalla: al imprimir, el navegador no pinta fondos y el texto crema
+   de la noche saldría invisible sobre el papel. Se imprime con la marca. */
+@media screen {
+  :root:has([data-tematica="navidad"][data-estilo="noche"]),
+  [data-tematica="navidad"][data-estilo="noche"] {
+    --background: #13291f;
+    --foreground: #f7f1e3;
+    --muted: #1b382b;
+    --muted-foreground: #d9cfba;
+    --secondary: #1b382b;
+    --secondary-foreground: #f7f1e3;
+    --accent: #234536;
+    --accent-foreground: #f7f1e3;
+    --card: #1d3b2e;
+    --card-foreground: #f7f1e3;
+    --popover: #1d3b2e;
+    --popover-foreground: #f7f1e3;
+    /* Titulares y botones de línea en crema; el bloque del hero y el del
+       delivery, crema con tinta de pino. */
+    --primary: #f7f1e3;
+    --primary-foreground: #13291f;
+    --border: rgb(247 241 227 / 0.18);
+    --ring: #f2c46d;
+    --cta-fondo: #b3262a;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #8f1d21;
+    --cta-texto-hover: #ffffff;
+    /* El verde de siempre no se ve sobre el pino (1.95): verde claro con letra
+       verde oscura, como el de la portada del celular. */
+    --whatsapp-fondo: #e7f2df;
+    --whatsapp-texto: #234735;
+    --whatsapp-fondo-hover: #d3e8c6;
+    --acento-texto: #f2c46d;
+    --precio-texto: #f2c46d;
+    --guia-puntos: rgb(242 196 109 / 0.4);
+    --franja-fondo: #9e1f24;
+    --franja-texto: #fff4e0;
+    --aviso-fondo: #0c1d15;
+    --aviso-texto: #f2c46d;
+    --sello-fondo: rgb(242 196 109 / 0.14);
+    --sello-borde: rgb(242 196 109 / 0.5);
+    --sello-texto: #f2c46d;
+    --nieve: rgb(255 255 255 / 0.85);
+    --cable-luces: #6b8a7a;
+    --gorro-nieve: rgb(255 255 255 / 0.92);
+  }
 }
 /* El tapiz de panes se perdía sobre lo oscuro. */
 [data-tematica="navidad"][data-estilo="noche"] .tapiz-publico {
@@ -80,23 +84,25 @@
 }
 
 /* --- Navidad · Crema ------------------------------------------------------ */
-:root:has([data-tematica="navidad"][data-estilo="crema"]),
-[data-tematica="navidad"][data-estilo="crema"] {
-  --primary: #a3201f;
-  --cta-fondo: #a3201f;
-  --cta-texto: #ffffff;
-  --cta-fondo-hover: #821918;
-  --cta-texto-hover: #ffffff;
-  --acento-texto: #1f4d3a;
-  --franja-fondo: #1f4d3a;
-  --franja-texto: #fbf6ea;
-  --aviso-fondo: #173d2e;
-  --aviso-texto: #fbf6ea;
-  --sello-borde: rgb(163 32 31 / 0.35);
-  --sello-texto: #a3201f;
-  --nieve: rgb(31 77 58 / 0.18);
-  --cable-luces: #314a3e;
-  --gorro-nieve: #ffffff;
+@media screen {
+  :root:has([data-tematica="navidad"][data-estilo="crema"]),
+  [data-tematica="navidad"][data-estilo="crema"] {
+    --primary: #a3201f;
+    --cta-fondo: #a3201f;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #821918;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #1f4d3a;
+    --franja-fondo: #1f4d3a;
+    --franja-texto: #fbf6ea;
+    --aviso-fondo: #173d2e;
+    --aviso-texto: #fbf6ea;
+    --sello-borde: rgb(163 32 31 / 0.35);
+    --sello-texto: #a3201f;
+    --nieve: rgb(31 77 58 / 0.18);
+    --cable-luces: #314a3e;
+    --gorro-nieve: #ffffff;
+  }
 }
 
 /* --- Adornos comunes de Navidad ------------------------------------------ */
@@ -195,7 +201,7 @@
   white-space: nowrap;
 }
 .cinta-tematica li::before {
-  content: "✦";
+  content: "✦" / "";
   margin-right: 2.5rem;
   opacity: 0.8;
 }
