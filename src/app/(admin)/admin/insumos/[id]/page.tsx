@@ -90,6 +90,9 @@ async function Ficha({
             <Link href={`/admin/insumos/${id}/editar`} className="boton-linea">
               <Pencil aria-hidden className="size-5" /> Editar datos
             </Link>
+            <Link href={`/admin/insumos/ingresos?insumo=${id}`} className="boton-linea">
+              Ver ingresos
+            </Link>
             {esAdministracion ? <EnlaceHistorial de="insumo" id={id} /> : null}
           </div>
         }

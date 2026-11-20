@@ -30,6 +30,7 @@ o consumos hay que decirle cuánto hay hoy. Lo hace alguien de la administració
 | Algo se registró mal                  | Administrador  | Ficha del insumo → Anular                       |
 | Se cuenta el almacén                  | Administrador  | Insumos → Conteo                                |
 | Ver cuánto hay y cuánto vale          | Todos          | Insumos → Reportes (con Excel y PDF para bajar) |
+| Ver cuándo se compró algo             | Todos          | Insumos → Historial de ingresos                 |
 
 Una baja **no descuenta nada** hasta que la administración la aprueba. En los insumos que vencen se
 puede elegir **de qué lote** sale («De qué lote»); si no se elige, sale del que vence primero. Un
@@ -42,6 +43,13 @@ envases), el ingreso no la pide. Se puede cambiar cuando se quiera desde «Edita
 El kárdex de cada insumo va en el **orden en que se registró** cada cosa, con la fecha y hora que se
 escribió al lado: si alguien registra tarde algo que pasó antes, esa fila sale donde se registró,
 y el saldo de cada fila es el que había de verdad en ese momento.
+
+**Cuándo se compró.** La lista de Insumos dice en cada uno su **«Último ingreso»**, la fecha que se
+escribió en «Fecha y hora» al registrar la compra. **Insumos → Historial de ingresos** enseña todas
+las compras, una por fila —fecha, cantidad, proveedor, documento y quién la registró—, y se filtra
+por insumo, por proveedor y por fechas («Esta semana», «Este mes» o desde–hasta). Desde la ficha de
+un insumo, **«Ver ingresos»** abre el historial ya filtrado. Un ingreso anulado sale tachado y no
+cuenta como el último.
 
 ## Si algo se registró mal
 

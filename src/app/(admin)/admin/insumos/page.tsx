@@ -7,6 +7,7 @@ import { EncabezadoPanel } from "@/components/panel/encabezado-panel";
 import { EtiquetaInsumo } from "@/components/panel/etiqueta-insumo";
 import { ListaAdaptable } from "@/components/panel/lista-adaptable";
 import { exigirAcceso } from "@/lib/auth/sesion";
+import { fechaCorta } from "@/lib/insumos/ingresos";
 import { describirExistencia, presentacionPrincipal } from "@/lib/insumos/unidades";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 
@@ -54,7 +55,9 @@ async function Lista({
 
   let consulta = supabase
     .from("existencias_insumo")
-    .select("id, nombre, unidad_base, cantidad_base, bajo_minimo, por_vencer, proximo_vencimiento")
+    .select(
+      "id, nombre, unidad_base, cantidad_base, bajo_minimo, por_vencer, proximo_vencimiento, ultimo_ingreso",
+    )
     .eq("activo", true)
     .order("nombre");
   if (typeof buscar === "string" && buscar.trim() !== "") {
@@ -84,6 +87,7 @@ async function Lista({
     cantidad_base: i.cantidad_base ?? 0,
     bajo_minimo: i.bajo_minimo ?? false,
     por_vencer: i.por_vencer ?? false,
+    ultimo_ingreso: i.ultimo_ingreso,
   }));
 
   const presentacion = (insumoId: string) =>
@@ -139,6 +143,13 @@ async function Lista({
               describirExistencia(Number(i.cantidad_base), i.unidad_base, presentacion(i.id)),
           },
           {
+            // Pedido de Dan (19/11/2026): cuándo se compró por última vez, sin
+            // abrir el kárdex. Lo anulado no cuenta (0046).
+            titulo: "Último ingreso",
+            celda: (i) =>
+              i.ultimo_ingreso ? `Último ingreso: ${fechaCorta(i.ultimo_ingreso)}` : "Sin ingresos",
+          },
+          {
             titulo: "Avisos",
             celda: (i) => (
               <span className="flex flex-wrap gap-1">
@@ -151,6 +162,12 @@ async function Lista({
         vacio={<p>No hay insumos que coincidan. Prueba con otra palabra o crea uno nuevo.</p>}
       />
       <p className="mt-4 flex flex-wrap gap-x-4 text-sm">
+        <Link
+          href={`${RUTA}/ingresos`}
+          className="inline-flex min-h-11 min-w-11 items-center underline"
+        >
+          Historial de ingresos
+        </Link>
         <Link
           href={`${RUTA}/proveedores`}
           className="inline-flex min-h-11 min-w-11 items-center underline"
