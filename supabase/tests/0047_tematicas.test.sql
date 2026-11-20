@@ -40,7 +40,15 @@ select paneton, 'paneton-0047.webp', 'Panetón de prueba', true from ref;
 -- fechas de fábrica (1–26/12) podrían cruzarse con las de la fixture.
 update public.tematicas set inicio = (select hoy + 100 from ref), fin = (select hoy + 110 from ref)
  where slug = 'navidad';
+-- Y el Día de la Madre (0049), lejos de todo lo que esta prueba mueve, para que
+-- sus fechas de fábrica no se crucen según el día en que corra.
+update public.tematicas set inicio = (select hoy + 400 from ref), fin = (select hoy + 410 from ref),
+       fecha_evento = null
+ where slug = 'dia-de-la-madre';
 alter table public.tematicas drop constraint tematicas_slug_conocido;
+-- La temática de prueba no tiene diseño en el código: desde 0049 cada temática
+-- admite solo sus estilos, y esta no tiene ninguno.
+alter table public.tematicas drop constraint tematicas_estilo_de_su_tematica;
 insert into public.tematicas (slug, nombre, inicio, fin, estilo)
 select 'prueba-0047', 'San Prueba', hoy + 30, hoy + 40, 'noche' from ref;
 alter table ref add column prueba uuid;

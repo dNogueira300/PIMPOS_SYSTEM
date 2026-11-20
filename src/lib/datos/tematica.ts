@@ -3,6 +3,7 @@ import { cacheLife, cacheTag } from "next/cache";
 import { hoyEnLima } from "@/lib/insumos/periodo";
 import { crearClientePublico } from "@/lib/supabase/publico";
 import { textoCuentaRegresiva } from "@/lib/tematicas/cuenta-regresiva";
+import { esSlugConDiseno, type SlugConDiseno } from "@/lib/tematicas/disenos";
 import { comoEstilo, type Estilo } from "@/lib/tematicas/estilos";
 
 import { avisarDeConsulta } from "./aviso";
@@ -18,11 +19,9 @@ import { ETIQUETAS } from "./etiquetas";
  * panel la refresca al guardar (etiquetas `marca` y `catalogo`).
  */
 
-/** Los slugs que tienen diseño en el código. Otro slug no viste el sitio. */
-const SLUGS_CON_DISENO = ["navidad"] as const;
-
 export type TematicaPublica = {
-  slug: (typeof SLUGS_CON_DISENO)[number];
+  /** Solo las que tienen diseño en el código (`disenos.ts`): otra no viste el sitio. */
+  slug: SlugConDiseno;
   estilo: Estilo;
   nombre: string;
   fechaEvento: string | null;
@@ -47,12 +46,12 @@ export async function obtenerTematicaActiva(): Promise<TematicaPublica | null> {
     avisarDeConsulta("tematica_publica", error);
     return null;
   }
-  const slug = SLUGS_CON_DISENO.find((s) => s === data?.slug);
-  if (!data || !slug) return null;
+  if (!data || !esSlugConDiseno(data.slug)) return null;
+  const slug = data.slug;
 
   return {
     slug,
-    estilo: comoEstilo(data.estilo),
+    estilo: comoEstilo(slug, data.estilo),
     nombre: data.nombre ?? "",
     fechaEvento: data.fecha_evento,
     textoAviso: data.texto_aviso,

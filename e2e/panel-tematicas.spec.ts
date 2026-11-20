@@ -133,3 +133,44 @@ test("la lista de temáticas vuelve a Contenido, como las demás listas", async 
     await borrarUsuario(usuario.id);
   }
 });
+
+test("cada temática enseña solo sus estilos, y el Día de la Madre guarda el suyo", async ({
+  page,
+}) => {
+  // Escribe en la fila del Día de la Madre: con el cerrojo de las temáticas.
+  test.setTimeout(120_000);
+  await conCerrojo("tematica-navidad", async () => {
+    const usuario = await entrarComo(page, "administrador");
+    const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");
+    try {
+      await page.goto("/admin/contenido/tematicas");
+      await expect(lista(page).getByRole("link", { name: "Navidad" }).first()).toBeVisible();
+      await expect(
+        lista(page).getByRole("link", { name: "Día de la Madre" }).first(),
+      ).toBeVisible();
+
+      await page.goto("/admin/contenido/tematicas/navidad");
+      await page.getByRole("tab", { name: "Estilo" }).click();
+      await expect(estilos(page)).toHaveCount(2);
+      await expect(estilos(page).nth(0)).toHaveAccessibleName(/Noche de Navidad/);
+      await expect(estilos(page).nth(1)).toHaveAccessibleName(/Crema navideña/);
+
+      await page.goto("/admin/contenido/tematicas/dia-de-la-madre");
+      await page.getByRole("tab", { name: "Estilo" }).click();
+      await expect(estilos(page)).toHaveCount(2);
+      await expect(estilos(page).nth(0)).toHaveAccessibleName(/Rosa sobre crema/);
+      await expect(estilos(page).nth(1)).toHaveAccessibleName(/Todo en rosa/);
+      await expect(estilos(page).nth(0)).toBeChecked();
+
+      await estilos(page).nth(1).check();
+      await page.getByRole("button", { name: "Guardar" }).click();
+      await page.waitForURL("/admin/contenido/tematicas");
+      expect(
+        sqlLocal(`select estilo from public.tematicas where slug = 'dia-de-la-madre'`).trim(),
+      ).toBe("rosa");
+    } finally {
+      sqlLocal(`update public.tematicas set estilo = 'rosa-crema' where slug = 'dia-de-la-madre'`);
+      await borrarUsuario(usuario.id);
+    }
+  });
+});

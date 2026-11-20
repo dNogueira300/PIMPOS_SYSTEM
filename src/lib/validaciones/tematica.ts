@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 import { json, texto, textoOpcional } from "@/lib/panel/formulario";
-import { ESTILOS } from "@/lib/tematicas/estilos";
+import { ESTILOS, esEstiloDe } from "@/lib/tematicas/estilos";
 
 /**
  * El formulario de una temática (plan 08, T2). Los límites son los de la base
@@ -15,6 +15,7 @@ export const ENCENDIDOS = ["fechas", "encendida", "apagada"] as const;
 export const esquemaTematica = z
   .object({
     id: z.uuid(),
+    slug: z.string(),
     inicio: z.iso.date({ error: "Elige el día en que empieza." }),
     fin: z.iso.date({ error: "Elige el día en que termina." }),
     fecha_evento: FECHA.nullable(),
@@ -33,6 +34,12 @@ export const esquemaTematica = z
   .refine((d) => d.fin >= d.inicio, {
     path: ["fin"],
     error: "Termina antes de empezar: revisa las fechas.",
+  })
+  // Cada temática tiene sus estilos (0049); la base rechazaría otro igual, pero
+  // así la persona lee una frase y no un error de la base.
+  .refine((d) => esEstiloDe(d.slug, d.estilo), {
+    path: ["estilo"],
+    error: "Elige uno de los estilos de esta temática.",
   });
 
 export type DatosTematica = z.infer<typeof esquemaTematica>;
@@ -46,6 +53,7 @@ function leerProductos(fd: FormData): unknown[] {
 export function leerTematica(fd: FormData) {
   return {
     id: texto(fd, "id"),
+    slug: texto(fd, "slug"),
     inicio: texto(fd, "inicio"),
     fin: texto(fd, "fin"),
     fecha_evento: textoOpcional(fd, "fecha_evento"),
