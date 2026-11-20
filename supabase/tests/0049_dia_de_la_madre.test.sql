@@ -9,7 +9,7 @@
 --   · el Día de la Madre en diciembre choca con Navidad;
 --   · en sus fechas es la activa, y el público lee su estilo.
 begin;
-select plan(20);
+select plan(21);
 
 create temp table ref as
 select (now() at time zone 'America/Lima')::date as hoy,
@@ -38,14 +38,18 @@ select is(
 select is(
   (select count(*)::int from public.tematica_productos where tematica_id = (select madre from ref)),
   0, 'sin productos de fábrica');
+-- Solo `created_by`: una E2E que guarde el Día de la Madre desde el panel deja
+-- su `updated_by` en la base local, y no se puede quitar.
 select ok(
-  (select created_by is null and updated_by is null from public.tematicas
-    where slug = 'dia-de-la-madre'),
+  (select created_by is null from public.tematicas where slug = 'dia-de-la-madre'),
   'sin autoría: no la creó una persona');
+-- El alta, no los cambios: en local, las E2E guardan el Día de la Madre desde el
+-- panel y esos cambios sí se auditan, como deben.
 select is(
   (select count(*)::int from app.auditoria
-    where tabla = 'tematicas' and registro_id = (select madre from ref)),
-  0, 'y sin filas en la auditoría');
+    where tabla = 'public.tematicas' and registro_id = (select madre from ref)
+      and operacion = 'INSERT'),
+  0, 'y su alta no dejó fila en la auditoría');
 
 -- Los estilos de cada temática.
 select throws_ok(
@@ -94,6 +98,11 @@ select is((select estilo from public.tematica_publica), 'rosa-crema', 'con su es
 reset role;
 
 -- La restricción de pares es la que manda, también con el nombre de antes fuera.
+select ok(
+  exists (select 1 from pg_constraint
+           where conrelid = 'public.tematicas'::regclass
+             and conname = 'tematicas_estilo_de_su_tematica'),
+  'cada temática tiene sus estilos (restricción de pares)');
 select ok(
   not exists (select 1 from pg_constraint
                where conrelid = 'public.tematicas'::regclass

@@ -3,6 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { sqlLocal } from "./ayudas/base";
 import { conCerrojo } from "./ayudas/cerrojo";
 import { entrarComo } from "./ayudas/sesion";
+import { apartarLasDemas } from "./ayudas/tematicas";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 /**
@@ -51,6 +52,8 @@ test("encender Navidad a mano publica lo de temporada y apagarla lo esconde", as
       insert into public.producto_variantes (producto_id, nombre, precio, unidad_venta, es_predeterminada)
       select id, 'Unidad', 25, 'unidad', true from public.productos where slug = '${slug}';
     `);
+    // Las demás temáticas, lejos: según el día, sus fechas se cruzarían.
+    const restaurarLasDemas = apartarLasDemas("navidad");
     const usuario = await entrarComo(page, "administrador");
     try {
       await page.goto("/admin/contenido");
@@ -101,6 +104,7 @@ test("encender Navidad a mano publica lo de temporada y apagarla lo esconde", as
       );
     } finally {
       limpiar(slug);
+      restaurarLasDemas();
       await borrarUsuario(usuario.id);
     }
   });

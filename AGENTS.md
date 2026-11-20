@@ -241,10 +241,12 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   (el único elemento que la temática añade al HTML, `.adornos-tematica`, en `Cabecera`), nieve con
   copos grandes, el texto de campaña en la barra, la cinta y la sección de
   temporada en la portada. **Sin temática activa el HTML no cambia.**
-- **Una temática nueva** (Día de la Madre…) es una migración (amplía los `check` de `slug` y `estilo`
-  y siembra la fila), su CSS en `tematicas.css`, su slug en `SLUGS_CON_DISENO`
-  (`src/lib/datos/tematica.ts`) y sus estilos en `src/lib/tematicas/estilos.ts`. Los contrastes de cada
-  estilo los mide `src/estilos/tematicas.test.ts`.
+- **Una temática nueva** es una migración (amplía `tematicas_slug_conocido` y la restricción de pares
+  `tematicas_estilo_de_su_tematica`, y siembra la fila sin auditar, como 0049), su entrada en
+  `src/lib/tematicas/disenos.ts` (sus estilos, con nombre y ayuda, y su artículo) y su CSS en
+  `tematicas.css`. Los contrastes de cada estilo los mide `src/estilos/tematicas.test.ts`. Las E2E que
+  encienden una temática apartan antes las demás (`apartarLasDemas`, `e2e/ayudas/tematicas.ts`): según
+  el día, sus fechas de fábrica se cruzarían.
 - **Las E2E que encienden una temática corren aparte**, en el proyecto `tematicas` de
   `playwright.config.ts`, que depende de `movil` y `escritorio`: una temática viste el sitio entero y
   las pruebas que miran colores o la barra fallarían a ratos. Antes de todo, el proyecto `preparar`
