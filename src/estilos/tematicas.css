@@ -67,6 +67,12 @@
     --gorro-nieve: rgb(255 255 255 / 0.92);
   }
 }
+/* Leaflet pinta en blanco su crédito y sus globos, tenga el sitio el color que
+   tenga: dentro del mapa, los enlaces vuelven al terracota de la marca (con
+   el crema de la noche no se leían; lo cazó axe en /ubicacion). */
+[data-tematica="navidad"][data-estilo="noche"] .leaflet-container {
+  --primary: var(--pimpos-accion-800);
+}
 /* El tapiz de panes se perdía sobre lo oscuro. */
 [data-tematica="navidad"][data-estilo="noche"] .tapiz-publico {
   background-image: none;

@@ -570,7 +570,22 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   Navidad con la llave de servicio, comprueba que `anon` deja de verlo en `productos`,
   `producto_variantes`, `producto_imagenes` y `productos_publicos`, y que vuelve a verse al quitar la
   marca. Si hay una temática activa, se salta diciendo por qué.
+- **La revisión de la rama (opus) encontró** que las dos pruebas del proyecto `tematicas` podían correr
+  a la vez y pisarse la fila de Navidad (ahora con el cerrojo `tematica-navidad`), que al imprimir con
+  la noche el texto crema salía invisible sobre el papel (los tokens van en `@media screen`), que si
+  fallaba la lectura de productos el formulario salía vacío y «Guardar» los borraba todos (ahora se
+  avisa y no se pinta), y menores: la estrella de la cinta se leía en voz alta, las casillas «Solo se
+  vende en esta temporada» no decían de qué producto eran, el editor no avisaba de que la portada
+  enseña ocho, y el guion borraba una fila que no había creado. Todo arreglado.
+- **axe en todas las páginas públicas** con la temática (no solo la portada) cazó que en `/ubicacion`
+  el crédito de Leaflet, que se pinta en blanco, quedaba con letra crema: dentro del mapa, `--primary`
+  vuelve al terracota de la marca.
+- **Rendimiento** (20/11/2026, `/` con Navidad encendida en estilo noche, frente a `main` `68e5f02`,
+  10 rondas intercaladas con las dos builds guardadas, misma sesión): mediana **91 frente a 90.5**,
+  media 91.1 frente a 90.3, p = 0.13 (prueba de permutación). Las 20 pasadas cayeron en el modo de LCP
+  alto (> 3 s) en las dos versiones. La temática no cuesta.
 - **Verificación:** Vitest 580 (contrastes de los dos estilos, cuenta regresiva, estilos), pgTAP 809,
-  E2E de temáticas 4/4 (incluido axe a 375 px, con el menú abierto y en escritorio, en los dos
-  estilos), sitio público 259 pasan y 35 se saltan, panel (accesibilidad, productos, historial) 212
-  pasan.
+  E2E de temáticas 4/4 con dos procesos a la vez (axe en las 11 páginas públicas a 375 px y en
+  escritorio, menú abierto, área táctil de la sección, cinta quieta con menos movimiento, sin adornos
+  ni letra crema al imprimir), sitio público 259 pasan y 35 se saltan, panel (accesibilidad, productos,
+  historial) 212 pasan, y `verificar-sitio-publico.sh` en verde.
