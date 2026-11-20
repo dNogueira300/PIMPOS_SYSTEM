@@ -230,6 +230,14 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   const reparto = page.getByRole("heading", { name: "Te lo llevamos a tu casa" });
   expect(await familia(reparto)).toMatch(/dancing/i);
   expect(await familia(page.getByText("Horneando en Iquitos"))).toMatch(/dancing/i);
+  // El eslogan de la portada movil es el tercero, y el que mas se ve.
+  if (test.info().project.name === "movil") {
+    expect(await familia(page.locator(".portada-movil-texto .texto-caligrafico"))).toMatch(
+      /dancing/i,
+    );
+  }
+  // Y en ningun sitio mas: con mesura quiere decir esos tres.
+  await expect(page.locator(".texto-caligrafico")).toHaveCount(3);
 
   // Y que los archivos se hayan cargado de verdad, no solo declarado.
   const cargadas = await page.evaluate(() =>
@@ -243,9 +251,9 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
 test("el ingreso sigue en Jakarta y no descarga las fuentes del sitio publico", async ({
   page,
 }) => {
-  // Playfair y Dancing viven en `fuentes-publicas.ts`, que solo importa la
-  // cascara publica: el panel y el ingreso conservan la letra de la direccion A
-  // y no pagan los 75 KB de dos fuentes que no usan.
+  // Playfair y Dancing van sin precarga y solo las usa la cascara publica: el
+  // panel y el ingreso conservan la letra de la direccion A y no pagan dos
+  // fuentes que no usan. Con precarga, Next las pondria en todas las rutas.
   const fuentes: string[] = [];
   page.on("request", (peticion) => {
     if (peticion.url().endsWith(".woff2")) fuentes.push(peticion.url());

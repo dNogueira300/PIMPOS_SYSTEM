@@ -36,17 +36,33 @@ from pathlib import Path
 BASE = "https://raw.githubusercontent.com/google/fonts/main/ofl"
 
 # nombre -> (url del TTF variable, carpeta de la licencia, peso de la instancia
-# estatica para la imagen de compartir, o None si la imagen no la usa)
+# estatica para la imagen de compartir, o None si la imagen no la usa). Desde la
+# direccion A la imagen para compartir usa solo Jakarta, asi que Playfair ya no
+# genera la suya: `src/recursos/compartir/playfair-700.ttf` queda como estaba.
 FUENTES = {
-    "playfair": (f"{BASE}/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf", "playfairdisplay", 700),
+    "playfair": (f"{BASE}/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf", "playfairdisplay", None),
     "jakarta": (f"{BASE}/plusjakartasans/PlusJakartaSans%5Bwght%5D.ttf", "plusjakartasans", 500),
     "dancing": (f"{BASE}/dancingscript/DancingScript%5Bwght%5D.ttf", "dancingscript", None),
 }
 
-# Fuentes cuyo archivo web se fija en un solo peso en vez de ir variable. La
-# caligrafia solo se escribe en seminegrita (600): la variable entera pesa
-# 43 KB y la instancia, menos, para un acento que sale en tres sitios.
-INSTANCIA_WEB = {"dancing": 600}
+# Fuentes cuyo archivo web se fija en un solo peso en vez de ir variable, porque
+# el sitio solo escribe ese. Las dos solo las baja el sitio publico, y medido
+# con Lighthouse cada KB de fuente le cuesta a la portada: Playfair variable
+# entera pesaba 49 KB y, con la caligrafia, le quitaba 8 puntos a la portada.
+# - Playfair, en negrita (700): los titulos de la maqueta que eligio Dan.
+# - Dancing Script, en seminegrita (600): 43 KB la variable, 26 la instancia.
+INSTANCIA_WEB = {"playfair": 700, "dancing": 600}
+
+# Caracteristicas OpenType que se conservan. "*" las deja todas; en las dos del
+# sitio publico se quitan las que ningun texto usa (versalitas, fracciones,
+# ordinales, superindices, alternativas): en Playfair son un tercio del archivo.
+# Se quedan el interletraje y las ligaduras, las cifras alineadas (`lnum`, que
+# piden los titulos) y, en la caligrafia, las formas de inicio, medio y final
+# de palabra, que son las que enlazan las letras.
+CARACTERISTICAS = {
+    "playfair": "kern,liga,calt,locl,ccmp,mark,mkmk,lnum",
+    "dancing": "kern,liga,calt,locl,ccmp,mark,mkmk,init,medi,fina",
+}
 
 # Latin basico y latin-1 (tildes, ñ, ¿, ¡, °), mas la tipografia que el sitio
 # escribe de verdad: rayas, comillas curvas y angulares, punto medio, puntos
@@ -154,7 +170,7 @@ def main(nombres: list[str]) -> int:
             str(origen_web),
             f"--unicodes={UNICODES}",
             "--flavor=woff2",
-            "--layout-features=*",
+            f"--layout-features={CARACTERISTICAS.get(nombre, '*')}",
             f"--output-file={web}",
         )
         if nombre in RENOMBRAR:

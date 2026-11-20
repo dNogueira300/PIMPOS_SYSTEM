@@ -55,8 +55,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  // La clase de `next/font` publica `--fuente-texto` para títulos y texto,
-  // que es lo que consume la capa de primitivos de globals.css.
+  // Las clases de `next/font` publican las variables de las tres fuentes, que
+  // consume la capa de primitivos de globals.css. El panel solo usa Jakarta;
+  // Playfair y Dancing, solo el sitio público (`.sitio-publico`).
   return (
     <html lang="es-PE" className={clasesDeFuentes}>
       <body>{children}</body>

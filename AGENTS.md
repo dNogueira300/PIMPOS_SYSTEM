@@ -687,8 +687,11 @@ false` con `breakpoints` en embla (el módulo se descarga igual, el bloqueo se q
   declara («Playfair Display»), y la OFL prohíbe que una **versión modificada** lo lleve. Recortar a
   latín o fijar un peso es modificar, así que la derivada se llama «Playfair Pimpos» por dentro
   —el trazo no cambia, y el nombre CSS lo pone `next/font`, no la tabla `name`—. Fraunces, Inter y
-  Plus Jakarta Sans no declaran ninguno. Se ve en la primera línea del `OFL.txt` de cada fuente, y
-  `scripts/preparar-fuentes.py` falla si el nombre reservado sigue dentro del archivo.
+  Plus Jakarta Sans no declaran ninguno; Dancing Script sí («Dancing Script» → «Dancing Pimpos»). Se ve
+  en la primera línea del `OFL.txt` de cada fuente, y `scripts/preparar-fuentes.py` falla si el nombre
+  reservado sigue en los **nombres** de la fuente. El aviso de copyright, la marca y la licencia de
+  dentro del archivo (registros 0, 7, 13 y 14) no se tocan: la OFL obliga a conservar el copyright.
+  Hasta el 19/11/2026 el guion también los reescribía.
 - **`GET /rest/v1/` (la raíz) exige `service_role` en el alojado** — devuelve el esquema OpenAPI
   completo. Con la `anon` responde 401 `"Only the service_role API key can be used for this
 endpoint"`. Para un ping se consulta una tabla real; meter la `service_role` en un workflow
@@ -1371,16 +1374,28 @@ acento caligráfico; **Plus Jakarta Sans** sigue en el texto, los precios y las 
 el ingreso** siguen solo en Jakarta, como en A. La caligrafía va en tres sitios y en ninguno más: el
 eslogan de la portada móvil, «Horneando en Iquitos» y el titular «Te lo llevamos a tu casa»; nunca
 en menú, botones, precios, nombres de producto, párrafos ni el panel, nunca por debajo de 20 px ni
-en mayúsculas (`.texto-caligrafico` en `globals.css`). Playfair y Dancing viven en
-`src/estilos/fuentes-publicas.ts`, que solo importa `CascaraPublica`, y van **sin precarga**: así el
-navegador solo las baja donde algo las usa, y el panel no las descarga. Con precarga, Next las ponía
-en todas las rutas, porque el 404 de la raíz también usa `CascaraPublica` y ata la fuente al layout
-raíz; una prueba de `e2e/portada.spec.ts` exige que el ingreso baje un solo woff2. Sus tokens se redefinen en
-`.sitio-publico` (la envoltura de la cáscara, con `display: contents`), porque una variable CSS
-resuelve sus `var()` donde se declara y en `:root` no vería las de `next/font`. Las prepara
-`scripts/preparar-fuentes.py` (ahora admite nombrar una sola fuente): Jakarta 31 KB, Playfair 49 KB
-y Dancing 26 KB, fijada en seminegrita. Las dos con nombre reservado se llaman «Playfair Pimpos» y
-«Dancing Pimpos» por dentro; el aviso de copyright interno se conserva (ver `fuentes/LICENCIA.md`).
+en mayúsculas (`.texto-caligrafico` en `globals.css`). Las tres se declaran en `src/estilos/fuentes.ts`;
+Playfair y Dancing van **sin precarga**, así que el navegador solo las baja donde algo las usa: el
+panel y el ingreso bajan solo Jakarta (una prueba de `e2e/portada.spec.ts` lo exige en `/ingresar`).
+Con precarga, Next las ponía en todas las rutas. La única página fuera del sitio público que baja
+Playfair es el 404 que lanza el panel con `notFound()`: lo pinta `app/not-found.tsx`, que es la
+página pública con `CascaraPublica`. `fuentes.ts` lo importa **solo el layout raíz**, y las tres
+variables de `next/font` van en el `<html>`: si la cáscara importa ese módulo (o las fuentes viven en
+uno que solo importa ella), Turbopack saca sus `@font-face` en una hoja propia, otra petición que
+bloquea el primer pintado, y se notaba en Lighthouse. Lo que limita Playfair y Dancing al sitio
+público son sus tokens, redefinidos en `.sitio-publico` (la envoltura de la cáscara, con
+`display: contents`): en `:root`, `--font-heading` sigue en Jakarta. **Lo que cuesta en Lighthouse** (19/11/2026, 10 pasadas intercaladas contra
+`main`): con Playfair variable (49 KB) y Dancing (26 KB), la portada bajó de 92 a 84 y el FCP simulado
+subió 750 ms en `/`, 610 en `/productos` y 455 en `/contacto`. El modo simulado mete en el FCP toda
+fuente que empiece a bajar antes del primer pintado, aunque vaya con `swap`, así que **cada KB de
+fuente pública cuenta**. Por eso Playfair va fijada en negrita (700, la de los títulos de la maqueta)
+y las dos sin las características OpenType que nada usa: Jakarta 31 KB, Playfair 19 KB, Dancing
+24 KB (74 KB en la portada; las demás páginas públicas no bajan Dancing). Con esos recortes, otras 10
+pasadas intercaladas contra `main` (`d3145cc`) en la misma sesión: `/` **92 frente a 90** (p = 0.77),
+`/productos` 95 → 94 y `/contacto` 96 → 96; accesibilidad 100/100/97 y SEO 100, CLS sin cambios. Las prepara
+`scripts/preparar-fuentes.py`, que ahora admite nombrar una sola fuente. Las dos con nombre
+reservado se llaman «Playfair Pimpos» y «Dancing Pimpos» por dentro, con su aviso de copyright
+intacto (ver `fuentes/LICENCIA.md`).
 
 Dan pidió usar las skills de diseño instaladas. `03 - Frontend.md` §2 mapea cuál en qué fase y con
 qué entregable. **Orden obligatorio:** primero las de proceso (`brand`, `design-system`,

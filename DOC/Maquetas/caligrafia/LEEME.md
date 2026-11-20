@@ -17,9 +17,10 @@ títulos** del sitio público.
 
 **Qué son y qué no son.** Las capturas son el sitio de producción del 19/11/2026 (el rediseño A,
 `f0ebe84`) con las fuentes **inyectadas por Playwright** en el navegador, no un build de esta rama:
-sirven para elegir la letra, no prueban la implementación. Las candidatas se recortaron con
-`scripts/preparar-fuentes.py` y sus pesos son los de la variable entera; la Dancing Script que entró
-en el sitio va fijada en seminegrita y pesa 26 KB, no 43.
+sirven para elegir la letra, no prueban la implementación. Las candidatas se recortaron al mismo
+subconjunto latino con fontTools, a mano (el guion solo conoce las tres fuentes del sitio), y sus pesos
+son los de la variable entera. Las que entraron en el sitio van fijadas en un solo peso y más
+recortadas: Playfair 19 KB en negrita y Dancing Script 24 KB en seminegrita.
 
 Candidatas: Dancing Script (pluma, la más legible), Kaushan Script (pincel) y Cookie (letrero
 retro). Las tres son OFL y declaran un nombre reservado.

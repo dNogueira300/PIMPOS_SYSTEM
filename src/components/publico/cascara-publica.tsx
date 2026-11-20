@@ -4,7 +4,6 @@ import { BarraAviso } from "@/components/publico/barra-aviso";
 import { BotonWhatsApp } from "@/components/publico/boton-whatsapp";
 import { Cabecera } from "@/components/publico/cabecera";
 import { Pie } from "@/components/publico/pie";
-import { clasesDeFuentesPublicas } from "@/estilos/fuentes-publicas";
 import { enlaceWhatsApp, formatearHora, obtenerConfiguracion } from "@/lib/datos/configuracion";
 import { agruparHorario, primeraAperturaEscrita } from "@/lib/datos/horario";
 import { mensajeDePedido, unirConY } from "@/lib/datos/pedido";
@@ -36,11 +35,11 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
   }));
 
   return (
-    // La envoltura solo publica las fuentes del sitio público (Playfair en los
+    // La envoltura solo cambia la letra del sitio público (Playfair en los
     // títulos, Dancing Script en los acentos): con `display: contents` no crea
     // caja, así que cabecera, `main` y pie siguen colgando del `body` a efectos
     // de maquetación. Ver `.sitio-publico` en globals.css.
-    <div className={`sitio-publico contents ${clasesDeFuentesPublicas}`}>
+    <div className="sitio-publico contents">
       {/* Primer elemento enfocable de la pagina: quien navega con teclado no
           tiene que recorrer las siete secciones en cada pagina. */}
       <a

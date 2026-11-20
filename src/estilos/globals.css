@@ -88,11 +88,12 @@
 
 /* Las fuentes del sitio público (Dan, 19/11/2026): Playfair Display en los
    títulos y Dancing Script como acento. `next/font` publica `--fuente-serif` y
-   `--fuente-caligrafica` solo en la envoltura de `CascaraPublica`, así que los
-   tokens se redefinen en ese mismo elemento: una variable CSS resuelve sus
-   `var()` donde se declara, y declarada en `:root` no vería esas dos. Se
-   redefine también la capa 2 (`--font-heading`, `--font-caligrafica`) por lo
-   mismo. El panel y el ingreso no pasan por aquí y no descargan ninguna. */
+   `--fuente-caligrafica` en el `<html>`, pero solo esta envoltura de
+   `CascaraPublica` las usa: aquí se redefinen los tokens de título y de
+   caligrafía, y con ellos la capa 2 (`--font-heading`, `--font-caligrafica`),
+   porque una variable CSS resuelve sus `var()` donde se declara y la de `:root`
+   ya quedó en Jakarta. El panel y el ingreso no pasan por aquí: como las dos
+   van sin precarga, no descargan ninguna. */
 .sitio-publico {
   --pimpos-fuente-titulo: var(--fuente-serif, Georgia, "Times New Roman", serif);
   --pimpos-fuente-caligrafica: var(--fuente-caligrafica, Georgia, "Times New Roman", serif);

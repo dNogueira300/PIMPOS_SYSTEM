@@ -14,21 +14,23 @@ Texto completo de la licencia: <https://openfontlicense.org>
 
 Quién usa cada una: Jakarta, todo el sitio (texto, y títulos del panel y del ingreso); Playfair, los
 títulos del sitio público; Dancing Script, tres acentos caligráficos de la portada. Las dos últimas
-solo se descargan en el sitio público (`src/estilos/fuentes-publicas.ts`).
+van sin precarga (`src/estilos/fuentes.ts`), así que solo se descargan donde se usan: el panel y el
+ingreso bajan solo Jakarta, y Dancing solo la baja la portada.
 
 ## Por qué Playfair y Dancing Script llevan otro nombre por dentro
 
 **Playfair Display declara «Playfair Display» como _Reserved Font Name_** en su licencia, y
 **Dancing Script declara «Dancing Script»**. La OFL (sección 3) prohíbe que una **versión
 modificada** lleve ese nombre, y los archivos de aquí lo son: están recortados al subconjunto
-latino, y el de Dancing Script además fijado en un solo peso. Por eso sus nombres dicen «Playfair
+latino y fijados en un solo peso. Por eso sus nombres dicen «Playfair
 Pimpos» y «Dancing Pimpos»; el trazo es el original, sin tocar.
 
 El aviso de copyright de dentro del archivo **no** se renombra: la licencia obliga a conservarlo, y
-el nombre reservado solo afecta a cómo se llama la fuente. Dancing Script lo conserva tal cual.
-`playfair-latin.woff2` se preparó antes de corregir eso en el guion, y su aviso interno dice «The
-Playfair Pimpos Project Authors»; el aviso correcto es el de la tabla de arriba. Se arregla la
-próxima vez que se regenere Playfair.
+el nombre reservado solo afecta a cómo se llama la fuente. Hasta el 19/11/2026 el guion también lo
+reescribía, y el Playfair de entonces decía «The Playfair Pimpos Project Authors»; el actual, ya
+regenerado, conserva el aviso original. `src/recursos/compartir/playfair-700.ttf` sigue con el aviso
+reescrito: ya no lo usa nada (la imagen para compartir va en Jakarta desde la dirección A) y el guion
+ya no lo regenera.
 
 Plus Jakarta Sans no declara ningún nombre reservado, así que conserva el suyo. Fraunces e Inter,
 las anteriores, tampoco lo declaraban: por eso en F1 no hizo falta renombrar nada.
@@ -43,10 +45,12 @@ escribe de verdad: rayas, comillas curvas y angulares, punto medio, puntos suspe
 de los enlaces. Cubre todo el español —tildes, `ñ`, `ü`, `¿`, `¡`—. No se incluyen cirílico, griego
 ni vietnamita: el sitio no los usa y serían la mitad del peso.
 
-Playfair (400–900) y Jakarta (200–800) son **variables**: un archivo cubre todos los pesos. Dancing
-Script va **fijada en seminegrita (600)**, el único peso que se escribe: 26 KB, frente a los 43 de la
-variable entera. Las tres suman **105 KB**, y el sitio público las baja todas;
-`e2e/presupuesto.spec.ts` falla si lo que se descarga pasa de 140 KB.
+Jakarta (200–800) es **variable**: un archivo cubre todos los pesos, 31 KB. Las dos del sitio
+público van **fijadas en el único peso que se escribe** y sin las características OpenType que
+ningún texto usa (versalitas, fracciones, ordinales, alternativas): Playfair en negrita (700),
+19 KB frente a los 49 de la variable entera; Dancing Script en seminegrita (600), 24 KB frente a 43.
+La portada baja las tres, **74 KB**; `e2e/presupuesto.spec.ts` falla si pasa de 140 KB. Se recortaron
+porque Lighthouse cuenta cada KB de fuente en el primer pintado (ver `AGENTS.md`, «Diseño»).
 
 ## Por qué están aquí y no se cargan desde Google
 

@@ -185,7 +185,7 @@ test("las fuentes que se descargan no pasan de 140 KB", async ({ page }) => {
   // pasaria el techo sin haber medido nada.
   expect(fuentes.length, "No se midio ninguna fuente").toBeGreaterThan(0);
   // Fraunces + Inter pesaban 113 KB. Jakarta + Playfair + Dancing Script
-  // (19/11/2026) suman 105 KB en el sitio publico. El techo no deja que se cuele
-  // una cuarta fuente ni un corte completo sin recortar.
+  // (19/11/2026) suman 74 KB en la portada. El techo no deja que se cuele una
+  // cuarta fuente ni un corte completo sin recortar.
   expect(total).toBeLessThan(140 * 1024);
 });

@@ -249,8 +249,8 @@ texto, los precios y las cifras, y **Dancing Script** como acento caligráfico (
 19/11/2026; el rediseño A había dejado todo en Jakarta, que sigue siendo la única letra del panel y
 del ingreso). La caligrafía es la voz de la tienda y va con mesura: el eslogan de la portada,
 «Horneando en Iquitos» y el titular «Te lo llevamos a tu casa». Nunca en botones, precios, nombres de
-producto ni párrafos. Las tres se sirven desde el propio sitio, recortadas a latín (105 KB en el
-sitio público). Playfair y Dancing declaran un _Reserved Font Name_, así que sus copias se llaman
+producto ni párrafos. Las tres se sirven desde el propio sitio, recortadas a latín (74 KB en la
+portada). Playfair y Dancing declaran un _Reserved Font Name_, así que sus copias se llaman
 «Playfair Pimpos» y «Dancing Pimpos» por dentro (ver `AGENTS.md`).
 
 **Formas.** Botones en píldora de al menos 48 px; tarjetas blancas con bordes muy tenues y sombras
