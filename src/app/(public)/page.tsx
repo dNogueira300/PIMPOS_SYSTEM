@@ -41,6 +41,7 @@ import { panaderiaSchema } from "@/lib/seo/datos-estructurados";
 import { urlAbsoluta, urlDelSitio } from "@/lib/sitio";
 import { urlDeImagen } from "@/lib/supabase/publico";
 import { iniciales } from "@/lib/utilidades/iniciales";
+import { nombreEnFrase } from "@/lib/tematicas/nombre";
 
 export const metadata: Metadata = {
   title: { absolute: "Panadería Pimpo's en Iquitos | Pan fresco y delivery" },
@@ -115,7 +116,10 @@ export default async function Inicio() {
     ? await Promise.all([
         listarProductosDeTemporada(),
         tematica.fechaEvento
-          ? cuentaRegresivaDeHoy(tematica.fechaEvento, tematica.nombre)
+          ? cuentaRegresivaDeHoy(
+              tematica.fechaEvento,
+              nombreEnFrase(tematica.slug, tematica.nombre),
+            )
           : Promise.resolve(null),
       ])
     : [[], null];
@@ -227,7 +231,11 @@ export default async function Inicio() {
           lo de la temporada, antes de lo de todos los días (plan 08). */}
       {tematica ? (
         <>
-          <CintaTematica mensajes={tematica.mensajes} nombre={tematica.nombre} />
+          <CintaTematica
+            mensajes={tematica.mensajes}
+            nombre={tematica.nombre}
+            slug={tematica.slug}
+          />
           <SeccionTemporada
             tematica={tematica}
             productos={productosDeTemporada}

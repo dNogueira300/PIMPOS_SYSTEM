@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { hoyEnLima } from "@/lib/insumos/periodo";
 
 import { textoCuentaRegresiva } from "./cuenta-regresiva";
+import { nombreEnFrase } from "./nombre";
 
 describe("textoCuentaRegresiva", () => {
   it("cuenta los días que faltan", () => {
@@ -39,5 +40,18 @@ describe("textoCuentaRegresiva", () => {
 
   it("una fecha rota no dice nada", () => {
     expect(textoCuentaRegresiva("no-es-fecha", "2026-12-13", "Navidad")).toBeNull();
+  });
+
+  it("dice bien una fiesta con artículo", () => {
+    const evento = nombreEnFrase("dia-de-la-madre", "Día de la Madre");
+    expect(textoCuentaRegresiva("2027-05-09", "2027-05-06", evento)).toBe(
+      "Faltan 3 días para el Día de la Madre",
+    );
+    expect(textoCuentaRegresiva("2027-05-09", "2027-05-08", evento)).toBe(
+      "Falta 1 día para el Día de la Madre",
+    );
+    expect(textoCuentaRegresiva("2027-05-09", "2027-05-09", evento)).toBe(
+      "¡Hoy es el Día de la Madre!",
+    );
   });
 });

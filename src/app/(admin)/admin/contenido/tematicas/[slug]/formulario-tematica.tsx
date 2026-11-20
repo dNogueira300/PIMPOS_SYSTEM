@@ -11,6 +11,7 @@ import { PestanasFormulario } from "@/components/panel/pestanas-formulario";
 import { guardarTematica } from "@/lib/acciones/tematicas";
 import { claveDeBorrador } from "@/lib/panel/borrador";
 import { opcionesDeEstilo, type Estilo } from "@/lib/tematicas/estilos";
+import { nombreConDe } from "@/lib/tematicas/nombre";
 import { validarTematica } from "@/lib/validaciones/tematica";
 
 export type TematicaEditable = {
@@ -85,7 +86,7 @@ export function FormularioTematica({
                 </div>
                 <Campo
                   nombre="fecha_evento"
-                  etiqueta={`Fecha de ${tematica.nombre}`}
+                  etiqueta={`Fecha ${nombreConDe(tematica.slug, tematica.nombre)}`}
                   opcional
                   ayuda="Para la cuenta regresiva de la portada: «Faltan 12 días»."
                 >
