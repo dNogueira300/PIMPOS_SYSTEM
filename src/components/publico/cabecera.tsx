@@ -61,7 +61,7 @@ export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp 
               src={imagenCabecera}
               alt=""
               sizes="72px"
-              className="h-12 w-[72px] shrink-0 object-contain"
+              className="logo-publico h-12 w-[72px] shrink-0 object-contain"
             />
             <span className="flex flex-col">
               <span className="font-heading text-primary text-xl leading-none font-semibold sm:text-2xl">

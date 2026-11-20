@@ -40,7 +40,7 @@ export async function Pie({ config }: { config: Configuracion }) {
             src={urlDeImagen("marca", config.logo_url) ?? "/marca/logo.webp"}
             alt={config.logo_alt}
             sizes="128px"
-            className="mb-2 h-auto w-32 object-contain"
+            className="logo-publico mb-2 h-auto w-32 object-contain"
           />
           <p className="font-heading text-primary text-2xl font-semibold">
             {config.nombre_comercial}

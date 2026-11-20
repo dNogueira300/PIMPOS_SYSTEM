@@ -12,7 +12,7 @@
 # =============================================================================
 set -u
 
-eval "$(supabase status -o env 2>/dev/null | grep -E '^(API_URL|ANON_KEY)=')"
+eval "$(supabase status -o env 2>/dev/null | grep -E '^(API_URL|ANON_KEY|SERVICE_ROLE_KEY)=')"
 : "${API_URL:?No se pudo leer supabase status. Ejecuta esto desde la raiz del repo, con supabase start corriendo.}"
 
 fallos=0
@@ -103,6 +103,42 @@ cod=$(curl -s -o /dev/null -w "%{http_code}" \
 borradores=$(anon "productos?select=id&estado=eq.borrador" | filas)
 [ "$borradores" = "0" ] && ok "y un anonimo no alcanza ningun producto en borrador" \
                         || fail "un anonimo ve $borradores productos en borrador"
+
+echo
+echo "== Un producto solo de temporada no se ve fuera de su temporada (plan 08) =="
+# Lo que pgTAP ya prueba con `set role anon`, por el camino del navegador:
+# PostgREST, las politicas de `anon` de las TABLAS (no solo la vista) y la
+# vista. Se marca el panetón como «solo de Navidad» con la llave de servicio
+# (salta la RLS: es preparar datos, no probar) y se mira que la llave anonima
+# deje de verlo. Antes se mira que SI lo veia: sin eso, un cero no probaria nada.
+srv() { curl -s "$API_URL/rest/v1/$1" -H "apikey: $SERVICE_ROLE_KEY" -H "Authorization: Bearer $SERVICE_ROLE_KEY" "${@:2}"; }
+activa=$(anon "tematica_publica?select=slug" | filas)
+producto=$(srv "productos?slug=eq.paneton&select=id" | python -c "import sys,json; d=json.load(sys.stdin); print(d[0]['id'] if d else '')")
+navidad=$(srv "tematicas?slug=eq.navidad&select=id" | python -c "import sys,json; d=json.load(sys.stdin); print(d[0]['id'] if d else '')")
+if [ "$activa" != "0" ]; then
+  echo "  [SALTA] hay una temática activa hoy: el producto se vería con razón."
+elif [ -z "$producto" ] || [ -z "$navidad" ]; then
+  fail "no están el panetón o la temática de Navidad para preparar la prueba"
+else
+  antes=$(anon "productos?slug=eq.paneton&select=id" | filas)
+  srv "tematica_productos" -X POST -H "Content-Type: application/json" -H "Prefer: return=minimal" \
+      -d "{\"tematica_id\":\"$navidad\",\"producto_id\":\"$producto\",\"solo_temporada\":true}" >/dev/null
+  for consulta in "productos?slug=eq.paneton&select=id" \
+                  "producto_variantes?producto_id=eq.$producto&select=id" \
+                  "producto_imagenes?producto_id=eq.$producto&select=id" \
+                  "productos_publicos?slug=eq.paneton&select=id"; do
+    n=$(anon "$consulta" | filas)
+    case "$n" in
+      0) ok "${consulta%%\?*}: fuera de temporada no lo ve un anonimo" ;;
+      *) fail "${consulta%%\?*}: un anonimo lo ve fuera de temporada -> $n" ;;
+    esac
+  done
+  srv "tematica_productos?tematica_id=eq.$navidad&producto_id=eq.$producto" -X DELETE >/dev/null
+  despues=$(anon "productos?slug=eq.paneton&select=id" | filas)
+  [ "$antes" = "1" ] && [ "$despues" = "1" ] \
+    && ok "y sin la marca vuelve a verse (antes $antes, después $despues)" \
+    || fail "el panetón no se veía antes de marcarlo o no vuelve a verse (antes $antes, después $despues)"
+fi
 
 echo
 echo "== Las imagenes de las filas existen en sus buckets =="

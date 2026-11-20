@@ -7,13 +7,11 @@ import { borrarUsuario } from "./ayudas/usuarios";
 /**
  * El panel de temáticas de temporada (plan 08, T2).
  *
- * Escribe en la fila de Navidad, que es una sola para toda la suite: un solo
- * proyecto, para que móvil y escritorio no se pisen (trampa de AGENTS.md). Las
- * fechas se escriben relativas a hoy para que la prueba no caduque.
+ * Escribe en la fila de Navidad, que es una sola para toda la suite, y encender
+ * una temática viste el sitio entero: corre en el proyecto `tematicas`, solo y
+ * después del resto (playwright.config.ts). Las fechas se escriben relativas a
+ * hoy para que la prueba no caduque.
  */
-test.beforeEach(({}, info) => {
-  test.skip(info.project.name !== "movil", "escribe en la temática compartida");
-});
 
 const DIA_MS = 24 * 60 * 60 * 1000;
 /** «2026-11-25»: hoy en Iquitos más `dias`. */

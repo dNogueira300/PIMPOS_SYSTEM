@@ -5,6 +5,8 @@ import { supabaseLocal } from "./e2e/ayudas/supabase-local";
 
 const PUERTO = 3000;
 const URL_BASE = `http://localhost:${PUERTO}`;
+/** Las que encienden una temática: corren al final, en su propio proyecto. */
+const PRUEBAS_DE_TEMATICAS = [/tematica-navidad\.spec\.ts/, /panel-tematicas\.spec\.ts/];
 
 // Flujos criticos de punta a punta (doc 03 §6): ingreso por rol, publicar un
 // producto, que un ingeniero NO pueda publicar una promocion, registrar un
@@ -41,8 +43,19 @@ export default defineConfig({
   // Un solo navegador (Chromium) en dos tamanos. El movil es prioritario (R6)
   // y la definicion de "hecho" exige que todo funcione a 375 px de ancho.
   projects: [
+    // Una temática de temporada viste el sitio ENTERO (plan 08): mientras se
+    // prueba el sitio público no puede haber ninguna encendida, y las pruebas
+    // que la encienden van al final, solas. Si no, las que miran colores o la
+    // barra de aviso fallarían a ratos sin que nada estuviera roto.
+    {
+      name: "preparar",
+      testMatch: /tematica-apagar\.setup\.ts/,
+      use: { ...devices["Desktop Chrome"] },
+    },
     {
       name: "movil",
+      testIgnore: PRUEBAS_DE_TEMATICAS,
+      dependencies: ["preparar"],
       use: {
         ...devices["Desktop Chrome"],
         viewport: { width: 375, height: 667 },
@@ -52,7 +65,20 @@ export default defineConfig({
     },
     {
       name: "escritorio",
+      testIgnore: PRUEBAS_DE_TEMATICAS,
+      dependencies: ["preparar"],
       use: { ...devices["Desktop Chrome"] },
+    },
+    {
+      name: "tematicas",
+      testMatch: PRUEBAS_DE_TEMATICAS,
+      dependencies: ["movil", "escritorio"],
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 375, height: 667 },
+        isMobile: true,
+        hasTouch: true,
+      },
     },
   ],
 

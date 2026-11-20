@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./tematicas.css";
 
 /* El tema oscuro se activa SOLO con la clase `.dark`, nunca por
    `prefers-color-scheme`. Sin esta linea, Tailwind 4 haria que las utilidades
