@@ -1,8 +1,11 @@
 # Maqueta de la temática de Navidad (plan 08, T3)
 
 Dos variantes sobre la **portada real** (build local, 20/11/2026). El CSS de `navidad.css` se inyecta
-encima del sitio; los adornos y la sección de temporada se añaden como lo hará la T4. Falta que Dan
-elija una y diga qué cambiar. Nada de esto está en `src/` todavía.
+encima del sitio; los adornos y la sección de temporada se añaden como lo hará la T4.
+
+**Decisión de Dan (20/11/2026): «desarrolla las dos, cuando hayas terminado deja aplicado la de
+noche de navidad».** Las dos variantes se implementan y el panel deja elegir el **estilo** de la
+temática (migración 0048); Navidad queda con **Noche de Navidad**.
 
 **Ojo con los datos:** en la sección de temporada, «Panetón chico» y «Pan de pascua» y sus precios
 son **inventados para la maqueta**, y las tres tarjetas usan la foto del pan francés porque la base
