@@ -188,11 +188,23 @@ test("Halloween y la Canción Criolla: cada una con sus estilos, y solo una ence
   test.setTimeout(300_000);
   await conCerrojo("tematicas", async () => {
     // Las dos lejos de todo (Navidad y el Día de la Madre tienen fechas fijas,
-    // y `apartarLasDemas` usa de hoy+400 a hoy+470). La Canción Criolla sigue
-    // apagada: entre alternativas, la apagada conserva su modo al mover fechas.
+    // y `apartarLasDemas` usa de hoy+400 a hoy+470), en un estado conocido: la
+    // Canción Criolla apagada y Halloween según fechas. Se escribe entero, sin
+    // pasar por las reglas, porque no se sabe cómo están hoy: del 25/10 al
+    // 01/11/2027 `preparar` deja Halloween apagada, y desde el 02/11/2027 la
+    // «Apagada» de fábrica ya caducó. En una transacción: el `alter table`
+    // bloquea la tabla hasta el final, así nadie escribe sin las reglas.
     sqlLocal(`
-      update public.tematicas set inicio = '${dia(500)}', fin = '${dia(507)}', fecha_evento = null
+      begin;
+      alter table public.tematicas disable trigger tematicas_reglas;
+      update public.tematicas
+         set inicio = '${dia(500)}', fin = '${dia(507)}', fecha_evento = null,
+             encendido = case slug when 'cancion-criolla' then 'apagada' else 'fechas' end,
+             encendido_desde = case slug when 'cancion-criolla' then '${dia(0)}'::date end,
+             encendido_hasta = case slug when 'cancion-criolla' then '${dia(507)}'::date end
        where slug in ('cancion-criolla', 'halloween');
+      alter table public.tematicas enable trigger tematicas_reglas;
+      commit;
     `);
     const usuario = await entrarComo(page, "administrador");
     const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");

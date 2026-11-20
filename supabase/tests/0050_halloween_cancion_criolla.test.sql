@@ -16,7 +16,7 @@
 -- Las fechas se escriben relativas a «hoy en Iquitos» para que la prueba no
 -- caduque.
 begin;
-select plan(51);
+select plan(53);
 
 insert into auth.users (id, email, created_at, updated_at) values
   ('55555555-5555-5555-5555-555555555555', 'admin-0050@pimpos.test', now(), now());
@@ -106,6 +106,37 @@ select lives_ok($$ update public.tematicas set estilo = 'balcon' where slug = 'c
   'la Canción Criolla admite «balcon»');
 select lives_ok($$ update public.tematicas set estilo = 'rojo-blanco' where slug = 'cancion-criolla' $$,
   'y «rojo-blanco»');
+
+-- ---------------------------------------------------------------------------
+-- Las fixtures llevan las dos a un estado conocido, sea el día que sea
+-- ---------------------------------------------------------------------------
+-- Desde el 02/11/2027 la «Apagada» de fábrica de la Canción Criolla ya nació
+-- caducada (y del 25/10 al 01/11/2027 `preparar` apaga Halloween). Aquí se
+-- simula lo primero, y el bloque que usan las pruebas 0047–0049 y esta tiene
+-- que dejarlas igual: la Canción Criolla apagada y Halloween según fechas,
+-- lejos, en las mismas fechas.
+update public.tematicas set inicio = (select hoy - 20 from ref), fin = (select hoy - 10 from ref)
+ where slug = 'cancion-criolla';
+update public.tematicas set inicio = (select hoy - 20 from ref), fin = (select hoy - 10 from ref)
+ where slug = 'halloween';
+select lives_ok(
+  $$
+    alter table public.tematicas disable trigger tematicas_reglas;
+    update public.tematicas
+       set inicio = (select hoy + 800 from ref), fin = (select hoy + 810 from ref), fecha_evento = null,
+           encendido = case slug when 'cancion-criolla' then 'apagada' else 'fechas' end,
+           encendido_desde = case slug when 'cancion-criolla' then (select hoy from ref) end,
+           encendido_hasta = case slug when 'cancion-criolla' then (select hoy + 810 from ref) end
+     where slug in ('cancion-criolla', 'halloween');
+    alter table public.tematicas enable trigger tematicas_reglas;
+  $$,
+  'el bloque de las fixtures funciona aunque la «Apagada» de fábrica haya caducado');
+select is(
+  (select string_agg(concat_ws('|', slug, encendido, inicio - (select hoy from ref),
+                               coalesce(encendido_hasta - (select hoy from ref), -1)), ',' order by slug)
+     from public.tematicas where slug in ('cancion-criolla', 'halloween')),
+  'cancion-criolla|apagada|800|810,halloween|fechas|800|-1',
+  'y las deja lejos: la Canción Criolla apagada, Halloween según fechas');
 
 -- ---------------------------------------------------------------------------
 -- Solo una de las dos encendida

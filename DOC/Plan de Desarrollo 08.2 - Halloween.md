@@ -564,4 +564,16 @@ PR 3 y parar.
 
 ## Lo que resultó distinto
 
-(Se llena al ejecutar.)
+**T1 (20/11/2026, PR 1).**
+
+- **La línea de ayuda de las alternativas** es una función pura (`avisoDeAlternativa`, en
+  `src/lib/tematicas/nombre.ts`) con su Vitest, y el panel la recibe ya escrita; la frase «Si cambias
+  las fechas, vuelve a «Según fechas»» no sale en la «Apagada» de una alternativa.
+- **Las dos pruebas cortas del panel que usan el cerrojo `tematicas`** pasan a 300 s: con la prueba
+  nueva, la del Día de la Madre agotaba su espera en la cola del cerrojo.
+- **La revisión de la rama** encontró que las fixtures (pgTAP 0047–0050 y la E2E del panel) dependían
+  de la «Apagada» de fábrica de la Canción Criolla, que caduca el 01/11/2027: desde el día siguiente,
+  moverla por las reglas la pasaría a «según fechas» y chocaría con Halloween, y el CI quedaría en
+  rojo solo. Y la semana de la campaña, `preparar` deja Halloween apagada y la E2E no veía la frase.
+  Ahora las fixtures escriben el estado entero sin pasar por las reglas (trigger apagado, modo
+  explícito; en la E2E, dentro de una transacción). Se vio fallar antes con los dos estados simulados.
