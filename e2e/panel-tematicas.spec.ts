@@ -118,3 +118,18 @@ test("el ingeniero no ve ni entra a las temáticas", async ({ page }) => {
     await borrarUsuario(usuario.id);
   }
 });
+
+test("la lista de temáticas vuelve a Contenido, como las demás listas", async ({ page }) => {
+  const usuario = await entrarComo(page, "administrador");
+  try {
+    await page.goto("/admin/contenido/tematicas");
+    // En <main>: la barra lateral también tiene un enlace «Contenido».
+    const volver = page.getByRole("main").getByRole("link", { name: "Contenido", exact: true });
+    await expect(volver).toHaveAttribute("href", "/admin/contenido");
+    await volver.click();
+    await page.waitForURL("/admin/contenido");
+    await expect(page.getByRole("link", { name: "Temáticas de temporada" })).toBeVisible();
+  } finally {
+    await borrarUsuario(usuario.id);
+  }
+});

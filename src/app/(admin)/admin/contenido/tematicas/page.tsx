@@ -19,6 +19,7 @@ export default function Tematicas() {
     <>
       <EncabezadoPanel
         titulo="Temáticas de temporada"
+        volver={{ ruta: "/admin/contenido", nombre: "Contenido" }}
         descripcion="El sitio se viste de fiesta en cada fecha y saca al frente lo de la temporada."
       />
       <Suspense fallback={<p className="text-muted-foreground text-sm">Cargando…</p>}>
