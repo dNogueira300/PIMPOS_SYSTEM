@@ -31,7 +31,7 @@ language sql
 immutable
 set search_path = ''
 as $$
-  select coalesce(bool_and(length(btrim(m)) between 1 and 60), true)
+  select coalesce(bool_and(m is not null and length(btrim(m)) between 1 and 60), true)
     from unnest(p_mensajes) as m;
 $$;
 
@@ -123,7 +123,7 @@ $$;
 comment on function app.tematica_activa_id() is
   'La temática activa hoy (día de Iquitos), o NULL. Lo manual manda hasta encendido_hasta; después, las fechas.';
 revoke execute on function app.tematica_activa_id() from public;
-grant execute on function app.tematica_activa_id() to anon, authenticated;
+grant execute on function app.tematica_activa_id() to anon, authenticated, service_role;
 
 -- Un producto se ve si no es solo de temporada en ninguna temática, o si lo es
 -- en la que está activa. `security definer` por lo mismo: el público no lee las
@@ -148,7 +148,7 @@ $$;
 comment on function app.producto_en_temporada(uuid) is
   'Falso solo para un producto «solo de temporada» cuya temática no está activa hoy.';
 revoke execute on function app.producto_en_temporada(uuid) from public;
-grant execute on function app.producto_en_temporada(uuid) to anon, authenticated;
+grant execute on function app.producto_en_temporada(uuid) to anon, authenticated, service_role;
 
 -- -----------------------------------------------------------------------------
 -- Las reglas de fechas y modo
@@ -162,6 +162,13 @@ declare
   v_hoy  date := (now() at time zone 'America/Lima')::date;
   v_otra text;
 begin
+  -- Un encendido a mano que ya caducó cuenta como «según fechas»: guardar
+  -- cualquier otra cosa (un texto, un producto) no puede chocar con él.
+  if tg_op = 'UPDATE' and old.encendido <> 'fechas' and v_hoy > old.encendido_hasta
+     and new.encendido = old.encendido then
+    new.encendido := 'fechas';
+  end if;
+
   -- Cambiar las fechas devuelve la temática a «según fechas», salvo que el
   -- mismo cambio ponga un modo nuevo: apagarla un año y luego poner las fechas
   -- del siguiente no puede dejarla apagada también esa campaña.
@@ -171,23 +178,30 @@ begin
     new.encendido := 'fechas';
   end if;
 
+  -- Desde y hasta cuándo vale lo manual los pone siempre este trigger: lo que
+  -- llegue de la aplicación se ignora (la RLS decide qué fila, no qué valor).
   if new.encendido = 'fechas' then
     new.encendido_desde := null;
     new.encendido_hasta := null;
-  elsif tg_op = 'INSERT' or new.encendido is distinct from old.encendido or new.encendido_desde is null then
-    new.encendido_desde := v_hoy;
+  else
+    if tg_op = 'INSERT' or new.encendido is distinct from old.encendido then
+      if new.encendido = 'encendida' and new.fin < v_hoy then
+        raise exception 'Las fechas de esta campaña ya pasaron: pon primero las de este año.'
+          using errcode = 'P0001';
+      end if;
+      new.encendido_desde := v_hoy;
+    else
+      new.encendido_desde := old.encendido_desde;
+    end if;
     new.encendido_hasta := new.fin;
-  end if;
-
-  if new.encendido = 'encendida' and new.fin < v_hoy then
-    raise exception 'Las fechas de esta campaña ya pasaron: pon primero las de este año.'
-      using errcode = 'P0001';
   end if;
 
   -- Una sola activa a la vez. La ventana de una temática va de su inicio (o
   -- del día en que se encendió a mano, si fue antes) a su fin. El cerrojo evita
-  -- que dos guardados a la vez se crucen sin verse.
-  lock table public.tematicas in share row exclusive mode;
+  -- que dos guardados a la vez se crucen sin verse. Es un cerrojo de consejo y
+  -- no `lock table`: el `update` ya tiene la tabla en ROW EXCLUSIVE, y pedir
+  -- SHARE ROW EXCLUSIVE dejaba a dos guardados esperándose (40P01).
+  perform pg_advisory_xact_lock(hashtext('public.tematicas'));
   select t.nombre into v_otra
     from public.tematicas t
    where t.id <> new.id
@@ -246,6 +260,8 @@ select app.auditar('public.tematica_productos');
 -- -----------------------------------------------------------------------------
 alter table public.tematicas enable row level security;
 alter table public.tematica_productos enable row level security;
+alter table public.tematicas force row level security;
+alter table public.tematica_productos force row level security;
 
 create policy "autenticado ve las temáticas"
   on public.tematicas for select to authenticated using (true);
@@ -475,6 +491,14 @@ begin
     raise exception 'Solo la administración puede cambiar las temáticas.' using errcode = '42501';
   end if;
 
+  -- Un encendido a mano caducado se lleva antes a «según fechas»: así, pedir
+  -- «encendida» otra vez cuenta como encenderla, con sus reglas.
+  update public.tematicas
+     set encendido = 'fechas'
+   where id = p_tematica
+     and encendido <> 'fechas'
+     and (now() at time zone 'America/Lima')::date > encendido_hasta;
+
   update public.tematicas
      set inicio         = (p_datos ->> 'inicio')::date,
          fin            = (p_datos ->> 'fin')::date,
@@ -501,10 +525,13 @@ begin
            select (e ->> 'producto_id')::uuid
              from jsonb_array_elements(coalesce(p_productos, '[]'::jsonb)) as e);
 
+  -- Un producto repetido en la lista cuenta una vez, en su primera posición.
   insert into public.tematica_productos (tematica_id, producto_id, solo_temporada, orden)
-  select p_tematica, (x.e ->> 'producto_id')::uuid,
+  select distinct on ((x.e ->> 'producto_id')::uuid)
+         p_tematica, (x.e ->> 'producto_id')::uuid,
          coalesce((x.e ->> 'solo_temporada')::boolean, false), (x.o - 1)::integer
     from jsonb_array_elements(coalesce(p_productos, '[]'::jsonb)) with ordinality as x(e, o)
+   order by (x.e ->> 'producto_id')::uuid, x.o
   on conflict (tematica_id, producto_id) do update
      set solo_temporada = excluded.solo_temporada,
          orden          = excluded.orden

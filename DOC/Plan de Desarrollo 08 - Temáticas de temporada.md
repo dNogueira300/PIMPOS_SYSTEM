@@ -287,32 +287,32 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
 
 - `public.tematicas`: `id uuid`, `slug text unique check (slug in ('navidad'))`, `nombre`,
   `inicio date`, `fin date` (`fin >= inicio`), `fecha_evento date null`,
-  `modo text check (modo in ('fechas','encendida','apagada')) default 'fechas'`,
-  `modo_desde date`, `modo_hasta date` (los dos NULL si y solo si `modo = 'fechas'`),
+  `encendido text check (encendido in ('fechas','encendida','apagada')) default 'fechas'`,
+  `encendido_desde date`, `encendido_hasta date` (los dos NULL si y solo si `encendido = 'fechas'`),
   `texto_aviso text` (≤ 120), `mensajes_cinta text[]` (≤ 6 mensajes de 1 a 60 caracteres), `titulo`
   (≤ 80), `entradilla` (≤ 240), `created_at`, `updated_at`, `created_by` y `updated_by`.
 - `public.tematica_productos`: `id`, `tematica_id` (FK, `on delete cascade`), `producto_id` (FK,
   `on delete cascade`), `solo_temporada boolean default false`, `orden int default 0`,
   `unique (tematica_id, producto_id)` y las cuatro columnas de autoría.
 - `app.tematica_activa_id() returns uuid`, `stable security definer`. Activa = si
-  `modo <> 'fechas' and hoy <= modo_hasta`, entonces `modo = 'encendida'`; si no,
+  `encendido <> 'fechas' and hoy <= encendido_hasta`, entonces `encendido = 'encendida'`; si no,
   `hoy between inicio and fin`.
 - `app.producto_en_temporada(p_producto uuid) returns boolean`, `stable security definer`. Devuelve
   verdadero si el producto no tiene ninguna fila con `solo_temporada`, o si alguna de esas filas es de
   la temática activa.
 - Trigger `before update` en `tematicas`, con estas reglas:
   - Si cambian `inicio` o `fin`, pone `modo = 'fechas'`.
-  - Si `modo` pasa a manual, pone `modo_desde = hoy` y `modo_hasta = fin`.
+  - Si `encendido` pasa a manual, pone `encendido_desde = hoy` y `encendido_hasta = fin`.
   - `encendida` con `fin < hoy` se rechaza con P0001: «Las fechas de esta campaña ya pasaron: pon
     primero las de este año».
-  - Cruce: la ventana de cada temática es `[least(inicio, modo_desde si está encendida), fin]`. Si
+  - Cruce: la ventana de cada temática es `[least(inicio, encendido_desde si está encendida), fin]`. Si
     dos ventanas se solapan, P0001: «Las fechas se cruzan con «<nombre>»». Se toma antes un
     `lock table public.tematicas in share row exclusive mode`.
 - `public.guardar_tematica(p_tematica uuid, p_datos jsonb, p_productos jsonb) returns void`,
   `security invoker`. Actualiza la fila y reemplaza sus productos (`[{producto_id, solo_temporada}]`,
   y el orden es el del array) en una transacción.
 - Vistas, todas con `security_invoker`:
-  - `public.tematicas_panel`: todas las columnas, más `activa boolean` y `modo_vigente` (`'fechas'`
+  - `public.tematicas_panel`: todas las columnas, más `activa boolean` y `encendido_vigente` (`'fechas'`
     cuando el modo manual ya caducó).
   - `public.tematica_publica`: `slug`, `nombre`, `fecha_evento`, `texto_aviso`, `mensajes_cinta`,
     `titulo` y `entradilla`. Una fila o ninguna.
@@ -356,7 +356,8 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
 - [ ] Actualizar la lista de 0045 a 27 tablas. En `catalogo.ts`: `tematicas` y `tematica_productos`
       en la sección `contenido`, con referencia `conNombre("la temática", "una temática")`. Los productos
       dicen «los productos de la temática <nombre>» y la ruta es `/admin/contenido/tematicas/<slug>`.
-      Añadirlas a `TABLAS_CON_PANTALLA`. Nombres de los campos en `campos.ts`.
+      Nombres de los campos en `campos.ts`. (Al ejecutar: no entran en `TABLAS_CON_PANTALLA`; ver «Lo que
+      resultó distinto».)
 - [ ] `supabase db reset` y `supabase test db`: todo en verde. Vitest de `src/lib/auditoria`.
 - [ ] `pnpm supabase:tipos`, `pnpm typecheck` y `pnpm lint`.
 - [ ] Commit: `feat(tematicas): temáticas de temporada y productos que solo se ven en su fecha (0047)`.
@@ -384,7 +385,7 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
 
 **Produce**
 
-- `describirEstado(t: { activa: boolean; modo_vigente: "fechas" | "encendida" | "apagada"; inicio: string; fin: string; modo_hasta: string | null }, hoy: string): string`. Las frases:
+- `describirEstado(t: { activa: boolean; encendido_vigente: "fechas" | "encendida" | "apagada"; inicio: string; fin: string; encendido_hasta: string | null }, hoy: string): string`. Las frases:
   - «Activa ahora, hasta el 26/12»
   - «Encendida a mano hasta el 26/12»
   - «Apagada a mano hasta el 26/12»
@@ -510,4 +511,24 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
 
 ## Lo que resultó distinto
 
-_(Se rellena al ejecutar.)_
+**T1 (20/11/2026).**
+
+- **La columna `modo` se llama `encendido`** (y `encendido_desde`, `encendido_hasta` y, en
+  `tematicas_panel`, `encendido_vigente`). `modo` ya tenía etiqueta y palabras en el Historial, las de
+  los permisos de clientes («Cómo se dio», «De palabra»), y ese diccionario no distingue tablas. El
+  formulario de T2 manda `encendido` a `guardar_tematica`.
+- **`tematicas` no entra en `TABLAS_CON_PANTALLA`**: no tiene `deleted_at`, siempre existe y su
+  pantalla va por slug (`/admin/contenido/tematicas/<slug>`), así que «Ir a» no necesita preguntar si
+  existe.
+- **La revisión de la rama encontró tres cosas importantes**, arregladas con su prueba vista fallar:
+  - el panel podía escribir `encendido_hasta` a mano (y dejar Navidad encendida hasta 2099), así que
+    ahora el trigger la pone siempre igual a la fecha de fin;
+  - una temática encendida a mano y ya caducada no dejaba guardar ni un texto, así que ahora cuenta
+    como «según fechas», y `guardar_tematica` la lleva a «según fechas» antes de aplicar lo que pide
+    el formulario;
+  - la prueba «ni sus fotos» no podía fallar, porque el panetón no tenía foto en la semilla.
+- **También se arreglaron menores que, después del `db push`, costarían otra migración**: el cerrojo
+  de cruces es `pg_advisory_xact_lock` (el `lock table` dejaba a dos guardados a la vez en bloqueo
+  mutuo), `service_role` puede ejecutar las dos funciones, las tablas fuerzan la RLS como todas, la
+  cinta no admite mensajes vacíos y un producto repetido en el formulario cuenta una vez.
+- **pgTAP:** 52 pruebas nuevas; la suite queda en 798.
