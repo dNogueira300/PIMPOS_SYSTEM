@@ -148,3 +148,67 @@ describe("Día de la Madre · todo en rosa", () => {
     expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
   });
 });
+
+// --- Halloween (plan 08.2) -------------------------------------------------
+// La palabra «Halloween» del título va en el naranja que eligió Dan (#c2560f).
+// Pasa el mínimo de texto grande (3:1) pero no el de texto normal: por eso no
+// es `--acento-texto` (sellos y textos pequeños), sino `--caligrafia-titulo`,
+// que solo pinta la caligrafía del título de la sección (unos 30 px).
+const hn = tokensDe("calabaza-noche", "halloween");
+const PARES_CALABAZA_NOCHE: Par[] = [
+  [hn.foreground, hn.background, AA.texto, "texto sobre la noche"],
+  [hn.foreground, hn.card, AA.texto, "texto sobre las tarjetas"],
+  [hn["muted-foreground"], hn.background, AA.texto, "texto secundario sobre el fondo"],
+  [hn["muted-foreground"], hn.card, AA.texto, "texto secundario sobre las tarjetas"],
+  [hn["muted-foreground"], hn.muted, AA.texto, "texto secundario sobre el pie"],
+  [hn.primary, hn.background, AA.texto, "titulares naranja sobre la noche"],
+  [hn.primary, hn.card, AA.texto, "titulares sobre las tarjetas"],
+  [hn["primary-foreground"], hn.primary, AA.texto, "texto del bloque naranja (hero, delivery)"],
+  [hn["cta-texto"], hn["cta-fondo"], AA.texto, "botón calabaza"],
+  [hn["cta-texto-hover"], hn["cta-fondo-hover"], AA.texto, "botón calabaza al pasar"],
+  [hn["whatsapp-texto"], hn["whatsapp-fondo"], AA.texto, "botón de WhatsApp"],
+  [hn["whatsapp-texto"], hn["whatsapp-fondo-hover"], AA.texto, "WhatsApp al pasar"],
+  [hn["whatsapp-fondo"], hn.background, AA.interfaz, "el botón de WhatsApp se ve sobre la noche"],
+  [hn["precio-texto"], hn.card, AA.texto, "precio sobre la tarjeta"],
+  [hn["precio-texto"], hn.background, AA.texto, "precio de la pizarra sobre el fondo"],
+  [hn["acento-texto"], hn.background, AA.texto, "acentos naranja"],
+  [hn["acento-texto"], hn.card, AA.texto, "acentos sobre tarjetas"],
+  [hn["caligrafia-titulo"], hn.background, AA.textoGrande, "«Halloween» del título (grande)"],
+  [hn["franja-texto"], hn["franja-fondo"], AA.texto, "franja y cinta"],
+  [hn["aviso-texto"], hn["aviso-fondo"], AA.texto, "barra de arriba"],
+  [hn["sello-texto"], hn["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [hn.ring, hn.background, AA.interfaz, "anillo de foco"],
+];
+
+const hc = tokensDe("calabaza-crema", "halloween");
+const PARES_CALABAZA_CREMA: Par[] = [
+  [hc.primary, crema50, AA.texto, "titulares calabaza sobre el crema"],
+  [hc.primary, crema0, AA.texto, "titulares calabaza sobre las tarjetas"],
+  [hc["primary-foreground"], hc.primary, AA.texto, "texto del bloque calabaza (hero, delivery)"],
+  [hc["cta-texto"], hc["cta-fondo"], AA.texto, "botón calabaza"],
+  [hc["cta-texto-hover"], hc["cta-fondo-hover"], AA.texto, "botón calabaza al pasar"],
+  [hc["acento-texto"], crema50, AA.texto, "acentos calabaza"],
+  [hc["acento-texto"], crema0, AA.texto, "acentos sobre tarjetas"],
+  [hc["caligrafia-titulo"], crema50, AA.textoGrande, "«Halloween» del título (grande)"],
+  [hc["franja-texto"], hc["franja-fondo"], AA.texto, "franja y cinta"],
+  [hc["aviso-texto"], hc["aviso-fondo"], AA.texto, "barra de arriba"],
+  [hc["sello-texto"], hc["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [hc.ring, crema50, AA.interfaz, "anillo de foco"],
+];
+
+describe("Halloween · noche de calabazas", () => {
+  it.each(PARES_CALABAZA_NOCHE)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+});
+
+describe("Halloween · calabaza sobre crema", () => {
+  it.each(PARES_CALABAZA_CREMA)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+
+  it("la caligrafía del título es el naranja que eligió Dan, en los dos estilos", () => {
+    expect(hn["caligrafia-titulo"]).toBe("#c2560f");
+    expect(hc["caligrafia-titulo"]).toBe("#c2560f");
+  });
+});
