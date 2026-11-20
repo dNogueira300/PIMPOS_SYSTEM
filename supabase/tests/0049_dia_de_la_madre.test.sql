@@ -17,6 +17,21 @@ select (now() at time zone 'America/Lima')::date as hoy,
        (select id from public.tematicas where slug = 'dia-de-la-madre') as madre;
 grant select on ref to anon, authenticated;
 
+-- Halloween y el Día de la Canción Criolla (0050), muy lejos: sus fechas de
+-- fábrica (25/10–01/11) podrían cruzarse con las que esta prueba pone, según el
+-- día en que corra. Las dos van juntas (son alternativas y la Canción Criolla va
+-- apagada). Se escriben sin pasar por las reglas, con el modo explícito: desde
+-- el 02/11/2027 la «Apagada» de fábrica ya nace caducada, y moverla por las
+-- reglas la pasaría a «según fechas», chocando con Halloween (0050 lo prueba).
+alter table public.tematicas disable trigger tematicas_reglas;
+update public.tematicas
+   set inicio = (select hoy + 800 from ref), fin = (select hoy + 810 from ref), fecha_evento = null,
+       encendido = case slug when 'cancion-criolla' then 'apagada' else 'fechas' end,
+       encendido_desde = case slug when 'cancion-criolla' then (select hoy from ref) end,
+       encendido_hasta = case slug when 'cancion-criolla' then (select hoy + 810 from ref) end
+ where slug in ('cancion-criolla', 'halloween');
+alter table public.tematicas enable trigger tematicas_reglas;
+
 -- La fila, tal como la deja la migración.
 select is((select count(*)::int from public.tematicas where slug = 'dia-de-la-madre'), 1,
   'existe el Día de la Madre');

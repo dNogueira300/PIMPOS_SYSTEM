@@ -54,4 +54,18 @@ describe("textoCuentaRegresiva", () => {
       "¡Hoy es el Día de la Madre!",
     );
   });
+
+  it("dice bien Halloween y el Día de la Canción Criolla", () => {
+    const criolla = nombreEnFrase("cancion-criolla", "Día de la Canción Criolla");
+    expect(textoCuentaRegresiva("2027-10-31", "2027-10-28", criolla)).toBe(
+      "Faltan 3 días para el Día de la Canción Criolla",
+    );
+    expect(textoCuentaRegresiva("2027-10-31", "2027-10-31", criolla)).toBe(
+      "¡Hoy es el Día de la Canción Criolla!",
+    );
+    const halloween = nombreEnFrase("halloween", "Halloween");
+    expect(textoCuentaRegresiva("2027-10-31", "2027-10-28", halloween)).toBe(
+      "Faltan 3 días para Halloween",
+    );
+  });
 });

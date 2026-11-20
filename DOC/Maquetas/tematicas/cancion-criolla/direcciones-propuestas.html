@@ -1,0 +1,479 @@
+<style>
+  @font-face {
+    font-family: "Playfair Display";
+    src: url("/files/playfair-latin.woff2") format("woff2");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "Dancing Script";
+    src: url("/files/dancing-latin.woff2") format("woff2");
+    font-weight: 400 700;
+  }
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/files/jakarta-latin.woff2") format("woff2");
+    font-weight: 200 800;
+  }
+  .cc-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .cc-col {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cc-tel {
+    width: 320px;
+    height: 640px;
+    overflow: hidden;
+    border-radius: 26px;
+    border: 8px solid #222;
+    position: relative;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
+  }
+  .cc-aviso {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 7px 10px;
+  }
+  .cc-cab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    position: relative;
+    z-index: 3;
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  }
+  .cc-cab img {
+    width: 46px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .cc-nombre {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    flex: 1;
+  }
+  .cc-menu {
+    width: 22px;
+    height: 14px;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    position: relative;
+  }
+  .cc-menu::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    border-top: 2px solid currentColor;
+  }
+  .cc-hero {
+    height: 170px;
+    background: url("/files/fachada.webp") center 35% / cover;
+  }
+  .cc-sec {
+    padding: 22px 18px 18px;
+    position: relative;
+  }
+  .cc-tit {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .cc-cali {
+    font-family: "Dancing Script", "Brush Script MT", cursive;
+    font-weight: 700;
+    font-size: 1.25em;
+  }
+  .cc-ent {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0 12px;
+  }
+  .cc-cuenta {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .cc-boton {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 11px;
+    border-radius: 10px;
+    margin-top: 14px;
+  }
+  .cc-franja {
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .cc-abs {
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .cc-cuelga {
+    transform-origin: 50% 0;
+    animation: cc-meca 3.4s ease-in-out infinite alternate;
+  }
+  .cc-cuelga.lento {
+    animation-duration: 4.6s;
+    animation-delay: -1.5s;
+  }
+  @keyframes cc-meca {
+    from {
+      transform: rotate(-5deg);
+    }
+    to {
+      transform: rotate(5deg);
+    }
+  }
+  .cc-capa {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .cc-capa i {
+    position: absolute;
+    bottom: -24px;
+    font-style: normal;
+    font-size: 18px;
+    animation: cc-sube linear infinite;
+  }
+  @keyframes cc-sube {
+    to {
+      transform: translate(-16px, -680px);
+      opacity: 0;
+    }
+  }
+  .cc-capa.cae i {
+    bottom: auto;
+    top: -20px;
+    animation-name: cc-cae;
+  }
+  @keyframes cc-cae {
+    to {
+      transform: translate(20px, 680px) rotate(200deg);
+    }
+  }
+  .cc-luz {
+    animation: cc-luz 2.4s ease-in-out infinite alternate;
+  }
+  .cc-luz.b {
+    animation-delay: -1.2s;
+  }
+  @keyframes cc-luz {
+    from {
+      opacity: 0.55;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .cc-panuelo {
+    transform-origin: 50% 0;
+    animation: cc-panuelo 1.8s ease-in-out infinite alternate;
+  }
+  @keyframes cc-panuelo {
+    from {
+      transform: rotate(-9deg) skewX(-4deg);
+    }
+    to {
+      transform: rotate(9deg) skewX(4deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cc-cuelga,
+    .cc-capa i,
+    .cc-luz,
+    .cc-panuelo {
+      animation: none;
+    }
+  }
+  .cc-nota {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-secondary, #555);
+  }
+  .cc-nota b {
+    color: var(--text-primary, #222);
+  }
+</style>
+
+<h2>Día de la Canción Criolla: tres maneras de vestir el sitio</h2>
+<p class="subtitle">
+  La alternativa a Halloween para el 31 de octubre. Portada del celular con la foto real. Textos de
+  ejemplo. Elige dos (puesto y alterno) o dime qué mezclarías.
+</p>
+
+<div class="cc-grid">
+  <!-- A · Rojo y blanco -->
+  <div class="cc-col option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="cc-tel" style="background: #f7f5f0; color: #28251f">
+      <div class="cc-aviso" style="background: #a61b29; color: #fff">
+        ♪ Feliz Día de la Canción Criolla
+      </div>
+      <div class="cc-cab" style="background: #f7f5f0">
+        <img src="/files/logo.webp" alt="" /><span class="cc-nombre" style="color: #a61b29"
+          >Panadería Pimpo's</span
+        ><span class="cc-menu" style="color: #a61b29"></span>
+      </div>
+      <!-- cordel con notas y pañuelos de marinera -->
+      <svg
+        class="cc-abs"
+        style="top: 81px; left: 0; width: 320px; height: 30px"
+        viewBox="0 0 320 30"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 4Q80 12 160 4T320 4" fill="none" stroke="#8a7a6a" stroke-width="1" />
+        <g fill="#a61b29" font-family="serif" font-size="16">
+          <text x="30" y="24">♪</text>
+          <text x="110" y="26">♫</text>
+          <text x="190" y="24">♪</text>
+          <text x="270" y="26">♫</text>
+        </g>
+      </svg>
+      <svg
+        class="cc-abs cc-panuelo"
+        style="top: 84px; left: 62px; width: 34px; height: 40px"
+        viewBox="0 0 34 40"
+      >
+        <path d="M2 2h30L17 38z" fill="#fff" stroke="#a61b29" stroke-width="2" />
+      </svg>
+      <svg
+        class="cc-abs cc-panuelo"
+        style="top: 86px; left: 222px; width: 34px; height: 40px; animation-delay: -0.9s"
+        viewBox="0 0 34 40"
+      >
+        <path d="M2 2h30L17 38z" fill="#fff" stroke="#a61b29" stroke-width="2" />
+      </svg>
+      <div class="cc-capa">
+        <i style="left: 40px; color: #c9474f; animation-duration: 11s">♪</i
+        ><i style="left: 170px; color: #d9a24a; animation-duration: 14s; animation-delay: -6s">♫</i
+        ><i style="left: 270px; color: #c9474f; animation-duration: 12s; animation-delay: -3s">♪</i>
+      </div>
+      <div class="cc-hero"></div>
+      <div class="cc-sec">
+        <p class="cc-tit" style="color: #a61b29">
+          Feliz Día de la <span class="cc-cali" style="color: #c0392b">Canción Criolla</span>
+        </p>
+        <p class="cc-ent">Un valsecito, un cajón y pan calientito: así se celebra en casa.</p>
+        <span class="cc-cuenta" style="color: #a61b29; border-color: #e7b3b7; background: #fdf0f0"
+          >Faltan 3 días para el Día de la Canción Criolla</span
+        >
+        <span class="cc-boton" style="background: #a61b29; color: #fff">Ver los precios</span>
+      </div>
+      <div class="cc-franja" style="background: #f8dcdc; color: #7d1420">
+        ♪ Feliz día criollo &nbsp; ♪ Pan para la jarana &nbsp; ♪ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="cc-nota">
+      <b>A · Rojo y blanco.</b> El crema de siempre, con el rojo de la bandera. Bajo el menú, un
+      cordel con notas y dos pañuelos de marinera que se agitan; unas pocas notas suben despacio.
+    </div>
+  </div>
+
+  <!-- B · Peña de noche -->
+  <div class="cc-col option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="cc-tel" style="background: #2a1a14; color: #f5ead8">
+      <div class="cc-aviso" style="background: #d9a24a; color: #2a1a14">
+        ♪ Feliz Día de la Canción Criolla
+      </div>
+      <div class="cc-cab" style="background: #2a1a14; border-color: rgb(255 255 255 / 0.1)">
+        <img src="/files/logo.webp" alt="" /><span class="cc-nombre" style="color: #e9b866"
+          >Panadería Pimpo's</span
+        ><span class="cc-menu" style="color: #e9b866"></span>
+      </div>
+      <!-- farolitos de peña que se encienden por turnos -->
+      <svg
+        class="cc-abs"
+        style="top: 81px; left: 0; width: 320px; height: 60px"
+        viewBox="0 0 320 60"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 3Q80 14 160 3T320 3" fill="none" stroke="#7a5a40" stroke-width="1" />
+        <g>
+          <g class="cc-luz">
+            <rect x="34" y="12" width="14" height="20" rx="4" fill="#f2b45a" />
+            <rect x="37" y="9" width="8" height="4" fill="#7a5a40" />
+          </g>
+          <g class="cc-luz b">
+            <rect x="104" y="14" width="14" height="20" rx="4" fill="#d94a3a" />
+            <rect x="107" y="11" width="8" height="4" fill="#7a5a40" />
+          </g>
+          <g class="cc-luz">
+            <rect x="174" y="12" width="14" height="20" rx="4" fill="#f2b45a" />
+            <rect x="177" y="9" width="8" height="4" fill="#7a5a40" />
+          </g>
+          <g class="cc-luz b">
+            <rect x="244" y="14" width="14" height="20" rx="4" fill="#d94a3a" />
+            <rect x="247" y="11" width="8" height="4" fill="#7a5a40" />
+          </g>
+        </g>
+      </svg>
+      <!-- guitarra colgada -->
+      <svg
+        class="cc-abs cc-cuelga lento"
+        style="top: 81px; left: 280px; width: 30px; height: 90px"
+        viewBox="0 0 30 90"
+      >
+        <line x1="15" y1="0" x2="15" y2="12" stroke="#7a5a40" stroke-width="1" />
+        <rect x="13" y="12" width="4" height="34" fill="#5a3a24" />
+        <rect x="11" y="10" width="8" height="6" rx="1" fill="#3a2418" />
+        <circle cx="15" cy="56" r="9" fill="#c27a3a" />
+        <circle cx="15" cy="72" r="12" fill="#c27a3a" />
+        <circle cx="15" cy="62" r="3.5" fill="#2a1a14" />
+        <rect x="10" y="76" width="10" height="2.5" fill="#3a2418" />
+      </svg>
+      <div class="cc-capa">
+        <i style="left: 50px; color: #e9b866; animation-duration: 12s">♪</i
+        ><i style="left: 160px; color: #d94a3a; animation-duration: 15s; animation-delay: -7s">♫</i
+        ><i style="left: 240px; color: #e9b866; animation-duration: 13s; animation-delay: -3s">♪</i>
+      </div>
+      <div class="cc-hero"></div>
+      <div class="cc-sec">
+        <p class="cc-tit" style="color: #e9b866">
+          Feliz Día de la <span class="cc-cali" style="color: #f2c77f">Canción Criolla</span>
+        </p>
+        <p class="cc-ent">Un valsecito, un cajón y pan calientito: así se celebra en casa.</p>
+        <span class="cc-cuenta" style="color: #e9b866; border-color: #5a4030; background: #3a261c"
+          >Faltan 3 días para el Día de la Canción Criolla</span
+        >
+        <span class="cc-boton" style="background: #d9a24a; color: #2a1a14">Ver los precios</span>
+      </div>
+      <div class="cc-franja" style="background: #3a261c; color: #e9b866">
+        ♪ Feliz día criollo &nbsp; ♪ Pan para la jarana &nbsp; ♪ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="cc-nota">
+      <b>B · Peña de noche.</b> El sitio de noche, en madera oscura, con dorado y rojo, como una
+      peña. Farolitos bajo el menú que se encienden por turnos (como las luces de Navidad), una
+      guitarra colgada y notas que suben.
+    </div>
+  </div>
+
+  <!-- C · Balcón limeño -->
+  <div class="cc-col option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="cc-tel" style="background: #fbf3e7; color: #2c2118">
+      <div class="cc-aviso" style="background: #5b3a22; color: #fbe3c0">
+        ♪ Feliz Día de la Canción Criolla
+      </div>
+      <div class="cc-cab" style="background: #fbf3e7">
+        <img src="/files/logo.webp" alt="" /><span class="cc-nombre" style="color: #5b3a22"
+          >Panadería Pimpo's</span
+        ><span class="cc-menu" style="color: #5b3a22"></span>
+      </div>
+      <!-- celosía de balcón tallado -->
+      <svg
+        class="cc-abs"
+        style="top: 81px; left: 0; width: 320px; height: 22px"
+        viewBox="0 0 320 22"
+        preserveAspectRatio="none"
+      >
+        <rect width="320" height="5" fill="#5b3a22" />
+        <g fill="none" stroke="#5b3a22" stroke-width="1.6">
+          <path
+            d="M0 5L10 18L20 5L30 18L40 5L50 18L60 5L70 18L80 5L90 18L100 5L110 18L120 5L130 18L140 5L150 18L160 5L170 18L180 5L190 18L200 5L210 18L220 5L230 18L240 5L250 18L260 5L270 18L280 5L290 18L300 5L310 18L320 5"
+          />
+        </g>
+        <rect y="18" width="320" height="3" fill="#5b3a22" />
+      </svg>
+      <!-- buganvillas que caen -->
+      <div class="cc-capa cae">
+        <i
+          style="
+            left: 30px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50% 0;
+            background: #c2337a;
+            animation-duration: 10s;
+          "
+        ></i>
+        <i
+          style="
+            left: 120px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50% 0;
+            background: #d95a96;
+            animation-duration: 13s;
+            animation-delay: -5s;
+          "
+        ></i>
+        <i
+          style="
+            left: 210px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50% 0;
+            background: #c2337a;
+            animation-duration: 11s;
+            animation-delay: -8s;
+          "
+        ></i>
+        <i
+          style="
+            left: 285px;
+            width: 7px;
+            height: 7px;
+            border-radius: 50% 0;
+            background: #d95a96;
+            animation-duration: 12s;
+            animation-delay: -2s;
+          "
+        ></i>
+      </div>
+      <!-- cajón y guitarra pequeños -->
+      <svg
+        class="cc-abs cc-cuelga"
+        style="top: 103px; left: 30px; width: 26px; height: 48px"
+        viewBox="0 0 26 48"
+      >
+        <line x1="13" y1="0" x2="13" y2="18" stroke="#5b3a22" stroke-width="1" />
+        <rect x="3" y="18" width="20" height="26" rx="2" fill="#a86a3a" />
+        <circle cx="13" cy="28" r="4" fill="#3a2418" />
+      </svg>
+      <div class="cc-hero"></div>
+      <div class="cc-sec">
+        <p class="cc-tit" style="color: #5b3a22">
+          Feliz Día de la <span class="cc-cali" style="color: #a8326a">Canción Criolla</span>
+        </p>
+        <p class="cc-ent">Un valsecito, un cajón y pan calientito: así se celebra en casa.</p>
+        <span class="cc-cuenta" style="color: #5b3a22; border-color: #d9c2a4; background: #fff7ec"
+          >Faltan 3 días para el Día de la Canción Criolla</span
+        >
+        <span class="cc-boton" style="background: #5b3a22; color: #fff">Ver los precios</span>
+      </div>
+      <div class="cc-franja" style="background: #f1dfc6; color: #5b3a22">
+        ♪ Feliz día criollo &nbsp; ♪ Pan para la jarana &nbsp; ♪ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="cc-nota">
+      <b>C · Balcón limeño.</b> Crema con madera tallada: una celosía de balcón bajo el menú, un
+      cajón colgando y flores de buganvilla que caen despacio.
+    </div>
+  </div>
+</div>

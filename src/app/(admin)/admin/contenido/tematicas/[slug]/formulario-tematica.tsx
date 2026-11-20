@@ -53,12 +53,19 @@ export function FormularioTematica({
   tematica,
   productos,
   catalogo,
+  avisoAlternativa = null,
 }: {
   tematica: TematicaEditable;
   productos: ProductoDeTemporada[];
   catalogo: readonly { id: string; nombre: string }[];
+  /** Si tiene otra fiesta para la misma fecha (plan 08.2), qué decir de ella. */
+  avisoAlternativa?: string | null;
 }) {
-  const manual = tematica.encendido_vigente !== "fechas";
+  // La «Apagada» de una temática con alternativa no vuelve a «Según fechas» al
+  // cambiar las fechas (0050): ahí la frase de siempre mentiría.
+  const manual =
+    tematica.encendido_vigente !== "fechas" &&
+    !(avisoAlternativa && tematica.encendido_vigente === "apagada");
   return (
     <FormularioPanel
       clave={claveDeBorrador("tematica", tematica.id)}
@@ -116,6 +123,9 @@ export function FormularioTematica({
                     <p className="text-muted-foreground text-sm">
                       Si cambias las fechas, la temática vuelve a «Según fechas».
                     </p>
+                  ) : null}
+                  {avisoAlternativa ? (
+                    <p className="text-muted-foreground text-sm">{avisoAlternativa}</p>
                   ) : null}
                 </fieldset>
               </>

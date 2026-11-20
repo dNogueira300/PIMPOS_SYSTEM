@@ -2,13 +2,22 @@ import { DISENOS, esSlugConDiseno, type OpcionEstilo } from "./disenos";
 
 /**
  * Los estilos de las temáticas (plan 08, 0048; por temática desde el plan 08.1,
- * 0049). Cada temática tiene los suyos, con su CSS en
+ * 0049; Halloween y la Canción Criolla desde el 08.2, 0050). Cada temática tiene los suyos, con su CSS en
  * `src/estilos/tematicas.css` (`[data-tematica="…"][data-estilo="…"]`), y la
  * base solo admite los de cada una (`tematicas_estilo_de_su_tematica`). Los
  * valores no se repiten entre temáticas. Sin dependencias: lo usan el panel y
  * el sitio.
  */
-export const ESTILOS = ["noche", "crema", "rosa-crema", "rosa"] as const;
+export const ESTILOS = [
+  "noche",
+  "crema",
+  "rosa-crema",
+  "rosa",
+  "calabaza-noche",
+  "calabaza-crema",
+  "rojo-blanco",
+  "balcon",
+] as const;
 
 export type Estilo = (typeof ESTILOS)[number];
 

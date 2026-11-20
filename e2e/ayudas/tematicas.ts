@@ -10,15 +10,20 @@ import { sqlLocal } from "./base";
  * que dos se crucen (0047): según el día en que corra la prueba, las fechas de
  * fábrica de otra (el Día de la Madre en abril, Navidad en diciembre) harían
  * que el panel respondiera «Las fechas se cruzan con…» sin que nada estuviera
- * roto. Las lleva lejos (dentro de un año, sin fecha de la fiesta) y devuelve
- * una función que las deja como estaban. Esa función se llama al final, DESPUÉS
- * de devolver la temática probada a sus fechas: si no, podría cruzarse con ella.
+ * roto. Las lleva lejos (dentro de más de un año, sin fecha de la fiesta), cada
+ * una a su propia semana para que no se crucen entre ellas, y devuelve una
+ * función que las deja como estaban. Esa función se llama al final, DESPUÉS de
+ * devolver la temática probada a sus fechas: si no, podría cruzarse con ella.
+ *
+ * Halloween y el Día de la Canción Criolla comparten fechas y una va apagada
+ * (0050): al devolverlas, primero las apagadas, que siguen apagadas, y después
+ * las demás, en «según fechas».
  *
  * Solo prepara datos: lo que la prueba comprueba se enciende desde el panel.
  */
 export function apartarLasDemas(slug: string): () => void {
   const filas = sqlLocal(
-    `select concat_ws('|', slug, inicio, fin, coalesce(fecha_evento::text, ''))
+    `select concat_ws('|', slug, inicio, fin, coalesce(fecha_evento::text, ''), encendido)
        from public.tematicas where slug <> '${slug}' order by slug`,
   )
     .trim()
@@ -26,18 +31,28 @@ export function apartarLasDemas(slug: string): () => void {
     .filter(Boolean)
     .map((linea) => linea.trim().split("|"));
 
-  for (const [otra] of filas) {
+  filas.forEach(([otra], i) => {
     sqlLocal(`
       update public.tematicas
-         set inicio = ((now() at time zone 'America/Lima')::date + 400),
-             fin = ((now() at time zone 'America/Lima')::date + 410),
+         set inicio = ((now() at time zone 'America/Lima')::date + ${400 + 20 * i}),
+             fin = ((now() at time zone 'America/Lima')::date + ${410 + 20 * i}),
              fecha_evento = null
        where slug = '${otra}';
     `);
-  }
+  });
 
   return () => {
-    for (const [otra, inicio, fin, evento] of filas) {
+    const apagadas = filas.filter(([, , , , encendido]) => encendido === "apagada");
+    const demas = filas.filter(([, , , , encendido]) => encendido !== "apagada");
+    for (const [otra, inicio, fin, evento] of apagadas) {
+      sqlLocal(`
+        update public.tematicas
+           set encendido = 'apagada', inicio = '${inicio}', fin = '${fin}',
+               fecha_evento = nullif('${evento}', '')::date
+         where slug = '${otra}';
+      `);
+    }
+    for (const [otra, inicio, fin, evento] of demas) {
       sqlLocal(`
         update public.tematicas
            set encendido = 'fechas', inicio = '${inicio}', fin = '${fin}',
