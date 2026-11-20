@@ -142,7 +142,8 @@ test("cada temática enseña solo sus estilos, y el Día de la Madre guarda el s
   page,
 }) => {
   // Escribe en la fila del Día de la Madre: con el cerrojo de las temáticas.
-  test.setTimeout(120_000);
+  // Espera en la cola del cerrojo a las demás pruebas de temáticas (hasta cinco).
+  test.setTimeout(300_000);
   await conCerrojo("tematicas", async () => {
     const usuario = await entrarComo(page, "administrador");
     const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");
@@ -174,6 +175,93 @@ test("cada temática enseña solo sus estilos, y el Día de la Madre guarda el s
       ).toBe("rosa");
     } finally {
       sqlLocal(`update public.tematicas set estilo = 'rosa-crema' where slug = 'dia-de-la-madre'`);
+      await borrarUsuario(usuario.id);
+    }
+  });
+});
+
+test("Halloween y la Canción Criolla: cada una con sus estilos, y solo una encendida", async ({
+  page,
+}) => {
+  // Escribe en las filas de Halloween y la Canción Criolla: con el cerrojo de las temáticas.
+  // Espera en la cola del cerrojo a las demás pruebas de temáticas (hasta cinco).
+  test.setTimeout(300_000);
+  await conCerrojo("tematicas", async () => {
+    // Las dos lejos de todo (Navidad y el Día de la Madre tienen fechas fijas,
+    // y `apartarLasDemas` usa de hoy+400 a hoy+470). La Canción Criolla sigue
+    // apagada: entre alternativas, la apagada conserva su modo al mover fechas.
+    sqlLocal(`
+      update public.tematicas set inicio = '${dia(500)}', fin = '${dia(507)}', fecha_evento = null
+       where slug in ('cancion-criolla', 'halloween');
+    `);
+    const usuario = await entrarComo(page, "administrador");
+    const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");
+    const cuando = (p: Page) => p.getByRole("tabpanel", { name: "Cuándo" });
+    const aviso = /son para la misma fiesta: solo una puede estar encendida/;
+    try {
+      await page.goto("/admin/contenido/tematicas");
+      await expect(lista(page).getByRole("link", { name: "Halloween" }).first()).toBeVisible();
+      await expect(
+        lista(page).getByRole("link", { name: "Día de la Canción Criolla" }).first(),
+      ).toBeVisible();
+
+      await page.goto("/admin/contenido/tematicas/halloween");
+      await expect(cuando(page).getByText(aviso)).toHaveText(
+        /^Halloween y el Día de la Canción Criolla/,
+      );
+      await page.getByRole("tab", { name: "Estilo" }).click();
+      await expect(estilos(page)).toHaveCount(2);
+      await expect(estilos(page).nth(0)).toHaveAccessibleName(/Noche de calabazas/);
+      await expect(estilos(page).nth(1)).toHaveAccessibleName(/Calabaza sobre crema/);
+
+      await page.goto("/admin/contenido/tematicas/cancion-criolla");
+      await expect(cuando(page).getByText(aviso)).toHaveText(
+        /^El Día de la Canción Criolla y Halloween/,
+      );
+      await expect(cuando(page).getByRole("radio", { name: /^Apagada/ })).toBeChecked();
+      // Su «Apagada» no vuelve a «Según fechas» al cambiar las fechas: esa frase mentiría.
+      await expect(cuando(page).getByText(/vuelve a «Según fechas»/)).toHaveCount(0);
+      await page.getByRole("tab", { name: "Estilo" }).click();
+      await expect(estilos(page)).toHaveCount(2);
+      await expect(estilos(page).nth(0)).toHaveAccessibleName(/Rojo y blanco/);
+      await expect(estilos(page).nth(1)).toHaveAccessibleName(/Balcón limeño/);
+
+      // Cambiarle las fechas la deja apagada.
+      await page.getByRole("tab", { name: "Cuándo" }).click();
+      await cuando(page).getByLabel("Termina el").fill(dia(508));
+      await page.getByRole("button", { name: "Guardar" }).click();
+      await page.waitForURL("/admin/contenido/tematicas");
+      expect(
+        sqlLocal(
+          `select concat_ws('|', encendido, fin) from public.tematicas where slug = 'cancion-criolla'`,
+        ).trim(),
+      ).toBe(`apagada|${dia(508)}`);
+
+      // Las dos según fechas, no: la frase dice qué hacer.
+      await page.goto("/admin/contenido/tematicas/cancion-criolla");
+      await cuando(page)
+        .getByRole("radio", { name: /^Según fechas/ })
+        .check();
+      await page.getByRole("button", { name: "Guardar" }).click();
+      await expect(page.getByText(/deja una de las dos «Apagada»/)).toBeVisible();
+      expect(
+        sqlLocal(`select encendido from public.tematicas where slug = 'cancion-criolla'`).trim(),
+      ).toBe("apagada");
+
+      // Navidad no tiene alternativa: sin esa ayuda.
+      await page.goto("/admin/contenido/tematicas/navidad");
+      await expect(cuando(page).getByRole("radio", { name: /^Según fechas/ })).toBeVisible();
+      await expect(page.getByText(aviso)).toHaveCount(0);
+    } finally {
+      // Como las deja la migración: primero la apagada.
+      sqlLocal(`
+        update public.tematicas
+           set encendido = 'apagada', inicio = '2027-10-25', fin = '2027-11-01', fecha_evento = '2027-10-31'
+         where slug = 'cancion-criolla';
+        update public.tematicas
+           set encendido = 'fechas', inicio = '2027-10-25', fin = '2027-11-01', fecha_evento = '2027-10-31'
+         where slug = 'halloween';
+      `);
       await borrarUsuario(usuario.id);
     }
   });

@@ -6,7 +6,9 @@ import { exigirAcceso } from "@/lib/auth/sesion";
 import { hoyEnLima } from "@/lib/insumos/periodo";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { comoEncendido, describirEstado } from "@/lib/tematicas/estado";
+import { alternativaDe } from "@/lib/tematicas/disenos";
 import { comoEstilo } from "@/lib/tematicas/estilos";
+import { avisoDeAlternativa } from "@/lib/tematicas/nombre";
 
 import { FormularioTematica } from "./formulario-tematica";
 
@@ -37,15 +39,24 @@ async function Editor({
     .maybeSingle();
   if (!t?.id) notFound();
 
-  const [{ data: elegidos, error: errorElegidos }, { data: catalogo, error: errorCatalogo }] =
-    await Promise.all([
-      supabase
-        .from("tematica_productos")
-        .select("producto_id, solo_temporada, orden, productos(nombre)")
-        .eq("tematica_id", t.id)
-        .order("orden"),
-      supabase.from("productos").select("id, nombre").is("deleted_at", null).order("nombre"),
-    ]);
+  // La otra fiesta de la misma fecha, si la tiene (plan 08.2): su nombre va en
+  // la ayuda de la pestaña «Cuándo».
+  const alternativa = alternativaDe(slug);
+  const [
+    { data: elegidos, error: errorElegidos },
+    { data: catalogo, error: errorCatalogo },
+    { data: otra },
+  ] = await Promise.all([
+    supabase
+      .from("tematica_productos")
+      .select("producto_id, solo_temporada, orden, productos(nombre)")
+      .eq("tematica_id", t.id)
+      .order("orden"),
+    supabase.from("productos").select("id, nombre").is("deleted_at", null).order("nombre"),
+    alternativa
+      ? supabase.from("tematicas_panel").select("nombre").eq("slug", alternativa).maybeSingle()
+      : Promise.resolve({ data: null }),
+  ]);
   // Sin sus productos no se pinta el formulario: «Guardar» con la lista vacía
   // borraría todos los de la temática (`guardar_tematica` quita lo que no llega).
   if (errorElegidos || errorCatalogo || !elegidos || !catalogo) {
@@ -96,6 +107,11 @@ async function Editor({
           solo_temporada: e.solo_temporada,
         }))}
         catalogo={catalogo}
+        avisoAlternativa={
+          alternativa && otra?.nombre
+            ? avisoDeAlternativa(slug, tematica.nombre, alternativa, otra.nombre)
+            : null
+        }
       />
     </>
   );

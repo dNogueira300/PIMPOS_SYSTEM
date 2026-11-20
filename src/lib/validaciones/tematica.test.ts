@@ -53,6 +53,13 @@ describe("esquemaTematica", () => {
     expect(validarTematica(formulario({ estilo: "rosa" })).estilo?.[0]).toBe(
       "Elige uno de los estilos de esta temática.",
     );
+    const halloween = { slug: "halloween", inicio: "2027-10-25", fin: "2027-11-01" };
+    expect(validarTematica(formulario({ ...halloween, estilo: "calabaza-crema" }))).toEqual({});
+    expect(validarTematica(formulario({ ...halloween, estilo: "balcon" })).estilo?.[0]).toBe(
+      "Elige uno de los estilos de esta temática.",
+    );
+    const criolla = { slug: "cancion-criolla", inicio: "2027-10-25", fin: "2027-11-01" };
+    expect(validarTematica(formulario({ ...criolla, estilo: "balcon" }))).toEqual({});
   });
 
   it("ignora las líneas vacías de la cinta", () => {

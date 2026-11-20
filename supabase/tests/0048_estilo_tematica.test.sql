@@ -21,6 +21,14 @@ select (now() at time zone 'America/Lima')::date as hoy,
        (select id from public.tematicas where slug = 'navidad') as navidad;
 grant select on ref to anon, authenticated;
 
+-- Halloween y el Día de la Canción Criolla (0050), muy lejos: sus fechas de
+-- fábrica (25/10–01/11) podrían cruzarse con las que esta prueba pone, según el
+-- día en que corra. Las dos van juntas: son alternativas y la Canción Criolla
+-- va apagada, así que pueden compartir fechas.
+update public.tematicas set inicio = (select hoy + 800 from ref), fin = (select hoy + 810 from ref),
+       fecha_evento = null
+ where slug in ('cancion-criolla', 'halloween');
+
 select has_column('public', 'tematicas', 'estilo', 'las temáticas tienen estilo');
 select is((select estilo from public.tematicas where slug = 'navidad'), 'noche',
   'Navidad queda con «Noche de Navidad», como pidió Dan');

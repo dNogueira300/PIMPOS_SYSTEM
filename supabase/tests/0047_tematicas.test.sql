@@ -31,6 +31,14 @@ select
   (select id from public.productos where slug = 'ciabatta')      as ciabatta;
 grant select on ref to anon, authenticated;
 
+-- Halloween y el Día de la Canción Criolla (0050), muy lejos: sus fechas de
+-- fábrica (25/10–01/11) podrían cruzarse con las que esta prueba pone, según el
+-- día en que corra. Las dos van juntas: son alternativas y la Canción Criolla
+-- va apagada, así que pueden compartir fechas.
+update public.tematicas set inicio = (select hoy + 800 from ref), fin = (select hoy + 810 from ref),
+       fecha_evento = null
+ where slug in ('cancion-criolla', 'halloween');
+
 -- La semilla no le pone foto al panetón: sin esta, «ni sus fotos» no podría
 -- fallar (revisión de T1, hallazgo 3).
 insert into public.producto_imagenes (producto_id, ruta, alt, es_principal)

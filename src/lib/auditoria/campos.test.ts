@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { opcionesDeEstilo } from "@/lib/tematicas/estilos";
+import { SLUGS_CON_DISENO } from "@/lib/tematicas/disenos";
+
 import { esDeControl, escribirValor, etiquetaDe, recortar } from "./campos";
 
 describe("campos del historial", () => {
@@ -95,5 +98,15 @@ describe("campos del historial", () => {
   it("recorta lo largo para la lista (Review Focus)", () => {
     expect(recortar("corto", 20)).toBe("corto");
     expect(recortar("x".repeat(100), 20)).toBe(`${"x".repeat(19)}…`);
+  });
+});
+
+describe("los estilos de las temáticas en el Historial", () => {
+  it("cada estilo se escribe con el nombre que ve el panel", () => {
+    for (const slug of SLUGS_CON_DISENO) {
+      for (const opcion of opcionesDeEstilo(slug)) {
+        expect(escribirValor("estilo", opcion.valor, {})).toBe(opcion.nombre);
+      }
+    }
   });
 });

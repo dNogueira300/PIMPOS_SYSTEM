@@ -17,3 +17,22 @@ export function nombreConDe(slug: string, nombre: string): string {
   const articulo = esSlugConDiseno(slug) ? DISENOS[slug].articulo : "";
   return articulo === "el" ? `del ${nombre}` : `de ${nombreEnFrase(slug, nombre)}`;
 }
+
+/**
+ * La línea de ayuda de la pestaña «Cuándo» para dos fiestas de la misma fecha
+ * (plan 08.2): solo una puede estar encendida, y la apagada sigue apagada
+ * aunque le cambien las fechas (0050).
+ */
+export function avisoDeAlternativa(
+  slug: string,
+  nombre: string,
+  slugOtra: string,
+  nombreOtra: string,
+): string {
+  const esta = nombreEnFrase(slug, nombre);
+  const empieza = esta.charAt(0).toLocaleUpperCase("es") + esta.slice(1);
+  return (
+    `${empieza} y ${nombreEnFrase(slugOtra, nombreOtra)} son para la misma fiesta: solo una ` +
+    "puede estar encendida. La otra déjala «Apagada»; seguirá apagada aunque le cambies las fechas."
+  );
+}

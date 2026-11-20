@@ -12,6 +12,14 @@ describe("opcionesDeEstilo", () => {
       "Rosa sobre crema",
       "Todo en rosa",
     ]);
+    expect(opcionesDeEstilo("halloween").map((o) => o.nombre)).toEqual([
+      "Noche de calabazas",
+      "Calabaza sobre crema",
+    ]);
+    expect(opcionesDeEstilo("cancion-criolla").map((o) => o.nombre)).toEqual([
+      "Rojo y blanco",
+      "Balcón limeño",
+    ]);
   });
 
   it("una temática sin diseño no tiene estilos", () => {
@@ -30,6 +38,10 @@ describe("comoEstilo", () => {
     expect(comoEstilo("navidad", "neon")).toBe("noche");
     expect(comoEstilo("dia-de-la-madre", null)).toBe("rosa-crema");
     expect(comoEstilo("dia-de-la-madre", "noche")).toBe("rosa-crema");
+    expect(comoEstilo("halloween", null)).toBe("calabaza-noche");
+    expect(comoEstilo("halloween", "balcon")).toBe("calabaza-noche");
+    expect(comoEstilo("cancion-criolla", "calabaza-crema")).toBe("rojo-blanco");
+    expect(comoEstilo("cancion-criolla", "balcon")).toBe("balcon");
   });
 });
 
@@ -39,5 +51,7 @@ describe("esEstiloDe", () => {
     expect(esEstiloDe("navidad", "rosa")).toBe(false);
     expect(esEstiloDe("dia-de-la-madre", "rosa-crema")).toBe(true);
     expect(esEstiloDe("san-juan", "noche")).toBe(false);
+    expect(esEstiloDe("halloween", "calabaza-crema")).toBe(true);
+    expect(esEstiloDe("halloween", "rojo-blanco")).toBe(false);
   });
 });
