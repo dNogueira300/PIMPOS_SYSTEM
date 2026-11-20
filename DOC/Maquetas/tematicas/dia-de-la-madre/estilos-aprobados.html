@@ -1,0 +1,107 @@
+<style>
+  .dm-grid { display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; margin-top: 18px; }
+  .dm-col { width: 320px; display: flex; flex-direction: column; gap: 10px; }
+  .dm-tel { width: 320px; height: 640px; overflow: hidden; border-radius: 26px; border: 8px solid #222; position: relative;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif; box-shadow: 0 12px 30px rgb(0 0 0 / .18); }
+  .dm-aviso { font-size: 11px; font-weight: 600; text-align: center; padding: 7px 10px; }
+  .dm-cab { display: flex; align-items: center; gap: 10px; padding: 10px 14px; position: relative; z-index: 3; border-bottom: 1px solid rgb(0 0 0 / .08); }
+  .dm-cab img { width: 46px; height: 32px; object-fit: contain; }
+  .dm-nombre { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 18px; flex: 1; }
+  .dm-menu { width: 22px; height: 14px; border-top: 2px solid currentColor; border-bottom: 2px solid currentColor; position: relative; }
+  .dm-menu::after { content: ""; position: absolute; left: 0; right: 0; top: 4px; border-top: 2px solid currentColor; }
+  .dm-adorno { position: absolute; left: 0; right: 0; height: 40px; z-index: 4; pointer-events: none; }
+  .dm-hero { height: 170px; background: url("/files/fachada.webp") center 35% / cover; }
+  .dm-sec { padding: 22px 18px 18px; position: relative; }
+  .dm-tit { font-family: "Playfair Display", Georgia, serif; font-weight: 700; font-size: 25px; line-height: 1.15; margin: 0; }
+  .dm-cali { font-family: "Dancing Script", "Brush Script MT", cursive; font-weight: 700; font-size: 1.3em; }
+  .dm-ent { font-size: 13px; line-height: 1.5; margin: 8px 0 12px; }
+  .dm-cuenta { display: inline-block; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px; border: 1px solid; }
+  .dm-boton { display: block; text-align: center; font-weight: 600; font-size: 13px; padding: 11px; border-radius: 10px; margin-top: 14px; }
+  .dm-franja { padding: 14px 18px; font-size: 12px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+  .dm-capa { position: absolute; inset: 0; pointer-events: none; z-index: 2; overflow: hidden; }
+  .dm-capa i { position: absolute; top: -20px; display: block; animation: dm-cae linear infinite; }
+  @keyframes dm-cae { to { transform: translate(18px, 680px) rotate(240deg); } }
+  .dm-sube i { top: auto; bottom: -20px; animation-name: dm-sube; }
+  @keyframes dm-sube { to { transform: translate(-14px, -680px); opacity: 0; } }
+  .dm-meca { transform-origin: 50% 0; animation: dm-meca 3s ease-in-out infinite alternate; }
+  @keyframes dm-meca { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+  @media (prefers-reduced-motion: reduce) { .dm-capa i, .dm-meca { animation: none; } }
+  .dm-nota { font-size: 13px; line-height: 1.45; color: var(--text-secondary, #555); }
+  .dm-nota b { color: var(--text-primary, #222); }
+</style>
+
+<h2>Día de la Madre: tus dos estilos</h2>
+<p class="subtitle">Los mismos adornos en los dos (banderines bajo el menú y corazones que suben despacio); cambian los colores. En el panel se elige uno, como «noche» y «crema» en Navidad.</p>
+
+<div class="dm-grid">
+  <!-- A · Rosa sobre crema -->
+  <div class="dm-col option" data-choice="principal" onclick="toggleSelect(this)">
+    <div class="dm-tel" style="background:#f7f5f0;color:#28251f">
+      <div class="dm-aviso" style="background:#8e2448;color:#fff">♡ Feliz Día de la Madre: gracias por todo, mamá</div>
+      <div class="dm-cab" style="background:#f7f5f0">
+        <img src="/files/logo.webp" alt=""><span class="dm-nombre" style="color:#8e2448">Panadería Pimpo's</span><span class="dm-menu" style="color:#8e2448"></span>
+      </div>
+      <!-- banderines con corazones -->
+      <svg class="dm-adorno dm-meca" style="top:81px;height:34px" viewBox="0 0 320 34" preserveAspectRatio="none">
+        <path d="M0 3 Q80 12 160 3 T320 3" fill="none" stroke="#a7737f" stroke-width="1.2"/>
+        <g>
+          <path d="M14 5 L34 6 L24 24 Z" fill="#c2496f"/><path d="M54 7 L74 8 L64 26 Z" fill="#f2c46d"/><path d="M94 7 L114 7 L104 25 Z" fill="#f8d7e0" stroke="#d9a3b3" stroke-width=".6"/>
+          <path d="M134 5 L154 4 L144 22 Z" fill="#c2496f"/><path d="M174 4 L194 5 L184 23 Z" fill="#f2c46d"/><path d="M214 6 L234 7 L224 25 Z" fill="#f8d7e0" stroke="#d9a3b3" stroke-width=".6"/>
+          <path d="M254 7 L274 7 L264 25 Z" fill="#c2496f"/><path d="M294 5 L314 4 L304 22 Z" fill="#f2c46d"/>
+          <g fill="#5c1630"><path d="M104 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z"/><path d="M224 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z"/></g>
+        </g>
+      </svg>
+      <div class="dm-capa dm-sube">
+        <i style="left:40px;color:#e48aa6;font-size:14px;animation-duration:11s">♥</i>
+        <i style="left:150px;color:#f2c46d;font-size:10px;animation-duration:14s;animation-delay:-5s">♥</i>
+        <i style="left:250px;color:#e48aa6;font-size:12px;animation-duration:12s;animation-delay:-8s">♥</i>
+        <i style="left:95px;color:#d3657f;font-size:9px;animation-duration:15s;animation-delay:-2s">♥</i>
+      </div>
+      <div class="dm-hero"></div>
+      <div class="dm-sec">
+        <p class="dm-tit" style="color:#8e2448">Feliz <span class="dm-cali" style="color:#b0305a">Día de la Madre</span></p>
+        <p class="dm-ent">Gracias, mamá, por las mañanas de pan caliente. Hoy horneamos pensando en ti.</p>
+        <span class="dm-cuenta" style="color:#8e2448;border-color:#e3b3c2;background:#fbeef2">Faltan 3 días para el Día de la Madre</span>
+        <span class="dm-boton" style="background:#8e2448;color:#fff">Ver los precios</span>
+      </div>
+      <div class="dm-franja" style="background:#f6dbe1;color:#6e1a36">♥ Feliz día, mamá &nbsp; ♥ Gracias por todo &nbsp; ♥ Delivery a todo Iquitos</div>
+    </div>
+    <div class="dm-nota"><b>Principal · Rosa sobre crema.</b> Los colores de A (crema, vino y rosa) con los banderines y los corazones de B. Los banderines blancos pasan a rosa palo: sobre el crema, el blanco no se vería.</div>
+  </div>
+
+  <!-- B · Rosa entero -->
+  <div class="dm-col option" data-choice="alterna" onclick="toggleSelect(this)">
+    <div class="dm-tel" style="background:#fbeef0;color:#3a2228">
+      <div class="dm-aviso" style="background:#5c1630;color:#f7d9a8">♡ Feliz Día de la Madre: gracias por todo, mamá</div>
+      <div class="dm-cab" style="background:#fbeef0">
+        <img src="/files/logo.webp" alt="" style="background:#fff;border-radius:999px"><span class="dm-nombre" style="color:#5c1630">Panadería Pimpo's</span><span class="dm-menu" style="color:#5c1630"></span>
+      </div>
+      <!-- banderines con corazones -->
+      <svg class="dm-adorno dm-meca" style="top:81px;height:34px" viewBox="0 0 320 34" preserveAspectRatio="none">
+        <path d="M0 3 Q80 12 160 3 T320 3" fill="none" stroke="#a7737f" stroke-width="1.2"/>
+        <g>
+          <path d="M14 5 L34 6 L24 24 Z" fill="#c2496f"/><path d="M54 7 L74 8 L64 26 Z" fill="#f2c46d"/><path d="M94 7 L114 7 L104 25 Z" fill="#fff"/>
+          <path d="M134 5 L154 4 L144 22 Z" fill="#c2496f"/><path d="M174 4 L194 5 L184 23 Z" fill="#f2c46d"/><path d="M214 6 L234 7 L224 25 Z" fill="#fff"/>
+          <path d="M254 7 L274 7 L264 25 Z" fill="#c2496f"/><path d="M294 5 L314 4 L304 22 Z" fill="#f2c46d"/>
+          <g fill="#5c1630"><path d="M104 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z"/><path d="M224 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z"/></g>
+        </g>
+      </svg>
+      <div class="dm-capa dm-sube">
+        <i style="left:40px;color:#e48aa6;font-size:14px;animation-duration:11s">♥</i>
+        <i style="left:150px;color:#f2c46d;font-size:10px;animation-duration:14s;animation-delay:-5s">♥</i>
+        <i style="left:250px;color:#e48aa6;font-size:12px;animation-duration:12s;animation-delay:-8s">♥</i>
+        <i style="left:95px;color:#d3657f;font-size:9px;animation-duration:15s;animation-delay:-2s">♥</i>
+      </div>
+      <div class="dm-hero"></div>
+      <div class="dm-sec">
+        <p class="dm-tit" style="color:#5c1630">Feliz <span class="dm-cali" style="color:#a8325a">Día de la Madre</span></p>
+        <p class="dm-ent">Gracias, mamá, por las mañanas de pan caliente. Hoy horneamos pensando en ti.</p>
+        <span class="dm-cuenta" style="color:#5c1630;border-color:#d9a3b3;background:#fff">Faltan 3 días para el Día de la Madre</span>
+        <span class="dm-boton" style="background:#a8325a;color:#fff">Ver los precios</span>
+      </div>
+      <div class="dm-franja" style="background:#5c1630;color:#f7d9a8">♥ Feliz día, mamá &nbsp; ♥ Gracias por todo &nbsp; ♥ Delivery a todo Iquitos</div>
+    </div>
+    <div class="dm-nota"><b>Alterna · Todo en rosa.</b> Tal cual B: el fondo entero rosa empolvado, vino y dorado, banderines y corazones que suben.</div>
+  </div>
+
+</div>

@@ -107,3 +107,6 @@ DOC/descarga.png
 # Origen de las fuentes que descarga scripts/preparar-fuentes.py: TTF completos
 # que no hace falta versionar, se vuelven a bajar si se corre el guion.
 /.fuentes-origen/
+
+# Maquetas de las sesiones de diseño (skill de brainstorming)
+.superpowers/
