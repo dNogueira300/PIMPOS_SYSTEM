@@ -6,6 +6,7 @@ import { exigirAcceso } from "@/lib/auth/sesion";
 import { hoyEnLima } from "@/lib/insumos/periodo";
 import { crearClienteServidor } from "@/lib/supabase/servidor";
 import { comoEncendido, describirEstado } from "@/lib/tematicas/estado";
+import { comoEstilo } from "@/lib/tematicas/estilos";
 
 import { FormularioTematica } from "./formulario-tematica";
 
@@ -30,7 +31,7 @@ async function Editor({
   const { data: t } = await supabase
     .from("tematicas_panel")
     .select(
-      "id, nombre, inicio, fin, fecha_evento, encendido_vigente, encendido_hasta, activa, texto_aviso, mensajes_cinta, titulo, entradilla",
+      "id, nombre, inicio, fin, fecha_evento, encendido_vigente, encendido_hasta, activa, estilo, texto_aviso, mensajes_cinta, titulo, entradilla",
     )
     .eq("slug", slug)
     .maybeSingle();
@@ -54,6 +55,7 @@ async function Editor({
     fin: t.fin ?? "",
     fecha_evento: t.fecha_evento,
     encendido_vigente: comoEncendido(t.encendido_vigente),
+    estilo: comoEstilo(t.estilo),
     texto_aviso: t.texto_aviso,
     mensajes_cinta: t.mensajes_cinta ?? [],
     titulo: t.titulo,

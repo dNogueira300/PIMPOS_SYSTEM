@@ -533,3 +533,16 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   mutuo), `service_role` puede ejecutar las dos funciones, las tablas fuerzan la RLS como todas, la
   cinta no admite mensajes vacíos y un producto repetido en el formulario cuenta una vez.
 - **pgTAP:** 52 pruebas nuevas; la suite queda en 798.
+
+**T3 (20/11/2026).**
+
+- **Dan eligió las dos variantes**: «desarrolla las dos, cuando hayas terminado deja aplicado la de
+  noche de navidad». Eso no estaba en el plan y pide una migración, la **0048**
+  (`tematicas.estilo`, `noche` o `crema`, con un `check` de los estilos que tienen CSS). Navidad
+  queda con `noche`. Va sola en su PR, como toda migración, entre el de T2+T3 y el de T4.
+- **El panel gana una pestaña «Estilo»** en el formulario de la temática (dos opciones, con su
+  descripción), y el Historial dice «Estilo: Noche de Navidad → Crema navideña».
+- `tematicas_panel` se borra y se vuelve a crear: llevaba `t.*`, que Postgres expande al crear la
+  vista, así que la columna nueva no habría aparecido. `tematica_publica` se amplía al final.
+- Una temática nueva tiene que decir su estilo (la columna no tiene valor por defecto). La fixture de
+  `0047_tematicas.test.sql` lo dice; pgTAP queda en 809.

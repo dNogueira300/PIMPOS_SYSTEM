@@ -1891,6 +1891,7 @@ export type Database = {
           encendido_desde: string | null
           encendido_hasta: string | null
           entradilla: string | null
+          estilo: string
           fecha_evento: string | null
           fin: string
           id: string
@@ -1910,6 +1911,7 @@ export type Database = {
           encendido_desde?: string | null
           encendido_hasta?: string | null
           entradilla?: string | null
+          estilo: string
           fecha_evento?: string | null
           fin: string
           id?: string
@@ -1929,6 +1931,7 @@ export type Database = {
           encendido_desde?: string | null
           encendido_hasta?: string | null
           entradilla?: string | null
+          estilo?: string
           fecha_evento?: string | null
           fin?: string
           id?: string
@@ -2493,6 +2496,7 @@ export type Database = {
       tematica_publica: {
         Row: {
           entradilla: string | null
+          estilo: string | null
           fecha_evento: string | null
           mensajes_cinta: string[] | null
           nombre: string | null
@@ -2502,6 +2506,7 @@ export type Database = {
         }
         Insert: {
           entradilla?: string | null
+          estilo?: string | null
           fecha_evento?: string | null
           mensajes_cinta?: string[] | null
           nombre?: string | null
@@ -2511,6 +2516,7 @@ export type Database = {
         }
         Update: {
           entradilla?: string | null
+          estilo?: string | null
           fecha_evento?: string | null
           mensajes_cinta?: string[] | null
           nombre?: string | null
@@ -2530,6 +2536,7 @@ export type Database = {
           encendido_hasta: string | null
           encendido_vigente: string | null
           entradilla: string | null
+          estilo: string | null
           fecha_evento: string | null
           fin: string | null
           id: string | null
@@ -2551,6 +2558,7 @@ export type Database = {
           encendido_hasta?: string | null
           encendido_vigente?: never
           entradilla?: string | null
+          estilo?: string | null
           fecha_evento?: string | null
           fin?: string | null
           id?: string | null
@@ -2572,6 +2580,7 @@ export type Database = {
           encendido_hasta?: string | null
           encendido_vigente?: never
           entradilla?: string | null
+          estilo?: string | null
           fecha_evento?: string | null
           fin?: string | null
           id?: string | null

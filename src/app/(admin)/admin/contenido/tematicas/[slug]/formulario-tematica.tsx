@@ -10,6 +10,7 @@ import { FormularioPanel } from "@/components/panel/formulario-panel";
 import { PestanasFormulario } from "@/components/panel/pestanas-formulario";
 import { guardarTematica } from "@/lib/acciones/tematicas";
 import { claveDeBorrador } from "@/lib/panel/borrador";
+import { OPCIONES_DE_ESTILO, type Estilo } from "@/lib/tematicas/estilos";
 import { validarTematica } from "@/lib/validaciones/tematica";
 
 export type TematicaEditable = {
@@ -19,6 +20,7 @@ export type TematicaEditable = {
   fin: string;
   fecha_evento: string | null;
   encendido_vigente: "fechas" | "encendida" | "apagada";
+  estilo: Estilo;
   texto_aviso: string | null;
   mensajes_cinta: string[];
   titulo: string | null;
@@ -114,6 +116,34 @@ export function FormularioTematica({
                   ) : null}
                 </fieldset>
               </>
+            ),
+          },
+          {
+            valor: "estilo",
+            titulo: "Estilo",
+            campos: ["estilo"],
+            contenido: (
+              <fieldset className="flex flex-col gap-2" data-campo="estilo">
+                <legend className="mb-1 text-sm font-semibold">Cómo se viste el sitio</legend>
+                {OPCIONES_DE_ESTILO.map((o) => (
+                  <label
+                    key={o.valor}
+                    className="bg-card flex min-h-11 items-center gap-3 rounded-md border p-3"
+                  >
+                    <input
+                      type="radio"
+                      name="estilo"
+                      value={o.valor}
+                      defaultChecked={tematica.estilo === o.valor}
+                      className="accent-primary size-11 shrink-0"
+                    />
+                    <span>
+                      <span className="font-semibold">{o.nombre}</span>
+                      <span className="text-muted-foreground block text-sm">{o.ayuda}</span>
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
             ),
           },
           {

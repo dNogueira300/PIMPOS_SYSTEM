@@ -41,8 +41,8 @@ select paneton, 'paneton-0047.webp', 'Panetón de prueba', true from ref;
 update public.tematicas set inicio = (select hoy + 100 from ref), fin = (select hoy + 110 from ref)
  where slug = 'navidad';
 alter table public.tematicas drop constraint tematicas_slug_conocido;
-insert into public.tematicas (slug, nombre, inicio, fin)
-select 'prueba-0047', 'San Prueba', hoy + 30, hoy + 40 from ref;
+insert into public.tematicas (slug, nombre, inicio, fin, estilo)
+select 'prueba-0047', 'San Prueba', hoy + 30, hoy + 40, 'noche' from ref;
 alter table ref add column prueba uuid;
 update ref set prueba = (select id from public.tematicas where slug = 'prueba-0047');
 
