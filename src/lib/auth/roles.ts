@@ -33,6 +33,9 @@ const ACCESO_POR_SECCION: ReadonlyArray<readonly [ruta: string, roles: readonly 
   ["/admin/usuarios", ["superadmin", "administrador"]],
   ["/admin/auditoria", ["superadmin", "administrador"]],
   ["/admin/configuracion", ["superadmin", "administrador"]],
+  // Encender una temática cambia lo que ve todo el público, como publicar una
+  // promoción, que el ingeniero tampoco puede (plan 08).
+  ["/admin/contenido/tematicas", ["superadmin", "administrador"]],
   ["/admin/contenido", ["superadmin", "administrador", "ingeniero"]],
   ["/admin/insumos", ["superadmin", "administrador", "ingeniero"]],
   // Decisiones de F6: el repartidor consulta y corrige, no da altas; zonas,

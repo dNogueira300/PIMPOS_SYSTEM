@@ -27,6 +27,7 @@ export const SUBSECCIONES_DE_CONTENIDO = [
   { ruta: "/admin/contenido/preguntas", nombre: "Preguntas frecuentes" },
   { ruta: "/admin/contenido/guias", nombre: "Guías" },
   { ruta: "/admin/contenido/testimonios", nombre: "Testimonios" },
+  { ruta: "/admin/contenido/tematicas", nombre: "Temáticas de temporada" },
 ] as const;
 
 const SECCIONES: readonly SeccionPanel[] = [

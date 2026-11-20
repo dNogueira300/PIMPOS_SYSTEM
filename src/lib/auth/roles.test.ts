@@ -99,6 +99,13 @@ describe("puedeAcceder", () => {
     expect(puedeAcceder("ingeniero", "/admin/configuracion")).toBe(false);
   });
 
+  it("las temáticas de temporada son solo de la administración (plan 08)", () => {
+    expect(puedeAcceder("ingeniero", "/admin/contenido/tematicas")).toBe(false);
+    expect(puedeAcceder("ingeniero", "/admin/contenido/tematicas/navidad")).toBe(false);
+    expect(puedeAcceder("administrador", "/admin/contenido/tematicas/navidad")).toBe(true);
+    expect(puedeAcceder("superadmin", "/admin/contenido/tematicas")).toBe(true);
+  });
+
   it("el repartidor solo llega a clientes y al tablero", () => {
     expect(puedeAcceder("repartidor", "/admin")).toBe(true);
     expect(puedeAcceder("repartidor", "/admin/clientes")).toBe(true);

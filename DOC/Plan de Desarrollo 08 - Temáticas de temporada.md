@@ -435,7 +435,8 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
 
 - [ ] Capturas de la portada en celular y escritorio, con y sin Navidad, más `/productos` con Navidad.
       Escribir el `LEEME.md` con los tokens elegidos y sus contrastes medidos.
-- [ ] **Parar y enseñar a Dan.** T4 no empieza hasta que la apruebe; si la corrige, se rehace aquí.
+- [x] **Parar y enseñar a Dan.** T4 no empieza hasta que la apruebe; si la corrige, se rehace aquí.
+      Aprobada el 20/11/2026: las dos variantes, elegibles desde el panel, con Noche de Navidad puesta.
 - [ ] Commit: `docs(tematicas): maqueta de Navidad aprobada`. Va en el PR de T2.
 
 ## T4 — Sitio público con la temática activa
