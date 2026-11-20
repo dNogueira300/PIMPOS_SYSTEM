@@ -111,6 +111,191 @@
   }
 }
 
+/* --- Día de la Madre (plan 08.1) ------------------------------------------ */
+/* Un saludo festivo, con los dos estilos que aprobó Dan el 20/11/2026
+   (maquetas en DOC/Maquetas/tematicas/dia-de-la-madre/). Los dos llevan los
+   mismos adornos (banderines bajo la cabecera y corazones que suben); cambian
+   los colores. Nada de Navidad aplica aquí: sus reglas van acotadas a
+   `[data-tematica="navidad"]`. */
+
+/* Rosa sobre crema (el puesto): el crema de siempre, con vino y rosa. */
+@media screen {
+  :root:has([data-tematica="dia-de-la-madre"][data-estilo="rosa-crema"]),
+  [data-tematica="dia-de-la-madre"][data-estilo="rosa-crema"] {
+    --primary: #8e2448;
+    --primary-foreground: #ffffff;
+    --ring: #8e2448;
+    --cta-fondo: #8e2448;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #6e1a36;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #b0305a;
+    --franja-fondo: #f6dbe1;
+    --franja-texto: #6e1a36;
+    --aviso-fondo: #8e2448;
+    --aviso-texto: #ffffff;
+    --sello-fondo: #fbeef2;
+    --sello-borde: #e3b3c2;
+    --sello-texto: #8e2448;
+    --cordel-banderines: #b98a95;
+    --corazones-1: rgb(226 120 150 / 0.55);
+    --corazones-2: rgb(214 160 70 / 0.5);
+    --feston: #f3cad5;
+  }
+}
+
+/* Todo en rosa: el sitio entero sobre rosa empolvado, con vino y dorado. */
+@media screen {
+  :root:has([data-tematica="dia-de-la-madre"][data-estilo="rosa"]),
+  [data-tematica="dia-de-la-madre"][data-estilo="rosa"] {
+    --background: #fbeef0;
+    --foreground: #3a2228;
+    --muted: #f6e0e5;
+    --muted-foreground: #6b4650;
+    --secondary: #f6e0e5;
+    --secondary-foreground: #3a2228;
+    --accent: #f2d5dc;
+    --accent-foreground: #3a2228;
+    --card: #ffffff;
+    --card-foreground: #3a2228;
+    --popover: #ffffff;
+    --popover-foreground: #3a2228;
+    --primary: #5c1630;
+    --primary-foreground: #ffffff;
+    --border: rgb(92 22 48 / 0.16);
+    --ring: #a8325a;
+    --cta-fondo: #a8325a;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #8a2649;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #a8325a;
+    --precio-texto: #7a4c12;
+    --guia-puntos: rgb(168 50 90 / 0.35);
+    --franja-fondo: #5c1630;
+    --franja-texto: #f7d9a8;
+    --aviso-fondo: #5c1630;
+    --aviso-texto: #f7d9a8;
+    --sello-fondo: #ffffff;
+    --sello-borde: #d9a3b3;
+    --sello-texto: #5c1630;
+    --cordel-banderines: #a7737f;
+    --corazones-1: rgb(228 138 166 / 0.6);
+    --corazones-2: rgb(214 160 70 / 0.55);
+    --feston: #ffffff;
+  }
+}
+
+/* Banderines bajo la cabecera: un cordel ondulado (`header::after`, máscara
+   con el color de `--cordel-banderines`, como el cable de las luces) y los
+   banderines (`header::before`, una baldosa por estilo: en «Rosa sobre crema»
+   el tercero es rosa palo con borde, porque el blanco se perdería en el crema;
+   en «Todo en rosa», blanco). La cabecera ya es `sticky` y es el bloque de
+   referencia: no se le toca la posición. Sin girar la tira —a 1280 px los
+   extremos subirían sobre la cabecera—: un vaivén de 2 px, con el cordel y los
+   banderines a la vez. */
+[data-tematica="dia-de-la-madre"] header::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 34px;
+  pointer-events: none;
+  background-color: var(--cordel-banderines);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='34' viewBox='0 0 160 34'%3E%3Cpath d='M0 3 Q40 11 80 3 T160 3' fill='none' stroke='%23000' stroke-width='1.3'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 34px;
+}
+[data-tematica="dia-de-la-madre"] header::before {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 34px;
+  pointer-events: none;
+  z-index: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='34' viewBox='0 0 160 34'%3E%3Cpath d='M11 5 L29 5 L20 23 Z' fill='%23c2496f'/%3E%3Cpath d='M51 5 L69 5 L60 23 Z' fill='%23f2c46d'/%3E%3Cpath d='M91 5 L109 5 L100 23 Z' fill='%23f8d7e0' stroke='%23d9a3b3' stroke-width='.8'/%3E%3Cpath d='M131 5 L149 5 L140 23 Z' fill='%23f2c46d'/%3E%3Cpath transform='translate(100 11.5) scale(.5)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z' fill='%238e2448'/%3E%3Cpath transform='translate(140 11.5) scale(.5)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z' fill='%238e2448'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 34px;
+}
+[data-tematica="dia-de-la-madre"][data-estilo="rosa"] header::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='34' viewBox='0 0 160 34'%3E%3Cpath d='M11 5 L29 5 L20 23 Z' fill='%23c2496f'/%3E%3Cpath d='M51 5 L69 5 L60 23 Z' fill='%23f2c46d'/%3E%3Cpath d='M91 5 L109 5 L100 23 Z' fill='%23ffffff'/%3E%3Cpath d='M131 5 L149 5 L140 23 Z' fill='%23f2c46d'/%3E%3Cpath transform='translate(100 11.5) scale(.5)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z' fill='%235c1630'/%3E%3Cpath transform='translate(140 11.5) scale(.5)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z' fill='%235c1630'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="dia-de-la-madre"] header::before,
+  [data-tematica="dia-de-la-madre"] header::after {
+    animation: banderines-mecen 3s ease-in-out infinite alternate;
+  }
+}
+@keyframes banderines-mecen {
+  to {
+    translate: 0 2px;
+  }
+}
+
+/* Corazones que suben despacio, pocos y repartidos, en los dos seudoelementos
+   de la envoltura (rosa y dorado). El dibujo es una máscara y el color, el
+   fondo. Se mueve la capa entera (`translate`), que la compone la tarjeta
+   gráfica sin volver a pintar; para que el bucle no se note, la capa es una
+   baldosa (400 px) más alta por abajo y sube exactamente eso. Por debajo de la
+   cabecera y sin clics. */
+[data-tematica="dia-de-la-madre"]::before,
+[data-tematica="dia-de-la-madre"]::after {
+  content: "";
+  position: fixed;
+  inset: 0 0 -400px 0;
+  pointer-events: none;
+  z-index: 20;
+}
+[data-tematica="dia-de-la-madre"]::before {
+  background-color: var(--corazones-1);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='400' viewBox='0 0 360 400'%3E%3Cpath transform='translate(70 90) scale(1)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z'/%3E%3Cpath transform='translate(270 230) scale(1.4)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z'/%3E%3Cpath transform='translate(150 350) scale(0.8)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z'/%3E%3C/svg%3E")
+    0 0 / 360px 400px repeat;
+}
+[data-tematica="dia-de-la-madre"]::after {
+  background-color: var(--corazones-2);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='440' height='400' viewBox='0 0 440 400'%3E%3Cpath transform='translate(360 60) scale(0.9)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z'/%3E%3Cpath transform='translate(190 260) scale(1.2)' d='M0-4.5c-1.6-3-6-2.4-6 1.1 0 3.4 6 7.4 6 7.4s6-4 6-7.4c0-3.5-4.4-4.1-6-1.1z'/%3E%3C/svg%3E")
+    120px 0 / 440px 400px repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="dia-de-la-madre"]::before {
+    animation: corazones-suben 38s linear infinite;
+  }
+  [data-tematica="dia-de-la-madre"]::after {
+    animation: corazones-suben 50s linear infinite;
+  }
+}
+@keyframes corazones-suben {
+  0% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 8px -100px;
+  }
+  50% {
+    translate: 0 -200px;
+  }
+  75% {
+    translate: -8px -300px;
+  }
+  100% {
+    translate: 0 -400px;
+  }
+}
+
+/* El borde de la sección de temporada: un festón de ondas con agujeritos,
+   como el borde de un mantelito. */
+[data-tematica="dia-de-la-madre"] .seccion-temporada::before {
+  content: "";
+  position: absolute;
+  inset: -12px 0 auto 0;
+  height: 14px;
+  pointer-events: none;
+  background-color: var(--feston);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='14' viewBox='0 0 20 14'%3E%3Cpath fill-rule='evenodd' d='M0 14V7a5 5 0 0 1 10 0a5 5 0 0 1 10 0v7zM5 8.2a1.4 1.4 0 1 0 0.01 0zM15 8.2a1.4 1.4 0 1 0 0.01 0z'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 20px 14px;
+}
+
+/* La cinta, con corazones de separador. Decorativos: no se leen. */
+[data-tematica="dia-de-la-madre"] .cinta-tematica li::before {
+  content: "♥" / "";
+}
+
 /* --- Adornos comunes de Navidad ------------------------------------------ */
 
 /* Luces colgando bajo la cabecera: un cable ondulado con bombillas rojas,
@@ -433,7 +618,8 @@
   margin-top: 3.5rem;
   padding-top: 2.5rem;
 }
-.seccion-temporada::before {
+/* El borde nevado, solo con Navidad: cada temática pone el suyo. */
+[data-tematica="navidad"] .seccion-temporada::before {
   content: "";
   position: absolute;
   inset: -14px 0 auto 0;

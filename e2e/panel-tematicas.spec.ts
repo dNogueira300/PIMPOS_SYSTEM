@@ -42,7 +42,7 @@ test("encender Navidad a mano publica lo de temporada y apagarla lo esconde", as
   // Puede esperar a que termine la del sitio (`tematica-navidad.spec.ts`).
   test.setTimeout(240_000);
   // Las dos pruebas que encienden Navidad escriben la misma fila: una a la vez.
-  await conCerrojo("tematica-navidad", async () => {
+  await conCerrojo("tematicas", async () => {
     const slug = `torta-e2e-${Date.now()}`;
     const nombre = `Torta E2E ${slug.slice(-6)}`;
     sqlLocal(`
@@ -143,7 +143,7 @@ test("cada temática enseña solo sus estilos, y el Día de la Madre guarda el s
 }) => {
   // Escribe en la fila del Día de la Madre: con el cerrojo de las temáticas.
   test.setTimeout(120_000);
-  await conCerrojo("tematica-navidad", async () => {
+  await conCerrojo("tematicas", async () => {
     const usuario = await entrarComo(page, "administrador");
     const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");
     try {

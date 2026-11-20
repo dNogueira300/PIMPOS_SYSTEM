@@ -1,3 +1,6 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, type Page } from "@playwright/test";
+
 import { sqlLocal } from "./base";
 
 /**
@@ -43,4 +46,102 @@ export function apartarLasDemas(slug: string): () => void {
       `);
     }
   };
+}
+
+/*
+ * Lo común de las pruebas que encienden una temática (Navidad, Día de la
+ * Madre): fechas relativas a hoy, axe en todas las páginas públicas y lo que
+ * mira el movimiento y la impresión.
+ */
+
+const DIA_MS = 24 * 60 * 60 * 1000;
+/** «2026-11-25»: hoy en Iquitos más `dias`. */
+export function dia(dias: number): string {
+  return new Date(Date.now() - 5 * 60 * 60 * 1000 + dias * DIA_MS).toISOString().slice(0, 10);
+}
+
+/** Las páginas públicas de `accesibilidad.spec.ts`: el estilo cambia el color de todas. */
+export const RUTAS = [
+  "/",
+  "/productos",
+  "/productos/leche",
+  "/productos/frances-chico",
+  "/novedades",
+  "/nosotros",
+  "/galeria",
+  "/ubicacion",
+  "/preguntas-frecuentes",
+  "/contacto",
+  "/esto-no-existe",
+];
+
+const NORMAS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "best-practice"];
+const SIN_ANIMACION = "*,*::before,*::after{animation:none!important;transition:none!important}";
+
+export async function exigirCeroAxe(page: Page, donde: string) {
+  await page.addStyleTag({ content: SIN_ANIMACION });
+  const { violations } = await new AxeBuilder({ page }).withTags(NORMAS).analyze();
+  const fallos = violations.map(
+    (v) =>
+      `[${v.id}] ${v.help}: ${v.nodes
+        .slice(0, 3)
+        .map((n) => String(n.target))
+        .join(", ")}`,
+  );
+  expect(fallos, `axe en ${donde}:\n${fallos.join("\n")}`).toEqual([]);
+}
+
+/** axe en todas las páginas públicas con la temática puesta. */
+export async function axeEnRutas(page: Page, donde: string) {
+  for (const ruta of RUTAS) {
+    await page.goto(ruta);
+    if (ruta === "/ubicacion") {
+      // El mapa llega en diferido: sin esperarlo, sus controles quedarían sin mirar.
+      await expect(page.locator(".leaflet-control-zoom-in")).toBeVisible({ timeout: 20_000 });
+    }
+    await exigirCeroAxe(page, `${ruta} ${donde}`);
+  }
+}
+
+/*
+ * Las dos funciones que siguen corren DENTRO del navegador (`page.evaluate`):
+ * no pueden usar nada de fuera de su cuerpo.
+ */
+
+/** Todo lo que se está animando en la página, seudoelementos incluidos. */
+export function listarAnimados() {
+  const animados: string[] = [];
+  for (const el of document.querySelectorAll("*")) {
+    for (const seudo of [undefined, "::before", "::after"]) {
+      const nombre = getComputedStyle(el, seudo).animationName;
+      if (nombre !== "none") {
+        animados.push(`${el.tagName.toLowerCase()}.${el.className}${seudo ?? ""}: ${nombre}`);
+      }
+    }
+  }
+  return animados;
+}
+
+/** Los adornos de la temática que se ven (sirve para comprobar la impresión). */
+export function listarAdornosVisibles() {
+  const envoltura = document.querySelector("[data-tematica]");
+  const cabecera = document.querySelector("[data-tematica] header");
+  if (!envoltura || !cabecera) throw new Error("No hay temática puesta");
+  const piezas: [string, Element | null, string | undefined][] = [
+    ["envoltura::before", envoltura, "::before"],
+    ["envoltura::after", envoltura, "::after"],
+    ["header::before", cabecera, "::before"],
+    ["header::after", cabecera, "::after"],
+    ["la sección de temporada::before", document.querySelector(".seccion-temporada"), "::before"],
+    ...[...cabecera.querySelectorAll(".adornos-tematica")].map(
+      (el): [string, Element, undefined] => [".adornos-tematica", el, undefined],
+    ),
+  ];
+  return piezas
+    .filter(([, el, seudo]) => {
+      if (!el) return false;
+      const estilo = getComputedStyle(el, seudo);
+      return estilo.display !== "none" && estilo.content !== "none";
+    })
+    .map(([nombre]) => nombre);
 }
