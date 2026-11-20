@@ -1364,9 +1364,23 @@ y hay prueba de cada una: va dentro de `@supports` (un navegador que no lo sopor
 contenido tal cual), dentro de `prefers-reduced-motion: no-preference`, y **apagado al imprimir**
 —sin scroll la animación se congela en su primer fotograma y el bloque saldría en blanco—. Y **termina mientras el bloque entra** (`entry 0% entry 70%`), no después: con la página quieta, todo lo que se ve entero está opaco.
 
-Tipografías por `next/font` **locales**, sin llamar a Google: **Playfair Display** (títulos) +
-**Plus Jakarta Sans** (texto), desde la fase 3.1 (decisión de Dan, 13/09/2026). Sustituyen a
-Fraunces + Inter. Las prepara `scripts/preparar-fuentes.py`; 79 KB entre las dos.
+Tipografías por `next/font` **locales**, sin llamar a Google. **Decisión de Dan del 19/11/2026**,
+sobre la portada real (`DOC/Maquetas/caligrafia/`): en el **sitio público**, **Playfair Display**
+vuelve a los títulos —el rediseño A (PR #94) la había retirado— y **Dancing Script** entra como
+acento caligráfico; **Plus Jakarta Sans** sigue en el texto, los precios y las cifras. El **panel y
+el ingreso** siguen solo en Jakarta, como en A. La caligrafía va en tres sitios y en ninguno más: el
+eslogan de la portada móvil, «Horneando en Iquitos» y el titular «Te lo llevamos a tu casa»; nunca
+en menú, botones, precios, nombres de producto, párrafos ni el panel, nunca por debajo de 20 px ni
+en mayúsculas (`.texto-caligrafico` en `globals.css`). Playfair y Dancing viven en
+`src/estilos/fuentes-publicas.ts`, que solo importa `CascaraPublica`, y van **sin precarga**: así el
+navegador solo las baja donde algo las usa, y el panel no las descarga. Con precarga, Next las ponía
+en todas las rutas, porque el 404 de la raíz también usa `CascaraPublica` y ata la fuente al layout
+raíz; una prueba de `e2e/portada.spec.ts` exige que el ingreso baje un solo woff2. Sus tokens se redefinen en
+`.sitio-publico` (la envoltura de la cáscara, con `display: contents`), porque una variable CSS
+resuelve sus `var()` donde se declara y en `:root` no vería las de `next/font`. Las prepara
+`scripts/preparar-fuentes.py` (ahora admite nombrar una sola fuente): Jakarta 31 KB, Playfair 49 KB
+y Dancing 26 KB, fijada en seminegrita. Las dos con nombre reservado se llaman «Playfair Pimpos» y
+«Dancing Pimpos» por dentro; el aviso de copyright interno se conserva (ver `fuentes/LICENCIA.md`).
 
 Dan pidió usar las skills de diseño instaladas. `03 - Frontend.md` §2 mapea cuál en qué fase y con
 qué entregable. **Orden obligatorio:** primero las de proceso (`brand`, `design-system`,

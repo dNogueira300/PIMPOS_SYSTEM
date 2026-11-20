@@ -301,7 +301,7 @@ export default async function Inicio() {
           <div className="max-w-2xl">
             <h2
               id="titulo-delivery"
-              className="font-heading text-3xl font-semibold text-balance sm:text-4xl"
+              className="texto-caligrafico text-[2.25rem] leading-tight text-balance sm:text-[2.625rem]"
             >
               Te lo llevamos a tu casa
             </h2>
@@ -323,9 +323,7 @@ export default async function Inicio() {
                   className="border-primary-foreground/25 flex items-baseline justify-between gap-4 border-t pt-3 sm:block"
                 >
                   <dt className="text-primary-foreground/80 shrink-0 text-sm">{etiqueta}</dt>
-                  <dd className="font-heading text-right text-xl sm:mt-1 sm:text-left sm:text-2xl">
-                    {valor}
-                  </dd>
+                  <dd className="text-right text-xl sm:mt-1 sm:text-left sm:text-2xl">{valor}</dd>
                 </div>
               ))}
             </dl>
@@ -378,7 +376,7 @@ export default async function Inicio() {
                   <p className="font-heading text-primary text-2xl font-bold sm:text-3xl">
                     Desde {config.anio_fundacion}
                   </p>
-                  <p className="text-acento mt-1 text-[0.6875rem] font-bold tracking-[0.08em] uppercase">
+                  <p className="texto-caligrafico text-acento mt-1 text-[1.625rem] leading-tight">
                     Horneando en Iquitos
                   </p>
                 </div>

@@ -87,7 +87,7 @@ function FilaPrecio({ producto }: { producto: ProductoPublico }) {
         {precio ? (
           <span
             data-precio
-            className="text-precio font-heading max-w-full text-xl font-semibold wrap-anywhere tabular-nums"
+            className="text-precio max-w-full text-xl font-semibold wrap-anywhere tabular-nums"
           >
             {precio}
           </span>

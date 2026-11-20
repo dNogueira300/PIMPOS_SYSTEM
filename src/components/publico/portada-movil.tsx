@@ -84,7 +84,9 @@ export function PortadaMovil({
           {nombre}
         </p>
         {eslogan ? (
-          <p className="text-primary-foreground mt-2 text-lg text-pretty">{eslogan}</p>
+          <p className="texto-caligrafico text-primary-foreground mt-2 text-[1.625rem] leading-tight text-pretty">
+            {eslogan}
+          </p>
         ) : null}
 
         {/* Lo primero que se pregunta quien quiere pan: si puede ir ya. */}

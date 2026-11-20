@@ -137,9 +137,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               {producto.nombre}
             </h1>
             {precio ? (
-              <p className="text-precio font-heading mt-4 text-3xl font-semibold tabular-nums">
-                {precio}
-              </p>
+              <p className="text-precio mt-4 text-3xl font-semibold tabular-nums">{precio}</p>
             ) : null}
             {presentacion ? <p className="text-muted-foreground mt-1">{presentacion}</p> : null}
             {varias ? <Presentaciones producto={producto} className="mt-4" /> : null}
@@ -163,7 +161,7 @@ export default async function DetalleProducto(props: PageProps<"/productos/[slug
               <p className="text-muted-foreground mt-2 text-lg">{presentacion}</p>
             ) : null}
             {precio ? (
-              <p className="text-precio font-heading mt-6 text-[clamp(44px,4vw,56px)] leading-tight font-semibold text-balance wrap-anywhere tabular-nums">
+              <p className="text-precio mt-6 text-[clamp(44px,4vw,56px)] leading-tight font-semibold text-balance wrap-anywhere tabular-nums">
                 {precio}
               </p>
             ) : null}
@@ -230,7 +228,7 @@ function Presentaciones({
                 una tabla: es como se lee una carta de toda la vida. */}
             <span aria-hidden className="hidden" />
             {precio !== null ? (
-              <span className="text-precio font-heading max-w-full text-right font-semibold wrap-anywhere tabular-nums">
+              <span className="text-precio max-w-full text-right font-semibold wrap-anywhere tabular-nums">
                 {formatearPrecio(precio)}
               </span>
             ) : null}

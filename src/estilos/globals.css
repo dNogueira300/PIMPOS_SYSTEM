@@ -76,9 +76,28 @@
   --radius: 0.375rem; /* Superficies de 6 px; controles de 5 px. */
   --ancho-contenido: 75rem; /* 1200 px */
 
-  /* Una sola familia local para texto y títulos, según la dirección A. */
+  /* Jakarta para texto y títulos, según la dirección A: es lo que ven el panel y
+     el ingreso. El sitio público cambia los títulos a Playfair y suma la
+     caligrafía en `.sitio-publico`, más abajo. */
   --pimpos-fuente-titulo: var(--fuente-texto, system-ui, "Segoe UI", Roboto, sans-serif);
   --pimpos-fuente-texto: var(--fuente-texto, system-ui, "Segoe UI", Roboto, sans-serif);
+  /* Fuera del sitio público no hay caligrafía: si alguien usa la clase en el
+     panel, sale en Jakarta y no en una cursiva del sistema. */
+  --pimpos-fuente-caligrafica: var(--pimpos-fuente-texto);
+}
+
+/* Las fuentes del sitio público (Dan, 19/11/2026): Playfair Display en los
+   títulos y Dancing Script como acento. `next/font` publica `--fuente-serif` y
+   `--fuente-caligrafica` solo en la envoltura de `CascaraPublica`, así que los
+   tokens se redefinen en ese mismo elemento: una variable CSS resuelve sus
+   `var()` donde se declara, y declarada en `:root` no vería esas dos. Se
+   redefine también la capa 2 (`--font-heading`, `--font-caligrafica`) por lo
+   mismo. El panel y el ingreso no pasan por aquí y no descargan ninguna. */
+.sitio-publico {
+  --pimpos-fuente-titulo: var(--fuente-serif, Georgia, "Times New Roman", serif);
+  --pimpos-fuente-caligrafica: var(--fuente-caligrafica, Georgia, "Times New Roman", serif);
+  --font-heading: var(--pimpos-fuente-titulo);
+  --font-caligrafica: var(--pimpos-fuente-caligrafica);
 }
 
 /* =============================================================================
@@ -143,6 +162,7 @@
 
   --font-sans: var(--pimpos-fuente-texto);
   --font-heading: var(--pimpos-fuente-titulo);
+  --font-caligrafica: var(--pimpos-fuente-caligrafica);
 }
 
 /* Tema oscuro. No lo pide la ficha ni el plan, y por eso solo se activa con la
@@ -273,6 +293,7 @@
 @theme inline {
   --font-sans: var(--font-sans);
   --font-heading: var(--font-heading);
+  --font-caligrafica: var(--font-caligrafica);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -414,6 +435,26 @@
 }
 
 @layer components {
+  /* Acento caligráfico (Dancing Script, decisión de Dan del 19/11/2026).
+
+     Letra ligada para la voz de la tienda, con mesura: el eslogan de la portada,
+     «Horneando en Iquitos» y un solo titular, «Te lo llevamos a tu casa». Nunca
+     en menú, botones, precios, nombres de producto, párrafos ni el panel; nunca
+     por debajo de 20 px, porque los trazos finos se pierden; y nunca en
+     mayúsculas, que en letra ligada no se leen. El tamaño lo pone cada sitio:
+     su altura de x es pequeña, así que va un 15–20 % más grande que el texto al
+     que sustituye.
+
+     Solo tiene la seminegrita, así que se prohíbe al navegador inventar otra:
+     una negrita sintética de una caligrafía emborrona los enlaces entre letras. */
+  .texto-caligrafico {
+    font-family: var(--font-caligrafica);
+    font-weight: 600;
+    font-synthesis: none;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
   /* Botones del prototipo de Stitch: pildoras de 48 px (plan 03.1, tarea 3).
 
      Estaban repetidos como tiras de utilidades en seis sitios, y con ellos la
@@ -645,6 +686,13 @@
     @apply font-heading;
     /* Los titulos grandes respiran mal con el interletrado por defecto. */
     letter-spacing: -0.015em;
+  }
+
+  /* Playfair trae por defecto cifras de estilo antiguo, que bajan de la línea:
+     en «Desde 2004» o «a las 4:00 a. m.» el número parecía de otro tamaño. Los
+     títulos del sitio público las llevan alineadas, como en la maqueta. */
+  .sitio-publico :is(h1, h2, h3, .font-heading) {
+    font-variant-numeric: lining-nums;
   }
 
   /* El carrusel de portada deja de avanzar solo y las transiciones se acortan

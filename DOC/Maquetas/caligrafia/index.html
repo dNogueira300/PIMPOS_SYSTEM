@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Caligrafía de acento</title>
+    <style>
+      @font-face {
+        font-family: "Playfair P";
+        src: url(../../../src/estilos/fuentes/playfair-latin.woff2) format("woff2");
+        font-weight: 400 900;
+      }
+      @font-face {
+        font-family: "Jakarta";
+        src: url(../../../src/estilos/fuentes/jakarta-latin.woff2) format("woff2");
+        font-weight: 200 800;
+      }
+      @font-face {
+        font-family: "Dancing";
+        src: url(../../../src/estilos/fuentes/dancing-latin.woff2) format("woff2");
+        font-weight: 400 700;
+      }
+      @font-face {
+        font-family: "Kaushan";
+        src: url(fuentes/kaushan-latin.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: "Cookie";
+        src: url(fuentes/cookie-latin.woff2) format("woff2");
+      }
+      @font-face {
+        font-family: "Great Vibes";
+        src: url(fuentes/greatvibes-latin.woff2) format("woff2");
+      }
+      :root {
+        --fondo: #f7f5f0;
+        --fondo-2: #eeeae2;
+        --tinta: #28251f;
+        --tinta-2: #59554e;
+        --borde: #d9d4ca;
+        --terracota: #953e2c;
+        --dorado: #835413;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--fondo);
+        color: var(--tinta);
+        font-family: "Jakarta", system-ui, sans-serif;
+      }
+      .hoja {
+        width: 1600px;
+        padding: 56px 64px 64px;
+        background: var(--fondo);
+      }
+      .hoja + .hoja {
+        border-top: 1px solid var(--borde);
+      }
+      h1 {
+        font-family: "Playfair P", Georgia, serif;
+        font-weight: 700;
+        font-size: 40px;
+        margin: 0 0 6px;
+        color: var(--terracota);
+      }
+      .bajada {
+        margin: 0 0 32px;
+        color: var(--tinta-2);
+        font-size: 18px;
+        max-width: 70ch;
+        line-height: 1.5;
+      }
+      .rejilla {
+        display: grid;
+        gap: 28px;
+      }
+      .cuatro {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .dos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 4px;
+      }
+      figcaption small {
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--tinta-2);
+        margin-top: 2px;
+      }
+      .telefono {
+        border: 1px solid var(--borde);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+        height: 640px;
+      }
+      .telefono img {
+        width: 100%;
+        display: block;
+      }
+      .marco {
+        border: 1px solid var(--borde);
+        border-radius: 8px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .marco img {
+        width: 100%;
+        display: block;
+      }
+      .fila {
+        display: grid;
+        grid-template-columns: 220px 300px 1fr;
+        gap: 24px;
+        align-items: center;
+        padding: 18px 0;
+        border-top: 1px solid var(--borde);
+      }
+      .fila:first-of-type {
+        border-top: 0;
+      }
+      .etiqueta {
+        font-weight: 700;
+        font-size: 18px;
+      }
+      .etiqueta small {
+        display: block;
+        font-weight: 500;
+        font-size: 14px;
+        color: var(--tinta-2);
+      }
+      /* Muestrario */
+      .muestra {
+        display: grid;
+        grid-template-columns: 260px 1fr 1fr;
+        gap: 0;
+        border: 1px solid var(--borde);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        background: #fff;
+      }
+      .muestra > div {
+        padding: 22px 26px;
+      }
+      .ficha {
+        background: var(--fondo-2);
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--tinta-2);
+      }
+      .ficha b {
+        display: block;
+        color: var(--tinta);
+        font-size: 22px;
+        margin-bottom: 6px;
+      }
+      .ficha .veredicto {
+        margin-top: 10px;
+        color: var(--tinta);
+        font-weight: 600;
+      }
+      .sobre-terracota {
+        background: var(--terracota);
+        color: #fff;
+      }
+      .l1 {
+        font-size: 44px;
+        line-height: 1.1;
+        margin: 0 0 10px;
+      }
+      .l2 {
+        font-size: 28px;
+        line-height: 1.2;
+        margin: 0 0 10px;
+      }
+      .l3 {
+        font-size: 20px;
+        line-height: 1.3;
+        margin: 0;
+      }
+      .titular {
+        font-family: "Playfair P", Georgia, serif;
+        font-weight: 700;
+        font-size: 30px;
+        line-height: 1.15;
+        margin: 0 0 4px;
+      }
+      .claro .titular {
+        color: var(--terracota);
+      }
+      .claro .acento {
+        color: var(--dorado);
+      }
+      .f-dancing {
+        font-family: "Dancing", cursive;
+        font-weight: 600;
+      }
+      .f-kaushan {
+        font-family: "Kaushan", cursive;
+      }
+      .f-cookie {
+        font-family: "Cookie", cursive;
+      }
+      .f-greatvibes {
+        font-family: "Great Vibes", cursive;
+      }
+      .f-cookie.l1 {
+        font-size: 56px;
+      }
+      .f-cookie.l2 {
+        font-size: 36px;
+      }
+      .f-cookie.l3 {
+        font-size: 26px;
+      }
+      .f-dancing.l3 {
+        font-size: 23px;
+      }
+      .f-greatvibes.l1 {
+        font-size: 54px;
+      }
+      .f-greatvibes.l2 {
+        font-size: 34px;
+      }
+      .f-greatvibes.l3 {
+        font-size: 24px;
+      }
+      .reglas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        font-size: 17px;
+        line-height: 1.55;
+      }
+      .reglas ul {
+        margin: 8px 0 0;
+        padding-left: 20px;
+      }
+      .reglas h2 {
+        font-family: "Playfair P", Georgia, serif;
+        font-size: 24px;
+        margin: 0;
+        color: var(--terracota);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="hoja" id="hoja-portada">
+      <h1>La caligrafía en la portada del celular</h1>
+      <p class="bajada">
+        Portada real desplegada, a 390 px. La caligrafía va solo en el eslogan «Pan fresco,
+        tradición de siempre». En las tres propuestas los títulos vuelven a Playfair Display, como
+        pediste; el texto, los botones y los precios siguen en Plus Jakarta Sans.
+      </p>
+      <div class="rejilla cuatro">
+        <figure>
+          <figcaption>Hoy<small>Todo en Jakarta (rediseño A)</small></figcaption>
+          <div class="telefono"><img src="capturas/movil-portada-actual.png" alt="" /></div>
+        </figure>
+        <figure>
+          <figcaption>A · Dancing Script<small>Pluma, ligada y muy legible</small></figcaption>
+          <div class="telefono">
+            <img src="capturas/movil-portada-playfair-dancing.png" alt="" />
+          </div>
+        </figure>
+        <figure>
+          <figcaption>B · Kaushan Script<small>Pincel, rótulo pintado a mano</small></figcaption>
+          <div class="telefono">
+            <img src="capturas/movil-portada-playfair-kaushan.png" alt="" />
+          </div>
+        </figure>
+        <figure>
+          <figcaption>C · Cookie<small>Letrero retro de pastelería</small></figcaption>
+          <div class="telefono">
+            <img src="capturas/movil-portada-playfair-cookie.png" alt="" />
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="hoja" id="hoja-acentos">
+      <h1>Un sello y un titular, en escritorio</h1>
+      <p class="bajada">
+        «Horneando en Iquitos», debajo de «Desde 2004», deja de ser una etiqueta en mayúsculas
+        pequeñas. Y el titular del reparto, «Te lo llevamos a tu casa», es el único titular entero
+        en caligrafía de toda la portada.
+      </p>
+      <div class="fila">
+        <div class="etiqueta">Hoy<small>Jakarta</small></div>
+        <div class="marco"><img src="capturas/escritorio-desde-actual.png" alt="" /></div>
+        <div class="marco"><img src="capturas/escritorio-reparto-actual.png" alt="" /></div>
+      </div>
+      <div class="fila">
+        <div class="etiqueta">A · Dancing Script</div>
+        <div class="marco"><img src="capturas/escritorio-desde-playfair-dancing.png" alt="" /></div>
+        <div class="marco">
+          <img src="capturas/escritorio-reparto-playfair-dancing.png" alt="" />
+        </div>
+      </div>
+      <div class="fila">
+        <div class="etiqueta">B · Kaushan Script</div>
+        <div class="marco"><img src="capturas/escritorio-desde-playfair-kaushan.png" alt="" /></div>
+        <div class="marco">
+          <img src="capturas/escritorio-reparto-playfair-kaushan.png" alt="" />
+        </div>
+      </div>
+      <div class="fila">
+        <div class="etiqueta">C · Cookie</div>
+        <div class="marco"><img src="capturas/escritorio-desde-playfair-cookie.png" alt="" /></div>
+        <div class="marco">
+          <img src="capturas/escritorio-reparto-playfair-cookie.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section class="hoja" id="hoja-muestra">
+      <h1>Muestrario: español, tamaños y peso</h1>
+      <p class="bajada">
+        Las tres traen tildes, ñ, ü, ¿ y ¡. Peso del archivo ya recortado al latín, como las fuentes
+        actuales (hoy el sitio descarga 31 KB de Jakarta; el tope de la prueba es 140 KB).
+      </p>
+      <div class="muestra">
+        <div class="ficha">
+          <b class="f-dancing" style="font-size: 30px">Dancing Script</b>43 KB · variable 400–700<br />OFL
+          · nombre reservado: hay que renombrar la copia por dentro, como con Playfair
+          <div class="veredicto">La más legible. Recomendada.</div>
+        </div>
+        <div class="claro">
+          <p class="titular">Pan del día</p>
+          <p class="acento f-dancing l1">¿Ya pediste tu pan?</p>
+          <p class="acento f-dancing l2">¡Llega calientito a tu casa!</p>
+          <p class="acento f-dancing l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+        <div class="sobre-terracota">
+          <p class="titular">Pan del día</p>
+          <p class="f-dancing l1">¿Ya pediste tu pan?</p>
+          <p class="f-dancing l2">¡Llega calientito a tu casa!</p>
+          <p class="f-dancing l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+      </div>
+      <div class="muestra">
+        <div class="ficha">
+          <b class="f-kaushan" style="font-size: 28px">Kaushan Script</b>34 KB · un solo peso<br />OFL
+          · nombre reservado: renombrar
+          <div class="veredicto">Mucho carácter de barrio; pide tamaño, desde 22 px.</div>
+        </div>
+        <div class="claro">
+          <p class="titular">Pan del día</p>
+          <p class="acento f-kaushan l1">¿Ya pediste tu pan?</p>
+          <p class="acento f-kaushan l2">¡Llega calientito a tu casa!</p>
+          <p class="acento f-kaushan l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+        <div class="sobre-terracota">
+          <p class="titular">Pan del día</p>
+          <p class="f-kaushan l1">¿Ya pediste tu pan?</p>
+          <p class="f-kaushan l2">¡Llega calientito a tu casa!</p>
+          <p class="f-kaushan l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+      </div>
+      <div class="muestra">
+        <div class="ficha">
+          <b class="f-cookie" style="font-size: 38px">Cookie</b>14 KB · un solo peso, la más
+          ligera<br />OFL · nombre reservado: renombrar
+          <div class="veredicto">Simpática y liviana; la «ñ» y la «ü» quedan chicas.</div>
+        </div>
+        <div class="claro">
+          <p class="titular">Pan del día</p>
+          <p class="acento f-cookie l1">¿Ya pediste tu pan?</p>
+          <p class="acento f-cookie l2">¡Llega calientito a tu casa!</p>
+          <p class="acento f-cookie l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+        <div class="sobre-terracota">
+          <p class="titular">Pan del día</p>
+          <p class="f-cookie l1">¿Ya pediste tu pan?</p>
+          <p class="f-cookie l2">¡Llega calientito a tu casa!</p>
+          <p class="f-cookie l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+      </div>
+      <div class="muestra">
+        <div class="ficha">
+          <b class="f-greatvibes" style="font-size: 36px">Great Vibes</b>53 KB · descartada<br />OFL
+          sin nombre reservado
+          <div class="veredicto">
+            De invitación de boda: elegante pero se lee mal en el celular y se aleja del pan de
+            barrio.
+          </div>
+        </div>
+        <div class="claro">
+          <p class="titular">Pan del día</p>
+          <p class="acento f-greatvibes l1">¿Ya pediste tu pan?</p>
+          <p class="acento f-greatvibes l2">¡Llega calientito a tu casa!</p>
+          <p class="acento f-greatvibes l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+        <div class="sobre-terracota">
+          <p class="titular">Pan del día</p>
+          <p class="f-greatvibes l1">¿Ya pediste tu pan?</p>
+          <p class="f-greatvibes l2">¡Llega calientito a tu casa!</p>
+          <p class="f-greatvibes l3">Mañana, señora Muñoz: bizcochos y pingüinos</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hoja" id="hoja-titulos">
+      <h1>¿Playfair o Jakarta en los títulos?</h1>
+      <p class="bajada">
+        Hoy los títulos están en Jakarta: el rediseño A (PR #94) retiró Playfair. Aquí, la misma
+        caligrafía (Dancing Script) con los títulos en Playfair, que es lo que pediste, y con los
+        títulos en Jakarta, como están hoy.
+      </p>
+      <div class="rejilla cuatro">
+        <figure>
+          <figcaption>
+            Playfair + Dancing<small>Títulos con serifa: más tradicional</small>
+          </figcaption>
+          <div class="telefono">
+            <img src="capturas/movil-portada-playfair-dancing.png" alt="" />
+          </div>
+        </figure>
+        <figure>
+          <figcaption>Jakarta + Dancing<small>Títulos como hoy: más actual</small></figcaption>
+          <div class="telefono">
+            <img src="capturas/movil-portada-jakarta-dancing.png" alt="" />
+          </div>
+        </figure>
+        <figure>
+          <figcaption>Playfair + Dancing<small>Sello en escritorio</small></figcaption>
+          <div class="marco">
+            <img src="capturas/escritorio-desde-playfair-dancing.png" alt="" />
+          </div>
+        </figure>
+        <figure>
+          <figcaption>Jakarta + Dancing<small>Sello en escritorio</small></figcaption>
+          <div class="marco">
+            <img src="capturas/escritorio-desde-jakarta-dancing.png" alt="" />
+          </div>
+        </figure>
+      </div>
+      <div class="reglas" style="margin-top: 36px">
+        <div>
+          <h2>Dónde sí va la caligrafía</h2>
+          <ul>
+            <li>El eslogan de la portada: «Pan fresco, tradición de siempre».</li>
+            <li>El sello «Horneando en Iquitos», junto a «Desde 2004».</li>
+            <li>Un solo titular: «Te lo llevamos a tu casa».</li>
+            <li>Siempre a 20 px o más, y una vez por bloque como mucho.</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Dónde nunca</h2>
+          <ul>
+            <li>Menú, botones, precios, nombres de producto ni formularios.</li>
+            <li>Párrafos, horarios, direcciones ni nada que haya que leer de corrido.</li>
+            <li>El panel de gestión: se queda como está.</li>
+            <li>Textos en mayúsculas: la letra ligada no se escribe en mayúsculas.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
