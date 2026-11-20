@@ -728,6 +728,13 @@ export type Database = {
             foreignKeyName: "movimiento_lotes_movimiento_id_fkey"
             columns: ["movimiento_id"]
             isOneToOne: false
+            referencedRelation: "ingresos_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimiento_lotes_movimiento_id_fkey"
+            columns: ["movimiento_id"]
+            isOneToOne: false
             referencedRelation: "movimientos_insumo"
             referencedColumns: ["id"]
           },
@@ -842,6 +849,13 @@ export type Database = {
             columns: ["almacen_id"]
             isOneToOne: false
             referencedRelation: "almacenes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_anula_a_fkey"
+            columns: ["anula_a"]
+            isOneToOne: false
+            referencedRelation: "ingresos_insumo"
             referencedColumns: ["id"]
           },
           {
@@ -1697,6 +1711,13 @@ export type Database = {
             foreignKeyName: "solicitudes_baja_movimiento_id_fkey"
             columns: ["movimiento_id"]
             isOneToOne: true
+            referencedRelation: "ingresos_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "solicitudes_baja_movimiento_id_fkey"
+            columns: ["movimiento_id"]
+            isOneToOne: true
             referencedRelation: "movimientos_insumo"
             referencedColumns: ["id"]
           },
@@ -2008,6 +2029,7 @@ export type Database = {
           presentacion: string | null
           proximo_vencimiento: string | null
           stock_minimo: number | null
+          ultimo_ingreso: string | null
           unidad_base: string | null
         }
         Relationships: []
@@ -2098,6 +2120,51 @@ export type Database = {
           titulo?: string | null
         }
         Relationships: []
+      }
+      ingresos_insumo: {
+        Row: {
+          anulado: boolean | null
+          cantidad: number | null
+          costo_total: number | null
+          dia: string | null
+          documento_numero: string | null
+          documento_tipo: string | null
+          fecha_vencimiento: string | null
+          id: string | null
+          insumo: string | null
+          insumo_id: string | null
+          observacion: string | null
+          ocurrido_en: string | null
+          precio_unitario: number | null
+          proveedor: string | null
+          proveedor_id: string | null
+          responsable: string | null
+          secuencia: number | null
+          unidad: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimientos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "existencias_insumo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_insumo_id_fkey"
+            columns: ["insumo_id"]
+            isOneToOne: false
+            referencedRelation: "insumos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimientos_insumo_proveedor_id_fkey"
+            columns: ["proveedor_id"]
+            isOneToOne: false
+            referencedRelation: "proveedores"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       novedades_publicas: {
         Row: {
