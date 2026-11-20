@@ -8,7 +8,7 @@ const RUTA = "/admin/contenido/tematicas";
 
 /**
  * Guarda una temática y sus productos de una vez (`public.guardar_tematica`,
- * 0047). Las reglas —fechas que se cruzan, encender una campaña pasada— las
+ * 0047 y 0048). Las reglas —fechas que se cruzan, encender una campaña pasada— las
  * pone la base, y su frase llega tal cual. Refresca el catálogo (los productos
  * solo de temporada aparecen o desaparecen) y la marca (la barra de arriba).
  */
@@ -28,6 +28,7 @@ export async function guardarTematica(fd: FormData): Promise<EstadoAccion> {
           fin: d.fin,
           fecha_evento: d.fecha_evento,
           encendido: d.encendido,
+          estilo: d.estilo,
           texto_aviso: d.texto_aviso,
           mensajes_cinta: d.mensajes_cinta,
           titulo: d.titulo,

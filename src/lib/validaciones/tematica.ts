@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 import { json, texto, textoOpcional } from "@/lib/panel/formulario";
+import { ESTILOS } from "@/lib/tematicas/estilos";
 
 /**
  * El formulario de una temática (plan 08, T2). Los límites son los de la base
@@ -18,6 +19,7 @@ export const esquemaTematica = z
     fin: z.iso.date({ error: "Elige el día en que termina." }),
     fecha_evento: FECHA.nullable(),
     encendido: z.enum(ENCENDIDOS, { error: "Elige cómo se enciende." }),
+    estilo: z.enum(ESTILOS, { error: "Elige cómo se viste el sitio." }),
     texto_aviso: z.string().max(120, { error: "Máximo 120 letras." }).nullable(),
     mensajes_cinta: z
       .array(z.string().max(60, { error: "Cada mensaje, como mucho 60 letras." }))
@@ -48,6 +50,7 @@ export function leerTematica(fd: FormData) {
     fin: texto(fd, "fin"),
     fecha_evento: textoOpcional(fd, "fecha_evento"),
     encendido: texto(fd, "encendido"),
+    estilo: texto(fd, "estilo"),
     texto_aviso: textoOpcional(fd, "texto_aviso"),
     // Un mensaje por línea; las vacías no cuentan.
     mensajes_cinta: texto(fd, "mensajes_cinta")

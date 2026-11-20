@@ -13,6 +13,7 @@ function formulario(cambios: Record<string, string> = {}): FormData {
     fin: "2026-12-26",
     fecha_evento: "2026-12-25",
     encendido: "fechas",
+    estilo: "noche",
     texto_aviso: "Ya hay panetón",
     mensajes_cinta: "Feliz Navidad\nDelivery a todo Iquitos",
     titulo: "Lo de esta Navidad",
@@ -31,6 +32,15 @@ describe("esquemaTematica", () => {
     expect(r.data?.mensajes_cinta).toEqual(["Feliz Navidad", "Delivery a todo Iquitos"]);
     expect(r.data?.productos).toEqual([{ producto_id: PRODUCTO, solo_temporada: true }]);
     expect(r.data?.entradilla).toBeNull();
+  });
+
+  it("lee el estilo y rechaza uno sin diseño", () => {
+    expect(
+      esquemaTematica.safeParse(leerTematica(formulario({ estilo: "crema" }))).data?.estilo,
+    ).toBe("crema");
+    expect(validarTematica(formulario({ estilo: "neon" })).estilo?.[0]).toBe(
+      "Elige cómo se viste el sitio.",
+    );
   });
 
   it("ignora las líneas vacías de la cinta", () => {
