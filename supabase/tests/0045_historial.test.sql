@@ -146,8 +146,8 @@ select is(
         'consentimientos', 'equivalencias', 'faqs', 'galeria', 'guias', 'insumos', 'lotes_insumo',
         'movimiento_lotes', 'movimientos_insumo', 'novedades', 'perfiles', 'producto_imagenes',
         'producto_variantes', 'productos', 'proveedores', 'roles', 'slides', 'solicitudes_baja',
-        'testimonios', 'zonas_reparto'],
-  'se auditan estas 25 tablas: si cambia la lista, hay que darle su frase en src/lib/auditoria/catalogo.ts');
+        'tematica_productos', 'tematicas', 'testimonios', 'zonas_reparto'],
+  'se auditan estas 27 tablas: si cambia la lista, hay que darle su frase en src/lib/auditoria/catalogo.ts');
 
 select * from finish();
 rollback;

@@ -214,6 +214,7 @@ const COLUMNA_DEL_NOMBRE: Readonly<Record<string, string>> = {
   // Un lote no tiene nombre: el suyo es el de su insumo.
   lotes_insumo: "insumos(nombre)",
   perfiles: "nombre_completo",
+  tematicas: "nombre",
 };
 
 /** PostgREST recibe los ids en la dirección: con más de ~200 responde 414. */

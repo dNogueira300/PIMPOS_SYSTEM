@@ -100,6 +100,18 @@ const ETIQUETAS: Readonly<Record<string, string>> = {
   presentacion: "Presentación",
   stock_minimo: "Cantidad mínima",
   es_perecible: "Es perecible",
+  // Temáticas de temporada (plan 08).
+  inicio: "Empieza el",
+  fin: "Termina el",
+  fecha_evento: "Fecha de la fiesta",
+  encendido: "Cómo se enciende",
+  encendido_desde: "Puesto a mano el",
+  encendido_hasta: "A mano hasta el",
+  texto_aviso: "Texto de la barra de arriba",
+  mensajes_cinta: "Mensajes de la cinta",
+  entradilla: "Entradilla",
+  solo_temporada: "Solo se vende en esta temporada",
+  tematica_id: "Temática",
   proveedor_habitual_id: "Proveedor habitual",
   proveedor_id: "Proveedor",
   almacen_id: "Almacén",
@@ -149,7 +161,14 @@ const FECHA_Y_HORA = new Set([
   "ocurrido_en",
   "resuelto_en",
 ]);
-const SOLO_FECHA = new Set(["fecha_vencimiento"]);
+const SOLO_FECHA = new Set([
+  "fecha_vencimiento",
+  "inicio",
+  "fin",
+  "fecha_evento",
+  "encendido_desde",
+  "encendido_hasta",
+]);
 /** Dinero por unidad base (un gramo, un mililitro): puede valer menos de un céntimo. */
 const DINERO_FINO = new Set(["precio_unitario", "costo_unitario"]);
 /** Un punto del mapa: seis decimales son unos 11 cm; con cuatro, corregirlo unos metros no se vería. */
@@ -171,6 +190,7 @@ const SEÑALA_A: Readonly<Record<string, string>> = {
   unidad_hacia: "unidades_medida",
   proveedor_habitual_id: "proveedores",
   proveedor_id: "proveedores",
+  tematica_id: "tematicas",
   almacen_id: "almacenes",
   // De un lote se enseña el insumo: un lote no tiene nombre propio.
   lote_id: "lotes_insumo",
@@ -211,6 +231,7 @@ const PALABRAS: Readonly<Record<string, Readonly<Record<string, string>>>> = {
     aviso: "Aviso",
   },
   sentido: { "1": "Suma", "-1": "Resta" },
+  encendido: { fechas: "Según fechas", encendida: "Encendida a mano", apagada: "Apagada a mano" },
   moneda: { PEN: "Soles", USD: "Dólares" },
   origen_consumo: { produccion: "Producción", retiro_directo: "Retiro directo" },
   modo: { verbal: "De palabra", escrito: "Por escrito", digital: "Digital" },
