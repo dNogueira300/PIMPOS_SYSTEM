@@ -237,7 +237,9 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   de fin (0047); dos estilos, `noche` (puesto) y `crema` (0048, decisión de Dan del 20/11/2026); la
   pantalla del panel (Contenido → Temáticas, solo superadmin y administración); y en el sitio, con la
   temática activa, `data-tematica` + `data-estilo` en la envoltura de `CascaraPublica`, los tokens de
-  `src/estilos/tematicas.css`, luces, nieve, el texto de campaña en la barra, la cinta y la sección de
+  `src/estilos/tematicas.css`, luces en dos tandas que se turnan, bolas que cuelgan de la cabecera
+  (el único elemento que la temática añade al HTML, `.adornos-tematica`, en `Cabecera`), nieve con
+  copos grandes, el texto de campaña en la barra, la cinta y la sección de
   temporada en la portada. **Sin temática activa el HTML no cambia.**
 - **Una temática nueva** (Día de la Madre…) es una migración (amplía los `check` de `slug` y `estilo`
   y siembra la fila), su CSS en `tematicas.css`, su slug en `SLUGS_CON_DISENO`
