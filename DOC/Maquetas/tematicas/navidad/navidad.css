@@ -1,0 +1,198 @@
+/*
+ * Maqueta de la temática de Navidad (plan 08, T3). NO es código de la
+ * aplicación: se inyecta sobre la portada real en local para enseñarle a Dan
+ * dos variantes. La que apruebe pasa a `src/estilos/tematicas.css` en la T4.
+ *
+ * Solo sustituye tokens semánticos de `globals.css` y añade adornos en
+ * pseudoelementos (sin JavaScript): luces bajo la cabecera, nieve que cae y el
+ * borde nevado de la sección de temporada. Todo el movimiento va dentro de
+ * `prefers-reduced-motion: no-preference` y se apaga al imprimir.
+ */
+
+/* --- Variante 1: Noche de Navidad (fondo verde pino, rojo y dorado) ------ */
+[data-tematica="navidad"][data-variante="noche"] {
+  --background: #13291f;
+  --foreground: #f7f1e3;
+  --muted: #1b382b;
+  --muted-foreground: #d9cfba;
+  --secondary: #1b382b;
+  --secondary-foreground: #f7f1e3;
+  --accent: #234536;
+  --accent-foreground: #f7f1e3;
+  --card: #1d3b2e;
+  --card-foreground: #f7f1e3;
+  /* Titulares y botones de línea en crema; el bloque del hero, crema con tinta. */
+  --primary: #f7f1e3;
+  --primary-foreground: #13291f;
+  --border: rgb(247 241 227 / 0.18);
+  --cta-fondo: #b3262a;
+  --cta-texto: #ffffff;
+  --cta-fondo-hover: #8f1d21;
+  --whatsapp-fondo: #e7f2df;
+  --whatsapp-texto: #234735;
+  --whatsapp-fondo-hover: #d3e8c6;
+  --acento-texto: #f2c46d;
+  --precio-texto: #f2c46d;
+  --franja-fondo: #9e1f24;
+  --franja-texto: #fff4e0;
+  --aviso-fondo: #0c1d15;
+  --aviso-texto: #f2c46d;
+  --sello-fondo: rgb(242 196 109 / 0.14);
+  --sello-borde: rgb(242 196 109 / 0.5);
+  --sello-texto: #f2c46d;
+  --nieve: rgb(255 255 255 / 0.85);
+}
+[data-tematica="navidad"][data-variante="noche"] .tapiz-publico {
+  background-image: none;
+}
+
+/* --- Variante 2: Crema navideña (el crema de Pimpo's, rojo y verde pino) - */
+[data-tematica="navidad"][data-variante="crema"] {
+  --primary: #a3201f;
+  --cta-fondo: #a3201f;
+  --cta-texto: #ffffff;
+  --cta-fondo-hover: #821918;
+  --acento-texto: #1f4d3a;
+  --franja-fondo: #1f4d3a;
+  --franja-texto: #fbf6ea;
+  --aviso-fondo: #173d2e;
+  --aviso-texto: #fbf6ea;
+  --sello-borde: rgb(163 32 31 / 0.35);
+  --sello-texto: #a3201f;
+  --nieve: rgb(31 77 58 / 0.18);
+}
+
+/* --- Adornos comunes ------------------------------------------------------ */
+
+/* Luces colgando bajo la cabecera: un cable ondulado con bombillas rojas,
+   doradas, verdes y blancas, dibujado en un SVG que se repite. */
+[data-tematica="navidad"] header {
+  position: relative;
+}
+[data-tematica="navidad"] header::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 26px;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='26' viewBox='0 0 160 26'%3E%3Cpath d='M0 4 Q20 16 40 4 T80 4 T120 4 T160 4' fill='none' stroke='%23314a3e' stroke-width='1.4'/%3E%3Cg%3E%3Cellipse cx='20' cy='15' rx='4' ry='6' fill='%23d63a35'/%3E%3Cellipse cx='60' cy='15' rx='4' ry='6' fill='%23f2c46d'/%3E%3Cellipse cx='100' cy='15' rx='4' ry='6' fill='%233f9c6b'/%3E%3Cellipse cx='140' cy='15' rx='4' ry='6' fill='%23fff4d6'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 160px 26px;
+  z-index: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="navidad"] header::after {
+    animation: luces-titilan 2.4s ease-in-out infinite alternate;
+  }
+}
+@keyframes luces-titilan {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.35) saturate(1.2);
+  }
+}
+
+/* Nieve: tres capas de puntos que caen despacio, encima de todo pero sin
+   recibir clics. Quieta con menos movimiento; fuera al imprimir. */
+[data-tematica="navidad"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  background-image:
+    radial-gradient(circle, var(--nieve) 0 1.6px, transparent 2.2px),
+    radial-gradient(circle, var(--nieve) 0 1.1px, transparent 1.7px),
+    radial-gradient(circle, var(--nieve) 0 2.2px, transparent 2.8px);
+  background-size:
+    120px 140px,
+    80px 90px,
+    190px 210px;
+  background-position:
+    10px 0,
+    40px 30px,
+    90px 60px;
+  opacity: 0.7;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="navidad"]::before {
+    animation: nieve-cae 18s linear infinite;
+  }
+}
+@keyframes nieve-cae {
+  to {
+    background-position:
+      40px 140px,
+      20px 120px,
+      130px 270px;
+  }
+}
+
+/* La cinta de mensajes. */
+.cinta-tematica {
+  overflow: hidden;
+  background: var(--franja-fondo);
+  color: var(--franja-texto);
+  border-block: 2px solid var(--acento-texto);
+}
+.cinta-tematica ul {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.cinta-tematica li::before {
+  content: "✦";
+  margin-right: 2.5rem;
+  opacity: 0.8;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cinta-tematica ul {
+    animation: cinta-avanza 30s linear infinite;
+  }
+}
+@keyframes cinta-avanza {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* La sección de temporada, con su borde nevado arriba. */
+.seccion-temporada {
+  position: relative;
+  margin-top: 3.5rem;
+  padding-block: 3rem 2rem;
+}
+.seccion-temporada::before {
+  content: "";
+  position: absolute;
+  inset: -14px 0 auto 0;
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='18' viewBox='0 0 120 18'%3E%3Cpath d='M0 18 V8 Q10 0 20 7 Q32 15 44 6 Q56 -2 68 7 Q80 14 92 5 Q106 -3 120 8 V18 Z' fill='%23ffffff' fill-opacity='.92'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 120px 18px;
+  pointer-events: none;
+}
+.cuenta-regresiva {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  background: var(--sello-fondo);
+  color: var(--sello-texto);
+  border: 1px solid var(--sello-borde);
+}
+
+@media print {
+  [data-tematica="navidad"]::before,
+  [data-tematica="navidad"] header::after,
+  .seccion-temporada::before {
+    display: none;
+  }
+}
