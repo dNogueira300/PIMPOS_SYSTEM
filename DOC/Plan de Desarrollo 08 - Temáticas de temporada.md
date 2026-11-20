@@ -611,3 +611,11 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   375 px y a 1280 px, con los dos estilos), que con menos movimiento **nada** de la página se anima
   (ni un seudoelemento) y que al imprimir no sale ningún adorno. Capturas en
   `DOC/Maquetas/tematicas/navidad/adornos/`.
+- **La revisión de la rama (opus) no encontró nada importante.** Se arreglaron sus menores: las
+  bombillas doradas y blancas se pintaban delante de las bolas (ahora detrás, como las otras), la bola
+  verde se cortaba contra el borde al mecerse, tapa y bola se centran con `transform` (también sin las
+  propiedades sueltas), y la prueba mira ahora que los seudoelementos de la cabecera y de la envoltura
+  no reciben clics, que al apagar la temática el elemento de los adornos desaparece del HTML y dónde
+  empieza de verdad lo que cuelga (el borde de la cabecera, no 1 px fijo). Queda sin tocar, porque es
+  de T4: la nieve de puntos anima `background-position` en una capa a pantalla completa y se repinta en
+  cada fotograma; se puede pasar a `translate`, como los copos. Tampoco se volvió a medir Lighthouse.

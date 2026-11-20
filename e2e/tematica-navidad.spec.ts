@@ -105,17 +105,34 @@ function leerAdornos() {
   const adornos = [
     ...cabecera.querySelectorAll(".adornos-tematica, .adornos-tematica *"),
   ] as HTMLElement[];
-  const borde = cabecera.getBoundingClientRect().bottom;
+  // Donde empieza lo que cuelga: `inset: 100%` se mide sobre el relleno, por
+  // encima del borde inferior de la cabecera.
+  const borde =
+    cabecera.getBoundingClientRect().bottom -
+    parseFloat(getComputedStyle(cabecera).borderBottomWidth);
+  // Los seudoelementos también: una franja a todo el ancho que recibiera clics
+  // dejaría sin pulsar lo que pasa por debajo de la cabecera.
+  const seudos: [string, Element, string][] = [
+    ["luces", cabecera, "::before"],
+    ["cable", cabecera, "::after"],
+    ["nieve", envoltura, "::before"],
+    ["copos", envoltura, "::after"],
+  ];
   return {
     luces: luces.map((el, i) => leer(el, i === 0 ? "::before" : undefined)),
     bolas: bolas.map((el) => leer(el)),
     copos: leer(envoltura, "::after"),
     nieve: leer(envoltura, "::before"),
-    reciben_clics: adornos
-      .filter((el) => getComputedStyle(el).pointerEvents !== "none")
-      .map((el) => el.className),
+    reciben_clics: [
+      ...adornos
+        .filter((el) => getComputedStyle(el).pointerEvents !== "none")
+        .map((el) => el.className),
+      ...seudos
+        .filter(([, el, seudo]) => getComputedStyle(el, seudo).pointerEvents !== "none")
+        .map(([nombre]) => nombre),
+    ],
     sobre_la_cabecera: adornos
-      .filter((el) => el.getBoundingClientRect().top < borde - 1)
+      .filter((el) => el.getBoundingClientRect().top < borde - 0.5)
       .map((el) => el.className),
     desborde: document.documentElement.scrollWidth - document.documentElement.clientWidth,
   };
@@ -332,6 +349,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       });
       await page.goto("/");
       await expect(page.locator("[data-tematica]")).toHaveCount(0);
+      await expect(page.locator(".adornos-tematica")).toHaveCount(0);
       await expect(page.locator("[data-seccion-temporada]")).toHaveCount(0);
       await expect(page.locator(".cinta-tematica")).toHaveCount(0);
       await expect(page.getByRole("complementary", { name: "Horario y reparto" })).toBeVisible();

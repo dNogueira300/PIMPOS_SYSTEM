@@ -270,6 +270,10 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
 - **La envoltura del sitio es `display: contents`**: hereda variables pero no pinta fondo. Los tokens
   de una temática se ponen también en `:root:has([data-tematica=…])`, si no el `body` sigue crema
   detrás del pino. Y sus seudoelementos sí se pintan: la nieve es su `::before`.
+- **Las bolas van numeradas con `nth-of-type`** (`.adornos-tematica__bola`, cinco `span`): un `span`
+  más dentro de `.adornos-tematica` corre la numeración y cambia colores y tamaños. La tanda de luces
+  es un `div` por eso. `Cabecera` pinta ese elemento con **cualquier** temática activa; para una que
+  no sea Navidad queda en `display: none` hasta que tenga su CSS.
 - **Un `::after` en la cabecera no le cambia la posición**: ya es `sticky`, que sirve de referencia al
   adorno. Ponerle `position: relative` le quitaría lo fijo.
 
