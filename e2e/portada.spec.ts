@@ -212,25 +212,67 @@ test("la tipografia elegida llega al navegador", async ({ page }) => {
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
 
-  // Plus Jakarta Sans en titulares y texto (dirección A, plan 03.2).
-  // next/font nombra la familia con la variable
-  // exportada en src/estilos/fuentes.ts (`jakarta`), asi que se
-  // comprueba ese nombre. Que la clase este puesta en el <html> no basta: esto
-  // verifica que la cadena token -> variable -> familia llega entera.
-  const familiaTitulo = await page
-    .getByRole("heading", { level: 2 })
-    .first()
-    .evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(familiaTitulo).toMatch(/jakarta/i);
+  // Playfair Display en los titulos del sitio publico, Plus Jakarta Sans en el
+  // texto y los precios, y Dancing Script como acento (Dan, 19/11/2026).
+  // next/font nombra la familia con la variable exportada (`playfair`,
+  // `jakarta`, `dancing`), asi que se comprueba ese nombre. Que la clase este
+  // puesta no basta: esto verifica que la cadena token -> variable -> familia
+  // llega entera, tambien a traves de la envoltura de `CascaraPublica`.
+  const familia = (selector: ReturnType<typeof page.locator>) =>
+    selector.first().evaluate((el) => getComputedStyle(el).fontFamily);
 
-  const familiaTexto = await page.locator("body").evaluate((el) => getComputedStyle(el).fontFamily);
-  expect(familiaTexto).toMatch(/jakarta/i);
+  expect(await familia(page.getByRole("heading", { level: 2 }))).toMatch(/playfair/i);
+  expect(await familia(page.locator("body"))).toMatch(/jakarta/i);
+  // Las cifras no cambian de letra: los precios siguen en Jakarta.
+  expect(await familia(page.locator(".text-precio"))).toMatch(/jakarta/i);
 
-  // Y que el archivo se haya cargado de verdad, no solo declarado.
+  // El acento va solo donde se aprobó, y el titular del reparto es uno de ellos.
+  const reparto = page.getByRole("heading", { name: "Te lo llevamos a tu casa" });
+  expect(await familia(reparto)).toMatch(/dancing/i);
+  expect(await familia(page.getByText("Horneando en Iquitos"))).toMatch(/dancing/i);
+  // El eslogan de la portada movil es el tercero, y el que mas se ve.
+  if (test.info().project.name === "movil") {
+    expect(await familia(page.locator(".portada-movil-texto .texto-caligrafico"))).toMatch(
+      /dancing/i,
+    );
+  }
+  // Y en ningun sitio mas: con mesura quiere decir esos tres.
+  await expect(page.locator(".texto-caligrafico")).toHaveCount(3);
+
+  // Y que los archivos se hayan cargado de verdad, no solo declarado.
   const cargadas = await page.evaluate(() =>
     [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
   );
-  expect(cargadas.join(" ")).toMatch(/jakarta/i);
+  for (const nombre of [/jakarta/i, /playfair/i, /dancing/i]) {
+    expect(cargadas.join(" ")).toMatch(nombre);
+  }
+});
+
+test("el ingreso sigue en Jakarta y no descarga las fuentes del sitio publico", async ({
+  page,
+}) => {
+  // Playfair y Dancing van sin precarga y solo las usa la cascara publica: el
+  // panel y el ingreso conservan la letra de la direccion A y no pagan dos
+  // fuentes que no usan. Con precarga, Next las pondria en todas las rutas.
+  const fuentes: string[] = [];
+  page.on("request", (peticion) => {
+    if (peticion.url().endsWith(".woff2")) fuentes.push(peticion.url());
+  });
+
+  await page.goto("/ingresar");
+  await page.evaluate(() => document.fonts.ready);
+
+  const titulo = page.getByRole("heading", { level: 1 });
+  expect(await titulo.evaluate((el) => getComputedStyle(el).fontFamily)).toMatch(/jakarta/i);
+  expect(fuentes.length, "No se midio ninguna fuente").toBeGreaterThan(0);
+
+  const cargadas = await page.evaluate(() =>
+    [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family),
+  );
+  expect(cargadas.join(" ")).not.toMatch(/playfair|dancing/i);
+  // next/font pone un hash en el nombre del archivo, asi que se cuentan: el
+  // unico woff2 que baja el ingreso es el de Jakarta.
+  expect(fuentes).toHaveLength(1);
 });
 
 test("el hero separa texto y foto sin velo ni controles sobre el texto", async ({

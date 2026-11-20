@@ -37,12 +37,15 @@ test("el contenido largo y la ausencia de foto no recortan texto ni enlaces", as
       .join(""),
     htmlClass: document.documentElement.className,
     bodyClass: document.body.className,
+    // La envoltura de `CascaraPublica`: es la que publica Playfair para los
+    // titulos. Sin ella, el carrusel se mediria en Jakarta.
+    envoltura: document.querySelector(".sitio-publico")?.className ?? "",
   }));
   const url = new URL("/__prueba-carrusel__", page.url()).href;
   await page.route(url, (route) =>
     route.fulfill({
       contentType: "text/html; charset=utf-8",
-      body: `<!doctype html><html lang="es" class="${marco.htmlClass}"><head><meta charset="utf-8">${marco.css}</head><body class="${marco.bodyClass}">${html}</body></html>`,
+      body: `<!doctype html><html lang="es" class="${marco.htmlClass}"><head><meta charset="utf-8">${marco.css}</head><body class="${marco.bodyClass}"><div class="${marco.envoltura}">${html}</div></body></html>`,
     }),
   );
   for (const width of [768, 1024, 1440]) {
@@ -53,6 +56,11 @@ test("el contenido largo y la ausencia de foto no recortan texto ni enlaces", as
     await page.evaluate(() => document.fonts.ready);
     const region = page.locator('[aria-roledescription="carrusel"]');
     await expect(region.getByRole("heading")).toHaveText(slide.titulo);
+    // Que se mida con la letra de verdad: el titular va en Playfair, que es más
+    // ancha que Jakarta. Medido en otra letra, un desborde pasaría en verde.
+    expect(
+      await region.getByRole("heading").evaluate((el) => getComputedStyle(el).fontFamily),
+    ).toMatch(/playfair/i);
     await expect(region).toContainText(slide.subtitulo!);
     await expect(region.getByRole("link")).toHaveAttribute("href", "/productos");
     const cabe = await region.locator("[data-panel-hero]").evaluate((el) => {

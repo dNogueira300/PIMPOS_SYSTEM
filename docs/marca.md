@@ -244,10 +244,14 @@ da 3.92 sobre la franja y 1.94 contra el azul. Los dorados claros son fondos y b
 como filete divisor o subrayado, nunca en fondos, botones ni bloques de texto. Compite con la
 fotografía del producto, y en este sitio la fotografía manda.
 
-**Tipografía.** **Playfair Display** en titulares y **Plus Jakarta Sans** en el texto (decisión de
-Dan, 13/09/2026), servidas desde el propio sitio, recortadas a latín: 79 KB entre las dos. Sustituyen
-a Fraunces + Inter, que había elegido el propietario en F1. Playfair declara un _Reserved Font Name_,
-así que la copia recortada se llama «Playfair Pimpos» por dentro (ver `AGENTS.md`).
+**Tipografía.** En el sitio público, **Playfair Display** en titulares, **Plus Jakarta Sans** en el
+texto, los precios y las cifras, y **Dancing Script** como acento caligráfico (decisión de Dan,
+19/11/2026; el rediseño A había dejado todo en Jakarta, que sigue siendo la única letra del panel y
+del ingreso). La caligrafía es la voz de la tienda y va con mesura: el eslogan de la portada,
+«Horneando en Iquitos» y el titular «Te lo llevamos a tu casa». Nunca en botones, precios, nombres de
+producto ni párrafos. Las tres se sirven desde el propio sitio, recortadas a latín (74 KB en la
+portada). Playfair y Dancing declaran un _Reserved Font Name_, así que sus copias se llaman
+«Playfair Pimpos» y «Dancing Pimpos» por dentro (ver `AGENTS.md`).
 
 **Formas.** Botones en píldora de al menos 48 px; tarjetas blancas con bordes muy tenues y sombras
 cálidas, nunca negras; sellos (etiquetas cortas con borde dorado) **con mesura**: como mucho uno por
@@ -270,11 +274,11 @@ sí declaró en 2.6.
 
 No son opiniones de diseño: son datos que van a aparecer publicados y que hoy no cuadran entre sí.
 
-| Dato           | Discrepancia                                                                                                                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **WhatsApp**   | El plan fija `51947874820`; el `.env.local` en uso tiene otro número. Hay que decidir cuál se publica                                                   |
-| **Dirección**  | El plan dice «Calle Elías Aguirre 1321»; la historia de la ficha dice «Av. Elías Aguirre». Afecta al JSON-LD y al mapa                                  |
-| **Tipografía** | Resuelto: Playfair Display + Plus Jakarta Sans desde la fase 3.1 (Dan, 13/09). Falta enseñárselo al propietario con las capturas de `DOC/Maquetas/3.1/` |
+| Dato           | Discrepancia                                                                                                                                          |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **WhatsApp**   | El plan fija `51947874820`; el `.env.local` en uso tiene otro número. Hay que decidir cuál se publica                                                 |
+| **Dirección**  | El plan dice «Calle Elías Aguirre 1321»; la historia de la ficha dice «Av. Elías Aguirre». Afecta al JSON-LD y al mapa                                |
+| **Tipografía** | Resuelto: Playfair Display + Plus Jakarta Sans + Dancing Script de acento en el sitio público (Dan, 19/11). Comparación en `DOC/Maquetas/caligrafia/` |
 
 ---
 

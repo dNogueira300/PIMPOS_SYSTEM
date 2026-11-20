@@ -184,8 +184,8 @@ test("las fuentes que se descargan no pasan de 140 KB", async ({ page }) => {
   // Que la medicion exista: sin esto, una pagina que no cargara ninguna fuente
   // pasaria el techo sin haber medido nada.
   expect(fuentes.length, "No se midio ninguna fuente").toBeGreaterThan(0);
-  // Fraunces + Inter pesaban 113 KB. El techo deja margen para el cambio de
-  // familia (Playfair + Jakarta, plan 03.1) sin permitir que se cuele una
-  // tercera fuente o un corte completo sin recortar.
+  // Fraunces + Inter pesaban 113 KB. Jakarta + Playfair + Dancing Script
+  // (19/11/2026) suman 74 KB en la portada. El techo no deja que se cuele una
+  // cuarta fuente ni un corte completo sin recortar.
   expect(total).toBeLessThan(140 * 1024);
 });

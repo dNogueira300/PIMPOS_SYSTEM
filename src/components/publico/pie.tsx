@@ -8,7 +8,7 @@ import { anioActual, direccionCompleta, type Configuracion } from "@/lib/datos/c
 import { Horario } from "./horario";
 import { SECCIONES } from "./navegacion";
 
-/** Titular de columna: Jakarta y terracota. */
+/** Titular de columna: Playfair (títulos del sitio público) y terracota. */
 const TITULO_COLUMNA = "font-heading text-primary mb-4 text-lg font-semibold";
 /** Enlace del pie: gris cálido que se vuelve terracota, siempre con 44 px de alto. */
 const ENLACE = "text-muted-foreground hover:text-primary min-h-tactil flex items-center";

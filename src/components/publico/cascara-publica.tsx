@@ -35,7 +35,11 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
   }));
 
   return (
-    <>
+    // La envoltura solo cambia la letra del sitio público (Playfair en los
+    // títulos, Dancing Script en los acentos): con `display: contents` no crea
+    // caja, así que cabecera, `main` y pie siguen colgando del `body` a efectos
+    // de maquetación. Ver `.sitio-publico` en globals.css.
+    <div className="sitio-publico contents">
       {/* Primer elemento enfocable de la pagina: quien navega con teclado no
           tiene que recorrer las siete secciones en cada pagina. */}
       <a
@@ -70,6 +74,6 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
 
       <BotonWhatsApp enlace={pedido} />
       <Pie config={config} />
-    </>
+    </div>
   );
 }

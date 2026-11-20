@@ -47,7 +47,7 @@ export function TarjetaProducto({
           {precio ? (
             <p
               data-precio
-              className="font-heading text-precio max-w-full text-lg font-semibold wrap-anywhere tabular-nums"
+              className="text-precio max-w-full text-lg font-semibold wrap-anywhere tabular-nums"
             >
               {precio}
             </p>
