@@ -96,8 +96,8 @@ export function FormularioInsumo({
       </Campo>
       <Interruptor
         nombre="es_perecible"
-        etiqueta="Vence"
-        ayuda="Cada ingreso pedirá la fecha de vencimiento"
+        etiqueta="Es perecible"
+        ayuda="Actívalo si vence, como la levadura o la leche: cada ingreso pedirá su fecha de vencimiento. Si no vence, como las bolsas, déjalo apagado y el ingreso no la pedirá."
         marcado={insumo?.es_perecible ?? false}
       />
       <Campo nombre="proveedor_habitual_id" etiqueta="Proveedor habitual" opcional>

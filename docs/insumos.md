@@ -35,6 +35,10 @@ Una baja **no descuenta nada** hasta que la administración la aprueba. En los i
 puede elegir **de qué lote** sale («De qué lote»); si no se elige, sale del que vence primero. Un
 consumo que pide más de lo que hay no se guarda: el sistema dice cuánto queda.
 
+**Perecible o no.** Al crear o editar un insumo, el interruptor **«Es perecible»** dice si vence.
+Encendido (levadura, leche, manteca), cada ingreso pide la fecha de vencimiento; apagado (bolsas,
+envases), el ingreso no la pide. Se puede cambiar cuando se quiera desde «Editar datos».
+
 El kárdex de cada insumo va en el **orden en que se registró** cada cosa, con la fecha y hora que se
 escribió al lado: si alguien registra tarde algo que pasó antes, esa fila sale donde se registró,
 y el saldo de cada fila es el que había de verdad en ese momento.
