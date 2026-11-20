@@ -9,6 +9,7 @@ function formulario(cambios: Record<string, string> = {}): FormData {
   const fd = new FormData();
   const base: Record<string, string> = {
     id: ID,
+    slug: "navidad",
     inicio: "2026-12-01",
     fin: "2026-12-26",
     fecha_evento: "2026-12-25",
@@ -40,6 +41,17 @@ describe("esquemaTematica", () => {
     ).toBe("crema");
     expect(validarTematica(formulario({ estilo: "neon" })).estilo?.[0]).toBe(
       "Elige cómo se viste el sitio.",
+    );
+  });
+
+  it("admite solo los estilos de su temática", () => {
+    const madre = { slug: "dia-de-la-madre", inicio: "2027-05-03", fin: "2027-05-10" };
+    expect(validarTematica(formulario({ ...madre, estilo: "noche" })).estilo?.[0]).toBe(
+      "Elige uno de los estilos de esta temática.",
+    );
+    expect(validarTematica(formulario({ ...madre, estilo: "rosa" }))).toEqual({});
+    expect(validarTematica(formulario({ estilo: "rosa" })).estilo?.[0]).toBe(
+      "Elige uno de los estilos de esta temática.",
     );
   });
 

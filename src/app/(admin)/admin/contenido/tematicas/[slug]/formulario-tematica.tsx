@@ -10,11 +10,12 @@ import { FormularioPanel } from "@/components/panel/formulario-panel";
 import { PestanasFormulario } from "@/components/panel/pestanas-formulario";
 import { guardarTematica } from "@/lib/acciones/tematicas";
 import { claveDeBorrador } from "@/lib/panel/borrador";
-import { OPCIONES_DE_ESTILO, type Estilo } from "@/lib/tematicas/estilos";
+import { opcionesDeEstilo, type Estilo } from "@/lib/tematicas/estilos";
 import { validarTematica } from "@/lib/validaciones/tematica";
 
 export type TematicaEditable = {
   id: string;
+  slug: string;
   nombre: string;
   inicio: string;
   fin: string;
@@ -65,6 +66,7 @@ export function FormularioTematica({
       destino={() => VOLVER}
     >
       <input type="hidden" name="id" value={tematica.id} />
+      <input type="hidden" name="slug" value={tematica.slug} />
       <PestanasFormulario
         pestanas={[
           {
@@ -125,7 +127,7 @@ export function FormularioTematica({
             contenido: (
               <fieldset className="flex flex-col gap-2" data-campo="estilo">
                 <legend className="mb-1 text-sm font-semibold">Cómo se viste el sitio</legend>
-                {OPCIONES_DE_ESTILO.map((o) => (
+                {opcionesDeEstilo(tematica.slug).map((o) => (
                   <label
                     key={o.valor}
                     className="bg-card flex min-h-11 items-center gap-3 rounded-md border p-3"

@@ -31,6 +31,12 @@ select throws_ok(
   $$ update public.tematicas set estilo = null where slug = 'navidad' $$,
   '23502', null, 'ni se queda sin estilo');
 
+-- El Día de la Madre (0049), lejos: si no, en mayo sus fechas de fábrica se
+-- cruzarían con las de Navidad que se ponen aquí.
+update public.tematicas set inicio = (select hoy + 400 from ref), fin = (select hoy + 410 from ref),
+       fecha_evento = null
+ where slug = 'dia-de-la-madre';
+
 -- Navidad activa hoy, para leerla como el público.
 update public.tematicas set inicio = (select hoy - 1 from ref), fin = (select hoy + 1 from ref)
  where slug = 'navidad';

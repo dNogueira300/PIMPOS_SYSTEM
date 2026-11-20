@@ -58,12 +58,13 @@ async function Editor({
   // normalizan aquí, nunca con `!`.
   const tematica = {
     id: t.id,
+    slug,
     nombre: t.nombre ?? "",
     inicio: t.inicio ?? "",
     fin: t.fin ?? "",
     fecha_evento: t.fecha_evento,
     encendido_vigente: comoEncendido(t.encendido_vigente),
-    estilo: comoEstilo(t.estilo),
+    estilo: comoEstilo(slug, t.estilo),
     texto_aviso: t.texto_aviso,
     mensajes_cinta: t.mensajes_cinta ?? [],
     titulo: t.titulo,

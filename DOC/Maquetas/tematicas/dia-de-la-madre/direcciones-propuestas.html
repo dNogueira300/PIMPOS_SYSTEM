@@ -1,0 +1,490 @@
+<style>
+  .dm-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .dm-col {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dm-tel {
+    width: 320px;
+    height: 640px;
+    overflow: hidden;
+    border-radius: 26px;
+    border: 8px solid #222;
+    position: relative;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
+  }
+  .dm-aviso {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 7px 10px;
+  }
+  .dm-cab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    position: relative;
+    z-index: 3;
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  }
+  .dm-cab img {
+    width: 46px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .dm-nombre {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    flex: 1;
+  }
+  .dm-menu {
+    width: 22px;
+    height: 14px;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    position: relative;
+  }
+  .dm-menu::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    border-top: 2px solid currentColor;
+  }
+  .dm-adorno {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 40px;
+    z-index: 4;
+    pointer-events: none;
+  }
+  .dm-hero {
+    height: 170px;
+    background: url("/files/fachada.webp") center 35% / cover;
+  }
+  .dm-sec {
+    padding: 22px 18px 18px;
+    position: relative;
+  }
+  .dm-tit {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .dm-cali {
+    font-family: "Dancing Script", "Brush Script MT", cursive;
+    font-weight: 700;
+    font-size: 1.3em;
+  }
+  .dm-ent {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0 12px;
+  }
+  .dm-cuenta {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .dm-boton {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 11px;
+    border-radius: 10px;
+    margin-top: 14px;
+  }
+  .dm-franja {
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .dm-capa {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .dm-capa i {
+    position: absolute;
+    top: -20px;
+    display: block;
+    animation: dm-cae linear infinite;
+  }
+  @keyframes dm-cae {
+    to {
+      transform: translate(18px, 680px) rotate(240deg);
+    }
+  }
+  .dm-sube i {
+    top: auto;
+    bottom: -20px;
+    animation-name: dm-sube;
+  }
+  @keyframes dm-sube {
+    to {
+      transform: translate(-14px, -680px);
+      opacity: 0;
+    }
+  }
+  .dm-meca {
+    transform-origin: 50% 0;
+    animation: dm-meca 3s ease-in-out infinite alternate;
+  }
+  @keyframes dm-meca {
+    from {
+      transform: rotate(-3deg);
+    }
+    to {
+      transform: rotate(3deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dm-capa i,
+    .dm-meca {
+      animation: none;
+    }
+  }
+  .dm-nota {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-secondary, #555);
+  }
+  .dm-nota b {
+    color: var(--text-primary, #222);
+  }
+</style>
+
+<h2>Día de la Madre: tres maneras de vestir el sitio</h2>
+<p class="subtitle">
+  Un saludo festivo, no una campaña de venta. Portada del celular, con la foto real del local. Los
+  textos son de ejemplo: el negocio los cambia desde el panel. Pulsa la que más te guste (o dime qué
+  mezclarías).
+</p>
+
+<div class="dm-grid">
+  <!-- A · Rosa sobre crema -->
+  <div class="dm-col option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="dm-tel" style="background: #f7f5f0; color: #28251f">
+      <div class="dm-aviso" style="background: #8e2448; color: #fff">
+        ♡ Feliz Día de la Madre: gracias por todo, mamá
+      </div>
+      <div class="dm-cab" style="background: #f7f5f0">
+        <img src="/files/logo.webp" alt="" /><span class="dm-nombre" style="color: #8e2448"
+          >Panadería Pimpo's</span
+        ><span class="dm-menu" style="color: #8e2448"></span>
+      </div>
+      <!-- guirnalda de flores -->
+      <svg
+        class="dm-adorno dm-meca"
+        style="top: 81px"
+        viewBox="0 0 320 40"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0 6 Q40 22 80 6 T160 6 T240 6 T320 6"
+          fill="none"
+          stroke="#6f8f6a"
+          stroke-width="1.4"
+        />
+        <g fill="#e88aa5">
+          <circle cx="40" cy="15" r="4" />
+          <circle cx="46" cy="11" r="4" />
+          <circle cx="46" cy="19" r="4" />
+          <circle cx="34" cy="11" r="4" />
+          <circle cx="34" cy="19" r="4" />
+        </g>
+        <circle cx="40" cy="15" r="2.6" fill="#f2c46d" />
+        <g fill="#fff3f5" stroke="#e88aa5" stroke-width=".6">
+          <circle cx="120" cy="15" r="4" />
+          <circle cx="126" cy="11" r="4" />
+          <circle cx="126" cy="19" r="4" />
+          <circle cx="114" cy="11" r="4" />
+          <circle cx="114" cy="19" r="4" />
+        </g>
+        <circle cx="120" cy="15" r="2.6" fill="#f2c46d" />
+        <g fill="#b0305a">
+          <circle cx="200" cy="15" r="4" />
+          <circle cx="206" cy="11" r="4" />
+          <circle cx="206" cy="19" r="4" />
+          <circle cx="194" cy="11" r="4" />
+          <circle cx="194" cy="19" r="4" />
+        </g>
+        <circle cx="200" cy="15" r="2.6" fill="#f2c46d" />
+        <g fill="#e88aa5">
+          <circle cx="280" cy="15" r="4" />
+          <circle cx="286" cy="11" r="4" />
+          <circle cx="286" cy="19" r="4" />
+          <circle cx="274" cy="11" r="4" />
+          <circle cx="274" cy="19" r="4" />
+        </g>
+        <circle cx="280" cy="15" r="2.6" fill="#f2c46d" />
+        <g fill="#6f8f6a">
+          <ellipse cx="80" cy="8" rx="5" ry="2.4" transform="rotate(20 80 8)" />
+          <ellipse cx="160" cy="8" rx="5" ry="2.4" transform="rotate(-20 160 8)" />
+          <ellipse cx="240" cy="8" rx="5" ry="2.4" transform="rotate(20 240 8)" />
+        </g>
+      </svg>
+      <div class="dm-capa">
+        <i
+          style="
+            left: 30px;
+            width: 8px;
+            height: 12px;
+            border-radius: 60% 0;
+            background: #f2a7bb;
+            animation-duration: 9s;
+          "
+        ></i>
+        <i
+          style="
+            left: 130px;
+            width: 7px;
+            height: 10px;
+            border-radius: 60% 0;
+            background: #e88aa5;
+            animation-duration: 12s;
+            animation-delay: -4s;
+          "
+        ></i>
+        <i
+          style="
+            left: 220px;
+            width: 9px;
+            height: 13px;
+            border-radius: 60% 0;
+            background: #f6c3d0;
+            animation-duration: 10s;
+            animation-delay: -7s;
+          "
+        ></i>
+        <i
+          style="
+            left: 290px;
+            width: 7px;
+            height: 10px;
+            border-radius: 60% 0;
+            background: #e88aa5;
+            animation-duration: 13s;
+            animation-delay: -2s;
+          "
+        ></i>
+        <i
+          style="
+            left: 80px;
+            width: 8px;
+            height: 11px;
+            border-radius: 60% 0;
+            background: #f2a7bb;
+            animation-duration: 11s;
+            animation-delay: -9s;
+          "
+        ></i>
+      </div>
+      <div class="dm-hero"></div>
+      <div class="dm-sec">
+        <p class="dm-tit" style="color: #8e2448">
+          Feliz <span class="dm-cali" style="color: #b0305a">Día de la Madre</span>
+        </p>
+        <p class="dm-ent">
+          Gracias, mamá, por las mañanas de pan caliente. Hoy horneamos pensando en ti.
+        </p>
+        <span class="dm-cuenta" style="color: #8e2448; border-color: #e3b3c2; background: #fbeef2"
+          >Faltan 3 días para el Día de la Madre</span
+        >
+        <span class="dm-boton" style="background: #8e2448; color: #fff">Ver los precios</span>
+      </div>
+      <div class="dm-franja" style="background: #f6dbe1; color: #6e1a36">
+        ✿ Feliz día, mamá &nbsp; ✿ Gracias por todo &nbsp; ✿ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="dm-nota">
+      <b>A · Rosa sobre crema.</b> El crema de siempre; el terracota pasa a vino y rosa. Guirnalda
+      de flores bajo el menú y unos pocos pétalos cayendo (como la nieve, pero más escasos).
+    </div>
+  </div>
+
+  <!-- B · Rosa entero -->
+  <div class="dm-col option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="dm-tel" style="background: #fbeef0; color: #3a2228">
+      <div class="dm-aviso" style="background: #5c1630; color: #f7d9a8">
+        ♡ Feliz Día de la Madre: gracias por todo, mamá
+      </div>
+      <div class="dm-cab" style="background: #fbeef0">
+        <img src="/files/logo.webp" alt="" style="background: #fff; border-radius: 999px" /><span
+          class="dm-nombre"
+          style="color: #5c1630"
+          >Panadería Pimpo's</span
+        ><span class="dm-menu" style="color: #5c1630"></span>
+      </div>
+      <!-- banderines con corazones -->
+      <svg
+        class="dm-adorno dm-meca"
+        style="top: 81px; height: 34px"
+        viewBox="0 0 320 34"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 3 Q80 12 160 3 T320 3" fill="none" stroke="#a7737f" stroke-width="1.2" />
+        <g>
+          <path d="M14 5 L34 6 L24 24 Z" fill="#c2496f" />
+          <path d="M54 7 L74 8 L64 26 Z" fill="#f2c46d" />
+          <path d="M94 7 L114 7 L104 25 Z" fill="#fff" />
+          <path d="M134 5 L154 4 L144 22 Z" fill="#c2496f" />
+          <path d="M174 4 L194 5 L184 23 Z" fill="#f2c46d" />
+          <path d="M214 6 L234 7 L224 25 Z" fill="#fff" />
+          <path d="M254 7 L274 7 L264 25 Z" fill="#c2496f" />
+          <path d="M294 5 L314 4 L304 22 Z" fill="#f2c46d" />
+          <g fill="#5c1630">
+            <path d="M104 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z" />
+            <path d="M224 12 c-2-3-6-1-4 2 l4 4 l4-4 c2-3-2-5-4-2z" />
+          </g>
+        </g>
+      </svg>
+      <div class="dm-capa dm-sube">
+        <i style="left: 40px; color: #e48aa6; font-size: 14px; animation-duration: 11s">♥</i>
+        <i
+          style="
+            left: 150px;
+            color: #f2c46d;
+            font-size: 10px;
+            animation-duration: 14s;
+            animation-delay: -5s;
+          "
+          >♥</i
+        >
+        <i
+          style="
+            left: 250px;
+            color: #e48aa6;
+            font-size: 12px;
+            animation-duration: 12s;
+            animation-delay: -8s;
+          "
+          >♥</i
+        >
+        <i
+          style="
+            left: 95px;
+            color: #d3657f;
+            font-size: 9px;
+            animation-duration: 15s;
+            animation-delay: -2s;
+          "
+          >♥</i
+        >
+      </div>
+      <div class="dm-hero"></div>
+      <div class="dm-sec">
+        <p class="dm-tit" style="color: #5c1630">
+          Feliz <span class="dm-cali" style="color: #a8325a">Día de la Madre</span>
+        </p>
+        <p class="dm-ent">
+          Gracias, mamá, por las mañanas de pan caliente. Hoy horneamos pensando en ti.
+        </p>
+        <span class="dm-cuenta" style="color: #5c1630; border-color: #d9a3b3; background: #fff"
+          >Faltan 3 días para el Día de la Madre</span
+        >
+        <span class="dm-boton" style="background: #a8325a; color: #fff">Ver los precios</span>
+      </div>
+      <div class="dm-franja" style="background: #5c1630; color: #f7d9a8">
+        ♥ Feliz día, mamá &nbsp; ♥ Gracias por todo &nbsp; ♥ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="dm-nota">
+      <b>B · Todo en rosa.</b> Como la «noche» de Navidad pero claro: el fondo entero rosa
+      empolvado, vino y dorado. Banderines bajo el menú y corazones pequeños que suben despacio.
+    </div>
+  </div>
+
+  <!-- C · Marca de siempre con flores -->
+  <div class="dm-col option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="dm-tel" style="background: #f7f5f0; color: #28251f">
+      <div class="dm-aviso" style="background: #842113; color: #fff">
+        ✿ Feliz Día de la Madre: gracias por todo, mamá
+      </div>
+      <div class="dm-cab" style="background: #f7f5f0">
+        <img src="/files/logo.webp" alt="" /><span class="dm-nombre" style="color: #953e2c"
+          >Panadería Pimpo's</span
+        ><span class="dm-menu" style="color: #953e2c"></span>
+      </div>
+      <!-- ramito en una esquina + flores sueltas -->
+      <svg class="dm-adorno" style="top: 81px; height: 70px" viewBox="0 0 320 70">
+        <g class="dm-meca">
+          <path d="M14 0 C18 18 10 30 20 46" stroke="#6f8f6a" stroke-width="1.4" fill="none" />
+          <path d="M34 0 C30 14 40 24 36 38" stroke="#6f8f6a" stroke-width="1.4" fill="none" />
+          <g fill="#e88aa5">
+            <circle cx="20" cy="50" r="5" />
+            <circle cx="27" cy="46" r="5" />
+            <circle cx="27" cy="54" r="5" />
+            <circle cx="13" cy="46" r="5" />
+            <circle cx="13" cy="54" r="5" />
+          </g>
+          <circle cx="20" cy="50" r="3" fill="#f2c46d" />
+          <g fill="#fdbd73">
+            <circle cx="36" cy="41" r="4" />
+            <circle cx="41" cy="38" r="4" />
+            <circle cx="41" cy="44" r="4" />
+            <circle cx="31" cy="38" r="4" />
+            <circle cx="31" cy="44" r="4" />
+          </g>
+          <circle cx="36" cy="41" r="2.4" fill="#953e2c" />
+          <ellipse cx="22" cy="22" rx="6" ry="2.6" fill="#6f8f6a" transform="rotate(30 22 22)" />
+        </g>
+        <g class="dm-meca" style="animation-duration: 3.6s">
+          <path d="M298 0 C302 12 294 20 300 30" stroke="#6f8f6a" stroke-width="1.4" fill="none" />
+          <g fill="#fff" stroke="#e88aa5" stroke-width=".7">
+            <circle cx="300" cy="34" r="5" />
+            <circle cx="307" cy="30" r="5" />
+            <circle cx="307" cy="38" r="5" />
+            <circle cx="293" cy="30" r="5" />
+            <circle cx="293" cy="38" r="5" />
+          </g>
+          <circle cx="300" cy="34" r="3" fill="#f2c46d" />
+        </g>
+      </svg>
+      <div class="dm-hero"></div>
+      <div class="dm-sec">
+        <p class="dm-tit" style="color: #953e2c">
+          Feliz <span class="dm-cali" style="color: #953e2c">Día de la Madre</span>
+        </p>
+        <p class="dm-ent">
+          Gracias, mamá, por las mañanas de pan caliente. Hoy horneamos pensando en ti.
+        </p>
+        <span class="dm-cuenta" style="color: #953e2c; border-color: #eac8ba; background: #fbf1ec"
+          >Faltan 3 días para el Día de la Madre</span
+        >
+        <span class="dm-boton" style="background: #953e2c; color: #fff">Ver los precios</span>
+      </div>
+      <div class="dm-franja" style="background: #842113; color: #fff">
+        ✿ Feliz día, mamá &nbsp; ✿ Gracias por todo &nbsp; ✿ Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="dm-nota">
+      <b>C · La marca de siempre, con flores.</b> Sin cambiar colores: terracota y crema. Solo un
+      ramito colgando en cada esquina bajo el menú, el saludo en caligrafía y la cinta. Lo más
+      discreto.
+    </div>
+  </div>
+</div>

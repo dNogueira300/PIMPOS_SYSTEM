@@ -4,6 +4,7 @@ import { expect, test, type Browser, type Page } from "@playwright/test";
 import { sqlLocal } from "./ayudas/base";
 import { conCerrojo } from "./ayudas/cerrojo";
 import { entrarComo } from "./ayudas/sesion";
+import { apartarLasDemas } from "./ayudas/tematicas";
 import { borrarUsuario } from "./ayudas/usuarios";
 
 /**
@@ -214,6 +215,8 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       select t.id, p.id, true, 0 from public.tematicas t, public.productos p
        where t.slug = 'navidad' and p.slug = '${slug}';
     `);
+    // Las demás temáticas, lejos: según el día, sus fechas se cruzarían.
+    const restaurarLasDemas = apartarLasDemas("navidad");
     const usuario = await entrarComo(page, "administrador");
     try {
       // Encendida a mano, con la fiesta dentro de 12 días.
@@ -366,6 +369,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
                fecha_evento = nullif('${evento}', '')::date, estilo = '${estilo}'
          where slug = 'navidad';
       `);
+      restaurarLasDemas();
       await borrarUsuario(usuario.id);
     }
   });

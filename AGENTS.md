@@ -241,10 +241,12 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   (el único elemento que la temática añade al HTML, `.adornos-tematica`, en `Cabecera`), nieve con
   copos grandes, el texto de campaña en la barra, la cinta y la sección de
   temporada en la portada. **Sin temática activa el HTML no cambia.**
-- **Una temática nueva** (Día de la Madre…) es una migración (amplía los `check` de `slug` y `estilo`
-  y siembra la fila), su CSS en `tematicas.css`, su slug en `SLUGS_CON_DISENO`
-  (`src/lib/datos/tematica.ts`) y sus estilos en `src/lib/tematicas/estilos.ts`. Los contrastes de cada
-  estilo los mide `src/estilos/tematicas.test.ts`.
+- **Una temática nueva** es una migración (amplía `tematicas_slug_conocido` y la restricción de pares
+  `tematicas_estilo_de_su_tematica`, y siembra la fila sin auditar, como 0049), su entrada en
+  `src/lib/tematicas/disenos.ts` (sus estilos, con nombre y ayuda, y su artículo) y su CSS en
+  `tematicas.css`. Los contrastes de cada estilo los mide `src/estilos/tematicas.test.ts`. Las E2E que
+  encienden una temática apartan antes las demás (`apartarLasDemas`, `e2e/ayudas/tematicas.ts`): según
+  el día, sus fechas de fábrica se cruzarían.
 - **Las E2E que encienden una temática corren aparte**, en el proyecto `tematicas` de
   `playwright.config.ts`, que depende de `movil` y `escritorio`: una temática viste el sitio entero y
   las pruebas que miran colores o la barra fallarían a ratos. Antes de todo, el proyecto `preparar`
@@ -1136,7 +1138,7 @@ en el doc 02 §11.
 **Esquemas Postgres:** `public` para lo que el frontend consulta; `app` para auditoría, funciones
 internas, hooks y cron — **no se expone por PostgREST**.
 
-**Las 48 migraciones** (`supabase/migrations/`), en orden:
+**Las 49 migraciones** (`supabase/migrations/`), en orden:
 
 | Archivo                            | Contenido                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -1188,6 +1190,7 @@ internas, hooks y cron — **no se expone por PostgREST**.
 | `0046_historial_ingresos`          | `existencias_insumo.ultimo_ingreso` (última compra de cada insumo, sin lo anulado) y la vista `ingresos_insumo` (un ingreso por fila, con proveedor, documento y quién lo registró) para el historial de ingresos                                                                                                                                                                                                                                                                                                                                                                           |
 | `0047_tematicas`                   | Temáticas de temporada (plan 08): `tematicas` (fechas, encendido a mano que caduca en la fecha de fin, textos) y `tematica_productos` (`solo_temporada`) · `app.tematica_activa_id()` es la única respuesta a «¿cuál está activa hoy?» · un producto solo de temporada no lo ve `anon` fuera de ella, ni por la vista ni por las tablas · vistas `tematicas_panel`, `tematica_publica`, `productos_de_temporada` y `guardar_tematica`                                                                                                                                                       |
 | `0048_estilo_tematica`             | `tematicas.estilo` (`noche` o `crema`, los que tienen CSS; Navidad queda con `noche`, decisión de Dan del 20/11/2026) · recrea `tematicas_panel` (llevaba `t.*`), amplía `tematica_publica` y `guardar_tematica` (sin estilo, deja el que había)                                                                                                                                                                                                                                                                                                                                            |
+| `0049_dia_de_la_madre`             | El Día de la Madre (plan 08.1): `tematicas_slug_conocido` admite `dia-de-la-madre`; la lista común de estilos de 0048 pasa a **pares** (`tematicas_estilo_de_su_tematica`: Navidad `noche`/`crema`, Día de la Madre `rosa-crema`/`rosa`), la misma lista que `src/lib/tematicas/disenos.ts` · la fila del Día de la Madre (3–10/05/2027, fiesta el 9, estilo `rosa-crema`, sin productos), sin autoría ni auditoría                                                                                                                                                                         |
 
 Semillas en `supabase/seeds/`: `01_maestros.sql` (34 productos, 22 insumos, 10 fotos del local;
 datos reales; a producción se carga a mano desde el editor SQL, **nunca** con `--include-seed`) y

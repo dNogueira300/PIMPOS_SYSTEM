@@ -233,7 +233,12 @@ const PALABRAS: Readonly<Record<string, Readonly<Record<string, string>>>> = {
   },
   sentido: { "1": "Suma", "-1": "Resta" },
   encendido: { fechas: "Según fechas", encendida: "Encendida a mano", apagada: "Apagada a mano" },
-  estilo: { noche: "Noche de Navidad", crema: "Crema navideña" },
+  estilo: {
+    noche: "Noche de Navidad",
+    crema: "Crema navideña",
+    "rosa-crema": "Rosa sobre crema",
+    rosa: "Todo en rosa",
+  },
   moneda: { PEN: "Soles", USD: "Dólares" },
   origen_consumo: { produccion: "Producción", retiro_directo: "Retiro directo" },
   modo: { verbal: "De palabra", escrito: "Por escrito", digital: "Digital" },
