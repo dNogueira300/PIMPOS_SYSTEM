@@ -68,10 +68,93 @@ async function axeEnRutas(page: Page, donde: string) {
 async function axeEnEscritorio(browser: Browser, estilo: string) {
   const contexto = await browser.newContext({ viewport: { width: 1280, height: 800 } });
   try {
-    await axeEnRutas(await contexto.newPage(), `en escritorio (${estilo})`);
+    const page = await contexto.newPage();
+    await axeEnRutas(page, `en escritorio (${estilo})`);
+    // Las bolas cuelgan bajo la cabecera también a 1280 px, sin desbordar.
+    await page.goto("/");
+    const adornos = await page.evaluate(leerAdornos);
+    expect(adornos.bolas).toHaveLength(5);
+    expect(adornos.sobre_la_cabecera).toEqual([]);
+    expect(adornos.desborde).toBeLessThanOrEqual(0);
   } finally {
     await contexto.close();
   }
+}
+
+/*
+ * Las tres funciones que siguen corren DENTRO del navegador (`page.evaluate`):
+ * no pueden usar nada de fuera de su cuerpo.
+ */
+
+/** Cómo se mueve cada adorno de Navidad, y si estorba. */
+function leerAdornos() {
+  const envoltura = document.querySelector("[data-tematica]");
+  const cabecera = document.querySelector("[data-tematica] header");
+  if (!envoltura || !cabecera) throw new Error("No hay temática puesta");
+  const leer = (el: Element, seudo?: string) => {
+    const estilo = getComputedStyle(el, seudo);
+    return {
+      nombre: estilo.animationName,
+      duracion: estilo.animationDuration,
+      retraso: estilo.animationDelay,
+      opacidad: estilo.opacity,
+    };
+  };
+  const luces = [cabecera, ...cabecera.querySelectorAll(".adornos-tematica__luces")];
+  const bolas = [...cabecera.querySelectorAll(".adornos-tematica__bola")];
+  const adornos = [
+    ...cabecera.querySelectorAll(".adornos-tematica, .adornos-tematica *"),
+  ] as HTMLElement[];
+  const borde = cabecera.getBoundingClientRect().bottom;
+  return {
+    luces: luces.map((el, i) => leer(el, i === 0 ? "::before" : undefined)),
+    bolas: bolas.map((el) => leer(el)),
+    copos: leer(envoltura, "::after"),
+    nieve: leer(envoltura, "::before"),
+    reciben_clics: adornos
+      .filter((el) => getComputedStyle(el).pointerEvents !== "none")
+      .map((el) => el.className),
+    sobre_la_cabecera: adornos
+      .filter((el) => el.getBoundingClientRect().top < borde - 1)
+      .map((el) => el.className),
+    desborde: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+  };
+}
+
+/** Todo lo que se está animando en la página, seudoelementos incluidos. */
+function listarAnimados() {
+  const animados: string[] = [];
+  for (const el of document.querySelectorAll("*")) {
+    for (const seudo of [undefined, "::before", "::after"]) {
+      const nombre = getComputedStyle(el, seudo).animationName;
+      if (nombre !== "none") {
+        animados.push(`${el.tagName.toLowerCase()}.${el.className}${seudo ?? ""}: ${nombre}`);
+      }
+    }
+  }
+  return animados;
+}
+
+/** Los adornos de la temática que se ven (sirve para comprobar la impresión). */
+function listarAdornosVisibles() {
+  const envoltura = document.querySelector("[data-tematica]");
+  const cabecera = document.querySelector("[data-tematica] header");
+  if (!envoltura || !cabecera) throw new Error("No hay temática puesta");
+  const piezas: [string, Element, string | undefined][] = [
+    ["nieve", envoltura, "::before"],
+    ["copos", envoltura, "::after"],
+    ["luces", cabecera, "::before"],
+    ["cable", cabecera, "::after"],
+    ...[...cabecera.querySelectorAll(".adornos-tematica")].map(
+      (el): [string, Element, undefined] => ["bolas y luces", el, undefined],
+    ),
+  ];
+  return piezas
+    .filter(([, el, seudo]) => {
+      const estilo = getComputedStyle(el, seudo);
+      return estilo.display !== "none" && estilo.content !== "none";
+    })
+    .map(([nombre]) => nombre);
 }
 
 /** Abre la temática en el panel, aplica `cambiar` y guarda. */
@@ -159,6 +242,25 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       // puntero (la comprobación de Playwright mira qué elemento hay en ese punto).
       await seccion.getByRole("link", { name: nombre }).click({ trial: true });
 
+      // Los adornos: las luces en dos tandas que se turnan, cinco bolas que se
+      // balancean cada una a su aire y copos grandes que caen a otro ritmo que
+      // los puntos de nieve.
+      const adornos = await page.evaluate(leerAdornos);
+      expect(adornos.luces).toHaveLength(2);
+      for (const luz of adornos.luces) expect(luz.nombre).toBe("luces-turno");
+      expect(adornos.luces[0].retraso).not.toBe(adornos.luces[1].retraso);
+      expect(adornos.bolas).toHaveLength(5);
+      for (const bola of adornos.bolas) expect(bola.nombre).toBe("bola-balanceo");
+      expect(new Set(adornos.bolas.map((b) => b.duracion)).size).toBeGreaterThan(1);
+      expect(adornos.copos.nombre).toBe("copos-caen");
+      expect(adornos.nieve.nombre).toBe("nieve-cae");
+      expect(adornos.copos.duracion).not.toBe(adornos.nieve.duracion);
+      // No se quedan con los clics ni tapan nada de la cabecera: cuelgan por
+      // debajo de ella, y no empujan la página hacia un lado.
+      expect(adornos.reciben_clics).toEqual([]);
+      expect(adornos.sobre_la_cabecera).toEqual([]);
+      expect(adornos.desborde).toBeLessThanOrEqual(0);
+
       // La cinta: se desliza, y con «menos movimiento» se queda quieta y la copia
       // del bucle no sale. Al imprimir, la nieve no sale.
       const pista = page.locator(".cinta-tematica__pista");
@@ -166,12 +268,15 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       await page.emulateMedia({ reducedMotion: "reduce" });
       await expect(pista).toHaveCSS("animation-name", "none");
       await expect(page.locator(".cinta-tematica ul[aria-hidden]")).toBeHidden();
+      // Con «menos movimiento» no se anima nada de la página, ni un seudoelemento.
+      expect(await page.evaluate(listarAnimados)).toEqual([]);
+      // Y los adornos siguen ahí, quietos y con las luces encendidas.
+      const quietos = await page.evaluate(leerAdornos);
+      expect(quietos.bolas).toHaveLength(5);
+      for (const luz of quietos.luces) expect(luz.opacidad).toBe("1");
       await page.emulateMedia({ reducedMotion: null, media: "print" });
-      const nieve = await page.evaluate(() => {
-        const envoltura = document.querySelector("[data-tematica]");
-        return envoltura ? getComputedStyle(envoltura, "::before").display : "sin envoltura";
-      });
-      expect(nieve).toBe("none");
+      // Al imprimir no sale ningún adorno.
+      expect(await page.evaluate(listarAdornosVisibles)).toEqual([]);
       // Y la letra vuelve a la de la marca: sin fondos impresos, el crema de la
       // noche saldría invisible sobre el papel.
       const letra = await page.evaluate(() => getComputedStyle(document.body).color);
@@ -212,6 +317,10 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       await page.goto("/");
       await expect(page.locator('[data-tematica="navidad"][data-estilo="crema"]')).toHaveCount(1);
       await exigirCeroAxe(page, "la portada a 375 px (crema)");
+      const crema = await page.evaluate(leerAdornos);
+      expect(crema.bolas).toHaveLength(5);
+      expect(crema.sobre_la_cabecera).toEqual([]);
+      expect(crema.desborde).toBeLessThanOrEqual(0);
       await axeEnEscritorio(browser, "crema");
 
       // Según fechas, con la campaña por llegar: el sitio vuelve a como estaba.

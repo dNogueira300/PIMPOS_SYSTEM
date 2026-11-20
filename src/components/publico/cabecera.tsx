@@ -17,6 +17,8 @@ type Props = {
   /** El horario ya agrupado y con las horas escritas, listo para pintar. */
   horario: { dias: string; turnos: string[] }[];
   whatsapp: string | null;
+  /** Con una temática activa: los adornos que cuelgan de la cabecera. */
+  adornos?: boolean;
 };
 
 // En el menu del celular va tambien "Inicio": en escritorio el logo ya lleva a
@@ -37,7 +39,15 @@ const SECCIONES_DEL_MENU = [{ ruta: "/", nombre: "Inicio" }, ...SECCIONES] as co
  * mide unos 1200 px, y a 1024 la pagina entera se desplazaba 173 px en
  * horizontal. Lo vigila e2e/cabecera.spec.ts en 768, 1024, 1100, 1280 y 1366.
  */
-export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp }: Props) {
+export function Cabecera({
+  logoAlt,
+  logoSrc,
+  isotipo,
+  nombre,
+  horario,
+  whatsapp,
+  adornos = false,
+}: Props) {
   const ruta = usePathname();
   const [abierto, setAbierto] = useState(false);
   // El dibujo administrado reemplaza la marca compacta; no se añade como
@@ -194,6 +204,21 @@ export function Cabecera({ logoAlt, logoSrc, isotipo, nombre, horario, whatsapp 
           ) : null}
         </nav>
       </div>
+
+      {/* Con una temática activa, lo que cuelga de la cabecera: la segunda tanda
+          de luces y las bolas (ver tematicas.css). Sin temática no se pinta, y
+          el HTML queda como antes. Es solo dibujo: fuera del árbol de
+          accesibilidad y sin recibir clics. */}
+      {adornos ? (
+        <div className="adornos-tematica" aria-hidden="true">
+          <div className="adornos-tematica__luces" />
+          <span className="adornos-tematica__bola" />
+          <span className="adornos-tematica__bola" />
+          <span className="adornos-tematica__bola" />
+          <span className="adornos-tematica__bola" />
+          <span className="adornos-tematica__bola" />
+        </div>
+      ) : null}
     </header>
   );
 }
