@@ -1,0 +1,523 @@
+<style>
+  @font-face {
+    font-family: "Playfair Display";
+    src: url("/files/playfair-latin.woff2") format("woff2");
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "Dancing Script";
+    src: url("/files/dancing-latin.woff2") format("woff2");
+    font-weight: 400 700;
+  }
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("/files/jakarta-latin.woff2") format("woff2");
+    font-weight: 200 800;
+  }
+  .hw-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .hw-col {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hw-tel {
+    width: 320px;
+    height: 640px;
+    overflow: hidden;
+    border-radius: 26px;
+    border: 8px solid #222;
+    position: relative;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
+  }
+  .hw-aviso {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 7px 10px;
+  }
+  .hw-cab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    position: relative;
+    z-index: 3;
+    border-bottom: 1px solid rgb(0 0 0 / 0.08);
+  }
+  .hw-cab img {
+    width: 46px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .hw-nombre {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 18px;
+    flex: 1;
+  }
+  .hw-menu {
+    width: 22px;
+    height: 14px;
+    border-top: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    position: relative;
+  }
+  .hw-menu::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    border-top: 2px solid currentColor;
+  }
+  .hw-hero {
+    height: 170px;
+    background: url("/files/fachada.webp") center 35% / cover;
+  }
+  .hw-sec {
+    padding: 22px 18px 18px;
+    position: relative;
+  }
+  .hw-tit {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .hw-cali {
+    font-family: "Dancing Script", "Brush Script MT", cursive;
+    font-weight: 700;
+    font-size: 1.3em;
+  }
+  .hw-ent {
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0 12px;
+  }
+  .hw-cuenta {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid;
+  }
+  .hw-boton {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 11px;
+    border-radius: 10px;
+    margin-top: 14px;
+  }
+  .hw-franja {
+    padding: 14px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .hw-abs {
+    position: absolute;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .hw-cuelga {
+    transform-origin: 50% 0;
+    animation: hw-meca 3.2s ease-in-out infinite alternate;
+  }
+  .hw-cuelga.lento {
+    animation-duration: 4.4s;
+    animation-delay: -1.3s;
+  }
+  @keyframes hw-meca {
+    from {
+      transform: rotate(-5deg);
+    }
+    to {
+      transform: rotate(5deg);
+    }
+  }
+  .hw-baja {
+    animation: hw-baja 6s ease-in-out infinite alternate;
+  }
+  @keyframes hw-baja {
+    from {
+      transform: translateY(-14px);
+    }
+    to {
+      transform: translateY(10px);
+    }
+  }
+  .hw-vuela {
+    animation: hw-vuela 14s linear infinite;
+  }
+  .hw-vuela.b2 {
+    animation-duration: 19s;
+    animation-delay: -8s;
+  }
+  @keyframes hw-vuela {
+    0% {
+      transform: translate(-40px, 0);
+    }
+    50% {
+      transform: translate(170px, -16px);
+    }
+    100% {
+      transform: translate(380px, 6px);
+    }
+  }
+  .hw-papel {
+    animation: hw-papel 3.6s ease-in-out infinite alternate;
+  }
+  @keyframes hw-papel {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(1.5px);
+    }
+  }
+  .hw-brazo {
+    transform-origin: 50% 0;
+    animation: hw-meca 1.6s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hw-cuelga,
+    .hw-baja,
+    .hw-vuela,
+    .hw-papel,
+    .hw-brazo {
+      animation: none;
+    }
+  }
+  .hw-nota {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-secondary, #555);
+  }
+  .hw-nota b {
+    color: var(--text-primary, #222);
+  }
+</style>
+
+<h2>Halloween: tres maneras de vestir el sitio</h2>
+<p class="subtitle">
+  Portada del celular con la foto real del local. Los textos son de ejemplo (los cambia el negocio
+  desde el panel). Todo se mueve despacio y se queda quieto para quien pide menos movimiento. Pulsa
+  la que más te guste, o dime qué mezclarías.
+</p>
+
+<div class="hw-grid">
+  <!-- A · Calabaza sobre crema -->
+  <div class="hw-col option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="hw-tel" style="background: #f7f5f0; color: #28251f">
+      <div class="hw-aviso" style="background: #2b2230; color: #f6a04d">
+        🎃 Feliz Halloween en Pimpo's
+      </div>
+      <div class="hw-cab" style="background: #f7f5f0">
+        <img src="/files/logo.webp" alt="" /><span class="hw-nombre" style="color: #9a3d0a"
+          >Panadería Pimpo's</span
+        ><span class="hw-menu" style="color: #9a3d0a"></span>
+      </div>
+      <!-- telaraña en la esquina derecha, bajo la cabecera -->
+      <svg
+        class="hw-abs"
+        style="top: 81px; right: 0; width: 70px; height: 70px; transform: scaleX(-1)"
+        viewBox="0 0 72 72"
+      >
+        <g fill="none" stroke="#8a8378" stroke-width="0.9">
+          <path d="M0 0L72 0M0 0L66.5 27.6M0 0L50.9 50.9M0 0L27.6 66.5M0 0L0 72" />
+          <path
+            d="M18 0L16.6 6.9L12.7 12.7L6.9 16.6L0 18M34 0L31.4 13L24 24L13 31.4L0 34M52 0L48 19.9L36.8 36.8L19.9 48L0 52M70 0L64.7 26.8L49.5 49.5L26.8 64.7L0 70"
+          />
+        </g>
+      </svg>
+      <!-- tres calabacitas colgando de su hilo -->
+      <svg
+        class="hw-abs hw-cuelga"
+        style="top: 81px; left: 40px; width: 30px; height: 70px"
+        viewBox="0 0 30 70"
+      >
+        <line x1="15" y1="0" x2="15" y2="44" stroke="#6b5a48" stroke-width="1" />
+        <rect x="13.5" y="40" width="3" height="6" rx="1" fill="#4b6b2f" />
+        <ellipse cx="15" cy="55" rx="12" ry="10" fill="#e8741c" />
+        <ellipse cx="10" cy="55" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="20" cy="55" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="15" cy="55" rx="4" ry="10" fill="#e8741c" />
+        <path d="M9 53l2.5-3 2.5 3zM16 53l2.5-3 2.5 3zM9 58q6 4 12 0q-6 2-12 0z" fill="#3a1d08" />
+      </svg>
+      <svg
+        class="hw-abs hw-cuelga lento"
+        style="top: 81px; left: 120px; width: 26px; height: 52px"
+        viewBox="0 0 30 60"
+      >
+        <line x1="15" y1="0" x2="15" y2="34" stroke="#6b5a48" stroke-width="1" />
+        <rect x="13.5" y="30" width="3" height="6" rx="1" fill="#4b6b2f" />
+        <ellipse cx="15" cy="45" rx="12" ry="10" fill="#e8741c" />
+        <ellipse cx="10" cy="45" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="20" cy="45" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="15" cy="45" rx="4" ry="10" fill="#e8741c" />
+      </svg>
+      <!-- arañita que baja y sube -->
+      <svg
+        class="hw-abs hw-baja"
+        style="top: 66px; left: 200px; width: 22px; height: 80px"
+        viewBox="0 0 22 80"
+      >
+        <line x1="11" y1="0" x2="11" y2="62" stroke="#6b5a48" stroke-width="0.8" />
+        <g stroke="#2b2230" stroke-width="1.2" fill="none">
+          <path d="M5 62l-4-3M5 66l-4 0M5 69l-4 3M17 62l4-3M17 66l4 0M17 69l4 3" />
+        </g>
+        <ellipse cx="11" cy="66" rx="6" ry="6.5" fill="#2b2230" />
+        <circle cx="9" cy="65" r="1.3" fill="#fff" />
+        <circle cx="13" cy="65" r="1.3" fill="#fff" />
+      </svg>
+      <div class="hw-hero"></div>
+      <div class="hw-sec">
+        <p class="hw-tit" style="color: #9a3d0a">
+          Feliz <span class="hw-cali" style="color: #c2560f">Halloween</span>
+        </p>
+        <p class="hw-ent">
+          Dulce o truco: aquí siempre hay pan calientito para los pequeños disfrazados.
+        </p>
+        <span class="hw-cuenta" style="color: #9a3d0a; border-color: #f2c39a; background: #fff1e3"
+          >Faltan 3 días para Halloween</span
+        >
+        <span class="hw-boton" style="background: #b54708; color: #fff">Ver los precios</span>
+      </div>
+      <div class="hw-franja" style="background: #fde3c4; color: #7a2e05">
+        🎃 Dulce o truco &nbsp; 🎃 Pan calientito &nbsp; 🎃 Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="hw-nota">
+      <b>A · Calabaza sobre crema.</b> El crema de siempre; el terracota pasa a naranja calabaza,
+      con la barra de arriba casi negra. Calabacitas colgando bajo el menú (como las bolas de
+      Navidad), una telaraña en la esquina y una arañita simpática que baja y sube.
+    </div>
+  </div>
+
+  <!-- B · Noche de calabazas -->
+  <div class="hw-col option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="hw-tel" style="background: #1d1922; color: #f3ece0">
+      <div class="hw-aviso" style="background: #f08a2c; color: #1d1922">
+        🎃 Feliz Halloween en Pimpo's
+      </div>
+      <div class="hw-cab" style="background: #1d1922; border-color: rgb(255 255 255 / 0.1)">
+        <img src="/files/logo.webp" alt="" /><span class="hw-nombre" style="color: #f6a04d"
+          >Panadería Pimpo's</span
+        ><span class="hw-menu" style="color: #f6a04d"></span>
+      </div>
+      <!-- telarañas en las dos esquinas -->
+      <svg class="hw-abs" style="top: 81px; left: 0; width: 64px; height: 64px" viewBox="0 0 72 72">
+        <g fill="none" stroke="#d8d0c4" stroke-opacity=".7" stroke-width="0.9">
+          <path d="M0 0L72 0M0 0L66.5 27.6M0 0L50.9 50.9M0 0L27.6 66.5M0 0L0 72" />
+          <path
+            d="M18 0L16.6 6.9L12.7 12.7L6.9 16.6L0 18M34 0L31.4 13L24 24L13 31.4L0 34M52 0L48 19.9L36.8 36.8L19.9 48L0 52M70 0L64.7 26.8L49.5 49.5L26.8 64.7L0 70"
+          />
+        </g>
+      </svg>
+      <svg
+        class="hw-abs"
+        style="top: 81px; right: 0; width: 64px; height: 64px; transform: scaleX(-1)"
+        viewBox="0 0 72 72"
+      >
+        <g fill="none" stroke="#d8d0c4" stroke-opacity=".7" stroke-width="0.9">
+          <path d="M0 0L72 0M0 0L66.5 27.6M0 0L50.9 50.9M0 0L27.6 66.5M0 0L0 72" />
+          <path
+            d="M18 0L16.6 6.9L12.7 12.7L6.9 16.6L0 18M34 0L31.4 13L24 24L13 31.4L0 34M52 0L48 19.9L36.8 36.8L19.9 48L0 52M70 0L64.7 26.8L49.5 49.5L26.8 64.7L0 70"
+          />
+        </g>
+      </svg>
+      <!-- calaveritas sonrientes colgando -->
+      <svg
+        class="hw-abs hw-cuelga"
+        style="top: 81px; left: 92px; width: 26px; height: 64px"
+        viewBox="0 0 26 64"
+      >
+        <line
+          x1="13"
+          y1="0"
+          x2="13"
+          y2="40"
+          stroke="#d8d0c4"
+          stroke-opacity=".6"
+          stroke-width="1"
+        />
+        <circle cx="13" cy="49" r="9" fill="#f4efe4" />
+        <rect x="8" y="53" width="10" height="7" rx="2" fill="#f4efe4" />
+        <ellipse cx="9.5" cy="48" rx="2.4" ry="2.8" fill="#1d1922" />
+        <ellipse cx="16.5" cy="48" rx="2.4" ry="2.8" fill="#1d1922" />
+        <path d="M12 53l1-2 1 2z" fill="#1d1922" />
+        <path d="M10 57.5h6" stroke="#1d1922" stroke-width=".8" />
+        <path d="M11.5 56v3M14.5 56v3" stroke="#1d1922" stroke-width=".6" />
+      </svg>
+      <svg
+        class="hw-abs hw-cuelga lento"
+        style="top: 81px; left: 200px; width: 30px; height: 56px"
+        viewBox="0 0 30 60"
+      >
+        <line
+          x1="15"
+          y1="0"
+          x2="15"
+          y2="34"
+          stroke="#d8d0c4"
+          stroke-opacity=".6"
+          stroke-width="1"
+        />
+        <rect x="13.5" y="30" width="3" height="6" rx="1" fill="#6f9a3f" />
+        <ellipse cx="15" cy="45" rx="12" ry="10" fill="#e8741c" />
+        <ellipse cx="10" cy="45" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="20" cy="45" rx="6" ry="10" fill="#f08a2c" />
+        <ellipse cx="15" cy="45" rx="4" ry="10" fill="#e8741c" />
+        <path d="M9 43l2.5-3 2.5 3zM16 43l2.5-3 2.5 3zM9 48q6 4 12 0q-6 2-12 0z" fill="#fde68a" />
+      </svg>
+      <!-- murciélagos que cruzan despacio -->
+      <svg
+        class="hw-abs hw-vuela"
+        style="top: 300px; left: 0; width: 28px; height: 14px"
+        viewBox="-14 -7 28 14"
+      >
+        <path
+          d="M0 0Q-6-6-14-2Q-10 0-9 4Q-6 1-3 3Q-1 0 0 2Q1 0 3 3Q6 1 9 4Q10 0 14-2Q6-6 0 0Z"
+          fill="#6b5a7a"
+        />
+      </svg>
+      <svg
+        class="hw-abs hw-vuela b2"
+        style="top: 470px; left: 0; width: 22px; height: 11px"
+        viewBox="-14 -7 28 14"
+      >
+        <path
+          d="M0 0Q-6-6-14-2Q-10 0-9 4Q-6 1-3 3Q-1 0 0 2Q1 0 3 3Q6 1 9 4Q10 0 14-2Q6-6 0 0Z"
+          fill="#6b5a7a"
+        />
+      </svg>
+      <div class="hw-hero"></div>
+      <div class="hw-sec">
+        <p class="hw-tit" style="color: #f6a04d">
+          Feliz <span class="hw-cali" style="color: #fbbf74">Halloween</span>
+        </p>
+        <p class="hw-ent">
+          Dulce o truco: aquí siempre hay pan calientito para los pequeños disfrazados.
+        </p>
+        <span class="hw-cuenta" style="color: #f6a04d; border-color: #5a4a36; background: #2a2430"
+          >Faltan 3 días para Halloween</span
+        >
+        <span class="hw-boton" style="background: #f08a2c; color: #1d1922">Ver los precios</span>
+      </div>
+      <div class="hw-franja" style="background: #2a2430; color: #f6a04d">
+        🎃 Dulce o truco &nbsp; 🎃 Pan calientito &nbsp; 🎃 Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="hw-nota">
+      <b>B · Noche de calabazas.</b> Todo el sitio de noche (morado casi negro) con naranja, como
+      «Noche de Navidad». Telarañas en las dos esquinas, una calaverita sonriente y una calabaza
+      colgando, y dos murciélagos que cruzan despacio.
+    </div>
+  </div>
+
+  <!-- C · Todo naranja, con papel picado -->
+  <div class="hw-col option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="hw-tel" style="background: #f7a24a; color: #1f1611">
+      <div class="hw-aviso" style="background: #1f1611; color: #f9b35f">
+        🎃 Feliz Halloween en Pimpo's
+      </div>
+      <div class="hw-cab" style="background: #f7a24a; border-color: rgb(0 0 0 / 0.15)">
+        <img src="/files/logo.webp" alt="" /><span class="hw-nombre" style="color: #1f1611"
+          >Panadería Pimpo's</span
+        ><span class="hw-menu" style="color: #1f1611"></span>
+      </div>
+      <!-- banderines de papel negro con calabaza y calavera recortadas -->
+      <svg
+        class="hw-abs hw-papel"
+        style="top: 81px; left: 0; width: 320px; height: 36px"
+        viewBox="0 0 320 36"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 3Q80 9 160 3T320 3" fill="none" stroke="#1f1611" stroke-width="1.2" />
+        <g fill="#1f1611">
+          <path d="M8 4h28l-14 26z" />
+          <path d="M48 6h28l-14 26z" />
+          <path d="M88 7h28l-14 26z" />
+          <path d="M128 5h28l-14 26z" />
+          <path d="M168 4h28l-14 26z" />
+          <path d="M208 6h28l-14 26z" />
+          <path d="M248 7h28l-14 26z" />
+          <path d="M288 5h28l-14 26z" />
+        </g>
+        <g fill="#f7a24a">
+          <circle cx="62" cy="13" r="4.5" />
+          <rect x="59.5" y="16" width="5" height="3" rx="1" />
+          <ellipse cx="142" cy="13" rx="5" ry="4" />
+          <rect x="141" y="7.5" width="2" height="2.5" />
+          <circle cx="222" cy="13" r="4.5" />
+          <rect x="219.5" y="16" width="5" height="3" rx="1" />
+          <ellipse cx="302" cy="13" rx="5" ry="4" />
+          <rect x="301" y="7.5" width="2" height="2.5" />
+        </g>
+        <g fill="#1f1611">
+          <circle cx="60.5" cy="12.5" r="1.1" />
+          <circle cx="63.5" cy="12.5" r="1.1" />
+        </g>
+        <g fill="#1f1611">
+          <circle cx="220.5" cy="12.5" r="1.1" />
+          <circle cx="223.5" cy="12.5" r="1.1" />
+        </g>
+      </svg>
+      <!-- esqueletito colgando que saluda -->
+      <svg
+        class="hw-abs hw-cuelga lento"
+        style="top: 108px; left: 248px; width: 40px; height: 86px"
+        viewBox="0 0 40 86"
+      >
+        <line x1="20" y1="0" x2="20" y2="14" stroke="#1f1611" stroke-width="1" />
+        <circle cx="20" cy="22" r="8" fill="#fff8ee" />
+        <rect x="16" y="26" width="8" height="5" rx="1.5" fill="#fff8ee" />
+        <ellipse cx="17" cy="21.5" rx="2" ry="2.4" fill="#1f1611" />
+        <ellipse cx="23" cy="21.5" rx="2" ry="2.4" fill="#1f1611" />
+        <g stroke="#fff8ee" stroke-width="2.2" stroke-linecap="round" fill="none">
+          <path d="M20 31v22" />
+          <path d="M14 36h12M15 40h10M16 44h8" />
+          <path d="M20 53l-6 18M20 53l6 18" />
+          <path d="M14 35l-8 10" />
+        </g>
+        <g class="hw-brazo" style="transform-origin: 26px 35px">
+          <path d="M26 35l8-10" stroke="#fff8ee" stroke-width="2.2" stroke-linecap="round" />
+        </g>
+      </svg>
+      <div class="hw-hero"></div>
+      <div class="hw-sec">
+        <p class="hw-tit" style="color: #1f1611">
+          Feliz <span class="hw-cali" style="color: #5a1e00">Halloween</span>
+        </p>
+        <p class="hw-ent">
+          Dulce o truco: aquí siempre hay pan calientito para los pequeños disfrazados.
+        </p>
+        <span class="hw-cuenta" style="color: #1f1611; border-color: #1f1611; background: #ffe7c7"
+          >Faltan 3 días para Halloween</span
+        >
+        <span class="hw-boton" style="background: #1f1611; color: #f9b35f">Ver los precios</span>
+      </div>
+      <div class="hw-franja" style="background: #1f1611; color: #fbd29a">
+        🎃 Dulce o truco &nbsp; 🎃 Pan calientito &nbsp; 🎃 Delivery a todo Iquitos
+      </div>
+    </div>
+    <div class="hw-nota">
+      <b>C · Todo en naranja.</b> El sitio entero naranja con negro. Bajo el menú, banderines de
+      papel negro con calabazas y calaveras recortadas, y un esqueletito colgando que saluda con la
+      mano.
+    </div>
+  </div>
+</div>
