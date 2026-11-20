@@ -5,9 +5,9 @@ temporada**. Solo la ven el propietario y los administradores.
 
 ## Para qué sirve
 
-Para que el sitio se vista de fiesta en su temporada y saque al frente lo de esas fechas. Hoy existe
-**Navidad**; otras fiestas (Día de la Madre, San Juan…) llegarán más adelante, porque cada una necesita
-su diseño.
+Para que el sitio se vista de fiesta en su temporada y saque al frente lo de esas fechas. Hoy existen
+**Navidad** y el **Día de la Madre**; otras fiestas (San Juan, Fiestas Patrias…) llegarán más adelante,
+porque cada una necesita su diseño. Solo puede haber una encendida a la vez.
 
 Con Navidad encendida, el sitio:
 
@@ -18,6 +18,13 @@ Con Navidad encendida, el sitio:
   regresiva («Faltan 12 días para Navidad») y los productos de temporada, antes de «Lo que horneamos
   hoy».
 
+Con el Día de la Madre encendido, el sitio la saluda: cambia de colores (ver «Estilo»), cuelgan
+banderines bajo el menú y suben corazones pequeños; la barra de arriba dice el saludo, y la portada
+lleva su cinta y la sección **«Feliz Día de la Madre»**, con la cuenta regresiva («Faltan 3 días para
+el Día de la Madre»). Viene **sin productos**: es un saludo, no una campaña. Si quieren sacar tortas,
+se añaden en su pestaña **Productos**, como en Navidad. Sin productos, la sección desaparece sola el
+día después de la fiesta.
+
 Fuera de su temporada, el sitio se ve como siempre.
 
 ## Cuándo se enciende
@@ -25,7 +32,8 @@ Fuera de su temporada, el sitio se ve como siempre.
 Pestaña **Cuándo**:
 
 - **Empieza el / Termina el**: los días de la campaña. Los dos días cuentan.
-- **Fecha de Navidad**: para la cuenta regresiva. Si se deja vacía, no hay cuenta.
+- **Fecha de Navidad** (o **del Día de la Madre**): para la cuenta regresiva. Si se deja vacía, no hay
+  cuenta.
 - **Cómo se enciende**:
   - **Según fechas** (lo normal): se enciende sola el día que empieza y se apaga sola al terminar.
   - **Encendida ya**: se enciende ahora, aunque falten días, y se apaga sola el día que termina.
@@ -34,6 +42,17 @@ Pestaña **Cuándo**:
 Lo puesto a mano dura hasta el fin de la campaña; después vuelve a mandar el calendario. **Si cambias
 las fechas, vuelve a «Según fechas».** Cada año hay que poner las fechas del año nuevo: con las del año
 pasado no se puede encender.
+
+El Día de la Madre viene puesto del 3 al 10 de mayo de 2027, con la fiesta el domingo 9 (en Perú es el
+segundo domingo de mayo). **Dos temáticas no pueden cruzarse**: si las fechas se pisan, al guardar sale
+«Las fechas se cruzan con…». Por eso **encender a mano el Día de la Madre antes de que pase Navidad no
+se puede**: «Encendida ya» vale desde hoy hasta su fecha de fin, y pasaría por encima de la Navidad.
+Apagar Navidad no lo arregla, porque sus fechas cuentan igual.
+
+**Para enseñarlo antes de tiempo** (una demostración): cambia las fechas del propio Día de la Madre a
+unos días que no toquen las de Navidad (por ejemplo, del 20 al 25 de noviembre) y guarda. Al terminar,
+devuélvele las suyas (3 al 10 de mayo, fiesta el 9). Si alguien se olvida, no pasa nada grave: el panel
+avisa de que las fechas ya pasaron y no se enciende. Ojo: en el sitio de verdad lo ven los clientes.
 
 El sitio tarda como mucho una hora en encenderse o apagarse solo por fecha. Al pulsar **Guardar** el
 cambio se ve en el acto.
@@ -45,6 +64,14 @@ Pestaña **Estilo**. Navidad tiene dos:
 - **Noche de Navidad** (la que está puesta): todo el sitio sobre verde pino, con botones rojos y
   precios dorados.
 - **Crema navideña**: el crema de siempre, con rojo en los botones y verde pino en las franjas.
+
+El Día de la Madre tiene los suyos:
+
+- **Rosa sobre crema** (la que está puesta): el crema de siempre, con vino y rosa en los botones y las
+  franjas.
+- **Todo en rosa**: todo el sitio sobre rosa empolvado, con vino y dorado.
+
+Cada temática enseña solo sus estilos.
 
 ## Textos
 

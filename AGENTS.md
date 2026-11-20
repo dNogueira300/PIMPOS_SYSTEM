@@ -230,7 +230,11 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   antes que el código: `select payload->>'action', count(*) from auth.audit_log_entries group by 1`.
   De antes de ese día no hay ingresos anotados.
 
-**Temáticas de temporada (plan 08)** (20/11/2026). Spec, plan y «Lo que resultó distinto» en
+**Temáticas de temporada (plan 08 y 08.1)** (20/11/2026). El Día de la Madre (08.1): spec, plan y «Lo
+que resultó distinto» en `DOC/Plan de Desarrollo 08.1 - Día de la Madre.md`; dos estilos, `rosa-crema`
+(puesto) y `rosa`, con banderines bajo la cabecera, corazones que suben y un festón en la sección; sin
+productos; 3–10/05/2027. No se puede encender a mano antes de que pase Navidad (se cruzarían): para
+enseñarlo antes, se cambian sus propias fechas (`docs/tematicas.md`). Spec, plan y «Lo que resultó distinto» en
 `DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`; manual para el negocio en `docs/tematicas.md`.
 
 - **Qué hay:** Navidad, con fechas (1–26/12/2026 de fábrica) y encendido a mano que caduca en la fecha
