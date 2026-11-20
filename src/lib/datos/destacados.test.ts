@@ -44,11 +44,20 @@ describe("repartirPorFoto", () => {
     expect(sinFoto).toHaveLength(1);
   });
 
-  it("limita las tarjetas a cuatro, que es una fila en escritorio", () => {
-    const muchos = ["a", "b", "c", "d", "e"].map((n) => producto(n, `${n}.webp`));
+  it("los ocho destacados con foto van todos en tarjeta (pedido de Dan, 19/11/2026)", () => {
+    const ocho = ["a", "b", "c", "d", "e", "f", "g", "h"].map((n) => producto(n, `${n}.webp`));
+    const { conFoto, sinFoto } = repartirPorFoto(ocho);
+    expect(conFoto.map((p) => p.nombre)).toEqual(["a", "b", "c", "d", "e", "f", "g", "h"]);
+    expect(sinFoto).toEqual([]);
+  });
+
+  it("limita las tarjetas a ocho, dos filas en escritorio", () => {
+    const muchos = ["a", "b", "c", "d", "e", "f", "g", "h", "i"].map((n) =>
+      producto(n, `${n}.webp`),
+    );
     const { conFoto, sinFoto } = repartirPorFoto(muchos);
-    expect(conFoto).toHaveLength(4);
-    // El quinto no se pierde: baja a la pizarra, con su miniatura.
-    expect(sinFoto.map((p) => p.nombre)).toEqual(["e"]);
+    expect(conFoto).toHaveLength(8);
+    // El noveno no se pierde: baja a la pizarra, con su miniatura.
+    expect(sinFoto.map((p) => p.nombre)).toEqual(["i"]);
   });
 });

@@ -209,8 +209,9 @@ export default async function Inicio() {
 
           Con una o dos tarjetas van AL LADO de la pizarra y no encima: una
           tarjeta sola en una fila de cuatro dejaba tres cuartos de fila vacíos,
-          que se lee como contenido que no cargó. Desde tres, la fila del
-          prototipo. */}
+          que se lee como contenido que no cargó. Desde tres, la rejilla del
+          prototipo: hasta ocho tarjetas, dos filas de cuatro en escritorio
+          (pedido de Dan, 19/11/2026). */}
       <section
         aria-labelledby="titulo-horneamos"
         className="mx-auto max-w-(--container-contenido) px-4 pt-16 sm:px-6"

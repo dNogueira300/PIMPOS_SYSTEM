@@ -99,7 +99,7 @@ const ETIQUETAS: Readonly<Record<string, string>> = {
   factor: "Equivale a",
   presentacion: "Presentación",
   stock_minimo: "Cantidad mínima",
-  es_perecible: "Vence",
+  es_perecible: "Es perecible",
   proveedor_habitual_id: "Proveedor habitual",
   proveedor_id: "Proveedor",
   almacen_id: "Almacén",

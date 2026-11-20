@@ -1,7 +1,11 @@
 import type { ProductoPublico } from "./catalogo";
 
-/** Una fila de tarjetas en escritorio. */
-const MAXIMO_TARJETAS = 4;
+/**
+ * Los ocho destacados de la portada (`listarDestacados(8)`), en dos filas de
+ * cuatro en escritorio. Hasta el 19/11/2026 eran cuatro y el resto bajaba a la
+ * pizarra aunque tuviera foto; Dan pidió que los ocho se vieran en grande.
+ */
+const MAXIMO_TARJETAS = 8;
 
 /**
  * Reparte los destacados de la portada: los que tienen foto real van en
