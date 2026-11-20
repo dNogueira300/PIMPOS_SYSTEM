@@ -9,6 +9,7 @@ const URL_BASE = `http://localhost:${PUERTO}`;
 const PRUEBAS_DE_TEMATICAS = [
   /tematica-navidad\.spec\.ts/,
   /tematica-dia-de-la-madre\.spec\.ts/,
+  /tematica-halloween\.spec\.ts/,
   /panel-tematicas\.spec\.ts/,
 ];
 

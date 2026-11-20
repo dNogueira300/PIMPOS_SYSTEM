@@ -230,10 +230,11 @@ técnico. Ver el paso 3 de la tarea 8 del plan de F4 para el procedimiento exact
   antes que el código: `select payload->>'action', count(*) from auth.audit_log_entries group by 1`.
   De antes de ese día no hay ingresos anotados.
 
-**Temáticas de temporada (plan 08 y 08.1)** (20/11/2026). Navidad (plan 08): spec, plan y «Lo que
-resultó distinto» en `DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`. El Día de la Madre (plan
-08.1): lo mismo en `DOC/Plan de Desarrollo 08.1 - Día de la Madre.md`. Manual para el negocio de las
-dos en `docs/tematicas.md`.
+**Temáticas de temporada (planes 08, 08.1 y 08.2)** (20/11/2026). Navidad (plan 08): spec, plan y «Lo
+que resultó distinto» en `DOC/Plan de Desarrollo 08 - Temáticas de temporada.md`. El Día de la Madre
+(plan 08.1): lo mismo en `DOC/Plan de Desarrollo 08.1 - Día de la Madre.md`. Halloween y el Día de la
+Canción Criolla (plan 08.2): en `DOC/Plan de Desarrollo 08.2 - Halloween.md`. Manual para el negocio de
+todas en `docs/tematicas.md`.
 
 - **Qué hay:** Navidad, con fechas (1–26/12/2026 de fábrica) y encendido a mano que caduca en la fecha
   de fin (0047); dos estilos, `noche` (puesto) y `crema` (0048, decisión de Dan del 20/11/2026); la
@@ -247,6 +248,13 @@ dos en `docs/tematicas.md`.
   `rosa`, con banderines bajo la cabecera, corazones que suben y un festón en la sección; sin productos.
   No se puede encender a mano antes de que pase Navidad (se cruzarían): para enseñarlo antes, se cambian
   sus propias fechas (`docs/tematicas.md`).
+- **Halloween y el Día de la Canción Criolla** (0050) son **alternativas** para el 31 de octubre
+  (25/10–01/11/2027): comparten fechas y solo una puede estar encendida (la otra, «Apagada», que sigue
+  apagada aunque le cambien las fechas mientras no termine su campaña; al año siguiente ya venció y
+  hay que volver a elegir «Apagada»). Halloween tiene dos estilos, `calabaza-noche` (puesto:
+  telarañas, esqueletito que saluda, calabaza, arañita y murciélagos) y `calabaza-crema` (banderines de
+  papel, telaraña y arañita), con los adornos distintos en cada estilo, colgados de los `span` de
+  `.adornos-tematica`; «Halloween» del título va en `#c2560f` (`--caligrafia-titulo`, texto grande).
 - **Una temática nueva** es una migración (amplía `tematicas_slug_conocido` y la restricción de pares
   `tematicas_estilo_de_su_tematica`, y siembra la fila sin auditar, como 0049), su entrada en
   `src/lib/tematicas/disenos.ts` (sus estilos, con nombre y ayuda, y su artículo) y su CSS en
@@ -282,6 +290,12 @@ dos en `docs/tematicas.md`.
   más dentro de `.adornos-tematica` corre la numeración y cambia colores y tamaños. La tanda de luces
   es un `div` por eso. `Cabecera` pinta ese elemento con **cualquier** temática activa; para una que
   no sea Navidad queda en `display: none` hasta que tenga su CSS.
+- **Una fixture que mueve Halloween o la Canción Criolla no puede pasar por las reglas** si no sabe en
+  qué estado están: desde el 02/11/2027 la «Apagada» de fábrica nace caducada y moverla la pasaría a
+  «según fechas», chocando con la otra; la semana de la campaña `preparar` deja Halloween apagada. Las
+  pgTAP y la E2E del panel escriben el estado entero con `tematicas_reglas` apagado (en la E2E, dentro
+  de una transacción). Y `apartarLasDemas` lleva cada temática a su propia semana y devuelve primero
+  las apagadas.
 - **Un `::after` en la cabecera no le cambia la posición**: ya es `sticky`, que sirve de referencia al
   adorno. Ponerle `position: relative` le quitaría lo fijo.
 
