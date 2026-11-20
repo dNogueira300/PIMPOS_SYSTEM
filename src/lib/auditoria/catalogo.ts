@@ -153,6 +153,24 @@ const TABLAS: Readonly<Record<string, Entrada>> = {
     referencia: conNombre("el testimonio de", "un testimonio"),
     ruta: aRuta("/admin/contenido/testimonios"),
   },
+  // --- Temáticas de temporada (plan 08) ---
+  // La pantalla va por el slug: las temáticas no tienen `deleted_at` y siempre
+  // existen (las crean las migraciones), así que no entran en TABLAS_CON_PANTALLA.
+  tematicas: {
+    seccion: "contenido",
+    referencia: conNombre("la temática", "una temática"),
+    ruta: aRuta("/admin/contenido/tematicas", "slug"),
+  },
+  tematica_productos: {
+    seccion: "contenido",
+    referencia: (d, n) =>
+      `${dueno(d, n, "producto_id", "un producto que ya no existe")} en ${
+        texto(d.tematica_id) && n[texto(d.tematica_id)!]
+          ? `la temática ${n[texto(d.tematica_id)!]}`
+          : "una temática"
+      }`,
+    ruta: () => "/admin/contenido/tematicas",
+  },
   // --- Configuración ---
   configuracion_sitio: {
     seccion: "configuracion",

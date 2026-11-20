@@ -11,8 +11,24 @@ import {
 } from "./catalogo";
 
 describe("catálogo de tablas", () => {
-  it("cubre las 25 tablas auditadas (la misma lista que fija el pgTAP de 0045)", () => {
-    expect(TABLAS_AUDITADAS).toHaveLength(25);
+  it("dice en llano los cambios de las temáticas de temporada (plan 08)", () => {
+    const tematica = infoDeTabla("public.tematicas");
+    expect(tematica.seccion).toBe("contenido");
+    expect(tematica.referencia({ nombre: "Navidad" }, {})).toBe("la temática Navidad");
+    expect(tematica.ruta?.({ slug: "navidad" })).toBe("/admin/contenido/tematicas/navidad");
+
+    const producto = infoDeTabla("public.tematica_productos");
+    expect(
+      producto.referencia(
+        { producto_id: "p1", tematica_id: "t1" },
+        { p1: "Panetón", t1: "Navidad" },
+      ),
+    ).toBe("Panetón en la temática Navidad");
+    expect(producto.referencia({}, {})).toBe("un producto que ya no existe en una temática");
+  });
+
+  it("cubre las 27 tablas auditadas (la misma lista que fija el pgTAP de 0045)", () => {
+    expect(TABLAS_AUDITADAS).toHaveLength(27);
     for (const tabla of TABLAS_AUDITADAS) {
       const info = infoDeTabla(`public.${tabla}`);
       expect(info.conocida, tabla).toBe(true);
@@ -61,7 +77,7 @@ describe("catálogo de tablas", () => {
       expect(visibles).not.toContain(`public.${interna}`);
     }
     expect(visibles).toContain("public.movimientos_insumo");
-    expect(visibles).toHaveLength(21);
+    expect(visibles).toHaveLength(23);
   });
 
   it("una sección trae solo sus tablas visibles", () => {

@@ -1151,6 +1151,13 @@ export type Database = {
             foreignKeyName: "precio_historial_variante_id_fkey"
             columns: ["variante_id"]
             isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["variante_id"]
+          },
+          {
+            foreignKeyName: "precio_historial_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
             referencedRelation: "productos_publicos"
             referencedColumns: ["variante_id"]
           },
@@ -1208,6 +1215,13 @@ export type Database = {
             foreignKeyName: "producto_imagenes_producto_id_fkey"
             columns: ["producto_id"]
             isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_imagenes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
             referencedRelation: "productos_publicos"
             referencedColumns: ["id"]
           },
@@ -1217,6 +1231,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "producto_variantes"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_imagenes_variante_id_fkey"
+            columns: ["variante_id"]
+            isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["variante_id"]
           },
           {
             foreignKeyName: "producto_imagenes_variante_id_fkey"
@@ -1297,6 +1318,13 @@ export type Database = {
             foreignKeyName: "producto_variantes_producto_id_fkey"
             columns: ["producto_id"]
             isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_variantes_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
             referencedRelation: "productos_publicos"
             referencedColumns: ["id"]
           },
@@ -1365,6 +1393,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "categorias_publicas"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "productos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["categoria_id"]
           },
           {
             foreignKeyName: "productos_categoria_id_fkey"
@@ -1775,6 +1810,138 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tematica_productos: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          orden: number
+          producto_id: string
+          solo_temporada: boolean
+          tematica_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          orden?: number
+          producto_id: string
+          solo_temporada?: boolean
+          tematica_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          orden?: number
+          producto_id?: string
+          solo_temporada?: boolean
+          tematica_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tematica_productos_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tematica_productos_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos_de_temporada"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tematica_productos_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "productos_publicos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tematica_productos_tematica_id_fkey"
+            columns: ["tematica_id"]
+            isOneToOne: false
+            referencedRelation: "tematicas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tematica_productos_tematica_id_fkey"
+            columns: ["tematica_id"]
+            isOneToOne: false
+            referencedRelation: "tematicas_panel"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tematicas: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          encendido: string
+          encendido_desde: string | null
+          encendido_hasta: string | null
+          entradilla: string | null
+          fecha_evento: string | null
+          fin: string
+          id: string
+          inicio: string
+          mensajes_cinta: string[]
+          nombre: string
+          slug: string
+          texto_aviso: string | null
+          titulo: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          encendido?: string
+          encendido_desde?: string | null
+          encendido_hasta?: string | null
+          entradilla?: string | null
+          fecha_evento?: string | null
+          fin: string
+          id?: string
+          inicio: string
+          mensajes_cinta?: string[]
+          nombre: string
+          slug: string
+          texto_aviso?: string | null
+          titulo?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          encendido?: string
+          encendido_desde?: string | null
+          encendido_hasta?: string | null
+          entradilla?: string | null
+          fecha_evento?: string | null
+          fin?: string
+          id?: string
+          inicio?: string
+          mensajes_cinta?: string[]
+          nombre?: string
+          slug?: string
+          texto_aviso?: string | null
+          titulo?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
       }
       testimonios: {
         Row: {
@@ -2226,6 +2393,34 @@ export type Database = {
         }
         Relationships: []
       }
+      productos_de_temporada: {
+        Row: {
+          categoria_id: string | null
+          categoria_nombre: string | null
+          categoria_orden: number | null
+          categoria_slug: string | null
+          descripcion: string | null
+          destacado: boolean | null
+          es_demo: boolean | null
+          id: string | null
+          imagen_alt: string | null
+          imagen_ruta: string | null
+          nombre: string | null
+          orden: number | null
+          orden_temporada: number | null
+          precio_desde: number | null
+          precio_hasta: number | null
+          presentaciones: Json | null
+          slug: string | null
+          variante_id: string | null
+          variante_moneda: string | null
+          variante_nombre: string | null
+          variante_precio: number | null
+          variante_unidad: string | null
+          variantes: number | null
+        }
+        Relationships: []
+      }
       productos_publicos: {
         Row: {
           categoria_id: string | null
@@ -2292,6 +2487,102 @@ export type Database = {
           subtitulo?: string | null
           texto_boton?: string | null
           titulo?: string | null
+        }
+        Relationships: []
+      }
+      tematica_publica: {
+        Row: {
+          entradilla: string | null
+          fecha_evento: string | null
+          mensajes_cinta: string[] | null
+          nombre: string | null
+          slug: string | null
+          texto_aviso: string | null
+          titulo: string | null
+        }
+        Insert: {
+          entradilla?: string | null
+          fecha_evento?: string | null
+          mensajes_cinta?: string[] | null
+          nombre?: string | null
+          slug?: string | null
+          texto_aviso?: string | null
+          titulo?: string | null
+        }
+        Update: {
+          entradilla?: string | null
+          fecha_evento?: string | null
+          mensajes_cinta?: string[] | null
+          nombre?: string | null
+          slug?: string | null
+          texto_aviso?: string | null
+          titulo?: string | null
+        }
+        Relationships: []
+      }
+      tematicas_panel: {
+        Row: {
+          activa: boolean | null
+          created_at: string | null
+          created_by: string | null
+          encendido: string | null
+          encendido_desde: string | null
+          encendido_hasta: string | null
+          encendido_vigente: string | null
+          entradilla: string | null
+          fecha_evento: string | null
+          fin: string | null
+          id: string | null
+          inicio: string | null
+          mensajes_cinta: string[] | null
+          nombre: string | null
+          slug: string | null
+          texto_aviso: string | null
+          titulo: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          activa?: never
+          created_at?: string | null
+          created_by?: string | null
+          encendido?: string | null
+          encendido_desde?: string | null
+          encendido_hasta?: string | null
+          encendido_vigente?: never
+          entradilla?: string | null
+          fecha_evento?: string | null
+          fin?: string | null
+          id?: string | null
+          inicio?: string | null
+          mensajes_cinta?: string[] | null
+          nombre?: string | null
+          slug?: string | null
+          texto_aviso?: string | null
+          titulo?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          activa?: never
+          created_at?: string | null
+          created_by?: string | null
+          encendido?: string | null
+          encendido_desde?: string | null
+          encendido_hasta?: string | null
+          encendido_vigente?: never
+          entradilla?: string | null
+          fecha_evento?: string | null
+          fin?: string | null
+          id?: string | null
+          inicio?: string | null
+          mensajes_cinta?: string[] | null
+          nombre?: string | null
+          slug?: string | null
+          texto_aviso?: string | null
+          titulo?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
         }
         Relationships: []
       }
@@ -2362,6 +2653,10 @@ export type Database = {
       guardar_producto: {
         Args: { p_presentaciones: Json; p_producto: Json }
         Returns: string
+      }
+      guardar_tematica: {
+        Args: { p_datos: Json; p_productos: Json; p_tematica: string }
+        Returns: undefined
       }
       ingreso_registrado: {
         Args: { p_numero: string; p_proveedor: string }
