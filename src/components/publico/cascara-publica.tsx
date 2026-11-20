@@ -77,6 +77,7 @@ export async function CascaraPublica({ children }: { children: ReactNode }) {
         nombre={config.nombre_comercial}
         horario={horario}
         whatsapp={pedido}
+        adornos={Boolean(tematica)}
       />
 
       {/* El hueco que reserva el boton flotante va en el pie, que es lo ultimo

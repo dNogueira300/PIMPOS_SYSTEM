@@ -589,3 +589,33 @@ Lo que ninguna prueba de tarea cubriría por sí sola, y cómo queda cubierto:
   escritorio, menú abierto, área táctil de la sección, cinta quieta con menos movimiento, sin adornos
   ni letra crema al imprimir), sitio público 259 pasan y 35 se saltan, panel (accesibilidad, productos,
   historial) 212 pasan, y `verificar-sitio-publico.sh` en verde.
+
+**Ajustes del 20/11/2026, pedidos por Dan con todo ya en `main`** (sin migración):
+
+- **Volver en Temáticas:** la lista lleva `volver` a «Contenido», como las demás listas de Contenido
+  (con su E2E en `panel-tematicas.spec.ts`).
+- **Las luces se turnan:** las bombillas van en dos tandas (rojas y verdes en `header::before`,
+  doradas y blancas en `.adornos-tematica__luces`), cada una con su halo dibujado, y solo se anima su
+  opacidad, con media vuelta de diferencia. Con menos movimiento, quietas y encendidas.
+- **Bolas colgando:** cuatro desordenadas a la izquierda (roja, dorada, verde y blanca, hilos y
+  tamaños distintos) y una sola a la derecha, cada una con su balanceo. Hacía falta un elemento: un
+  seudoelemento no da para cinco bolas que se mezan cada una a su aire. Es `.adornos-tematica`, que
+  `Cabecera` pinta solo con una temática activa (`aria-hidden`, sin clics); sin temática, el HTML no
+  cambia. El elemento que gira es solo el hilo (1.5 px), y la tapa y la bola son sus seudoelementos:
+  así, al mecerse, nada sube por encima de la cabecera. A partir de 768 px, todo un 35 % más grande.
+- **Copos grandes:** en el `::after` de la envoltura, una máscara de copos de seis puntas sobre el
+  color de `--nieve`, que cae más despacio que los puntos y se mece. Se mueve la capa (`translate`),
+  no el fondo, así que no se vuelve a pintar en cada fotograma.
+- **Pruebas:** `tematica-navidad.spec.ts` comprueba ahora que las dos tandas se turnan, que las cinco
+  bolas y los copos se mueven, que ningún adorno recibe clics, sube sobre la cabecera ni desborda (a
+  375 px y a 1280 px, con los dos estilos), que con menos movimiento **nada** de la página se anima
+  (ni un seudoelemento) y que al imprimir no sale ningún adorno. Capturas en
+  `DOC/Maquetas/tematicas/navidad/adornos/`.
+- **La revisión de la rama (opus) no encontró nada importante.** Se arreglaron sus menores: las
+  bombillas doradas y blancas se pintaban delante de las bolas (ahora detrás, como las otras), la bola
+  verde se cortaba contra el borde al mecerse, tapa y bola se centran con `transform` (también sin las
+  propiedades sueltas), y la prueba mira ahora que los seudoelementos de la cabecera y de la envoltura
+  no reciben clics, que al apagar la temática el elemento de los adornos desaparece del HTML y dónde
+  empieza de verdad lo que cuelga (el borde de la cabecera, no 1 px fijo). Queda sin tocar, porque es
+  de T4: la nieve de puntos anima `background-position` en una capa a pantalla completa y se repinta en
+  cada fotograma; se puede pasar a `translate`, como los copos. Tampoco se volvió a medir Lighthouse.
