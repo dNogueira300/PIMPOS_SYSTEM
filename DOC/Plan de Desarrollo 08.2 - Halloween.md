@@ -577,3 +577,20 @@ PR 3 y parar.
   rojo solo. Y la semana de la campaña, `preparar` deja Halloween apagada y la E2E no veía la frase.
   Ahora las fixtures escriben el estado entero sin pasar por las reglas (trigger apagado, modo
   explícito; en la E2E, dentro de una transacción). Se vio fallar antes con los dos estados simulados.
+
+**T1, después del PR.** La 0050 se aplicó en producción desde `PIMPOS_SYSTEM` (huella igual a la
+local, las dos filas como deben) y el PR #112 se fusionó, por pedido de Dan.
+
+**T2 (20/11/2026, PR 2).**
+
+- **WhatsApp en «Noche de calabazas»** va en verde claro con letra verde oscura, como en «Noche de
+  Navidad», y no «el verde de siempre» de la tabla del §6.3: el verde de siempre no se ve sobre la
+  noche. Lo mide `tematicas.test.ts` (el botón contra el fondo, 3:1).
+- **El borde de papel de la noche** es naranja a media opacidad: el morado de la tabla no se veía.
+- **La arañita** sube y baja alargando su hilo (1 px de ancho), no con `translate`: así el hilo siempre
+  empieza en el borde de la cabecera y nada sube sobre ella.
+- **«Sobre la cabecera»** se mide contra el final del relleno (donde empieza `inset: 100%`), como con los
+  banderines del Día de la Madre: los hilos empiezan sobre el borde de 1 px de la cabecera.
+- **Verificación:** Vitest 659 (35 pares de contraste nuevos), E2E de temáticas 8/8 (axe en cero en las
+  11 páginas con los dos estilos, a 375 px y en escritorio; vista fallar antes sin los adornos).
+  Capturas en `DOC/Maquetas/tematicas/halloween/implementada/`.

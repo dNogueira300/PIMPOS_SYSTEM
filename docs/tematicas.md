@@ -6,7 +6,7 @@ temporada**. Solo la ven el propietario y los administradores.
 ## Para qué sirve
 
 Para que el sitio se vista de fiesta en su temporada y saque al frente lo de esas fechas. Hoy existen
-**Navidad** y el **Día de la Madre**; otras fiestas (San Juan, Fiestas Patrias…) llegarán más adelante,
+**Navidad**, el **Día de la Madre**, **Halloween** y el **Día de la Canción Criolla**; otras fiestas (San Juan, Fiestas Patrias…) llegarán más adelante,
 porque cada una necesita su diseño. Solo puede haber una encendida a la vez.
 
 Con Navidad encendida, el sitio:
@@ -25,6 +25,13 @@ el Día de la Madre»). Viene **sin productos**: es un saludo, no una campaña. 
 se añaden en su pestaña **Productos**, como en Navidad. Sin productos, la sección desaparece sola el
 día después de la fiesta.
 
+Con Halloween encendido, el sitio se viste de fiesta, simpático y para todas las edades (nada de
+sustos): cambia de colores (ver «Estilo») y, según el estilo, cuelgan bajo el menú un esqueletito que
+saluda, una calabaza y una arañita, con telarañas en las esquinas y murciélagos lejanos, o banderines de
+papel con calabazas y calaveras recortadas. La barra de arriba dice el saludo, y la portada lleva su
+cinta y la sección **«Feliz Halloween»**, con la cuenta regresiva («Faltan 3 días para Halloween»). Como
+el Día de la Madre, viene **sin productos**.
+
 Fuera de su temporada, el sitio se ve como siempre.
 
 ## Cuándo se enciende
@@ -40,8 +47,22 @@ Pestaña **Cuándo**:
   - **Apagada**: no se enciende aunque esté dentro de sus fechas, hasta el día que termina.
 
 Lo puesto a mano dura hasta el fin de la campaña; después vuelve a mandar el calendario. **Si cambias
-las fechas, vuelve a «Según fechas».** Cada año hay que poner las fechas del año nuevo: con las del año
-pasado no se puede encender.
+las fechas, vuelve a «Según fechas»** (salvo la que se deja «Apagada» entre Halloween y la Canción
+Criolla: ver abajo). Cada año hay que poner las fechas del año nuevo: con las del año pasado no se puede
+encender.
+
+### Halloween o el Día de la Canción Criolla
+
+El 31 de octubre es Halloween y también el Día de la Canción Criolla, y el negocio **elige cuál
+celebra**: son dos temáticas con las mismas fechas (del 25 de octubre al 1 de noviembre de 2027, fiesta
+el domingo 31), y **solo una puede estar encendida**. De fábrica, Halloween va «Según fechas» y la
+Canción Criolla «Apagada».
+
+- **Para celebrar la Canción Criolla en lugar de Halloween:** primero pon Halloween en **«Apagada»** y
+  guarda; después pon la Canción Criolla en **«Según fechas»** y guarda. Si lo haces al revés, el panel
+  avisa: «Las dos son para la misma fiesta: deja una de las dos «Apagada»».
+- **Cada año:** pon las fechas nuevas a las dos. La que no se celebra **sigue «Apagada»** aunque le
+  cambies las fechas; vale hasta el día que terminan.
 
 El Día de la Madre viene puesto del 3 al 10 de mayo de 2027, con la fiesta el domingo 9 (en Perú es el
 segundo domingo de mayo). **Dos temáticas no pueden cruzarse**: si las fechas se pisan, al guardar sale
@@ -70,6 +91,13 @@ El Día de la Madre tiene los suyos:
 - **Rosa sobre crema** (la que está puesta): el crema de siempre, con vino y rosa en los botones y las
   franjas.
 - **Todo en rosa**: todo el sitio sobre rosa empolvado, con vino y dorado.
+
+Halloween tiene los suyos:
+
+- **Noche de calabazas** (la que está puesta): todo el sitio de noche, en morado casi negro, con
+  naranja calabaza; esqueletito, calabaza, arañita, telarañas y murciélagos.
+- **Calabaza sobre crema**: el crema de siempre, con naranja calabaza y la barra de arriba casi negra;
+  banderines de papel, una telaraña y la arañita.
 
 Cada temática enseña solo sus estilos.
 
