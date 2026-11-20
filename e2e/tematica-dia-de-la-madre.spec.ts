@@ -184,13 +184,15 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
       await axeEnRutas(page, "a 375 px (todo en rosa)");
       await enEscritorio(browser, "todo en rosa");
 
-      // Según fechas, con las de fábrica (mayo): el sitio vuelve a como estaba.
+      // Según fechas, con las de la prueba (empiezan mañana): el sitio vuelve a
+      // como estaba. No con las de fábrica: corrida en su semana de mayo, la
+      // temática seguiría encendida por fecha sin que nada estuviera roto. Las de
+      // fábrica las devuelve el `finally`.
       await guardarMadre(page, async () => {
-        const cuando = page.getByRole("tabpanel", { name: "Cuándo" });
-        await cuando.getByLabel("Empieza el").fill(inicio);
-        await cuando.getByLabel("Termina el").fill(fin);
-        await cuando.getByLabel("Fecha del Día de la Madre").fill(evento);
-        await cuando.getByRole("radio", { name: /Según fechas/ }).check();
+        await page
+          .getByRole("tabpanel", { name: "Cuándo" })
+          .getByRole("radio", { name: /Según fechas/ })
+          .check();
         await elegirEstilo(page, /Rosa sobre crema/);
       });
       await page.goto("/");
