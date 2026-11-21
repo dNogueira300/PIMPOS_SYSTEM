@@ -109,7 +109,8 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
   browser,
 }) => {
   // Antes del cerrojo: su espera máxima sale del tiempo de la prueba.
-  test.setTimeout(240_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   // Las dos pruebas que encienden Navidad escriben la misma fila: una a la vez.
   await conCerrojo("tematicas", async () => {
     const slug = `paneton-e2e-${Date.now()}`;

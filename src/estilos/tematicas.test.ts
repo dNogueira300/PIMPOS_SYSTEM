@@ -264,3 +264,24 @@ describe("Día de la Canción Criolla · balcón limeño", () => {
     expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
   });
 });
+
+// --- Los copos de Navidad (pedido de Dan, 20/11/2026) ----------------------
+// Más pequeños y menos: el más grande, del tamaño del más chico de antes
+// (escala 0.8 del copo de 22 px), y tres por cada par de baldosas, no cinco.
+describe("Navidad · copos de nieve", () => {
+  const inicio = TEMATICAS.indexOf('[data-tematica="navidad"]::after {');
+  const bloque = TEMATICAS.slice(inicio, TEMATICAS.indexOf("}", inicio));
+  const copos = [...bloque.matchAll(/%3Cuse href='%23c' transform='([^']*)'/g)].map(([, t]) => {
+    const escala = /scale\(([\d.]+)\)/.exec(t);
+    return escala ? Number(escala[1]) : 1;
+  });
+
+  it("son pocos", () => {
+    expect(copos.length).toBeGreaterThan(0);
+    expect(copos.length).toBeLessThanOrEqual(3);
+  });
+
+  it("y pequeños: ninguno pasa del más chico de antes", () => {
+    expect(Math.max(...copos)).toBeLessThanOrEqual(0.8);
+  });
+});

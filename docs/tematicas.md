@@ -12,7 +12,7 @@ porque cada una necesita su diseño. Solo puede haber una encendida a la vez.
 Con Navidad encendida, el sitio:
 
 - cambia de colores (ver «Estilo», abajo), con luces bajo el menú que se encienden por turnos,
-  bolas de Navidad que cuelgan y se mecen, y nieve que cae, con algunos copos grandes;
+  bolas de Navidad que cuelgan y se mecen, y nieve que cae, con unos pocos copos pequeños;
 - dice en la barra de arriba el texto de la campaña, en lugar del horario;
 - muestra en la portada una cinta con mensajes y la sección **«Lo de esta Navidad»**, con la cuenta
   regresiva («Faltan 12 días para Navidad») y los productos de temporada, antes de «Lo que horneamos

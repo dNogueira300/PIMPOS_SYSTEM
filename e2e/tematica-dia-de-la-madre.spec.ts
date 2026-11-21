@@ -90,7 +90,8 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
   browser,
 }) => {
   // Antes del cerrojo: su espera máxima sale del tiempo de la prueba.
-  test.setTimeout(300_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   await conCerrojo("tematicas", async () => {
     // Lo de fábrica, para dejarlo como estaba.
     const [inicio, fin, evento, estilo] = sqlLocal(
