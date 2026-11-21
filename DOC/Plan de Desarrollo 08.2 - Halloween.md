@@ -610,6 +610,14 @@ se vuelve a elegir. El PR #113 se fusionó, por pedido de Dan.
   líneas a 375 px. No se cambia por migración: el negocio puede acortarlo desde el panel.
 - **El manual** ya dice «Fecha de Halloween / del Día de la Canción Criolla» y que la caligrafía cae en
   el nombre de la fiesta (dos menores aplazados de la T2).
-- **Verificación:** Vitest 688 (29 pares de contraste nuevos), E2E de temáticas 9/9 (axe en cero en las
+- **El acento de «Rojo y blanco»** se probó un rato con `#b8303a` y quedó en el `#c0392b` del plan. La
+  revisión de la rama vio que ese rojo también pinta enlaces sobre el pie y los encabezados (`--muted`,
+  4.53:1, justo por encima del mínimo) y que ningún par lo medía: ahora lo mide `tematicas.test.ts` en
+  los dos estilos (se vio fallar con un rojo más claro). La E2E y las capturas se repitieron con el
+  color final.
+- **Sin comprobación de 44 px en la sección**: la de la T2 no podía fallar sin productos (menor aplazado
+  de la T2), así que la E2E de la Canción Criolla no la copia.
+- **Los pañuelos solo giran**, sin el `skew` del §6.3: con el giro ya se ve que se agitan.
+- **Verificación:** Vitest 690 (31 pares de contraste nuevos), E2E de temáticas 9/9 (axe en cero en las
   11 páginas con los dos estilos, a 375 px y en escritorio; vista fallar antes sin los adornos).
   Capturas en `DOC/Maquetas/tematicas/cancion-criolla/implementada/`.
