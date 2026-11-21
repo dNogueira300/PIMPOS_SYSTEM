@@ -1,9 +1,11 @@
+import { alternativaDe } from "./disenos";
+
 /**
  * El estado de una temática, dicho en palabras para el panel (plan 08, T2).
  *
  * Cuál está activa lo decide la base (`app.tematica_activa_id`, 0047) y llega
  * en `activa`; aquí solo se escribe. Las fechas son días de Iquitos
- * («2026-12-26»), sin hora. Sin dependencias: se prueba sin base.
+ * («2026-12-26»), sin hora. Solo depende del catálogo: se prueba sin base.
  */
 export type EstadoTematica = {
   activa: boolean;
@@ -15,6 +17,20 @@ export type EstadoTematica = {
 };
 
 const ENCENDIDOS = ["fechas", "encendida", "apagada"] as const;
+
+/**
+ * Si cambiar las fechas devuelve la temática a «Según fechas» (0047): pasa con
+ * lo puesto a mano, salvo la «Apagada» de una temática con alternativa
+ * (Halloween y el Día de la Canción Criolla), que sigue apagada (0050). Sale
+ * del catálogo, no de una consulta: si una lectura falla, la frase no miente.
+ */
+export function vuelveASegunFechas(
+  slug: string,
+  encendido: EstadoTematica["encendido_vigente"],
+): boolean {
+  if (encendido === "fechas") return false;
+  return !(encendido === "apagada" && alternativaDe(slug) !== null);
+}
 
 /** Lo que llega de la vista (texto, quizá NULL) como uno de los tres modos. */
 export function comoEncendido(valor: string | null): EstadoTematica["encendido_vigente"] {

@@ -33,7 +33,8 @@ cinta y la sección **«Feliz Halloween»**, con la cuenta regresiva («Faltan 3
 el Día de la Madre, viene **sin productos**.
 
 Con el Día de la Canción Criolla encendido (es la alternativa a Halloween: ver «Halloween o el Día de la
-Canción Criolla», abajo), cuelgan bajo el menú un cajón y una guitarra que se mecen y, según el estilo,
+Canción Criolla», abajo), el sitio cambia de colores (ver «Estilo») y cuelgan bajo el menú un cajón y una
+guitarra que se mecen y, según el estilo,
 un cordel con notas, dos pañuelos de marinera que se agitan y notas que suben, o una celosía de balcón
 y flores de buganvilla que caen. La barra de arriba dice el saludo, y la portada lleva su cinta y la
 sección **«Feliz Día de la Canción Criolla»**, con la cuenta regresiva («Faltan 3 días para el Día de la

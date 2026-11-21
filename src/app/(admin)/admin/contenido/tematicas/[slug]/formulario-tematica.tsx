@@ -10,6 +10,7 @@ import { FormularioPanel } from "@/components/panel/formulario-panel";
 import { PestanasFormulario } from "@/components/panel/pestanas-formulario";
 import { guardarTematica } from "@/lib/acciones/tematicas";
 import { claveDeBorrador } from "@/lib/panel/borrador";
+import { vuelveASegunFechas } from "@/lib/tematicas/estado";
 import { opcionesDeEstilo, type Estilo } from "@/lib/tematicas/estilos";
 import { nombreConDe } from "@/lib/tematicas/nombre";
 import { validarTematica } from "@/lib/validaciones/tematica";
@@ -62,10 +63,9 @@ export function FormularioTematica({
   avisoAlternativa?: string | null;
 }) {
   // La «Apagada» de una temática con alternativa no vuelve a «Según fechas» al
-  // cambiar las fechas (0050): ahí la frase de siempre mentiría.
-  const manual =
-    tematica.encendido_vigente !== "fechas" &&
-    !(avisoAlternativa && tematica.encendido_vigente === "apagada");
+  // cambiar las fechas (0050): ahí la frase de siempre mentiría. Lo dice el
+  // catálogo, no el nombre leído de la otra: si esa lectura falla, no miente.
+  const manual = vuelveASegunFechas(tematica.slug, tematica.encendido_vigente);
   return (
     <FormularioPanel
       clave={claveDeBorrador("tematica", tematica.id)}

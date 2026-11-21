@@ -116,7 +116,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
     const nombre = `Panetón E2E ${slug.slice(-6)}`;
     // Lo de fábrica que se toca, para dejarlo como estaba.
     const antes = sqlLocal(
-      `select concat_ws('|', inicio, fin, fecha_evento, estilo) from public.tematicas where slug = 'navidad'`,
+      `select concat_ws('|', inicio, fin, coalesce(fecha_evento::text, ''), estilo) from public.tematicas where slug = 'navidad'`,
     ).trim();
     const [inicio, fin, evento, estilo] = antes.split("|");
     const aviso = sqlLocal(
@@ -138,8 +138,11 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
     `);
     // Las demás temáticas, lejos: según el día, sus fechas se cruzarían.
     const restaurarLasDemas = apartarLasDemas("navidad");
-    const usuario = await entrarComo(page, "administrador");
+    // Dentro del `try`: si falla el alta del usuario, las demás temáticas
+    // vuelven igual a sus fechas.
+    let usuario: Awaited<ReturnType<typeof entrarComo>> | null = null;
     try {
+      usuario = await entrarComo(page, "administrador");
       // Encendida a mano, con la fiesta dentro de 12 días.
       await guardarNavidad(page, async () => {
         const cuando = page.getByRole("tabpanel", { name: "Cuándo" });
@@ -291,7 +294,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
          where slug = 'navidad';
       `);
       restaurarLasDemas();
-      await borrarUsuario(usuario.id);
+      if (usuario) await borrarUsuario(usuario.id);
     }
   });
 });
