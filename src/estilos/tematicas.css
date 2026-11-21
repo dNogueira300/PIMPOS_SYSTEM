@@ -839,10 +839,11 @@
     repeat-x 0 0 / 160px 28px;
 }
 
-/* Dos pañuelos de marinera que se agitan. Van en píxeles y no en porcentaje:
-   el cordel es una baldosa de 160 px con las notas entre 50 y 68 px y entre
-   128 y 140 px, así que un pañuelo centrado a 100 px de una baldosa (100, 260,
-   420, 580, 900…) nunca tapa una nota, mida lo que mida la pantalla. */
+/* Dos pañuelos de marinera que se agitan, repartidos a lo ancho (hacia el 24 %
+   y el 66 %) pero siempre entre dos notas: el cordel es una baldosa de 160 px
+   con las notas entre 50 y 69 px y entre 129 y 141 px, así que un pañuelo
+   centrado a 100 px de una baldosa (100, 260, 420, 580…) no tapa ninguna. El
+   reparto exacto lo hace `round()`; sin él, valores fijos por ancho. */
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] .adornos-tematica__bola:nth-of-type(2),
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
   .adornos-tematica__bola:nth-of-type(4) {
@@ -880,6 +881,16 @@
   [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
     .adornos-tematica__bola:nth-of-type(4) {
     left: 900px;
+  }
+}
+@supports (left: calc(round(down, 10%, 160px) + 1px)) {
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(2) {
+    left: calc(round(down, 24%, 160px) + 100px);
+  }
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(4) {
+    left: calc(round(down, 66%, 160px) + 100px);
   }
 }
 @media (prefers-reduced-motion: no-preference) {

@@ -210,6 +210,26 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
       expect(rojo.sobre_la_cabecera).toEqual([]);
       expect(rojo.desborde).toBeLessThanOrEqual(0);
       expect(rojo.borde_de_celosia, "el borde de la sección es la celosía").toBe(true);
+
+      // Los pañuelos: repartidos a lo ancho (uno en cada mitad) y siempre a 100 px
+      // de una baldosa del cordel, entre dos notas, también en una pantalla ancha.
+      for (const ancho of [375, 1280, 1920]) {
+        const contexto = await browser.newContext({ viewport: { width: ancho, height: 900 } });
+        try {
+          const otra = await contexto.newPage();
+          await otra.goto("/");
+          const [izquierda, derecha, total] = await otra.evaluate(() => {
+            const bolas = [...document.querySelectorAll<HTMLElement>(".adornos-tematica__bola")];
+            const cordel = document.querySelector<HTMLElement>(".adornos-tematica");
+            return [bolas[1].offsetLeft, bolas[3].offsetLeft, cordel?.clientWidth ?? 0];
+          });
+          expect([izquierda % 160, derecha % 160], `entre notas a ${ancho} px`).toEqual([100, 100]);
+          expect(izquierda / total, `pañuelo izquierdo a ${ancho} px`).toBeLessThan(0.5);
+          expect(derecha / total, `pañuelo derecho a ${ancho} px`).toBeGreaterThan(0.5);
+        } finally {
+          await contexto.close();
+        }
+      }
       await quietoEImpreso(page);
 
       // axe a 375 px (portada, menú abierto y todas las páginas) y en escritorio.

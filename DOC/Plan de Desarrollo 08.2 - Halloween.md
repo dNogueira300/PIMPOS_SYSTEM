@@ -628,14 +628,16 @@ resueltos en un PR sin migración:
 - **El panel** decide si enseña «Si cambias las fechas, vuelve a «Según fechas»» con el catálogo
   (`vuelveASegunFechas`, en `src/lib/tematicas/estado.ts`, con su Vitest) y no con el nombre leído de
   la otra temática; si esa lectura falla, el error va al registro y la frase no miente.
-- **Las E2E de temáticas** guardan la fecha de la fiesta aunque esté vacía (`coalesce`: `concat_ws` se
+- **Las E2E de temáticas del sitio** (Navidad, Día de la Madre, Halloween y Canción Criolla) guardan la fecha de la fiesta aunque esté vacía (`coalesce`: `concat_ws` se
   saltaba el NULL y descuadraba lo que se devolvía al final) y dan de alta al usuario dentro del `try`.
 - **Comprobaciones que no podían fallar:** Halloween y el Día de la Madre ponen un producto en la sección
   para que la de 44 px tenga controles que medir (se vio fallar sin él); la de «Calabaza sobre crema»
-  exige el naranja de los banderines de papel; `reciben_clics` mira también el borde de la sección.
+  exige el naranja de los banderines de papel; `reciben_clics` mira también el borde de la sección (en Halloween y la Canción Criolla).
 - **CSS:** el bloque común de lo que cuelga lo comparten Halloween y la Canción Criolla, y los balanceos
-  repetidos son uno (`adorno-mece`, `sube-despacio`). Los pañuelos de «Rojo y blanco» van en píxeles,
-  siempre entre dos notas del cordel, a cualquier ancho.
+  repetidos son uno (`adorno-mece`, `sube-despacio`). Los pañuelos de «Rojo y blanco» siguen
+  repartidos a lo ancho pero caen siempre entre dos notas del cordel (`round()` a la baldosa de 160 px).
 - **El manual** dice que la Canción Criolla cambia de colores.
-- **Siguen aplazados:** la arañita que anima la altura de su hilo (cuesta poco y no se notan saltos en
+- **Siguen aplazados:** `entrarComo` en `panel-tematicas.spec.ts` y el usuario que queda si falla el
+  ingreso (no el alta); la comprobación de 44 px en la Canción Criolla (su sección no tiene controles);
+  la arañita que anima la altura de su hilo (cuesta poco y no se notan saltos en
   las capturas) y que `sobre_la_cabecera` no mire los giros.
