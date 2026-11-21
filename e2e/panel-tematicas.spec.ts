@@ -40,7 +40,8 @@ function limpiar(slug: string) {
 
 test("encender Navidad a mano publica lo de temporada y apagarla lo esconde", async ({ page }) => {
   // Puede esperar a que termine la del sitio (`tematica-navidad.spec.ts`).
-  test.setTimeout(240_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   // Las dos pruebas que encienden Navidad escriben la misma fila: una a la vez.
   await conCerrojo("tematicas", async () => {
     const slug = `torta-e2e-${Date.now()}`;
@@ -142,8 +143,8 @@ test("cada temática enseña solo sus estilos, y el Día de la Madre guarda el s
   page,
 }) => {
   // Escribe en la fila del Día de la Madre: con el cerrojo de las temáticas.
-  // Espera en la cola del cerrojo a las demás pruebas de temáticas (hasta cinco).
-  test.setTimeout(300_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   await conCerrojo("tematicas", async () => {
     const usuario = await entrarComo(page, "administrador");
     const estilos = (p: Page) => p.getByRole("tabpanel", { name: "Estilo" }).getByRole("radio");
@@ -184,8 +185,8 @@ test("Halloween y la Canción Criolla: cada una con sus estilos, y solo una ence
   page,
 }) => {
   // Escribe en las filas de Halloween y la Canción Criolla: con el cerrojo de las temáticas.
-  // Espera en la cola del cerrojo a las demás pruebas de temáticas (hasta cinco).
-  test.setTimeout(300_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   await conCerrojo("tematicas", async () => {
     // Las dos lejos de todo (Navidad y el Día de la Madre tienen fechas fijas,
     // y `apartarLasDemas` usa de hoy+400 a hoy+470), en un estado conocido: la

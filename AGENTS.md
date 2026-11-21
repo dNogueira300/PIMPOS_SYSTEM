@@ -242,7 +242,7 @@ todas en `docs/tematicas.md`.
   temática activa, `data-tematica` + `data-estilo` en la envoltura de `CascaraPublica`, los tokens de
   `src/estilos/tematicas.css`, luces en dos tandas que se turnan, bolas que cuelgan de la cabecera
   (el único elemento que la temática añade al HTML, `.adornos-tematica`, en `Cabecera`), nieve con
-  copos grandes, el texto de campaña en la barra, la cinta y la sección de
+  unos pocos copos pequeños (más chicos y menos desde el 20/11/2026, a pedido de Dan), el texto de campaña en la barra, la cinta y la sección de
   temporada en la portada. **Sin temática activa el HTML no cambia.**
 - **El Día de la Madre** (0049): 3–10/05/2027, fiesta el 9; dos estilos, `rosa-crema` (puesto) y
   `rosa`, con banderines bajo la cabecera, corazones que suben y un festón en la sección; sin productos.

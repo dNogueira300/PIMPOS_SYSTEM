@@ -145,7 +145,8 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
   browser,
 }) => {
   // Antes del cerrojo: su espera máxima sale del tiempo de la prueba.
-  test.setTimeout(300_000);
+  // Hasta 10 min: espera su turno en el cerrojo «tematicas», que comparten siete pruebas.
+  test.setTimeout(600_000);
   await conCerrojo("tematicas", async () => {
     // Lo de fábrica, para dejarlo como estaba (va «Apagada»).
     const [inicio, fin, evento, estilo] = sqlLocal(
