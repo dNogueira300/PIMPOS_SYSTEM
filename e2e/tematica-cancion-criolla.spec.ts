@@ -72,9 +72,16 @@ function leerPiezas() {
         getComputedStyle(el as Element, seudo).animationName,
       ]),
     ),
-    reciben_clics: visibles
-      .filter(([, el, seudo]) => getComputedStyle(el as Element, seudo).pointerEvents !== "none")
-      .map(([nombre]) => nombre),
+    reciben_clics: [
+      ...visibles
+        .filter(([, el, seudo]) => getComputedStyle(el as Element, seudo).pointerEvents !== "none")
+        .map(([nombre]) => nombre),
+      ...(seccion &&
+      getComputedStyle(seccion, "::before").content !== "none" &&
+      getComputedStyle(seccion, "::before").pointerEvents !== "none"
+        ? ["el borde de la sección"]
+        : []),
+    ],
     // `inset: 100%` se mide sobre el relleno: ningún adorno puede empezar por
     // encima de donde termina la cabecera.
     sobre_la_cabecera: [
@@ -142,14 +149,17 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
   await conCerrojo("tematicas", async () => {
     // Lo de fábrica, para dejarlo como estaba (va «Apagada»).
     const [inicio, fin, evento, estilo] = sqlLocal(
-      `select concat_ws('|', inicio, fin, fecha_evento, estilo) from public.tematicas where slug = 'cancion-criolla'`,
+      `select concat_ws('|', inicio, fin, coalesce(fecha_evento::text, ''), estilo) from public.tematicas where slug = 'cancion-criolla'`,
     )
       .trim()
       .split("|");
     // Aparta también a Halloween, su alternativa: si no, encenderla chocaría.
     const restaurarLasDemas = apartarLasDemas("cancion-criolla");
-    const usuario = await entrarComo(page, "administrador");
+    // Dentro del `try`: si falla el alta del usuario, las demás temáticas
+    // vuelven igual a sus fechas.
+    let usuario: Awaited<ReturnType<typeof entrarComo>> | null = null;
     try {
+      usuario = await entrarComo(page, "administrador");
       // Encendida a mano, con la fiesta dentro de 3 días y «Rojo y blanco».
       await guardarCriolla(page, async () => {
         const cuando = page.getByRole("tabpanel", { name: "Cuándo" });
@@ -185,16 +195,16 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
       expect(rojo.animaciones).toEqual({
         "header::before": "none",
         "header::after": "none",
-        "bola 1": "criolla-mece",
+        "bola 1": "adorno-mece",
         "bola 1::after": "none",
         "bola 2": "panuelo-agita",
         "bola 2::after": "none",
         "bola 4": "panuelo-agita",
         "bola 4::after": "none",
-        "bola 5": "criolla-mece",
+        "bola 5": "adorno-mece",
         "bola 5::after": "none",
-        "envoltura::before": "notas-suben",
-        "envoltura::after": "notas-suben",
+        "envoltura::before": "sube-despacio",
+        "envoltura::after": "sube-despacio",
       });
       expect(rojo.reciben_clics).toEqual([]);
       expect(rojo.sobre_la_cabecera).toEqual([]);
@@ -220,9 +230,9 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
       const balcon = await page.evaluate(leerPiezas);
       expect(balcon.animaciones).toEqual({
         "header::before": "none",
-        "bola 1": "criolla-mece",
+        "bola 1": "adorno-mece",
         "bola 1::after": "none",
-        "bola 5": "criolla-mece",
+        "bola 5": "adorno-mece",
         "bola 5::after": "none",
         "envoltura::before": "buganvillas-caen",
         "envoltura::after": "buganvillas-caen",
@@ -259,7 +269,7 @@ test("el Día de la Canción Criolla viste el sitio, con sus dos estilos, y al a
          where slug = 'cancion-criolla';
       `);
       restaurarLasDemas();
-      await borrarUsuario(usuario.id);
+      if (usuario) await borrarUsuario(usuario.id);
     }
   });
 });

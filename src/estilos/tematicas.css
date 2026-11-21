@@ -254,13 +254,13 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-tematica="dia-de-la-madre"]::before {
-    animation: corazones-suben 38s linear infinite;
+    animation: sube-despacio 38s linear infinite;
   }
   [data-tematica="dia-de-la-madre"]::after {
-    animation: corazones-suben 50s linear infinite;
+    animation: sube-despacio 50s linear infinite;
   }
 }
-@keyframes corazones-suben {
+@keyframes sube-despacio {
   0% {
     translate: 0 0;
   }
@@ -412,8 +412,9 @@
    ver Navidad): cada `span` es un hilo de 1 px que gira desde arriba, y su
    `::after`, el dibujo. Que el elemento sea solo el hilo hace que nada suba
    por encima de la cabecera. Por defecto no se ve ninguno; cada estilo
-   enciende los suyos (van numerados con `nth-of-type`). */
-[data-tematica="halloween"] .adornos-tematica {
+   enciende los suyos (van numerados con `nth-of-type`). Este bloque lo
+   comparten Halloween y el Día de la Canción Criolla. */
+:is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica {
   display: block;
   position: absolute;
   inset: 100% 0 auto 0;
@@ -423,15 +424,15 @@
   --escala: 1;
 }
 @media (min-width: 768px) {
-  [data-tematica="halloween"] .adornos-tematica {
+  :is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica {
     --escala: 1.3;
   }
 }
-[data-tematica="halloween"] .adornos-tematica__luces,
-[data-tematica="halloween"] .adornos-tematica__bola {
+:is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica__luces,
+:is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica__bola {
   display: none;
 }
-[data-tematica="halloween"] .adornos-tematica__bola {
+:is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica__bola {
   position: absolute;
   top: 0;
   left: calc(var(--x) * var(--escala));
@@ -440,7 +441,7 @@
   background: var(--hilo-adornos);
   transform-origin: 50% 0;
 }
-[data-tematica="halloween"] .adornos-tematica__bola::after {
+:is([data-tematica="halloween"], [data-tematica="cancion-criolla"]) .adornos-tematica__bola::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -569,14 +570,14 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-tematica="halloween"][data-estilo="calabaza-noche"] .adornos-tematica__bola:nth-of-type(1),
   [data-tematica="halloween"][data-estilo="calabaza-noche"] .adornos-tematica__bola:nth-of-type(2) {
-    animation: halloween-mece var(--duracion) ease-in-out var(--retraso) infinite alternate;
+    animation: adorno-mece var(--duracion) ease-in-out var(--retraso) infinite alternate;
   }
   [data-tematica="halloween"][data-estilo="calabaza-noche"]
     .adornos-tematica__bola:nth-of-type(1)::before {
     animation: halloween-saluda 0.8s ease-in-out infinite alternate;
   }
 }
-@keyframes halloween-mece {
+@keyframes adorno-mece {
   from {
     rotate: -5deg;
   }
@@ -762,47 +763,8 @@
   }
 }
 
-/* Lo que cuelga de la cabecera va en el elemento de los adornos, como en
-   Halloween: cada `span` es un hilo de 1 px que gira desde arriba y su
-   `::after`, el dibujo. Por defecto no se ve ninguno; el cajón (el primero) y
-   la guitarra (el quinto) salen en los dos estilos. */
-[data-tematica="cancion-criolla"] .adornos-tematica {
-  display: block;
-  position: absolute;
-  inset: 100% 0 auto 0;
-  height: 0;
-  pointer-events: none;
-  z-index: 1;
-  --escala: 1;
-}
-@media (min-width: 768px) {
-  [data-tematica="cancion-criolla"] .adornos-tematica {
-    --escala: 1.3;
-  }
-}
-[data-tematica="cancion-criolla"] .adornos-tematica__luces,
-[data-tematica="cancion-criolla"] .adornos-tematica__bola {
-  display: none;
-}
-[data-tematica="cancion-criolla"] .adornos-tematica__bola {
-  position: absolute;
-  top: 0;
-  left: calc(var(--x) * var(--escala));
-  width: 1px;
-  height: calc(var(--hilo) * var(--escala));
-  background: var(--hilo-adornos);
-  transform-origin: 50% 0;
-}
-[data-tematica="cancion-criolla"] .adornos-tematica__bola::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(var(--ancho) * var(--escala));
-  height: calc(var(--alto) * var(--escala));
-  background: var(--dibujo) center / contain no-repeat;
-}
+/* Lo que cuelga (el bloque común está con Halloween): el cajón (el primer
+   `span`) y la guitarra (el quinto) salen en los dos estilos. */
 /* El cajón peruano, a la izquierda. */
 [data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(1) {
   display: block;
@@ -829,15 +791,7 @@
 @media (prefers-reduced-motion: no-preference) {
   [data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(1),
   [data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(5) {
-    animation: criolla-mece var(--duracion) ease-in-out var(--retraso) infinite alternate;
-  }
-}
-@keyframes criolla-mece {
-  from {
-    rotate: -5deg;
-  }
-  to {
-    rotate: 5deg;
+    animation: adorno-mece var(--duracion) ease-in-out var(--retraso) infinite alternate;
   }
 }
 
@@ -885,7 +839,10 @@
     repeat-x 0 0 / 160px 28px;
 }
 
-/* Dos pañuelos de marinera que se agitan. */
+/* Dos pañuelos de marinera que se agitan. Van en píxeles y no en porcentaje:
+   el cordel es una baldosa de 160 px con las notas entre 50 y 68 px y entre
+   128 y 140 px, así que un pañuelo centrado a 100 px de una baldosa (100, 260,
+   420, 580, 900…) nunca tapa una nota, mida lo que mida la pantalla. */
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] .adornos-tematica__bola:nth-of-type(2),
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
   .adornos-tematica__bola:nth-of-type(4) {
@@ -897,13 +854,33 @@
 }
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
   .adornos-tematica__bola:nth-of-type(2) {
-  left: 24%;
+  left: 100px;
   --retraso: 0s;
 }
 [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
   .adornos-tematica__bola:nth-of-type(4) {
-  left: 66%;
+  left: 260px;
   --retraso: -0.9s;
+}
+@media (min-width: 768px) {
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(2) {
+    left: 260px;
+  }
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(4) {
+    left: 580px;
+  }
+}
+@media (min-width: 1200px) {
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(2) {
+    left: 420px;
+  }
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(4) {
+    left: 900px;
+  }
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
@@ -947,27 +924,10 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::before {
-    animation: notas-suben 40s linear infinite;
+    animation: sube-despacio 40s linear infinite;
   }
   [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::after {
-    animation: notas-suben 52s linear infinite;
-  }
-}
-@keyframes notas-suben {
-  0% {
-    translate: 0 0;
-  }
-  25% {
-    translate: 8px -100px;
-  }
-  50% {
-    translate: 0 -200px;
-  }
-  75% {
-    translate: -8px -300px;
-  }
-  100% {
-    translate: 0 -400px;
+    animation: sube-despacio 52s linear infinite;
   }
 }
 

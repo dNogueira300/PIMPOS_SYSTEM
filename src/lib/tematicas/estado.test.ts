@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { avisoSoloTemporada, describirEstado, type EstadoTematica } from "./estado";
+import {
+  avisoSoloTemporada,
+  describirEstado,
+  vuelveASegunFechas,
+  type EstadoTematica,
+} from "./estado";
 
 const navidad = (cambios: Partial<EstadoTematica> = {}): EstadoTematica => ({
   activa: false,
@@ -83,5 +88,23 @@ describe("avisoSoloTemporada", () => {
         { nombre: "el Día de la Madre", activa: true },
       ]),
     ).toBe("Solo se vende en Navidad y el Día de la Madre · hoy se ve en el sitio");
+  });
+});
+
+describe("vuelveASegunFechas", () => {
+  it("lo puesto a mano vuelve a «Según fechas» al cambiar las fechas", () => {
+    expect(vuelveASegunFechas("navidad", "apagada")).toBe(true);
+    expect(vuelveASegunFechas("navidad", "encendida")).toBe(true);
+    expect(vuelveASegunFechas("halloween", "encendida")).toBe(true);
+  });
+
+  it("salvo la «Apagada» de una temática con alternativa, que sigue apagada (0050)", () => {
+    expect(vuelveASegunFechas("halloween", "apagada")).toBe(false);
+    expect(vuelveASegunFechas("cancion-criolla", "apagada")).toBe(false);
+  });
+
+  it("según fechas no hay nada a mano que perder", () => {
+    expect(vuelveASegunFechas("navidad", "fechas")).toBe(false);
+    expect(vuelveASegunFechas("cancion-criolla", "fechas")).toBe(false);
   });
 });

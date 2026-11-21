@@ -70,9 +70,16 @@ function leerPiezas() {
         getComputedStyle(el as Element, seudo).animationName,
       ]),
     ),
-    reciben_clics: visibles
-      .filter(([, el, seudo]) => getComputedStyle(el as Element, seudo).pointerEvents !== "none")
-      .map(([nombre]) => nombre),
+    reciben_clics: [
+      ...visibles
+        .filter(([, el, seudo]) => getComputedStyle(el as Element, seudo).pointerEvents !== "none")
+        .map(([nombre]) => nombre),
+      ...(seccion &&
+      getComputedStyle(seccion, "::before").content !== "none" &&
+      getComputedStyle(seccion, "::before").pointerEvents !== "none"
+        ? ["el borde de la sección"]
+        : []),
+    ],
     // `inset: 100%` se mide sobre el relleno: ningún adorno puede empezar por
     // encima de donde termina la cabecera.
     sobre_la_cabecera: [
@@ -88,6 +95,9 @@ function leerPiezas() {
         .filter(([, el]) => (el as Element).getBoundingClientRect().top < bordeCabecera - 0.5)
         .map(([nombre]) => nombre),
     ],
+    // Los banderines de papel llevan el naranja #e8741c; los rosas del Día de
+    // la Madre, no: así se distinguen aunque se muevan igual.
+    fondo_banderines: getComputedStyle(cabecera, "::before").backgroundImage,
     borde_de_papel: seccion
       ? getComputedStyle(seccion, "::before").maskImage.includes("papel")
       : null,
@@ -140,13 +150,25 @@ test("Halloween viste el sitio, con sus dos estilos, y al apagarse vuelve a como
   await conCerrojo("tematicas", async () => {
     // Lo de fábrica, para dejarlo como estaba.
     const [inicio, fin, evento, estilo] = sqlLocal(
-      `select concat_ws('|', inicio, fin, fecha_evento, estilo) from public.tematicas where slug = 'halloween'`,
+      `select concat_ws('|', inicio, fin, coalesce(fecha_evento::text, ''), estilo) from public.tematicas where slug = 'halloween'`,
     )
       .trim()
       .split("|");
+    // Un producto en la sección (sin «solo de temporada»), para que la
+    // comprobación de 44 px tenga controles que medir. El «Guardar» del panel
+    // lo vuelve a mandar tal cual.
+    sqlLocal(`
+      insert into public.tematica_productos (tematica_id, producto_id, solo_temporada, orden)
+      select t.id, p.id, false, 0 from public.tematicas t, public.productos p
+       where t.slug = 'halloween' and p.slug = 'frances-chico'
+      on conflict do nothing;
+    `);
     const restaurarLasDemas = apartarLasDemas("halloween");
-    const usuario = await entrarComo(page, "administrador");
+    // Dentro del `try`: si falla el alta del usuario, las demás temáticas
+    // vuelven igual a sus fechas.
+    let usuario: Awaited<ReturnType<typeof entrarComo>> | null = null;
     try {
+      usuario = await entrarComo(page, "administrador");
       // Encendida a mano, con la fiesta dentro de 3 días y «Noche de calabazas».
       await guardarHalloween(page, async () => {
         const cuando = page.getByRole("tabpanel", { name: "Cuándo" });
@@ -181,10 +203,10 @@ test("Halloween viste el sitio, con sus dos estilos, y al apagarse vuelve a como
       expect(noche.animaciones).toEqual({
         "header::before": "none",
         "header::after": "none",
-        "bola 1": "halloween-mece",
+        "bola 1": "adorno-mece",
         "bola 1::before": "halloween-saluda",
         "bola 1::after": "none",
-        "bola 2": "halloween-mece",
+        "bola 2": "adorno-mece",
         "bola 2::after": "none",
         "bola 3": "arana-baja",
         "bola 3::after": "none",
@@ -206,15 +228,23 @@ test("Halloween viste el sitio, con sus dos estilos, y al apagarse vuelve a como
 
       // Área táctil de lo que la temática añade a la portada, a 375 px.
       await page.goto("/");
-      const pequenos = await page.locator("[data-seccion-temporada]").evaluate((el) =>
-        [...el.querySelectorAll("a, button")]
+      const tactil = await page.locator("[data-seccion-temporada]").evaluate((el) => {
+        const controles = [...el.querySelectorAll("a, button")]
           .map((c) => ({ texto: c.textContent?.trim() ?? "", caja: c.getBoundingClientRect() }))
-          .filter(({ caja }) => caja.width > 0 && (caja.width < 44 || caja.height < 44))
-          .map(
-            ({ texto, caja }) => `${texto} (${Math.round(caja.width)}×${Math.round(caja.height)})`,
-          ),
-      );
-      expect(pequenos, "controles de menos de 44 px en la sección de temporada").toEqual([]);
+          .filter(({ caja }) => caja.width > 0);
+        return {
+          cuantos: controles.length,
+          pequenos: controles
+            .filter(({ caja }) => caja.width < 44 || caja.height < 44)
+            .map(
+              ({ texto, caja }) =>
+                `${texto} (${Math.round(caja.width)}×${Math.round(caja.height)})`,
+            ),
+        };
+      });
+      // Con el producto de prueba hay controles que medir; si no, no comprobaría nada.
+      expect(tactil.cuantos, "la sección de temporada tiene controles").toBeGreaterThan(0);
+      expect(tactil.pequenos, "controles de menos de 44 px en la sección de temporada").toEqual([]);
       await enEscritorio(browser, "noche de calabazas");
 
       // El otro estilo: banderines de papel, una telaraña y la arañita.
@@ -239,6 +269,7 @@ test("Halloween viste el sitio, con sus dos estilos, y al apagarse vuelve a como
       expect(crema.sobre_la_cabecera).toEqual([]);
       expect(crema.desborde).toBeLessThanOrEqual(0);
       expect(crema.borde_de_papel).toBe(true);
+      expect(crema.fondo_banderines, "los banderines son los de papel").toContain("e8741c");
       await quietoEImpreso(page);
       await exigirCeroAxe(page, "la portada a 375 px (calabaza sobre crema)");
       await axeEnRutas(page, "a 375 px (calabaza sobre crema)");
@@ -266,8 +297,13 @@ test("Halloween viste el sitio, con sus dos estilos, y al apagarse vuelve a como
                fecha_evento = nullif('${evento}', '')::date, estilo = '${estilo}'
          where slug = 'halloween';
       `);
+      sqlLocal(`
+        delete from public.tematica_productos
+         where tematica_id = (select id from public.tematicas where slug = 'halloween')
+           and producto_id = (select id from public.productos where slug = 'frances-chico');
+      `);
       restaurarLasDemas();
-      await borrarUsuario(usuario.id);
+      if (usuario) await borrarUsuario(usuario.id);
     }
   });
 });

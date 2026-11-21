@@ -94,13 +94,25 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
   await conCerrojo("tematicas", async () => {
     // Lo de fábrica, para dejarlo como estaba.
     const [inicio, fin, evento, estilo] = sqlLocal(
-      `select concat_ws('|', inicio, fin, fecha_evento, estilo) from public.tematicas where slug = 'dia-de-la-madre'`,
+      `select concat_ws('|', inicio, fin, coalesce(fecha_evento::text, ''), estilo) from public.tematicas where slug = 'dia-de-la-madre'`,
     )
       .trim()
       .split("|");
+    // Un producto en la sección (sin «solo de temporada»), para que la
+    // comprobación de 44 px tenga controles que medir. El «Guardar» del panel
+    // lo vuelve a mandar tal cual.
+    sqlLocal(`
+      insert into public.tematica_productos (tematica_id, producto_id, solo_temporada, orden)
+      select t.id, p.id, false, 0 from public.tematicas t, public.productos p
+       where t.slug = 'dia-de-la-madre' and p.slug = 'frances-chico'
+      on conflict do nothing;
+    `);
     const restaurarLasDemas = apartarLasDemas("dia-de-la-madre");
-    const usuario = await entrarComo(page, "administrador");
+    // Dentro del `try`: si falla el alta del usuario, las demás temáticas
+    // vuelven igual a sus fechas.
+    let usuario: Awaited<ReturnType<typeof entrarComo>> | null = null;
     try {
+      usuario = await entrarComo(page, "administrador");
       // Encendida a mano, con la fiesta dentro de 3 días y «Rosa sobre crema».
       await guardarMadre(page, async () => {
         const cuando = page.getByRole("tabpanel", { name: "Cuándo" });
@@ -136,8 +148,8 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
       expect(piezas.animaciones).toEqual({
         banderines: "banderines-mecen",
         cordel: "banderines-mecen",
-        "corazones rosa": "corazones-suben",
-        "corazones dorados": "corazones-suben",
+        "corazones rosa": "sube-despacio",
+        "corazones dorados": "sube-despacio",
       });
       expect(piezas.reciben_clics).toEqual([]);
       expect(piezas.sobre_la_cabecera).toBe(false);
@@ -162,15 +174,23 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
 
       // Área táctil de lo que la temática añade a la portada, a 375 px.
       await page.goto("/");
-      const pequenos = await page.locator("[data-seccion-temporada]").evaluate((el) =>
-        [...el.querySelectorAll("a, button")]
+      const tactil = await page.locator("[data-seccion-temporada]").evaluate((el) => {
+        const controles = [...el.querySelectorAll("a, button")]
           .map((c) => ({ texto: c.textContent?.trim() ?? "", caja: c.getBoundingClientRect() }))
-          .filter(({ caja }) => caja.width > 0 && (caja.width < 44 || caja.height < 44))
-          .map(
-            ({ texto, caja }) => `${texto} (${Math.round(caja.width)}×${Math.round(caja.height)})`,
-          ),
-      );
-      expect(pequenos, "controles de menos de 44 px en la sección de temporada").toEqual([]);
+          .filter(({ caja }) => caja.width > 0);
+        return {
+          cuantos: controles.length,
+          pequenos: controles
+            .filter(({ caja }) => caja.width < 44 || caja.height < 44)
+            .map(
+              ({ texto, caja }) =>
+                `${texto} (${Math.round(caja.width)}×${Math.round(caja.height)})`,
+            ),
+        };
+      });
+      // Con el producto de prueba hay controles que medir; si no, no comprobaría nada.
+      expect(tactil.cuantos, "la sección de temporada tiene controles").toBeGreaterThan(0);
+      expect(tactil.pequenos, "controles de menos de 44 px en la sección de temporada").toEqual([]);
       await enEscritorio(browser, "rosa sobre crema");
 
       // El otro estilo.
@@ -206,8 +226,13 @@ test("el Día de la Madre viste el sitio, con sus dos estilos, y al apagarse vue
                fecha_evento = nullif('${evento}', '')::date, estilo = '${estilo}'
          where slug = 'dia-de-la-madre';
       `);
+      sqlLocal(`
+        delete from public.tematica_productos
+         where tematica_id = (select id from public.tematicas where slug = 'dia-de-la-madre')
+           and producto_id = (select id from public.productos where slug = 'frances-chico');
+      `);
       restaurarLasDemas();
-      await borrarUsuario(usuario.id);
+      if (usuario) await borrarUsuario(usuario.id);
     }
   });
 });

@@ -45,7 +45,7 @@ async function Editor({
   const [
     { data: elegidos, error: errorElegidos },
     { data: catalogo, error: errorCatalogo },
-    { data: otra },
+    { data: otra, error: errorOtra },
   ] = await Promise.all([
     supabase
       .from("tematica_productos")
@@ -55,8 +55,15 @@ async function Editor({
     supabase.from("productos").select("id, nombre").is("deleted_at", null).order("nombre"),
     alternativa
       ? supabase.from("tematicas_panel").select("nombre").eq("slug", alternativa).maybeSingle()
-      : Promise.resolve({ data: null }),
+      : Promise.resolve({ data: null, error: null }),
   ]);
+  // Sin el nombre de la otra solo falta la línea de ayuda: el formulario sirve
+  // igual. Se deja en el registro para saber por qué.
+  if (errorOtra) {
+    console.error(
+      `[panel] la alternativa de ${slug}: código ${errorOtra.code ?? "?"} — ${errorOtra.message}`,
+    );
+  }
   // Sin sus productos no se pinta el formulario: «Guardar» con la lista vacía
   // borraría todos los de la temática (`guardar_tematica` quita lo que no llega).
   if (errorElegidos || errorCatalogo || !elegidos || !catalogo) {

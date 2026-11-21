@@ -621,3 +621,21 @@ se vuelve a elegir. El PR #113 se fusionó, por pedido de Dan.
 - **Verificación:** Vitest 690 (31 pares de contraste nuevos), E2E de temáticas 9/9 (axe en cero en las
   11 páginas con los dos estilos, a 375 px y en escritorio; vista fallar antes sin los adornos).
   Capturas en `DOC/Maquetas/tematicas/cancion-criolla/implementada/`.
+
+**Menores, después de cerrar el plan (20/11/2026, a pedido de Dan).** Los aplazados por las revisiones,
+resueltos en un PR sin migración:
+
+- **El panel** decide si enseña «Si cambias las fechas, vuelve a «Según fechas»» con el catálogo
+  (`vuelveASegunFechas`, en `src/lib/tematicas/estado.ts`, con su Vitest) y no con el nombre leído de
+  la otra temática; si esa lectura falla, el error va al registro y la frase no miente.
+- **Las E2E de temáticas** guardan la fecha de la fiesta aunque esté vacía (`coalesce`: `concat_ws` se
+  saltaba el NULL y descuadraba lo que se devolvía al final) y dan de alta al usuario dentro del `try`.
+- **Comprobaciones que no podían fallar:** Halloween y el Día de la Madre ponen un producto en la sección
+  para que la de 44 px tenga controles que medir (se vio fallar sin él); la de «Calabaza sobre crema»
+  exige el naranja de los banderines de papel; `reciben_clics` mira también el borde de la sección.
+- **CSS:** el bloque común de lo que cuelga lo comparten Halloween y la Canción Criolla, y los balanceos
+  repetidos son uno (`adorno-mece`, `sube-despacio`). Los pañuelos de «Rojo y blanco» van en píxeles,
+  siempre entre dos notas del cordel, a cualquier ancho.
+- **El manual** dice que la Canción Criolla cambia de colores.
+- **Siguen aplazados:** la arañita que anima la altura de su hilo (cuesta poco y no se notan saltos en
+  las capturas) y que `sobre_la_cabecera` no mire los giros.
