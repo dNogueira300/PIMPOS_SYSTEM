@@ -188,7 +188,7 @@ test("Navidad viste el sitio, con sus dos estilos, y al apagarla vuelve a como e
       await seccion.getByRole("link", { name: nombre }).click({ trial: true });
 
       // Los adornos: las luces en dos tandas que se turnan, cinco bolas que se
-      // balancean cada una a su aire y copos grandes que caen a otro ritmo que
+      // balancean cada una a su aire y copos pequeños que caen a otro ritmo que
       // los puntos de nieve.
       const adornos = await page.evaluate(leerAdornos);
       expect(adornos.luces).toHaveLength(2);

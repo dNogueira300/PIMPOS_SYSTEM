@@ -1231,9 +1231,8 @@
 }
 
 /* Copos de seis puntas, pocos, pequeños y repartidos (a pedido de Dan, el más
-   grande mide como el más chico de antes y son tres por cada par de
-   baldosas), en el otro seudoelemento
-   de la envoltura. Del color de `--nieve` (blancos de noche, verde tenue en
+   grande mide como el más chico de antes y son tres por cada par de baldosas),
+   en el otro seudoelemento de la envoltura. Del color de `--nieve` (blancos de noche, verde tenue en
    crema): el dibujo es una máscara y el color, el fondo. Caen más despacio que
    los puntos y se mecen un poco. Se mueve la capa entera (`translate`), no su
    fondo: la compone la tarjeta gráfica sin volver a pintar. Para que el bucle

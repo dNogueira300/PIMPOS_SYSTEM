@@ -270,6 +270,7 @@ describe("Día de la Canción Criolla · balcón limeño", () => {
 // (escala 0.8 del copo de 22 px), y tres por cada par de baldosas, no cinco.
 describe("Navidad · copos de nieve", () => {
   const inicio = TEMATICAS.indexOf('[data-tematica="navidad"]::after {');
+  if (inicio < 0) throw new Error("No está el bloque de los copos de Navidad");
   const bloque = TEMATICAS.slice(inicio, TEMATICAS.indexOf("}", inicio));
   const copos = [...bloque.matchAll(/%3Cuse href='%23c' transform='([^']*)'/g)].map(([, t]) => {
     const escala = /scale\(([\d.]+)\)/.exec(t);
