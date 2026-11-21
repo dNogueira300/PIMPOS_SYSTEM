@@ -594,3 +594,22 @@ local, las dos filas como deben) y el PR #112 se fusionó, por pedido de Dan.
 - **Verificación:** Vitest 659 (35 pares de contraste nuevos), E2E de temáticas 8/8 (axe en cero en las
   11 páginas con los dos estilos, a 375 px y en escritorio; vista fallar antes sin los adornos).
   Capturas en `DOC/Maquetas/tematicas/halloween/implementada/`.
+
+**T2, después del PR.** La revisión de la rama encontró que el manual (y la ayuda del panel, de la T1)
+prometían que la «Apagada» seguía al año siguiente; ya venció para entonces: ahora dicen que cada año
+se vuelve a elegir. El PR #113 se fusionó, por pedido de Dan.
+
+**T3 (20/11/2026, PR 3).**
+
+- **Las notas del cordel de «Rojo y blanco»** son blancas con borde rojo, como los pañuelos, y no rojas:
+  en escritorio el cordel cruza el bloque rojo del titular del carrusel y las notas rojas desaparecían
+  (se vio en las capturas).
+- **En «Balcón limeño»** lo que cuelga empieza debajo de la celosía (21 px más abajo), para no colgar
+  de la madera.
+- **El aviso de fábrica** («Feliz Día de la Canción Criolla: pan calientito y buena música») ocupa dos
+  líneas a 375 px. No se cambia por migración: el negocio puede acortarlo desde el panel.
+- **El manual** ya dice «Fecha de Halloween / del Día de la Canción Criolla» y que la caligrafía cae en
+  el nombre de la fiesta (dos menores aplazados de la T2).
+- **Verificación:** Vitest 688 (29 pares de contraste nuevos), E2E de temáticas 9/9 (axe en cero en las
+  11 páginas con los dos estilos, a 375 px y en escritorio; vista fallar antes sin los adornos).
+  Capturas en `DOC/Maquetas/tematicas/cancion-criolla/implementada/`.

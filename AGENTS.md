@@ -255,6 +255,9 @@ todas en `docs/tematicas.md`.
   telarañas, esqueletito que saluda, calabaza, arañita y murciélagos) y `calabaza-crema` (banderines de
   papel, telaraña y arañita), con los adornos distintos en cada estilo, colgados de los `span` de
   `.adornos-tematica`; «Halloween» del título va en `#c2560f` (`--caligrafia-titulo`, texto grande).
+  El Día de la Canción Criolla tiene `rojo-blanco` (puesto: cordel con notas blancas de borde rojo,
+  pañuelos de marinera y notas que suben) y `balcon` (celosía de madera y buganvillas que caen); los
+  dos con el cajón (primer `span`) y la guitarra (quinto).
 - **Una temática nueva** es una migración (amplía `tematicas_slug_conocido` y la restricción de pares
   `tematicas_estilo_de_su_tematica`, y siembra la fila sin auditar, como 0049), su entrada en
   `src/lib/tematicas/disenos.ts` (sus estilos, con nombre y ayuda, y su artículo) y su CSS en
