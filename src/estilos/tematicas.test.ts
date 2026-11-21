@@ -212,3 +212,55 @@ describe("Halloween · calabaza sobre crema", () => {
     expect(hc["caligrafia-titulo"]).toBe("#c2560f");
   });
 });
+
+// --- Día de la Canción Criolla (plan 08.2) -------------------------------
+const rb = tokensDe("rojo-blanco", "cancion-criolla");
+const PARES_ROJO_BLANCO: Par[] = [
+  [rb.primary, crema50, AA.texto, "titulares rojos sobre el crema"],
+  [rb.primary, crema0, AA.texto, "titulares rojos sobre las tarjetas"],
+  [rb["primary-foreground"], rb.primary, AA.texto, "texto del bloque rojo (hero, delivery)"],
+  [rb["cta-texto"], rb["cta-fondo"], AA.texto, "botón rojo"],
+  [rb["cta-texto-hover"], rb["cta-fondo-hover"], AA.texto, "botón rojo al pasar"],
+  [rb["acento-texto"], crema50, AA.texto, "acentos rojos (caligrafía, sellos)"],
+  [rb["acento-texto"], crema0, AA.texto, "acentos sobre tarjetas"],
+  [rb["acento-texto"], crema100, AA.texto, "enlaces de acento sobre el pie y los encabezados"],
+  [rb["franja-texto"], rb["franja-fondo"], AA.texto, "franja y cinta"],
+  [rb["aviso-texto"], rb["aviso-fondo"], AA.texto, "barra de arriba"],
+  [rb["sello-texto"], rb["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [rb.ring, crema50, AA.interfaz, "anillo de foco"],
+];
+
+const bl = tokensDe("balcon", "cancion-criolla");
+const PARES_BALCON: Par[] = [
+  [bl.foreground, bl.background, AA.texto, "texto sobre el crema del balcón"],
+  [bl.foreground, bl.card, AA.texto, "texto sobre las tarjetas"],
+  [bl["muted-foreground"], bl.background, AA.texto, "texto secundario sobre el fondo"],
+  [bl["muted-foreground"], bl.card, AA.texto, "texto secundario sobre las tarjetas"],
+  [bl["muted-foreground"], bl.muted, AA.texto, "texto secundario sobre el pie"],
+  [bl.primary, bl.background, AA.texto, "titulares madera sobre el crema"],
+  [bl.primary, bl.card, AA.texto, "titulares sobre las tarjetas"],
+  [bl["primary-foreground"], bl.primary, AA.texto, "texto del bloque madera (hero, delivery)"],
+  [bl["cta-texto"], bl["cta-fondo"], AA.texto, "botón madera"],
+  [bl["cta-texto-hover"], bl["cta-fondo-hover"], AA.texto, "botón madera al pasar"],
+  [bl["acento-texto"], bl.background, AA.texto, "acentos buganvilla"],
+  [bl["acento-texto"], bl.card, AA.texto, "acentos sobre tarjetas"],
+  [bl["acento-texto"], bl.muted, AA.texto, "enlaces de acento sobre el pie y los encabezados"],
+  [bl["precio-texto"], bl.background, AA.texto, "precio sobre el crema del balcón"],
+  [bl["precio-texto"], bl.card, AA.texto, "precio sobre las tarjetas"],
+  [bl["franja-texto"], bl["franja-fondo"], AA.texto, "franja y cinta"],
+  [bl["aviso-texto"], bl["aviso-fondo"], AA.texto, "barra de arriba"],
+  [bl["sello-texto"], bl["sello-fondo"], AA.texto, "cuenta regresiva"],
+  [bl.ring, bl.background, AA.interfaz, "anillo de foco"],
+];
+
+describe("Día de la Canción Criolla · rojo y blanco", () => {
+  it.each(PARES_ROJO_BLANCO)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+});
+
+describe("Día de la Canción Criolla · balcón limeño", () => {
+  it.each(PARES_BALCON)("%s sobre %s cumple (%d): %s", (frente, fondo, umbral) => {
+    expect(contraste(frente, fondo)).toBeGreaterThanOrEqual(umbral);
+  });
+});

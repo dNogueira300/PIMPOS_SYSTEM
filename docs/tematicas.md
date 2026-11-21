@@ -32,6 +32,13 @@ papel con calabazas y calaveras recortadas. La barra de arriba dice el saludo, y
 cinta y la sección **«Feliz Halloween»**, con la cuenta regresiva («Faltan 3 días para Halloween»). Como
 el Día de la Madre, viene **sin productos**.
 
+Con el Día de la Canción Criolla encendido (es la alternativa a Halloween: ver «Halloween o el Día de la
+Canción Criolla», abajo), cuelgan bajo el menú un cajón y una guitarra que se mecen y, según el estilo,
+un cordel con notas, dos pañuelos de marinera que se agitan y notas que suben, o una celosía de balcón
+y flores de buganvilla que caen. La barra de arriba dice el saludo, y la portada lleva su cinta y la
+sección **«Feliz Día de la Canción Criolla»**, con la cuenta regresiva («Faltan 3 días para el Día de la
+Canción Criolla»). También viene **sin productos**.
+
 Fuera de su temporada, el sitio se ve como siempre.
 
 ## Cuándo se enciende
@@ -39,7 +46,8 @@ Fuera de su temporada, el sitio se ve como siempre.
 Pestaña **Cuándo**:
 
 - **Empieza el / Termina el**: los días de la campaña. Los dos días cuentan.
-- **Fecha de Navidad** (o **del Día de la Madre**): para la cuenta regresiva. Si se deja vacía, no hay
+- **Fecha de Navidad** (o **del Día de la Madre**, **de Halloween**, **del Día de la Canción
+  Criolla**): para la cuenta regresiva. Si se deja vacía, no hay
   cuenta.
 - **Cómo se enciende**:
   - **Según fechas** (lo normal): se enciende sola el día que empieza y se apaga sola al terminar.
@@ -101,13 +109,20 @@ Halloween tiene los suyos:
 - **Calabaza sobre crema**: el crema de siempre, con naranja calabaza y la barra de arriba casi negra;
   banderines de papel, una telaraña y la arañita.
 
+El Día de la Canción Criolla tiene los suyos (los dos con el cajón y la guitarra):
+
+- **Rojo y blanco** (la que está puesta): el crema de siempre, con el rojo de la bandera; cordel con
+  notas, pañuelos de marinera y notas que suben.
+- **Balcón limeño**: crema con madera tallada; una celosía de balcón y buganvillas que caen.
+
 Cada temática enseña solo sus estilos.
 
 ## Textos
 
 Pestaña **Textos**: el texto de la barra de arriba, los mensajes de la cinta (uno por línea, hasta
-seis), el título de la sección («Lo de esta Navidad») y una frase debajo. Si el título lleva la
-palabra «Navidad», esa palabra sale en letra caligráfica.
+seis), el título de la sección («Lo de esta Navidad») y una frase debajo. Si el título lleva el
+nombre de la fiesta («Navidad», «Halloween», «Día de la Canción Criolla»…), ese nombre sale en letra
+caligráfica.
 
 ## Productos
 

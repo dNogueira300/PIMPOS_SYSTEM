@@ -685,6 +685,358 @@
   --dibujo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='16' viewBox='0 0 22 16'%3E%3Cg stroke='%232b2230' stroke-width='1.2' fill='none' stroke-linecap='round'%3E%3Cpath d='M6 6L1 3M6 9H1M6 11l-5 3M16 6l5-3M16 9h5M16 11l5 3'/%3E%3C/g%3E%3Cellipse cx='11' cy='9' rx='6' ry='6.5' fill='%232b2230'/%3E%3Ccircle cx='9' cy='8' r='1.4' fill='%23fff'/%3E%3Ccircle cx='13' cy='8' r='1.4' fill='%23fff'/%3E%3C/svg%3E");
 }
 
+/* --- Día de la Canción Criolla (plan 08.2) -------------------------------- */
+/* La alternativa a Halloween para el 31 de octubre (0050: solo una de las dos
+   puede estar encendida), con los dos estilos que aprobó Dan el 20/11/2026
+   (maquetas en DOC/Maquetas/tematicas/cancion-criolla/). Los dos llevan el
+   cajón y la guitarra colgando; el resto de los adornos cambia con el estilo:
+   «Rojo y blanco», un cordel con notas, pañuelos de marinera y notas que
+   suben; «Balcón limeño», una celosía de madera y buganvillas que caen. */
+
+/* Rojo y blanco (el puesto): el crema de siempre, con el rojo de la bandera. */
+@media screen {
+  :root:has([data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]),
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] {
+    --primary: #a61b29;
+    --primary-foreground: #ffffff;
+    --ring: #a61b29;
+    --cta-fondo: #a61b29;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #85151f;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #c0392b;
+    --franja-fondo: #f8dcdc;
+    --franja-texto: #7d1420;
+    --aviso-fondo: #a61b29;
+    --aviso-texto: #ffffff;
+    --sello-fondo: #fdf0f0;
+    --sello-borde: #e7b3b7;
+    --sello-texto: #a61b29;
+    --hilo-adornos: #8a7a6a;
+    --cordel-notas: #8a7a6a;
+    --notas-1: rgb(201 71 79 / 0.55);
+    --notas-2: rgb(217 162 74 / 0.55);
+    --borde-celosia: #e7b3b7;
+  }
+}
+
+/* Balcón limeño: crema con madera tallada y flores de buganvilla. */
+@media screen {
+  :root:has([data-tematica="cancion-criolla"][data-estilo="balcon"]),
+  [data-tematica="cancion-criolla"][data-estilo="balcon"] {
+    --background: #fbf3e7;
+    --foreground: #2c2118;
+    --muted: #f3e7d6;
+    --muted-foreground: #5e4a3a;
+    --secondary: #f3e7d6;
+    --secondary-foreground: #2c2118;
+    --accent: #efe0cb;
+    --accent-foreground: #2c2118;
+    --card: #ffffff;
+    --card-foreground: #2c2118;
+    --popover: #ffffff;
+    --popover-foreground: #2c2118;
+    --primary: #5b3a22;
+    --primary-foreground: #ffffff;
+    --border: rgb(91 58 34 / 0.18);
+    --ring: #5b3a22;
+    --cta-fondo: #5b3a22;
+    --cta-texto: #ffffff;
+    --cta-fondo-hover: #44291a;
+    --cta-texto-hover: #ffffff;
+    --acento-texto: #a8326a;
+    --precio-texto: #7a4c12;
+    --guia-puntos: rgb(91 58 34 / 0.3);
+    --franja-fondo: #f1dfc6;
+    --franja-texto: #5b3a22;
+    --aviso-fondo: #5b3a22;
+    --aviso-texto: #fbe3c0;
+    --sello-fondo: #fff7ec;
+    --sello-borde: #d9c2a4;
+    --sello-texto: #5b3a22;
+    --hilo-adornos: #5b3a22;
+    --madera: #5b3a22;
+    --buganvilla-1: rgb(194 51 122 / 0.7);
+    --buganvilla-2: rgb(217 90 150 / 0.6);
+    --borde-celosia: #d9c2a4;
+  }
+}
+
+/* Lo que cuelga de la cabecera va en el elemento de los adornos, como en
+   Halloween: cada `span` es un hilo de 1 px que gira desde arriba y su
+   `::after`, el dibujo. Por defecto no se ve ninguno; el cajón (el primero) y
+   la guitarra (el quinto) salen en los dos estilos. */
+[data-tematica="cancion-criolla"] .adornos-tematica {
+  display: block;
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 1;
+  --escala: 1;
+}
+@media (min-width: 768px) {
+  [data-tematica="cancion-criolla"] .adornos-tematica {
+    --escala: 1.3;
+  }
+}
+[data-tematica="cancion-criolla"] .adornos-tematica__luces,
+[data-tematica="cancion-criolla"] .adornos-tematica__bola {
+  display: none;
+}
+[data-tematica="cancion-criolla"] .adornos-tematica__bola {
+  position: absolute;
+  top: 0;
+  left: calc(var(--x) * var(--escala));
+  width: 1px;
+  height: calc(var(--hilo) * var(--escala));
+  background: var(--hilo-adornos);
+  transform-origin: 50% 0;
+}
+[data-tematica="cancion-criolla"] .adornos-tematica__bola::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(var(--ancho) * var(--escala));
+  height: calc(var(--alto) * var(--escala));
+  background: var(--dibujo) center / contain no-repeat;
+}
+/* El cajón peruano, a la izquierda. */
+[data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(1) {
+  display: block;
+  --x: 22px;
+  --hilo: 26px;
+  --ancho: 20px;
+  --alto: 26px;
+  --duracion: 3.4s;
+  --retraso: -0.8s;
+  --dibujo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='26' viewBox='0 0 20 26'%3E%3Crect width='20' height='26' rx='2' fill='%23a86a3a'/%3E%3Crect width='20' height='4' rx='1' fill='%237a4a24'/%3E%3Ccircle cx='10' cy='12' r='4' fill='%233a2418'/%3E%3C/svg%3E");
+}
+/* La guitarra, al otro lado. */
+[data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(5) {
+  display: block;
+  left: auto;
+  right: calc(26px * var(--escala));
+  --hilo: 14px;
+  --ancho: 26px;
+  --alto: 68px;
+  --duracion: 4.6s;
+  --retraso: -1.5s;
+  --dibujo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='78' viewBox='0 0 30 78'%3E%3Crect x='13' y='4' width='4' height='34' fill='%235a3a24'/%3E%3Crect x='11' y='0' width='8' height='7' rx='1' fill='%233a2418'/%3E%3Ccircle cx='15' cy='46' r='9' fill='%23c27a3a'/%3E%3Ccircle cx='15' cy='62' r='12' fill='%23c27a3a'/%3E%3Ccircle cx='15' cy='52' r='3.5' fill='%233a2418'/%3E%3Crect x='10' y='66' width='10' height='2.5' fill='%233a2418'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(1),
+  [data-tematica="cancion-criolla"] .adornos-tematica__bola:nth-of-type(5) {
+    animation: criolla-mece var(--duracion) ease-in-out var(--retraso) infinite alternate;
+  }
+}
+@keyframes criolla-mece {
+  from {
+    rotate: -5deg;
+  }
+  to {
+    rotate: 5deg;
+  }
+}
+
+/* El borde de la sección de temporada: el zigzag de una celosía. */
+[data-tematica="cancion-criolla"] .seccion-temporada::before {
+  content: "";
+  position: absolute;
+  inset: -10px 0 auto 0;
+  height: 10px;
+  pointer-events: none;
+  background-color: var(--borde-celosia);
+  mask: url("data:image/svg+xml,%3Csvg id='celosia' xmlns='http://www.w3.org/2000/svg' width='20' height='10' viewBox='0 0 20 10'%3E%3Cpath d='M0 9 L5 1 L10 9 L15 1 L20 9' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 20px 10px;
+}
+
+/* La cinta, con notas de separador. Decorativas: no se leen. */
+[data-tematica="cancion-criolla"] .cinta-tematica li::before {
+  content: "♪" / "";
+}
+
+/* --- Rojo y blanco: cordel con notas, pañuelos de marinera y notas que suben --- */
+
+/* El cordel (`header::after`, máscara con `--cordel-notas`) y dos notas
+   blancas con borde rojo (como los pañuelos: se ven sobre la foto, sobre el
+   bloque rojo del titular y sobre el crema) colgadas de él (`header::before`, una baldosa repetida). Quietos: lo que se
+   mueve son los pañuelos. */
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] header::after {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 28px;
+  pointer-events: none;
+  background-color: var(--cordel-notas);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='28' viewBox='0 0 160 28'%3E%3Cpath d='M0 4 Q40 12 80 4 T160 4' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 28px;
+}
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] header::before {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 28px;
+  pointer-events: none;
+  z-index: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='28' viewBox='0 0 160 28'%3E%3Cg fill='%23fff' stroke='%23a61b29' stroke-width='.9'%3E%3Cg transform='translate(50 8)'%3E%3Cellipse cx='4' cy='15' rx='3.6' ry='2.7' transform='rotate(-20 4 15)'/%3E%3Cellipse cx='14' cy='13' rx='3.6' ry='2.7' transform='rotate(-20 14 13)'/%3E%3Crect x='6.8' y='3' width='1.5' height='12'/%3E%3Crect x='16.8' y='1' width='1.5' height='12'/%3E%3Cpath d='M6.8 3L18.3 1v3L6.8 6z'/%3E%3C/g%3E%3Cg transform='translate(128 8)'%3E%3Cellipse cx='5' cy='14' rx='4' ry='3' transform='rotate(-20 5 14)'/%3E%3Crect x='8' y='2' width='1.6' height='12'/%3E%3Cpath d='M9.6 2c3 1 4 3 3 6c0-2-1.5-3-3-3z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+    repeat-x 0 0 / 160px 28px;
+}
+
+/* Dos pañuelos de marinera que se agitan. */
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"] .adornos-tematica__bola:nth-of-type(2),
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+  .adornos-tematica__bola:nth-of-type(4) {
+  display: block;
+  --hilo: 6px;
+  --ancho: 28px;
+  --alto: 32px;
+  --dibujo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='34' viewBox='0 0 30 34'%3E%3Cpath d='M2 2h26L15 32z' fill='%23fff' stroke='%23a61b29' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+  .adornos-tematica__bola:nth-of-type(2) {
+  left: 24%;
+  --retraso: 0s;
+}
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+  .adornos-tematica__bola:nth-of-type(4) {
+  left: 66%;
+  --retraso: -0.9s;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(2),
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]
+    .adornos-tematica__bola:nth-of-type(4) {
+    animation: panuelo-agita 1.8s ease-in-out var(--retraso) infinite alternate;
+  }
+}
+@keyframes panuelo-agita {
+  from {
+    rotate: -9deg;
+  }
+  to {
+    rotate: 9deg;
+  }
+}
+
+/* Notas que suben despacio, pocas y repartidas, en los dos seudoelementos de
+   la envoltura (rojas y doradas), como los corazones del Día de la Madre: el
+   dibujo es una máscara, el color un token, y se mueve la capa entera, una
+   baldosa más alta, que sube exactamente eso. Por debajo de la cabecera y sin
+   clics. */
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::before,
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::after {
+  content: "";
+  position: fixed;
+  inset: 0 0 -400px 0;
+  pointer-events: none;
+  z-index: 20;
+}
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::before {
+  background-color: var(--notas-1);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='400' viewBox='0 0 360 400'%3E%3Cg transform='translate(60 80)'%3E%3Cellipse cx='5' cy='14' rx='4' ry='3' transform='rotate(-20 5 14)'/%3E%3Crect x='8' y='2' width='1.6' height='12'/%3E%3Cpath d='M9.6 2c3 1 4 3 3 6c0-2-1.5-3-3-3z'/%3E%3C/g%3E%3Cg transform='translate(260 230) scale(1.3)'%3E%3Cellipse cx='4' cy='15' rx='3.6' ry='2.7' transform='rotate(-20 4 15)'/%3E%3Cellipse cx='14' cy='13' rx='3.6' ry='2.7' transform='rotate(-20 14 13)'/%3E%3Crect x='6.8' y='3' width='1.5' height='12'/%3E%3Crect x='16.8' y='1' width='1.5' height='12'/%3E%3Cpath d='M6.8 3L18.3 1v3L6.8 6z'/%3E%3C/g%3E%3C/svg%3E")
+    0 0 / 360px 400px repeat;
+}
+[data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::after {
+  background-color: var(--notas-2);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='440' height='400' viewBox='0 0 440 400'%3E%3Cg transform='translate(350 60) scale(.9)'%3E%3Cellipse cx='5' cy='14' rx='4' ry='3' transform='rotate(-20 5 14)'/%3E%3Crect x='8' y='2' width='1.6' height='12'/%3E%3Cpath d='M9.6 2c3 1 4 3 3 6c0-2-1.5-3-3-3z'/%3E%3C/g%3E%3Cg transform='translate(180 270) scale(1.1)'%3E%3Cellipse cx='5' cy='14' rx='4' ry='3' transform='rotate(-20 5 14)'/%3E%3Crect x='8' y='2' width='1.6' height='12'/%3E%3Cpath d='M9.6 2c3 1 4 3 3 6c0-2-1.5-3-3-3z'/%3E%3C/g%3E%3C/svg%3E")
+    120px 0 / 440px 400px repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::before {
+    animation: notas-suben 40s linear infinite;
+  }
+  [data-tematica="cancion-criolla"][data-estilo="rojo-blanco"]::after {
+    animation: notas-suben 52s linear infinite;
+  }
+}
+@keyframes notas-suben {
+  0% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 8px -100px;
+  }
+  50% {
+    translate: 0 -200px;
+  }
+  75% {
+    translate: -8px -300px;
+  }
+  100% {
+    translate: 0 -400px;
+  }
+}
+
+/* --- Balcón limeño: celosía de madera y buganvillas que caen --- */
+
+/* La celosía de un balcón tallado bajo la cabecera: dos listones y un zigzag
+   entre ellos, del color de la madera. Quieta. */
+[data-tematica="cancion-criolla"][data-estilo="balcon"] header::before {
+  content: "";
+  position: absolute;
+  inset: 100% 0 auto 0;
+  height: 22px;
+  pointer-events: none;
+  background-color: var(--madera);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='22' viewBox='0 0 20 22'%3E%3Crect width='20' height='5'/%3E%3Cpath d='M0 5 L5 18 L10 5 L15 18 L20 5' fill='none' stroke='%23000' stroke-width='1.6'/%3E%3Crect y='18' width='20' height='3'/%3E%3C/svg%3E")
+    repeat-x 0 0 / 20px 22px;
+}
+/* Con la celosía, lo que cuelga empieza debajo de ella. */
+[data-tematica="cancion-criolla"][data-estilo="balcon"] .adornos-tematica__bola {
+  top: 21px;
+}
+
+/* Buganvillas que caen despacio, pocas, en magenta y rosa: como los copos de
+   Navidad, la capa es una baldosa más alta por arriba y baja exactamente eso.
+   Por debajo de la cabecera y sin clics. */
+[data-tematica="cancion-criolla"][data-estilo="balcon"]::before,
+[data-tematica="cancion-criolla"][data-estilo="balcon"]::after {
+  content: "";
+  position: fixed;
+  inset: -400px 0 0 0;
+  pointer-events: none;
+  z-index: 20;
+}
+[data-tematica="cancion-criolla"][data-estilo="balcon"]::before {
+  background-color: var(--buganvilla-1);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='340' height='400' viewBox='0 0 340 400'%3E%3Cpath transform='translate(50 70) rotate(20)' d='M0-6C4-6 6 0 0 6C-6 0-4-6 0-6Z'/%3E%3Cpath transform='translate(240 210) rotate(-35) scale(1.3)' d='M0-6C4-6 6 0 0 6C-6 0-4-6 0-6Z'/%3E%3Cpath transform='translate(130 330) rotate(70) scale(.9)' d='M0-6C4-6 6 0 0 6C-6 0-4-6 0-6Z'/%3E%3C/svg%3E")
+    0 0 / 340px 400px repeat;
+}
+[data-tematica="cancion-criolla"][data-estilo="balcon"]::after {
+  background-color: var(--buganvilla-2);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='400' viewBox='0 0 460 400'%3E%3Cpath transform='translate(380 110) rotate(-15) scale(1.1)' d='M0-6C4-6 6 0 0 6C-6 0-4-6 0-6Z'/%3E%3Cpath transform='translate(190 290) rotate(45)' d='M0-6C4-6 6 0 0 6C-6 0-4-6 0-6Z'/%3E%3C/svg%3E")
+    170px 0 / 460px 400px repeat;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-tematica="cancion-criolla"][data-estilo="balcon"]::before {
+    animation: buganvillas-caen 30s linear infinite;
+  }
+  [data-tematica="cancion-criolla"][data-estilo="balcon"]::after {
+    animation: buganvillas-caen 42s linear infinite;
+  }
+}
+@keyframes buganvillas-caen {
+  0% {
+    translate: 0 0;
+  }
+  25% {
+    translate: 12px 100px;
+  }
+  50% {
+    translate: 0 200px;
+  }
+  75% {
+    translate: -12px 300px;
+  }
+  100% {
+    translate: 0 400px;
+  }
+}
+
 /* --- Adornos comunes de Navidad ------------------------------------------ */
 
 /* Luces colgando bajo la cabecera: un cable ondulado con bombillas rojas,
